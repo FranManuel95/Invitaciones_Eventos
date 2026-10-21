@@ -4,6 +4,8 @@ import type { RsvpResponse, WeddingEvent } from "@/lib/domain/types";
 import { describeTransport } from "@/lib/rsvp/summary";
 import { formatLongDate } from "@/lib/format";
 import { PhotoSlot } from "./photo-slot";
+import { ProgramIcon } from "./program-icons";
+import { RouteMap } from "./route-map";
 
 /*
  * Secciones de la invitación con maquetación editorial: en escritorio el título ocupa una
@@ -57,36 +59,51 @@ export function ProgramSection({
 }) {
   return (
     <Section id="programa" title="El día" aside={formatLongDate(event.date)}>
-      <ol className="border-t border-line">
-        {event.program.map((item) => (
-          <li
-            key={item.id}
-            aria-current={currentId === item.id ? "step" : undefined}
-            className={
-              currentId === item.id
-                ? "-mx-4 grid grid-cols-[5.5rem_minmax(0,1fr)] gap-x-5 border-b border-line bg-paper px-4 py-6 shadow-[inset_3px_0_0_var(--color-wax)] sm:grid-cols-[7.5rem_minmax(0,1fr)]"
-                : "grid grid-cols-[5.5rem_minmax(0,1fr)] gap-x-5 border-b border-line py-6 sm:grid-cols-[7.5rem_minmax(0,1fr)]"
-            }
-          >
-            <time className="font-display text-[2rem] leading-none text-ink tabular-nums sm:text-[2.5rem]">
-              {item.time}
-            </time>
-            <div>
-              <h3 className="text-[1.0625rem] font-medium text-ink">
-                {item.title}
-                {currentId === item.id ? (
-                  <span className="ml-2 rounded-full bg-wax px-2 py-0.5 align-middle text-[0.75rem] font-medium text-paper">
-                    Ahora
-                  </span>
-                ) : null}
-              </h3>
-              <p className="caption text-ink-soft">{item.place}</p>
-              <p className="mt-2 max-w-prose text-[0.9375rem] leading-relaxed text-muted">
-                {item.description}
-              </p>
-            </div>
-          </li>
-        ))}
+      <ol className="program-list relative">
+        {/* Hilo del día: crece con el scroll (program-thread en globals.css). */}
+        <span
+          aria-hidden
+          className="program-thread absolute top-8 bottom-8 left-[1.375rem] w-px bg-gradient-to-b from-gold via-gold/70 to-gold/20"
+        />
+        {event.program.map((item) => {
+          const now = currentId === item.id;
+          return (
+            <li
+              key={item.id}
+              aria-current={now ? "step" : undefined}
+              className={`relative grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-4 gap-y-2 py-6 sm:grid-cols-[2.75rem_7rem_minmax(0,1fr)] sm:gap-y-0 ${
+                now
+                  ? "-mx-3 rounded-[3px] bg-paper px-3 shadow-[inset_3px_0_0_var(--color-wax)]"
+                  : ""
+              }`}
+            >
+              <span
+                className={`relative row-span-2 grid size-11 place-items-center rounded-full border bg-paper sm:row-span-1 ${
+                  now ? "border-wax text-wax" : "border-gold/60 text-gold"
+                }`}
+              >
+                <ProgramIcon id={item.id} />
+              </span>
+              <time className="pt-1.5 font-display text-[1.75rem] leading-none text-ink tabular-nums sm:text-[2.25rem]">
+                {item.time}
+              </time>
+              <div>
+                <h3 className="text-[1.0625rem] font-medium text-ink">
+                  {item.title}
+                  {now ? (
+                    <span className="ml-2 rounded-full bg-wax px-2 py-0.5 align-middle text-[0.75rem] font-medium text-paper">
+                      Ahora
+                    </span>
+                  ) : null}
+                </h3>
+                <p className="caption text-ink-soft">{item.place}</p>
+                <p className="mt-2 max-w-prose text-[0.9375rem] leading-relaxed text-muted">
+                  {item.description}
+                </p>
+              </div>
+            </li>
+          );
+        })}
       </ol>
     </Section>
   );
@@ -95,71 +112,6 @@ export function ProgramSection({
 const googleMaps = (q: string) =>
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
 const appleMaps = (q: string) => `https://maps.apple.com/?q=${encodeURIComponent(q)}`;
-
-/** Plano ilustrado del trayecto iglesia → finca (orientativo, no a escala). */
-function RouteMap({ from, to }: { from: string; to: string }) {
-  return (
-    <figure className="overflow-hidden rounded-[2px] border border-line bg-paper">
-      <svg
-        viewBox="0 0 640 260"
-        role="img"
-        aria-labelledby="route-map-title"
-        className="block h-auto w-full"
-      >
-        <title id="route-map-title">{`Plano orientativo: de ${from} a ${to}, unos 8 minutos en coche`}</title>
-        <rect width="640" height="260" fill="#f3efe5" />
-        <g stroke="#e2dccd" strokeWidth="1">
-          {Array.from({ length: 9 }, (_, i) => (
-            <path key={`v${i}`} d={`M${i * 80} 0V260`} />
-          ))}
-          {Array.from({ length: 4 }, (_, i) => (
-            <path key={`h${i}`} d={`M0 ${i * 80}H640`} />
-          ))}
-        </g>
-        {/* Casco urbano */}
-        <g fill="#e6dfcf">
-          <rect x="70" y="70" width="46" height="30" />
-          <rect x="124" y="64" width="38" height="40" />
-          <rect x="84" y="108" width="70" height="26" />
-          <rect x="164" y="112" width="30" height="22" />
-        </g>
-        {/* Olivares y almendros de la finca */}
-        <g fill="#c9cfae">
-          {Array.from({ length: 24 }, (_, i) => (
-            <circle key={i} cx={430 + (i % 6) * 22} cy={150 + Math.floor(i / 6) * 20} r="5" />
-          ))}
-        </g>
-        <path
-          d="M140 120C210 120 220 190 300 190S400 150 470 165"
-          fill="none"
-          stroke="#a3874e"
-          strokeWidth="2.5"
-          strokeDasharray="1 7"
-          strokeLinecap="round"
-        />
-        <g transform="translate(140 120)">
-          <circle r="9" fill="#23271e" />
-          <circle r="3" fill="#faf8f3" />
-        </g>
-        <g transform="translate(470 165)">
-          <circle r="9" fill="#6b1e2a" />
-          <circle r="3" fill="#faf8f3" />
-        </g>
-        <g fontFamily="var(--font-display)" fontSize="22" fill="#23271e">
-          <text x="140" y="96" textAnchor="middle">
-            {from}
-          </text>
-          <text x="470" y="140" textAnchor="middle">
-            {to}
-          </text>
-          <text x="300" y="222" textAnchor="middle" fontStyle="italic" fill="#5c5e53" fontSize="19">
-            8 min en coche
-          </text>
-        </g>
-      </svg>
-    </figure>
-  );
-}
 
 export function VenuesSection({ event }: { event: WeddingEvent }) {
   const [first, second] = event.venues;
