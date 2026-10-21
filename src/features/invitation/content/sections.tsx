@@ -46,20 +46,39 @@ export function Section({
   );
 }
 
-export function ProgramSection({ event }: { event: WeddingEvent }) {
+export function ProgramSection({
+  event,
+  currentId,
+}: {
+  event: WeddingEvent;
+  /** En el modo «día de la boda», el acto que está ocurriendo ahora. */
+  currentId?: string | null;
+}) {
   return (
     <Section id="programa" title="El día" aside={formatLongDate(event.date)}>
       <ol className="border-t border-line">
         {event.program.map((item) => (
           <li
             key={item.id}
-            className="grid grid-cols-[5.5rem_minmax(0,1fr)] gap-x-5 border-b border-line py-6 sm:grid-cols-[7.5rem_minmax(0,1fr)]"
+            aria-current={currentId === item.id ? "step" : undefined}
+            className={
+              currentId === item.id
+                ? "-mx-4 grid grid-cols-[5.5rem_minmax(0,1fr)] gap-x-5 border-b border-line bg-paper px-4 py-6 shadow-[inset_3px_0_0_var(--color-wax)] sm:grid-cols-[7.5rem_minmax(0,1fr)]"
+                : "grid grid-cols-[5.5rem_minmax(0,1fr)] gap-x-5 border-b border-line py-6 sm:grid-cols-[7.5rem_minmax(0,1fr)]"
+            }
           >
             <time className="font-display text-[2rem] leading-none text-ink tabular-nums sm:text-[2.5rem]">
               {item.time}
             </time>
             <div>
-              <h3 className="text-[1.0625rem] font-medium text-ink">{item.title}</h3>
+              <h3 className="text-[1.0625rem] font-medium text-ink">
+                {item.title}
+                {currentId === item.id ? (
+                  <span className="ml-2 rounded-full bg-wax px-2 py-0.5 align-middle text-[0.75rem] font-medium text-paper">
+                    Ahora
+                  </span>
+                ) : null}
+              </h3>
               <p className="caption text-ink-soft">{item.place}</p>
               <p className="mt-2 max-w-prose text-[0.9375rem] leading-relaxed text-muted">
                 {item.description}

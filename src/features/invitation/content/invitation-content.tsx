@@ -13,7 +13,10 @@ import { DaysLeft } from "./countdown";
 import { useSavedResponse } from "../rsvp/use-saved-response";
 import { GiftSection } from "./gift-section";
 import { ResponseStatus } from "./response-status";
+import { dayClock, liveProgram } from "@/lib/day-mode";
+import { LiveDay } from "./live-day";
 import { SaveTheDate } from "./save-the-date";
+import { StorySection } from "./story-section";
 import { PracticalSection, ProgramSection, TransportSection, VenuesSection } from "./sections";
 
 const NAV = [
@@ -22,6 +25,7 @@ const NAV = [
   { id: "lugares", label: "Dónde" },
   { id: "transporte", label: "Cómo llegar" },
   { id: "info", label: "Antes de venir" },
+  { id: "historia", label: "Nuestra historia" },
   { id: "regalo", label: "Regalo" },
   { id: "confirmar", label: "Confirmar" },
 ];
@@ -63,6 +67,17 @@ export function InvitationContent({
 }: InvitationContentProps) {
   const active = useActiveSection(NAV_IDS);
   const saved = useSavedResponse(group.token);
+  // Reloj del modo «día de la boda» (o simulado con ?dia=boda&hora=19:10 en la demo).
+  const [clock, setClock] = useState(() => dayClock(event, new Date(), window.location.search));
+  useEffect(() => {
+    if (!clock.active || clock.simulated) return;
+    const id = window.setInterval(
+      () => setClock(dayClock(event, new Date(), window.location.search)),
+      30_000,
+    );
+    return () => window.clearInterval(id);
+  }, [clock.active, clock.simulated, event]);
+  const live = clock.active ? liveProgram(event.program, clock.minutes) : null;
   const titleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
@@ -130,20 +145,28 @@ export function InvitationContent({
                     {event.city}, {event.region}
                   </span>
                 </p>
-                <div className="mt-3 flex flex-wrap items-baseline gap-x-5 gap-y-1 text-[0.9375rem]">
-                  <DaysLeft date={event.date} className="text-muted" />
-                  <a
-                    href="#fecha"
-                    className="text-ink underline decoration-gold underline-offset-4 hover:decoration-ink"
-                  >
-                    Añadir al calendario
-                  </a>
-                </div>
+                {clock.active ? null : (
+                  <div className="mt-3 flex flex-wrap items-baseline gap-x-5 gap-y-1 text-[0.9375rem]">
+                    <DaysLeft date={event.date} className="text-muted" />
+                    <a
+                      href="#fecha"
+                      className="text-ink underline decoration-gold underline-offset-4 hover:decoration-ink"
+                    >
+                      Añadir al calendario
+                    </a>
+                  </div>
+                )}
               </div>
               <div className="flex flex-wrap gap-3">
-                <a href="#confirmar" className={buttonClasses("primary", "lg")}>
-                  Confirmar asistencia
-                </a>
+                {clock.active ? (
+                  <a href="#en-directo" className={buttonClasses("primary", "lg")}>
+                    Qué pasa ahora
+                  </a>
+                ) : (
+                  <a href="#confirmar" className={buttonClasses("primary", "lg")}>
+                    Confirmar asistencia
+                  </a>
+                )}
                 <a href="#programa" className={buttonClasses("secondary", "lg")}>
                   Ver el programa
                 </a>
@@ -153,6 +176,8 @@ export function InvitationContent({
           <AlmondBranch className="pointer-events-none absolute -right-6 bottom-6 w-40 rotate-[-12deg] opacity-80 sm:right-[6%] sm:w-56" />
         </header>
       </ViewTransition>
+
+      {clock.active ? <LiveDay event={event} clock={clock} /> : null}
 
       <aside aria-label="Tu respuesta" className="border-t border-line bg-paper">
         <div className="mx-auto max-w-5xl px-6 py-4 sm:px-10">
@@ -194,11 +219,12 @@ export function InvitationContent({
           </p>
         </section>
 
-        <SaveTheDate event={event} />
-        <ProgramSection event={event} />
+        {clock.active ? null : <SaveTheDate event={event} />}
+        <ProgramSection event={event} currentId={live?.current?.id ?? null} />
         <VenuesSection event={event} />
         <TransportSection event={event} response={saved} />
         <PracticalSection event={event} />
+        <StorySection event={event} />
         <GiftSection event={event} />
         <RsvpSection event={event} group={group} />
       </main>

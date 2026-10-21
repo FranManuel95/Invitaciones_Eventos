@@ -135,6 +135,41 @@ export const demoEvent: WeddingEvent = {
       detail: "Ideal para grupos y familias con niños.",
     },
   ],
+  story: {
+    intro: "Once años, dos mudanzas y un perro. Esta es la versión corta.",
+    couplePhoto: null,
+    moments: [
+      {
+        year: "2015",
+        title: "Nos conocimos en la biblioteca",
+        text: "Daniel pidió prestado un cargador y María nunca lo recuperó. Todavía discutimos de quién es.",
+        photo: null,
+        photoAlt: "María y Daniel en la biblioteca de la facultad",
+      },
+      {
+        year: "2017",
+        title: "El primer viaje",
+        text: "Lisboa en un coche sin aire acondicionado. Volvimos sabiendo que podíamos con todo.",
+        photo: null,
+        photoAlt: "María y Daniel en un mirador de Lisboa",
+      },
+      {
+        year: "2021",
+        title: "Llegó Higo",
+        text: "Un perro de agua que eligió el sofá y, de paso, a nosotros.",
+        photo: null,
+        photoAlt: "Higo, el perro de María y Daniel",
+      },
+      {
+        year: "2026",
+        title: "La pedida",
+        text: "En el mirador de Chinchón, al atardecer. Dijo que sí antes de que terminara la pregunta.",
+        photo: null,
+        photoAlt: "María y Daniel el día de la pedida en Chinchón",
+      },
+    ],
+  },
+  contactPhone: "+34 600 000 000",
   gift: {
     message:
       "Vuestra presencia es nuestro mejor regalo. Si aun así queréis tener un detalle, os dejamos nuestra cuenta.",

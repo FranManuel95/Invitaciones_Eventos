@@ -60,6 +60,15 @@ export interface Accommodation {
   detail: string;
 }
 
+export interface StoryMoment {
+  year: string;
+  title: string;
+  text: string;
+  /** Ruta en /public/fotos; null mientras no haya foto (se muestra una ilustración). */
+  photo: string | null;
+  photoAlt: string;
+}
+
 export interface WeddingEvent {
   id: string;
   couple: { first: string; second: string; monogram: string };
@@ -80,6 +89,9 @@ export interface WeddingEvent {
   accommodation: Accommodation[];
   faqs: Faq[];
   gift: { message: string; holder: string; iban: string };
+  story: { intro: string; couplePhoto: string | null; moments: StoryMoment[] };
+  /** Teléfono de contacto para el día de la boda (de demostración). */
+  contactPhone: string;
 }
 
 export interface Guest {

@@ -1,8 +1,14 @@
 "use client";
 
 import { AlertCircle, ArrowLeft, Loader2 } from "lucide-react";
-import { AnimatePresence, m } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import {
+  addTransitionType,
+  startTransition,
+  useEffect,
+  useRef,
+  useState,
+  ViewTransition,
+} from "react";
 import { Button } from "@/components/ui/button";
 import { saveResponse } from "@/lib/data/rsvp-store";
 import type { GuestGroup, RsvpResponse, WeddingEvent } from "@/lib/domain/types";
@@ -66,7 +72,6 @@ export function RsvpForm({
   const [errors, setErrors] = useState<FieldErrors>({});
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
-  const [direction, setDirection] = useState(1);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const firstRender = useRef(true);
@@ -101,10 +106,14 @@ export function RsvpForm({
   };
 
   const goTo = (next: RsvpStep, dir: number) => {
-    setDirection(dir);
     setErrors({});
     setSaveError(null);
-    setStep(next);
+    // El cambio de paso va dentro de una transición: el paso que sale y el que entra se
+    // deslizan en el sentido de la navegación (clases step-forward/step-back en globals.css).
+    startTransition(() => {
+      addTransitionType(dir > 0 ? "forward" : "back");
+      setStep(next);
+    });
   };
 
   const next = () => {
@@ -166,15 +175,13 @@ export function RsvpForm({
         </ol>
       </div>
 
-      <AnimatePresence mode="wait" initial={false} custom={direction}>
-        <m.div
-          key={step}
-          custom={direction}
-          initial={{ opacity: 0, x: 24 * direction }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -24 * direction }}
-          transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-        >
+      <ViewTransition
+        key={step}
+        enter={{ forward: "step-forward", back: "step-back", default: "none" }}
+        exit={{ forward: "step-forward", back: "step-back", default: "none" }}
+        default="none"
+      >
+        <div>
           <h3
             id="rsvp-step-title"
             ref={headingRef}
@@ -194,8 +201,8 @@ export function RsvpForm({
           ) : (
             <DraftSummary event={event} group={group} draft={draft} onEdit={(s) => goTo(s, -1)} />
           )}
-        </m.div>
-      </AnimatePresence>
+        </div>
+      </ViewTransition>
 
       {saveError ? (
         <div

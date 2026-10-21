@@ -134,6 +134,21 @@ test.describe("experiencia del invitado", () => {
     );
   });
 
+  test("modo día de la boda: acto actual y siguiente", async ({ page }) => {
+    await page.goto("/i/carlos-ruiz?dia=boda&hora=19:10");
+    await page.getByRole("button", { name: "Saltar intro" }).click();
+    const live = page.getByRole("region", { name: "Hoy es el día" });
+    await expect(live).toBeVisible();
+    await expect(live.getByText("Demo: son las 19:10")).toBeVisible();
+    await expect(live.getByRole("definition").filter({ hasText: "Cóctel" }).first()).toBeVisible();
+    await expect(live.getByText("en 1 h 50 min")).toBeVisible();
+    await expect(page.locator('[aria-current="step"]')).toContainText("Cóctel");
+    await expect(page.getByRole("heading", { name: "Guarda la fecha" })).toHaveCount(0);
+    await expect(page.getByText(/^Faltan \d+ días/)).toHaveCount(0);
+    await expect(page.getByRole("link", { name: "Qué pasa ahora" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Nuestra historia" })).toBeAttached();
+  });
+
   test("muestra un error recuperable al enviar", async ({ page }) => {
     await page.goto("/i/prueba-error");
     await page.getByRole("button", { name: "Saltar intro" }).click();
