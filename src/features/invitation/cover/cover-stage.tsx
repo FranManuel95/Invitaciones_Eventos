@@ -6,6 +6,7 @@ import { useRef, type PointerEvent } from "react";
 import type { WeddingEvent } from "@/lib/domain/types";
 import { formatLongDate, isoDay } from "@/lib/format";
 import { playPaper, unlockAudio } from "../effects/sound";
+import { SplitText } from "../effects/split-text";
 import { useTilt } from "../effects/tilt";
 import { CoverPhoto } from "./cover-photo";
 import { Landscape } from "./landscape";
@@ -100,7 +101,14 @@ export function CoverStage({ event, onOpen }: { event: WeddingEvent; onOpen: () 
         transition={{ duration: 3.4, ease }}
       >
         {event.coverPhoto ? (
-          <CoverPhoto src={event.coverPhoto} lift={lift} tiltX={tilt.x} tiltY={tilt.y} />
+          <CoverPhoto
+            src={event.coverPhoto}
+            depthSrc={event.coverDepthMap}
+            cinematic={!reduce}
+            lift={lift}
+            tiltX={tilt.x}
+            tiltY={tilt.y}
+          />
         ) : (
           <Landscape lift={lift} tiltX={tilt.x} tiltY={tilt.y} />
         )}
@@ -117,6 +125,16 @@ export function CoverStage({ event, onOpen }: { event: WeddingEvent; onOpen: () 
           className="absolute inset-0 bg-[radial-gradient(90%_45%_at_50%_38%,rgb(20_16_22/0.35),transparent)]"
         />
       ) : null}
+      {/* Apertura de película: se parte de negro y la imagen aparece poco a poco. */}
+      {reduce ? null : (
+        <m.div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-black"
+          initial={{ opacity: 1 }}
+          animate={{ opacity: 0 }}
+          transition={{ duration: 1.6, delay: 0.2, ease: "easeOut" }}
+        />
+      )}
       {/* Al levantarla, la hoja se oscurece un poco: deja de recibir la luz de frente. */}
       <m.div aria-hidden className="absolute inset-0 bg-black" style={{ opacity: shade }} />
       <div aria-hidden className="paper-grain absolute inset-0 opacity-60" />
@@ -125,23 +143,25 @@ export function CoverStage({ event, onOpen }: { event: WeddingEvent; onOpen: () 
         className="relative flex h-full flex-col items-center px-6 pt-[max(5rem,env(safe-area-inset-top))] pb-[max(2rem,env(safe-area-inset-bottom))] text-center"
         style={{ y: textY }}
       >
-        <m.h1
+        <h1
           id="cover-title"
           tabIndex={-1}
           translate="no"
           className="mt-[14svh] font-display text-[clamp(3.5rem,17vw,8rem)] leading-[0.9] tracking-[-0.01em] outline-none [text-shadow:0_2px_30px_rgb(0_0_0/0.25)]"
-          initial={reduce ? false : { opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.3, delay: 0.5, ease }}
         >
-          {event.couple.first}
-          <span className="block">&amp; {event.couple.second}</span>
-        </m.h1>
+          <SplitText text={event.couple.first} delay={1.1} animate={!reduce} className="block" />
+          <SplitText
+            text={`& ${event.couple.second}`}
+            delay={1.1 + event.couple.first.length * 0.045 + 0.15}
+            animate={!reduce}
+            className="block"
+          />
+        </h1>
 
         <m.p
           initial={reduce ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.1 }}
+          transition={{ duration: 1.2, delay: 2.4 }}
           className="mt-8 max-w-[19rem] font-display text-[1.375rem] leading-snug text-white/90 italic"
         >
           se casan el{" "}
@@ -161,7 +181,7 @@ export function CoverStage({ event, onOpen }: { event: WeddingEvent; onOpen: () 
           className="group mt-auto flex flex-col items-center gap-1.5 rounded-full px-6 py-3 text-white/85 transition-colors hover:text-white"
           initial={reduce ? false : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 1.6, ease }}
+          transition={{ duration: 0.9, delay: 3.1, ease }}
         >
           <span className="text-[0.9375rem]">Desliza o toca para abrir</span>
           <ChevronDown aria-hidden className="nudge size-5 group-hover:translate-y-0.5" />

@@ -174,6 +174,7 @@ export const demoEvent: WeddingEvent = {
     ],
   },
   coverPhoto: "/fotos/portada.jpg",
+  coverDepthMap: "/fotos/portada-profundidad.png",
   banquetPhoto: "/fotos/banquete.jpg",
   contactPhone: "+34 600 000 000",
   gift: {

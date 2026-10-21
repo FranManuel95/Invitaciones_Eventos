@@ -95,6 +95,8 @@ export interface WeddingEvent {
   story: { intro: string; couplePhoto: string | null; moments: StoryMoment[] };
   /** Foto de la portada (vertical); sin ella se usa el paisaje ilustrado en SVG. */
   coverPhoto: string | null;
+  /** Mapa de profundidad de la portada (blanco = cerca), generado con scripts/depth-map.py. */
+  coverDepthMap: string | null;
   /** Foto de ambiente del banquete, en la tarjeta de confirmación. */
   banquetPhoto: string | null;
   /** Teléfono de contacto para el día de la boda (de demostración). */
