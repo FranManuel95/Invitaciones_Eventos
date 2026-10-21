@@ -14,49 +14,60 @@ export const MENU_COLORS: Record<MenuId, string> = {
 export const MENU_ORDER: MenuId[] = ["carne", "pescado", "vegano", "vegetariano", "infantil"];
 
 export function PageHeader({
-  eyebrow,
   title,
   description,
   actions,
 }: {
-  eyebrow?: string;
   title: string;
   description?: ReactNode;
   actions?: ReactNode;
 }) {
   return (
     <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
-      <div>
-        {eyebrow ? <p className="eyebrow text-muted">{eyebrow}</p> : null}
-        <h1 className="mt-1 font-display text-[2.25rem] leading-tight text-ink">{title}</h1>
-        {description ? <p className="mt-1 text-sm text-muted">{description}</p> : null}
+      <div className="min-w-0">
+        <h1 className="font-display text-[2.5rem] leading-[1.05] text-ink">{title}</h1>
+        {description ? (
+          <p className="mt-2 max-w-[60ch] text-[0.9375rem] text-muted">{description}</p>
+        ) : null}
       </div>
       {actions}
     </header>
   );
 }
 
+/**
+ * Bloque del panel. «surface» es una hoja de papel para datos interactivos (gráficos, tablas);
+ * «ruled» es una sección abierta separada por un filete, para resúmenes y listas.
+ */
 export function Card({
   title,
   icon,
   action,
   children,
   className,
+  variant = "surface",
 }: {
   title?: string;
   icon?: ReactNode;
   action?: ReactNode;
   children: ReactNode;
   className?: string;
+  variant?: "surface" | "ruled";
 }) {
   return (
     <section
-      className={clsx("min-w-0 rounded-xl border border-line bg-paper p-5 sm:p-6", className)}
+      className={clsx(
+        "min-w-0",
+        variant === "surface"
+          ? "rounded-[3px] border border-line bg-paper p-5 sm:p-6"
+          : "border-t border-ink/25 pt-4",
+        className,
+      )}
       aria-label={title}
     >
       {title ? (
         <div className="mb-4 flex items-center justify-between gap-3">
-          <h2 className="flex items-center gap-2 text-sm font-semibold text-ink">
+          <h2 className="flex items-center gap-2 text-[0.9375rem] font-medium text-ink">
             {icon}
             {title}
           </h2>
@@ -100,28 +111,32 @@ export function MenuDot({ menu }: { menu: MenuId }) {
   );
 }
 
-export function Kpi({
-  label,
-  value,
-  detail,
-  icon,
+/** Banda de métricas: una sola pieza dividida por filetes, no una tarjeta por número. */
+export function KpiStrip({
+  items,
 }: {
-  label: string;
-  value: ReactNode;
-  detail?: ReactNode;
-  icon?: ReactNode;
+  items: { label: string; value: ReactNode; detail?: ReactNode }[];
 }) {
   return (
-    <div className="rounded-xl border border-line bg-paper p-5">
-      <p className="flex items-center gap-2 text-[0.8125rem] text-muted">
-        {icon}
-        {label}
-      </p>
-      <p className="mt-2 font-display text-[2.5rem] leading-none text-ink lining-nums tabular-nums">
-        {value}
-      </p>
-      {detail ? <p className="mt-2 text-xs text-muted">{detail}</p> : null}
-    </div>
+    <dl className="grid grid-cols-2 border-y border-ink/25 xl:grid-cols-4">
+      {items.map((item, i) => (
+        <div
+          key={item.label}
+          className={clsx(
+            "px-1 py-5 sm:px-5",
+            i % 2 === 1 && "border-l border-line pl-4",
+            i >= 2 && "border-t border-line xl:border-t-0",
+            i >= 1 && "xl:border-l xl:border-line xl:pl-5",
+          )}
+        >
+          <dt className="text-[0.875rem] text-muted">{item.label}</dt>
+          <dd className="mt-1 font-display text-[2.75rem] leading-none text-ink lining-nums tabular-nums">
+            {item.value}
+          </dd>
+          {item.detail ? <dd className="mt-2 text-[0.8125rem] text-muted">{item.detail}</dd> : null}
+        </div>
+      ))}
+    </dl>
   );
 }
 

@@ -14,9 +14,8 @@ export default async function TransportPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Logística"
         title="Transporte"
-        description={`${busSeatsNeeded} de ${busSeatsTotal} plazas de autobús reservadas · ${byCar} invitados llegan en coche.`}
+        description={`${busSeatsNeeded} de ${busSeatsTotal} plazas de autobús reservadas. ${byCar} invitados llegan en coche.`}
       />
 
       <Card title="Rutas" icon={<Bus aria-hidden className="size-4" />}>
@@ -74,7 +73,7 @@ export default async function TransportPage() {
 
       <div className="mt-4 grid gap-4 lg:grid-cols-3">
         {routes.map((r) => (
-          <Card key={r.id} title={`Pasajeros · ${r.label}`}>
+          <Card key={r.id} title={`Pasajeros de ${r.label}`}>
             {r.passengers.length ? (
               <ul
                 tabIndex={0}

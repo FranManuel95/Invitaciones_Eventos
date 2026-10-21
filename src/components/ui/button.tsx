@@ -21,7 +21,7 @@ const sizes: Record<Size, string> = {
 
 export function buttonClasses(variant: Variant = "primary", size: Size = "md", className?: string) {
   return clsx(
-    "inline-flex items-center justify-center gap-2 rounded-md font-medium tracking-wide transition-colors duration-200 select-none disabled:cursor-not-allowed",
+    "inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors duration-200 select-none disabled:cursor-not-allowed",
     variants[variant],
     sizes[size],
     className,

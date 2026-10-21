@@ -1,5 +1,8 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
+
+// El botón de avance nombra su destino: «Siguiente: transporte», «Revisar respuesta»…
+const next = (page: Page) => page.getByRole("button", { name: /^(Siguiente|Revisar)/ });
 
 test.describe("experiencia del invitado", () => {
   test("abre el sobre y llega a la invitación", async ({ page }) => {
@@ -13,11 +16,12 @@ test.describe("experiencia del invitado", () => {
     await expect(page.getByRole("heading", { name: "Familia García" })).toBeVisible();
 
     await page.getByRole("button", { name: "Abrir el sobre" }).click();
-    await expect(page.getByRole("heading", { name: "¡Hola!" })).toBeVisible({ timeout: 8000 });
-    await expect(page.getByRole("heading", { name: "¡Hola!" })).toBeFocused();
+    const letter = page.getByRole("heading", { name: "Hola, Familia García:" });
+    await expect(letter).toBeVisible({ timeout: 8000 });
+    await expect(letter).toBeFocused();
 
     await page.getByRole("button", { name: "Ver la invitación" }).click();
-    await expect(page.getByRole("heading", { name: "El gran día" })).toBeAttached();
+    await expect(page.getByRole("heading", { name: "El día" })).toBeAttached();
     expect(errors).toEqual([]);
   });
 
@@ -37,7 +41,9 @@ test.describe("experiencia del invitado", () => {
     await page.goto("/i/elena-y-pablo");
     await page.getByRole("button", { name: /toca para abrir/i }).click();
     await page.getByRole("button", { name: "Abrir el sobre" }).click();
-    await expect(page.getByRole("heading", { name: "¡Hola!" })).toBeVisible({ timeout: 2000 });
+    await expect(page.getByRole("heading", { name: /^Hola, Elena y Pablo/ })).toBeVisible({
+      timeout: 2000,
+    });
     await context.close();
   });
 
@@ -49,14 +55,14 @@ test.describe("experiencia del invitado", () => {
     await page.getByRole("button", { name: "Sí, asistiré" }).click();
 
     await page.getByRole("button", { name: "Añadir acompañante" }).click();
-    await page.getByRole("button", { name: "Continuar" }).click();
+    await next(page).click();
     await expect(page.getByText("Escribe el nombre de tu acompañante.")).toBeVisible();
     await page.getByLabel("Nombre del acompañante 1").fill("Jaime Torres");
-    await page.getByRole("button", { name: "Continuar" }).click();
+    await next(page).click();
 
     await page.getByText("Sí, necesitamos plaza").click();
     await page.getByLabel("Punto de recogida").selectOption("madrid");
-    await page.getByRole("button", { name: "Continuar" }).click();
+    await next(page).click();
 
     for (const name of ["Lucía García", "Andrés García", "Jaime Torres"]) {
       await page
@@ -64,8 +70,8 @@ test.describe("experiencia del invitado", () => {
         .getByText("Carne")
         .click();
     }
-    await page.getByRole("button", { name: "Continuar" }).click();
-    await page.getByRole("button", { name: "Continuar" }).click();
+    await next(page).click();
+    await next(page).click();
     await expect(page.getByRole("heading", { name: "Todo listo" })).toBeVisible();
     await page.getByRole("button", { name: "Enviar respuesta" }).click();
 
@@ -79,13 +85,23 @@ test.describe("experiencia del invitado", () => {
     await page.goto("/i/prueba-error");
     await page.getByRole("button", { name: "Saltar intro" }).click();
     await page.getByRole("button", { name: "No podré asistir" }).click();
-    await page.getByRole("button", { name: "Continuar" }).click();
+    await next(page).click();
     await page.getByRole("button", { name: "Enviar respuesta" }).click();
     await expect(
       page.getByRole("alert").filter({ hasText: "No hemos podido guardar" }),
     ).toBeVisible();
     await page.getByRole("button", { name: "Reintentar" }).click();
     await expect(page.getByRole("heading", { name: "Gracias por avisarnos" })).toBeVisible();
+  });
+
+  test("avisa antes de salir con una respuesta a medias", async ({ page }) => {
+    await page.goto("/i/familia-garcia");
+    await page.getByRole("button", { name: "Saltar intro" }).click();
+    await page.getByRole("button", { name: "Sí, asistiré" }).click();
+    await page.getByRole("button", { name: "Añadir acompañante" }).click();
+    const dialog = page.waitForEvent("dialog");
+    await page.close({ runBeforeUnload: true });
+    expect((await dialog).type()).toBe("beforeunload");
   });
 
   test("respeta el plazo cerrado", async ({ page }) => {

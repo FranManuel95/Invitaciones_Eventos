@@ -1,30 +1,33 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Bodoni_Moda, Jost } from "next/font/google";
 import "./globals.css";
 
-const display = Cormorant_Garamond({
+// Didona de papelería para nombres y titulares (con eje de tamaño óptico) y una geométrica
+// clásica para la interfaz: el contraste de la pareja Bodoni + Futura de la tipografía editorial.
+const display = Bodoni_Moda({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: "variable",
   style: ["normal", "italic"],
-  variable: "--font-cormorant",
+  axes: ["opsz"],
+  variable: "--font-bodoni",
   display: "swap",
 });
 
-const sans = Manrope({
+const sans = Jost({
   subsets: ["latin"],
-  variable: "--font-manrope",
+  variable: "--font-jost",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: { default: "Invitaciones · Demo", template: "%s · Invitaciones" },
+  title: { default: "Invitaciones (demo)", template: "%s | Invitaciones" },
   description: "Prototipo de invitaciones digitales premium para bodas y eventos.",
   // Prototipo con datos ficticios: no debe indexarse.
   robots: { index: false, follow: false },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f6f1e8",
+  themeColor: "#efebe1",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",

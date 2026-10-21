@@ -2,57 +2,66 @@
 
 import { clsx } from "clsx";
 import { RotateCcw } from "lucide-react";
-import { motion } from "motion/react";
+import { m } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { DemoBadge } from "@/components/demo-badge";
+import { buttonClasses } from "@/components/ui/button";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
-import { Landscape } from "../cover/landscape";
-import { Divider, Emblem, OliveSprig } from "../ornaments";
+import { formatWeekdayDate, isoDay } from "@/lib/format";
+import { AlmondBranch, Monogram } from "../ornaments";
 import { RsvpSection } from "../rsvp/rsvp-section";
-import { Countdown } from "./countdown";
-import { Reveal } from "./reveal";
+import { DaysLeft } from "./countdown";
 import { PracticalSection, ProgramSection, TransportSection, VenuesSection } from "./sections";
 
 const NAV = [
-  { id: "programa", label: "Programa" },
-  { id: "lugares", label: "Lugares" },
-  { id: "transporte", label: "Transporte" },
-  { id: "info", label: "Información" },
+  { id: "programa", label: "El día" },
+  { id: "lugares", label: "Dónde" },
+  { id: "transporte", label: "Cómo llegar" },
+  { id: "info", label: "Antes de venir" },
   { id: "confirmar", label: "Confirmar" },
 ];
+const NAV_IDS = NAV.map((n) => n.id);
 
 function useActiveSection(ids: string[]) {
   const [active, setActive] = useState<string | null>(null);
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting);
-        if (visible[0]) setActive(visible[0].target.id);
+        const visible = entries.find((e) => e.isIntersecting);
+        if (visible) setActive(visible.target.id);
       },
       { rootMargin: "-45% 0px -50% 0px" },
     );
-    ids.forEach((id) => {
+    for (const id of ids) {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
-    });
+    }
     return () => observer.disconnect();
   }, [ids]);
   return active;
 }
-
-const NAV_IDS = NAV.map((n) => n.id);
 
 /** Pantallas 4 a 7 · La invitación completa con secciones y RSVP. */
 export function InvitationContent({
   event,
   group,
   onReplay,
+  focusOnMount,
 }: {
   event: WeddingEvent;
   group: GuestGroup;
   onReplay: () => void;
+  /** Si llega desde la introducción, enfoca el título (se carga aparte, tras la carta). */
+  focusOnMount: boolean;
 }) {
   const active = useActiveSection(NAV_IDS);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    if (!focusOnMount) return;
+    window.scrollTo({ top: 0 });
+    titleRef.current?.focus({ preventScroll: true });
+  }, [focusOnMount]);
   const navRef = useRef<HTMLUListElement>(null);
 
   // En móvil la barra de secciones se desplaza en horizontal: mantiene visible la sección activa.
@@ -67,10 +76,10 @@ export function InvitationContent({
   }, [active]);
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.7 }}
+      transition={{ duration: 0.6 }}
       className="bg-ivory"
     >
       <a
@@ -80,51 +89,61 @@ export function InvitationContent({
         Ir a confirmar asistencia
       </a>
 
-      <header className="relative flex min-h-[78svh] flex-col items-center justify-end overflow-hidden px-6 pt-24 pb-14 text-center text-white">
-        <motion.div
-          className="absolute inset-0"
-          initial={{ scale: 1.08 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 2.6, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <Landscape className="size-full" />
-        </motion.div>
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-[linear-gradient(180deg,rgb(20_22_32/0.35)_0%,rgb(20_16_22/0.05)_30%,rgb(20_14_20/0.6)_55%,rgb(14_11_16/0.88)_100%)]"
-        />
-        <DemoBadge
-          tone="dark"
-          className="absolute top-[max(1rem,env(safe-area-inset-top))] left-4"
-        />
-        <div className="relative">
-          <p className="eyebrow text-white/80">Nos casamos</p>
+      <header className="paper-grain relative overflow-hidden bg-paper">
+        <div className="mx-auto max-w-5xl px-6 pt-[max(1.25rem,env(safe-area-inset-top))] pb-16 sm:px-10 sm:pb-24">
+          <div className="flex items-center justify-between">
+            <Monogram
+              first={event.couple.first}
+              second={event.couple.second}
+              className="size-11 text-gold"
+            />
+            <DemoBadge />
+          </div>
+
           <h1
             id="content-title"
+            ref={titleRef}
             tabIndex={-1}
-            className="mt-4 font-display text-[clamp(3rem,13vw,5.5rem)] leading-[0.95] font-light outline-none"
+            translate="no"
+            className="mt-16 font-display text-[clamp(4rem,19vw,10rem)] leading-[0.86] tracking-[-0.02em] text-ink outline-none sm:mt-24"
           >
-            {event.couple.first} <span className="italic">&amp;</span> {event.couple.second}
+            {event.couple.first}
+            <span className="block pl-[0.6em]">&amp; {event.couple.second}</span>
           </h1>
-          <p className="mt-5 text-sm tracking-[0.4em] text-white/90">
-            <time dateTime={event.date.slice(0, 10)}>{event.dateLabel}</time>
-          </p>
-          <p className="eyebrow mt-2 text-white/70">
-            {event.city} · {event.region}
-          </p>
-          <div className="mt-10">
-            <Countdown date={event.date} />
+
+          <div className="mt-10 grid gap-8 sm:mt-14 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+            <div>
+              <p className="font-display text-[1.5rem] leading-snug text-ink sm:text-[1.75rem]">
+                <time dateTime={isoDay(event.date)} className="inline-block first-letter:uppercase">
+                  {formatWeekdayDate(event.date)}
+                </time>
+                <br />
+                <span className="text-ink-soft italic">
+                  {event.city}, {event.region}
+                </span>
+              </p>
+              <DaysLeft date={event.date} className="mt-3 text-[0.9375rem] text-muted" />
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <a href="#confirmar" className={buttonClasses("primary", "lg")}>
+                Confirmar asistencia
+              </a>
+              <a href="#programa" className={buttonClasses("secondary", "lg")}>
+                Ver el programa
+              </a>
+            </div>
           </div>
         </div>
+        <AlmondBranch className="pointer-events-none absolute -right-6 bottom-6 w-40 rotate-[-12deg] opacity-80 sm:right-[6%] sm:w-56" />
       </header>
 
       <nav
         aria-label="Secciones de la invitación"
-        className="sticky top-0 z-30 border-b border-line bg-ivory/90 backdrop-blur-md"
+        className="sticky top-0 z-30 border-y border-line bg-ivory/92 backdrop-blur-md"
       >
         <ul
           ref={navRef}
-          className="relative mx-auto flex max-w-4xl [scrollbar-width:none] gap-1 overflow-x-auto px-4 py-2 sm:justify-center"
+          className="relative mx-auto flex max-w-5xl [scrollbar-width:none] gap-6 overflow-x-auto px-6 sm:px-10"
         >
           {NAV.map((item) => (
             <li key={item.id} className="shrink-0">
@@ -132,9 +151,10 @@ export function InvitationContent({
                 href={`#${item.id}`}
                 aria-current={active === item.id ? "true" : undefined}
                 className={clsx(
-                  "block rounded-full px-3.5 py-2 text-[0.8125rem] transition-colors",
-                  active === item.id ? "bg-ink text-paper" : "text-ink-soft hover:bg-ink/5",
-                  item.id === "confirmar" && active !== item.id && "font-semibold text-ink",
+                  "block border-b-2 py-3.5 text-[0.9375rem] transition-colors",
+                  active === item.id
+                    ? "border-ink text-ink"
+                    : "border-transparent text-muted hover:text-ink",
                 )}
               >
                 {item.label}
@@ -145,16 +165,10 @@ export function InvitationContent({
       </nav>
 
       <main>
-        <section aria-label="Bienvenida" className="relative px-6 py-20 text-center sm:py-28">
-          <Reveal className="mx-auto max-w-xl">
-            <Emblem className="mx-auto size-9 text-gold" />
-            <p className="eyebrow mt-6 text-muted">Para {group.displayName}</p>
-            <p className="mt-5 font-display text-[1.625rem] leading-snug font-light text-ink sm:text-3xl">
-              {event.welcomeMessage}
-            </p>
-            <Divider className="mx-auto mt-8 text-gold" />
-          </Reveal>
-          <OliveSprig className="pointer-events-none absolute right-4 bottom-6 w-20 opacity-50 sm:right-[12%] sm:w-28" />
+        <section aria-label="Bienvenida" className="mx-auto max-w-5xl px-6 py-16 sm:px-10 sm:py-24">
+          <p className="max-w-[34ch] font-display text-[1.625rem] leading-[1.45] text-ink sm:text-[2rem] md:ml-[15.5rem]">
+            {event.welcomeMessage}
+          </p>
         </section>
 
         <ProgramSection event={event} />
@@ -164,24 +178,29 @@ export function InvitationContent({
         <RsvpSection event={event} group={group} />
       </main>
 
-      <footer className="border-t border-line bg-paper px-6 pt-16 pb-[max(3rem,env(safe-area-inset-bottom))] text-center">
-        <p className="font-display text-4xl text-ink">
-          {event.couple.first} <span className="italic">&amp;</span> {event.couple.second}
-        </p>
-        <p className="mt-2 text-sm tracking-[0.3em] text-ink-soft">{event.dateLabel}</p>
-        <p className="mt-4 text-sm text-muted">{event.hashtag}</p>
-        <button
-          type="button"
-          onClick={onReplay}
-          className="mt-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-[0.8125rem] text-ink-soft transition-colors hover:bg-ink/5 hover:text-ink"
-        >
-          <RotateCcw aria-hidden className="size-4" /> Volver a abrir el sobre
-        </button>
-        <p className="mx-auto mt-10 max-w-sm text-xs leading-relaxed text-muted">
-          Prototipo de demostración. Los nombres, lugares y respuestas son ficticios y las
+      <footer className="border-t border-line bg-paper">
+        <div className="mx-auto flex max-w-5xl flex-col gap-6 px-6 pt-14 pb-[max(3rem,env(safe-area-inset-bottom))] sm:flex-row sm:items-end sm:justify-between sm:px-10">
+          <div>
+            <p translate="no" className="font-display text-4xl text-ink">
+              {event.couple.first} &amp; {event.couple.second}
+            </p>
+            <p translate="no" className="caption mt-1 text-ink-soft">
+              {event.hashtag}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onReplay}
+            className="inline-flex items-center gap-2 self-start rounded-md px-3 py-2 text-[0.9375rem] text-ink-soft transition-colors hover:bg-ink/5 hover:text-ink sm:self-auto"
+          >
+            <RotateCcw aria-hidden className="size-4" /> Volver a abrir el sobre
+          </button>
+        </div>
+        <p className="mx-auto max-w-5xl px-6 pb-10 text-[0.8125rem] leading-relaxed text-muted sm:px-10">
+          Prototipo de demostración. Los nombres, lugares y respuestas son ficticios, y las
           respuestas solo se guardan en este navegador.
         </p>
       </footer>
-    </motion.div>
+    </m.div>
   );
 }

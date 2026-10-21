@@ -15,7 +15,7 @@ function Row({
   return (
     <div className="flex items-start justify-between gap-4 py-4">
       <div className="min-w-0">
-        <dt className="eyebrow !text-[0.625rem] text-muted">{label}</dt>
+        <dt className="text-[0.875rem] text-muted">{label}</dt>
         <dd className="mt-1.5 text-[0.9375rem] leading-relaxed text-ink">{children}</dd>
       </div>
       {onEdit ? (

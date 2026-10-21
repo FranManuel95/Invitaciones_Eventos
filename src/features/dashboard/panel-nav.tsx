@@ -62,7 +62,7 @@ export function SidebarNav() {
           </li>
         ))}
       </ul>
-      <p className="eyebrow mt-8 px-3 !text-[0.625rem] text-muted">Próximamente</p>
+      <p className="mt-8 px-3 text-[0.8125rem] text-muted">Próximamente</p>
       <ul className="mt-2 space-y-0.5" aria-label="Módulos en preparación">
         {SOON.map(({ label, icon: Icon }) => (
           <li key={label} className="flex items-center gap-3 px-3 py-2 text-sm text-muted">

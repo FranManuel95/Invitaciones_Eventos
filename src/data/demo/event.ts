@@ -7,7 +7,6 @@ export const demoEvent: WeddingEvent = {
   id: "evt-demo-maria-daniel",
   couple: { first: "María", second: "Daniel", monogram: "M&D" },
   date: "2027-05-22T16:30:00+02:00",
-  dateLabel: "22 · 05 · 2027",
   city: "Chinchón",
   region: "Madrid",
   rsvpDeadline: "2027-04-15T23:59:00+02:00",
@@ -116,7 +115,13 @@ export const demoEvent: WeddingEvent = {
     title: "Formal de jardín",
     detail:
       "Tejidos ligeros y colores suaves. El cóctel es sobre césped: mejor evitar tacones finos.",
-    palette: ["#e8d2ca", "#d6bf94", "#8d9a84", "#6f8cab", "#eee5d6"],
+    palette: [
+      { name: "Rosa flor de almendro", hex: "#e6d4cc" },
+      { name: "Oro viejo", hex: "#d3c08f" },
+      { name: "Verde almendro", hex: "#8d9a84" },
+      { name: "Azul atardecer", hex: "#6f8cab" },
+      { name: "Lino", hex: "#e6e0d2" },
+    ],
   },
   accommodation: [
     {

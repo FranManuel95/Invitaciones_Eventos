@@ -1,8 +1,8 @@
-import { ArrowRight, LayoutDashboard } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { DemoBadge } from "@/components/demo-badge";
 import { buttonClasses } from "@/components/ui/button";
-import { Divider, Emblem, FloralCorner } from "@/features/invitation/ornaments";
+import { BlossomCorner, Monogram } from "@/features/invitation/ornaments";
 import { getEvent, listShowcaseInvitations } from "@/lib/data/repository";
 
 const NOTES: Record<string, string> = {
@@ -10,46 +10,54 @@ const NOTES: Record<string, string> = {
   "carlos-ruiz": "Invitación individual con acompañante opcional.",
   "elena-y-pablo": "Pareja con dos plazas.",
   "prueba-error": "Simula un fallo de red al enviar la respuesta la primera vez.",
-  "plazo-cerrado": "Muestra el estado de plazo de confirmación cerrado.",
+  "plazo-cerrado": "Muestra cómo se ve la invitación con el plazo de confirmación cerrado.",
 };
 
 export default async function Home() {
   const [event, invitations] = await Promise.all([getEvent(), listShowcaseInvitations()]);
 
   return (
-    <main className="relative min-h-dvh overflow-hidden px-6 pt-16 pb-20 sm:pt-24">
-      <div aria-hidden className="paper-grain absolute inset-0" />
-      <FloralCorner className="pointer-events-none absolute -top-8 -right-10 w-48 rotate-180 opacity-70 sm:w-72" />
+    <main className="paper-grain relative min-h-dvh overflow-hidden bg-paper">
+      <BlossomCorner className="pointer-events-none absolute -top-8 -right-10 w-48 rotate-180 opacity-80 sm:w-72" />
 
-      <div className="relative mx-auto max-w-3xl">
-        <DemoBadge />
-        <Emblem className="mt-12 size-10 text-gold" />
-        <p className="eyebrow mt-6 text-muted">Prototipo · Invitaciones premium</p>
-        <h1 className="mt-4 font-display text-[clamp(2.75rem,9vw,4.75rem)] leading-[1.02] font-light text-ink">
-          Una invitación que se vive,
-          <span className="block italic">no solo se lee.</span>
+      <div className="relative mx-auto max-w-5xl px-6 pt-10 pb-20 sm:px-10 sm:pt-14">
+        <div className="flex items-center gap-4">
+          <Monogram
+            first={event.couple.first}
+            second={event.couple.second}
+            className="size-11 text-gold"
+          />
+          <DemoBadge />
+        </div>
+
+        <h1 className="mt-16 max-w-[14ch] font-display text-[clamp(3rem,9vw,5.75rem)] leading-[0.95] tracking-[-0.01em] text-ink">
+          Invitaciones que se abren como una carta
         </h1>
-        <Divider className="mt-8 text-gold" />
-        <p className="mt-6 max-w-xl text-[0.9375rem] leading-relaxed text-muted">
-          Demo navegable con datos ficticios de la boda de {event.couple.first} y{" "}
-          {event.couple.second}. Abre una invitación como lo haría un invitado o entra en el panel
-          del organizador.
+        <p className="mt-6 max-w-[52ch] text-[1.0625rem] leading-relaxed text-ink-soft">
+          Una demo navegable con la boda ficticia de {event.couple.first} y {event.couple.second}.
+          Abre cualquiera de estas invitaciones como lo haría un invitado, o entra en el panel donde
+          los novios siguen las respuestas.
         </p>
 
-        <section aria-labelledby="invitaciones" className="mt-14">
-          <h2 id="invitaciones" className="eyebrow text-ink-soft">
+        <section
+          aria-labelledby="invitaciones"
+          className="mt-16 md:grid md:grid-cols-[13rem_minmax(0,1fr)] md:gap-14"
+        >
+          <h2 id="invitaciones" className="font-display text-[1.75rem] leading-tight text-ink">
             Invitaciones de ejemplo
           </h2>
-          <ul className="mt-4 divide-y divide-line border-y border-line">
+          <ul className="mt-4 border-t border-ink/30 md:mt-0">
             {invitations.map((g) => (
-              <li key={g.token}>
+              <li key={g.token} className="border-b border-line">
                 <Link
                   href={`/i/${g.token}`}
-                  className="group flex items-center justify-between gap-4 py-5 transition-colors hover:bg-paper/60"
+                  className="group flex items-center justify-between gap-4 py-5 transition-colors hover:bg-ivory/60"
                 >
                   <span>
-                    <span className="block font-display text-2xl text-ink">{g.displayName}</span>
-                    <span className="mt-1 block text-sm text-muted">{NOTES[g.token]}</span>
+                    <span className="block font-display text-[1.625rem] leading-tight text-ink">
+                      {g.displayName}
+                    </span>
+                    <span className="mt-1 block text-[0.9375rem] text-muted">{NOTES[g.token]}</span>
                   </span>
                   <ArrowRight
                     aria-hidden
@@ -61,9 +69,11 @@ export default async function Home() {
           </ul>
         </section>
 
-        <Link href="/panel" className={buttonClasses("primary", "lg", "mt-12")}>
-          <LayoutDashboard aria-hidden className="size-4" /> Abrir el panel del organizador
-        </Link>
+        <div className="mt-14 md:ml-[15.5rem]">
+          <Link href="/panel" className={buttonClasses("primary", "lg")}>
+            Abrir el panel de los novios
+          </Link>
+        </div>
       </div>
     </main>
   );

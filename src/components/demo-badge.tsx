@@ -11,7 +11,7 @@ export function DemoBadge({
   return (
     <span
       className={clsx(
-        "eyebrow pointer-events-none inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 !text-[0.625rem] !tracking-[0.2em]",
+        "pointer-events-none inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.75rem] leading-none",
         tone === "light"
           ? "bg-paper/85 text-ink-soft ring-1 ring-ink/10 backdrop-blur"
           : "bg-black/30 text-white/85 ring-1 ring-white/20 backdrop-blur",
@@ -19,7 +19,7 @@ export function DemoBadge({
       )}
     >
       <span aria-hidden className="size-1.5 rounded-full bg-gold" />
-      Demo · datos ficticios
+      Demo con datos ficticios
     </span>
   );
 }

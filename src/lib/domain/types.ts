@@ -65,7 +65,6 @@ export interface WeddingEvent {
   couple: { first: string; second: string; monogram: string };
   /** Fecha ISO local del evento. */
   date: string;
-  dateLabel: string;
   city: string;
   region: string;
   /** Fecha ISO tras la cual no se pueden editar respuestas. */
@@ -77,7 +76,7 @@ export interface WeddingEvent {
   venues: Venue[];
   busRoutes: BusRoute[];
   menu: MenuOption[];
-  dressCode: { title: string; detail: string; palette: string[] };
+  dressCode: { title: string; detail: string; palette: { name: string; hex: string }[] };
   accommodation: Accommodation[];
   faqs: Faq[];
 }

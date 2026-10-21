@@ -33,7 +33,6 @@ export default function CommunicationsPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Mensajes"
         title="Comunicaciones"
         description="Invitaciones, recordatorios y avisos enviados a los invitados."
         actions={
@@ -61,7 +60,7 @@ export default function CommunicationsPage() {
               <div>
                 <p className="font-medium text-ink">{c.title}</p>
                 <p className="text-xs text-muted">
-                  {fmt.format(new Date(c.date))} · {c.channel}
+                  {fmt.format(new Date(c.date))}, por {c.channel.toLowerCase()}
                 </p>
               </div>
               <p className="text-sm text-ink-soft tabular-nums">

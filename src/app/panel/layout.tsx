@@ -1,42 +1,50 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
 import { DemoBadge } from "@/components/demo-badge";
 import { SidebarNav, TopNav } from "@/features/dashboard/panel-nav";
-import { Emblem } from "@/features/invitation/ornaments";
+import { Monogram } from "@/features/invitation/ornaments";
 import { getEvent } from "@/lib/data/repository";
+import { formatLongDate } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: { default: "Panel", template: "%s · Panel" },
+  title: { default: "Panel", template: "%s | Panel" },
 };
 
 export default async function PanelLayout({ children }: { children: React.ReactNode }) {
   const event = await getEvent();
   const brand = (
     <Link href="/panel" className="flex items-center gap-2.5">
-      <Emblem className="size-7 text-gold" />
+      <Monogram
+        first={event.couple.first}
+        second={event.couple.second}
+        className="size-9 text-gold"
+      />
       <span>
-        <span className="block font-display text-lg leading-none text-ink">
-          {event.couple.first} <span className="italic">&amp;</span> {event.couple.second}
+        <span translate="no" className="block font-display text-xl leading-none text-ink">
+          {event.couple.first} &amp; {event.couple.second}
         </span>
-        <span className="mt-1 block text-[0.6875rem] tracking-[0.2em] text-muted">
-          {event.dateLabel}
-        </span>
+        <span className="mt-1 block text-[0.8125rem] text-muted">{formatLongDate(event.date)}</span>
       </span>
     </Link>
   );
 
   return (
     <div className="min-h-dvh bg-ivory lg:grid lg:grid-cols-[15.5rem_1fr]">
+      <a
+        href="#contenido"
+        className="sr-only-focusable fixed top-2 left-2 z-50 rounded-md bg-ink px-4 py-2 text-sm text-paper"
+      >
+        Saltar al contenido
+      </a>
       <aside className="hidden border-r border-line bg-paper/70 lg:flex lg:flex-col lg:gap-8 lg:px-4 lg:py-6">
         <div className="px-2">{brand}</div>
         <SidebarNav />
         <div className="mt-auto space-y-4 px-2">
           <Link
             href="/i/familia-garcia"
-            className="flex items-center gap-2 text-[0.8125rem] text-ink-soft underline decoration-ink/20 underline-offset-4 hover:text-ink"
+            className="block text-[0.875rem] text-ink-soft underline decoration-gold underline-offset-4 hover:text-ink hover:decoration-ink"
           >
-            Ver invitación de ejemplo <ExternalLink aria-hidden className="size-3.5" />
+            Ver una invitación de ejemplo
           </Link>
           <DemoBadge />
         </div>
@@ -50,7 +58,13 @@ export default async function PanelLayout({ children }: { children: React.ReactN
         <TopNav />
       </header>
 
-      <main className="min-w-0 px-4 py-6 sm:px-6 lg:px-10 lg:py-9">{children}</main>
+      <main
+        id="contenido"
+        tabIndex={-1}
+        className="min-w-0 px-4 py-6 outline-none sm:px-6 lg:px-10 lg:py-9"
+      >
+        {children}
+      </main>
     </div>
   );
 }

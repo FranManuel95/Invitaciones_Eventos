@@ -3,13 +3,20 @@
 import { clsx } from "clsx";
 import { ExternalLink, Search, SearchX } from "lucide-react";
 import Link from "next/link";
-import { useDeferredValue, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { MENU_LABELS, allergyLabel } from "@/lib/domain/catalog";
 import type { AttendanceStatus } from "@/lib/domain/types";
 import type { GuestRow } from "@/lib/stats";
 import { MenuDot, StatusBadge } from "./ui";
 
-type StatusFilter = AttendanceStatus | "all";
+export type StatusFilter = AttendanceStatus | "all";
+
+export interface GuestFilters {
+  q: string;
+  estado: StatusFilter;
+  grupo: string;
+  agrupar: boolean;
+}
 
 const STATUS_OPTIONS: { value: StatusFilter; label: string }[] = [
   { value: "all", label: "Todos" },
@@ -22,7 +29,7 @@ const normalize = (text: string) => text.normalize("NFD").replace(/[̀-ͯ]/g, ""
 
 function transportLabel(row: GuestRow, routes: Record<string, string>) {
   if (row.status !== "attending" || !row.transport) return "—";
-  if (row.transport === "bus") return `Bus · ${routes[row.routeId ?? ""] ?? ""}`;
+  if (row.transport === "bus") return `Autobús desde ${routes[row.routeId ?? ""] ?? ""}`;
   return row.transport === "car" ? "Coche (ofrece plazas)" : "Por su cuenta";
 }
 
@@ -30,18 +37,30 @@ export function GuestTable({
   rows,
   categories,
   routes,
-  initialStatus = "all",
+  initial,
 }: {
   rows: GuestRow[];
   categories: string[];
   routes: Record<string, string>;
-  initialStatus?: StatusFilter;
+  initial: GuestFilters;
 }) {
-  const [query, setQuery] = useState("");
-  const [status, setStatus] = useState<StatusFilter>(initialStatus);
-  const [category, setCategory] = useState("all");
-  const [grouped, setGrouped] = useState(false);
+  const [query, setQuery] = useState(initial.q);
+  const [status, setStatus] = useState<StatusFilter>(initial.estado);
+  const [category, setCategory] = useState(initial.grupo);
+  const [grouped, setGrouped] = useState(initial.agrupar);
   const deferredQuery = useDeferredValue(query);
+
+  // Los filtros viven en la URL: se pueden compartir, recargar y volver atrás sin perderlos.
+  // replaceState no provoca una nueva navegación de Next.js.
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (deferredQuery.trim()) params.set("q", deferredQuery.trim());
+    if (status !== "all") params.set("estado", status);
+    if (category !== "all") params.set("grupo", category);
+    if (grouped) params.set("agrupar", "1");
+    const search = params.toString();
+    window.history.replaceState(null, "", search ? `?${search}` : window.location.pathname);
+  }, [deferredQuery, status, category, grouped]);
 
   const filtered = useMemo(() => {
     const q = normalize(deferredQuery.trim());
@@ -79,7 +98,10 @@ export function GuestTable({
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Buscar invitado o grupo…"
+            placeholder="Buscar por nombre o grupo…"
+            name="q"
+            autoComplete="off"
+            spellCheck={false}
             className="h-10 w-full rounded-md border border-line bg-paper pr-3 pl-9 text-sm text-ink placeholder:text-muted focus:border-ink focus:outline-none"
           />
         </label>
@@ -138,7 +160,7 @@ export function GuestTable({
       </p>
 
       {filtered.length === 0 ? (
-        <div className="grid place-items-center rounded-xl border border-dashed border-line bg-paper px-6 py-14 text-center">
+        <div className="grid place-items-center rounded-[3px] border border-dashed border-line bg-paper px-6 py-14 text-center">
           <SearchX aria-hidden className="size-6 text-muted" />
           <p className="mt-3 text-sm font-medium text-ink">
             Ningún invitado coincide con estos filtros
@@ -154,7 +176,7 @@ export function GuestTable({
       ) : (
         <>
           {/* Escritorio: tabla */}
-          <div className="hidden overflow-hidden rounded-xl border border-line bg-paper md:block">
+          <div className="hidden overflow-hidden rounded-[3px] border border-line bg-paper md:block">
             <table className="w-full text-left text-sm">
               <thead className="border-b border-line bg-ivory/60 text-xs text-muted">
                 <tr>
@@ -206,7 +228,10 @@ export function GuestTable({
                     </tr>
                   ) : null}
                   {list.map((r) => (
-                    <tr key={r.id} className="hover:bg-ivory/40">
+                    <tr
+                      key={r.id}
+                      className="[contain-intrinsic-size:auto_2.75rem] [content-visibility:auto] hover:bg-ivory/40"
+                    >
                       <td className="px-4 py-2.5">
                         <span className="font-medium text-ink">{r.name}</span>
                         {r.isExtra ? (
@@ -247,12 +272,15 @@ export function GuestTable({
           {/* Móvil: tarjetas */}
           <ul className="space-y-2 md:hidden">
             {filtered.map((r) => (
-              <li key={r.id} className="rounded-lg border border-line bg-paper p-4">
+              <li
+                key={r.id}
+                className="rounded-[3px] border border-line bg-paper p-4 [contain-intrinsic-size:auto_7rem] [content-visibility:auto]"
+              >
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <p className="font-medium text-ink">{r.name}</p>
                     <p className="text-xs text-muted">
-                      {r.groupName} · {r.category}
+                      {r.groupName}, {r.category.toLowerCase()}
                     </p>
                   </div>
                   <StatusBadge status={r.status} />

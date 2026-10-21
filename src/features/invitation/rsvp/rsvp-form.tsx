@@ -1,7 +1,7 @@
 "use client";
 
 import { AlertCircle, ArrowLeft, Loader2 } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, m } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { saveResponse } from "@/lib/data/rsvp-store";
@@ -74,6 +74,16 @@ export function RsvpForm({
   const steps = stepsFor(draft, event, group);
   const index = Math.max(0, steps.indexOf(step));
   const isLast = step === "summary";
+  const nextStep = steps[index + 1];
+  const dirty = draft !== initialDraft;
+
+  // Avisa antes de salir de la página con una respuesta a medias.
+  useEffect(() => {
+    if (!dirty) return;
+    const warn = (e: BeforeUnloadEvent) => e.preventDefault();
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [dirty]);
 
   useEffect(() => {
     if (firstRender.current) {
@@ -105,7 +115,6 @@ export function RsvpForm({
       requestAnimationFrame(() => document.getElementById(firstKey)?.focus());
       return;
     }
-    const nextStep = steps[index + 1];
     if (nextStep) goTo(nextStep, 1);
   };
 
@@ -143,7 +152,7 @@ export function RsvpForm({
       aria-labelledby="rsvp-step-title"
     >
       <div className="flex items-center justify-between gap-4">
-        <p className="eyebrow text-muted">
+        <p className="text-[0.875rem] text-muted">
           Paso {index + 1} de {steps.length}
           <span className="sr-only">: {STEP_TITLES[step]}</span>
         </p>
@@ -151,14 +160,14 @@ export function RsvpForm({
           {steps.map((s, i) => (
             <li
               key={s}
-              className={`h-1 rounded-full transition-all duration-500 ${i <= index ? "w-6 bg-ink" : "w-3 bg-ink/15"}`}
+              className={`h-1 w-5 rounded-full transition-colors duration-500 ${i <= index ? "bg-ink" : "bg-ink/15"}`}
             />
           ))}
         </ol>
       </div>
 
       <AnimatePresence mode="wait" initial={false} custom={direction}>
-        <motion.div
+        <m.div
           key={step}
           custom={direction}
           initial={{ opacity: 0, x: 24 * direction }}
@@ -170,7 +179,7 @@ export function RsvpForm({
             id="rsvp-step-title"
             ref={headingRef}
             tabIndex={-1}
-            className="mt-4 mb-6 font-display text-3xl text-ink outline-none"
+            className="mt-4 mb-6 font-display text-[2rem] leading-tight text-ink outline-none"
           >
             {QUESTIONS[step]}
           </h3>
@@ -185,7 +194,7 @@ export function RsvpForm({
           ) : (
             <DraftSummary event={event} group={group} draft={draft} onEdit={(s) => goTo(s, -1)} />
           )}
-        </motion.div>
+        </m.div>
       </AnimatePresence>
 
       {saveError ? (
@@ -203,7 +212,7 @@ export function RsvpForm({
           <ArrowLeft aria-hidden className="size-4" />
           {index === 0 ? "Cancelar" : "Atrás"}
         </Button>
-        <Button type="submit" size="lg" disabled={saving} aria-busy={saving} className="min-w-40">
+        <Button type="submit" size="lg" disabled={saving} aria-busy={saving} className="min-w-44">
           {saving ? (
             <>
               <Loader2 aria-hidden className="size-4 animate-spin" /> Enviando…
@@ -214,8 +223,10 @@ export function RsvpForm({
             ) : (
               "Enviar respuesta"
             )
+          ) : nextStep === "summary" ? (
+            "Revisar respuesta"
           ) : (
-            "Continuar"
+            `Siguiente: ${STEP_TITLES[nextStep ?? "summary"].toLowerCase()}`
           )}
         </Button>
       </div>

@@ -36,7 +36,7 @@ npm run build
 npm run start        # http://localhost:3000
 ```
 
-> La compilación descarga las fuentes Cormorant Garamond y Manrope de Google Fonts una sola vez
+> La compilación descarga las fuentes Bodoni Moda y Jost de Google Fonts una sola vez
 > (`next/font` las sirve después desde el propio sitio). Hace falta conexión a internet durante el `build`.
 
 ## Recorrido de la demo

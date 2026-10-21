@@ -13,7 +13,7 @@ test.describe("panel del organizador", () => {
   test("muestra el resumen con métricas", async ({ page }) => {
     await page.goto("/panel");
     await expect(page.getByRole("heading", { level: 1, name: "Hola, María" })).toBeVisible();
-    await expect(page.getByText("Total invitados")).toBeVisible();
+    await expect(page.locator("dt", { hasText: /^Invitados$/ })).toBeVisible();
     await expect(page.getByText("150", { exact: true }).first()).toBeVisible();
   });
 
@@ -25,6 +25,13 @@ test.describe("panel del organizador", () => {
     );
     await page.getByRole("radio", { name: "Todos" }).click();
     await page.getByRole("searchbox", { name: "Buscar invitado o grupo" }).fill("garcia");
+    await expect(page.getByText(/^3 invitados/)).toBeVisible();
+    // Los filtros se reflejan en la URL y sobreviven a una recarga.
+    await expect(page).toHaveURL(/q=garcia/);
+    await page.reload();
+    await expect(page.getByRole("searchbox", { name: "Buscar invitado o grupo" })).toHaveValue(
+      "garcia",
+    );
     await expect(page.getByText(/^3 invitados/)).toBeVisible();
     const scope = isMobile ? page.getByRole("list").last() : page.getByRole("table");
     await expect(scope.getByText("Lucía García Ortega")).toBeVisible();

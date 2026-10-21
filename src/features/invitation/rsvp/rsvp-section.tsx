@@ -1,7 +1,7 @@
 "use client";
 
 import { CalendarPlus, Check, Lock } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, m } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { Button, buttonClasses } from "@/components/ui/button";
 import { buildIcs } from "@/lib/calendar";
@@ -14,18 +14,12 @@ import {
   type RsvpDraft,
   type RsvpStep,
 } from "@/lib/rsvp/draft";
-import { Divider, FloralCorner } from "../ornaments";
-import { Reveal } from "../content/reveal";
-import { SectionHeading } from "../content/sections";
+import { formatLongDate } from "@/lib/format";
+import { Section } from "../content/sections";
 import { RsvpForm } from "./rsvp-form";
 import { ResponseDetails } from "./rsvp-summary";
 
 type View = "intro" | "form" | "done";
-
-const longDate = (iso: string) =>
-  new Intl.DateTimeFormat("es-ES", { day: "numeric", month: "long", year: "numeric" }).format(
-    new Date(iso),
-  );
 
 export function RsvpSection({ event, group }: { event: WeddingEvent; group: GuestGroup }) {
   // Este componente solo se monta en el cliente (tras abrir la invitación), así que puede leer
@@ -53,31 +47,22 @@ export function RsvpSection({ event, group }: { event: WeddingEvent; group: Gues
   const calendarHref = `data:text/calendar;charset=utf-8,${encodeURIComponent(buildIcs(event))}`;
 
   return (
-    <section
-      aria-labelledby="confirmar-title"
+    <Section
       id="confirmar"
-      className="relative scroll-mt-20 overflow-hidden px-5 py-20 sm:py-28"
+      title="Confirma tu asistencia"
+      aside={
+        closed ? undefined : (
+          <>
+            Puedes responder o cambiar tu respuesta hasta el{" "}
+            <strong className="font-medium text-ink">{formatLongDate(event.rsvpDeadline)}</strong>.
+          </>
+        )
+      }
     >
-      <FloralCorner className="pointer-events-none absolute -top-10 -left-12 w-44 rotate-90 opacity-60 sm:w-56" />
-      <SectionHeading
-        id="confirmar-title"
-        eyebrow="RSVP"
-        title="Confirma tu asistencia"
-        intro={
-          closed ? undefined : (
-            <>
-              Nos encantaría saber si podrás acompañarnos. Puedes responder o cambiar tu respuesta
-              hasta el{" "}
-              <strong className="font-semibold text-ink">{longDate(event.rsvpDeadline)}</strong>.
-            </>
-          )
-        }
-      />
-
-      <Reveal className="relative mx-auto mt-12 max-w-xl">
-        <div className="paper-grain rounded-xl bg-paper px-5 py-8 shadow-[var(--shadow-lift)] sm:px-10 sm:py-10">
+      <div className="max-w-xl">
+        <div className="paper-grain rounded-[3px] border border-line bg-paper px-5 py-8 shadow-[var(--shadow-paper)] sm:px-10 sm:py-10">
           <AnimatePresence mode="wait" initial={false}>
-            <motion.div
+            <m.div
               key={view}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -89,15 +74,16 @@ export function RsvpSection({ event, group }: { event: WeddingEvent; group: Gues
                   <Lock aria-hidden className="mx-auto size-6 text-ink-soft" strokeWidth={1.5} />
                   <h3 className="mt-4 font-display text-3xl text-ink">El plazo ha terminado</h3>
                   <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">
-                    La confirmación se cerró el {longDate(event.rsvpDeadline)}. Si necesitas cambiar
-                    algo, escribe directamente a {event.couple.first} o {event.couple.second}.
+                    La confirmación se cerró el {formatLongDate(event.rsvpDeadline)}. Si necesitas
+                    cambiar algo, escribe directamente a {event.couple.first} o{" "}
+                    {event.couple.second}.
                   </p>
                 </div>
               ) : null}
 
               {view === "intro" && !closed ? (
                 <div className="text-center">
-                  <p className="font-display text-2xl text-ink">
+                  <p className="font-display text-[1.75rem] text-ink">
                     {group.members.length > 1 ? "¿Venís?" : "¿Vienes?"}
                   </p>
                   <p className="mt-2 text-sm text-muted">
@@ -134,14 +120,14 @@ export function RsvpSection({ event, group }: { event: WeddingEvent; group: Gues
               {view === "done" && saved ? (
                 <div>
                   <div className="text-center">
-                    <motion.span
+                    <m.span
                       initial={justSaved ? { scale: 0.4, opacity: 0 } : false}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ type: "spring", stiffness: 260, damping: 18, delay: 0.1 }}
                       className="mx-auto grid size-14 place-items-center rounded-full bg-ink text-paper"
                     >
                       <Check aria-hidden className="size-6" strokeWidth={2} />
-                    </motion.span>
+                    </m.span>
                     <h3
                       ref={doneRef}
                       tabIndex={-1}
@@ -159,7 +145,6 @@ export function RsvpSection({ event, group }: { event: WeddingEvent; group: Gues
                       }).format(new Date(saved.updatedAt))}
                       <span className="sr-only"> (demo: solo en este navegador)</span>
                     </p>
-                    <Divider className="mx-auto mt-6 text-gold" />
                   </div>
                   <div className="mt-4">
                     <ResponseDetails event={event} response={saved} />
@@ -191,10 +176,10 @@ export function RsvpSection({ event, group }: { event: WeddingEvent; group: Gues
                   </div>
                 </div>
               ) : null}
-            </motion.div>
+            </m.div>
           </AnimatePresence>
         </div>
-      </Reveal>
-    </section>
+      </div>
+    </Section>
   );
 }

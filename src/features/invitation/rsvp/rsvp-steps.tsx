@@ -121,8 +121,10 @@ export function GuestsStep({ group, draft, errors, update }: StepProps) {
                     <TextInput
                       id={`name-${a.guestId}`}
                       value={a.name}
+                      name={`acompanante-${i + 1}`}
                       autoComplete="off"
-                      placeholder="Nombre y apellido"
+                      spellCheck={false}
+                      placeholder="Ej.: Jaime Torres…"
                       maxLength={80}
                       onChange={(e) => setAttendee(a.guestId, { name: e.target.value })}
                       {...invalid(errors, `name-${a.guestId}`)}
@@ -202,6 +204,7 @@ export function TransportStep({ event, draft, errors, update }: StepProps) {
           </label>
           <select
             id="routeId"
+            name="recogida"
             value={draft.routeId ?? ""}
             onChange={(e) => update({ routeId: e.target.value || null })}
             className="mt-3 h-11 w-full appearance-none rounded-md border border-line bg-paper bg-[url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2212%22%20height=%2212%22%20fill=%22none%22%20stroke=%22%231e2a28%22%20stroke-width=%221.5%22%3E%3Cpath%20d=%22m2%204%204%204%204-4%22/%3E%3C/svg%3E')] bg-[length:12px] bg-[right_1rem_center] bg-no-repeat px-3.5 pr-10 text-[0.9375rem] text-ink focus:border-ink focus:outline-none aria-[invalid=true]:border-danger"
@@ -325,7 +328,9 @@ export function MenuStep({ event, draft, errors, update }: StepProps) {
                   id={notesKey}
                   value={a.allergyNotes}
                   maxLength={200}
-                  placeholder="Por ejemplo: intolerancia al melocotón"
+                  name={notesKey}
+                  autoComplete="off"
+                  placeholder="Ej.: intolerancia al melocotón…"
                   onChange={(e) => setAttendee(a.guestId, { allergyNotes: e.target.value })}
                   {...invalid(errors, notesKey)}
                 />
@@ -354,6 +359,7 @@ export function MessageStep({ draft, errors, update }: StepProps) {
       <p className="mt-1 text-sm text-muted">Opcional. Lo leeremos con mucho cariño.</p>
       <TextArea
         id="message"
+        name="mensaje"
         className="mt-3"
         rows={5}
         maxLength={500}

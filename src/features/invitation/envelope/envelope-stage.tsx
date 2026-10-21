@@ -1,10 +1,11 @@
 "use client";
 
 import { Pointer } from "lucide-react";
-import { motion, useAnimate, useMotionValue, useReducedMotion, useSpring } from "motion/react";
+import { m, useAnimate, useMotionValue, useReducedMotion, useSpring } from "motion/react";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
-import { Divider, Emblem, OliveSprig, WaxSealArt } from "../ornaments";
+import { formatLongDate } from "@/lib/format";
+import { AlmondBranch, Monogram, WaxSealArt } from "../ornaments";
 
 const silk = [0.22, 1, 0.36, 1] as const;
 
@@ -20,7 +21,9 @@ const silk = [0.22, 1, 0.36, 1] as const;
 const POCKET_TIP = 54; // % de altura donde se juntan las solapas laterales
 const FLAP_DEPTH = 56; // % de altura que ocupa la solapa superior
 
-const linerPattern = "repeating-linear-gradient(135deg, #e9dcc4 0 7px, #e2d1b4 7px 14px)";
+// Forro del sobre: tinta de olivo con un fino rayado en oro, visible solo al abrirlo.
+const linerPattern =
+  "repeating-linear-gradient(135deg, #2c3125 0 9px, #a3874e 9px 9.6px, #2c3125 9.6px 18px)";
 
 export function EnvelopeStage({
   event,
@@ -116,7 +119,7 @@ export function EnvelopeStage({
   }
 
   return (
-    <motion.section
+    <m.section
       aria-labelledby="envelope-title"
       className="fixed inset-0 z-10 flex flex-col items-center justify-center overflow-hidden bg-[radial-gradient(120%_80%_at_50%_45%,#e3d6c2_0%,#cdbca4_55%,#b6a387_100%)] px-6 pt-16 pb-10"
       initial={{ opacity: 0 }}
@@ -131,18 +134,22 @@ export function EnvelopeStage({
           data-heading
           className="mb-10 flex flex-col items-center text-center text-ink-soft sm:mb-12"
         >
-          <Emblem className="mb-5 size-9 text-ink-soft/80" />
-          <p className="eyebrow text-ink-soft/80">Hay una invitación para ti</p>
+          <Monogram
+            first={event.couple.first}
+            second={event.couple.second}
+            className="mb-5 size-12 text-ink-soft"
+          />
+          <p className="caption text-ink-soft">Una invitación para</p>
           <h1
             id="envelope-title"
             tabIndex={-1}
-            className="mt-3 font-display text-[clamp(2rem,8vw,2.75rem)] leading-tight font-light text-ink outline-none"
+            className="mt-1 font-display text-[clamp(2.25rem,9vw,3.25rem)] leading-tight text-ink outline-none"
           >
             {group.displayName}
           </h1>
         </div>
 
-        <motion.button
+        <m.button
           type="button"
           onClick={open}
           onPointerMove={handlePointerMove}
@@ -154,9 +161,7 @@ export function EnvelopeStage({
           whileTap={opening || reduce ? undefined : { scale: 0.985 }}
         >
           {/* Flotación en reposo (CSS) en un contenedor propio para no competir con Motion. */}
-          <span
-            className={`relative block aspect-[10/7] ${opening ? "" : "motion-safe:animate-[envelope-float_5s_ease-in-out_infinite]"}`}
-          >
+          <span className={`relative block aspect-[10/7] ${opening ? "" : "envelope-idle"}`}>
             {/* Sombra proyectada */}
             <span
               data-body
@@ -168,33 +173,34 @@ export function EnvelopeStage({
             <span
               data-body
               aria-hidden
-              className="absolute inset-0 block overflow-hidden rounded-[3px] bg-[#dccdb4]"
+              className="absolute inset-0 block overflow-hidden rounded-[3px] bg-[#2c3125]"
             >
               <span
                 className="absolute inset-x-0 top-0 block h-[60%]"
-                style={{ background: linerPattern, opacity: 0.85 }}
+                style={{ background: linerPattern }}
               />
             </span>
 
             {/* Carta */}
-            <motion.span
+            <m.span
               data-letter
               aria-hidden
               className="paper-grain absolute inset-x-[6%] top-[5%] z-10 block h-[88%] rounded-[2px] bg-paper shadow-[0_1px_3px_rgb(60_45_25/0.18)]"
             >
-              <span className="flex flex-col items-center px-4 pt-[9%] text-center">
-                <span className="eyebrow block !text-[0.5625rem] text-muted">
-                  Invitación de boda
+              <span className="flex flex-col items-center px-4 pt-[7%] text-center">
+                <Monogram
+                  first={event.couple.first}
+                  second={event.couple.second}
+                  className="block size-[clamp(1.75rem,7vw,2.25rem)] text-gold"
+                />
+                <span className="mt-2 block font-display text-[clamp(1.5rem,6.5vw,2.125rem)] leading-none text-ink">
+                  {event.couple.first} &amp; {event.couple.second}
                 </span>
-                <span className="mt-2 block font-display text-[clamp(1.375rem,6vw,1.875rem)] leading-none text-ink">
-                  {event.couple.first} <span className="italic">&amp;</span> {event.couple.second}
-                </span>
-                <Divider className="mt-3 text-gold" />
-                <span className="mt-2 block text-[0.625rem] tracking-[0.35em] text-ink-soft">
-                  {event.dateLabel}
+                <span className="caption mt-2 block !text-[clamp(0.75rem,3vw,0.9375rem)] text-ink-soft">
+                  {formatLongDate(event.date)}
                 </span>
               </span>
-            </motion.span>
+            </m.span>
 
             {/* Bolsillo: tres triángulos con sombra estática de pliegue */}
             <span
@@ -225,7 +231,7 @@ export function EnvelopeStage({
             />
 
             {/* Solapa superior */}
-            <motion.span
+            <m.span
               data-flap
               aria-hidden
               className="absolute inset-x-0 top-0 z-30 block"
@@ -244,9 +250,9 @@ export function EnvelopeStage({
                 className="paper-grain absolute inset-0 block bg-[linear-gradient(180deg,#f3ebde,#ebe0ce)]"
                 style={{ clipPath: "polygon(0 0, 100% 0, 50% 100%)" }}
               >
-                <OliveSprig className="absolute top-[22%] left-[55%] w-[22%] rotate-[4deg] opacity-90" />
+                <AlmondBranch className="absolute top-[22%] left-[55%] w-[22%] rotate-[4deg] opacity-95" />
               </span>
-            </motion.span>
+            </m.span>
 
             {/* Lacre en la punta de la solapa */}
             <span
@@ -254,7 +260,7 @@ export function EnvelopeStage({
               className="absolute z-40 block w-[19%] -translate-x-1/2 -translate-y-1/2"
               style={{ left: "50%", top: `${FLAP_DEPTH}%` }}
             >
-              <motion.span
+              <m.span
                 data-seal
                 className="relative block aspect-square drop-shadow-[0_3px_4px_rgb(60_20_10/0.35)]"
               >
@@ -264,14 +270,14 @@ export function EnvelopeStage({
                 >
                   <WaxSealArt monogram={event.couple.monogram} className="size-full" />
                 </span>
-                <motion.span
+                <m.span
                   data-seal-half="l"
                   className="absolute inset-0 block opacity-0"
                   style={{ clipPath: "polygon(0 0, 52% 0, 44% 30%, 56% 55%, 46% 100%, 0 100%)" }}
                 >
                   <WaxSealArt monogram={event.couple.monogram} className="size-full" />
-                </motion.span>
-                <motion.span
+                </m.span>
+                <m.span
                   data-seal-half="r"
                   className="absolute inset-0 block opacity-0"
                   style={{
@@ -279,16 +285,16 @@ export function EnvelopeStage({
                   }}
                 >
                   <WaxSealArt monogram={event.couple.monogram} className="size-full" />
-                </motion.span>
-              </motion.span>
+                </m.span>
+              </m.span>
             </span>
           </span>
-        </motion.button>
+        </m.button>
 
         <p
           data-heading
           aria-live="polite"
-          className="mt-14 flex items-center gap-2 text-[0.8125rem] tracking-[0.08em] text-ink-soft"
+          className="mt-14 flex items-center gap-2 text-[0.9375rem] text-ink-soft"
         >
           {opening ? (
             "Abriendo…"
@@ -300,6 +306,6 @@ export function EnvelopeStage({
           )}
         </p>
       </div>
-    </motion.section>
+    </m.section>
   );
 }

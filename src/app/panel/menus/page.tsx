@@ -17,7 +17,6 @@ export default async function MenusPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Catering"
         title="Menús y necesidades especiales"
         description="Resumen para el catering. Solo cuentan los invitados confirmados."
       />
