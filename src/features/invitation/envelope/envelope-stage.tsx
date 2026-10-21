@@ -61,6 +61,8 @@ export function EnvelopeStage({
   const tilt = useTilt();
   const [scope, animate] = useAnimate<HTMLDivElement>();
   const [opening, setOpening] = useState(false);
+  // Guarda síncrona: un segundo toque (o un clic tardío) nunca relanza la secuencia.
+  const started = useRef(false);
   const alive = useRef(true);
 
   // El sobre entero se inclina con el móvil o el ratón: es un objeto en la mano.
@@ -76,10 +78,10 @@ export function EnvelopeStage({
   }, []);
 
   async function open() {
-    if (opening || !interactive) return;
+    if (started.current || !interactive) return;
+    started.current = true;
     setOpening(true);
     unlockAudio();
-    tilt.enableDeviceTilt();
 
     if (reduce) {
       onOpened();
@@ -144,7 +146,10 @@ export function EnvelopeStage({
     if (!alive.current) return;
 
     // 4. El sobre se retira y la carta sube al primer plano; luego se transforma en la carta grande.
+    // La solapa cae con el cuerpo: si se quedara, Safari la aplana al capturar la transición
+    // a la carta y parece un sobre cerrado.
     animate("[data-body]", { y: 240, opacity: 0 }, { duration: 0.7, ease: [0.55, 0, 0.85, 0.35] });
+    animate("[data-flap]", { y: 240, opacity: 0 }, { duration: 0.6, ease: [0.55, 0, 0.85, 0.35] });
     await animate("[data-letter]", { y: "-20%", scale: 1.1 }, { duration: 0.7, ease: friction });
     if (alive.current) onOpened();
   }

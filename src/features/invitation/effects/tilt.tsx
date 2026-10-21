@@ -12,15 +12,16 @@ import {
 } from "react";
 
 /**
- * Inclinación compartida por toda la introducción: el giroscopio en móvil y el puntero en
- * escritorio. Mueve el paralaje de la portada, el sobre y el brillo del oro.
- * Valores normalizados entre -1 y 1, suavizados con un muelle.
+ * Inclinación compartida por toda la introducción. Mueve el paralaje de la portada, el sobre y
+ * el brillo del oro. Valores normalizados entre -1 y 1, suavizados con un muelle.
+ * - Android: el giroscopio (no pide permiso).
+ * - iPhone: sigue al dedo. El giroscopio exige una ventana de permiso en cada visita, que
+ *   interrumpía la apertura, así que no se pide nunca.
+ * - Escritorio: el ratón.
  */
 interface Tilt {
   x: MotionValue<number>;
   y: MotionValue<number>;
-  /** Pide permiso del giroscopio (iOS) dentro de un gesto del invitado. */
-  enableDeviceTilt: () => void;
 }
 
 const TiltContext = createContext<Tilt | null>(null);
@@ -50,46 +51,45 @@ export function TiltProvider({ children, disabled }: { children: ReactNode; disa
     window.addEventListener("deviceorientation", onOrientation, { passive: true });
   }, [disabled, onOrientation]);
 
-  const enableDeviceTilt = useCallback(() => {
-    if (disabled || typeof DeviceOrientationEvent === "undefined") return;
-    const ctor = DeviceOrientationEvent as unknown as OrientationPermission;
-    if (typeof ctor.requestPermission === "function") {
-      ctor
-        .requestPermission()
-        .then((state) => state === "granted" && listen())
-        .catch(() => {});
-    } else {
-      listen();
-    }
-  }, [disabled, listen]);
-
   useEffect(() => {
     if (disabled) {
       rawX.set(0);
       rawY.set(0);
       return;
     }
-    // Android y escritorio no piden permiso: se escucha directamente.
+    // Donde el giroscopio no pide permiso (Android) se escucha directamente. En iOS, que lo
+    // exige, la inclinación sigue al dedo.
     const ctor =
       typeof DeviceOrientationEvent === "undefined"
         ? null
         : (DeviceOrientationEvent as unknown as OrientationPermission);
-    if (ctor && typeof ctor.requestPermission !== "function") listen();
+    const needsPermission = typeof ctor?.requestPermission === "function";
+    if (ctor && !needsPermission) listen();
 
     const onPointer = (e: PointerEvent) => {
-      if (e.pointerType !== "mouse") return;
+      if (e.pointerType !== "mouse" && !(needsPermission && e.pointerType === "touch")) return;
       rawX.set((e.clientX / window.innerWidth) * 2 - 1);
       rawY.set((e.clientY / window.innerHeight) * 2 - 1);
     };
+    // Al levantar el dedo, el muelle devuelve todo al centro.
+    const onRelease = (e: PointerEvent) => {
+      if (e.pointerType !== "touch" || !needsPermission) return;
+      rawX.set(0);
+      rawY.set(0);
+    };
     window.addEventListener("pointermove", onPointer, { passive: true });
+    window.addEventListener("pointerup", onRelease, { passive: true });
+    window.addEventListener("pointercancel", onRelease, { passive: true });
     return () => {
       window.removeEventListener("pointermove", onPointer);
+      window.removeEventListener("pointerup", onRelease);
+      window.removeEventListener("pointercancel", onRelease);
       window.removeEventListener("deviceorientation", onOrientation);
       listening.current = false;
     };
   }, [disabled, listen, onOrientation, rawX, rawY]);
 
-  const value = useMemo(() => ({ x, y, enableDeviceTilt }), [x, y, enableDeviceTilt]);
+  const value = useMemo(() => ({ x, y }), [x, y]);
   return <TiltContext.Provider value={value}>{children}</TiltContext.Provider>;
 }
 

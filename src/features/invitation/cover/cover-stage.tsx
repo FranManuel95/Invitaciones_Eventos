@@ -50,7 +50,6 @@ export function CoverStage({ event, onOpen }: { event: WeddingEvent; onOpen: () 
 
   const prime = () => {
     unlockAudio();
-    tilt.enableDeviceTilt();
   };
 
   const onPointerDown = (e: PointerEvent<HTMLElement>) => {
@@ -71,6 +70,8 @@ export function CoverStage({ event, onOpen }: { event: WeddingEvent; onOpen: () 
   };
 
   const onPointerUp = (e: PointerEvent<HTMLElement>) => {
+    // iOS solo desbloquea el audio al terminar el toque, no al empezarlo.
+    unlockAudio();
     const d = drag.current;
     drag.current = null;
     if (!d) return;

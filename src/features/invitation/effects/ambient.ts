@@ -101,9 +101,25 @@ function schedule(ctx: AudioContext) {
   }
 }
 
+let waiting = false;
+
 export function startAmbient() {
   const ctx = audioContext();
-  if (!ctx || state) return;
+  if (!ctx || state || waiting) return;
+  // En iOS el contexto puede tardar un instante en pasar a «running» tras el gesto.
+  if (ctx.state !== "running") {
+    waiting = true;
+    void ctx
+      .resume()
+      .then(() => {
+        waiting = false;
+        if (ctx.state === "running") startAmbient();
+      })
+      .catch(() => {
+        waiting = false;
+      });
+    return;
+  }
   const master = ctx.createGain();
   master.gain.setValueAtTime(0.0001, ctx.currentTime);
   master.gain.exponentialRampToValueAtTime(0.9, ctx.currentTime + 3);

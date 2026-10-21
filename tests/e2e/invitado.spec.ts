@@ -25,6 +25,32 @@ test.describe("experiencia del invitado", () => {
     expect(errors).toEqual([]);
   });
 
+  test("varios toques al sobre no repiten la apertura", async ({ page }) => {
+    await page.goto("/i/familia-garcia");
+    await page.getByRole("button", { name: /toca para abrir/i }).click();
+    const envelope = page.getByRole("button", { name: "Abrir el sobre" });
+    await envelope.click();
+    // Toques extra a mitad de la apertura (doble toque, o un clic tardío en iOS).
+    await page.waitForTimeout(400);
+    await envelope.click({ force: true });
+    await page.waitForTimeout(900);
+    await envelope.click({ force: true }).catch(() => {});
+    // La solapa nunca vuelve hacia atrás: su ángulo solo crece hasta que se retira.
+    const angles: number[] = [];
+    for (let i = 0; i < 8; i++) {
+      const angle = await page
+        .locator("[data-flap]")
+        .evaluate((el) => Number(/rotateX\(([-\d.]+)deg\)/.exec(el.style.transform)?.[1] ?? 0))
+        .catch(() => null);
+      if (angle !== null) angles.push(angle);
+      await page.waitForTimeout(120);
+    }
+    expect(angles).toEqual([...angles].sort((x, y) => x - y));
+    await expect(page.getByRole("heading", { name: "Hola, Familia García:" })).toBeVisible({
+      timeout: 8000,
+    });
+  });
+
   test("se puede saltar la introducción y al volver la apertura es corta", async ({ page }) => {
     await page.goto("/i/carlos-ruiz");
     await expect(page.getByRole("heading", { name: "María & Daniel", level: 1 })).toBeAttached();

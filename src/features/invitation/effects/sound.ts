@@ -31,15 +31,76 @@ export function subscribeMuted(listener: () => void) {
   return () => listeners.delete(listener);
 }
 
-/** Crea o reanuda el contexto de audio. Llamar dentro del gesto (toque o clic). */
+/** WAV silencioso de 0,1 s generado en memoria (sin archivos). */
+function silentWavUrl() {
+  const samples = 800; // 8 kHz, mono, 16 bits
+  const buffer = new ArrayBuffer(44 + samples * 2);
+  const view = new DataView(buffer);
+  const text = (offset: number, value: string) =>
+    [...value].forEach((c, i) => view.setUint8(offset + i, c.charCodeAt(0)));
+  text(0, "RIFF");
+  view.setUint32(4, 36 + samples * 2, true);
+  text(8, "WAVEfmt ");
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true);
+  view.setUint16(22, 1, true);
+  view.setUint32(24, 8000, true);
+  view.setUint32(28, 16000, true);
+  view.setUint16(32, 2, true);
+  view.setUint16(34, 16, true);
+  text(36, "data");
+  view.setUint32(40, samples * 2, true);
+  return URL.createObjectURL(new Blob([buffer], { type: "audio/wav" }));
+}
+
+let sessionPrimed = false;
+
+/**
+ * En iPhone, Web Audio calla si el interruptor de silencio está activado, salvo que la sesión
+ * de audio sea de «reproducción». Safari 17+ lo permite directamente; en versiones anteriores,
+ * reproducir un <audio> (aunque sea silencio) dentro del gesto cambia la sesión.
+ */
+function primeAudioSession() {
+  if (sessionPrimed) return;
+  sessionPrimed = true;
+  const session = (navigator as unknown as { audioSession?: { type: string } }).audioSession;
+  if (session) {
+    try {
+      session.type = "playback";
+    } catch {
+      // Sin API de sesión: queda el truco del <audio>.
+    }
+  }
+  try {
+    const element = new Audio(silentWavUrl());
+    element.setAttribute("playsinline", "");
+    void element.play().catch(() => {});
+  } catch {
+    // Sin <audio>: no hay nada más que hacer.
+  }
+}
+
+/**
+ * Crea o reanuda el contexto de audio. Llamar dentro de un gesto: en iOS solo cuentan el clic y
+ * el final del toque (pointerup), no el inicio.
+ */
 export function unlockAudio() {
   if (isMuted() || typeof window === "undefined") return;
   const Ctor =
     window.AudioContext ??
     (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
   if (!Ctor) return;
-  context ??= new Ctor();
-  if (context.state === "suspended") void context.resume();
+  primeAudioSession();
+  if (!context) {
+    context = new Ctor();
+    // iOS suspende el contexto al salir de la pestaña: se reanuda al volver.
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible" && context?.state !== "running") {
+        void context?.resume();
+      }
+    });
+  }
+  if (context.state !== "running") void context.resume();
 }
 
 /** El contexto ya desbloqueado por un gesto (o null si aún no hay, o está en silencio). */
