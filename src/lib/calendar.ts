@@ -73,3 +73,34 @@ export function weekdayInitials(locale = "es-ES"): string[] {
   // 2024-01-01 fue lunes.
   return Array.from({ length: 7 }, (_, i) => fmt.format(new Date(Date.UTC(2024, 0, 1 + i))));
 }
+
+export interface MonthPage {
+  year: number;
+  /** 1–12 */
+  month: number;
+}
+
+/**
+ * Hojas del taco que caen antes de llegar al mes de la boda: desde el mes actual hasta el
+ * anterior al evento. Si hay muchas, solo las `max` últimas (las primeras pasarían demasiado
+ * rápido para verse).
+ */
+export function pagesUntil(nowIso: string, eventIso: string, max = 8): MonthPage[] {
+  const [y0, m0] = nowIso.slice(0, 7).split("-").map(Number) as [number, number];
+  const [y1, m1] = eventIso.slice(0, 7).split("-").map(Number) as [number, number];
+  const pages: MonthPage[] = [];
+  for (let i = y0 * 12 + m0 - 1; i < y1 * 12 + m1 - 1; i++) {
+    pages.push({ year: Math.floor(i / 12), month: (i % 12) + 1 });
+  }
+  return pages.slice(-max);
+}
+
+/** Días, horas y minutos que faltan (todo a 0 si ya ha pasado). */
+export function countdownParts(targetMs: number, nowMs: number) {
+  const total = Math.max(0, Math.floor((targetMs - nowMs) / 60_000));
+  return {
+    days: Math.floor(total / 1440),
+    hours: Math.floor((total % 1440) / 60),
+    minutes: total % 60,
+  };
+}
