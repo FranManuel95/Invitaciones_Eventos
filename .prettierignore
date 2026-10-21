@@ -4,3 +4,4 @@ package-lock.json
 playwright-report
 test-results
 PROJECT_SPEC.md
+.claude
