@@ -130,8 +130,43 @@
     z-index: -1;
     pointer-events: none;
     border-radius: inherit;
-    opacity: 0.35;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .28 0 0 0 0 .2 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.45;
+    /* Dos capas: fibras sueltas del papel de algodón y un ruido fino de grano. */
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cpath d='M18.4 92.7Q19.4 88.3 28.1 80.3' stroke='#8a7a5e' stroke-opacity='0.11' stroke-width='0.74' fill='none'/%3E%3Cpath d='M160.7 176.3Q154.3 171.7 146.8 161.3' stroke='#6e6450' stroke-opacity='0.08' stroke-width='0.49' fill='none'/%3E%3Cpath d='M168.7 113.6Q177.1 113.7 181.1 114.3' stroke='#6e6450' stroke-opacity='0.10' stroke-width='0.41' fill='none'/%3E%3Cpath d='M139.2 105.3Q136.1 103.2 128.7 96.9' stroke='#6e6450' stroke-opacity='0.14' stroke-width='0.66' fill='none'/%3E%3Cpath d='M147.8 188.2Q151.6 194.2 160.0 202.0' stroke='#6e6450' stroke-opacity='0.11' stroke-width='0.79' fill='none'/%3E%3Cpath d='M124.6 0.2Q132.4 -1.0 137.5 -2.7' stroke='#b3a68c' stroke-opacity='0.10' stroke-width='0.71' fill='none'/%3E%3Cpath d='M218.5 218.8Q226.1 224.2 230.8 225.7' stroke='#8a7a5e' stroke-opacity='0.12' stroke-width='0.36' fill='none'/%3E%3Cpath d='M199.6 70.8Q209.2 65.0 213.4 66.7' stroke='#6e6450' stroke-opacity='0.10' stroke-width='0.58' fill='none'/%3E%3Cpath d='M192.7 116.0Q199.1 112.5 199.2 111.6' stroke='#8a7a5e' stroke-opacity='0.10' stroke-width='0.54' fill='none'/%3E%3Cpath d='M22.1 131.8Q25.6 135.2 32.7 143.0' stroke='#8a7a5e' stroke-opacity='0.13' stroke-width='0.71' fill='none'/%3E%3Cpath d='M77.7 62.7Q84.8 67.0 92.8 74.4' stroke='#8a7a5e' stroke-opacity='0.10' stroke-width='0.56' fill='none'/%3E%3Cpath d='M214.6 39.5Q218.5 32.8 218.8 18.9' stroke='#6e6450' stroke-opacity='0.15' stroke-width='0.76' fill='none'/%3E%3Cpath d='M204.9 26.0Q204.4 31.9 200.3 43.9' stroke='#b3a68c' stroke-opacity='0.08' stroke-width='0.63' fill='none'/%3E%3Cpath d='M174.3 218.0Q172.2 215.9 163.5 208.8' stroke='#8a7a5e' stroke-opacity='0.09' stroke-width='0.41' fill='none'/%3E%3Cpath d='M29.8 193.9Q38.4 197.1 43.0 203.0' stroke='#8a7a5e' stroke-opacity='0.14' stroke-width='0.53' fill='none'/%3E%3Cpath d='M171.7 61.2Q167.2 55.5 162.4 55.2' stroke='#8a7a5e' stroke-opacity='0.16' stroke-width='0.42' fill='none'/%3E%3Cpath d='M229.3 11.2Q229.9 16.0 231.0 26.3' stroke='#b3a68c' stroke-opacity='0.09' stroke-width='0.74' fill='none'/%3E%3Cpath d='M39.1 77.9Q34.1 70.1 28.9 59.7' stroke='#6e6450' stroke-opacity='0.11' stroke-width='0.61' fill='none'/%3E%3Cpath d='M0.6 99.8Q-6.7 95.1 -6.4 87.2' stroke='#b3a68c' stroke-opacity='0.07' stroke-width='0.70' fill='none'/%3E%3Cpath d='M225.4 179.8Q223.3 183.2 223.4 190.6' stroke='#8a7a5e' stroke-opacity='0.09' stroke-width='0.80' fill='none'/%3E%3Cpath d='M132.3 153.5Q130.9 165.7 129.9 171.0' stroke='#6e6450' stroke-opacity='0.13' stroke-width='0.45' fill='none'/%3E%3Cpath d='M193.4 46.7Q193.4 35.0 190.9 30.8' stroke='#8a7a5e' stroke-opacity='0.11' stroke-width='0.68' fill='none'/%3E%3Cpath d='M105.8 229.0Q113.9 229.3 114.3 228.8' stroke='#b3a68c' stroke-opacity='0.15' stroke-width='0.61' fill='none'/%3E%3Cpath d='M154.0 204.4Q154.6 193.2 149.2 188.8' stroke='#b3a68c' stroke-opacity='0.13' stroke-width='0.42' fill='none'/%3E%3Cpath d='M228.1 100.3Q232.4 98.8 237.6 97.1' stroke='#6e6450' stroke-opacity='0.14' stroke-width='0.40' fill='none'/%3E%3Cpath d='M100.1 218.4Q111.7 225.7 116.0 227.7' stroke='#6e6450' stroke-opacity='0.11' stroke-width='0.39' fill='none'/%3E%3Cpath d='M80.1 138.6Q80.5 140.6 87.6 136.0' stroke='#6e6450' stroke-opacity='0.12' stroke-width='0.77' fill='none'/%3E%3Cpath d='M22.5 150.1Q21.5 153.8 22.0 157.9' stroke='#6e6450' stroke-opacity='0.08' stroke-width='0.75' fill='none'/%3E%3Cpath d='M181.8 182.0Q185.3 178.7 186.3 176.4' stroke='#6e6450' stroke-opacity='0.09' stroke-width='0.61' fill='none'/%3E%3Cpath d='M75.5 79.3Q80.6 71.7 90.6 69.3' stroke='#6e6450' stroke-opacity='0.08' stroke-width='0.37' fill='none'/%3E%3Cpath d='M132.4 36.2Q124.3 40.5 117.1 48.8' stroke='#8a7a5e' stroke-opacity='0.13' stroke-width='0.38' fill='none'/%3E%3Cpath d='M75.9 198.0Q71.3 201.1 62.6 198.5' stroke='#8a7a5e' stroke-opacity='0.14' stroke-width='0.67' fill='none'/%3E%3Cpath d='M90.4 181.0Q90.3 173.3 85.0 172.7' stroke='#b3a68c' stroke-opacity='0.12' stroke-width='0.35' fill='none'/%3E%3Cpath d='M91.8 74.4Q103.9 78.7 111.7 83.5' stroke='#b3a68c' stroke-opacity='0.08' stroke-width='0.56' fill='none'/%3E%3Cpath d='M129.6 174.9Q125.6 174.8 114.1 175.6' stroke='#b3a68c' stroke-opacity='0.09' stroke-width='0.46' fill='none'/%3E%3Cpath d='M66.8 103.1Q65.6 108.3 65.7 112.7' stroke='#6e6450' stroke-opacity='0.08' stroke-width='0.42' fill='none'/%3E%3Cpath d='M98.9 77.0Q101.5 75.3 106.5 80.8' stroke='#6e6450' stroke-opacity='0.14' stroke-width='0.49' fill='none'/%3E%3Cpath d='M26.1 34.5Q34.8 36.5 39.4 32.4' stroke='#6e6450' stroke-opacity='0.05' stroke-width='0.77' fill='none'/%3E%3Cpath d='M43.2 10.0Q34.3 12.1 29.3 20.5' stroke='#b3a68c' stroke-opacity='0.11' stroke-width='0.52' fill='none'/%3E%3Cpath d='M39.4 9.4Q36.9 13.8 31.5 16.7' stroke='#b3a68c' stroke-opacity='0.16' stroke-width='0.51' fill='none'/%3E%3Cpath d='M230.6 209.1Q236.1 199.6 235.8 192.5' stroke='#6e6450' stroke-opacity='0.08' stroke-width='0.69' fill='none'/%3E%3Cpath d='M227.7 112.8Q232.4 118.1 236.2 116.9' stroke='#8a7a5e' stroke-opacity='0.06' stroke-width='0.74' fill='none'/%3E%3Cpath d='M76.5 160.2Q83.1 167.2 90.5 171.2' stroke='#b3a68c' stroke-opacity='0.05' stroke-width='0.67' fill='none'/%3E%3Cpath d='M25.1 117.6Q21.5 121.8 23.7 127.3' stroke='#b3a68c' stroke-opacity='0.08' stroke-width='0.63' fill='none'/%3E%3Cpath d='M210.7 17.9Q208.3 13.5 211.2 9.8' stroke='#8a7a5e' stroke-opacity='0.07' stroke-width='0.57' fill='none'/%3E%3Cpath d='M6.8 105.1Q-3.9 100.2 -7.0 96.7' stroke='#b3a68c' stroke-opacity='0.06' stroke-width='0.75' fill='none'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .28 0 0 0 0 .2 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Borde de papel hecho a mano (barbas del papel de algodón). */
+  .deckle {
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000' preserveAspectRatio='none'%3E%3Cpath d='M0 4 14 8 29 7 43 6 57 5 71 1 86 3 100 5 114 8 129 8 143 5 157 2 171 2 186 6 200 8 214 5 229 7 243 5 257 8 271 6 286 8 300 7 314 2 329 0 343 4 357 3 371 6 386 8 400 4 414 4 429 7 443 6 457 1 471 2 486 4 500 3 514 6 529 3 543 1 557 6 571 6 586 9 600 9 614 2 629 8 643 4 657 0 671 3 686 2 700 5 714 0 729 0 743 3 757 2 771 6 786 7 800 4 814 8 829 2 843 3 857 1 871 6 886 1 900 7 914 8 929 2 943 1 957 1 971 4 986 4 1000 0 999 0 996 11 997 22 993 33 998 44 991 56 991 67 994 78 994 89 996 100 998 111 997 122 992 133 991 144 992 156 994 167 1000 178 999 189 995 200 991 211 996 222 991 233 994 244 992 256 993 267 994 278 998 289 999 300 996 311 994 322 999 333 998 344 994 356 1000 367 998 378 991 389 993 400 999 411 992 422 998 433 993 444 1000 456 999 467 996 478 992 489 994 500 995 511 996 522 1000 533 999 544 997 556 994 567 995 578 994 589 996 600 996 611 996 622 999 633 994 644 994 656 996 667 995 678 995 689 999 700 998 711 999 722 998 733 996 744 992 756 997 767 993 778 996 789 997 800 1000 811 999 822 994 833 994 844 995 856 998 867 994 878 998 889 993 900 996 911 999 922 999 933 996 944 997 956 999 967 999 978 995 989 998 1000 1000 993 986 992 971 994 957 1000 943 996 929 997 914 996 900 997 886 992 871 996 857 992 843 994 829 999 814 999 800 996 786 999 771 992 757 995 743 996 729 997 714 994 700 995 686 991 671 992 657 993 643 998 629 991 614 997 600 995 586 991 571 996 557 996 543 993 529 991 514 992 500 994 486 997 471 999 457 997 443 997 429 991 414 1000 400 998 386 996 371 993 357 991 343 997 329 1000 314 993 300 996 286 995 271 995 257 993 243 999 229 999 214 999 200 996 186 995 171 1000 157 991 143 997 129 992 114 991 100 994 86 992 71 1000 57 993 43 994 29 993 14 993 0 997 4 1000 6 989 4 978 4 967 8 956 0 944 5 933 8 922 5 911 4 900 6 889 5 878 9 867 7 856 4 844 1 833 3 822 6 811 4 800 7 789 0 778 1 767 5 756 8 744 3 733 8 722 0 711 1 700 6 689 9 678 5 667 2 656 4 644 3 633 2 622 0 611 6 600 1 589 0 578 4 567 9 556 2 544 3 533 1 522 5 511 1 500 3 489 8 478 0 467 5 456 2 444 4 433 7 422 0 411 5 400 8 389 9 378 4 367 2 356 8 344 4 333 1 322 6 311 2 300 7 289 3 278 3 267 4 256 4 244 8 233 6 222 4 211 6 200 5 189 8 178 5 167 4 156 2 144 7 133 8 122 0 111 4 100 0 89 5 78 0 67 1 56 7 44 2 33 3 22 3 11 9 0Z'/%3E%3C/svg%3E")
+      center / 100% 100% no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000' preserveAspectRatio='none'%3E%3Cpath d='M0 4 14 8 29 7 43 6 57 5 71 1 86 3 100 5 114 8 129 8 143 5 157 2 171 2 186 6 200 8 214 5 229 7 243 5 257 8 271 6 286 8 300 7 314 2 329 0 343 4 357 3 371 6 386 8 400 4 414 4 429 7 443 6 457 1 471 2 486 4 500 3 514 6 529 3 543 1 557 6 571 6 586 9 600 9 614 2 629 8 643 4 657 0 671 3 686 2 700 5 714 0 729 0 743 3 757 2 771 6 786 7 800 4 814 8 829 2 843 3 857 1 871 6 886 1 900 7 914 8 929 2 943 1 957 1 971 4 986 4 1000 0 999 0 996 11 997 22 993 33 998 44 991 56 991 67 994 78 994 89 996 100 998 111 997 122 992 133 991 144 992 156 994 167 1000 178 999 189 995 200 991 211 996 222 991 233 994 244 992 256 993 267 994 278 998 289 999 300 996 311 994 322 999 333 998 344 994 356 1000 367 998 378 991 389 993 400 999 411 992 422 998 433 993 444 1000 456 999 467 996 478 992 489 994 500 995 511 996 522 1000 533 999 544 997 556 994 567 995 578 994 589 996 600 996 611 996 622 999 633 994 644 994 656 996 667 995 678 995 689 999 700 998 711 999 722 998 733 996 744 992 756 997 767 993 778 996 789 997 800 1000 811 999 822 994 833 994 844 995 856 998 867 994 878 998 889 993 900 996 911 999 922 999 933 996 944 997 956 999 967 999 978 995 989 998 1000 1000 993 986 992 971 994 957 1000 943 996 929 997 914 996 900 997 886 992 871 996 857 992 843 994 829 999 814 999 800 996 786 999 771 992 757 995 743 996 729 997 714 994 700 995 686 991 671 992 657 993 643 998 629 991 614 997 600 995 586 991 571 996 557 996 543 993 529 991 514 992 500 994 486 997 471 999 457 997 443 997 429 991 414 1000 400 998 386 996 371 993 357 991 343 997 329 1000 314 993 300 996 286 995 271 995 257 993 243 999 229 999 214 999 200 996 186 995 171 1000 157 991 143 997 129 992 114 991 100 994 86 992 71 1000 57 993 43 994 29 993 14 993 0 997 4 1000 6 989 4 978 4 967 8 956 0 944 5 933 8 922 5 911 4 900 6 889 5 878 9 867 7 856 4 844 1 833 3 822 6 811 4 800 7 789 0 778 1 767 5 756 8 744 3 733 8 722 0 711 1 700 6 689 9 678 5 667 2 656 4 644 3 633 2 622 0 611 6 600 1 589 0 578 4 567 9 556 2 544 3 533 1 522 5 511 1 500 3 489 8 478 0 467 5 456 2 444 4 433 7 422 0 411 5 400 8 389 9 378 4 367 2 356 8 344 4 333 1 322 6 311 2 300 7 289 3 278 3 267 4 256 4 244 8 233 6 222 4 211 6 200 5 189 8 178 5 167 4 156 2 144 7 133 8 122 0 111 4 100 0 89 5 78 0 67 1 56 7 44 2 33 3 22 3 11 9 0Z'/%3E%3C/svg%3E")
+      center / 100% 100% no-repeat;
+  }
+
+  /* Impresión en relieve: luz por arriba, el texto parece hundido en el papel. */
+  .letterpress {
+    text-shadow:
+      0 1px 0 rgb(255 255 255 / 0.7),
+      0 -1px 0 rgb(35 39 30 / 0.12);
+  }
+
+  /* Oro en lámina: el brillo se desplaza con la inclinación (variable --sheen, 0–100). */
+  .foil-text {
+    background-image: linear-gradient(
+      105deg,
+      #8f6f33 0%,
+      #c9a65d 30%,
+      #f6e7b6 calc(var(--sheen, 50) * 1%),
+      #c9a65d 70%,
+      #8f6f33 100%
+    );
+    background-size: 220% 100%;
+    background-position: calc(var(--sheen, 50) * 1%) 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   .sr-only-focusable:not(:focus):not(:focus-within) {
@@ -151,6 +186,107 @@
   }
   50% {
     transform: translateY(-6px) rotate(0.4deg);
+  }
+}
+
+/* Pétalos de flor de almendro: caen una sola vez cuando aparece la carta. */
+@keyframes petal-fall {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate3d(var(--drift), 110vh, 0) rotate(var(--spin));
+    opacity: 0.9;
+  }
+}
+
+.petal {
+  animation: petal-fall var(--fall) cubic-bezier(0.3, 0.1, 0.4, 1) var(--delay) 1 both;
+}
+
+/* Continuidad entre pantallas (React <ViewTransition>): morfología del papel. */
+::view-transition-group(.paper-morph) {
+  animation-duration: 650ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-image-pair(.paper-morph) {
+  isolation: isolate;
+}
+
+::view-transition-old(.paper-morph),
+::view-transition-new(.paper-morph) {
+  animation-duration: 650ms;
+  mix-blend-mode: normal;
+  height: 100%;
+  object-fit: cover;
+}
+
+::view-transition-old(.fade-out) {
+  animation: 300ms ease-out both vt-fade reverse;
+}
+
+::view-transition-new(.fade-in) {
+  animation: 420ms ease-out 80ms both vt-fade;
+}
+
+::view-transition-old(.step-forward) {
+  animation: 260ms ease-in both vt-step-out-left;
+}
+::view-transition-new(.step-forward) {
+  animation: 320ms cubic-bezier(0.22, 1, 0.36, 1) both vt-step-in-right;
+}
+::view-transition-old(.step-back) {
+  animation: 260ms ease-in both vt-step-out-right;
+}
+::view-transition-new(.step-back) {
+  animation: 320ms cubic-bezier(0.22, 1, 0.36, 1) both vt-step-in-left;
+}
+
+@keyframes vt-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes vt-step-out-left {
+  to {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+}
+@keyframes vt-step-out-right {
+  to {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+@keyframes vt-step-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+@keyframes vt-step-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+
+  .petal {
+    display: none;
   }
 }
 

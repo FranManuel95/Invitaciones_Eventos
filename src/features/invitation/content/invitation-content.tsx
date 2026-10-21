@@ -2,8 +2,7 @@
 
 import { clsx } from "clsx";
 import { RotateCcw } from "lucide-react";
-import { m } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, ViewTransition } from "react";
 import { DemoBadge } from "@/components/demo-badge";
 import { buttonClasses } from "@/components/ui/button";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
@@ -11,9 +10,11 @@ import { formatWeekdayDate, isoDay } from "@/lib/format";
 import { AlmondBranch, Monogram } from "../ornaments";
 import { RsvpSection } from "../rsvp/rsvp-section";
 import { DaysLeft } from "./countdown";
+import { SaveTheDate } from "./save-the-date";
 import { PracticalSection, ProgramSection, TransportSection, VenuesSection } from "./sections";
 
 const NAV = [
+  { id: "fecha", label: "La fecha" },
   { id: "programa", label: "El día" },
   { id: "lugares", label: "Dónde" },
   { id: "transporte", label: "Cómo llegar" },
@@ -41,19 +42,21 @@ function useActiveSection(ids: string[]) {
   return active;
 }
 
+export interface InvitationContentProps {
+  event: WeddingEvent;
+  group: GuestGroup;
+  onReplay: () => void;
+  /** Si llega desde la introducción, enfoca el título (se carga aparte, tras la carta). */
+  focusOnMount: boolean;
+}
+
 /** Pantallas 4 a 7 · La invitación completa con secciones y RSVP. */
 export function InvitationContent({
   event,
   group,
   onReplay,
   focusOnMount,
-}: {
-  event: WeddingEvent;
-  group: GuestGroup;
-  onReplay: () => void;
-  /** Si llega desde la introducción, enfoca el título (se carga aparte, tras la carta). */
-  focusOnMount: boolean;
-}) {
+}: InvitationContentProps) {
   const active = useActiveSection(NAV_IDS);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
@@ -76,12 +79,7 @@ export function InvitationContent({
   }, [active]);
 
   return (
-    <m.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
-      className="bg-ivory"
-    >
+    <div className="bg-ivory">
       <a
         href="#confirmar"
         className="sr-only-focusable fixed top-2 left-2 z-50 rounded-md bg-ink px-4 py-2 text-sm text-paper"
@@ -89,53 +87,67 @@ export function InvitationContent({
         Ir a confirmar asistencia
       </a>
 
-      <header className="paper-grain relative overflow-hidden bg-paper">
-        <div className="mx-auto max-w-5xl px-6 pt-[max(1.25rem,env(safe-area-inset-top))] pb-16 sm:px-10 sm:pb-24">
-          <div className="flex items-center justify-between">
-            <Monogram
-              first={event.couple.first}
-              second={event.couple.second}
-              className="size-11 text-gold"
-            />
-            <DemoBadge />
-          </div>
-
-          <h1
-            id="content-title"
-            ref={titleRef}
-            tabIndex={-1}
-            translate="no"
-            className="mt-16 font-display text-[clamp(4rem,19vw,10rem)] leading-[0.86] tracking-[-0.02em] text-ink outline-none sm:mt-24"
-          >
-            {event.couple.first}
-            <span className="block pl-[0.6em]">&amp; {event.couple.second}</span>
-          </h1>
-
-          <div className="mt-10 grid gap-8 sm:mt-14 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
-            <div>
-              <p className="font-display text-[1.5rem] leading-snug text-ink sm:text-[1.75rem]">
-                <time dateTime={isoDay(event.date)} className="inline-block first-letter:uppercase">
-                  {formatWeekdayDate(event.date)}
-                </time>
-                <br />
-                <span className="text-ink-soft italic">
-                  {event.city}, {event.region}
-                </span>
-              </p>
-              <DaysLeft date={event.date} className="mt-3 text-[0.9375rem] text-muted" />
+      {/* La carta de la pantalla anterior se transforma en esta cabecera de papel. */}
+      <ViewTransition name="carta" share="paper-morph">
+        <header className="paper-grain relative overflow-hidden bg-paper">
+          <div className="mx-auto max-w-5xl px-6 pt-[max(1.25rem,env(safe-area-inset-top))] pb-16 sm:px-10 sm:pb-24">
+            <div className="flex items-center justify-between">
+              <Monogram
+                first={event.couple.first}
+                second={event.couple.second}
+                className="size-11 text-gold"
+              />
+              <DemoBadge />
             </div>
-            <div className="flex flex-wrap gap-3">
-              <a href="#confirmar" className={buttonClasses("primary", "lg")}>
-                Confirmar asistencia
-              </a>
-              <a href="#programa" className={buttonClasses("secondary", "lg")}>
-                Ver el programa
-              </a>
+
+            <h1
+              id="content-title"
+              ref={titleRef}
+              tabIndex={-1}
+              translate="no"
+              className="mt-16 font-display text-[clamp(4rem,19vw,10rem)] leading-[0.86] tracking-[-0.02em] text-ink outline-none sm:mt-24"
+            >
+              {event.couple.first}
+              <span className="block pl-[0.6em]">&amp; {event.couple.second}</span>
+            </h1>
+
+            <div className="mt-10 grid gap-8 sm:mt-14 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+              <div>
+                <p className="font-display text-[1.5rem] leading-snug text-ink sm:text-[1.75rem]">
+                  <time
+                    dateTime={isoDay(event.date)}
+                    className="inline-block first-letter:uppercase"
+                  >
+                    {formatWeekdayDate(event.date)}
+                  </time>
+                  <br />
+                  <span className="text-ink-soft italic">
+                    {event.city}, {event.region}
+                  </span>
+                </p>
+                <div className="mt-3 flex flex-wrap items-baseline gap-x-5 gap-y-1 text-[0.9375rem]">
+                  <DaysLeft date={event.date} className="text-muted" />
+                  <a
+                    href="#fecha"
+                    className="text-ink underline decoration-gold underline-offset-4 hover:decoration-ink"
+                  >
+                    Añadir al calendario
+                  </a>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <a href="#confirmar" className={buttonClasses("primary", "lg")}>
+                  Confirmar asistencia
+                </a>
+                <a href="#programa" className={buttonClasses("secondary", "lg")}>
+                  Ver el programa
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-        <AlmondBranch className="pointer-events-none absolute -right-6 bottom-6 w-40 rotate-[-12deg] opacity-80 sm:right-[6%] sm:w-56" />
-      </header>
+          <AlmondBranch className="pointer-events-none absolute -right-6 bottom-6 w-40 rotate-[-12deg] opacity-80 sm:right-[6%] sm:w-56" />
+        </header>
+      </ViewTransition>
 
       <nav
         aria-label="Secciones de la invitación"
@@ -171,6 +183,7 @@ export function InvitationContent({
           </p>
         </section>
 
+        <SaveTheDate event={event} />
         <ProgramSection event={event} />
         <VenuesSection event={event} />
         <TransportSection event={event} />
@@ -201,6 +214,6 @@ export function InvitationContent({
           respuestas solo se guardan en este navegador.
         </p>
       </footer>
-    </m.div>
+    </div>
   );
 }
