@@ -162,7 +162,7 @@ export function InvitationExperience({
             </div>
           ) : null}
 
-          {intro ? (
+          {intro && !group.persisted ? (
             <div className="fixed top-[max(1rem,env(safe-area-inset-top))] left-4 z-50">
               <DemoBadge tone={onDark ? "dark" : "light"} />
             </div>

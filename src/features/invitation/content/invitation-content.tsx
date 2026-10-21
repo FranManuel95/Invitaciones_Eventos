@@ -117,7 +117,7 @@ export function InvitationContent({
                 second={event.couple.second}
                 className="size-11 text-gold"
               />
-              <DemoBadge />
+              {group.persisted ? null : <DemoBadge />}
             </div>
 
             <h1
