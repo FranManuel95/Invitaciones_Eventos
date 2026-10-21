@@ -5,9 +5,10 @@ Invitaciones digitales premium para bodas y eventos, con su panel de organizaci�
 - **Invitado** (`/i/[token]`): portada cinematográfica, sobre con apertura 3D interactiva y sello de
   lacre, carta personalizada, programa, lugares, transporte, información práctica y confirmación de
   asistencia por pasos (acompañantes, autobús, menús, alergias, canción y mensaje).
-- **Editor** (`/editor/[evento]`): la pareja elige estilo, sobre, lacre y calendario, cambia textos,
-  programa, lugares, autobuses, menús y fotos, oculta secciones y ve la invitación en vivo en un
-  móvil antes de publicarla.
+- **Editor** (`/editor/[evento]`): la pareja parte de una de las ocho plantillas y ajusta cada
+  detalle: paleta y color propio, tipografía, sobre (papel, solapa, gramaje, textura, forro y
+  lacre), composición de la carta, calendario y orden de las secciones. Cambia textos, programa,
+  lugares, autobuses, menús y fotos, y ve la invitación en vivo en un móvil antes de publicarla.
 - **Panel** (`/panel/[evento]`): resumen, invitaciones con enlace, WhatsApp y QR, lista de
   invitados, transporte, menús, plano de mesas, recordatorios, tareas, presupuesto, agenda y ajustes.
 
@@ -64,6 +65,7 @@ que se deshace).
 | `/`                                                                       | Portada de la demo: invitaciones de ejemplo, estilos y accesos      |
 | `/i/familia-garcia`                                                       | Familia con una niña y una plaza libre para acompañante             |
 | `/i/familia-garcia?estilo=noche&sobre=kraft&lacre=oro&calendario=minimal` | La misma invitación con otro tema                                   |
+| `/i/familia-garcia?plantilla=esmeralda`                                   | La misma invitación con una plantilla (ocho en la portada)          |
 | `/i/carlos-ruiz?dia=boda&hora=19:10`                                      | Modo «día de la boda»: acto actual, siguiente y autobuses de vuelta |
 | `/i/prueba-error`                                                         | Simula un fallo de red al confirmar la primera vez                  |
 | `/i/plazo-cerrado`                                                        | Plazo de confirmación cerrado                                       |
@@ -114,7 +116,7 @@ src/
   lib/
     data/repository.ts      Punto único de datos (demo o Supabase)
     supabase/               Clientes de servidor y navegador
-    theme/                  Estilos, sobres, lacres, calendarios, secciones y contraste
+    theme/                  Plantillas, paletas, letras, sobre, carta, calendarios y contraste
     editor/, events/        Borrador del editor y fechas en Europe/Madrid
     guests/, seating.ts     CSV, envío y mesas (funciones puras)
     planning/               Tareas sugeridas, presupuesto y agenda (funciones puras)

@@ -40,10 +40,9 @@ test.describe("editor de la invitación", () => {
     const preview = page.frameLocator('iframe[title="Vista previa de la invitación"]');
     await page.getByRole("tab", { name: "Tipografía" }).click();
     await page.getByRole("radio", { name: /Caligráfica/ }).check({ force: true });
-    const family = await preview
-      .locator("#cover-title")
-      .evaluate((el) => getComputedStyle(el).fontFamily);
-    expect(family).toMatch(/Great Vibes/i);
+    await expect
+      .poll(() => preview.locator("#cover-title").evaluate((el) => getComputedStyle(el).fontFamily))
+      .toMatch(/Great Vibes/i);
   });
 
   test("el sobre a medida se ve en la vista previa", async ({ page, isMobile }) => {
@@ -74,6 +73,24 @@ test.describe("editor de la invitación", () => {
     await expect(preview.locator("#letter-title")).toHaveText(/Hola,/);
     await page.getByRole("radio", { name: /Con foto/ }).check({ force: true });
     await expect(preview.locator("[data-layout='foto'] img")).toBeAttached();
+  });
+
+  test("reordenar secciones cambia la invitación", async ({ page }) => {
+    await page.goto("/editor/demo");
+    const preview = page.frameLocator('iframe[title="Vista previa de la invitación"]');
+    await expect(preview.locator("#cover-title")).toBeAttached();
+    await page.getByRole("tab", { name: "Secciones y música" }).click();
+    await expect(preview.locator("#fecha")).toBeAttached();
+    for (let i = 0; i < 6; i++) {
+      await page.getByRole("button", { name: "Subir «Regalo»" }).click();
+    }
+    await expect(page.getByRole("button", { name: "Subir «Regalo»" })).toBeDisabled();
+    // La vista previa recibe el borrador con un pequeño retardo.
+    await expect
+      .poll(() =>
+        preview.locator("main > section[id]").evaluateAll((els) => els.map((el) => el.id)[0]),
+      )
+      .toBe("regalo");
   });
 
   test("salta a la pantalla elegida", async ({ page, isMobile }) => {

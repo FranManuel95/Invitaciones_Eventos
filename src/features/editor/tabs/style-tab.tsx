@@ -1,6 +1,7 @@
 "use client";
 
 import { clsx } from "clsx";
+import { ArrowDown, ArrowUp } from "lucide-react";
 import {
   useId,
   useRef,
@@ -43,7 +44,6 @@ import {
   SEAL_MARKS,
   SEAL_SHAPE_IDS,
   SEAL_SHAPES,
-  SECTION_IDS,
   SECTIONS,
   STYLE_IDS,
   STYLES,
@@ -57,6 +57,7 @@ import {
   waxHex,
   WEIGHT_IDS,
   WEIGHTS,
+  type SectionId,
   type Theme,
 } from "@/lib/theme";
 
@@ -690,33 +691,67 @@ function CalendarPart() {
   );
 }
 
-/** Qué secciones se ven en la invitación y si suena música al abrir el sobre. */
+/** Qué secciones se ven, en qué orden, y si suena música al abrir el sobre. */
 function SectionsPart() {
   const { draft, setTheme } = useEditor();
+  const { order } = draft.theme;
   const hidden = new Set(draft.theme.hidden);
+  const toggle = (id: SectionId, visible: boolean) =>
+    setTheme({
+      ...draft.theme,
+      hidden: order.filter((s) => (s === id ? !visible : hidden.has(s))),
+    });
+  const move = (index: number, delta: number) => {
+    const next = [...order];
+    const [item] = next.splice(index, 1);
+    next.splice(index + delta, 0, item!);
+    setTheme({ ...draft.theme, order: next });
+  };
   return (
     <>
       <Group
         title="Secciones"
-        description="Quita las que no necesitéis. La confirmación de asistencia siempre se ve."
+        description="Quita las que no necesitéis y ordenadlas a vuestro gusto. La confirmación de asistencia siempre se ve, al final."
       >
-        <div className="grid gap-3 sm:grid-cols-2">
-          {SECTION_IDS.map((id) => (
-            <ChoiceCard
-              key={id}
-              type="checkbox"
-              label={SECTIONS[id]}
-              checked={!hidden.has(id)}
-              onChange={(e) =>
-                setTheme({
-                  ...draft.theme,
-                  // Se guarda en el orden de la invitación.
-                  hidden: SECTION_IDS.filter((s) => (s === id ? !e.target.checked : hidden.has(s))),
-                })
-              }
-            />
+        <ol className="grid gap-2">
+          {order.map((id, i) => (
+            <li key={id} className="flex items-center gap-2">
+              <span
+                aria-hidden
+                className="w-5 shrink-0 text-right text-[0.8125rem] text-muted tabular-nums"
+              >
+                {i + 1}
+              </span>
+              <ChoiceCard
+                type="checkbox"
+                className="flex-1 !py-2.5"
+                label={SECTIONS[id]}
+                checked={!hidden.has(id)}
+                onChange={(e) => toggle(id, e.target.checked)}
+              />
+              <div className="flex shrink-0 gap-1">
+                <button
+                  type="button"
+                  aria-label={`Subir «${SECTIONS[id]}»`}
+                  disabled={i === 0}
+                  onClick={() => move(i, -1)}
+                  className="grid size-9 place-items-center rounded-md border border-line bg-paper text-ink-soft hover:border-ink/40 disabled:opacity-35"
+                >
+                  <ArrowUp aria-hidden className="size-4" />
+                </button>
+                <button
+                  type="button"
+                  aria-label={`Bajar «${SECTIONS[id]}»`}
+                  disabled={i === order.length - 1}
+                  onClick={() => move(i, 1)}
+                  className="grid size-9 place-items-center rounded-md border border-line bg-paper text-ink-soft hover:border-ink/40 disabled:opacity-35"
+                >
+                  <ArrowDown aria-hidden className="size-4" />
+                </button>
+              </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </Group>
       <Group title="Música">
         <ChoiceCard

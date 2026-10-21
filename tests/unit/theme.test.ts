@@ -5,7 +5,9 @@ import {
   contrast,
   DEFAULT_THEME,
   mix,
+  normalizeOrder,
   parseTheme,
+  SECTION_IDS,
   STYLE_IDS,
   STYLES,
   TEMPLATE_IDS,
@@ -59,6 +61,18 @@ describe("tema", () => {
       ornament: "almendro",
     });
     expect(parseTheme({ layout: "revista" }).layout).toBe("clasica");
+  });
+
+  it("el orden de las secciones se completa y no admite repetidas", () => {
+    expect(normalizeOrder(["regalo", "fecha", "regalo", "nada"])).toEqual([
+      "regalo",
+      "fecha",
+      ...SECTION_IDS.filter((id) => id !== "regalo" && id !== "fecha"),
+    ]);
+    expect(parseTheme({}).order).toEqual([...SECTION_IDS]);
+    expect(parseTheme({ order: "mal" }).order).toEqual([...SECTION_IDS]);
+    const twice = [...SECTION_IDS.slice(0, -1), SECTION_IDS[0]];
+    expect(themeInputSchema.safeParse({ ...DEFAULT_THEME, order: twice }).success).toBe(false);
   });
 
   it("acepta un color propio válido y descarta el que no lo es", () => {

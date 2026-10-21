@@ -2,7 +2,7 @@
 
 import { CalendarPlus } from "lucide-react";
 import { m, useInView, useReducedMotion } from "motion/react";
-import { useRef, useState, type MouseEvent } from "react";
+import { useRef, useState, type MouseEvent, type RefObject } from "react";
 import { buttonClasses } from "@/components/ui/button";
 import {
   buildIcs,
@@ -39,11 +39,19 @@ function pageDelays(count: number) {
   return { delays, end: t + 0.35 };
 }
 
+/** Corazón a mano alzada alrededor del día (como el círculo, no cierra del todo). */
+const HEART =
+  "M30 41C18 33 6 25 7 14C8 6 17 3 23 8C26 10 28 13 30 16C32 12 35 8 40 6C47 3 55 8 54 17C53 27 42 34 30 41";
+const RING = "M38 6C22 2 6 9 5 22C4 34 18 41 32 39C47 37 57 28 55 17C53 8 42 4 30 6";
+
 /**
- * «Guarda la fecha». Dos variantes según el tema:
+ * «Guarda la fecha». Variantes según el tema:
  * - taco: al llegar, las hojas de los meses que faltan caen una tras otra hasta descubrir el mes
  *   de la boda, y entonces se rodea el día a mano;
- * - minimal: una sola hoja limpia en la que el día se marca con un círculo de color.
+ * - minimal: una sola hoja limpia en la que el día se marca con un círculo de color;
+ * - mano y corazón: la hoja del mes con el día rodeado a pluma (un círculo o un corazón);
+ * - semana: solo la semana de la boda, con el día en grande;
+ * - póster: el número del día enorme, como un cartel tipográfico.
  */
 export function SaveTheDate({
   event,
@@ -53,6 +61,8 @@ export function SaveTheDate({
   variant?: CalendarId;
 }) {
   const isPad = variant === "taco";
+  // Cómo se marca el día en las variantes de hoja mensual.
+  const marker = variant === "minimal" ? "fill" : variant === "corazon" ? "heart" : "ring";
   const day = isoDay(event.date);
   const weeks = monthGrid(day);
   const initials = weekdayInitials();
@@ -86,147 +96,155 @@ export function SaveTheDate({
   return (
     <Section id="fecha" title="Guarda la fecha" aside={formatWeekdayDate(event.date)}>
       <div className="grid gap-10 sm:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] sm:items-center">
-        <figure
-          ref={pad}
-          data-calendar={variant}
-          className={
-            isPad
-              ? "paper-grain relative rounded-[2px] border border-line bg-paper px-5 pt-8 pb-6 shadow-[var(--shadow-paper)] [perspective:1100px]"
-              : "relative rounded-[2px] border border-line bg-paper px-6 pt-6 pb-5"
-          }
-        >
-          {/* Encuadernación del taco: una tira con los agujeros de la espiral. */}
-          {isPad ? (
-            <div
-              aria-hidden
-              className="absolute inset-x-0 top-0 z-40 flex h-4 items-center justify-around rounded-t-[2px] bg-ink/85 px-6"
-            >
-              {Array.from({ length: 9 }, (_, i) => (
-                <span key={i} className="size-1.5 rounded-full bg-ivory/90" />
-              ))}
-            </div>
-          ) : null}
-          {pages.map((page, i) => (
-            <m.div
-              key={`${page.year}-${page.month}`}
-              aria-hidden
-              className="paper-grain absolute inset-x-0 top-4 bottom-0 grid place-items-center bg-paper shadow-[0_1px_0_var(--color-line),0_10px_18px_-12px_rgb(0_0_0/0.25)]"
-              style={{ zIndex: 30 - i, transformOrigin: "50% 0%" }}
-              initial={{ rotateX: 0, y: 0, rotateZ: 0, opacity: 1 }}
-              animate={
-                inView
-                  ? { rotateX: -110, y: -12, rotateZ: i % 2 ? 3 : -4, opacity: [1, 1, 0] }
-                  : undefined
-              }
-              // La hoja se levanta entera por encima de la espiral y solo se desvanece al final.
-              transition={{
-                duration: 0.62,
-                delay: delays[i],
-                ease: [0.5, 0, 0.6, 1],
-                opacity: { duration: 0.62, delay: delays[i], times: [0, 0.7, 1] },
-              }}
-            >
-              <span className="text-center">
-                <span className="block font-display text-[2.75rem] leading-none text-ink italic first-letter:uppercase">
-                  {pageName(page)}
-                </span>
-                <span className="mt-2 block font-display text-xl text-ink-soft">{page.year}</span>
-              </span>
-            </m.div>
-          ))}
-          {isPad ? (
-            <figcaption className="flex items-baseline justify-between border-b border-ink/20 pb-3">
-              <span className="font-display text-[2.25rem] leading-none text-ink italic first-letter:uppercase">
-                {monthName(event.date)}
-              </span>
-              <span className="font-display text-xl text-ink-soft">{day.slice(0, 4)}</span>
-            </figcaption>
-          ) : (
-            <figcaption className="text-center text-[0.8125rem] tracking-[0.3em] text-ink-soft uppercase">
-              {monthName(event.date)} · {day.slice(0, 4)}
-            </figcaption>
-          )}
-          <table className="mt-3 w-full table-fixed text-center">
-            <caption className="sr-only">
-              Calendario de {monthName(event.date)} con el día de la boda marcado
-            </caption>
-            <thead>
-              <tr>
-                {initials.map((d, i) => (
-                  <th
-                    key={i}
-                    scope="col"
-                    className="pb-2 text-[0.75rem] font-medium text-muted uppercase"
-                  >
-                    {d}
-                  </th>
+        {variant === "semana" ? (
+          <WeekStrip day={day} inView={inView} dayRef={dayRef} figureRef={pad} />
+        ) : variant === "poster" ? (
+          <Poster event={event} day={day} inView={inView} dayRef={dayRef} figureRef={pad} />
+        ) : (
+          <figure
+            ref={pad}
+            data-calendar={variant}
+            className={
+              isPad
+                ? "paper-grain relative rounded-[2px] border border-line bg-paper px-5 pt-8 pb-6 shadow-[var(--shadow-paper)] [perspective:1100px]"
+                : variant === "minimal"
+                  ? "relative rounded-[2px] border border-line bg-paper px-6 pt-6 pb-5"
+                  : "paper-grain relative rounded-[2px] border border-line bg-paper px-5 pt-6 pb-6 shadow-[var(--shadow-paper)]"
+            }
+          >
+            {/* Encuadernación del taco: una tira con los agujeros de la espiral. */}
+            {isPad ? (
+              <div
+                aria-hidden
+                className="absolute inset-x-0 top-0 z-40 flex h-4 items-center justify-around rounded-t-[2px] bg-ink/85 px-6"
+              >
+                {Array.from({ length: 9 }, (_, i) => (
+                  <span key={i} className="size-1.5 rounded-full bg-ivory/90" />
                 ))}
-              </tr>
-            </thead>
-            <tbody>
-              {weeks.map((week, w) => (
-                <tr key={w}>
-                  {week.map((cell, i) => {
-                    const isDay = cell.iso === day;
-                    return (
-                      <td key={i} className="relative h-10 text-[0.9375rem] tabular-nums">
-                        {cell.day ? (
-                          <span
-                            ref={isDay ? dayRef : undefined}
-                            className={
-                              isDay && !isPad
-                                ? "relative z-10 font-display text-xl text-paper"
-                                : isDay
-                                  ? "relative z-10 font-display text-xl text-wax"
-                                  : i >= 5
-                                    ? "text-ink-soft"
-                                    : "text-ink"
-                            }
-                          >
-                            {cell.day}
-                            {isDay ? <span className="sr-only"> (día de la boda)</span> : null}
-                          </span>
-                        ) : null}
-                        {isDay && !isPad ? (
-                          <m.span
-                            aria-hidden
-                            className="absolute top-1/2 left-1/2 size-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-wax"
-                            initial={{ scale: 0.4, opacity: 0 }}
-                            animate={inView ? { scale: 1, opacity: 1 } : undefined}
-                            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
-                          />
-                        ) : null}
-                        {isDay && isPad ? (
-                          <svg
-                            aria-hidden
-                            viewBox="0 0 60 44"
-                            className="pointer-events-none absolute top-1/2 left-1/2 h-12 w-16 -translate-x-1/2 -translate-y-1/2 overflow-visible"
-                          >
-                            {/* Trazo a mano alzada: no cierra del todo y se pasa un poco. */}
-                            <m.path
-                              d="M38 6C22 2 6 9 5 22C4 34 18 41 32 39C47 37 57 28 55 17C53 8 42 4 30 6"
-                              fill="none"
-                              stroke="var(--color-wax)"
-                              strokeWidth="1.6"
-                              strokeLinecap="round"
-                              initial={{ pathLength: 0, opacity: 0 }}
-                              animate={inView ? { pathLength: 1, opacity: 1 } : undefined}
-                              transition={{
-                                duration: 1.1,
-                                ease: [0.45, 0.05, 0.2, 1],
-                                delay: pages.length ? end : 0.3,
-                              }}
-                            />
-                          </svg>
-                        ) : null}
-                      </td>
-                    );
-                  })}
+              </div>
+            ) : null}
+            {pages.map((page, i) => (
+              <m.div
+                key={`${page.year}-${page.month}`}
+                aria-hidden
+                className="paper-grain absolute inset-x-0 top-4 bottom-0 grid place-items-center bg-paper shadow-[0_1px_0_var(--color-line),0_10px_18px_-12px_rgb(0_0_0/0.25)]"
+                style={{ zIndex: 30 - i, transformOrigin: "50% 0%" }}
+                initial={{ rotateX: 0, y: 0, rotateZ: 0, opacity: 1 }}
+                animate={
+                  inView
+                    ? { rotateX: -110, y: -12, rotateZ: i % 2 ? 3 : -4, opacity: [1, 1, 0] }
+                    : undefined
+                }
+                // La hoja se levanta entera por encima de la espiral y solo se desvanece al final.
+                transition={{
+                  duration: 0.62,
+                  delay: delays[i],
+                  ease: [0.5, 0, 0.6, 1],
+                  opacity: { duration: 0.62, delay: delays[i], times: [0, 0.7, 1] },
+                }}
+              >
+                <span className="text-center">
+                  <span className="block font-display text-[2.75rem] leading-none text-ink italic first-letter:uppercase">
+                    {pageName(page)}
+                  </span>
+                  <span className="mt-2 block font-display text-xl text-ink-soft">{page.year}</span>
+                </span>
+              </m.div>
+            ))}
+            {variant !== "minimal" ? (
+              <figcaption className="flex items-baseline justify-between border-b border-ink/20 pb-3">
+                <span className="font-display text-[2.25rem] leading-none text-ink italic first-letter:uppercase">
+                  {monthName(event.date)}
+                </span>
+                <span className="font-display text-xl text-ink-soft">{day.slice(0, 4)}</span>
+              </figcaption>
+            ) : (
+              <figcaption className="text-center text-[0.8125rem] tracking-[0.3em] text-ink-soft uppercase">
+                {monthName(event.date)} · {day.slice(0, 4)}
+              </figcaption>
+            )}
+            <table className="mt-3 w-full table-fixed text-center">
+              <caption className="sr-only">
+                Calendario de {monthName(event.date)} con el día de la boda marcado
+              </caption>
+              <thead>
+                <tr>
+                  {initials.map((d, i) => (
+                    <th
+                      key={i}
+                      scope="col"
+                      className="pb-2 text-[0.75rem] font-medium text-muted uppercase"
+                    >
+                      {d}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </figure>
+              </thead>
+              <tbody>
+                {weeks.map((week, w) => (
+                  <tr key={w}>
+                    {week.map((cell, i) => {
+                      const isDay = cell.iso === day;
+                      return (
+                        <td key={i} className="relative h-10 text-[0.9375rem] tabular-nums">
+                          {cell.day ? (
+                            <span
+                              ref={isDay ? dayRef : undefined}
+                              className={
+                                isDay && marker === "fill"
+                                  ? "relative z-10 font-display text-xl text-paper"
+                                  : isDay
+                                    ? "relative z-10 font-display text-xl text-wax"
+                                    : i >= 5
+                                      ? "text-ink-soft"
+                                      : "text-ink"
+                              }
+                            >
+                              {cell.day}
+                              {isDay ? <span className="sr-only"> (día de la boda)</span> : null}
+                            </span>
+                          ) : null}
+                          {isDay && marker === "fill" ? (
+                            <m.span
+                              aria-hidden
+                              className="absolute top-1/2 left-1/2 size-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-wax"
+                              initial={{ scale: 0.4, opacity: 0 }}
+                              animate={inView ? { scale: 1, opacity: 1 } : undefined}
+                              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
+                            />
+                          ) : null}
+                          {isDay && marker !== "fill" ? (
+                            <svg
+                              aria-hidden
+                              viewBox="0 0 60 44"
+                              className="pointer-events-none absolute top-1/2 left-1/2 h-12 w-16 -translate-x-1/2 -translate-y-1/2 overflow-visible"
+                            >
+                              {/* Trazo a mano alzada: no cierra del todo y se pasa un poco. */}
+                              <m.path
+                                d={marker === "heart" ? HEART : RING}
+                                fill="none"
+                                stroke="var(--color-wax)"
+                                strokeWidth="1.6"
+                                strokeLinecap="round"
+                                initial={{ pathLength: 0, opacity: 0 }}
+                                animate={inView ? { pathLength: 1, opacity: 1 } : undefined}
+                                transition={{
+                                  duration: 1.1,
+                                  ease: [0.45, 0.05, 0.2, 1],
+                                  delay: pages.length ? end : 0.3,
+                                }}
+                              />
+                            </svg>
+                          ) : null}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </figure>
+        )}
 
         <div>
           <p className="font-display text-[1.75rem] leading-snug text-ink">
@@ -279,5 +297,99 @@ export function SaveTheDate({
         </m.span>
       ) : null}
     </Section>
+  );
+}
+
+interface FigureProps {
+  day: string;
+  inView: boolean;
+  dayRef: RefObject<HTMLSpanElement | null>;
+  figureRef: RefObject<HTMLElement | null>;
+}
+
+const longWeekday = (iso: string) =>
+  new Intl.DateTimeFormat("es-ES", { weekday: "long", timeZone: "UTC" }).format(
+    new Date(`${iso}T12:00:00Z`),
+  );
+
+/** Solo la semana de la boda: siete columnas y el día en grande, marcado con la cera. */
+function WeekStrip({ day, inView, dayRef, figureRef }: FigureProps) {
+  const reduce = useReducedMotion();
+  const week = monthGrid(day).find((w) => w.some((c) => c.iso === day)) ?? [];
+  const initials = weekdayInitials();
+  return (
+    <figure
+      ref={figureRef}
+      data-calendar="semana"
+      className="paper-grain relative rounded-[2px] border border-line bg-paper px-4 pt-6 pb-7 shadow-[var(--shadow-paper)]"
+    >
+      <figcaption className="text-center text-[0.8125rem] tracking-[0.3em] text-ink-soft uppercase">
+        {monthName(`${day}T12:00:00Z`)} · {day.slice(0, 4)}
+      </figcaption>
+      <ol className="mt-6 grid grid-cols-7 items-start gap-1 text-center">
+        {week.map((cell, i) => {
+          const isDay = cell.iso === day;
+          return (
+            <li key={i} className="flex flex-col items-center gap-2">
+              <span aria-hidden className="text-[0.75rem] font-medium text-muted uppercase">
+                {initials[i]}
+              </span>
+              {cell.day ? (
+                isDay ? (
+                  <m.span
+                    ref={dayRef}
+                    className="relative flex h-24 w-full flex-col items-center justify-center rounded-full bg-wax font-display text-[2.25rem] leading-none text-paper"
+                    initial={reduce ? false : { scaleY: 0.4, opacity: 0 }}
+                    animate={inView ? { scaleY: 1, opacity: 1 } : undefined}
+                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+                  >
+                    {cell.day}
+                    <span className="sr-only"> (día de la boda)</span>
+                  </m.span>
+                ) : (
+                  <span className="flex h-24 items-center font-display text-xl text-ink-soft tabular-nums">
+                    {cell.day}
+                  </span>
+                )
+              ) : (
+                <span className="h-24" />
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </figure>
+  );
+}
+
+/** Cartel tipográfico: día de la semana, el número enorme en el color de la cera, mes y año. */
+function Poster({ event, day, inView, dayRef, figureRef }: FigureProps & { event: WeddingEvent }) {
+  const reduce = useReducedMotion();
+  return (
+    <figure
+      ref={figureRef}
+      data-calendar="poster"
+      className="paper-grain relative overflow-hidden rounded-[2px] border border-line bg-paper px-6 py-8 text-center shadow-[var(--shadow-paper)]"
+    >
+      <div aria-hidden className="pointer-events-none absolute inset-3 border border-gold/40" />
+      <p className="text-[0.8125rem] tracking-[0.4em] text-ink-soft uppercase">
+        {longWeekday(day)}
+      </p>
+      <m.span
+        ref={dayRef}
+        className="mt-2 block font-display text-[clamp(7rem,32vw,10rem)] leading-[0.85] text-wax tabular-nums"
+        initial={reduce ? false : { opacity: 0, y: 24, filter: "blur(6px)" }}
+        animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : undefined}
+        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+      >
+        {Number(day.slice(8))}
+        <span className="sr-only"> (día de la boda)</span>
+      </m.span>
+      <p className="mt-3 font-display text-[2rem] leading-none text-ink italic first-letter:uppercase">
+        {monthName(event.date)}
+      </p>
+      <div aria-hidden className="mx-auto mt-4 h-px w-12 bg-gold" />
+      <p className="mt-4 text-[0.875rem] tracking-[0.5em] text-ink-soft">{day.slice(0, 4)}</p>
+    </figure>
   );
 }

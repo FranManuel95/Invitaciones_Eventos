@@ -23,6 +23,36 @@ ser sencilla y reversible.
 - Librerías de gráficos: son dos gráficos SVG pequeños hechos a mano.
 - Supabase y la autenticación: quedan fuera de este hito.
 
+## Ronda 6 · Personalización premium
+
+- **Plantillas y ajuste fino.** Ocho plantillas completas (`TEMPLATES` en `src/lib/theme`) como
+  punto de partida; cada detalle se cambia después por separado. Aplicar una plantilla conserva
+  las secciones ocultas, su orden y la música. El editor reconoce si el tema sigue siendo una
+  plantilla o ya está personalizado (`templateOf`).
+- **Color libre con red de seguridad.** Ocho paletas cerradas (revisadas con la prueba de
+  contraste) y un color propio para el lacre. El acento de los textos sale de ese color y
+  `readableOn` lo intensifica lo justo hasta el contraste AA sobre el papel elegido. Así el cliente
+  tiene libertad, pero no puede dejar un texto ilegible.
+- **Tipografías.** Ocho pares con licencia OFL vía `next/font`, todos sin precarga: `@font-face`
+  solo descarga la letra que usa la invitación. Las caligráficas (Pinyon Script, Great Vibes) se
+  usan solo en los nombres (`--font-names`, utilidad `font-names`), donde se leen bien.
+- **Sobre a medida.** Forma de la solapa, gramaje (canto, sombra y ritmo de la apertura),
+  textura, forro y lacre (forma y grabado). La geometría y los fondos son funciones puras en
+  `src/lib/theme/envelope.ts` (`flapGeometry`, `linerBackground`, `sealOutline`) con pruebas. Con
+  solapas que no son en pico, el bolsillo sube hasta el borde de la solapa para que no asome la
+  carta. El canto se dibuja con una copia desplazada de la solapa, no con `filter`, para que la
+  animación siga siendo solo de `transform`.
+- **Carta.** Cinco composiciones, tres bordes y cinco ornamentos (`src/lib/theme/letter.ts`). Sin
+  foto de la pareja, la composición «con foto» cae a la clásica.
+- **Calendarios y secciones.** Seis calendarios (taco, minimal, a pluma, corazón, semana y
+  cartel) y orden de las secciones elegido en el editor (`order`, normalizado con
+  `normalizeOrder` para que una sección nueva aparezca aunque el orden se guardara antes).
+- **Compatibilidad.** Todo vive en `events.theme` (jsonb), sin migración. Cada campo nuevo tiene
+  un valor por defecto que reproduce el aspecto anterior; los temas «Clásico» guardados antes
+  conservan su garalda.
+- **Editor.** La pestaña Estilo se divide en apartados; al abrir Sobre, Carta o Calendario, la
+  vista previa salta a esa pantalla.
+
 ## Ronda 5 · De prototipo a producto
 
 **Backend con Supabase** (proyecto `invitaciones`, París).

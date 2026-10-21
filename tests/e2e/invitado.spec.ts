@@ -232,6 +232,28 @@ test.describe("experiencia del invitado", () => {
     expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual([]);
   });
 
+  for (const [plantilla, calendario] of [
+    ["medianoche", "poster"],
+    ["costa", "semana"],
+    ["empolvado", "corazon"],
+  ]) {
+    test(`plantilla ${plantilla}: calendario ${calendario} accesible`, async ({ page }) => {
+      await page.goto(`/i/carlos-ruiz?plantilla=${plantilla}`);
+      await page.getByRole("button", { name: "Saltar intro" }).click();
+      await expect(page.locator(`[data-calendar='${calendario}']`)).toBeAttached();
+      await expect(page.locator("#fecha").getByText("(día de la boda)")).toBeAttached();
+      for (let i = 0; i < 20; i++) await page.mouse.wheel(0, 600);
+      await page.waitForTimeout(1500);
+      const results = await new AxeBuilder({ page }).analyze();
+      const serious = results.violations.filter((v) =>
+        ["serious", "critical"].includes(v.impact ?? ""),
+      );
+      expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual(
+        [],
+      );
+    });
+  }
+
   test("un token desconocido devuelve 404", async ({ page }) => {
     const response = await page.goto("/i/no-existe");
     expect(response?.status()).toBe(404);

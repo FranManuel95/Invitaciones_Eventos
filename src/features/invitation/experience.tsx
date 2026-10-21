@@ -229,6 +229,7 @@ export function InvitationExperience({
                     focusOnMount={chosenStage !== null}
                     calendar={theme.calendar}
                     hidden={theme.hidden}
+                    order={theme.order}
                     badge={badge}
                   />
                 </ViewTransition>

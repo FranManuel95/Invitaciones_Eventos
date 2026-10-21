@@ -2,7 +2,7 @@
 
 import { clsx } from "clsx";
 import { RotateCcw } from "lucide-react";
-import { useEffect, useMemo, useRef, useState, ViewTransition } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState, ViewTransition } from "react";
 import { DemoBadge } from "@/components/demo-badge";
 import { buttonClasses } from "@/components/ui/button";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
@@ -16,7 +16,7 @@ import { ResponseStatus } from "./response-status";
 import { dayClock, liveProgram } from "@/lib/day-mode";
 import { LiveDay } from "./live-day";
 import { SaveTheDate } from "./save-the-date";
-import type { CalendarId, SectionId } from "@/lib/theme";
+import { SECTION_IDS, type CalendarId, type SectionId } from "@/lib/theme";
 import { StorySection } from "./story-section";
 import { PracticalSection, ProgramSection, TransportSection, VenuesSection } from "./sections";
 
@@ -31,6 +31,7 @@ const NAV = [
   { id: "confirmar", label: "Confirmar" },
 ];
 const NO_HIDDEN: SectionId[] = [];
+const DEFAULT_ORDER: readonly SectionId[] = SECTION_IDS;
 
 function useActiveSection(ids: string[]) {
   const [active, setActive] = useState<string | null>(null);
@@ -62,6 +63,8 @@ export interface InvitationContentProps {
   badge?: string | null;
   /** Secciones que la pareja ha ocultado desde el editor. */
   hidden?: SectionId[];
+  /** Orden de las secciones elegido en el editor (la confirmación va siempre al final). */
+  order?: readonly SectionId[];
 }
 
 /** Pantallas 4 a 7 · La invitación completa con secciones y RSVP. */
@@ -73,9 +76,18 @@ export function InvitationContent({
   calendar,
   badge,
   hidden = NO_HIDDEN,
+  order = DEFAULT_ORDER,
 }: InvitationContentProps) {
   const shows = (id: SectionId) => !hidden.includes(id);
-  const nav = useMemo(() => NAV.filter((n) => !(hidden as string[]).includes(n.id)), [hidden]);
+  const nav = useMemo(() => {
+    const rank = (id: string) => {
+      const i = (order as readonly string[]).indexOf(id);
+      return i === -1 ? order.length : i;
+    };
+    return NAV.filter((n) => !(hidden as string[]).includes(n.id)).sort(
+      (a, b) => rank(a.id) - rank(b.id),
+    );
+  }, [hidden, order]);
   const navIds = useMemo(() => nav.map((n) => n.id), [nav]);
   const active = useActiveSection(navIds);
   const saved = useSavedResponse(group.token);
@@ -231,15 +243,21 @@ export function InvitationContent({
           </p>
         </section>
 
-        {clock.active || !shows("fecha") ? null : <SaveTheDate event={event} variant={calendar} />}
-        {shows("programa") ? (
-          <ProgramSection event={event} currentId={live?.current?.id ?? null} />
-        ) : null}
-        {shows("lugares") ? <VenuesSection event={event} /> : null}
-        {shows("transporte") ? <TransportSection event={event} response={saved} /> : null}
-        {shows("info") ? <PracticalSection event={event} /> : null}
-        {shows("historia") ? <StorySection event={event} /> : null}
-        {shows("regalo") ? <GiftSection event={event} /> : null}
+        {order.filter(shows).map((id) => (
+          <Fragment key={id}>
+            {
+              {
+                fecha: clock.active ? null : <SaveTheDate event={event} variant={calendar} />,
+                programa: <ProgramSection event={event} currentId={live?.current?.id ?? null} />,
+                lugares: <VenuesSection event={event} />,
+                transporte: <TransportSection event={event} response={saved} />,
+                info: <PracticalSection event={event} />,
+                historia: <StorySection event={event} />,
+                regalo: <GiftSection event={event} />,
+              }[id]
+            }
+          </Fragment>
+        ))}
         <RsvpSection event={event} group={group} />
       </main>
 

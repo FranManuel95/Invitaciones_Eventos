@@ -54,7 +54,7 @@ export const WAX_IDS = [
   "lavanda",
   "negro",
 ] as const;
-export const CALENDAR_IDS = ["taco", "minimal"] as const;
+export const CALENDAR_IDS = ["taco", "minimal", "mano", "corazon", "semana", "poster"] as const;
 export const FONT_IDS = [
   "editorial",
   "clasica",
@@ -94,6 +94,18 @@ export const SECTIONS: Record<SectionId, string> = {
   regalo: "Regalo",
 };
 
+/**
+ * Orden de las secciones: los ids válidos en el orden dado, sin repetir, y al final los que
+ * falten (así una sección nueva aparece aunque el orden se guardara antes de existir).
+ */
+export function normalizeOrder(order: readonly string[]): SectionId[] {
+  const valid = order.filter((id): id is SectionId =>
+    (SECTION_IDS as readonly string[]).includes(id),
+  );
+  const unique = [...new Set(valid)];
+  return [...unique, ...SECTION_IDS.filter((id) => !unique.includes(id))];
+}
+
 /** Color libre elegido por el cliente (#rrggbb). */
 const hexColor = z.string().regex(/^#[0-9a-f]{6}$/i, "Elige un color válido.");
 
@@ -116,6 +128,10 @@ export const themeInputSchema = z.strictObject({
   ornament: z.enum(ORNAMENT_IDS),
   calendar: z.enum(CALENDAR_IDS),
   hidden: z.array(z.enum(SECTION_IDS)).max(SECTION_IDS.length),
+  order: z
+    .array(z.enum(SECTION_IDS))
+    .length(SECTION_IDS.length)
+    .refine((o) => new Set(o).size === o.length, "Cada sección solo puede aparecer una vez."),
   music: z.boolean(),
 });
 
@@ -137,6 +153,7 @@ export const themeSchema = z.object({
   ornament: z.enum(ORNAMENT_IDS).catch("almendro"),
   calendar: z.enum(CALENDAR_IDS).catch("taco"),
   hidden: z.array(z.enum(SECTION_IDS)).max(SECTION_IDS.length).catch([]),
+  order: z.array(z.string()).catch([]).transform(normalizeOrder),
   music: z.boolean().catch(true),
 });
 
@@ -159,6 +176,7 @@ export const DEFAULT_THEME: Theme = {
   ornament: "almendro",
   calendar: "taco",
   hidden: [],
+  order: [...SECTION_IDS],
   music: true,
 };
 
@@ -547,6 +565,10 @@ export const FONTS: Record<
 export const CALENDARS: Record<CalendarId, { label: string; description: string }> = {
   taco: { label: "Taco de hojas", description: "Las hojas caen hasta el mes de la boda." },
   minimal: { label: "Minimal", description: "Una hoja limpia con el día marcado." },
+  mano: { label: "A pluma", description: "La hoja del mes con el día rodeado a mano." },
+  corazon: { label: "Corazón", description: "El día rodeado con un corazón a mano alzada." },
+  semana: { label: "Semana", description: "Solo la semana de la boda, con el día en grande." },
+  poster: { label: "Cartel", description: "El número del día enorme, como un cartel." },
 };
 
 /** Mezcla dos colores #rrggbb en sRGB (t = 0 → a, t = 1 → b). */
@@ -664,7 +686,7 @@ export const TEMPLATE_IDS = [
 ] as const;
 export type TemplateId = (typeof TEMPLATE_IDS)[number];
 
-type Look = Omit<Theme, "hidden" | "music">;
+type Look = Omit<Theme, "hidden" | "order" | "music">;
 
 export const TEMPLATES: Record<
   TemplateId,
@@ -688,7 +710,7 @@ export const TEMPLATES: Record<
       style: "clasico",
       envelope: "algodon",
       wax: "azul",
-      calendar: "minimal",
+      calendar: "mano",
       font: "clasica",
       flap: "recta",
       texture: "verjurado",
@@ -706,7 +728,7 @@ export const TEMPLATES: Record<
       style: "noche",
       envelope: "medianoche",
       wax: "oro",
-      calendar: "minimal",
+      calendar: "poster",
       font: "moderna",
       flap: "redonda",
       liner: "propio",
@@ -756,7 +778,7 @@ export const TEMPLATES: Record<
       style: "empolvado",
       envelope: "rosa",
       wax: "rosa",
-      calendar: "minimal",
+      calendar: "corazon",
       font: "caligrafica",
       flap: "redonda",
       liner: "flores",
@@ -772,7 +794,7 @@ export const TEMPLATES: Record<
       style: "pizarra",
       envelope: "piedra",
       wax: "azul",
-      calendar: "minimal",
+      calendar: "semana",
       font: "minimal",
       flap: "recta",
       texture: "verjurado",
@@ -802,10 +824,10 @@ export const TEMPLATES: Record<
   },
 };
 
-/** Aplica una plantilla sobre el tema actual: conserva las secciones y la música. */
+/** Aplica una plantilla sobre el tema actual: conserva las secciones, su orden y la música. */
 export function applyTemplate(current: Theme, id: TemplateId): Theme {
-  const { hidden, music } = current;
-  return { ...DEFAULT_THEME, ...TEMPLATES[id].look, hidden, music };
+  const { hidden, order, music } = current;
+  return { ...DEFAULT_THEME, ...TEMPLATES[id].look, hidden, order, music };
 }
 
 /** La plantilla de la que sale el tema, si no se ha cambiado nada después. */
