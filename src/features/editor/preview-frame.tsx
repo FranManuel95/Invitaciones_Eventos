@@ -12,12 +12,22 @@ const PHONE = { width: 390, height: 844 };
  * Móvil con la invitación real (un iframe de /editor/<evento>/vista). Recibe el borrador
  * válido con un pequeño retardo mientras se escribe y salta a la pantalla elegida.
  */
-export function PreviewFrame({ src, draft }: { src: string; draft: Draft | null }) {
+export function PreviewFrame({
+  src,
+  draft,
+  stage,
+  onStage,
+}: {
+  src: string;
+  draft: Draft | null;
+  /** Pantalla que se ve; el editor la cambia al elegir un apartado (p. ej. el sobre). */
+  stage: Stage;
+  onStage: (stage: Stage) => void;
+}) {
   const frame = useRef<HTMLIFrameElement>(null);
   const box = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
   const [scale, setScale] = useState(0.7);
-  const [stage, setStage] = useState<Stage>("cover");
 
   const post = (message: ToPreview) =>
     frame.current?.contentWindow?.postMessage(message, window.location.origin);
@@ -40,6 +50,11 @@ export function PreviewFrame({ src, draft }: { src: string; draft: Draft | null 
     );
     return () => window.clearTimeout(id);
   }, [ready, draft]);
+
+  // Al cambiar de pantalla (desde los botones o desde el editor), la vista previa salta a ella.
+  useEffect(() => {
+    if (ready) post({ type: "stage", stage });
+  }, [ready, stage]);
 
   // El móvil se escala para caber en el hueco disponible.
   useEffect(() => {
@@ -67,10 +82,7 @@ export function PreviewFrame({ src, draft }: { src: string; draft: Draft | null 
             key={s.stage}
             type="button"
             aria-pressed={stage === s.stage}
-            onClick={() => {
-              setStage(s.stage);
-              post({ type: "stage", stage: s.stage });
-            }}
+            onClick={() => onStage(s.stage)}
             className={clsx(
               "rounded-full px-3.5 py-1.5 text-[0.8125rem] transition-colors",
               stage === s.stage ? "bg-paper text-ink shadow-sm" : "text-ink-soft hover:text-ink",

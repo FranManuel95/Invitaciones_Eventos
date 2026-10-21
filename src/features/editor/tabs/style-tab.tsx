@@ -1,8 +1,17 @@
 "use client";
 
 import { clsx } from "clsx";
-import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import {
+  useId,
+  useRef,
+  useState,
+  type CSSProperties,
+  type KeyboardEvent,
+  type ReactNode,
+} from "react";
 import { ChoiceCard } from "@/components/ui/fields";
+import type { Stage } from "@/features/invitation/experience";
+import { WaxSealArt } from "@/features/invitation/ornaments";
 import {
   accentFor,
   applyTemplate,
@@ -10,8 +19,18 @@ import {
   CALENDARS,
   ENVELOPE_IDS,
   ENVELOPES,
+  FLAP_IDS,
+  flapGeometry,
+  FLAPS,
   FONT_IDS,
   FONTS,
+  LINER_IDS,
+  linerBackground,
+  LINERS,
+  SEAL_MARK_IDS,
+  SEAL_MARKS,
+  SEAL_SHAPE_IDS,
+  SEAL_SHAPES,
   SECTION_IDS,
   SECTIONS,
   STYLE_IDS,
@@ -19,8 +38,13 @@ import {
   TEMPLATE_IDS,
   TEMPLATES,
   templateOf,
+  TEXTURE_IDS,
+  TEXTURES,
   WAX_IDS,
   WAXES,
+  waxHex,
+  WEIGHT_IDS,
+  WEIGHTS,
   type Theme,
 } from "@/lib/theme";
 
@@ -37,7 +61,18 @@ function Swatches({ colors }: { colors: string[] }) {
   );
 }
 
-type ChoiceKey = "style" | "envelope" | "wax" | "calendar" | "font";
+type ChoiceKey =
+  | "style"
+  | "envelope"
+  | "wax"
+  | "calendar"
+  | "font"
+  | "flap"
+  | "weight"
+  | "texture"
+  | "liner"
+  | "sealShape"
+  | "sealMark";
 
 function Choice<K extends ChoiceKey>({
   name,
@@ -74,28 +109,34 @@ function Choice<K extends ChoiceKey>({
   );
 }
 
-const PARTS = [
+// Cada apartado lleva la vista previa a la pantalla donde se ve lo que se cambia.
+const PARTS: readonly { id: string; label: string; Panel: () => ReactNode; stage?: Stage }[] = [
   { id: "plantillas", label: "Plantillas", Panel: TemplatesPart },
   { id: "colores", label: "Colores", Panel: ColorsPart },
-  { id: "letra", label: "Tipografía", Panel: FontsPart },
-  { id: "sobre", label: "Sobre", Panel: EnvelopePart },
-  { id: "calendario", label: "Calendario", Panel: CalendarPart },
-  { id: "secciones", label: "Secciones y música", Panel: SectionsPart },
-] as const;
+  { id: "letra", label: "Tipografía", Panel: FontsPart, stage: "cover" },
+  { id: "sobre", label: "Sobre", Panel: EnvelopePart, stage: "envelope" },
+  { id: "calendario", label: "Calendario", Panel: CalendarPart, stage: "content" },
+  { id: "secciones", label: "Secciones y música", Panel: SectionsPart, stage: "content" },
+];
 
 /** Estilo: se parte de una plantilla y se ajusta cada detalle por apartados. */
 export function StyleTab() {
-  const [part, setPart] = useState<(typeof PARTS)[number]["id"]>("plantillas");
+  const { showStage } = useEditor();
+  const [part, setPart] = useState("plantillas");
   const refs = useRef(new Map<string, HTMLButtonElement>());
   const id = useId();
-  const current = PARTS.find((p) => p.id === part) ?? PARTS[0];
+  const current = PARTS.find((p) => p.id === part) ?? PARTS[0]!;
+  const choose = (next: (typeof PARTS)[number]) => {
+    setPart(next.id);
+    if (next.stage) showStage(next.stage);
+  };
 
   const onKey = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
     const delta = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
     if (!delta) return;
     e.preventDefault();
     const next = PARTS[(index + delta + PARTS.length) % PARTS.length]!;
-    setPart(next.id);
+    choose(next);
     refs.current.get(next.id)?.focus();
   };
 
@@ -118,7 +159,7 @@ export function StyleTab() {
             aria-selected={part === p.id}
             aria-controls={`${id}-panel`}
             tabIndex={part === p.id ? 0 : -1}
-            onClick={() => setPart(p.id)}
+            onClick={() => choose(p)}
             onKeyDown={(e) => onKey(e, i)}
             className={clsx(
               "rounded-full border px-3.5 py-1.5 text-[0.875rem] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
@@ -346,25 +387,178 @@ function FontsPart() {
   );
 }
 
-function EnvelopePart() {
+/** Muestra de la forma de la solapa sobre el papel elegido. */
+function FlapSample({ flap, theme }: { flap: Theme["flap"]; theme: Theme }) {
+  const env = ENVELOPES[theme.envelope];
+  const { depth, clip } = flapGeometry(flap);
   return (
-    <Group title="Papel del sobre">
-      <div role="radiogroup" aria-label="Sobre" className="grid gap-3">
-        {ENVELOPE_IDS.map((id) => {
-          const e = ENVELOPES[id];
-          return (
+    <span
+      aria-hidden
+      className="relative block h-9 w-13 shrink-0 rounded-[2px] shadow-sm"
+      style={{ background: env.paper[1] }}
+    >
+      <span
+        className="absolute inset-x-0 top-0 block"
+        style={{
+          height: `${depth}%`,
+          clipPath: clip,
+          background: env.paper[0],
+          filter: "drop-shadow(0 1px 0 rgb(0 0 0 / 0.25))",
+        }}
+      />
+    </span>
+  );
+}
+
+function Tile({ background }: { background: string }) {
+  return (
+    <span
+      aria-hidden
+      className="block size-9 shrink-0 rounded-md ring-1 ring-ink/10"
+      style={{ background }}
+    />
+  );
+}
+
+/** Papel, solapa, gramaje, textura, forro y lacre del sobre. */
+function EnvelopePart() {
+  const { draft } = useEditor();
+  const theme = draft.theme;
+  const env = ENVELOPES[theme.envelope];
+  const gold = STYLES[theme.style].palette.gold;
+  const seal = { "--seal": waxHex(theme) } as CSSProperties;
+  return (
+    <>
+      <Group title="Papel" description="Color y forro de partida del sobre.">
+        <div role="radiogroup" aria-label="Papel del sobre" className="grid gap-3 sm:grid-cols-2">
+          {ENVELOPE_IDS.map((id) => {
+            const e = ENVELOPES[id];
+            return (
+              <Choice
+                key={id}
+                name="envelope"
+                value={id}
+                label={e.label}
+                description={e.description}
+                swatch={<Swatches colors={[e.paper[0], e.inside]} />}
+              />
+            );
+          })}
+        </div>
+      </Group>
+      <Group title="Solapa">
+        <div role="radiogroup" aria-label="Solapa" className="grid gap-3 sm:grid-cols-2">
+          {FLAP_IDS.map((id) => (
             <Choice
               key={id}
-              name="envelope"
+              name="flap"
               value={id}
-              label={e.label}
-              description={e.description}
-              swatch={<Swatches colors={[e.paper[0], e.inside]} />}
+              label={FLAPS[id].label}
+              description={FLAPS[id].description}
+              swatch={<FlapSample flap={id} theme={theme} />}
             />
-          );
-        })}
-      </div>
-    </Group>
+          ))}
+        </div>
+      </Group>
+      <Group
+        title="Gramaje"
+        description="Cuanto más grueso, más canto, más sombra y más peso al abrir."
+      >
+        <div role="radiogroup" aria-label="Gramaje" className="grid gap-3 sm:grid-cols-3">
+          {WEIGHT_IDS.map((id) => (
+            <Choice
+              key={id}
+              name="weight"
+              value={id}
+              label={WEIGHTS[id].label}
+              description={WEIGHTS[id].description}
+              swatch={null}
+            />
+          ))}
+        </div>
+      </Group>
+      <Group title="Textura">
+        <div role="radiogroup" aria-label="Textura" className="grid gap-3 sm:grid-cols-2">
+          {TEXTURE_IDS.map((id) => (
+            <Choice
+              key={id}
+              name="texture"
+              value={id}
+              label={TEXTURES[id].label}
+              description={TEXTURES[id].description}
+              swatch={
+                <Tile
+                  background={`${TEXTURES[id].image}, linear-gradient(${env.paper[0]}, ${env.paper[1]})`}
+                />
+              }
+            />
+          ))}
+        </div>
+      </Group>
+      <Group title="Forro" description="El dibujo que se ve al levantar la solapa.">
+        <div role="radiogroup" aria-label="Forro" className="grid gap-3 sm:grid-cols-2">
+          {LINER_IDS.map((id) => (
+            <Choice
+              key={id}
+              name="liner"
+              value={id}
+              label={LINERS[id].label}
+              description={LINERS[id].description}
+              swatch={
+                <Tile
+                  background={linerBackground(id, { inside: env.inside, gold, own: env.liner })}
+                />
+              }
+            />
+          ))}
+        </div>
+      </Group>
+      <Group title="Forma del lacre">
+        <div role="radiogroup" aria-label="Forma del lacre" className="grid gap-3 sm:grid-cols-3">
+          {SEAL_SHAPE_IDS.map((id) => (
+            <Choice
+              key={id}
+              name="sealShape"
+              value={id}
+              label={SEAL_SHAPES[id].label}
+              description={SEAL_SHAPES[id].description}
+              swatch={
+                <span style={seal} className="block size-10 shrink-0">
+                  <WaxSealArt
+                    monogram={draft.content.couple.monogram}
+                    shape={id}
+                    mark={theme.sealMark}
+                    className="size-full"
+                  />
+                </span>
+              }
+            />
+          ))}
+        </div>
+      </Group>
+      <Group title="Grabado del lacre">
+        <div role="radiogroup" aria-label="Grabado del lacre" className="grid gap-3 sm:grid-cols-2">
+          {SEAL_MARK_IDS.map((id) => (
+            <Choice
+              key={id}
+              name="sealMark"
+              value={id}
+              label={SEAL_MARKS[id].label}
+              swatch={
+                <span style={seal} className="block size-10 shrink-0">
+                  <WaxSealArt
+                    monogram={draft.content.couple.monogram}
+                    shape={theme.sealShape}
+                    mark={id}
+                    className="size-full"
+                  />
+                </span>
+              }
+            />
+          ))}
+        </div>
+      </Group>
+    </>
   );
 }
 

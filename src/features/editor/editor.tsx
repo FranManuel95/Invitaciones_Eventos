@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import type { EventMeta } from "@/lib/data/repository";
 import { setIn, validateDraft, type Draft, type Path } from "@/lib/editor/draft";
 import type { Theme } from "@/lib/theme";
+import type { Stage } from "@/features/invitation/experience";
 import { EditorContext } from "./fields";
 import { PreviewFrame } from "./preview-frame";
 import { BasicsTab } from "./tabs/basics-tab";
@@ -89,6 +90,8 @@ export function Editor({
 }) {
   const eventId = meta?.id ?? null;
   const [{ draft, version }, dispatch] = useReducer(reducer, { draft: initial, version: 0 });
+  // Pantalla de la vista previa: la eligen sus botones o el apartado del estilo que se edita.
+  const [stage, setStage] = useState<Stage>("cover");
   const [tab, setTab] = useState<(typeof TABS)[number]["id"]>("estilo");
   const [view, setView] = useState<"editar" | "vista">("editar");
   const [savedVersion, setSavedVersion] = useState(0);
@@ -196,7 +199,7 @@ export function Editor({
   const current = TABS.find((t) => t.id === tab) ?? TABS[0];
 
   return (
-    <EditorContext value={{ draft, set, setTheme, errors, eventId }}>
+    <EditorContext value={{ draft, set, setTheme, errors, eventId, showStage: setStage }}>
       <div className="flex min-h-dvh flex-col bg-ivory lg:h-dvh">
         <header className="sticky top-0 z-30 border-b border-line bg-paper/95 backdrop-blur">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3 sm:px-6">
@@ -335,7 +338,12 @@ export function Editor({
               view === "editar" ? "hidden" : "h-[calc(100dvh-8.5rem)]",
             )}
           >
-            <PreviewFrame src={`/editor/${eventKey}/vista`} draft={check.ok ? check.draft : null} />
+            <PreviewFrame
+              src={`/editor/${eventKey}/vista`}
+              draft={check.ok ? check.draft : null}
+              stage={stage}
+              onStage={setStage}
+            />
           </aside>
         </div>
       </div>

@@ -46,6 +46,23 @@ test.describe("editor de la invitación", () => {
     expect(family).toMatch(/Great Vibes/i);
   });
 
+  test("el sobre a medida se ve en la vista previa", async ({ page, isMobile }) => {
+    await page.goto("/editor/demo");
+    const preview = page.frameLocator('iframe[title="Vista previa de la invitación"]');
+    await expect(preview.locator("#cover-title")).toBeAttached();
+    await page.getByRole("tab", { name: "Sobre", exact: true }).click();
+    // El apartado lleva la vista previa al sobre.
+    await expect(preview.locator("[data-flap-shape='pico']")).toBeAttached();
+    await page.getByRole("radio", { name: /Festoneada/ }).check({ force: true });
+    await expect(preview.locator("[data-flap-shape='festoneada']")).toBeAttached();
+    await page.getByRole("radio", { name: /400 g/ }).check({ force: true });
+    await page.getByRole("radio", { name: /Flores/ }).check({ force: true });
+    await page.getByRole("radio", { name: /Corazón/ }).check({ force: true });
+    if (!isMobile) {
+      await expect(page.getByRole("button", { name: "Sobre", pressed: true })).toBeVisible();
+    }
+  });
+
   test("salta a la pantalla elegida", async ({ page, isMobile }) => {
     await page.goto("/editor/demo");
     if (isMobile) await page.getByRole("button", { name: "Vista previa" }).click();

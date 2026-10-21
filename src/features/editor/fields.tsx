@@ -3,6 +3,7 @@
 import { clsx } from "clsx";
 import { createContext, use, useId, useState, type ReactNode } from "react";
 import { TextArea, TextInput } from "@/components/ui/fields";
+import type { Stage } from "@/features/invitation/experience";
 import { errorFor, getIn, type Draft, type Path } from "@/lib/editor/draft";
 
 /*
@@ -17,6 +18,8 @@ interface EditorContextValue {
   errors: Map<string, string>;
   /** Id del evento real (para subir fotos); null en la demo. */
   eventId: string | null;
+  /** Lleva la vista previa a una pantalla (p. ej. al sobre mientras se elige el papel). */
+  showStage: (stage: Stage) => void;
 }
 
 export const EditorContext = createContext<EditorContextValue | null>(null);

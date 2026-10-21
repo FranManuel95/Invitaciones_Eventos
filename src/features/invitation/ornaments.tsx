@@ -1,4 +1,5 @@
 import { useId } from "react";
+import { sealOutline, type SealMarkId, type SealShapeId } from "@/lib/theme/envelope";
 
 /*
  * Ornamentos de la papelería. El motivo es el almendro de la finca: ramas con almendras
@@ -144,14 +145,67 @@ export function BlossomCorner({ className }: { className?: string }) {
 }
 
 /** Sello de lacre burdeos: borde irregular, relieve y monograma en oro. */
-export function WaxSealArt({ monogram, className }: { monogram: string; className?: string }) {
+/** Estrella de ocho puntas para el lacre. */
+const STAR = Array.from({ length: 16 }, (_, i) => {
+  const angle = (i / 16) * Math.PI * 2 - Math.PI / 2;
+  const r = i % 2 ? 6 : 15;
+  return `${(50 + Math.cos(angle) * r).toFixed(1)},${(50 + Math.sin(angle) * r).toFixed(1)}`;
+}).join(" ");
+
+/** Marca grabada en la cera: iniciales, rama, corazón o estrella, en oro. */
+function SealMark({ mark, monogram, fill }: { mark: SealMarkId; monogram: string; fill: string }) {
+  switch (mark) {
+    case "monograma":
+      return (
+        <text
+          x="50"
+          y="57.5"
+          textAnchor="middle"
+          fontFamily="var(--font-display)"
+          fontStyle="italic"
+          fontSize="21"
+          fill={fill}
+        >
+          {monogram}
+        </text>
+      );
+    case "almendro":
+      return (
+        <g fill={fill}>
+          <path d="M36 64 Q50 52 64 36" fill="none" stroke={fill} strokeWidth="1.6" />
+          <ellipse cx="44" cy="52" rx="6" ry="2.4" transform="rotate(-62 44 52)" />
+          <ellipse cx="55" cy="49" rx="6" ry="2.4" transform="rotate(20 55 49)" />
+          <ellipse cx="52" cy="40" rx="5.5" ry="2.2" transform="rotate(-70 52 40)" />
+          <circle cx="62" cy="38" r="3" />
+          <circle cx="40" cy="61" r="2.4" />
+        </g>
+      );
+    case "corazon":
+      return (
+        <path
+          d="M50 64C37 55 33 45 38.5 39.5 42.5 35.5 48 37 50 41.5 52 37 57.5 35.5 61.5 39.5 67 45 63 55 50 64Z"
+          fill={fill}
+        />
+      );
+    case "estrella":
+      return <polygon points={STAR} fill={fill} />;
+  }
+}
+
+export function WaxSealArt({
+  monogram,
+  className,
+  shape = "cera",
+  mark = "monograma",
+}: {
+  monogram: string;
+  className?: string;
+  shape?: SealShapeId;
+  mark?: SealMarkId;
+}) {
   const id = useId();
-  // Borde irregular: 36 puntos con radios ligeramente distintos, como la cera al derramarse.
-  const lobes = Array.from({ length: 36 }, (_, i) => {
-    const angle = (i / 36) * Math.PI * 2;
-    const r = i % 2 ? 46 : 48.5 + ((i * 7) % 5) * 0.4;
-    return `${(50 + Math.cos(angle) * r).toFixed(1)},${(50 + Math.sin(angle) * r).toFixed(1)}`;
-  }).join(" ");
+  // Contorno: cera derramada (irregular), círculo limpio o flor de ocho pétalos.
+  const lobes = sealOutline(shape);
   return (
     <svg viewBox="0 0 100 100" aria-hidden className={className}>
       <defs>
@@ -190,17 +244,7 @@ export function WaxSealArt({ monogram, className }: { monogram: string; classNam
         strokeOpacity=".7"
         strokeWidth=".7"
       />
-      <text
-        x="50"
-        y="57.5"
-        textAnchor="middle"
-        fontFamily="var(--font-display)"
-        fontStyle="italic"
-        fontSize="21"
-        fill={`url(#${id}-gold)`}
-      >
-        {monogram}
-      </text>
+      <SealMark mark={mark} monogram={monogram} fill={`url(#${id}-gold)`} />
       <ellipse
         cx="34"
         cy="28"

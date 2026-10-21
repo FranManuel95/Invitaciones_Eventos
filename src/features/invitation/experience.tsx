@@ -202,7 +202,7 @@ export function InvitationExperience({
                   event={event}
                   group={group}
                   interactive={stage === "envelope"}
-                  envelope={theme.envelope}
+                  theme={theme}
                   onOpened={() => go("letter")}
                 />
               </ViewTransition>

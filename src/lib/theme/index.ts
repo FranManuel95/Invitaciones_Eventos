@@ -1,5 +1,18 @@
 import type { CSSProperties } from "react";
 import { z } from "zod";
+import {
+  FLAP_IDS,
+  LINER_IDS,
+  linerBackground,
+  SEAL_MARK_IDS,
+  SEAL_SHAPE_IDS,
+  TEXTURE_IDS,
+  TEXTURES,
+  WEIGHT_IDS,
+  WEIGHTS,
+} from "./envelope";
+
+export * from "./envelope";
 
 /*
  * Tema de una invitación (events.theme). Es una lista cerrada de opciones, no colores libres:
@@ -18,7 +31,16 @@ export const STYLE_IDS = [
   "pizarra",
   "esmeralda",
 ] as const;
-export const ENVELOPE_IDS = ["olivo", "lino", "kraft"] as const;
+export const ENVELOPE_IDS = [
+  "olivo",
+  "lino",
+  "kraft",
+  "algodon",
+  "piedra",
+  "salvia",
+  "rosa",
+  "medianoche",
+] as const;
 export const WAX_IDS = [
   "burdeos",
   "salvia",
@@ -80,6 +102,12 @@ export const themeInputSchema = z.strictObject({
   /** Si hay color propio, sustituye al lacre elegido (y al acento que sale de él). */
   waxColor: hexColor.nullable(),
   font: z.enum(FONT_IDS),
+  flap: z.enum(FLAP_IDS),
+  weight: z.enum(WEIGHT_IDS),
+  texture: z.enum(TEXTURE_IDS),
+  liner: z.enum(LINER_IDS),
+  sealShape: z.enum(SEAL_SHAPE_IDS),
+  sealMark: z.enum(SEAL_MARK_IDS),
   calendar: z.enum(CALENDAR_IDS),
   hidden: z.array(z.enum(SECTION_IDS)).max(SECTION_IDS.length),
   music: z.boolean(),
@@ -92,6 +120,12 @@ export const themeSchema = z.object({
   wax: z.enum(WAX_IDS).catch("burdeos"),
   waxColor: hexColor.nullable().catch(null),
   font: z.enum(FONT_IDS).catch("editorial"),
+  flap: z.enum(FLAP_IDS).catch("pico"),
+  weight: z.enum(WEIGHT_IDS).catch("medio"),
+  texture: z.enum(TEXTURE_IDS).catch("liso"),
+  liner: z.enum(LINER_IDS).catch("propio"),
+  sealShape: z.enum(SEAL_SHAPE_IDS).catch("cera"),
+  sealMark: z.enum(SEAL_MARK_IDS).catch("monograma"),
   calendar: z.enum(CALENDAR_IDS).catch("taco"),
   hidden: z.array(z.enum(SECTION_IDS)).max(SECTION_IDS.length).catch([]),
   music: z.boolean().catch(true),
@@ -105,6 +139,12 @@ export const DEFAULT_THEME: Theme = {
   wax: "burdeos",
   waxColor: null,
   font: "editorial",
+  flap: "pico",
+  weight: "medio",
+  texture: "liso",
+  liner: "propio",
+  sealShape: "cera",
+  sealMark: "monograma",
   calendar: "taco",
   hidden: [],
   music: true,
@@ -392,6 +432,49 @@ export const ENVELOPES: Record<EnvelopeId, EnvelopeDef> = {
     liner: "repeating-linear-gradient(90deg, #efe6d6 0 10px, #e2d3ba 10px 20px)",
     ornament: false,
   },
+  algodon: {
+    label: "Algodón blanco",
+    description: "Blanco puro de algodón y forro marfil liso.",
+    paper: ["#fdfdfb", "#efeee9"],
+    inside: "#e9e3d6",
+    liner: "#e9e3d6",
+    ornament: false,
+  },
+  piedra: {
+    label: "Gris piedra",
+    description: "Papel gris cálido y forro de rayas blancas.",
+    paper: ["#d9d6cf", "#c2beb5"],
+    inside: "#5d5a54",
+    liner: "repeating-linear-gradient(90deg, #6a665f 0 8px, #f2efe9 8px 9px)",
+    ornament: false,
+  },
+  salvia: {
+    label: "Verde salvia",
+    description: "Papel verde suave con rama de almendro.",
+    paper: ["#c9d1bd", "#b3bda5"],
+    inside: "#3f4a37",
+    liner:
+      "repeating-linear-gradient(135deg, #3f4a37 0 9px, #c9b583 9px 9.6px, #3f4a37 9.6px 18px)",
+    ornament: true,
+  },
+  rosa: {
+    label: "Rosa empolvado",
+    description: "Rosa muy pálido con forro granate.",
+    paper: ["#f1e1dc", "#e3cbc4"],
+    inside: "#6e3341",
+    liner:
+      "radial-gradient(circle at 50% 50%, rgb(255 230 225 / 0.45) 0 1.4px, transparent 1.8px) 0 0 / 12px 12px, #6e3341",
+    ornament: false,
+  },
+  medianoche: {
+    label: "Azul medianoche",
+    description: "Papel azul profundo y forro dorado.",
+    paper: ["#2b3550", "#1e263b"],
+    inside: "#b8955a",
+    liner:
+      "repeating-linear-gradient(135deg, #b8955a 0 9px, #e6cf9a 9px 9.6px, #b8955a 9.6px 18px)",
+    ornament: false,
+  },
 };
 
 /*
@@ -510,6 +593,7 @@ export function themeVars(theme: Theme): CSSProperties {
   const style = STYLES[theme.style];
   const p = style.palette;
   const envelope = ENVELOPES[theme.envelope];
+  const weight = WEIGHTS[theme.weight];
   const wax = waxHex(theme);
   const vars: Record<string, string> = {
     "--color-paper": p.paper,
@@ -537,7 +621,14 @@ export function themeVars(theme: Theme): CSSProperties {
     "--env-paper-a": envelope.paper[0],
     "--env-paper-b": envelope.paper[1],
     "--env-inside": envelope.inside,
-    "--env-liner": envelope.liner,
+    "--env-liner": linerBackground(theme.liner, {
+      inside: envelope.inside,
+      gold: p.gold,
+      own: envelope.liner,
+    }),
+    "--env-texture": TEXTURES[theme.texture].image,
+    "--env-edge": mix(envelope.paper[1], "#000000", 0.22),
+    "--env-shadow": String(weight.shadow),
   };
   const font = FONTS[theme.font];
   vars["--font-display"] = font.display;
@@ -580,23 +671,46 @@ export const TEMPLATES: Record<
   },
   atelier: {
     label: "Atelier",
-    description: "Blanco roto, lino y garalda: papelería clásica.",
-    look: { style: "clasico", envelope: "lino", wax: "azul", calendar: "minimal", font: "clasica" },
+    description: "Algodón blanco, solapa recta y garalda: papelería clásica.",
+    look: {
+      style: "clasico",
+      envelope: "algodon",
+      wax: "azul",
+      calendar: "minimal",
+      font: "clasica",
+      flap: "recta",
+      texture: "verjurado",
+      liner: "lunares",
+      sealShape: "redondo",
+    },
   },
   medianoche: {
     label: "Medianoche",
-    description: "Fondo azul noche, oro y una sola hoja de calendario.",
-    look: { style: "noche", envelope: "lino", wax: "oro", calendar: "minimal", font: "moderna" },
+    description: "Azul noche, solapa redonda y lacre con estrella dorada.",
+    look: {
+      style: "noche",
+      envelope: "medianoche",
+      wax: "oro",
+      calendar: "minimal",
+      font: "moderna",
+      flap: "redonda",
+      liner: "propio",
+      sealShape: "redondo",
+      sealMark: "estrella",
+    },
   },
   jardin: {
     label: "Jardín",
-    description: "Verde salvia y rama de almendro para bodas de día.",
+    description: "Verde salvia, solapa festoneada y forro de flores.",
     look: {
       style: "botanico",
-      envelope: "olivo",
+      envelope: "salvia",
       wax: "salvia",
       calendar: "taco",
       font: "romantica",
+      flap: "festoneada",
+      liner: "flores",
+      sealMark: "almendro",
     },
   },
   terracota: {
@@ -608,28 +722,54 @@ export const TEMPLATES: Record<
       wax: "teja",
       calendar: "taco",
       font: "organica",
+      texture: "lino",
+      weight: "grueso",
+      liner: "rayas",
     },
   },
   empolvado: {
     label: "Rosa empolvado",
-    description: "Romántica y ligera, con lacre rosa antiguo.",
+    description: "Romántica, con lacre en flor y un corazón grabado.",
     look: {
       style: "empolvado",
-      envelope: "lino",
+      envelope: "rosa",
       wax: "rosa",
       calendar: "minimal",
       font: "caligrafica",
+      flap: "redonda",
+      liner: "flores",
+      sealShape: "flor",
+      sealMark: "corazon",
     },
   },
   costa: {
     label: "Costa",
     description: "Gris azulado y lacre azul para bodas junto al mar.",
-    look: { style: "pizarra", envelope: "lino", wax: "azul", calendar: "minimal", font: "minimal" },
+    look: {
+      style: "pizarra",
+      envelope: "piedra",
+      wax: "azul",
+      calendar: "minimal",
+      font: "minimal",
+      flap: "recta",
+      texture: "verjurado",
+      liner: "rayas",
+      sealShape: "redondo",
+    },
   },
   esmeralda: {
     label: "Esmeralda",
-    description: "Verde botella y oro: de noche y con mucho brillo.",
-    look: { style: "esmeralda", envelope: "kraft", wax: "oro", calendar: "minimal", font: "deco" },
+    description: "Verde botella, forro de mármol y papel grueso.",
+    look: {
+      style: "esmeralda",
+      envelope: "kraft",
+      wax: "oro",
+      calendar: "minimal",
+      font: "deco",
+      weight: "grueso",
+      liner: "marmol",
+      sealMark: "estrella",
+    },
   },
 };
 
