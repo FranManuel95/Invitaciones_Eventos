@@ -14,7 +14,8 @@ import {
 } from "react";
 import { DemoBadge } from "@/components/demo-badge";
 import { hasOpenedEnvelope, markEnvelopeOpened } from "@/lib/data/session";
-import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
+import { primeResponse } from "@/lib/data/rsvp-store";
+import type { GuestGroup, RsvpResponse, WeddingEvent } from "@/lib/domain/types";
 import type { InvitationContentProps } from "./content/invitation-content";
 import { BriefStage } from "./brief/brief-stage";
 import { CoverStage } from "./cover/cover-stage";
@@ -50,7 +51,21 @@ const HEADINGS: Record<Stage, string> = {
  * La introducción se puede saltar en cualquier momento. Quien vuelve en la misma sesión ve una
  * apertura corta (BriefStage) en lugar de toda la introducción.
  */
-export function InvitationExperience({ event, group }: { event: WeddingEvent; group: GuestGroup }) {
+export function InvitationExperience({
+  event,
+  group,
+  initialResponse,
+}: {
+  event: WeddingEvent;
+  group: GuestGroup;
+  /** Respuesta guardada en el servidor (invitaciones reales); undefined en la demo. */
+  initialResponse?: RsvpResponse | null;
+}) {
+  // La respuesta del servidor se carga en la caché compartida antes del primer render.
+  useState(() => {
+    if (initialResponse !== undefined) primeResponse(group.token, initialResponse);
+    return null;
+  });
   const reduce = useReducedMotion();
   const [chosenStage, setStage] = useState<Stage | null>(null);
   const [Content, setContent] = useState<ComponentType<InvitationContentProps> | null>(null);

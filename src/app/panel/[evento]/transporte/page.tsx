@@ -1,13 +1,13 @@
 import { Bus, Car } from "lucide-react";
 import { CsvButton } from "@/features/dashboard/csv-button";
 import { Card, KpiStrip, Meter, PageHeader } from "@/features/dashboard/ui";
-import { getOrganizerData } from "@/lib/data/repository";
 import { carOffers, passengersCsv, transportStats } from "@/lib/stats";
+import { loadOrganizer } from "../load";
 
 export const metadata = { title: "Transporte" };
 
-export default async function TransportPage() {
-  const { event, groups, responses } = await getOrganizerData();
+export default async function TransportPage(props: PageProps<"/panel/[evento]/transporte">) {
+  const { event, groups, responses } = await loadOrganizer(props.params);
   const { routes, busSeatsNeeded, busSeatsTotal, byCar, invitations } = transportStats(
     event,
     groups,

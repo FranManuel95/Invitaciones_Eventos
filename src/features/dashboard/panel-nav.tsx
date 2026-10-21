@@ -17,12 +17,12 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const ITEMS: { href: string; label: string; icon: LucideIcon }[] = [
-  { href: "/panel", label: "Inicio", icon: Home },
-  { href: "/panel/invitados", label: "Invitados", icon: Users },
-  { href: "/panel/transporte", label: "Transporte", icon: Bus },
-  { href: "/panel/menus", label: "Menús", icon: UtensilsCrossed },
-  { href: "/panel/comunicaciones", label: "Comunicaciones", icon: Send },
+const ITEMS: { path: string; label: string; icon: LucideIcon }[] = [
+  { path: "", label: "Inicio", icon: Home },
+  { path: "/invitados", label: "Invitados", icon: Users },
+  { path: "/transporte", label: "Transporte", icon: Bus },
+  { path: "/menus", label: "Menús", icon: UtensilsCrossed },
+  { path: "/comunicaciones", label: "Comunicaciones", icon: Send },
 ];
 
 const SOON: { label: string; icon: LucideIcon }[] = [
@@ -33,18 +33,21 @@ const SOON: { label: string; icon: LucideIcon }[] = [
   { label: "Ajustes", icon: Settings },
 ];
 
-function useIsActive() {
+const itemsFor = (base: string) => ITEMS.map((item) => ({ ...item, href: base + item.path }));
+
+/** `base` es la raíz del evento: /panel/demo o /panel/<id>. */
+function useIsActive(base: string) {
   const pathname = usePathname();
-  return (href: string) => (href === "/panel" ? pathname === href : pathname.startsWith(href));
+  return (href: string) => (href === base ? pathname === href : pathname.startsWith(href));
 }
 
 /** Navegación lateral (escritorio). */
-export function SidebarNav() {
-  const isActive = useIsActive();
+export function SidebarNav({ base }: { base: string }) {
+  const isActive = useIsActive(base);
   return (
     <nav aria-label="Panel">
       <ul className="space-y-0.5">
-        {ITEMS.map(({ href, label, icon: Icon }) => (
+        {itemsFor(base).map(({ href, label, icon: Icon }) => (
           <li key={href}>
             <Link
               href={href}
@@ -76,12 +79,12 @@ export function SidebarNav() {
 }
 
 /** Navegación compacta desplazable (móvil y tableta). */
-export function TopNav() {
-  const isActive = useIsActive();
+export function TopNav({ base }: { base: string }) {
+  const isActive = useIsActive(base);
   return (
     <nav aria-label="Panel" className="-mx-4 [scrollbar-width:none] overflow-x-auto px-4">
       <ul className="flex gap-1">
-        {ITEMS.map(({ href, label, icon: Icon }) => (
+        {itemsFor(base).map(({ href, label, icon: Icon }) => (
           <li key={href} className="shrink-0">
             <Link
               href={href}

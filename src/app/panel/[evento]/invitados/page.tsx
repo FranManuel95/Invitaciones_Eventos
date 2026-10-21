@@ -1,13 +1,13 @@
 import { GuestTable, type GuestFilters } from "@/features/dashboard/guest-table";
 import { PageHeader } from "@/features/dashboard/ui";
-import { getOrganizerData } from "@/lib/data/repository";
 import { buildGuestRows } from "@/lib/stats";
+import { loadOrganizer } from "../load";
 
 export const metadata = { title: "Invitados" };
 
 const STATUSES = ["all", "attending", "pending", "declined"] as const;
 
-export default async function GuestsPage(props: PageProps<"/panel/invitados">) {
+export default async function GuestsPage(props: PageProps<"/panel/[evento]/invitados">) {
   const params = await props.searchParams;
   const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) ?? "";
   const initial: GuestFilters = {
@@ -17,7 +17,7 @@ export default async function GuestsPage(props: PageProps<"/panel/invitados">) {
     autobus: (["si", "no"] as const).find((b) => b === first(params.autobus)) ?? "all",
     agrupar: first(params.agrupar) === "1",
   };
-  const { event, groups, responses } = await getOrganizerData();
+  const { event, groups, responses } = await loadOrganizer(props.params);
   const rows = buildGuestRows(groups, responses);
   const categories = [...new Set(groups.map((g) => g.category))].sort();
   // Solo se acepta un grupo que exista; cualquier otro valor de la URL se ignora.
@@ -28,7 +28,7 @@ export default async function GuestsPage(props: PageProps<"/panel/invitados">) {
     <>
       <PageHeader
         title="Lista de invitados"
-        description="Busca, filtra y agrupa por familia o invitación. Alta y edición llegarán con el backend."
+        description="Busca, filtra y agrupa por familia o invitación."
       />
       <GuestTable rows={rows} categories={categories} routes={routes} initial={initial} />
     </>

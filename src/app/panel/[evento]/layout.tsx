@@ -3,17 +3,17 @@ import Link from "next/link";
 import { DemoBadge } from "@/components/demo-badge";
 import { SidebarNav, TopNav } from "@/features/dashboard/panel-nav";
 import { Monogram } from "@/features/invitation/ornaments";
-import { getEvent } from "@/lib/data/repository";
 import { formatLongDate } from "@/lib/format";
+import { loadOrganizer } from "./load";
 
 export const metadata: Metadata = {
   title: { default: "Panel", template: "%s | Panel" },
 };
 
-export default async function PanelLayout({ children }: { children: React.ReactNode }) {
-  const event = await getEvent();
+export default async function PanelLayout(props: LayoutProps<"/panel/[evento]">) {
+  const { event, base, isDemo, meta } = await loadOrganizer(props.params);
   const brand = (
-    <Link href="/panel" className="flex items-center gap-2.5">
+    <Link href={base} className="flex items-center gap-2.5">
       <Monogram
         first={event.couple.first}
         second={event.couple.second}
@@ -38,24 +38,38 @@ export default async function PanelLayout({ children }: { children: React.ReactN
       </a>
       <aside className="hidden border-r border-line bg-paper/70 lg:flex lg:flex-col lg:gap-8 lg:px-4 lg:py-6">
         <div className="px-2">{brand}</div>
-        <SidebarNav />
+        <SidebarNav base={base} />
         <div className="mt-auto space-y-4 px-2">
-          <Link
-            href="/i/familia-garcia"
-            className="block text-[0.875rem] text-ink-soft underline decoration-gold underline-offset-4 hover:text-ink hover:decoration-ink"
-          >
-            Ver una invitación de ejemplo
-          </Link>
-          <DemoBadge />
+          {isDemo ? (
+            <Link
+              href="/i/familia-garcia"
+              className="block text-[0.875rem] text-ink-soft underline decoration-gold underline-offset-4 hover:text-ink hover:decoration-ink"
+            >
+              Ver una invitación de ejemplo
+            </Link>
+          ) : (
+            <>
+              <p className="text-[0.8125rem] text-muted">
+                {meta?.status === "published" ? "Publicada" : "Borrador sin publicar"}
+              </p>
+              <Link
+                href="/panel"
+                className="block text-[0.875rem] text-ink-soft underline decoration-gold underline-offset-4 hover:text-ink hover:decoration-ink"
+              >
+                Mis eventos
+              </Link>
+            </>
+          )}
+          {isDemo ? <DemoBadge /> : null}
         </div>
       </aside>
 
       <header className="sticky top-0 z-30 border-b border-line bg-ivory/90 px-4 pt-4 pb-3 backdrop-blur-md lg:hidden">
         <div className="mb-3 flex items-center justify-between gap-3">
           {brand}
-          <DemoBadge />
+          {isDemo ? <DemoBadge /> : null}
         </div>
-        <TopNav />
+        <TopNav base={base} />
       </header>
 
       <main
@@ -63,7 +77,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
         tabIndex={-1}
         className="min-w-0 px-4 py-6 outline-none sm:px-6 lg:px-10 lg:py-9"
       >
-        {children}
+        {props.children}
       </main>
     </div>
   );

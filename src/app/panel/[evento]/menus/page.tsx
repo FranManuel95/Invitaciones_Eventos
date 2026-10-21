@@ -1,14 +1,14 @@
 import { ShieldAlert, UtensilsCrossed } from "lucide-react";
 import { DonutChart } from "@/features/dashboard/charts";
 import { Card, MENU_COLORS, MENU_ORDER, MenuDot, PageHeader } from "@/features/dashboard/ui";
-import { getOrganizerData } from "@/lib/data/repository";
 import { ALLERGIES, MENU_LABELS, allergyLabel } from "@/lib/domain/catalog";
 import { buildGuestRows, countBy } from "@/lib/stats";
+import { loadOrganizer } from "../load";
 
 export const metadata = { title: "Menús y alergias" };
 
-export default async function MenusPage() {
-  const { event, groups, responses } = await getOrganizerData();
+export default async function MenusPage(props: PageProps<"/panel/[evento]/menus">) {
+  const { event, groups, responses } = await loadOrganizer(props.params);
   const rows = buildGuestRows(groups, responses);
   const menus = countBy(rows, (r) => r.menu);
   const allergies = countBy(rows, (r) => r.allergies);

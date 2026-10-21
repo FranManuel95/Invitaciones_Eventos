@@ -115,7 +115,7 @@ export function GuestPass({
             </div>
             <div>
               <dt className="text-[0.8125rem] text-muted">Mesa</dt>
-              <dd className="text-ink">Se asignará en abril</dd>
+              <dd className="text-ink">{group.tableName ?? "Se asignará pronto"}</dd>
             </div>
             <div className="col-span-2">
               <dt className="text-[0.8125rem] text-muted">Autobús</dt>

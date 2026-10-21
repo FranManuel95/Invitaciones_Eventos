@@ -1,6 +1,6 @@
 /**
- * Modelo de dominio del prototipo.
- * Es un borrador del modelo conceptual de PROJECT_SPEC.md: todavía no existe base de datos.
+ * Modelo de dominio. En la base de datos (Supabase) el contenido del evento se guarda como
+ * JSON validado por eventContentSchema; invitados, respuestas y mesas van en tablas.
  * Las invitaciones se asignan a un grupo (familia, pareja…) con un enlace personal (token).
  */
 
@@ -123,6 +123,10 @@ export interface GuestGroup {
   maxAttendees: number;
   /** Solo para la demo: fuerza un fallo al guardar o un plazo cerrado. */
   demo?: { failFirstSave?: boolean; deadlinePassed?: boolean };
+  /** Guardado en la base de datos: las respuestas se envían al servidor. */
+  persisted?: boolean;
+  /** Mesa asignada en el plano (eventos reales). */
+  tableName?: string | null;
 }
 
 export interface AttendeeResponse {

@@ -2,23 +2,23 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
 const PAGES = [
-  "/panel",
-  "/panel/invitados",
-  "/panel/transporte",
-  "/panel/menus",
-  "/panel/comunicaciones",
+  "/panel/demo",
+  "/panel/demo/invitados",
+  "/panel/demo/transporte",
+  "/panel/demo/menus",
+  "/panel/demo/comunicaciones",
 ];
 
 test.describe("panel del organizador", () => {
   test("muestra el resumen con métricas", async ({ page }) => {
-    await page.goto("/panel");
+    await page.goto("/panel/demo");
     await expect(page.getByRole("heading", { level: 1, name: "Hola, María" })).toBeVisible();
     await expect(page.locator("dt", { hasText: /^Invitados$/ })).toBeVisible();
     await expect(page.getByText("150", { exact: true }).first()).toBeVisible();
   });
 
   test("filtra y busca invitados", async ({ page, isMobile }) => {
-    await page.goto("/panel/invitados?estado=pending");
+    await page.goto("/panel/demo/invitados?estado=pending");
     await expect(page.getByRole("radio", { name: "Pendientes" })).toHaveAttribute(
       "aria-checked",
       "true",

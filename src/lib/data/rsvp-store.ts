@@ -1,12 +1,15 @@
 "use client";
 
 import type { GuestGroup, RsvpResponse } from "@/lib/domain/types";
+import { submitRsvp } from "@/app/actions/rsvp";
 import { rsvpResponseSchema } from "@/lib/rsvp/draft";
 
 /**
- * Persistencia de demostración: guarda la respuesta en el navegador (localStorage).
- * Simula latencia de red y, para la invitación "prueba-error", un primer fallo.
- * Sustituir por una llamada al servidor cuando exista backend.
+ * Respuesta del invitado, compartida por la cabecera, el RSVP y el pase.
+ * - Invitaciones reales (group.persisted): se envía al servidor (submitRsvp) y se recuerda
+ *   también en el navegador.
+ * - Demostración: solo en el navegador (localStorage), con latencia simulada y, para la
+ *   invitación "prueba-error", un primer fallo.
  */
 
 const keyFor = (token: string) => `invitacion:${token}:rsvp`;
@@ -21,6 +24,11 @@ export function subscribeResponses(listener: () => void) {
   return () => {
     listeners.delete(listener);
   };
+}
+
+/** La respuesta que ya tiene el servidor manda sobre la del navegador. */
+export function primeResponse(token: string, response: RsvpResponse | null) {
+  cache.set(token, response);
 }
 
 export function getSavedResponse(token: string): RsvpResponse | null {
@@ -44,6 +52,11 @@ export async function saveResponse(
   group: GuestGroup,
   response: RsvpResponse,
 ): Promise<RsvpResponse> {
+  if (group.persisted) {
+    const saved = await submitRsvp(token, rsvpResponseSchema.parse(response));
+    remember(token, saved);
+    return saved;
+  }
   await new Promise((resolve) => setTimeout(resolve, 900));
   if (group.demo?.failFirstSave && !failedOnce.has(token)) {
     failedOnce.add(token);
@@ -52,14 +65,18 @@ export async function saveResponse(
     );
   }
   const valid = rsvpResponseSchema.parse(response);
+  remember(token, valid);
+  return valid;
+}
+
+function remember(token: string, response: RsvpResponse) {
   try {
-    window.localStorage.setItem(keyFor(token), JSON.stringify(valid));
+    window.localStorage.setItem(keyFor(token), JSON.stringify(response));
   } catch {
     // Sin almacenamiento (modo privado): la confirmación se muestra igualmente en esta sesión.
   }
-  cache.set(token, valid);
+  cache.set(token, response);
   listeners.forEach((l) => l());
-  return valid;
 }
 
 export function clearResponse(token: string) {

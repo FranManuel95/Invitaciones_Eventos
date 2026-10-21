@@ -1,15 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { InvitationExperience } from "@/features/invitation/experience";
-import { getInvitation, listAllTokens } from "@/lib/data/repository";
+import { getInvitation } from "@/lib/data/repository";
 
-export async function generateStaticParams() {
-  const tokens = await listAllTokens();
-  return tokens.map((token) => ({ token }));
-}
-
-// Solo existen las invitaciones de la demo; cualquier otro token devuelve 404.
-export const dynamicParams = false;
+// Las invitaciones reales viven en la base de datos (y su respuesta puede cambiar), así que se
+// pintan en cada petición. Los tokens desconocidos devuelven 404.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(props: PageProps<"/i/[token]">): Promise<Metadata> {
   const { token } = await props.params;
@@ -26,5 +22,11 @@ export default async function InvitationPage(props: PageProps<"/i/[token]">) {
   const { token } = await props.params;
   const invitation = await getInvitation(token);
   if (!invitation) notFound();
-  return <InvitationExperience event={invitation.event} group={invitation.group} />;
+  return (
+    <InvitationExperience
+      event={invitation.event}
+      group={invitation.group}
+      initialResponse={invitation.response}
+    />
+  );
 }
