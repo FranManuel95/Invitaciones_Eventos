@@ -7,12 +7,16 @@ import {
   CALENDARS,
   ENVELOPE_IDS,
   ENVELOPES,
+  SECTION_IDS,
+  SECTIONS,
   STYLE_IDS,
   STYLES,
   WAX_IDS,
   WAXES,
   type Theme,
 } from "@/lib/theme";
+
+// Pestaña «Estilo» del editor: aspecto, secciones visibles y música.
 import { Group, useEditor } from "../fields";
 
 function Swatches({ colors }: { colors: string[] }) {
@@ -25,7 +29,7 @@ function Swatches({ colors }: { colors: string[] }) {
   );
 }
 
-function Choice<K extends keyof Theme>({
+function Choice<K extends "style" | "envelope" | "wax" | "calendar">({
   name,
   value,
   label,
@@ -121,6 +125,48 @@ export function StyleTab() {
           ))}
         </div>
       </Group>
+      <SectionsAndMusic />
     </div>
+  );
+}
+
+/** Qué secciones se ven en la invitación y si suena música al abrir el sobre. */
+function SectionsAndMusic() {
+  const { draft, setTheme } = useEditor();
+  const hidden = new Set(draft.theme.hidden);
+  return (
+    <>
+      <Group
+        title="Secciones"
+        description="Quita las que no necesitéis. La confirmación de asistencia siempre se ve."
+      >
+        <div className="grid gap-3 sm:grid-cols-2">
+          {SECTION_IDS.map((id) => (
+            <ChoiceCard
+              key={id}
+              type="checkbox"
+              label={SECTIONS[id]}
+              checked={!hidden.has(id)}
+              onChange={(e) =>
+                setTheme({
+                  ...draft.theme,
+                  // Se guarda en el orden de la invitación.
+                  hidden: SECTION_IDS.filter((s) => (s === id ? !e.target.checked : hidden.has(s))),
+                })
+              }
+            />
+          ))}
+        </div>
+      </Group>
+      <Group title="Música">
+        <ChoiceCard
+          type="checkbox"
+          label="Música al abrir el sobre"
+          description="Piano suave compuesto en el navegador. Cada invitado puede silenciarla."
+          checked={draft.theme.music}
+          onChange={(e) => setTheme({ ...draft.theme, music: e.target.checked })}
+        />
+      </Group>
+    </>
   );
 }

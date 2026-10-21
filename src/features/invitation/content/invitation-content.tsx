@@ -2,7 +2,7 @@
 
 import { clsx } from "clsx";
 import { RotateCcw } from "lucide-react";
-import { useEffect, useRef, useState, ViewTransition } from "react";
+import { useEffect, useMemo, useRef, useState, ViewTransition } from "react";
 import { DemoBadge } from "@/components/demo-badge";
 import { buttonClasses } from "@/components/ui/button";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
@@ -16,7 +16,7 @@ import { ResponseStatus } from "./response-status";
 import { dayClock, liveProgram } from "@/lib/day-mode";
 import { LiveDay } from "./live-day";
 import { SaveTheDate } from "./save-the-date";
-import type { CalendarId } from "@/lib/theme";
+import type { CalendarId, SectionId } from "@/lib/theme";
 import { StorySection } from "./story-section";
 import { PracticalSection, ProgramSection, TransportSection, VenuesSection } from "./sections";
 
@@ -30,7 +30,7 @@ const NAV = [
   { id: "regalo", label: "Regalo" },
   { id: "confirmar", label: "Confirmar" },
 ];
-const NAV_IDS = NAV.map((n) => n.id);
+const NO_HIDDEN: SectionId[] = [];
 
 function useActiveSection(ids: string[]) {
   const [active, setActive] = useState<string | null>(null);
@@ -60,6 +60,8 @@ export interface InvitationContentProps {
   calendar?: CalendarId;
   /** Texto del distintivo (null: sin distintivo, en invitaciones reales). */
   badge?: string | null;
+  /** Secciones que la pareja ha ocultado desde el editor. */
+  hidden?: SectionId[];
 }
 
 /** Pantallas 4 a 7 · La invitación completa con secciones y RSVP. */
@@ -70,8 +72,12 @@ export function InvitationContent({
   focusOnMount,
   calendar,
   badge,
+  hidden = NO_HIDDEN,
 }: InvitationContentProps) {
-  const active = useActiveSection(NAV_IDS);
+  const shows = (id: SectionId) => !hidden.includes(id);
+  const nav = useMemo(() => NAV.filter((n) => !(hidden as string[]).includes(n.id)), [hidden]);
+  const navIds = useMemo(() => nav.map((n) => n.id), [nav]);
+  const active = useActiveSection(navIds);
   const saved = useSavedResponse(group.token);
   // Reloj del modo «día de la boda» (o simulado con ?dia=boda&hora=19:10 en la demo).
   const [clock, setClock] = useState(() => dayClock(event, new Date(), window.location.search));
@@ -199,7 +205,7 @@ export function InvitationContent({
           ref={navRef}
           className="relative mx-auto flex max-w-5xl [scrollbar-width:none] gap-6 overflow-x-auto px-6 sm:px-10"
         >
-          {NAV.map((item) => (
+          {nav.map((item) => (
             <li key={item.id} className="shrink-0">
               <a
                 href={`#${item.id}`}
@@ -225,13 +231,15 @@ export function InvitationContent({
           </p>
         </section>
 
-        {clock.active ? null : <SaveTheDate event={event} variant={calendar} />}
-        <ProgramSection event={event} currentId={live?.current?.id ?? null} />
-        <VenuesSection event={event} />
-        <TransportSection event={event} response={saved} />
-        <PracticalSection event={event} />
-        <StorySection event={event} />
-        <GiftSection event={event} />
+        {clock.active || !shows("fecha") ? null : <SaveTheDate event={event} variant={calendar} />}
+        {shows("programa") ? (
+          <ProgramSection event={event} currentId={live?.current?.id ?? null} />
+        ) : null}
+        {shows("lugares") ? <VenuesSection event={event} /> : null}
+        {shows("transporte") ? <TransportSection event={event} response={saved} /> : null}
+        {shows("info") ? <PracticalSection event={event} /> : null}
+        {shows("historia") ? <StorySection event={event} /> : null}
+        {shows("regalo") ? <GiftSection event={event} /> : null}
         <RsvpSection event={event} group={group} />
       </main>
 

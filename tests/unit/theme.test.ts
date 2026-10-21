@@ -20,6 +20,15 @@ describe("tema", () => {
     });
   });
 
+  it("los temas guardados antes de las secciones y la música siguen valiendo", () => {
+    expect(parseTheme({ style: "clasico" })).toMatchObject({ hidden: [], music: true });
+    expect(parseTheme({ hidden: ["historia", "regalo"], music: false })).toMatchObject({
+      hidden: ["historia", "regalo"],
+      music: false,
+    });
+    expect(parseTheme({ hidden: ["confirmar"] }).hidden).toEqual([]);
+  });
+
   it("mezcla y mide el contraste como WCAG", () => {
     expect(mix("#000000", "#ffffff", 0.5)).toBe("#808080");
     expect(contrast("#000000", "#ffffff")).toBeCloseTo(21, 0);

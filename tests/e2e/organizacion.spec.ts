@@ -13,9 +13,7 @@ test.describe("organización del evento", () => {
     await expect(page.getByText(/^\d+ pendientes · Demo/)).toBeVisible();
 
     await page.getByRole("radio", { name: "Hechas" }).click();
-    await expect(
-      page.getByRole("checkbox", { name: /Elegir el catering/ }),
-    ).toBeChecked();
+    await expect(page.getByRole("checkbox", { name: /Elegir el catering/ })).toBeChecked();
 
     await page.getByRole("button", { name: "Nueva tarea" }).click();
     const dialog = page.getByRole("dialog", { name: "Nueva tarea" });

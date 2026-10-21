@@ -26,6 +26,19 @@ test.describe("editor de la invitación", () => {
     await expect(preview.locator("#content-title")).toBeAttached();
   });
 
+  test("ocultar una sección la quita de la vista previa", async ({ page, isMobile }) => {
+    await page.goto("/editor/demo");
+    const preview = page.frameLocator('iframe[title="Vista previa de la invitación"]');
+    await expect(preview.locator("#cover-title")).toBeAttached();
+    if (isMobile) await page.getByRole("button", { name: "Vista previa" }).click();
+    await page.getByRole("button", { name: "Invitación", exact: true }).click();
+    await expect(preview.locator("#historia")).toBeAttached();
+    if (isMobile) await page.getByRole("button", { name: "Editar" }).click();
+    await page.getByRole("checkbox", { name: "Nuestra historia" }).uncheck({ force: true });
+    await expect(preview.locator("#historia")).toHaveCount(0);
+    await expect(preview.getByRole("link", { name: "Nuestra historia" })).toHaveCount(0);
+  });
+
   test("marca los errores y bloquea su pestaña", async ({ page }) => {
     await page.goto("/editor/demo");
     await page.getByRole("tab", { name: "Programa y lugares" }).click();

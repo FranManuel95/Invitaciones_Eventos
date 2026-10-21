@@ -18,12 +18,36 @@ export type EnvelopeId = (typeof ENVELOPE_IDS)[number];
 export type WaxId = (typeof WAX_IDS)[number];
 export type CalendarId = (typeof CALENDAR_IDS)[number];
 
+/** Secciones de la invitación que se pueden ocultar (la confirmación siempre se ve). */
+export const SECTION_IDS = [
+  "fecha",
+  "programa",
+  "lugares",
+  "transporte",
+  "info",
+  "historia",
+  "regalo",
+] as const;
+export type SectionId = (typeof SECTION_IDS)[number];
+
+export const SECTIONS: Record<SectionId, string> = {
+  fecha: "Guarda la fecha",
+  programa: "El día (programa)",
+  lugares: "Dónde (lugares)",
+  transporte: "Cómo llegar",
+  info: "Antes de venir",
+  historia: "Nuestra historia",
+  regalo: "Regalo",
+};
+
 /** Tema que envía el editor: estricto, sin corregir valores desconocidos. */
 export const themeInputSchema = z.strictObject({
   style: z.enum(STYLE_IDS),
   envelope: z.enum(ENVELOPE_IDS),
   wax: z.enum(WAX_IDS),
   calendar: z.enum(CALENDAR_IDS),
+  hidden: z.array(z.enum(SECTION_IDS)).max(SECTION_IDS.length),
+  music: z.boolean(),
 });
 
 /** Tema leído de la base de datos: lo que falte o no se reconozca vuelve al valor por defecto. */
@@ -32,6 +56,8 @@ export const themeSchema = z.object({
   envelope: z.enum(ENVELOPE_IDS).catch("olivo"),
   wax: z.enum(WAX_IDS).catch("burdeos"),
   calendar: z.enum(CALENDAR_IDS).catch("taco"),
+  hidden: z.array(z.enum(SECTION_IDS)).max(SECTION_IDS.length).catch([]),
+  music: z.boolean().catch(true),
 });
 
 export type Theme = z.infer<typeof themeSchema>;
@@ -41,6 +67,8 @@ export const DEFAULT_THEME: Theme = {
   envelope: "olivo",
   wax: "burdeos",
   calendar: "taco",
+  hidden: [],
+  music: true,
 };
 
 /** Lee un tema guardado: lo que falte o no se reconozca vuelve al valor por defecto. */

@@ -107,13 +107,14 @@ export function InvitationExperience({
       userNavigated.current = true;
       if (next !== "cover") preload();
       if (next === "content") markEnvelopeOpened(group.token);
-      // Música: entra al levantar la portada y se despide al llegar al contenido.
-      if (next === "envelope") startAmbient();
+      // Música (si la pareja la quiere): entra al levantar la portada y se despide al llegar al
+      // contenido.
+      if (next === "envelope" && theme.music) startAmbient();
       if (next === "content" || next === "cover") stopAmbient(next === "content" ? 3 : 0.4);
       // Dentro de una transición: React activa los <ViewTransition> (la carta que se transforma).
       startTransition(() => setStage(next));
     },
-    [group.token, preload],
+    [group.token, preload, theme.music],
   );
 
   const toContent = useCallback(() => go("content"), [go]);
@@ -149,7 +150,7 @@ export function InvitationExperience({
                   onClick={() => {
                     setMuted(!muted);
                     if (!muted) stopAmbient(0.6);
-                    else if (stage === "envelope" || stage === "letter") {
+                    else if (theme.music && (stage === "envelope" || stage === "letter")) {
                       unlockAudio();
                       startAmbient();
                     }
@@ -222,6 +223,7 @@ export function InvitationExperience({
                     onReplay={() => go("cover")}
                     focusOnMount={chosenStage !== null}
                     calendar={theme.calendar}
+                    hidden={theme.hidden}
                     badge={badge}
                   />
                 </ViewTransition>

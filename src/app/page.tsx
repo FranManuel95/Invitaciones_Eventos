@@ -7,13 +7,13 @@ import { getEvent, listShowcaseInvitations } from "@/lib/data/repository";
 import { ENVELOPES, STYLES, WAXES, type Theme } from "@/lib/theme";
 
 // Combinaciones de ejemplo: la misma invitación con otro estilo, sobre, lacre y calendario.
-const PRESETS: Theme[] = [
+const PRESETS: Pick<Theme, "style" | "envelope" | "wax" | "calendar">[] = [
   { style: "mediterraneo", envelope: "olivo", wax: "burdeos", calendar: "taco" },
   { style: "clasico", envelope: "lino", wax: "azul", calendar: "minimal" },
   { style: "noche", envelope: "kraft", wax: "oro", calendar: "minimal" },
 ];
 
-const presetHref = (t: Theme) =>
+const presetHref = (t: (typeof PRESETS)[number]) =>
   `/i/familia-garcia?estilo=${t.style}&sobre=${t.envelope}&lacre=${t.wax}&calendario=${t.calendar}`;
 
 const NOTES: Record<string, string> = {
