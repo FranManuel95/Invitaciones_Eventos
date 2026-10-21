@@ -22,6 +22,12 @@ import { AlmondBranch, Monogram, WaxSealArt } from "../ornaments";
  * el lacre se parte en dos mitades y suelta fragmentos, la carta sale con fricción y una leve
  * curvatura, y todo el sobre responde a la inclinación del móvil.
  * La carta lleva un <ViewTransition name="carta">: al terminar se transforma en la carta grande.
+ * Solo participa en ese relevo (share); con default="none" no se «eleva» por encima del sobre
+ * en otras transiciones, como el paso de la portada al sobre.
+ *
+ * Coreografía de cámara: al abrir, la escena se acerca despacio y los bordes se oscurecen como
+ * un foco; la carta da un primer tirón, se desliza fuera, el sobre sale de plano por abajo y un
+ * destello de luz recorre la carta justo antes de convertirse en la carta grande.
  */
 
 const POCKET_TIP = 54; // % de altura donde se juntan las solapas laterales
@@ -60,6 +66,7 @@ export function EnvelopeStage({
   const reduce = useReducedMotion();
   const tilt = useTilt();
   const [scope, animate] = useAnimate<HTMLDivElement>();
+  const spotlight = useRef<HTMLDivElement>(null);
   const [opening, setOpening] = useState(false);
   // Guarda síncrona: un segundo toque (o un clic tardío) nunca relanza la secuencia.
   const started = useRef(false);
@@ -90,6 +97,11 @@ export function EnvelopeStage({
 
     // El título se retira para dejar espacio a la solapa abierta y a la carta.
     animate("[data-heading]", { opacity: 0, y: -12 }, { duration: 0.45, ease: "easeOut" });
+    // Cámara: un acercamiento lento durante toda la apertura y un foco que oscurece los bordes.
+    animate(scope.current, { scale: 1.1, y: 18 }, { duration: 4.6, ease: [0.45, 0, 0.25, 1] });
+    if (spotlight.current) {
+      animate(spotlight.current, { opacity: 1 }, { duration: 2.6, delay: 0.6, ease: "easeInOut" });
+    }
 
     // 1. Presión: el sobre cede un poco y el lacre se aplasta antes de romperse.
     animate("[data-envelope]", { scale: [1, 0.982, 1], y: [0, 3, 0] }, { duration: 0.36 });
@@ -135,22 +147,45 @@ export function EnvelopeStage({
     await animate("[data-flap]", { rotateX: 180 }, { duration: 0.5, ease: [0, 0.55, 0.45, 1] });
     if (!alive.current) return;
 
-    // 3. La carta sale con fricción: arranca despacio, se curva levemente y se endereza.
+    // 3. La carta sale como sacada a mano: un primer tirón corto con un leve giro, y después
+    //    un deslizamiento largo con fricción mientras el papel se endereza.
     playPaper(0.9, 0.05);
     animate("[data-letter-shadow]", { opacity: 0 }, { duration: 0.6, delay: 0.3 });
     await animate(
       "[data-letter]",
-      { y: "-64%", skewY: [0.9, 0.4, 0], scaleY: [0.992, 1] },
+      { y: "-9%", rotate: -1.4 },
+      { duration: 0.3, ease: [0.3, 0, 0.5, 1] },
+    );
+    if (!alive.current) return;
+    await animate(
+      "[data-letter]",
+      { y: "-64%", rotate: 0.5, skewY: [0.8, 0.3, 0], scaleY: [0.992, 1] },
       { duration: 1.05, ease: friction },
     );
     if (!alive.current) return;
 
-    // 4. El sobre se retira y la carta sube al primer plano; luego se transforma en la carta grande.
-    // La solapa cae con el cuerpo: si se quedara, Safari la aplana al capturar la transición
-    // a la carta y parece un sobre cerrado.
-    animate("[data-body]", { y: 240, opacity: 0 }, { duration: 0.7, ease: [0.55, 0, 0.85, 0.35] });
-    animate("[data-flap]", { y: 240, opacity: 0 }, { duration: 0.6, ease: [0.55, 0, 0.85, 0.35] });
-    await animate("[data-letter]", { y: "-20%", scale: 1.1 }, { duration: 0.7, ease: friction });
+    // 4. El sobre sale de plano por abajo y la carta sube al centro, se endereza y crece; un
+    //    destello la recorre. La solapa cae con el cuerpo: si se quedara, Safari la aplanaría
+    //    al capturar el relevo y parecería un sobre cerrado.
+    animate(
+      "[data-body]",
+      { y: 280, opacity: 0, scale: 0.94 },
+      { duration: 0.8, ease: [0.55, 0, 0.85, 0.35] },
+    );
+    animate("[data-flap]", { y: 280, opacity: 0 }, { duration: 0.65, ease: [0.55, 0, 0.85, 0.35] });
+    animate(
+      "[data-letter-sheen]",
+      { x: ["-160%", "160%"], opacity: [0, 1, 0] },
+      { duration: 1.1, delay: 0.25, ease: "easeInOut" },
+    );
+    await animate(
+      "[data-letter]",
+      { y: "-18%", rotate: 0, scale: 1.16 },
+      { duration: 0.95, ease: friction },
+    );
+    if (!alive.current) return;
+    // Un instante de calma antes del relevo: da respiro al plano.
+    await new Promise((resolve) => window.setTimeout(resolve, 160));
     if (alive.current) onOpened();
   }
 
@@ -161,6 +196,12 @@ export function EnvelopeStage({
       className="fixed inset-0 z-10 flex flex-col items-center justify-center overflow-hidden bg-[radial-gradient(120%_80%_at_50%_45%,#e3d6c2_0%,#cdbca4_55%,#b6a387_100%)] px-6 pt-16 pb-10"
     >
       <div aria-hidden className="paper-grain absolute inset-0" />
+      {/* Foco: los bordes se oscurecen al abrir, como una cámara que se centra en la carta. */}
+      <div
+        ref={spotlight}
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_55%_at_50%_48%,transparent_35%,rgb(28_20_12/0.55)_100%)] opacity-0"
+      />
 
       <div ref={scope} className="relative flex w-full flex-col items-center">
         <div
@@ -215,12 +256,19 @@ export function EnvelopeStage({
             </span>
 
             {/* Carta: se transforma en la carta grande de la siguiente pantalla */}
-            <ViewTransition name="carta" share="paper-morph">
+            <ViewTransition name="carta" share="paper-morph" default="none">
               <m.span
                 data-letter
                 aria-hidden
                 className="paper-grain absolute inset-x-[6%] top-[5%] z-10 block h-[88%] origin-bottom rounded-[2px] bg-paper shadow-[0_1px_3px_rgb(60_45_25/0.18)]"
               >
+                {/* Destello de luz que cruza el papel al llegar al primer plano */}
+                <span className="pointer-events-none absolute inset-0 block overflow-hidden rounded-[2px]">
+                  <span
+                    data-letter-sheen
+                    className="absolute inset-y-0 left-1/4 block w-1/2 -skew-x-12 bg-[linear-gradient(90deg,transparent,rgb(255_250_235/0.75),transparent)] opacity-0"
+                  />
+                </span>
                 <span
                   data-letter-shadow
                   className="pointer-events-none absolute inset-x-0 top-0 block h-1/3 rounded-t-[2px] bg-[linear-gradient(180deg,rgb(35_30_20/0.45),transparent)] opacity-0"

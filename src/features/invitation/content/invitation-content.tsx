@@ -108,7 +108,7 @@ export function InvitationContent({
       </a>
 
       {/* La carta de la pantalla anterior se transforma en esta cabecera de papel. */}
-      <ViewTransition name="carta" share="paper-morph">
+      <ViewTransition name="carta" share="paper-morph" default="none">
         <header className="paper-grain relative overflow-hidden bg-paper">
           <div className="mx-auto max-w-5xl px-6 pt-[max(1.25rem,env(safe-area-inset-top))] pb-16 sm:px-10 sm:pb-24">
             <div className="flex items-center justify-between">

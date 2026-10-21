@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
+import { m } from "motion/react";
 import { useEffect, useRef, ViewTransition } from "react";
 import { Button } from "@/components/ui/button";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
@@ -41,13 +42,21 @@ export function LetterStage({
       {...swipe}
     >
       <div aria-hidden className="paper-grain absolute inset-0" />
+      {/* El foco de la apertura del sobre se abre poco a poco: la luz vuelve a la escena. */}
+      <m.div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_55%_at_50%_48%,transparent_35%,rgb(28_20_12/0.55)_100%)]"
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 0 }}
+        transition={{ duration: 1.6, delay: 0.3, ease: "easeOut" }}
+      />
       <BlossomCorner className="pointer-events-none absolute -top-6 -right-8 w-44 rotate-180 opacity-90 sm:w-60" />
       <BlossomCorner className="pointer-events-none absolute -bottom-6 -left-8 w-48 opacity-90 sm:w-64" />
       <Petals />
 
       {/* La sombra va en un contenedor aparte: la máscara del borde de papel la recortaría. */}
       <div className="relative w-full max-w-[22rem] rotate-[-1.2deg] drop-shadow-[0_24px_30px_rgb(35_30_15/0.28)] sm:max-w-md">
-        <ViewTransition name="carta" share="paper-morph">
+        <ViewTransition name="carta" share="paper-morph" default="none">
           <article className="paper-grain deckle relative bg-paper px-8 py-12 text-center sm:px-12 sm:py-14">
             <div
               aria-hidden
