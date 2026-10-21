@@ -77,6 +77,57 @@ No se ha copiado código de ninguna de ellas.
 
 - **React Three Fiber** (MIT): un sobre con volumen y reflejos reales es viable, pero añade unos 150 KB y obliga a ofrecer otra alternativa accesible. Conviene evaluarlo cuando el sobre CSS esté probado en iOS.
 
+## Ronda 3 · Realismo y una invitación más completa
+
+Skills nuevas en `.claude/skills` (copiadas literalmente, con su licencia): react-view-transitions,
+composition-patterns y writing-guidelines (Vercel, MIT), y webapp-testing (Anthropic, Apache-2.0).
+
+### Realismo de la apertura (versión CSS, la de la invitación)
+
+- La portada sigue al dedo y sale con inercia. El paisaje está en cinco capas con paralaje, que
+  responde también al giroscopio (en iOS el permiso se pide en el mismo toque que abre).
+- Sobre: compresión al presionar; lacre partido en dos mitades más ocho migas de cera; solapa con
+  sombra que depende del ángulo; carta que sale con fricción y una flexión mínima del papel.
+- Continuidad sin cortes con `<ViewTransition name="carta">`: la carta del sobre se transforma en
+  la tarjeta y esta en la cabecera. El contenido se precarga para no suspender en mitad de la
+  transición.
+- Materiales: papel con fibras, borde barbado, relieve _letterpress_ y oro con brillo que se mueve.
+- Pétalos (12 SVG con CSS, una sola vez). Sonido sintetizado con Web Audio, sin archivos con
+  licencia, con botón de silencio que se recuerda. Vibración corta en Android.
+- Con movimiento reducido: fundidos, sin pétalos, sin arrastre obligatorio y sin giroscopio.
+
+### Contenido nuevo
+
+- Calendario de mayo con el 22 rodeado a mano, Google Calendar y `.ics`, antes de confirmar.
+- Autobús sí/no sin ambigüedad: plazas por invitación, una línea clara en la confirmación, en el
+  pase, en «Cómo llegar» y en el estado de «tu respuesta». En el panel: columna y filtro, totales
+  sí/no/sin responder y CSV de pasajeros por ruta.
+- Pase personal tras confirmar, con QR local (`uqr`, MIT, cargado bajo demanda), compartir e imprimir.
+- Nuestra historia (cuatro momentos), regalo con IBAN de demostración y canción en el RSVP.
+- Modo «día de la boda»: se activa solo el día del evento (hora de Madrid) o con
+  `?dia=boda&hora=19:10`. Muestra el acto actual y el siguiente, los autobuses de vuelta y accesos
+  directos.
+- Pasos del RSVP y secciones del panel con `<ViewTransition>`.
+
+### Laboratorio 3D (`/laboratorio/sobre-3d`)
+
+- `three@0.186` y `@react-three/fiber@9.8` (MIT), sin `drei`. Geometría, texturas de papel y
+  lacre generadas en un canvas: no hay recursos externos.
+- Se carga solo en esa ruta con `next/dynamic` sin SSR. Sin WebGL o con movimiento reducido se
+  muestra una alternativa que remite al sobre CSS. El lienzo es `aria-hidden` y se controla con un
+  botón.
+- Peso de JavaScript (gzip, medido en el navegador): invitación 204 KB (sin cambios); laboratorio
+  454 KB. En Chromium sin GPU (renderizado por software) va a ~10 fps, lo que no es representativo:
+  hay que medirlo en un móvil real.
+- Recomendación provisional: mantener el sobre CSS en la invitación. Pesa 250 KB menos, funciona en
+  cualquier navegador y la diferencia visual (luz y sombras reales) no compensa el coste en móviles
+  modestos. Decide tras probar ambos en el iPhone.
+
+### Fotos
+
+Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mismo formato
+(`PhotoSlot`), así que la maquetación no cambiará al ponerlas.
+
 ## Experiencia del invitado
 
 - **Orden de pantallas:** portada → sobre → carta → contenido, como en la imagen de referencia. Hay un
@@ -145,8 +196,10 @@ No se ha copiado código de ninguna de ellas.
 
 ## Pendiente para próximas fases
 
-1. Probar el sobre en Safari/iOS real.
+1. Probar el sobre CSS y el 3D en Safari/iOS real (giroscopio y sonido incluidos).
 2. Backend (Supabase/PostgreSQL con RLS), tokens seguros y validación en servidor.
 3. Autenticación del panel y permisos para ver las alergias.
 4. Alta y edición de invitados, exportación CSV, mesas, tareas, presupuesto y comunicaciones reales.
-5. Temas por pareja y fotografía con licencia.
+5. Temas por pareja y las 9 fotografías de la pareja.
+6. Opcionales propuestos: versión en inglés, tiempo habitual en mayo, galería posterior a la boda y
+   recordatorio por email (este requiere backend).

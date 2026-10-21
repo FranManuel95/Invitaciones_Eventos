@@ -70,9 +70,17 @@ export default async function Home() {
         </section>
 
         <div className="mt-14 md:ml-[15.5rem]">
-          <Link href="/panel" className={buttonClasses("primary", "lg")}>
-            Abrir el panel de los novios
-          </Link>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
+            <Link href="/panel" className={buttonClasses("primary", "lg")}>
+              Abrir el panel de los novios
+            </Link>
+            <Link
+              href="/laboratorio/sobre-3d"
+              className="text-[0.9375rem] text-ink-soft underline decoration-gold underline-offset-4 hover:text-ink hover:decoration-ink"
+            >
+              Comparar con el sobre 3D
+            </Link>
+          </div>
         </div>
       </div>
     </main>

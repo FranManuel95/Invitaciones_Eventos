@@ -41,15 +41,17 @@ npm run start        # http://localhost:3000
 
 ## Recorrido de la demo
 
-| URL                 | Qué muestra                                                                           |
-| ------------------- | ------------------------------------------------------------------------------------- |
-| `/`                 | Portada de la demo con enlaces a todas las invitaciones de ejemplo                    |
-| `/i/familia-garcia` | Familia con una niña y una plaza libre para acompañante                               |
-| `/i/carlos-ruiz`    | Invitación individual con acompañante opcional                                        |
-| `/i/elena-y-pablo`  | Pareja                                                                                |
-| `/i/prueba-error`   | Simula un fallo de red al enviar el RSVP la primera vez (estado de error y reintento) |
-| `/i/plazo-cerrado`  | Estado de plazo de confirmación cerrado                                               |
-| `/panel`            | Panel del organizador                                                                 |
+| URL                                  | Qué muestra                                                                           |
+| ------------------------------------ | ------------------------------------------------------------------------------------- |
+| `/`                                  | Portada de la demo con enlaces a todas las invitaciones de ejemplo                    |
+| `/i/familia-garcia`                  | Familia con una niña y una plaza libre para acompañante                               |
+| `/i/carlos-ruiz`                     | Invitación individual con acompañante opcional                                        |
+| `/i/elena-y-pablo`                   | Pareja                                                                                |
+| `/i/prueba-error`                    | Simula un fallo de red al enviar el RSVP la primera vez (estado de error y reintento) |
+| `/i/plazo-cerrado`                   | Estado de plazo de confirmación cerrado                                               |
+| `/panel`                             | Panel del organizador                                                                 |
+| `/i/carlos-ruiz?dia=boda&hora=19:10` | Modo «día de la boda»: acto actual, siguiente y autobuses de vuelta                   |
+| `/laboratorio/sobre-3d`              | Prototipo del sobre con WebGL (React Three Fiber) para comparar                       |
 
 Consejos:
 
@@ -101,6 +103,7 @@ tests/
   invitaciones (que solo viven en el navegador).
 - Sin autenticación: `/panel` es público (con `noindex`).
 - El paisaje de la portada es una ilustración SVG en lugar de una fotografía.
-- La animación del sobre se ha probado en Chromium (móvil y escritorio). **Falta probarla en Safari/iOS
-  real.**
+- La animación del sobre (CSS y 3D) se ha probado en Chromium (móvil y escritorio). **Falta probarla en
+  Safari/iOS real**, con giroscopio y sonido.
+- Las fotos de la historia y de los lugares son huecos ilustrados hasta tener las fotos reales.
 - Solo hay un tema visual y está en español.
