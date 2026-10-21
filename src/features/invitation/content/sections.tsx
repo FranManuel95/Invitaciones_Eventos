@@ -8,8 +8,8 @@ import { PhotoSlot } from "./photo-slot";
 /*
  * Secciones de la invitación con maquetación editorial: en escritorio el título ocupa una
  * columna de margen y el contenido la columna principal; en móvil todo va en una columna
- * alineada a la izquierda. Sin tarjetas ni apariciones por sección: el único momento
- * coreografiado es la apertura del sobre.
+ * alineada a la izquierda. Los titulares suben desde detrás de una línea al llegar a ellos
+ * (reveal-title, animación de scroll nativa en globals.css).
  */
 
 export function Section({
@@ -35,7 +35,7 @@ export function Section({
         <div>
           <h2
             id={`${id}-title`}
-            className="font-display text-[2.5rem] leading-[1.05] text-ink sm:text-[3rem] md:sticky md:top-24"
+            className="reveal-title font-display text-[2.5rem] leading-[1.05] text-ink sm:text-[3rem] md:sticky md:top-24"
           >
             {title}
           </h2>

@@ -347,3 +347,99 @@
     display: none !important;
   }
 }
+
+/*
+ * Ronda 4 · Animaciones ligadas al scroll, nativas del navegador (sin JavaScript).
+ * Solo se activan si el navegador las soporta y el invitado no pide reducir movimiento; en
+ * cualquier otro caso los elementos se ven en su estado final.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Foto que se descubre: la máscara se abre y la imagen se asienta. */
+    .reveal-photo {
+      animation: reveal-photo linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 40%;
+    }
+    .reveal-photo > * {
+      animation: reveal-photo-inner linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 55%;
+    }
+    /* Titulares que suben desde detrás de una línea invisible. */
+    .reveal-title {
+      animation: reveal-title linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 28%;
+    }
+    /* Paralaje suave: el bloque avanza algo más despacio que la página. */
+    .parallax-slow {
+      animation: parallax-slow linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+    /* Hilo dorado de la historia: crece con el scroll de la lista. */
+    .story-list {
+      view-timeline-name: --story;
+    }
+    .story-thread {
+      transform-origin: top;
+      animation: grow-y linear both;
+      animation-timeline: --story;
+      animation-range: entry 40% exit 60%;
+    }
+    /* Línea del programa (bloque 4), mismo patrón. */
+    .program-list {
+      view-timeline-name: --program;
+    }
+    .program-thread {
+      transform-origin: top;
+      animation: grow-y linear both;
+      animation-timeline: --program;
+      animation-range: entry 40% exit 70%;
+    }
+  }
+}
+
+@keyframes reveal-photo {
+  from {
+    clip-path: inset(16% 10% 16% 10%);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+@keyframes reveal-photo-inner {
+  from {
+    transform: scale(1.18);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes reveal-title {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(0.45em);
+  }
+  to {
+    clip-path: inset(0 0 -0.2em 0);
+    transform: none;
+  }
+}
+@keyframes parallax-slow {
+  from {
+    transform: translateY(3rem);
+  }
+  to {
+    transform: translateY(-3rem);
+  }
+}
+@keyframes grow-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
