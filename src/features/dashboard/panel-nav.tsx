@@ -18,7 +18,9 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const ITEMS: { path: string; label: string; icon: LucideIcon }[] = [
+type Item = { path: string; label: string; icon: LucideIcon };
+
+const GUESTS: Item[] = [
   { path: "", label: "Inicio", icon: Home },
   { path: "/invitaciones", label: "Invitaciones", icon: Mail },
   { path: "/invitados", label: "Invitados", icon: Users },
@@ -28,14 +30,16 @@ const ITEMS: { path: string; label: string; icon: LucideIcon }[] = [
   { path: "/comunicaciones", label: "Recordatorios", icon: Send },
 ];
 
-const SOON: { label: string; icon: LucideIcon }[] = [
-  { label: "Tareas", icon: ClipboardList },
-  { label: "Presupuesto", icon: Wallet },
-  { label: "Agenda", icon: CalendarCheck },
-  { label: "Ajustes", icon: Settings },
+const PLANNING: Item[] = [
+  { path: "/tareas", label: "Tareas", icon: ClipboardList },
+  { path: "/presupuesto", label: "Presupuesto", icon: Wallet },
+  { path: "/agenda", label: "Agenda", icon: CalendarCheck },
+  { path: "/ajustes", label: "Ajustes", icon: Settings },
 ];
 
-const itemsFor = (base: string) => ITEMS.map((item) => ({ ...item, href: base + item.path }));
+const withHref = (items: Item[], base: string) =>
+  items.map((item) => ({ ...item, href: base + item.path }));
+const itemsFor = (base: string) => withHref([...GUESTS, ...PLANNING], base);
 
 /** `base` es la raíz del evento: /panel/demo o /panel/<id>. */
 function useIsActive(base: string) {
@@ -48,34 +52,40 @@ export function SidebarNav({ base }: { base: string }) {
   const isActive = useIsActive(base);
   return (
     <nav aria-label="Panel">
-      <ul className="space-y-0.5">
-        {itemsFor(base).map(({ href, label, icon: Icon }) => (
-          <li key={href}>
-            <Link
-              href={href}
-              aria-current={isActive(href) ? "page" : undefined}
-              className={clsx(
-                "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
-                isActive(href)
-                  ? "bg-ink/[0.06] font-semibold text-ink"
-                  : "text-ink-soft hover:bg-ink/[0.04] hover:text-ink",
-              )}
-            >
-              <Icon aria-hidden className="size-4" strokeWidth={1.75} />
-              {label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <p className="mt-8 px-3 text-[0.8125rem] text-muted">Próximamente</p>
-      <ul className="mt-2 space-y-0.5" aria-label="Módulos en preparación">
-        {SOON.map(({ label, icon: Icon }) => (
-          <li key={label} className="flex items-center gap-3 px-3 py-2 text-sm text-muted">
-            <Icon aria-hidden className="size-4" strokeWidth={1.75} />
-            {label}
-          </li>
-        ))}
-      </ul>
+      {[
+        { title: null, items: GUESTS },
+        { title: "Organización", items: PLANNING },
+      ].map((group) => (
+        <div key={group.title ?? "invitados"} className={group.title ? "mt-8" : undefined}>
+          {group.title ? (
+            <p id="nav-organizacion" className="mb-2 px-3 text-[0.8125rem] text-muted">
+              {group.title}
+            </p>
+          ) : null}
+          <ul
+            className="space-y-0.5"
+            aria-labelledby={group.title ? "nav-organizacion" : undefined}
+          >
+            {withHref(group.items, base).map(({ href, label, icon: Icon }) => (
+              <li key={href}>
+                <Link
+                  href={href}
+                  aria-current={isActive(href) ? "page" : undefined}
+                  className={clsx(
+                    "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
+                    isActive(href)
+                      ? "bg-ink/[0.06] font-semibold text-ink"
+                      : "text-ink-soft hover:bg-ink/[0.04] hover:text-ink",
+                  )}
+                >
+                  <Icon aria-hidden className="size-4" strokeWidth={1.75} />
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </nav>
   );
 }

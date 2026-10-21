@@ -2,7 +2,8 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 /**
- * Renueva la sesión de Supabase en cada petición del panel y del editor, y manda a /entrar a
+ * Renueva la sesión de Supabase en cada petición del panel, del editor y de las invitaciones a
+ * unirse a un evento (/unirse), y manda a /entrar a
  * quien no ha iniciado sesión. La demostración (/panel/demo y /editor/demo) es pública.
  * Es una comprobación optimista: la autorización real la hacen las políticas RLS.
  */
@@ -24,7 +25,7 @@ export async function proxy(request: NextRequest) {
     },
   });
   const { data } = await supabase.auth.getUser();
-  if (!data.user && (pathname.startsWith("/panel") || pathname.startsWith("/editor"))) {
+  if (!data.user && /^\/(panel|editor|unirse)(\/|$)/.test(pathname)) {
     const login = request.nextUrl.clone();
     login.pathname = "/entrar";
     login.search = `?siguiente=${encodeURIComponent(pathname)}`;
@@ -34,5 +35,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/panel/:path*", "/editor/:path*", "/entrar"],
+  matcher: ["/panel/:path*", "/editor/:path*", "/unirse/:path*", "/entrar"],
 };

@@ -7,6 +7,9 @@ import type { GuestGroup, RsvpResponse, WeddingEvent } from "@/lib/domain/types"
 import { rsvpResponseSchema } from "@/lib/rsvp/draft";
 import type { SeatingTable } from "@/lib/seating";
 import { demoAssignment, demoTables } from "@/data/demo/tables";
+import { demoBudget, demoTasks } from "@/data/demo/planning";
+import type { BudgetItem } from "@/lib/planning/budget";
+import type { PlanTask } from "@/lib/planning/tasks";
 import { DEFAULT_THEME, parseTheme, type Theme } from "@/lib/theme";
 import { createAnonClient, createSessionClient } from "@/lib/supabase/server";
 
@@ -193,6 +196,117 @@ export async function getOrganizerData(eventKey = DEMO_EVENT_KEY): Promise<Organ
       status: eventRes.data.status,
       publishedAt: eventRes.data.published_at,
     },
+  };
+}
+
+export interface PlanningData {
+  tasks: PlanTask[];
+  budget: BudgetItem[];
+}
+
+/** Tareas y presupuesto del evento (solo los miembros, por RLS). */
+export async function getPlanningData(eventKey: string): Promise<PlanningData | null> {
+  if (eventKey === DEMO_EVENT_KEY) return { tasks: demoTasks, budget: demoBudget };
+  if (!/^[0-9a-f-]{36}$/.test(eventKey)) return null;
+  const supabase = await createSessionClient();
+  if (!supabase) return null;
+  const [tasksRes, budgetRes] = await Promise.all([
+    supabase
+      .from("tasks")
+      .select("id, title, due_date, assignee, done")
+      .eq("event_id", eventKey)
+      .order("due_date", { nullsFirst: false }),
+    supabase
+      .from("budget_items")
+      .select("id, concept, category, estimated, paid, due_date, notes")
+      .eq("event_id", eventKey)
+      .order("concept"),
+  ]);
+  if (tasksRes.error || budgetRes.error) return null;
+  return {
+    tasks: (tasksRes.data ?? []).map((t) => ({
+      id: t.id,
+      title: t.title,
+      dueDate: t.due_date,
+      assignee: t.assignee ?? "",
+      done: t.done,
+    })),
+    budget: (budgetRes.data ?? []).map((b) => ({
+      id: b.id,
+      concept: b.concept,
+      category: b.category,
+      estimated: Number(b.estimated),
+      paid: Number(b.paid),
+      dueDate: b.due_date,
+      notes: b.notes ?? "",
+    })),
+  };
+}
+
+export interface EventMember {
+  userId: string;
+  role: "owner" | "editor";
+  email: string;
+  isMe: boolean;
+}
+
+export interface PendingInvite {
+  id: string;
+  token: string;
+  role: "owner" | "editor";
+  expiresAt: string;
+}
+
+export interface EventSettings {
+  members: EventMember[];
+  /** Invitaciones sin usar ni caducar (solo las ve el propietario). */
+  invites: PendingInvite[];
+  isOwner: boolean;
+}
+
+/** Miembros del evento e invitaciones pendientes. En la demo, dos miembros ficticios. */
+export async function getEventSettings(eventKey: string): Promise<EventSettings | null> {
+  if (eventKey === DEMO_EVENT_KEY) {
+    return {
+      members: [
+        { userId: "demo-1", role: "owner", email: "maria@ejemplo.invalid", isMe: true },
+        { userId: "demo-2", role: "editor", email: "daniel@ejemplo.invalid", isMe: false },
+      ],
+      invites: [],
+      isOwner: true,
+    };
+  }
+  if (!/^[0-9a-f-]{36}$/.test(eventKey)) return null;
+  const supabase = await createSessionClient();
+  if (!supabase) return null;
+  const [membersRes, invitesRes] = await Promise.all([
+    supabase.rpc("event_member_list", { p_event: eventKey }),
+    supabase
+      .from("event_invites")
+      .select("id, token, role, expires_at")
+      .eq("event_id", eventKey)
+      .is("used_at", null)
+      .gt("expires_at", new Date().toISOString())
+      .order("created_at"),
+  ]);
+  if (membersRes.error || !membersRes.data?.length) return null;
+  const members: EventMember[] = (
+    membersRes.data as {
+      user_id: string;
+      role: "owner" | "editor";
+      email: string;
+      is_me: boolean;
+    }[]
+  ).map((m) => ({ userId: m.user_id, role: m.role, email: m.email, isMe: m.is_me }));
+  return {
+    members,
+    invites: (invitesRes.data ?? []).map((i) => ({
+      id: i.id,
+      token: i.token,
+      role: i.role,
+      expiresAt: i.expires_at,
+    })),
+    isOwner: members.some((m) => m.isMe && m.role === "owner"),
   };
 }
 
