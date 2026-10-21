@@ -11,22 +11,34 @@ import {
 } from "react";
 import { ChoiceCard } from "@/components/ui/fields";
 import type { Stage } from "@/features/invitation/experience";
-import { WaxSealArt } from "@/features/invitation/ornaments";
+import {
+  BlossomCorner,
+  DecoCorner,
+  EucalyptusCorner,
+  OliveCorner,
+  WaxSealArt,
+} from "@/features/invitation/ornaments";
 import {
   accentFor,
   applyTemplate,
   CALENDAR_IDS,
   CALENDARS,
   ENVELOPE_IDS,
+  EDGE_IDS,
+  EDGES,
   ENVELOPES,
   FLAP_IDS,
   flapGeometry,
   FLAPS,
   FONT_IDS,
   FONTS,
+  LAYOUT_IDS,
+  LAYOUTS,
   LINER_IDS,
   linerBackground,
   LINERS,
+  ORNAMENT_IDS,
+  ORNAMENTS,
   SEAL_MARK_IDS,
   SEAL_MARKS,
   SEAL_SHAPE_IDS,
@@ -72,7 +84,10 @@ type ChoiceKey =
   | "texture"
   | "liner"
   | "sealShape"
-  | "sealMark";
+  | "sealMark"
+  | "layout"
+  | "edge"
+  | "ornament";
 
 function Choice<K extends ChoiceKey>({
   name,
@@ -115,6 +130,7 @@ const PARTS: readonly { id: string; label: string; Panel: () => ReactNode; stage
   { id: "colores", label: "Colores", Panel: ColorsPart },
   { id: "letra", label: "Tipografía", Panel: FontsPart, stage: "cover" },
   { id: "sobre", label: "Sobre", Panel: EnvelopePart, stage: "envelope" },
+  { id: "carta", label: "Carta", Panel: LetterPart, stage: "letter" },
   { id: "calendario", label: "Calendario", Panel: CalendarPart, stage: "content" },
   { id: "secciones", label: "Secciones y música", Panel: SectionsPart, stage: "content" },
 ];
@@ -554,6 +570,99 @@ function EnvelopePart() {
                   />
                 </span>
               }
+            />
+          ))}
+        </div>
+      </Group>
+    </>
+  );
+}
+
+/** Esquema de la composición: dónde van foto, nombres y texto. */
+function LayoutSample({ layout }: { layout: Theme["layout"] }) {
+  const line = "block h-[3px] rounded-full bg-ink/25";
+  return (
+    <span
+      aria-hidden
+      className={clsx(
+        "flex h-14 w-11 shrink-0 flex-col gap-1 rounded-[3px] bg-paper p-1.5 shadow-sm ring-1 ring-ink/10",
+        layout === "editorial" ? "items-start" : "items-center",
+        layout === "marco" && "outline outline-1 -outline-offset-4 outline-gold/70",
+      )}
+    >
+      {layout === "foto" ? (
+        <span className="-mx-1.5 -mt-1.5 mb-0.5 block h-4 w-11 bg-taupe/60" />
+      ) : null}
+      {layout === "clasica" || layout === "marco" ? (
+        <span className="block size-2.5 rounded-full ring-1 ring-gold" />
+      ) : null}
+      {layout === "editorial" ? <span className="block h-2 w-7 rounded-[1px] bg-ink/60" /> : null}
+      <span className={clsx(line, "w-6")} />
+      <span className={clsx(line, "w-7")} />
+      {layout === "minimal" ? null : <span className={clsx(line, "w-5")} />}
+    </span>
+  );
+}
+
+const ORNAMENT_ART = {
+  almendro: BlossomCorner,
+  olivo: OliveCorner,
+  eucalipto: EucalyptusCorner,
+  geometrico: DecoCorner,
+  ninguno: null,
+} as const;
+
+function OrnamentSample({ ornament }: { ornament: Theme["ornament"] }) {
+  const Art = ORNAMENT_ART[ornament];
+  return (
+    <span aria-hidden className="block size-11 shrink-0 overflow-hidden rounded-md bg-ivory">
+      {Art ? <Art className="size-full" /> : null}
+    </span>
+  );
+}
+
+/** Composición, borde y ornamento de la carta. */
+function LetterPart() {
+  return (
+    <>
+      <Group title="Composición" description="Cómo se reparten nombres, saludo y mensaje.">
+        <div role="radiogroup" aria-label="Composición" className="grid gap-3 sm:grid-cols-2">
+          {LAYOUT_IDS.map((id) => (
+            <Choice
+              key={id}
+              name="layout"
+              value={id}
+              label={LAYOUTS[id].label}
+              description={LAYOUTS[id].description}
+              swatch={<LayoutSample layout={id} />}
+            />
+          ))}
+        </div>
+      </Group>
+      <Group title="Borde del papel">
+        <div role="radiogroup" aria-label="Borde del papel" className="grid gap-3 sm:grid-cols-3">
+          {EDGE_IDS.map((id) => (
+            <Choice
+              key={id}
+              name="edge"
+              value={id}
+              label={EDGES[id].label}
+              description={EDGES[id].description}
+              swatch={null}
+            />
+          ))}
+        </div>
+      </Group>
+      <Group title="Ornamento" description="Lo que enmarca la carta en la pantalla.">
+        <div role="radiogroup" aria-label="Ornamento" className="grid gap-3 sm:grid-cols-2">
+          {ORNAMENT_IDS.map((id) => (
+            <Choice
+              key={id}
+              name="ornament"
+              value={id}
+              label={ORNAMENTS[id].label}
+              description={ORNAMENTS[id].description}
+              swatch={<OrnamentSample ornament={id} />}
             />
           ))}
         </div>

@@ -63,6 +63,19 @@ test.describe("editor de la invitación", () => {
     }
   });
 
+  test("la composición de la carta cambia en la vista previa", async ({ page }) => {
+    await page.goto("/editor/demo");
+    const preview = page.frameLocator('iframe[title="Vista previa de la invitación"]');
+    await expect(preview.locator("#cover-title")).toBeAttached();
+    await page.getByRole("tab", { name: "Carta", exact: true }).click();
+    await expect(preview.locator("[data-layout='clasica']")).toBeAttached();
+    await page.getByRole("radio", { name: /Editorial/ }).check({ force: true });
+    await expect(preview.locator("[data-layout='editorial']")).toBeAttached();
+    await expect(preview.locator("#letter-title")).toHaveText(/Hola,/);
+    await page.getByRole("radio", { name: /Con foto/ }).check({ force: true });
+    await expect(preview.locator("[data-layout='foto'] img")).toBeAttached();
+  });
+
   test("salta a la pantalla elegida", async ({ page, isMobile }) => {
     await page.goto("/editor/demo");
     if (isMobile) await page.getByRole("button", { name: "Vista previa" }).click();

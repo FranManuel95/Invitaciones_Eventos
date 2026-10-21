@@ -52,6 +52,15 @@ describe("tema", () => {
     expect(plain["--font-names"]).toBe(plain["--font-display"]);
   });
 
+  it("la carta guardada antes de elegir composición sigue siendo la clásica", () => {
+    expect(parseTheme({ style: "noche" })).toMatchObject({
+      layout: "clasica",
+      edge: "barba",
+      ornament: "almendro",
+    });
+    expect(parseTheme({ layout: "revista" }).layout).toBe("clasica");
+  });
+
   it("acepta un color propio válido y descarta el que no lo es", () => {
     expect(parseTheme({ waxColor: "#C0FFEE" }).waxColor).toBe("#C0FFEE");
     expect(parseTheme({ waxColor: "rojo" }).waxColor).toBeNull();

@@ -31,7 +31,6 @@ import { AlmondBranch, Monogram, WaxSealArt } from "../ornaments";
  * destello de luz recorre la carta justo antes de convertirse en la carta grande.
  */
 
-
 // Papel, forro, textura e interior salen del tema (variables --env-* de src/lib/theme).
 const linerPattern = "var(--env-liner)";
 const paper = (angle: string) =>

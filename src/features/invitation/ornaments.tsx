@@ -257,3 +257,129 @@ export function WaxSealArt({
     </svg>
   );
 }
+
+/** Rama de olivo con aceitunas para las esquinas de la carta. */
+export function OliveCorner({ className }: { className?: string }) {
+  const leaves = [
+    [22, 134, -40],
+    [38, 120, 35],
+    [52, 104, -48],
+    [66, 92, 30],
+    [78, 76, -52],
+    [92, 64, 24],
+    [102, 48, -56],
+    [116, 38, 18],
+    [124, 22, -60],
+  ] as const;
+  return (
+    <svg viewBox="0 0 160 160" aria-hidden className={className}>
+      <path
+        d="M4 156C40 128 80 92 108 56S140 14 150 6"
+        fill="none"
+        stroke="#5c5a3e"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+      {leaves.map(([x, y, r], i) => (
+        <path
+          key={i}
+          d="M0 0C9-3.5 22-3.5 30 0C22 3.5 9 3.5 0 0Z"
+          transform={`translate(${x} ${y}) rotate(${r})`}
+          fill={i % 2 ? "#8c9270" : "#6b7350"}
+        />
+      ))}
+      {[
+        [58, 116],
+        [96, 78],
+        [70, 100],
+      ].map(([x, y]) => (
+        <g key={x}>
+          <ellipse cx={x} cy={y} rx="4.4" ry="5.6" fill="#3e3a2c" />
+          <ellipse cx={x! - 1.2} cy={y! - 1.8} rx="1.2" ry="1.8" fill="#8a8466" opacity=".6" />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+/** Ramas de eucalipto de hoja redonda. */
+export function EucalyptusCorner({ className }: { className?: string }) {
+  const leaves = [
+    [18, 140, 11],
+    [34, 128, 12.5],
+    [48, 112, 13.5],
+    [62, 98, 12],
+    [76, 82, 13],
+    [90, 68, 11],
+    [102, 52, 10],
+    [114, 38, 8.5],
+    [124, 26, 7],
+  ] as const;
+  return (
+    <svg viewBox="0 0 160 160" aria-hidden className={className}>
+      <path
+        d="M2 158C38 132 76 96 104 60S134 18 140 10"
+        fill="none"
+        stroke="#7b8679"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
+      {leaves.map(([x, y, r], i) => (
+        <circle
+          key={i}
+          cx={x + (i % 2 ? 9 : -9)}
+          cy={y + (i % 2 ? 4 : -4)}
+          r={r}
+          fill={i % 3 === 0 ? "#9fb3a6" : i % 3 === 1 ? "#b7c7bb" : "#8aa194"}
+          opacity=".92"
+        />
+      ))}
+      <path
+        d="M30 160C60 150 100 140 150 132"
+        fill="none"
+        stroke="#7b8679"
+        strokeWidth="1.1"
+        strokeLinecap="round"
+      />
+      {[
+        [70, 148, 8],
+        [96, 143, 9],
+        [124, 137, 7.5],
+      ].map(([x, y, r]) => (
+        <circle key={x} cx={x} cy={y! - 7} r={r} fill="#a9bcae" opacity=".9" />
+      ))}
+    </svg>
+  );
+}
+
+/** Esquina geométrica art déco en oro (usa el oro del tema). */
+export function DecoCorner({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 160 160"
+      aria-hidden
+      className={className}
+      fill="none"
+      style={{ stroke: "var(--color-gold)" }}
+      strokeWidth="1.3"
+    >
+      <path d="M8 152V8h144" />
+      <path d="M20 152V20h132" strokeWidth=".8" />
+      <path d="M8 8l52 52M20 20l40 40" strokeWidth=".8" />
+      <path d="M60 60m-10 0a10 10 0 1 0 20 0a10 10 0 1 0-20 0" />
+      <path d="M32 152V32h120" strokeOpacity=".5" strokeWidth=".6" />
+      {[44, 56, 68, 80].map((d) => (
+        <path
+          key={d}
+          d={`M8 ${d + 20}h${(100 - d) / 4}M${d + 20} 8v${(100 - d) / 4}`}
+          strokeWidth=".6"
+        />
+      ))}
+      <path
+        d="M60 50l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"
+        style={{ fill: "var(--color-gold)" }}
+        stroke="none"
+      />
+    </svg>
+  );
+}

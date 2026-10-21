@@ -12,7 +12,10 @@ import {
   WEIGHTS,
 } from "./envelope";
 
+import { EDGE_IDS, LAYOUT_IDS, ORNAMENT_IDS } from "./letter";
+
 export * from "./envelope";
+export * from "./letter";
 
 /*
  * Tema de una invitación (events.theme). Es una lista cerrada de opciones, no colores libres:
@@ -108,6 +111,9 @@ export const themeInputSchema = z.strictObject({
   liner: z.enum(LINER_IDS),
   sealShape: z.enum(SEAL_SHAPE_IDS),
   sealMark: z.enum(SEAL_MARK_IDS),
+  layout: z.enum(LAYOUT_IDS),
+  edge: z.enum(EDGE_IDS),
+  ornament: z.enum(ORNAMENT_IDS),
   calendar: z.enum(CALENDAR_IDS),
   hidden: z.array(z.enum(SECTION_IDS)).max(SECTION_IDS.length),
   music: z.boolean(),
@@ -126,6 +132,9 @@ export const themeSchema = z.object({
   liner: z.enum(LINER_IDS).catch("propio"),
   sealShape: z.enum(SEAL_SHAPE_IDS).catch("cera"),
   sealMark: z.enum(SEAL_MARK_IDS).catch("monograma"),
+  layout: z.enum(LAYOUT_IDS).catch("clasica"),
+  edge: z.enum(EDGE_IDS).catch("barba"),
+  ornament: z.enum(ORNAMENT_IDS).catch("almendro"),
   calendar: z.enum(CALENDAR_IDS).catch("taco"),
   hidden: z.array(z.enum(SECTION_IDS)).max(SECTION_IDS.length).catch([]),
   music: z.boolean().catch(true),
@@ -145,6 +154,9 @@ export const DEFAULT_THEME: Theme = {
   liner: "propio",
   sealShape: "cera",
   sealMark: "monograma",
+  layout: "clasica",
+  edge: "barba",
+  ornament: "almendro",
   calendar: "taco",
   hidden: [],
   music: true,
@@ -682,6 +694,9 @@ export const TEMPLATES: Record<
       texture: "verjurado",
       liner: "lunares",
       sealShape: "redondo",
+      layout: "marco",
+      edge: "recto",
+      ornament: "ninguno",
     },
   },
   medianoche: {
@@ -697,6 +712,9 @@ export const TEMPLATES: Record<
       liner: "propio",
       sealShape: "redondo",
       sealMark: "estrella",
+      layout: "minimal",
+      edge: "recto",
+      ornament: "geometrico",
     },
   },
   jardin: {
@@ -711,6 +729,8 @@ export const TEMPLATES: Record<
       flap: "festoneada",
       liner: "flores",
       sealMark: "almendro",
+      layout: "foto",
+      ornament: "eucalipto",
     },
   },
   terracota: {
@@ -725,6 +745,8 @@ export const TEMPLATES: Record<
       texture: "lino",
       weight: "grueso",
       liner: "rayas",
+      layout: "editorial",
+      ornament: "olivo",
     },
   },
   empolvado: {
@@ -740,6 +762,7 @@ export const TEMPLATES: Record<
       liner: "flores",
       sealShape: "flor",
       sealMark: "corazon",
+      edge: "redondeado",
     },
   },
   costa: {
@@ -755,6 +778,9 @@ export const TEMPLATES: Record<
       texture: "verjurado",
       liner: "rayas",
       sealShape: "redondo",
+      layout: "minimal",
+      edge: "recto",
+      ornament: "ninguno",
     },
   },
   esmeralda: {
@@ -769,6 +795,9 @@ export const TEMPLATES: Record<
       weight: "grueso",
       liner: "marmol",
       sealMark: "estrella",
+      layout: "marco",
+      edge: "recto",
+      ornament: "geometrico",
     },
   },
 };
