@@ -1,26 +1,31 @@
-# Invitaciones · prototipo visual
+# Invitaciones
 
-Prototipo navegable de invitaciones digitales premium para bodas y eventos. Tiene dos partes:
+Invitaciones digitales premium para bodas y eventos, con su panel de organización. Tiene tres partes:
 
 - **Invitado** (`/i/[token]`): portada cinematográfica, sobre con apertura 3D interactiva y sello de
-  lacre, carta personalizada, programa, ubicaciones, transporte, información práctica y RSVP por pasos
-  (acompañantes, autobús, menús, alergias y mensaje).
-- **Organizador** (`/panel`): resumen con métricas, lista de invitados con búsqueda y filtros,
-  transporte, menús y alergias, y comunicaciones.
+  lacre, carta personalizada, programa, lugares, transporte, información práctica y confirmación de
+  asistencia por pasos (acompañantes, autobús, menús, alergias, canción y mensaje).
+- **Editor** (`/editor/[evento]`): la pareja elige estilo, sobre, lacre y calendario, cambia textos,
+  programa, lugares, autobuses, menús y fotos, oculta secciones y ve la invitación en vivo en un
+  móvil antes de publicarla.
+- **Panel** (`/panel/[evento]`): resumen, invitaciones con enlace, WhatsApp y QR, lista de
+  invitados, transporte, menús, plano de mesas, recordatorios, tareas, presupuesto, agenda y ajustes.
 
-> **Todo es de demostración.** Los nombres, lugares y respuestas son ficticios. No hay backend,
-> autenticación ni envío de mensajes. Las respuestas del RSVP solo se guardan en el navegador
-> (`localStorage`).
-
-La especificación completa está en [`PROJECT_SPEC.md`](PROJECT_SPEC.md) y las decisiones técnicas en
+La especificación está en [`PROJECT_SPEC.md`](PROJECT_SPEC.md) y las decisiones técnicas en
 [`docs/DECISIONS.md`](docs/DECISIONS.md).
+
+## Dos modos
+
+- **Demostración** (sin configurar nada): todo funciona con datos ficticios en memoria. La invitación
+  guarda las respuestas en el navegador y el panel y el editor de la demo no guardan cambios.
+- **Con Supabase**: cuentas con email y contraseña, eventos propios guardados en PostgreSQL con
+  RLS, respuestas reales de los invitados y fotos en Supabase Storage. La demo sigue disponible en
+  `/panel/demo` y `/editor/demo`.
 
 ## Requisitos
 
 - Node.js 20.9 o superior (probado con Node 22.22)
 - npm 10
-
-No hace falta ninguna variable de entorno ni ningún servicio externo.
 
 ## Instalación y ejecución
 
@@ -36,75 +41,97 @@ npm run build
 npm run start        # http://localhost:3000
 ```
 
-> La compilación descarga las fuentes Bodoni Moda y Jost de Google Fonts una sola vez
-> (`next/font` las sirve después desde el propio sitio). Hace falta conexión a internet durante el `build`.
+> La compilación descarga las fuentes (Bodoni Moda, Cormorant Garamond y Jost) de Google Fonts una
+> sola vez; `next/font` las sirve después desde el propio sitio.
+
+### Conectar Supabase (opcional)
+
+1. Crea un proyecto en Supabase y aplica, en orden, las migraciones de `supabase/migrations/`.
+2. Copia `.env.example` a `.env.local` y rellena `NEXT_PUBLIC_SUPABASE_URL` y
+   `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (la clave _publishable_, que es pública). **Nunca** pongas
+   la clave `service_role`.
+3. En Supabase, en Authentication → URL Configuration, añade la URL del sitio y
+   `https://<tu-dominio>/**` en Redirect URLs, para que los emails de confirmación vuelvan aquí.
+4. Recomendado: activa Authentication → Passwords → «Leaked password protection».
+
+`supabase/tests/rls.sql` comprueba las políticas de seguridad (se ejecuta dentro de una transacción
+que se deshace).
 
 ## Recorrido de la demo
 
-| URL                                  | Qué muestra                                                                           |
-| ------------------------------------ | ------------------------------------------------------------------------------------- |
-| `/`                                  | Portada de la demo con enlaces a todas las invitaciones de ejemplo                    |
-| `/i/familia-garcia`                  | Familia con una niña y una plaza libre para acompañante                               |
-| `/i/carlos-ruiz`                     | Invitación individual con acompañante opcional                                        |
-| `/i/elena-y-pablo`                   | Pareja                                                                                |
-| `/i/prueba-error`                    | Simula un fallo de red al enviar el RSVP la primera vez (estado de error y reintento) |
-| `/i/plazo-cerrado`                   | Estado de plazo de confirmación cerrado                                               |
-| `/panel`                             | Panel del organizador                                                                 |
-| `/i/carlos-ruiz?dia=boda&hora=19:10` | Modo «día de la boda»: acto actual, siguiente y autobuses de vuelta                   |
-| `/laboratorio/sobre-3d`              | Prototipo del sobre con WebGL (React Three Fiber) para comparar                       |
+| URL                                                                       | Qué muestra                                                         |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `/`                                                                       | Portada de la demo: invitaciones de ejemplo, estilos y accesos      |
+| `/i/familia-garcia`                                                       | Familia con una niña y una plaza libre para acompañante             |
+| `/i/familia-garcia?estilo=noche&sobre=kraft&lacre=oro&calendario=minimal` | La misma invitación con otro tema                                   |
+| `/i/carlos-ruiz?dia=boda&hora=19:10`                                      | Modo «día de la boda»: acto actual, siguiente y autobuses de vuelta |
+| `/i/prueba-error`                                                         | Simula un fallo de red al confirmar la primera vez                  |
+| `/i/plazo-cerrado`                                                        | Plazo de confirmación cerrado                                       |
+| `/editor/demo`                                                            | Editor con vista previa en vivo (sin guardar)                       |
+| `/panel/demo`                                                             | Panel del organizador con datos ficticios                           |
+| `/entrar`                                                                 | Acceso y alta de cuentas (con Supabase)                             |
+| `/laboratorio/sobre-3d`                                                   | Prototipo del sobre con WebGL (React Three Fiber) para comparar     |
 
 Consejos:
 
-- En la portada, desliza hacia arriba, toca o pulsa Intro. En el sobre, toca o pulsa Intro/Espacio.
-- «Saltar intro» lleva directo al contenido. En la misma sesión no se repite la introducción
-  («Volver a abrir el sobre» al final de la invitación la repite).
+- En la portada, desliza hacia arriba, toca o pulsa Intro. En el sobre, toca o pulsa Intro o Espacio.
+- «Saltar intro» lleva directo al contenido. Al volver en la misma sesión hay una apertura corta.
 - Con `prefers-reduced-motion` activado, las transiciones se sustituyen por fundidos.
-- Para borrar una respuesta guardada, limpia el `localStorage` del sitio.
 
 ## Comprobaciones
 
-| Script              | Qué hace                                                                                                |
-| ------------------- | ------------------------------------------------------------------------------------------------------- |
-| `npm run lint`      | ESLint (configuración de Next.js)                                                                       |
-| `npm run typecheck` | TypeScript estricto                                                                                     |
-| `npm run test`      | Pruebas unitarias con Vitest (lógica del RSVP y estadísticas)                                           |
-| `npm run test:e2e`  | Pruebas de extremo a extremo con Playwright en móvil y escritorio, con auditoría de accesibilidad (axe) |
-| `npm run build`     | Compilación de producción                                                                               |
-| `npm run check`     | lint + typecheck + test + build                                                                         |
+| Script              | Qué hace                                                                             |
+| ------------------- | ------------------------------------------------------------------------------------ |
+| `npm run lint`      | ESLint (configuración de Next.js)                                                    |
+| `npm run typecheck` | TypeScript estricto                                                                  |
+| `npm run test`      | Pruebas unitarias con Vitest                                                         |
+| `npm run test:e2e`  | Pruebas de extremo a extremo con Playwright en móvil y escritorio, con auditoría axe |
+| `npm run build`     | Compilación de producción                                                            |
+| `npm run check`     | lint + typecheck + test + build                                                      |
 
-Para las pruebas E2E hay que compilar antes (`npm run build`). Playwright arranca el servidor en el
-puerto 3100. Si no tienes navegadores de Playwright instalados, ejecuta `npx playwright install chromium`.
+Para las pruebas E2E hay que compilar antes. Playwright arranca el servidor en el puerto 3100.
+`tests/e2e/real.spec.ts` recorre el flujo completo contra Supabase (entrar, crear, editar, publicar,
+responder y gestionar) y solo se ejecuta si defines `E2E_EMAIL` y `E2E_PASSWORD` de un usuario de
+prueba.
 
 ## Estructura
 
 ```
 src/
-  app/                    Rutas (App Router)
-    i/[token]/            Experiencia del invitado
-    panel/                Panel del organizador
+  app/
+    i/[token]/              Invitación del invitado
+    editor/[evento]/        Editor y su vista previa (iframe en /vista)
+    panel/                  Mis eventos y panel de cada evento (/panel/demo es la demo)
+    entrar/, auth/, unirse/ Acceso, confirmación de email e invitaciones a organizar
   features/
-    invitation/           Portada, sobre, carta, secciones y RSVP
-    dashboard/            Navegación, gráficos, tabla de invitados y piezas del panel
-  components/             Botones, campos de formulario, distintivo de demo
+    invitation/             Portada, sobre, carta, secciones y RSVP
+    editor/                 Pestañas, listas, fotos y vista previa del editor
+    guests/                 Invitaciones, CSV, WhatsApp, QR y recordatorios
+    seating/                Plano de mesas
+    planning/               Tareas, presupuesto y agenda
+    settings/               Miembros del evento
+    dashboard/              Navegación, gráficos y piezas del panel
   lib/
-    domain/               Tipos del dominio y catálogos (menús, alergias)
-    rsvp/draft.ts         Estado, pasos y validación del RSVP (sin React)
-    stats.ts              Cálculos del panel (funciones puras)
-    data/                 Acceso a datos: repositorio y almacenamiento de demo
-  data/demo/              Evento e invitados ficticios (generados de forma determinista)
+    data/repository.ts      Punto único de datos (demo o Supabase)
+    supabase/               Clientes de servidor y navegador
+    theme/                  Estilos, sobres, lacres, calendarios, secciones y contraste
+    editor/, events/        Borrador del editor y fechas en Europe/Madrid
+    guests/, seating.ts     CSV, envío y mesas (funciones puras)
+    planning/               Tareas sugeridas, presupuesto y agenda (funciones puras)
+    domain/, rsvp/, stats.ts Tipos, esquemas Zod, RSVP y estadísticas
+  data/demo/                Datos ficticios deterministas
+supabase/
+  migrations/               Esquema, RLS y funciones
+  tests/rls.sql             Pruebas de las políticas
 tests/
-  unit/                   Vitest
-  e2e/                    Playwright + axe
+  unit/                     Vitest
+  e2e/                      Playwright + axe
 ```
 
-## Límites conocidos del prototipo
+## Límites conocidos
 
-- Sin backend: el panel muestra datos generados y no refleja las respuestas enviadas desde las
-  invitaciones (que solo viven en el navegador).
-- Sin autenticación: `/panel` es público (con `noindex`).
-- El paisaje de la portada es una ilustración SVG en lugar de una fotografía.
-- La animación del sobre (CSS y 3D) se ha probado en Chromium (móvil y escritorio). **Falta probarla en
-  Safari/iOS real**, con giroscopio y sonido.
-- Las fotos son capturas de unos 550×800 px: válidas para la demo en el móvil, pero hacen falta
-  los originales (≥ 2000 px, sin rótulos) para la versión final.
-- Solo hay un tema visual y está en español.
+- La animación del sobre se ha probado en Chromium y en un iPhone; conviene repasarla en más
+  dispositivos.
+- Los recordatorios se envían por WhatsApp uno a uno; el email masivo necesita un proveedor de correo.
+- Los pagos y la venta del servicio están por decidir.
+- Solo en español.

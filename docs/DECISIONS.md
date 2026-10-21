@@ -23,6 +23,68 @@ ser sencilla y reversible.
 - Librerías de gráficos: son dos gráficos SVG pequeños hechos a mano.
 - Supabase y la autenticación: quedan fuera de este hito.
 
+## Ronda 5 · De prototipo a producto
+
+**Backend con Supabase** (proyecto `invitaciones`, París).
+
+- Esquema versionado en `supabase/migrations/`:
+  - eventos con borrador (`content`, `theme`) y versión publicada (`published_*`);
+  - miembros (`owner` y `editor`);
+  - invitaciones (grupos) con token aleatorio de 22 caracteres;
+  - personas, respuestas, mesas, tareas, partidas de presupuesto;
+  - invitaciones para organizar;
+  - el _bucket_ `event-media`.
+- **RLS en todas las tablas:** cada miembro ve y cambia solo sus eventos.
+- **Los invitados no leen tablas.** Usan dos funciones `security definer` con su token:
+  - `get_invitation` devuelve solo lo publicado de su evento y su propio grupo;
+  - `submit_rsvp` comprueba el token, el estado publicado y el plazo.
+- Las funciones auxiliares van en el esquema `private`, que no se expone en la API.
+- Los avisos de seguridad de Supabase solo señalan las funciones públicas intencionadas.
+- **Dos fuentes de datos** en `src/lib/data/repository.ts`: la demo en memoria (`/panel/demo`, `/editor/demo` y las invitaciones de ejemplo) o Supabase. Sin variables de entorno, todo sigue funcionando en modo demostración; así las E2E no necesitan red.
+- **Acceso:** email y contraseña. `src/proxy.ts` (el _middleware_ de Next 16) renueva la sesión y manda a `/entrar` a quien no la tiene. La autorización real la hace RLS.
+
+**Temas** (`src/lib/theme`).
+
+- **Lista cerrada de opciones:** estilo (Mediterráneo, Clásico, Noche), sobre (olivo, lino, kraft), lacre (4 colores), calendario (taco o minimal), secciones ocultas y música.
+- **Por qué cerrada y no colores libres:** una prueba unitaria garantiza contraste AA en todas las combinaciones.
+- Se aplica sobrescribiendo las variables CSS de `globals.css` en la raíz de la invitación.
+- En los estilos oscuros, el acento del texto se aclara a partir del color del lacre.
+
+**Editor.**
+
+- **Vista previa en un iframe** (`/editor/[evento]/vista`): la invitación usa pantallas `position: fixed` que taparían el editor. El iframe le da su propia ventana y se reutilizan los mismos componentes.
+- **Cómo llega el borrador:** por `postMessage`, solo desde el mismo origen. La vista lo vuelve a validar con Zod.
+- **Validación:** los mismos esquemas que la invitación, con mensajes en español por campo.
+- **Guardado:** automático del borrador (1,5 s); «Publicar» copia el borrador a la versión publicada.
+- **Fotos:**
+  - se reducen a 2000 px en WebP en el navegador, que al recodificar elimina el EXIF y el GPS;
+  - suben a Storage;
+  - la portada genera un mapa de profundidad aproximado para el efecto 3D.
+- **Fechas:** en ISO con el desfase de Madrid de cada día (horario de verano).
+
+**Invitaciones, mesas y recordatorios.**
+
+- **Alta y edición por grupo.** Las personas se actualizan por id para no perder respuestas.
+- **Importación CSV** con coma o punto y coma, y vista previa con errores por línea.
+- **Envío:**
+  - por WhatsApp con `wa.me` (sin API de empresa), con el texto ya escrito y el teléfono si lo hay;
+  - con QR generado en local (`uqr`).
+- **Mesas por invitación**, no por persona:
+  - la familia se sienta junta;
+  - cuentan los acompañantes que añade el invitado (no tienen fila propia);
+  - un _trigger_ impide usar una mesa de otro evento.
+- **Plano:** las mesas se arrastran con eventos de puntero, sin librerías, y siempre hay alternativa con teclado (flechas y desplegables).
+
+**Organización.**
+
+- **Tareas:** con las 14 sugeridas, calculadas hacia atrás desde la boda.
+- **Presupuesto:** estimado, pagado, pendiente y coste por invitado confirmado.
+- **Agenda:** junta tareas, pagos, el plazo y la boda.
+- **Ajustes:**
+  - enlaces de un solo uso (7 días) para unirse a la organización, con `accept_event_invite`;
+  - los miembros y su email los devuelve `event_member_list`, solo a miembros del mismo evento;
+  - borrar el evento exige escribir los nombres de la pareja.
+
 ## Ronda 2 · Dirección de arte y calidad (skills de referencia)
 
 La segunda ronda se ha guiado por cuatro skills públicas, que se leyeron completas antes de aplicarlas:
@@ -209,19 +271,19 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
 
 ## Seguridad y datos
 
-- No hay secretos, claves ni datos personales reales. No se necesita `.env`.
+- No hay secretos, claves ni datos personales reales en el repositorio. `.env.local` (no se sube)
+  solo lleva la URL de Supabase y la clave _publishable_, que es pública por diseño.
 - Las respuestas leídas de `localStorage` se validan con Zod antes de usarse.
 - Todo el sitio lleva `robots: noindex`.
+- Ver «Ronda 5» para el modelo de permisos con Supabase (RLS y funciones con token).
 - `npm audit --omit=dev`: 0 vulnerabilidades. Las alertas de `npm audit` vienen de dependencias de
   desarrollo de ESLint (`eslint-config-next` → `fast-glob` → `micromatch`) y no se incluyen en el
   bundle.
 
 ## Pendiente para próximas fases
 
-1. Probar el sobre CSS y el 3D en Safari/iOS real (giroscopio y sonido incluidos).
-2. Backend (Supabase/PostgreSQL con RLS), tokens seguros y validación en servidor.
-3. Autenticación del panel y permisos para ver las alergias.
-4. Alta y edición de invitados, exportación CSV, mesas, tareas, presupuesto y comunicaciones reales.
-5. Temas por pareja y las 9 fotografías de la pareja.
-6. Opcionales propuestos: versión en inglés, tiempo habitual en mayo, galería posterior a la boda y
-   recordatorio por email (este requiere backend).
+1. Modelo de negocio y pagos (venta a parejas o servicio de organización).
+2. Recordatorios masivos por email (requiere un proveedor de correo).
+3. Opcionales propuestos: versión en inglés, tiempo habitual en mayo y galería posterior a la boda.
+4. Limpiar del almacenamiento las fotos de los eventos borrados (hoy se borran los datos, no los
+   archivos).

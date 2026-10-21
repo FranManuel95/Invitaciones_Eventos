@@ -92,5 +92,24 @@ test.describe("recorrido real con Supabase", () => {
     });
     const whatsapp = page.getByRole("link", { name: /WhatsApp para Familia Automática/ });
     await expect(whatsapp).toHaveAttribute("href", /^https:\/\/wa\.me\/34600000000\?text=/);
+
+    // Organización: una tarea y una partida se guardan y siguen ahí al recargar.
+    await page.goto(`${eventUrl}/tareas`);
+    await page.getByRole("button", { name: "Nueva tarea" }).click();
+    const taskDialog = page.getByRole("dialog", { name: "Nueva tarea" });
+    await taskDialog.getByLabel("Tarea").fill("Probar el menú");
+    await taskDialog.getByRole("button", { name: "Añadir tarea" }).click();
+    await expect(page.getByRole("checkbox", { name: /Probar el menú/ })).toBeVisible();
+    await page.reload();
+    await expect(page.getByRole("checkbox", { name: /Probar el menú/ })).toBeVisible();
+
+    await page.goto(`${eventUrl}/presupuesto`);
+    await page.getByRole("button", { name: "Nueva partida" }).click();
+    const budgetDialog = page.getByRole("dialog", { name: "Nueva partida" });
+    await budgetDialog.getByLabel("Concepto").fill("Fotografía");
+    await budgetDialog.getByLabel("Estimado (€)").fill("1200");
+    await budgetDialog.getByRole("button", { name: "Añadir partida" }).click();
+    await page.reload();
+    await expect(page.getByText("Fotografía", { exact: true })).toBeVisible();
   });
 });

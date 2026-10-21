@@ -1,6 +1,14 @@
 # Invitaciones_Eventos
 
-Prototipo de invitaciones digitales premium (Next.js 16, React 19, Tailwind 4, Motion, Zod).
+Invitaciones digitales premium con editor y panel (Next.js 16, React 19, Tailwind 4, Motion, Zod,
+Supabase).
+
+- Rutas: invitación `/i/[token]`, editor `/editor/[evento]`, panel `/panel/[evento]`. `demo` es la
+  demostración con datos en memoria (sin red); el resto son eventos reales en Supabase.
+- Datos: todo pasa por `src/lib/data/repository.ts`. Los cambios de esquema van como migración en
+  `supabase/migrations/` (RLS en cada tabla nueva; los invitados solo acceden por funciones con
+  token) y se revisan con los avisos de seguridad de Supabase.
+- Lógica sin React (temas, CSV, mesas, presupuesto…) en `src/lib/`, con pruebas unitarias.
 
 - Especificación del producto: `PROJECT_SPEC.md`. Decisiones de diseño y técnicas: `docs/DECISIONS.md`.
 - Antes de cambiar la interfaz, aplica las skills de `.claude/skills/`:
