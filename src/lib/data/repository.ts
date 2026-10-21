@@ -119,7 +119,7 @@ export async function getOrganizerData(eventKey = DEMO_EVENT_KEY): Promise<Organ
     supabase
       .from("guest_groups")
       .select(
-        "id, token, display_name, category, max_attendees, sort, guests (id, first_name, last_name, is_primary, is_child, sort)",
+        "id, token, display_name, category, max_attendees, phone, sort, guests (id, first_name, last_name, is_primary, is_child, sort)",
       )
       .eq("event_id", eventKey)
       .order("sort")
@@ -146,6 +146,7 @@ export async function getOrganizerData(eventKey = DEMO_EVENT_KEY): Promise<Organ
       displayName: g.display_name,
       category: g.category,
       maxAttendees: g.max_attendees,
+      phone: g.phone,
       members: guests.map((p) => ({
         id: p.id,
         firstName: p.first_name,

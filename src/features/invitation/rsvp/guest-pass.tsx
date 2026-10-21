@@ -1,49 +1,13 @@
 "use client";
 
 import { Printer, Share2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { QrCode } from "@/components/qr-code";
 import { Button } from "@/components/ui/button";
 import { MENU_LABELS } from "@/lib/domain/catalog";
 import type { GuestGroup, MenuId, RsvpResponse, WeddingEvent } from "@/lib/domain/types";
 import { formatWeekdayDate } from "@/lib/format";
 import { describeTransport } from "@/lib/rsvp/summary";
 import { FoilMonogram } from "../effects/foil";
-
-/** QR dibujado con React a partir de la matriz de `uqr` (se carga solo cuando hace falta). */
-function QrCode({ value, label }: { value: string; label: string }) {
-  const [matrix, setMatrix] = useState<boolean[][] | null>(null);
-  useEffect(() => {
-    let cancelled = false;
-    void import("uqr").then(({ encode }) => {
-      if (!cancelled) setMatrix(encode(value, { border: 1, ecc: "M" }).data);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [value]);
-
-  const size = matrix?.length ?? 29;
-  return (
-    <svg
-      role="img"
-      aria-label={label}
-      viewBox={`0 0 ${size} ${size}`}
-      className="size-28 rounded-[2px] bg-paper"
-      shapeRendering="crispEdges"
-    >
-      {matrix ? (
-        <path
-          fill="var(--color-ink)"
-          d={matrix
-            .flatMap((row, y) => row.map((on, x) => (on ? `M${x} ${y}h1v1h-1z` : "")))
-            .join("")}
-        />
-      ) : (
-        <rect width={size} height={size} fill="var(--color-cream)" />
-      )}
-    </svg>
-  );
-}
 
 function menuSummary(response: RsvpResponse) {
   const counts = new Map<MenuId, number>();
@@ -136,7 +100,11 @@ export function GuestPass({
             aria-hidden
             className="absolute -top-3 -right-3 size-6 rounded-full bg-ivory sm:top-auto sm:right-auto sm:-bottom-3 sm:-left-3"
           />
-          <QrCode value={code} label={`Código QR de demostración ${code}`} />
+          <QrCode
+            value={code}
+            label={`Código QR de demostración ${code}`}
+            className="size-28"
+          />
           <p className="font-mono text-[0.6875rem] tracking-wide text-muted" translate="no">
             {code}
           </p>

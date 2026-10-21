@@ -78,5 +78,19 @@ test.describe("recorrido real con Supabase", () => {
 
     await page.goto(`${eventUrl}/invitados?estado=declined`);
     await expect(page.getByText("Familia García").first()).toBeVisible();
+
+    // Alta de una invitación nueva desde el formulario: aparece con su enlace.
+    await page.goto(`${eventUrl}/invitaciones`);
+    await page.getByRole("button", { name: "Nueva invitación" }).click();
+    const dialog = page.getByRole("dialog", { name: "Nueva invitación" });
+    await dialog.getByLabel("Nombre de la invitación").fill("Familia Automática");
+    await dialog.getByLabel("Nombre (principal)").fill("Rosa");
+    await dialog.getByLabel("Teléfono (opcional)").fill("600 000 000");
+    await dialog.getByRole("button", { name: "Crear invitación" }).click();
+    await expect(page.getByRole("heading", { name: "Familia Automática" })).toBeVisible({
+      timeout: 15_000,
+    });
+    const whatsapp = page.getByRole("link", { name: /WhatsApp para Familia Automática/ });
+    await expect(whatsapp).toHaveAttribute("href", /^https:\/\/wa\.me\/34600000000\?text=/);
   });
 });

@@ -40,6 +40,8 @@ export function setIn<T>(value: T, path: Path, next: unknown): T {
 
 /** Mensaje en español para un error de Zod. */
 export function messageFor(issue: z.core.$ZodIssue): string {
+  // Los mensajes propios del esquema (ya en español) se respetan; los de Zod se traducen.
+  if (!/^(Too |Invalid|Expected)/.test(issue.message)) return issue.message;
   switch (issue.code) {
     case "too_small":
       return issue.origin === "string"
@@ -52,8 +54,7 @@ export function messageFor(issue: z.core.$ZodIssue): string {
           ? `Como máximo ${String(issue.maximum)} elementos.`
           : `Tiene que ser como máximo ${String(issue.maximum)}.`;
     case "invalid_format":
-      // Los formatos propios (hora, fecha, foto) ya traen su mensaje en el esquema.
-      return issue.message.startsWith("Invalid") ? "El formato no es válido." : issue.message;
+      return "El formato no es válido.";
     case "invalid_value":
       return "Elige una de las opciones.";
     default:

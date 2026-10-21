@@ -7,6 +7,7 @@ import {
   ClipboardList,
   Home,
   LayoutGrid,
+  Mail,
   Send,
   Settings,
   Users,
@@ -19,6 +20,7 @@ import { usePathname } from "next/navigation";
 
 const ITEMS: { path: string; label: string; icon: LucideIcon }[] = [
   { path: "", label: "Inicio", icon: Home },
+  { path: "/invitaciones", label: "Invitaciones", icon: Mail },
   { path: "/invitados", label: "Invitados", icon: Users },
   { path: "/transporte", label: "Transporte", icon: Bus },
   { path: "/menus", label: "Menús", icon: UtensilsCrossed },

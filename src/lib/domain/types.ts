@@ -123,6 +123,8 @@ export interface GuestGroup {
   maxAttendees: number;
   /** Solo para la demo: fuerza un fallo al guardar o un plazo cerrado. */
   demo?: { failFirstSave?: boolean; deadlinePassed?: boolean };
+  /** Teléfono para enviarla por WhatsApp (eventos reales). */
+  phone?: string | null;
   /** Guardado en la base de datos: las respuestas se envían al servidor. */
   persisted?: boolean;
   /** Mesa asignada en el plano (eventos reales). */
