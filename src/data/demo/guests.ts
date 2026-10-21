@@ -161,6 +161,9 @@ const MESSAGES = [
   "¿Puede sonar algo de Rosalía en la fiesta?",
   "Gracias por pensar en nosotros. Os queremos.",
   "Necesitaremos una trona para el peque, si es posible.",
+  "Llevamos meses esperando este día. ¡Viva los novios!",
+  "Vamos desde Valencia con la abuela, ¿habrá sitio cerca de la entrada?",
+  "Prometemos no llorar en la ceremonia. Bueno, un poco.",
 ];
 
 /** PRNG pequeño y determinista (mulberry32). */
@@ -201,7 +204,7 @@ function generateGroups(): GuestGroup[] {
     const kind = rand.weighted([
       ["single", 3],
       ["couple", 4],
-      ["family", 3],
+      ["family", 2],
     ] as const);
     const surname = rand.pick(SURNAMES);
     const second = rand.pick(SURNAMES);
@@ -227,7 +230,7 @@ function generateGroups(): GuestGroup[] {
       maxAttendees = 2;
       displayName = `${members[0]!.firstName} y ${members[1]!.firstName}`;
     } else {
-      const kids = Math.min(rand.int(1, 3), remaining - 2);
+      const kids = Math.min(rand.int(1, 2), remaining - 2);
       members = [person(1, true), person(2, false)];
       for (let k = 0; k < kids; k++) members.push(person(3 + k, false, true));
       maxAttendees = members.length;
@@ -252,6 +255,7 @@ function generateResponses(groups: GuestGroup[]): RsvpResponse[] {
   const start = Date.parse(`${RESPONSES_START}T10:00:00Z`);
   const end = Date.parse(`${DEMO_REFERENCE_DATE}T20:00:00Z`);
   const responses: RsvpResponse[] = [];
+  let messageIndex = 0;
 
   for (const group of groups) {
     const status = rand.weighted([
@@ -337,7 +341,7 @@ function generateResponses(groups: GuestGroup[]): RsvpResponse[] {
         offersCarSeats: !needsBus && rand.next() < 0.18,
         carSeats: 0,
       },
-      message: rand.next() < 0.22 ? rand.pick(MESSAGES) : "",
+      message: rand.next() < 0.22 ? (MESSAGES[messageIndex++ % MESSAGES.length] ?? "") : "",
       updatedAt,
     });
     const transport = responses[responses.length - 1]!.transport!;
