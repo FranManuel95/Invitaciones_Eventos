@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+/*
+ * Tokens de marca.
+ * Son variables CSS para que cada evento pueda sobrescribirlas (ver src/lib/theme).
+ * Los tonos "gold" y "taupe" son decorativos: para texto usar ink, ink-soft o muted.
+ */
+@theme {
+  --color-paper: #fbf8f2;
+  --color-ivory: #f6f1e8;
+  --color-cream: #eee5d6;
+  --color-sand: #e1d3be;
+  --color-taupe: #b7a489;
+  --color-stone: #8b8070;
+  --color-ink: #1e2a28;
+  --color-ink-soft: #3d4643;
+  --color-muted: #6a655c;
+  --color-line: #e4dccf;
+  --color-gold: #a9844f;
+  --color-gold-soft: #d6bf94;
+  --color-wax: #8a3a24;
+  --color-wax-dark: #5f2415;
+  --color-blush: #e8d2ca;
+  --color-sage: #8d9a84;
+  --color-dusk: #6f8cab;
+  --color-success: #3f6b4f;
+  --color-danger: #9b3b2f;
+  --color-warning: #9a6a1f;
+
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-manrope), "Manrope", system-ui, sans-serif;
+
+  --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-paper: cubic-bezier(0.45, 0.05, 0.2, 1);
+
+  --shadow-paper: 0 1px 2px rgb(60 45 25 / 0.06), 0 12px 32px -12px rgb(60 45 25 / 0.22);
+  --shadow-lift: 0 2px 4px rgb(60 45 25 / 0.08), 0 30px 60px -20px rgb(40 30 15 / 0.35);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+
+  /* Cormorant usa cifras de estilo antiguo por defecto: en horas y fechas se leen mejor alineadas. */
+  .font-display {
+    font-variant-numeric: lining-nums;
+  }
+
+  ::selection {
+    background: var(--color-gold-soft);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Etiqueta en versalitas espaciadas, usada en todo el producto. */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+  }
+
+  /* Textura de papel: ruido rasterizado una sola vez por el navegador (no es un filtro en vivo). */
+  .paper-grain {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .paper-grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: inherit;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .28 0 0 0 0 .2 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .sr-only-focusable:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+
+@keyframes envelope-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-0.4deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(0.4deg);
+  }
+}
+
+@utility preserve-3d {
+  transform-style: preserve-3d;
+}
+
+@utility backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
