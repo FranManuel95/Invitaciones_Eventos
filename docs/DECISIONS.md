@@ -5,15 +5,15 @@ ser sencilla y reversible.
 
 ## Stack
 
-| Pieza | Versión | Motivo |
-| --- | --- | --- |
-| Next.js (App Router) | 16.4 | Rutas estáticas por invitación (`generateStaticParams`), metadatos y listo para Vercel |
-| React | 19.3 | — |
-| TypeScript | 6.0, `strict` + `noUncheckedIndexedAccess` | — |
-| Tailwind CSS | 4.3 | Tokens como variables CSS en `@theme`, que se pueden sobrescribir por evento |
-| Motion (`motion/react`) | 14.5 | Coreografía del sobre (`useAnimate`), presencia entre pantallas, gestos y movimiento reducido |
-| Zod | 4.6 | Valida las respuestas guardadas (datos no confiables). Se reutilizará en el servidor |
-| lucide-react | 1.61 | Iconos |
+| Pieza                   | Versión                                    | Motivo                                                                                        |
+| ----------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------------- |
+| Next.js (App Router)    | 16.4                                       | Rutas estáticas por invitación (`generateStaticParams`), metadatos y listo para Vercel        |
+| React                   | 19.3                                       | —                                                                                             |
+| TypeScript              | 6.0, `strict` + `noUncheckedIndexedAccess` | —                                                                                             |
+| Tailwind CSS            | 4.3                                        | Tokens como variables CSS en `@theme`, que se pueden sobrescribir por evento                  |
+| Motion (`motion/react`) | 14.5                                       | Coreografía del sobre (`useAnimate`), presencia entre pantallas, gestos y movimiento reducido |
+| Zod                     | 4.6                                        | Valida las respuestas guardadas (datos no confiables). Se reutilizará en el servidor          |
+| lucide-react            | 1.61                                       | Iconos                                                                                        |
 
 **Descartados por ahora:**
 
@@ -35,13 +35,13 @@ No se ha copiado código de ninguna de ellas.
 
 ### Plan de diseño
 
-| Eje | Decisión |
-| --- | --- |
-| Concepto | Papelería de una boda entre almendros. El motivo son las ramas con almendras verdes de mayo y la flor de almendro. |
-| Color | Marfil hueso `#efebe1`, papel `#faf8f3`, tinta de olivo `#23271e`, oro viejo `#a3874e`, lacre burdeos `#6b1e2a` |
-| Tipografía | **Bodoni Moda** (didona con eje de tamaño óptico) para los nombres y titulares, y **Jost** (geométrica de la línea Futura) para la interfaz. Es la pareja clásica de la papelería y las revistas de lujo, y sustituye a Cormorant + Manrope, la combinación por defecto de las webs de boda. |
-| Maquetación | Editorial y alineada a la izquierda. En escritorio, el título de cada sección va en una columna de margen. Los nombres de la portada son el único elemento grande. |
-| Movimiento | Un solo momento coreografiado: la apertura del sobre. El resto del movimiento responde a acciones del invitado (cambio de paso, confirmación). |
+| Eje         | Decisión                                                                                                                                                                                                                                                                                     |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Concepto    | Papelería de una boda entre almendros. El motivo son las ramas con almendras verdes de mayo y la flor de almendro.                                                                                                                                                                           |
+| Color       | Marfil hueso `#efebe1`, papel `#faf8f3`, tinta de olivo `#23271e`, oro viejo `#a3874e`, lacre burdeos `#6b1e2a`                                                                                                                                                                              |
+| Tipografía  | **Bodoni Moda** (didona con eje de tamaño óptico) para los nombres y titulares, y **Jost** (geométrica de la línea Futura) para la interfaz. Es la pareja clásica de la papelería y las revistas de lujo, y sustituye a Cormorant + Manrope, la combinación por defecto de las webs de boda. |
+| Maquetación | Editorial y alineada a la izquierda. En escritorio, el título de cada sección va en una columna de margen. Los nombres de la portada son el único elemento grande.                                                                                                                           |
+| Movimiento  | Un solo momento coreografiado: la apertura del sobre. El resto del movimiento responde a acciones del invitado (cambio de paso, confirmación).                                                                                                                                               |
 
 ### Cambios aplicados al revisar contra los «tics» de plantilla
 

@@ -41,15 +41,15 @@ npm run start        # http://localhost:3000
 
 ## Recorrido de la demo
 
-| URL | Qué muestra |
-| --- | --- |
-| `/` | Portada de la demo con enlaces a todas las invitaciones de ejemplo |
-| `/i/familia-garcia` | Familia con una niña y una plaza libre para acompañante |
-| `/i/carlos-ruiz` | Invitación individual con acompañante opcional |
-| `/i/elena-y-pablo` | Pareja |
-| `/i/prueba-error` | Simula un fallo de red al enviar el RSVP la primera vez (estado de error y reintento) |
-| `/i/plazo-cerrado` | Estado de plazo de confirmación cerrado |
-| `/panel` | Panel del organizador |
+| URL                 | Qué muestra                                                                           |
+| ------------------- | ------------------------------------------------------------------------------------- |
+| `/`                 | Portada de la demo con enlaces a todas las invitaciones de ejemplo                    |
+| `/i/familia-garcia` | Familia con una niña y una plaza libre para acompañante                               |
+| `/i/carlos-ruiz`    | Invitación individual con acompañante opcional                                        |
+| `/i/elena-y-pablo`  | Pareja                                                                                |
+| `/i/prueba-error`   | Simula un fallo de red al enviar el RSVP la primera vez (estado de error y reintento) |
+| `/i/plazo-cerrado`  | Estado de plazo de confirmación cerrado                                               |
+| `/panel`            | Panel del organizador                                                                 |
 
 Consejos:
 
@@ -61,14 +61,14 @@ Consejos:
 
 ## Comprobaciones
 
-| Script | Qué hace |
-| --- | --- |
-| `npm run lint` | ESLint (configuración de Next.js) |
-| `npm run typecheck` | TypeScript estricto |
-| `npm run test` | Pruebas unitarias con Vitest (lógica del RSVP y estadísticas) |
-| `npm run test:e2e` | Pruebas de extremo a extremo con Playwright en móvil y escritorio, con auditoría de accesibilidad (axe) |
-| `npm run build` | Compilación de producción |
-| `npm run check` | lint + typecheck + test + build |
+| Script              | Qué hace                                                                                                |
+| ------------------- | ------------------------------------------------------------------------------------------------------- |
+| `npm run lint`      | ESLint (configuración de Next.js)                                                                       |
+| `npm run typecheck` | TypeScript estricto                                                                                     |
+| `npm run test`      | Pruebas unitarias con Vitest (lógica del RSVP y estadísticas)                                           |
+| `npm run test:e2e`  | Pruebas de extremo a extremo con Playwright en móvil y escritorio, con auditoría de accesibilidad (axe) |
+| `npm run build`     | Compilación de producción                                                                               |
+| `npm run check`     | lint + typecheck + test + build                                                                         |
 
 Para las pruebas E2E hay que compilar antes (`npm run build`). Playwright arranca el servidor en el
 puerto 3100. Si no tienes navegadores de Playwright instalados, ejecuta `npx playwright install chromium`.
