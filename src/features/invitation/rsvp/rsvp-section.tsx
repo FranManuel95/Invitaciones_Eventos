@@ -16,6 +16,7 @@ import { formatLongDate } from "@/lib/format";
 import { Section } from "../content/sections";
 import { RsvpForm } from "./rsvp-form";
 import { PhotoSlot } from "../content/photo-slot";
+import { Petals } from "../effects/petals";
 import { GuestPass } from "./guest-pass";
 import { ResponseDetails } from "./rsvp-summary";
 import { useSavedResponse } from "./use-saved-response";
@@ -29,6 +30,8 @@ export function RsvpSection({ event, group }: { event: WeddingEvent; group: Gues
   const view: View = editing ? "form" : saved ? "done" : "intro";
   const [form, setForm] = useState<{ draft: RsvpDraft; step: RsvpStep } | null>(null);
   const [justSaved, setJustSaved] = useState(false);
+  // Cada confirmación de asistencia lanza una lluvia de pétalos (la clave la reinicia).
+  const [celebration, setCelebration] = useState(0);
   const doneRef = useRef<HTMLHeadingElement>(null);
   const closed = isDeadlinePassed(event, group);
 
@@ -58,6 +61,7 @@ export function RsvpSection({ event, group }: { event: WeddingEvent; group: Gues
         )
       }
     >
+      {celebration ? <Petals key={celebration} quick /> : null}
       <div className="max-w-xl">
         {saved?.status === "attending" && !editing ? (
           <div className="mb-8">
@@ -122,8 +126,9 @@ export function RsvpSection({ event, group }: { event: WeddingEvent; group: Gues
                   initialDraft={form.draft}
                   initialStep={form.step}
                   onCancel={() => setEditing(false)}
-                  onSaved={() => {
+                  onSaved={(response) => {
                     setJustSaved(true);
+                    if (response.status === "attending") setCelebration((n) => n + 1);
                     setEditing(false);
                   }}
                 />

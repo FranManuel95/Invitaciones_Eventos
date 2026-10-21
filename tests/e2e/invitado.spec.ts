@@ -25,11 +25,14 @@ test.describe("experiencia del invitado", () => {
     expect(errors).toEqual([]);
   });
 
-  test("se puede saltar la introducción y no se repite en la sesión", async ({ page }) => {
+  test("se puede saltar la introducción y al volver la apertura es corta", async ({ page }) => {
     await page.goto("/i/carlos-ruiz");
+    await expect(page.getByRole("heading", { name: "María & Daniel", level: 1 })).toBeAttached();
     await page.getByRole("button", { name: "Saltar intro" }).click();
     await expect(page.locator("#content-title")).toBeFocused();
     await page.reload();
+    // Apertura corta (foto y nombres) y, sin tocar nada, el contenido.
+    await expect(page.locator("#brief-title")).toBeVisible();
     await expect(
       page.getByRole("navigation", { name: "Secciones de la invitación" }),
     ).toBeVisible();
@@ -44,6 +47,14 @@ test.describe("experiencia del invitado", () => {
     await expect(page.getByRole("heading", { name: /^Hola, Elena y Pablo/ })).toBeVisible({
       timeout: 2000,
     });
+    // Sin portada en WebGL ni apertura corta al volver: directo al contenido.
+    await expect(page.locator("canvas")).toHaveCount(0);
+    await page.getByRole("button", { name: "Saltar intro" }).click();
+    await page.reload();
+    await expect(page.locator("#brief-title")).toHaveCount(0);
+    await expect(
+      page.getByRole("navigation", { name: "Secciones de la invitación" }),
+    ).toBeVisible();
     await context.close();
   });
 
@@ -123,6 +134,7 @@ test.describe("experiencia del invitado", () => {
     await page.getByRole("button", { name: "Saltar intro" }).click();
     await expect(page.getByRole("heading", { name: "Guarda la fecha" })).toBeAttached();
     await expect(page.getByRole("cell", { name: /22 \(día de la boda\)/ })).toBeAttached();
+    await expect(page.getByText(/^Faltan \d+ días, \d+ horas y \d+ minutos\.$/)).toBeAttached();
     await expect(page.getByRole("link", { name: /Google Calendar/ })).toHaveAttribute(
       "href",
       /calendar\.google\.com/,
@@ -145,6 +157,7 @@ test.describe("experiencia del invitado", () => {
     await expect(page.locator('[aria-current="step"]')).toContainText("Cóctel");
     await expect(page.getByRole("heading", { name: "Guarda la fecha" })).toHaveCount(0);
     await expect(page.getByText(/^Faltan \d+ días/)).toHaveCount(0);
+    await expect(page.getByText(/horas y \d+ minutos/)).toHaveCount(0);
     await expect(page.getByRole("link", { name: "Qué pasa ahora" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Nuestra historia" })).toBeAttached();
   });

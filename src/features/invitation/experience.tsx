@@ -16,13 +16,15 @@ import { DemoBadge } from "@/components/demo-badge";
 import { hasOpenedEnvelope, markEnvelopeOpened } from "@/lib/data/session";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
 import type { InvitationContentProps } from "./content/invitation-content";
+import { BriefStage } from "./brief/brief-stage";
 import { CoverStage } from "./cover/cover-stage";
-import { isMuted, setMuted, subscribeMuted } from "./effects/sound";
+import { startAmbient, stopAmbient } from "./effects/ambient";
+import { isMuted, setMuted, subscribeMuted, unlockAudio } from "./effects/sound";
 import { TiltProvider } from "./effects/tilt";
 import { EnvelopeStage } from "./envelope/envelope-stage";
 import { LetterStage } from "./letter/letter-stage";
 
-type Stage = "cover" | "envelope" | "letter" | "content";
+type Stage = "brief" | "cover" | "envelope" | "letter" | "content";
 
 /*
  * El contenido y el RSVP (con Zod) no hacen falta para la portada: se cargan aparte y se
@@ -36,6 +38,7 @@ const loadContent = () =>
 const noopSubscribe = () => () => {};
 
 const HEADINGS: Record<Stage, string> = {
+  brief: "brief-title",
   cover: "cover-title",
   envelope: "envelope-title",
   letter: "letter-title",
@@ -44,21 +47,22 @@ const HEADINGS: Record<Stage, string> = {
 
 /**
  * Orquesta el recorrido del invitado: portada → sobre → carta → invitación.
- * La introducción se puede saltar en cualquier momento y no se repite en la misma sesión.
+ * La introducción se puede saltar en cualquier momento. Quien vuelve en la misma sesión ve una
+ * apertura corta (BriefStage) en lugar de toda la introducción.
  */
 export function InvitationExperience({ event, group }: { event: WeddingEvent; group: GuestGroup }) {
   const reduce = useReducedMotion();
   const [chosenStage, setStage] = useState<Stage | null>(null);
   const [Content, setContent] = useState<ComponentType<InvitationContentProps> | null>(null);
   const userNavigated = useRef(false);
-  // Si ya abrió el sobre en esta sesión, va directo al contenido (en servidor siempre es la portada).
+  // Si ya abrió el sobre en esta sesión, apertura corta (en servidor siempre es la portada).
   const openedBefore = useSyncExternalStore(
     noopSubscribe,
     () => hasOpenedEnvelope(group.token),
     () => false,
   );
   const muted = useSyncExternalStore(subscribeMuted, isMuted, () => false);
-  const stage: Stage = chosenStage ?? (openedBefore ? "content" : "cover");
+  const stage: Stage = chosenStage ?? (openedBefore ? (reduce ? "content" : "brief") : "cover");
 
   const preload = useCallback(() => {
     void loadContent().then((component) => setContent(() => component));
@@ -68,16 +72,23 @@ export function InvitationExperience({ event, group }: { event: WeddingEvent; gr
     if (openedBefore) preload();
   }, [openedBefore, preload]);
 
+  useEffect(() => () => stopAmbient(0.3), []);
+
   const go = useCallback(
     (next: Stage) => {
       userNavigated.current = true;
       if (next !== "cover") preload();
       if (next === "content") markEnvelopeOpened(group.token);
+      // Música: entra al levantar la portada y se despide al llegar al contenido.
+      if (next === "envelope") startAmbient();
+      if (next === "content" || next === "cover") stopAmbient(next === "content" ? 3 : 0.4);
       // Dentro de una transición: React activa los <ViewTransition> (la carta que se transforma).
       startTransition(() => setStage(next));
     },
     [group.token, preload],
   );
+
+  const toContent = useCallback(() => go("content"), [go]);
 
   // Gestión del foco: al cambiar de pantalla se enfoca su título para lectores de pantalla y teclado.
   useEffect(() => {
@@ -90,7 +101,7 @@ export function InvitationExperience({ event, group }: { event: WeddingEvent; gr
   }, [stage]);
 
   const intro = stage !== "content";
-  const onDark = stage === "cover";
+  const onDark = stage === "cover" || stage === "brief";
 
   return (
     <LazyMotion features={domAnimation} strict>
@@ -100,7 +111,14 @@ export function InvitationExperience({ event, group }: { event: WeddingEvent; gr
             <div className="fixed top-[max(1rem,env(safe-area-inset-top))] right-4 z-50 flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => setMuted(!muted)}
+                onClick={() => {
+                  setMuted(!muted);
+                  if (!muted) stopAmbient(0.6);
+                  else if (stage === "envelope" || stage === "letter") {
+                    unlockAudio();
+                    startAmbient();
+                  }
+                }}
                 aria-pressed={!muted}
                 aria-label={muted ? "Activar sonido" : "Silenciar sonido"}
                 className={
@@ -133,6 +151,12 @@ export function InvitationExperience({ event, group }: { event: WeddingEvent; gr
             <div className="fixed top-[max(1rem,env(safe-area-inset-top))] left-4 z-50">
               <DemoBadge tone={onDark ? "dark" : "light"} />
             </div>
+          ) : null}
+
+          {stage === "brief" ? (
+            <ViewTransition exit="fade-out" default="none">
+              <BriefStage event={event} onDone={toContent} />
+            </ViewTransition>
           ) : null}
 
           {/* El sobre ya está debajo de la portada: al levantarla con el dedo se ve esperando. */}

@@ -443,3 +443,28 @@
     transform: scaleY(1);
   }
 }
+
+/* Franja holográfica del pase: un degradado iridiscente que se desplaza despacio. */
+.holo {
+  background-image: linear-gradient(
+    115deg,
+    #e9c7d4 0%,
+    #cfe6ee 18%,
+    #f3e7b8 36%,
+    #d9cdf1 54%,
+    #c9e7d7 72%,
+    #e9c7d4 90%
+  );
+  background-size: 300% 100%;
+  animation: holo-shift 7s linear infinite;
+}
+@keyframes holo-shift {
+  to {
+    background-position: 300% 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .holo {
+    animation: none;
+  }
+}

@@ -77,6 +77,28 @@ No se ha copiado código de ninguna de ellas.
 
 - **React Three Fiber** (MIT): un sobre con volumen y reflejos reales es viable, pero añade unos 150 KB y obliga a ofrecer otra alternativa accesible. Conviene evaluarlo cuando el sobre CSS esté probado en iOS.
 
+## Ronda 4 · Una invitación cinematográfica
+
+- **Portada «foto 3D».**
+  - El mapa de profundidad se genera una vez con MiDaS small (MIT) y `scripts/depth-map.py`. Como MiDaS confunde los cielos luminosos con objetos cercanos, el cielo se fija como lo más lejano.
+  - Un shader OGL (Unlicense, ~30 KB, carga dinámica) aplica el paralaje por profundidad, el Ken Burns, el grano, la viñeta y un destello.
+  - La foto con next/image sigue debajo: es el LCP y la alternativa sin WebGL o con movimiento reducido.
+  - La apertura parte de negro y el título aparece letra a letra con `SplitText`, legible para lectores de pantalla.
+- **Scroll.** Animaciones nativas (`animation-timeline: view()`), con `@supports` y solo sin «reducir movimiento»: fotos que se descubren, paralaje, titulares que suben e hilos dorados en la historia y el programa. No añaden JavaScript.
+- **Historia.** `RollingYear` hace girar el año como un contador.
+- **Calendario de taco.**
+  - Las hojas de los meses que faltan se levantan cada vez más rápido (`pagesUntil`).
+  - Hay una cuenta atrás de aeropuerto (`FlipCountdown`, `countdownParts`).
+  - El 22 vuela hasta el botón de calendario.
+- **Programa y mapa.**
+  - Iconos con microanimaciones.
+  - El camino se dibuja con una máscara y lo recorre un autobús con SMIL `animateMotion`, sin JavaScript por fotograma.
+- **Música generativa** (`effects/ambient.ts`), hecha con Web Audio: piano y cuerdas sobre Fa maj7, La m7, Re m9 y Do maj7, con reverberación hecha con ruido. No hay archivos ni licencias. Entra al levantar la portada, sale al llegar al contenido y respeta el silencio.
+- **Apertura corta** (`BriefStage`) al volver en la misma sesión: foto y nombres durante 1,9 s. Con movimiento reducido se va directo al contenido.
+- **Al confirmar:** lluvia rápida de pétalos y una franja holográfica en el pase.
+- **Sin GSAP ni Rive:** duplicarían peso o necesitan un editor de pago.
+- **Peso de JavaScript** (gzip, medido en el navegador): invitación 226 KB, incluido OGL bajo demanda (antes 204). Presupuesto: 240 KB.
+
 ## Ronda 3 · Realismo y una invitación más completa
 
 Skills nuevas en `.claude/skills` (copiadas literalmente, con su licencia): react-view-transitions,

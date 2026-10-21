@@ -20,11 +20,12 @@ const PETALS: [number, number, number, number, number, number][] = [
 ];
 
 /**
- * Pétalos de flor de almendro que caen una sola vez al aparecer la carta.
+ * Pétalos de flor de almendro que caen una sola vez: al aparecer la carta y, en versión
+ * rápida (`quick`), como celebración al confirmar asistencia.
  * Solo se anima transform/opacity y cada pétalo termina fuera de la pantalla.
  * Con movimiento reducido no se pintan.
  */
-export function Petals() {
+export function Petals({ quick = false }: { quick?: boolean }) {
   const reduce = useReducedMotion();
   if (reduce) return null;
   return (
@@ -40,8 +41,8 @@ export function Petals() {
               width: size,
               "--drift": `${drift}px`,
               "--spin": `${spin}deg`,
-              "--fall": `${fall}s`,
-              "--delay": `${delay}s`,
+              "--fall": `${quick ? fall * 0.6 : fall}s`,
+              "--delay": `${quick ? delay * 0.35 : delay}s`,
             } as CSSProperties
           }
         >

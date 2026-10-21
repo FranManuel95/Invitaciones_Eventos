@@ -85,6 +85,8 @@ export function GuestPass({
         aria-labelledby="pase-title"
         className="paper-grain relative overflow-hidden rounded-[4px] border border-line bg-paper shadow-[var(--shadow-paper)] sm:grid sm:grid-cols-[minmax(0,1fr)_11rem]"
       >
+        {/* Franja holográfica, como la de una entrada auténtica: sus colores se desplazan. */}
+        <span aria-hidden className="holo absolute inset-x-0 top-0 h-1.5 sm:col-span-2" />
         <div className="p-6 sm:p-7">
           <div className="flex items-center gap-3">
             <FoilMonogram

@@ -42,6 +42,11 @@ export function unlockAudio() {
   if (context.state === "suspended") void context.resume();
 }
 
+/** El contexto ya desbloqueado por un gesto (o null si aún no hay, o está en silencio). */
+export function audioContext() {
+  return isMuted() ? null : context;
+}
+
 function noiseBuffer(ctx: AudioContext, seconds: number) {
   const buffer = ctx.createBuffer(1, Math.ceil(ctx.sampleRate * seconds), ctx.sampleRate);
   const data = buffer.getChannelData(0);
