@@ -10,9 +10,10 @@ export function StorySection({ event }: { event: WeddingEvent }) {
       <PhotoSlot
         src={story.couplePhoto}
         alt={`${event.couple.first} y ${event.couple.second}`}
-        ratio="3/2"
-        sizes="(min-width: 768px) 640px, 92vw"
+        ratio="4/5"
+        sizes="(min-width: 640px) 352px, 92vw"
         tone={0}
+        className="max-w-[22rem]"
       />
       <ol className="mt-12 space-y-12">
         {story.moments.map((moment, i) => (

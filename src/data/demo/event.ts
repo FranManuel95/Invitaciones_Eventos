@@ -173,6 +173,7 @@ export const demoEvent: WeddingEvent = {
       },
     ],
   },
+  coverPhoto: null,
   banquetPhoto: "/fotos/banquete.jpg",
   contactPhone: "+34 600 000 000",
   gift: {

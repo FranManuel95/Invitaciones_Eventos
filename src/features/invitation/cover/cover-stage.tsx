@@ -7,6 +7,7 @@ import type { WeddingEvent } from "@/lib/domain/types";
 import { formatLongDate, isoDay } from "@/lib/format";
 import { playPaper, unlockAudio } from "../effects/sound";
 import { useTilt } from "../effects/tilt";
+import { CoverPhoto } from "./cover-photo";
 import { Landscape } from "./landscape";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -98,13 +99,24 @@ export function CoverStage({ event, onOpen }: { event: WeddingEvent; onOpen: () 
         animate={{ scale: 1 }}
         transition={{ duration: 3.4, ease }}
       >
-        <Landscape lift={lift} tiltX={tilt.x} tiltY={tilt.y} />
+        {event.coverPhoto ? (
+          <CoverPhoto src={event.coverPhoto} lift={lift} tiltX={tilt.x} tiltY={tilt.y} />
+        ) : (
+          <Landscape lift={lift} tiltX={tilt.x} tiltY={tilt.y} />
+        )}
       </m.div>
       {/* Velo para garantizar el contraste del texto sobre la ilustración. */}
       <div
         aria-hidden
         className="absolute inset-0 bg-[linear-gradient(180deg,rgb(20_22_32/0.55)_0%,rgb(20_22_32/0.05)_38%,rgb(20_16_22/0.15)_62%,rgb(14_11_16/0.8)_100%)]"
       />
+      {/* Una foto real tiene cielos más claros que la ilustración: algo más de velo tras el título. */}
+      {event.coverPhoto ? (
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-[radial-gradient(90%_45%_at_50%_38%,rgb(20_16_22/0.35),transparent)]"
+        />
+      ) : null}
       {/* Al levantarla, la hoja se oscurece un poco: deja de recibir la luz de frente. */}
       <m.div aria-hidden className="absolute inset-0 bg-black" style={{ opacity: shade }} />
       <div aria-hidden className="paper-grain absolute inset-0 opacity-60" />

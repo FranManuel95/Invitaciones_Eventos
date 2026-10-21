@@ -93,6 +93,8 @@ export interface WeddingEvent {
   faqs: Faq[];
   gift: { message: string; holder: string; iban: string };
   story: { intro: string; couplePhoto: string | null; moments: StoryMoment[] };
+  /** Foto de la portada (vertical); sin ella se usa el paisaje ilustrado en SVG. */
+  coverPhoto: string | null;
   /** Foto de ambiente del banquete, en la tarjeta de confirmación. */
   banquetPhoto: string | null;
   /** Teléfono de contacto para el día de la boda (de demostración). */
