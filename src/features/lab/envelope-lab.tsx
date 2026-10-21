@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useRef, useState, useSyncExternalStore } from "react";
 import { buttonClasses } from "@/components/ui/button";
 import type { SceneControls } from "./envelope-scene";
 
@@ -38,6 +38,9 @@ export function EnvelopeLab({
   const controls = useRef<SceneControls | null>(null);
   const fpsRef = useRef<HTMLSpanElement>(null);
   const [state, setState] = useState<"closed" | "opening" | "open">("closed");
+  // El botón no hace nada hasta que three y la escena han cargado.
+  const [ready, setReady] = useState(false);
+  const markReady = useCallback(() => setReady(true), []);
 
   if (!webgl || reduce) {
     return (
@@ -69,6 +72,7 @@ export function EnvelopeLab({
           date={date}
           place={place}
           onOpened={() => setState("open")}
+          onReady={markReady}
           onFps={(fps) => {
             if (fpsRef.current) fpsRef.current.textContent = String(fps);
           }}
@@ -81,7 +85,7 @@ export function EnvelopeLab({
         <button
           type="button"
           className={buttonClasses("primary", "lg")}
-          disabled={state === "opening"}
+          disabled={!ready || state === "opening"}
           onClick={() => {
             if (state === "open") {
               controls.current?.reset();

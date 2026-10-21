@@ -21,6 +21,9 @@ export interface Venue {
   /** Texto que se envía a los proveedores de mapas. */
   mapsQuery: string;
   note?: string;
+  /** Ruta en /public/fotos; null mientras no haya foto (se muestra una ilustración). */
+  photo: string | null;
+  photoAlt: string;
 }
 
 export interface ProgramItem {
@@ -90,6 +93,8 @@ export interface WeddingEvent {
   faqs: Faq[];
   gift: { message: string; holder: string; iban: string };
   story: { intro: string; couplePhoto: string | null; moments: StoryMoment[] };
+  /** Foto de ambiente del banquete, en la tarjeta de confirmación. */
+  banquetPhoto: string | null;
   /** Teléfono de contacto para el día de la boda (de demostración). */
   contactPhone: string;
 }

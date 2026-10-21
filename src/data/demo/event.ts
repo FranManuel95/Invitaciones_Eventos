@@ -24,6 +24,8 @@ export const demoEvent: WeddingEvent = {
       city: "Chinchón, Madrid",
       mapsQuery: "Plaza Mayor Chinchón",
       note: "Recomendamos llegar 20 minutos antes. Hay aparcamiento público a 200 m.",
+      photo: "/fotos/iglesia.jpg",
+      photoAlt: "Fachada de piedra de la iglesia, con rosetón y campanario",
     },
     {
       id: "finca",
@@ -33,6 +35,8 @@ export const demoEvent: WeddingEvent = {
       city: "Chinchón, Madrid",
       mapsQuery: "Chinchón Madrid",
       note: "A 8 minutos en coche de la iglesia. Los autobuses salen de la plaza al terminar la ceremonia.",
+      photo: "/fotos/finca.jpg",
+      photoAlt: "Jardín de la finca al anochecer, con guirnaldas de luces y mesas altas",
     },
   ],
   program: [
@@ -141,34 +145,35 @@ export const demoEvent: WeddingEvent = {
     moments: [
       {
         year: "2015",
-        title: "Nos conocimos en la biblioteca",
-        text: "Daniel pidió prestado un cargador y María nunca lo recuperó. Todavía discutimos de quién es.",
+        title: "Nos conocimos en Amalfi",
+        text: "La misma excursión de Erasmus y el último sitio libre en el muro del mirador. Nos quedamos hasta que se fue el sol.",
         photo: null,
-        photoAlt: "María y Daniel en la biblioteca de la facultad",
+        photoAlt: "María y Daniel de espaldas, sentados frente a la costa de Amalfi",
       },
       {
         year: "2017",
         title: "El primer viaje",
-        text: "Lisboa en un coche sin aire acondicionado. Volvimos sabiendo que podíamos con todo.",
+        text: "Florencia en agosto, con una mochila y un mapa de papel. Volvimos sabiendo que podíamos con todo.",
         photo: null,
-        photoAlt: "María y Daniel en un mirador de Lisboa",
-      },
-      {
-        year: "2021",
-        title: "Llegó Higo",
-        text: "Un perro de agua que eligió el sofá y, de paso, a nosotros.",
-        photo: null,
-        photoAlt: "Higo, el perro de María y Daniel",
+        photoAlt: "María y Daniel mirando la cúpula de Florencia desde un mirador",
       },
       {
         year: "2026",
         title: "La pedida",
         text: "En el mirador de Chinchón, al atardecer. Dijo que sí antes de que terminara la pregunta.",
-        photo: null,
-        photoAlt: "María y Daniel el día de la pedida en Chinchón",
+        photo: "/fotos/historia-pedida.jpg",
+        photoAlt: "Anillo de compromiso en un estuche de terciopelo entre flores blancas",
+      },
+      {
+        year: "Hoy",
+        title: "Y ahora, la boda",
+        text: "Vivimos en Madrid con Higo, un perro de agua que eligió el sofá y, de paso, a nosotros. Solo faltáis vosotros.",
+        photo: "/fotos/historia-hoy.jpg",
+        photoAlt: "María y Daniel de espaldas, viendo el atardecer sobre el mar",
       },
     ],
   },
+  banquetPhoto: "/fotos/banquete.jpg",
   contactPhone: "+34 600 000 000",
   gift: {
     message:

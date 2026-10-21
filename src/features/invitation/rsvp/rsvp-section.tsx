@@ -15,6 +15,7 @@ import {
 import { formatLongDate } from "@/lib/format";
 import { Section } from "../content/sections";
 import { RsvpForm } from "./rsvp-form";
+import { PhotoSlot } from "../content/photo-slot";
 import { GuestPass } from "./guest-pass";
 import { ResponseDetails } from "./rsvp-summary";
 import { useSavedResponse } from "./use-saved-response";
@@ -63,7 +64,16 @@ export function RsvpSection({ event, group }: { event: WeddingEvent; group: Gues
             <GuestPass event={event} group={group} response={saved} />
           </div>
         ) : null}
-        <div className="paper-grain rounded-[3px] border border-line bg-paper px-5 py-8 shadow-[var(--shadow-paper)] sm:px-10 sm:py-10">
+        <div className="paper-grain overflow-hidden rounded-[3px] border border-line bg-paper px-5 py-8 shadow-[var(--shadow-paper)] sm:px-10 sm:py-10">
+          {view === "intro" && !closed && event.banquetPhoto ? (
+            <PhotoSlot
+              src={event.banquetPhoto}
+              alt=""
+              ratio="3/2"
+              sizes="(min-width: 640px) 576px, 100vw"
+              className="-mx-5 -mt-8 mb-8 rounded-none sm:-mx-10 sm:-mt-10"
+            />
+          ) : null}
           <AnimatePresence mode="wait" initial={false}>
             <m.div
               key={view}

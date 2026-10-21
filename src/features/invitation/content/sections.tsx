@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import type { RsvpResponse, WeddingEvent } from "@/lib/domain/types";
 import { describeTransport } from "@/lib/rsvp/summary";
 import { formatLongDate } from "@/lib/format";
+import { PhotoSlot } from "./photo-slot";
 
 /*
  * Secciones de la invitación con maquetación editorial: en escritorio el título ocupa una
@@ -168,6 +169,14 @@ export function VenuesSection({ event }: { event: WeddingEvent }) {
       <div className="mt-10 grid gap-10 sm:grid-cols-2">
         {event.venues.map((venue) => (
           <article key={venue.id}>
+            <PhotoSlot
+              src={venue.photo}
+              alt={venue.photoAlt}
+              ratio="3/2"
+              sizes="(min-width: 640px) 320px, 92vw"
+              tone={venue.id === "finca" ? 1 : 3}
+              className="mb-5"
+            />
             <p className="caption text-ink-soft">{venue.kind}</p>
             <h3 className="mt-1 font-display text-[1.75rem] leading-tight text-ink">
               {venue.name}

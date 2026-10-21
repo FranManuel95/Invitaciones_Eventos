@@ -72,6 +72,7 @@ export interface SceneControls {
 function Envelope({
   controlsRef,
   onOpened,
+  onReady,
   onFps,
   names,
   date,
@@ -79,6 +80,8 @@ function Envelope({
 }: {
   controlsRef: React.RefObject<SceneControls | null>;
   onOpened: () => void;
+  /** La escena ya responde a open()/reset(). */
+  onReady: () => void;
   onFps: (fps: number) => void;
   names: string;
   date: string;
@@ -170,7 +173,8 @@ function Envelope({
         opened.current = false;
       },
     };
-  }, [controlsRef]);
+    onReady();
+  }, [controlsRef, onReady]);
 
   useFrame((state) => {
     const now = state.clock.elapsedTime;
@@ -371,6 +375,8 @@ function Envelope({
 export default function EnvelopeScene(props: {
   controlsRef: React.RefObject<SceneControls | null>;
   onOpened: () => void;
+  /** La escena ya responde a open()/reset(). */
+  onReady: () => void;
   onFps: (fps: number) => void;
   names: string;
   date: string;
