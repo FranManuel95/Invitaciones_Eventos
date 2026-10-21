@@ -8,9 +8,27 @@ import { z } from "zod";
  * la raíz de la invitación.
  */
 
-export const STYLE_IDS = ["mediterraneo", "clasico", "noche"] as const;
+export const STYLE_IDS = [
+  "mediterraneo",
+  "clasico",
+  "noche",
+  "botanico",
+  "terracota",
+  "empolvado",
+  "pizarra",
+  "esmeralda",
+] as const;
 export const ENVELOPE_IDS = ["olivo", "lino", "kraft"] as const;
-export const WAX_IDS = ["burdeos", "salvia", "azul", "oro"] as const;
+export const WAX_IDS = [
+  "burdeos",
+  "salvia",
+  "azul",
+  "oro",
+  "rosa",
+  "teja",
+  "lavanda",
+  "negro",
+] as const;
 export const CALENDAR_IDS = ["taco", "minimal"] as const;
 
 export type StyleId = (typeof STYLE_IDS)[number];
@@ -40,11 +58,16 @@ export const SECTIONS: Record<SectionId, string> = {
   regalo: "Regalo",
 };
 
+/** Color libre elegido por el cliente (#rrggbb). */
+const hexColor = z.string().regex(/^#[0-9a-f]{6}$/i, "Elige un color válido.");
+
 /** Tema que envía el editor: estricto, sin corregir valores desconocidos. */
 export const themeInputSchema = z.strictObject({
   style: z.enum(STYLE_IDS),
   envelope: z.enum(ENVELOPE_IDS),
   wax: z.enum(WAX_IDS),
+  /** Si hay color propio, sustituye al lacre elegido (y al acento que sale de él). */
+  waxColor: hexColor.nullable(),
   calendar: z.enum(CALENDAR_IDS),
   hidden: z.array(z.enum(SECTION_IDS)).max(SECTION_IDS.length),
   music: z.boolean(),
@@ -55,6 +78,7 @@ export const themeSchema = z.object({
   style: z.enum(STYLE_IDS).catch("mediterraneo"),
   envelope: z.enum(ENVELOPE_IDS).catch("olivo"),
   wax: z.enum(WAX_IDS).catch("burdeos"),
+  waxColor: hexColor.nullable().catch(null),
   calendar: z.enum(CALENDAR_IDS).catch("taco"),
   hidden: z.array(z.enum(SECTION_IDS)).max(SECTION_IDS.length).catch([]),
   music: z.boolean().catch(true),
@@ -66,6 +90,7 @@ export const DEFAULT_THEME: Theme = {
   style: "mediterraneo",
   envelope: "olivo",
   wax: "burdeos",
+  waxColor: null,
   calendar: "taco",
   hidden: [],
   music: true,
@@ -177,6 +202,121 @@ export const STYLES: Record<StyleId, StyleDef> = {
     },
     scene: ["#2a3042", "#1f2433", "#171b27", "#0f121a"],
   },
+  botanico: {
+    label: "Botánico",
+    description: "Verde salvia, papel claro y tinta de hoja.",
+    dark: false,
+    palette: {
+      paper: "#f6f7f1",
+      ivory: "#e9ece2",
+      cream: "#dfe3d6",
+      sand: "#cdd3c2",
+      taupe: "#9fa891",
+      stone: "#7a8370",
+      ink: "#1f2a1f",
+      inkSoft: "#3a4637",
+      muted: "#525c4e",
+      line: "#d3d8c8",
+      gold: "#8c7a45",
+      goldSoft: "#cfc28f",
+      success: "#3c6645",
+      danger: "#9a3328",
+      warning: "#7a5312",
+    },
+    scene: ["#eef0e6", "#dde2d2", "#c7cfb9", "#adb89c"],
+  },
+  terracota: {
+    label: "Terracota",
+    description: "Arcilla cálida, crema y tinta tostada.",
+    dark: false,
+    palette: {
+      paper: "#fbf6f1",
+      ivory: "#f2e8de",
+      cream: "#e9dbcd",
+      sand: "#dcc6b2",
+      taupe: "#b8987c",
+      stone: "#8d7562",
+      ink: "#2d1f18",
+      inkSoft: "#4c372c",
+      muted: "#634f46",
+      line: "#e0d0c2",
+      gold: "#a3784a",
+      goldSoft: "#d9b98f",
+      success: "#3c6645",
+      danger: "#9a3328",
+      warning: "#7a5312",
+    },
+    scene: ["#f4e6da", "#e8d2c0", "#d6b9a1", "#c09d82"],
+  },
+  empolvado: {
+    label: "Rosa empolvado",
+    description: "Rosa muy suave, gris cálido y oro rosado.",
+    dark: false,
+    palette: {
+      paper: "#fcf8f7",
+      ivory: "#f4eae8",
+      cream: "#ecdedb",
+      sand: "#e0cbc7",
+      taupe: "#bfa29c",
+      stone: "#927a76",
+      ink: "#2b2023",
+      inkSoft: "#4a3a3e",
+      muted: "#645558",
+      line: "#e6d6d3",
+      gold: "#a67f5c",
+      goldSoft: "#dcc0a5",
+      success: "#3c6645",
+      danger: "#9a3328",
+      warning: "#7a5312",
+    },
+    scene: ["#f5e8e5", "#ead6d2", "#d9bcb6", "#c3a19a"],
+  },
+  pizarra: {
+    label: "Costa",
+    description: "Gris azulado de mar en invierno y tinta pizarra.",
+    dark: false,
+    palette: {
+      paper: "#f7f8f9",
+      ivory: "#eceff2",
+      cream: "#e1e5ea",
+      sand: "#ced5dc",
+      taupe: "#9aa5b1",
+      stone: "#737e8a",
+      ink: "#1c232b",
+      inkSoft: "#36404b",
+      muted: "#515b66",
+      line: "#d6dce2",
+      gold: "#8b7a52",
+      goldSoft: "#cdbf98",
+      success: "#3c6645",
+      danger: "#9a3328",
+      warning: "#7a5312",
+    },
+    scene: ["#e9edf1", "#d8dee5", "#c1cad4", "#a6b1bd"],
+  },
+  esmeralda: {
+    label: "Esmeralda",
+    description: "Verde botella profundo con letras en oro.",
+    dark: true,
+    palette: {
+      paper: "#16231d",
+      ivory: "#0f1915",
+      cream: "#1f2f27",
+      sand: "#2a3d33",
+      taupe: "#50665a",
+      stone: "#8ba395",
+      ink: "#eef0e6",
+      inkSoft: "#d3dacd",
+      muted: "#aeb8aa",
+      line: "#2c4036",
+      gold: "#c9a65d",
+      goldSoft: "#7f6a3c",
+      success: "#8cc79a",
+      danger: "#f0938a",
+      warning: "#e5bb6c",
+    },
+    scene: ["#24382e", "#1a2a22", "#13201a", "#0c1511"],
+  },
 };
 
 /** Color de la cera. En los estilos oscuros el acento del texto se aclara para que se lea. */
@@ -185,7 +325,16 @@ export const WAXES: Record<WaxId, { label: string; hex: string }> = {
   salvia: { label: "Salvia", hex: "#4a5a3f" },
   azul: { label: "Azul noche", hex: "#24365a" },
   oro: { label: "Oro viejo", hex: "#7d5f22" },
+  rosa: { label: "Rosa antiguo", hex: "#8e4757" },
+  teja: { label: "Teja", hex: "#8a3f25" },
+  lavanda: { label: "Lavanda", hex: "#5d4f7a" },
+  negro: { label: "Negro", hex: "#262626" },
 };
+
+/** Color de la cera: el propio del cliente o el del lacre elegido. */
+export function waxHex(theme: Theme): string {
+  return theme.waxColor ?? WAXES[theme.wax].hex;
+}
 
 interface EnvelopeDef {
   label: string;
@@ -264,10 +413,24 @@ export function contrast(a: string, b: string): number {
   return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
 }
 
+/**
+ * Acerca un color a `toward` lo justo para que se lea sobre `bg` (contraste ≥ `target`).
+ * Así un color libre del cliente nunca deja un texto ilegible.
+ */
+export function readableOn(color: string, bg: string, toward: string, target = 4.5): string {
+  for (let t = 0; t <= 1; t += 0.05) {
+    const candidate = mix(color, toward, t);
+    if (contrast(candidate, bg) >= target) return candidate;
+  }
+  return toward;
+}
+
 /** Acento para texto (el día marcado, las alertas del programa…): la cera, legible sobre el papel. */
 export function accentFor(theme: Theme): string {
-  const wax = WAXES[theme.wax].hex;
-  return STYLES[theme.style].dark ? mix(wax, "#f6e9dc", 0.62) : wax;
+  const style = STYLES[theme.style];
+  const wax = waxHex(theme);
+  const start = style.dark ? mix(wax, "#f6e9dc", 0.62) : wax;
+  return readableOn(start, style.palette.paper, style.dark ? "#ffffff" : style.palette.ink, 4.6);
 }
 
 /** Variables CSS del tema, para el atributo style de la raíz de la invitación. */
@@ -275,7 +438,7 @@ export function themeVars(theme: Theme): CSSProperties {
   const style = STYLES[theme.style];
   const p = style.palette;
   const envelope = ENVELOPES[theme.envelope];
-  const wax = WAXES[theme.wax].hex;
+  const wax = waxHex(theme);
   const vars: Record<string, string> = {
     "--color-paper": p.paper,
     "--color-ivory": p.ivory,
@@ -306,4 +469,84 @@ export function themeVars(theme: Theme): CSSProperties {
   };
   if (style.display) vars["--font-display"] = style.display;
   return vars as CSSProperties;
+}
+
+/*
+ * Plantillas: combinaciones completas ya diseñadas. El cliente parte de una y después cambia cada
+ * detalle por separado. Aplicar una plantilla cambia el aspecto, pero no las secciones ni la música.
+ */
+export const TEMPLATE_IDS = [
+  "almendro",
+  "atelier",
+  "medianoche",
+  "jardin",
+  "terracota",
+  "empolvado",
+  "costa",
+  "esmeralda",
+] as const;
+export type TemplateId = (typeof TEMPLATE_IDS)[number];
+
+type Look = Omit<Theme, "hidden" | "music">;
+
+export const TEMPLATES: Record<
+  TemplateId,
+  { label: string; description: string; look: Partial<Look> }
+> = {
+  almendro: {
+    label: "Almendro",
+    description: "Mediterránea, con forro de olivo y lacre burdeos.",
+    look: { style: "mediterraneo", envelope: "olivo", wax: "burdeos", calendar: "taco" },
+  },
+  atelier: {
+    label: "Atelier",
+    description: "Blanco roto, lino y garalda: papelería clásica.",
+    look: { style: "clasico", envelope: "lino", wax: "azul", calendar: "minimal" },
+  },
+  medianoche: {
+    label: "Medianoche",
+    description: "Fondo azul noche, oro y una sola hoja de calendario.",
+    look: { style: "noche", envelope: "lino", wax: "oro", calendar: "minimal" },
+  },
+  jardin: {
+    label: "Jardín",
+    description: "Verde salvia y rama de almendro para bodas de día.",
+    look: { style: "botanico", envelope: "olivo", wax: "salvia", calendar: "taco" },
+  },
+  terracota: {
+    label: "Terracota",
+    description: "Kraft, arcilla y lacre teja: rústico y cálido.",
+    look: { style: "terracota", envelope: "kraft", wax: "teja", calendar: "taco" },
+  },
+  empolvado: {
+    label: "Rosa empolvado",
+    description: "Romántica y ligera, con lacre rosa antiguo.",
+    look: { style: "empolvado", envelope: "lino", wax: "rosa", calendar: "minimal" },
+  },
+  costa: {
+    label: "Costa",
+    description: "Gris azulado y lacre azul para bodas junto al mar.",
+    look: { style: "pizarra", envelope: "lino", wax: "azul", calendar: "minimal" },
+  },
+  esmeralda: {
+    label: "Esmeralda",
+    description: "Verde botella y oro: de noche y con mucho brillo.",
+    look: { style: "esmeralda", envelope: "kraft", wax: "oro", calendar: "minimal" },
+  },
+};
+
+/** Aplica una plantilla sobre el tema actual: conserva las secciones y la música. */
+export function applyTemplate(current: Theme, id: TemplateId): Theme {
+  const { hidden, music } = current;
+  return { ...DEFAULT_THEME, ...TEMPLATES[id].look, hidden, music };
+}
+
+/** La plantilla de la que sale el tema, si no se ha cambiado nada después. */
+export function templateOf(theme: Theme): TemplateId | null {
+  return (
+    TEMPLATE_IDS.find((id) => {
+      const look = applyTemplate(theme, id);
+      return (Object.keys(look) as (keyof Theme)[]).every((k) => look[k] === theme[k]);
+    }) ?? null
+  );
 }

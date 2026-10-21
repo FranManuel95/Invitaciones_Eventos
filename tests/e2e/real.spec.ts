@@ -31,6 +31,7 @@ test.describe("recorrido real con Supabase", () => {
     // Tras crearlo se abre el editor: un cambio de estilo y de texto se guarda solo.
     await expect(page).toHaveURL(/\/editor\/[0-9a-f-]{36}$/, { timeout: 20_000 });
     const eventId = page.url().split("/").pop()!;
+    await page.getByRole("tab", { name: "Colores" }).click();
     await page.getByRole("radio", { name: /Noche/ }).check({ force: true });
     await page.getByRole("tab", { name: "Textos" }).click();
     await page.getByLabel("Mensaje de la carta").fill("Mensaje escrito desde el editor.");

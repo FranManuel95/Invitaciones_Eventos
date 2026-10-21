@@ -1,12 +1,16 @@
 import { describe, expect, it } from "vitest";
 import {
   accentFor,
+  applyTemplate,
   contrast,
   DEFAULT_THEME,
   mix,
   parseTheme,
   STYLE_IDS,
   STYLES,
+  TEMPLATE_IDS,
+  templateOf,
+  themeInputSchema,
   themeVars,
   WAX_IDS,
 } from "@/lib/theme";
@@ -34,6 +38,25 @@ describe("tema", () => {
     expect(contrast("#000000", "#ffffff")).toBeCloseTo(21, 0);
   });
 
+  it("acepta un color propio válido y descarta el que no lo es", () => {
+    expect(parseTheme({ waxColor: "#C0FFEE" }).waxColor).toBe("#C0FFEE");
+    expect(parseTheme({ waxColor: "rojo" }).waxColor).toBeNull();
+    expect(themeInputSchema.safeParse({ ...DEFAULT_THEME, waxColor: "#12345" }).success).toBe(
+      false,
+    );
+  });
+
+  it("las plantillas conservan secciones y música, y se reconocen", () => {
+    const current = { ...DEFAULT_THEME, hidden: ["regalo" as const], music: false };
+    for (const id of TEMPLATE_IDS) {
+      const theme = applyTemplate(current, id);
+      expect(themeInputSchema.safeParse(theme).success, id).toBe(true);
+      expect(theme).toMatchObject({ hidden: ["regalo"], music: false });
+      expect(templateOf(theme)).toBe(id);
+    }
+    expect(templateOf({ ...applyTemplate(current, "costa"), wax: "negro" })).toBeNull();
+  });
+
   describe.each(STYLE_IDS)("estilo %s", (id) => {
     const p = STYLES[id].palette;
 
@@ -51,6 +74,14 @@ describe("tema", () => {
       const accent = accentFor({ ...DEFAULT_THEME, style: id, wax });
       expect(contrast(accent, p.paper)).toBeGreaterThanOrEqual(4.5);
     });
+
+    it.each(["#ffff00", "#f5f0e6", "#101010", "#7fd1ff", "#ff69b4"])(
+      "un color propio %s se corrige hasta leerse",
+      (waxColor) => {
+        const accent = accentFor({ ...DEFAULT_THEME, style: id, waxColor });
+        expect(contrast(accent, p.paper)).toBeGreaterThanOrEqual(4.5);
+      },
+    );
 
     it("sobrescribe las variables de color", () => {
       const vars = themeVars({ ...DEFAULT_THEME, style: id }) as Record<string, string>;

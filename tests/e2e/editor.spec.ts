@@ -8,6 +8,7 @@ test.describe("editor de la invitación", () => {
     const preview = page.frameLocator('iframe[title="Vista previa de la invitación"]');
     await expect(preview.locator("[data-style='mediterraneo']")).toBeAttached();
 
+    await page.getByRole("tab", { name: "Colores" }).click();
     await page.getByRole("radio", { name: /Noche/ }).check({ force: true });
     await expect(preview.locator("[data-style='noche']")).toBeAttached();
 
@@ -15,6 +16,23 @@ test.describe("editor de la invitación", () => {
     await page.getByLabel("Primer nombre").fill("Lucía");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Lucía & Daniel");
     await expect(preview.locator("#cover-title")).toContainText("Lucía");
+  });
+
+  test("una plantilla y un color propio cambian la vista previa", async ({ page }) => {
+    await page.goto("/editor/demo");
+    const preview = page.frameLocator('iframe[title="Vista previa de la invitación"]');
+    await expect(preview.locator("[data-style='mediterraneo']")).toBeAttached();
+    await expect(page.getByRole("radio", { name: /Almendro/ })).toBeChecked();
+
+    await page.getByRole("radio", { name: /Esmeralda/ }).check({ force: true });
+    await expect(preview.locator("[data-style='esmeralda']")).toBeAttached();
+
+    await page.getByRole("tab", { name: "Colores" }).click();
+    await page.getByLabel("Color propio").fill("#ffd400");
+    await expect(page.getByText(/versión algo más intensa|Se lee bien/)).toBeVisible();
+    await expect(page.getByRole("button", { name: "Quitar color propio" })).toBeVisible();
+    await page.getByRole("tab", { name: "Plantillas" }).click();
+    await expect(page.getByText("Estilo personalizado")).toBeVisible();
   });
 
   test("salta a la pantalla elegida", async ({ page, isMobile }) => {
@@ -34,6 +52,7 @@ test.describe("editor de la invitación", () => {
     await page.getByRole("button", { name: "Invitación", exact: true }).click();
     await expect(preview.locator("#historia")).toBeAttached();
     if (isMobile) await page.getByRole("button", { name: "Editar" }).click();
+    await page.getByRole("tab", { name: "Secciones y música" }).click();
     await page.getByRole("checkbox", { name: "Nuestra historia" }).uncheck({ force: true });
     await expect(preview.locator("#historia")).toHaveCount(0);
     await expect(preview.getByRole("link", { name: "Nuestra historia" })).toHaveCount(0);
@@ -86,8 +105,17 @@ test.describe("editor de la invitación", () => {
       () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
     );
     expect(overflow).toBeLessThanOrEqual(0);
-    for (const tab of ["Estilo", "Pareja y fecha", "Programa y lugares", "Autobuses y menús"]) {
-      await page.getByRole("tab", { name: tab }).click();
+    for (const tab of [
+      "Estilo",
+      "Colores",
+      "Sobre",
+      "Pareja y fecha",
+      "Programa y lugares",
+      "Autobuses y menús",
+    ]) {
+      if (["Colores", "Sobre"].includes(tab))
+        await page.getByRole("tab", { name: "Estilo" }).click();
+      await page.getByRole("tab", { name: tab, exact: true }).click();
       const { violations } = await new AxeBuilder({ page }).exclude("iframe").analyze();
       const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
       expect(

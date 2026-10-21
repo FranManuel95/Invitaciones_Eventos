@@ -4,17 +4,15 @@ import { DemoBadge } from "@/components/demo-badge";
 import { buttonClasses } from "@/components/ui/button";
 import { BlossomCorner, Monogram } from "@/features/invitation/ornaments";
 import { getEvent, listShowcaseInvitations } from "@/lib/data/repository";
-import { ENVELOPES, STYLES, WAXES, type Theme } from "@/lib/theme";
-
-// Combinaciones de ejemplo: la misma invitación con otro estilo, sobre, lacre y calendario.
-const PRESETS: Pick<Theme, "style" | "envelope" | "wax" | "calendar">[] = [
-  { style: "mediterraneo", envelope: "olivo", wax: "burdeos", calendar: "taco" },
-  { style: "clasico", envelope: "lino", wax: "azul", calendar: "minimal" },
-  { style: "noche", envelope: "kraft", wax: "oro", calendar: "minimal" },
-];
-
-const presetHref = (t: (typeof PRESETS)[number]) =>
-  `/i/familia-garcia?estilo=${t.style}&sobre=${t.envelope}&lacre=${t.wax}&calendario=${t.calendar}`;
+import {
+  applyTemplate,
+  DEFAULT_THEME,
+  ENVELOPES,
+  STYLES,
+  TEMPLATE_IDS,
+  TEMPLATES,
+  waxHex,
+} from "@/lib/theme";
 
 const NOTES: Record<string, string> = {
   "familia-garcia": "Familia con una niña y una plaza libre para acompañante.",
@@ -89,16 +87,17 @@ export default async function Home() {
               Estilos
             </h2>
             <p className="mt-2 text-[0.9375rem] text-muted">
-              La misma invitación con otro papel, sobre y lacre.
+              La misma invitación con cada una de las plantillas del editor.
             </p>
           </div>
-          <ul className="mt-6 grid gap-4 sm:grid-cols-3 md:mt-0">
-            {PRESETS.map((t) => {
+          <ul className="mt-6 grid gap-4 sm:grid-cols-2 md:mt-0 lg:grid-cols-4">
+            {TEMPLATE_IDS.map((id) => {
+              const t = applyTemplate(DEFAULT_THEME, id);
               const style = STYLES[t.style];
               return (
-                <li key={t.style}>
+                <li key={id}>
                   <Link
-                    href={presetHref(t)}
+                    href={`/i/familia-garcia?plantilla=${id}`}
                     className="group block rounded-[3px] border border-line bg-paper p-4 transition-shadow hover:shadow-[var(--shadow-paper)]"
                   >
                     {/* Muestra: papel, tinta, oro, sobre y lacre del estilo. */}
@@ -122,13 +121,13 @@ export default async function Home() {
                       >
                         <span
                           className="absolute top-1/2 left-1/2 size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full"
-                          style={{ background: WAXES[t.wax].hex }}
+                          style={{ background: waxHex(t) }}
                         />
                       </span>
                     </span>
                     <span className="mt-3 flex items-center justify-between gap-2">
                       <span className="font-display text-[1.375rem] leading-tight text-ink">
-                        {style.label}
+                        {TEMPLATES[id].label}
                       </span>
                       <ArrowRight
                         aria-hidden
@@ -136,7 +135,7 @@ export default async function Home() {
                       />
                     </span>
                     <span className="mt-1 block text-[0.875rem] text-muted">
-                      {style.description}
+                      {TEMPLATES[id].description}
                     </span>
                   </Link>
                 </li>
