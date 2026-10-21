@@ -1,0 +1,85 @@
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
+
+// Editor de la demo: sin guardado ni red. La vista previa es un iframe con la invitación real.
+test.describe("editor de la invitación", () => {
+  test("el estilo y los nombres se ven al momento en la vista previa", async ({ page }) => {
+    await page.goto("/editor/demo");
+    const preview = page.frameLocator('iframe[title="Vista previa de la invitación"]');
+    await expect(preview.locator("[data-style='mediterraneo']")).toBeAttached();
+
+    await page.getByRole("radio", { name: /Noche/ }).check({ force: true });
+    await expect(preview.locator("[data-style='noche']")).toBeAttached();
+
+    await page.getByRole("tab", { name: "Pareja y fecha" }).click();
+    await page.getByLabel("Primer nombre").fill("Lucía");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Lucía & Daniel");
+    await expect(preview.locator("#cover-title")).toContainText("Lucía");
+  });
+
+  test("salta a la pantalla elegida", async ({ page, isMobile }) => {
+    await page.goto("/editor/demo");
+    if (isMobile) await page.getByRole("button", { name: "Vista previa" }).click();
+    const preview = page.frameLocator('iframe[title="Vista previa de la invitación"]');
+    await expect(preview.locator("#cover-title")).toBeAttached();
+    await page.getByRole("button", { name: "Invitación", exact: true }).click();
+    await expect(preview.locator("#content-title")).toBeAttached();
+  });
+
+  test("marca los errores y bloquea su pestaña", async ({ page }) => {
+    await page.goto("/editor/demo");
+    await page.getByRole("tab", { name: "Programa y lugares" }).click();
+    const title = page.getByLabel("Título").first();
+    await title.fill("");
+    await expect(title).toHaveAttribute("aria-invalid", "true");
+    await expect(page.getByText("Este campo no puede quedar vacío.")).toBeVisible();
+    await expect(
+      page.getByRole("status").filter({ hasText: "Hay campos por revisar." }),
+    ).toBeVisible();
+    await expect(page.getByRole("tab", { name: /Programa y lugares 1 por revisar/ })).toBeVisible();
+    await title.fill("Ceremonia");
+    await expect(page.getByText("Este campo no puede quedar vacío.")).toHaveCount(0);
+  });
+
+  test("añade, mueve y quita actos del programa", async ({ page }) => {
+    await page.goto("/editor/demo");
+    await page.getByRole("tab", { name: "Programa y lugares" }).click();
+    await page.getByRole("button", { name: "Añadir acto" }).click();
+    const added = page.getByRole("group", { name: "Acto 5" });
+    await expect(added).toBeVisible();
+    await added.getByLabel("Título").fill("Recena");
+    await page.getByRole("button", { name: "Subir «Recena»" }).click();
+    // El programa va primero: el acto nuevo pasa del quinto al cuarto puesto.
+    await expect(page.locator("fieldset > legend").nth(3)).toHaveText("Recena");
+    await page.getByRole("button", { name: "Quitar «Recena»" }).click();
+    await expect(page.getByRole("group", { name: "Recena" })).toHaveCount(0);
+  });
+
+  test("las pestañas se recorren con las flechas", async ({ page }) => {
+    await page.goto("/editor/demo");
+    await page.getByRole("tab", { name: "Estilo" }).focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(page.getByRole("tab", { name: "Pareja y fecha" })).toBeFocused();
+    await expect(page.getByRole("tab", { name: "Pareja y fecha" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+  });
+
+  test("sin desbordes ni infracciones graves", async ({ page }) => {
+    await page.goto("/editor/demo");
+    await page.waitForTimeout(600);
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    );
+    expect(overflow).toBeLessThanOrEqual(0);
+    for (const tab of ["Estilo", "Pareja y fecha", "Programa y lugares", "Autobuses y menús"]) {
+      await page.getByRole("tab", { name: tab }).click();
+      const { violations } = await new AxeBuilder({ page }).exclude("iframe").analyze();
+      const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
+      expect(
+        serious.map((v) => `${tab} · ${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`),
+      ).toEqual([]);
+    }
+  });
+});

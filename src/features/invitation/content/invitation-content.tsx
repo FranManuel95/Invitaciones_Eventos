@@ -58,6 +58,8 @@ export interface InvitationContentProps {
   /** Si llega desde la introducción, enfoca el título (se carga aparte, tras la carta). */
   focusOnMount: boolean;
   calendar?: CalendarId;
+  /** Texto del distintivo (null: sin distintivo, en invitaciones reales). */
+  badge?: string | null;
 }
 
 /** Pantallas 4 a 7 · La invitación completa con secciones y RSVP. */
@@ -67,6 +69,7 @@ export function InvitationContent({
   onReplay,
   focusOnMount,
   calendar,
+  badge,
 }: InvitationContentProps) {
   const active = useActiveSection(NAV_IDS);
   const saved = useSavedResponse(group.token);
@@ -120,7 +123,7 @@ export function InvitationContent({
                 second={event.couple.second}
                 className="size-11 text-gold"
               />
-              {group.persisted ? null : <DemoBadge />}
+              {badge === null ? null : <DemoBadge label={badge} />}
             </div>
 
             <h1

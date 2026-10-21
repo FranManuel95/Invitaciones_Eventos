@@ -68,7 +68,8 @@ export async function createEvent(_prev: ActionState, form: FormData): Promise<A
       );
     }
   }
-  redirect(`/panel/${event.id}`);
+  // Lo siguiente es darle vuestro toque: textos, fotos y estilo.
+  redirect(`/editor/${event.id}`);
 }
 
 /** Publica el borrador: a partir de ahora los invitados ven esta versión. */

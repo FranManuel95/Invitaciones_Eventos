@@ -18,6 +18,15 @@ export type EnvelopeId = (typeof ENVELOPE_IDS)[number];
 export type WaxId = (typeof WAX_IDS)[number];
 export type CalendarId = (typeof CALENDAR_IDS)[number];
 
+/** Tema que envía el editor: estricto, sin corregir valores desconocidos. */
+export const themeInputSchema = z.strictObject({
+  style: z.enum(STYLE_IDS),
+  envelope: z.enum(ENVELOPE_IDS),
+  wax: z.enum(WAX_IDS),
+  calendar: z.enum(CALENDAR_IDS),
+});
+
+/** Tema leído de la base de datos: lo que falte o no se reconozca vuelve al valor por defecto. */
 export const themeSchema = z.object({
   style: z.enum(STYLE_IDS).catch("mediterraneo"),
   envelope: z.enum(ENVELOPE_IDS).catch("olivo"),

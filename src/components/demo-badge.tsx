@@ -4,9 +4,11 @@ import { clsx } from "clsx";
 export function DemoBadge({
   className,
   tone = "light",
+  label = "Demo con datos ficticios",
 }: {
   className?: string;
   tone?: "light" | "dark";
+  label?: string;
 }) {
   return (
     <span
@@ -19,7 +21,7 @@ export function DemoBadge({
       )}
     >
       <span aria-hidden className="size-1.5 rounded-full bg-gold" />
-      Demo con datos ficticios
+      {label}
     </span>
   );
 }

@@ -70,12 +70,20 @@ export default async function PanelHome(props: PageProps<"/panel/[evento]">) {
         title={`Hola, ${event.couple.first}`}
         description={`Faltan ${daysLeft} días para la boda. Han respondido ${summary.respondedGroups} de ${summary.groups} invitaciones; quedan ${pendingGroups} por contestar.`}
         actions={
-          <Link
-            href={`${base}/invitados?estado=pending`}
-            className="inline-flex h-10 items-center rounded-md border border-ink/25 bg-paper px-4 text-[0.875rem] text-ink transition-colors hover:border-ink"
-          >
-            Ver quién falta por responder
-          </Link>
+          <div className="flex flex-wrap gap-2">
+            <Link
+              href={`/editor/${isDemo ? "demo" : meta?.id}`}
+              className="inline-flex h-10 items-center rounded-md bg-ink px-4 text-[0.875rem] text-paper transition-colors hover:bg-ink-soft"
+            >
+              Editar la invitación
+            </Link>
+            <Link
+              href={`${base}/invitados?estado=pending`}
+              className="inline-flex h-10 items-center rounded-md border border-ink/25 bg-paper px-4 text-[0.875rem] text-ink transition-colors hover:border-ink"
+            >
+              Ver quién falta por responder
+            </Link>
+          </div>
         }
       />
 

@@ -1,7 +1,8 @@
 import { expect, test } from "@playwright/test";
 
 /*
- * Recorrido real contra Supabase: entrar, crear un evento con invitados de ejemplo, publicar,
+ * Recorrido real contra Supabase: entrar, crear un evento con invitados de ejemplo, editarlo,
+ * publicar,
  * responder como invitado y ver la respuesta en el panel. Solo se ejecuta si hay un usuario
  * de prueba (E2E_EMAIL y E2E_PASSWORD) y Supabase está configurado; la contraseña nunca va
  * en el repositorio.
@@ -26,10 +27,20 @@ test.describe("recorrido real con Supabase", () => {
     await page.getByLabel("Nombre del otro").fill("Automática");
     await page.getByLabel("Fecha de la boda").fill("2030-06-15");
     await page.getByRole("button", { name: "Crear invitación" }).click();
-    await expect(page.getByRole("heading", { name: "Borrador sin publicar" })).toBeVisible({
-      timeout: 20_000,
+
+    // Tras crearlo se abre el editor: un cambio de estilo y de texto se guarda solo.
+    await expect(page).toHaveURL(/\/editor\/[0-9a-f-]{36}$/, { timeout: 20_000 });
+    const eventId = page.url().split("/").pop()!;
+    await page.getByRole("radio", { name: /Noche/ }).check({ force: true });
+    await page.getByRole("tab", { name: "Textos" }).click();
+    await page.getByLabel("Mensaje de la carta").fill("Mensaje escrito desde el editor.");
+    await expect(page.getByRole("status").filter({ hasText: /Guardado/ })).toBeVisible({
+      timeout: 15_000,
     });
-    const eventUrl = page.url();
+
+    const eventUrl = `/panel/${eventId}`;
+    await page.goto(eventUrl);
+    await expect(page.getByRole("heading", { name: "Borrador sin publicar" })).toBeVisible();
 
     await page.getByRole("button", { name: "Publicar" }).click();
     await expect(page.getByRole("heading", { name: "Invitación publicada" })).toBeVisible({
@@ -44,6 +55,8 @@ test.describe("recorrido real con Supabase", () => {
 
     const guest = await context.newPage();
     await guest.goto(href!);
+    // Ve lo publicado desde el editor: el estilo Noche y el mensaje nuevo.
+    await expect(guest.locator("[data-style='noche']")).toBeAttached();
     await guest.getByRole("button", { name: "Saltar intro" }).click();
     await guest.getByRole("button", { name: "No podré asistir" }).click();
     const next = () => guest.getByRole("button", { name: /^(Siguiente|Revisar)/ }).click();

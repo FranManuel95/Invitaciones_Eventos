@@ -2,7 +2,7 @@ import "server-only";
 import { cache } from "react";
 import { demoEvent } from "@/data/demo/event";
 import { demoGroups, demoResponses, showcaseGroups } from "@/data/demo/guests";
-import { eventContentSchema } from "@/lib/domain/event-schema";
+import { eventContentSchema, type EventContent } from "@/lib/domain/event-schema";
 import type { GuestGroup, RsvpResponse, WeddingEvent } from "@/lib/domain/types";
 import { rsvpResponseSchema } from "@/lib/rsvp/draft";
 import { DEFAULT_THEME, parseTheme, type Theme } from "@/lib/theme";
@@ -172,6 +172,47 @@ export async function getOrganizerData(eventKey = DEMO_EVENT_KEY): Promise<Organ
       slug: eventRes.data.slug,
       status: eventRes.data.status,
       publishedAt: eventRes.data.published_at,
+    },
+  };
+}
+
+export interface EventDraft {
+  content: EventContent;
+  theme: Theme;
+  /** Solo en eventos reales. */
+  meta?: EventMeta & { unpublishedChanges: boolean };
+}
+
+/** Borrador para el editor: la demo (sin guardado) o un evento del usuario. */
+export async function getEventDraft(eventKey: string): Promise<EventDraft | null> {
+  if (eventKey === DEMO_EVENT_KEY) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- el id no forma parte del contenido
+    const { id, ...content } = demoEvent;
+    return { content, theme: DEFAULT_THEME };
+  }
+  if (!/^[0-9a-f-]{36}$/.test(eventKey)) return null;
+  const supabase = await createSessionClient();
+  if (!supabase) return null;
+  const { data } = await supabase
+    .from("events")
+    .select("id, slug, status, content, theme, published_content, published_theme, published_at")
+    .eq("id", eventKey)
+    .maybeSingle();
+  if (!data) return null;
+  const content = eventContentSchema.safeParse(data.content);
+  if (!content.success) return null;
+  return {
+    content: content.data,
+    theme: parseTheme(data.theme),
+    meta: {
+      id: data.id,
+      slug: data.slug,
+      status: data.status,
+      publishedAt: data.published_at,
+      // Las dos columnas son jsonb: Postgres ordena las claves igual en ambas.
+      unpublishedChanges:
+        JSON.stringify(data.content) !== JSON.stringify(data.published_content) ||
+        JSON.stringify(data.theme) !== JSON.stringify(data.published_theme),
     },
   };
 }

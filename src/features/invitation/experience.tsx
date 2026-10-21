@@ -26,7 +26,7 @@ import { TiltProvider } from "./effects/tilt";
 import { EnvelopeStage } from "./envelope/envelope-stage";
 import { LetterStage } from "./letter/letter-stage";
 
-type Stage = "brief" | "cover" | "envelope" | "letter" | "content";
+export type Stage = "brief" | "cover" | "envelope" | "letter" | "content";
 
 /*
  * El contenido y el RSVP (con Zod) no hacen falta para la portada: se cargan aparte y se
@@ -57,11 +57,17 @@ export function InvitationExperience({
   group,
   initialResponse,
   theme = DEFAULT_THEME,
+  initialStage,
+  preview = false,
 }: {
   event: WeddingEvent;
   group: GuestGroup;
   /** Estilo, sobre, lacre y calendario elegidos para el evento. */
   theme?: Theme;
+  /** Pantalla con la que empieza (la vista previa del editor salta a la que se pida). */
+  initialStage?: Stage;
+  /** Vista previa del editor: el distintivo dice «Vista previa». */
+  preview?: boolean;
   /** Respuesta guardada en el servidor (invitaciones reales); undefined en la demo. */
   initialResponse?: RsvpResponse | null;
 }) {
@@ -81,15 +87,18 @@ export function InvitationExperience({
     () => false,
   );
   const muted = useSyncExternalStore(subscribeMuted, isMuted, () => false);
-  const stage: Stage = chosenStage ?? (openedBefore ? (reduce ? "content" : "brief") : "cover");
+  const stage: Stage =
+    chosenStage ?? initialStage ?? (openedBefore ? (reduce ? "content" : "brief") : "cover");
+  // Datos reales: sin distintivo. Demo o vista previa: se avisa de que no es una invitación real.
+  const badge = group.persisted ? null : preview ? "Vista previa" : undefined;
 
   const preload = useCallback(() => {
     void loadContent().then((component) => setContent(() => component));
   }, []);
 
   useEffect(() => {
-    if (openedBefore) preload();
-  }, [openedBefore, preload]);
+    if (openedBefore || (initialStage && initialStage !== "cover")) preload();
+  }, [openedBefore, initialStage, preload]);
 
   useEffect(() => () => stopAmbient(0.3), []);
 
@@ -173,9 +182,9 @@ export function InvitationExperience({
               </div>
             ) : null}
 
-            {intro && !group.persisted ? (
+            {intro && badge !== null ? (
               <div className="fixed top-[max(1rem,env(safe-area-inset-top))] left-4 z-50">
-                <DemoBadge tone={onDark ? "dark" : "light"} />
+                <DemoBadge tone={onDark ? "dark" : "light"} label={badge} />
               </div>
             ) : null}
 
@@ -213,6 +222,7 @@ export function InvitationExperience({
                     onReplay={() => go("cover")}
                     focusOnMount={chosenStage !== null}
                     calendar={theme.calendar}
+                    badge={badge}
                   />
                 </ViewTransition>
               ) : (

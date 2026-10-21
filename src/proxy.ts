@@ -3,14 +3,14 @@ import { NextResponse, type NextRequest } from "next/server";
 
 /**
  * Renueva la sesión de Supabase en cada petición del panel y del editor, y manda a /entrar a
- * quien no ha iniciado sesión. La demostración (/panel/demo) es pública.
+ * quien no ha iniciado sesión. La demostración (/panel/demo y /editor/demo) es pública.
  * Es una comprobación optimista: la autorización real la hacen las políticas RLS.
  */
 export async function proxy(request: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   const { pathname } = request.nextUrl;
-  if (!url || !key || pathname.startsWith("/panel/demo")) return NextResponse.next();
+  if (!url || !key || /^\/(panel|editor)\/demo(\/|$)/.test(pathname)) return NextResponse.next();
 
   let response = NextResponse.next({ request });
   const supabase = createServerClient(url, key, {
