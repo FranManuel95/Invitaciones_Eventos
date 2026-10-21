@@ -4,6 +4,17 @@ import { DemoBadge } from "@/components/demo-badge";
 import { buttonClasses } from "@/components/ui/button";
 import { BlossomCorner, Monogram } from "@/features/invitation/ornaments";
 import { getEvent, listShowcaseInvitations } from "@/lib/data/repository";
+import { ENVELOPES, STYLES, WAXES, type Theme } from "@/lib/theme";
+
+// Combinaciones de ejemplo: la misma invitación con otro estilo, sobre, lacre y calendario.
+const PRESETS: Theme[] = [
+  { style: "mediterraneo", envelope: "olivo", wax: "burdeos", calendar: "taco" },
+  { style: "clasico", envelope: "lino", wax: "azul", calendar: "minimal" },
+  { style: "noche", envelope: "kraft", wax: "oro", calendar: "minimal" },
+];
+
+const presetHref = (t: Theme) =>
+  `/i/familia-garcia?estilo=${t.style}&sobre=${t.envelope}&lacre=${t.wax}&calendario=${t.calendar}`;
 
 const NOTES: Record<string, string> = {
   "familia-garcia": "Familia con una niña y una plaza libre para acompañante.",
@@ -66,6 +77,71 @@ export default async function Home() {
                 </Link>
               </li>
             ))}
+          </ul>
+        </section>
+
+        <section
+          aria-labelledby="estilos"
+          className="mt-16 md:grid md:grid-cols-[13rem_minmax(0,1fr)] md:gap-14"
+        >
+          <div>
+            <h2 id="estilos" className="font-display text-[1.75rem] leading-tight text-ink">
+              Estilos
+            </h2>
+            <p className="mt-2 text-[0.9375rem] text-muted">
+              La misma invitación con otro papel, sobre y lacre.
+            </p>
+          </div>
+          <ul className="mt-6 grid gap-4 sm:grid-cols-3 md:mt-0">
+            {PRESETS.map((t) => {
+              const style = STYLES[t.style];
+              return (
+                <li key={t.style}>
+                  <Link
+                    href={presetHref(t)}
+                    className="group block rounded-[3px] border border-line bg-paper p-4 transition-shadow hover:shadow-[var(--shadow-paper)]"
+                  >
+                    {/* Muestra: papel, tinta, oro, sobre y lacre del estilo. */}
+                    <span
+                      aria-hidden
+                      className="relative flex h-24 items-end gap-1.5 rounded-[2px] p-3"
+                      style={{ background: style.palette.ivory }}
+                    >
+                      {[style.palette.paper, style.palette.ink, style.palette.gold].map((c) => (
+                        <span
+                          key={c}
+                          className="size-6 rounded-full ring-1 ring-black/10"
+                          style={{ background: c }}
+                        />
+                      ))}
+                      <span
+                        className="absolute top-3 right-3 h-10 w-14 rounded-[2px] shadow-sm"
+                        style={{
+                          background: `linear-gradient(180deg, ${ENVELOPES[t.envelope].paper[0]}, ${ENVELOPES[t.envelope].paper[1]})`,
+                        }}
+                      >
+                        <span
+                          className="absolute top-1/2 left-1/2 size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full"
+                          style={{ background: WAXES[t.wax].hex }}
+                        />
+                      </span>
+                    </span>
+                    <span className="mt-3 flex items-center justify-between gap-2">
+                      <span className="font-display text-[1.375rem] leading-tight text-ink">
+                        {style.label}
+                      </span>
+                      <ArrowRight
+                        aria-hidden
+                        className="size-4 shrink-0 text-ink-soft transition-transform group-hover:translate-x-1"
+                      />
+                    </span>
+                    <span className="mt-1 block text-[0.875rem] text-muted">
+                      {style.description}
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </section>
 

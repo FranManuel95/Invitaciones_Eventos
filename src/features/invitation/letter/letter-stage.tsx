@@ -37,7 +37,7 @@ export function LetterStage({
   return (
     <section
       aria-labelledby="letter-title"
-      className="fixed inset-0 z-10 flex items-center justify-center overflow-hidden bg-[radial-gradient(110%_70%_at_50%_40%,#f3e9dd_0%,#e8d9c7_60%,#d9c6ad_100%)] px-5 py-16"
+      className="fixed inset-0 z-10 flex items-center justify-center overflow-hidden bg-[radial-gradient(110%_70%_at_50%_40%,var(--scene-1)_0%,var(--scene-2)_60%,var(--scene-3)_100%)] px-5 py-16"
       style={{ touchAction: "none" }}
       {...swipe}
     >

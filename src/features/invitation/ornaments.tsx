@@ -156,13 +156,13 @@ export function WaxSealArt({ monogram, className }: { monogram: string; classNam
     <svg viewBox="0 0 100 100" aria-hidden className={className}>
       <defs>
         <radialGradient id={`${id}-wax`} cx="38%" cy="32%" r="75%">
-          <stop offset="0" stopColor="#9a3445" />
-          <stop offset="0.5" stopColor="#6b1e2a" />
-          <stop offset="1" stopColor="#3e0f17" />
+          <stop offset="0" style={{ stopColor: "color-mix(in srgb, var(--seal), white 22%)" }} />
+          <stop offset="0.5" style={{ stopColor: "var(--seal)" }} />
+          <stop offset="1" style={{ stopColor: "color-mix(in srgb, var(--seal), black 42%)" }} />
         </radialGradient>
         <radialGradient id={`${id}-inner`} cx="60%" cy="65%" r="70%">
-          <stop offset="0" stopColor="#7b2533" />
-          <stop offset="1" stopColor="#521520" />
+          <stop offset="0" style={{ stopColor: "color-mix(in srgb, var(--seal), white 8%)" }} />
+          <stop offset="1" style={{ stopColor: "color-mix(in srgb, var(--seal), black 24%)" }} />
         </radialGradient>
         <linearGradient id={`${id}-gold`} x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#f1dca2" />
@@ -177,7 +177,7 @@ export function WaxSealArt({ monogram, className }: { monogram: string; classNam
         cy="50"
         r="33"
         fill="none"
-        stroke="#b14b5c"
+        style={{ stroke: "color-mix(in srgb, var(--seal), white 38%)" }}
         strokeOpacity=".5"
         strokeWidth="1.2"
       />

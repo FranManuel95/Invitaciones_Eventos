@@ -16,6 +16,7 @@ import { ResponseStatus } from "./response-status";
 import { dayClock, liveProgram } from "@/lib/day-mode";
 import { LiveDay } from "./live-day";
 import { SaveTheDate } from "./save-the-date";
+import type { CalendarId } from "@/lib/theme";
 import { StorySection } from "./story-section";
 import { PracticalSection, ProgramSection, TransportSection, VenuesSection } from "./sections";
 
@@ -56,6 +57,7 @@ export interface InvitationContentProps {
   onReplay: () => void;
   /** Si llega desde la introducción, enfoca el título (se carga aparte, tras la carta). */
   focusOnMount: boolean;
+  calendar?: CalendarId;
 }
 
 /** Pantallas 4 a 7 · La invitación completa con secciones y RSVP. */
@@ -64,6 +66,7 @@ export function InvitationContent({
   group,
   onReplay,
   focusOnMount,
+  calendar,
 }: InvitationContentProps) {
   const active = useActiveSection(NAV_IDS);
   const saved = useSavedResponse(group.token);
@@ -219,7 +222,7 @@ export function InvitationContent({
           </p>
         </section>
 
-        {clock.active ? null : <SaveTheDate event={event} />}
+        {clock.active ? null : <SaveTheDate event={event} variant={calendar} />}
         <ProgramSection event={event} currentId={live?.current?.id ?? null} />
         <VenuesSection event={event} />
         <TransportSection event={event} response={saved} />

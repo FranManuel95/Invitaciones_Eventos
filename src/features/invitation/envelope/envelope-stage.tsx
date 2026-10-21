@@ -4,6 +4,7 @@ import { Pointer } from "lucide-react";
 import { m, useAnimate, useReducedMotion, useTransform } from "motion/react";
 import { useEffect, useRef, useState, ViewTransition } from "react";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
+import { ENVELOPES, type EnvelopeId } from "@/lib/theme";
 import { formatLongDate } from "@/lib/format";
 import { FoilMonogram } from "../effects/foil";
 import { haptic, playPaper, playSealCrack, unlockAudio } from "../effects/sound";
@@ -33,9 +34,8 @@ import { AlmondBranch, Monogram, WaxSealArt } from "../ornaments";
 const POCKET_TIP = 54; // % de altura donde se juntan las solapas laterales
 const FLAP_DEPTH = 56; // % de altura que ocupa la solapa superior
 
-// Forro del sobre: tinta de olivo con un fino rayado en oro, visible solo al abrirlo.
-const linerPattern =
-  "repeating-linear-gradient(135deg, #2c3125 0 9px, #a3874e 9px 9.6px, #2c3125 9.6px 18px)";
+// Papel, forro e interior salen del tema (variables --env-* de src/lib/theme).
+const linerPattern = "var(--env-liner)";
 
 // Fragmentos de cera: posición final relativa al lacre (px), giro y tamaño.
 const CRUMBS: [number, number, number, number][] = [
@@ -56,12 +56,14 @@ export function EnvelopeStage({
   group,
   onOpened,
   interactive = true,
+  envelope = "olivo",
 }: {
   event: WeddingEvent;
   group: GuestGroup;
   onOpened: () => void;
   /** Falso mientras la portada lo tapa: se ve al levantarla, pero no se puede usar aún. */
   interactive?: boolean;
+  envelope?: EnvelopeId;
 }) {
   const reduce = useReducedMotion();
   const tilt = useTilt();
@@ -193,7 +195,7 @@ export function EnvelopeStage({
     <section
       aria-labelledby="envelope-title"
       inert={!interactive}
-      className="fixed inset-0 z-10 flex flex-col items-center justify-center overflow-hidden bg-[radial-gradient(120%_80%_at_50%_45%,#e3d6c2_0%,#cdbca4_55%,#b6a387_100%)] px-6 pt-16 pb-10"
+      className="fixed inset-0 z-10 flex flex-col items-center justify-center overflow-hidden bg-[radial-gradient(120%_80%_at_50%_45%,var(--scene-2)_0%,var(--scene-3)_55%,var(--scene-4)_100%)] px-6 pt-16 pb-10"
     >
       <div aria-hidden className="paper-grain absolute inset-0" />
       {/* Foco: los bordes se oscurecen al abrir, como una cámara que se centra en la carta. */}
@@ -247,7 +249,7 @@ export function EnvelopeStage({
             <span
               data-body
               aria-hidden
-              className="absolute inset-0 block overflow-hidden rounded-[3px] bg-[#2c3125]"
+              className="absolute inset-0 block overflow-hidden rounded-[3px] bg-[var(--env-inside)]"
             >
               <span
                 className="absolute inset-x-0 top-0 block h-[60%]"
@@ -296,15 +298,15 @@ export function EnvelopeStage({
               className="absolute inset-0 z-20 block drop-shadow-[0_-1px_1.5px_rgb(80_60_35/0.22)]"
             >
               <span
-                className="paper-grain absolute inset-0 block bg-[linear-gradient(100deg,#e7dcc9,#efe6d7)]"
+                className="paper-grain absolute inset-0 block bg-[linear-gradient(100deg,var(--env-paper-b),var(--env-paper-a))]"
                 style={{ clipPath: `polygon(0 0, 0 100%, 50% ${POCKET_TIP}%)` }}
               />
               <span
-                className="paper-grain absolute inset-0 block bg-[linear-gradient(260deg,#e5d9c5,#eee4d4)]"
+                className="paper-grain absolute inset-0 block bg-[linear-gradient(260deg,var(--env-paper-b),var(--env-paper-a))] brightness-[0.985]"
                 style={{ clipPath: `polygon(100% 0, 100% 100%, 50% ${POCKET_TIP}%)` }}
               />
               <span
-                className="paper-grain absolute inset-0 block rounded-b-[3px] bg-[linear-gradient(0deg,#e9dfcd,#f2eadc)]"
+                className="paper-grain absolute inset-0 block rounded-b-[3px] bg-[linear-gradient(0deg,var(--env-paper-b),var(--env-paper-a))]"
                 style={{ clipPath: `polygon(0 100%, 100% 100%, 50% ${POCKET_TIP - 8}%)` }}
               />
             </span>
@@ -340,10 +342,12 @@ export function EnvelopeStage({
               </span>
               <span
                 data-flap-outer
-                className="paper-grain absolute inset-0 block bg-[linear-gradient(180deg,#f3ebde,#ebe0ce)]"
+                className="paper-grain absolute inset-0 block bg-[linear-gradient(180deg,var(--env-paper-a),var(--env-paper-b))]"
                 style={{ clipPath: "polygon(0 0, 100% 0, 50% 100%)" }}
               >
-                <AlmondBranch className="absolute top-[22%] left-[55%] w-[22%] rotate-[4deg] opacity-95" />
+                {ENVELOPES[envelope].ornament ? (
+                  <AlmondBranch className="absolute top-[22%] left-[55%] w-[22%] rotate-[4deg] opacity-95" />
+                ) : null}
                 {/* Luz rasante: la solapa se oscurece al girar hacia la vertical */}
                 <span
                   data-flap-shade
@@ -393,7 +397,7 @@ export function EnvelopeStage({
                   <m.span
                     key={i}
                     data-crumb={i}
-                    className="absolute top-1/2 left-1/2 block rounded-[40%] bg-wax opacity-0"
+                    className="absolute top-1/2 left-1/2 block rounded-[40%] bg-[var(--seal)] opacity-0"
                     style={{ width: size, height: size * 0.8 }}
                   />
                 ))}

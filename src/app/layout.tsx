@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Bodoni_Moda, Jost } from "next/font/google";
+import { Bodoni_Moda, Cormorant_Garamond, Jost } from "next/font/google";
 import "./globals.css";
 
 // Didona de papelería para nombres y titulares (con eje de tamaño óptico) y una geométrica
@@ -11,6 +11,16 @@ const display = Bodoni_Moda({
   axes: ["opsz"],
   variable: "--font-bodoni",
   display: "swap",
+});
+
+// Garalda del estilo «Clásico» (src/lib/theme). Sin precarga: solo la descargan esas invitaciones.
+const classic = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant",
+  display: "swap",
+  preload: false,
 });
 
 const sans = Jost({
@@ -35,7 +45,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${display.variable} ${sans.variable}`}>
+    <html lang="es" className={`${display.variable} ${classic.variable} ${sans.variable}`}>
       <body className="min-h-dvh">{children}</body>
     </html>
   );

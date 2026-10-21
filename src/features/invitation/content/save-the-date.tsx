@@ -13,6 +13,7 @@ import {
   type MonthPage,
 } from "@/lib/calendar";
 import type { WeddingEvent } from "@/lib/domain/types";
+import type { CalendarId } from "@/lib/theme";
 import { formatWeekdayDate, isoDay } from "@/lib/format";
 import { FlipCountdown } from "./countdown";
 import { Section } from "./sections";
@@ -39,10 +40,19 @@ function pageDelays(count: number) {
 }
 
 /**
- * «Guarda la fecha»: un taco de calendario. Al llegar, las hojas de los meses que faltan caen
- * una tras otra hasta descubrir el mes de la boda, y entonces se rodea el día a mano.
+ * «Guarda la fecha». Dos variantes según el tema:
+ * - taco: al llegar, las hojas de los meses que faltan caen una tras otra hasta descubrir el mes
+ *   de la boda, y entonces se rodea el día a mano;
+ * - minimal: una sola hoja limpia en la que el día se marca con un círculo de color.
  */
-export function SaveTheDate({ event }: { event: WeddingEvent }) {
+export function SaveTheDate({
+  event,
+  variant = "taco",
+}: {
+  event: WeddingEvent;
+  variant?: CalendarId;
+}) {
+  const isPad = variant === "taco";
   const day = isoDay(event.date);
   const weeks = monthGrid(day);
   const initials = weekdayInitials();
@@ -51,7 +61,9 @@ export function SaveTheDate({ event }: { event: WeddingEvent }) {
   const reduce = useReducedMotion();
   const pad = useRef<HTMLElement>(null);
   const inView = useInView(pad, { once: true, amount: 0.55 });
-  const [pages] = useState(() => (reduce ? [] : pagesUntil(new Date().toISOString(), day)));
+  const [pages] = useState(() =>
+    reduce || !isPad ? [] : pagesUntil(new Date().toISOString(), day),
+  );
   const { delays, end } = pageDelays(pages.length);
   const dayRef = useRef<HTMLSpanElement>(null);
   const [flight, setFlight] = useState<{ x: number; y: number; dx: number; dy: number } | null>(
@@ -76,17 +88,24 @@ export function SaveTheDate({ event }: { event: WeddingEvent }) {
       <div className="grid gap-10 sm:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] sm:items-center">
         <figure
           ref={pad}
-          className="paper-grain relative rounded-[2px] border border-line bg-paper px-5 pt-8 pb-6 shadow-[var(--shadow-paper)] [perspective:1100px]"
+          data-calendar={variant}
+          className={
+            isPad
+              ? "paper-grain relative rounded-[2px] border border-line bg-paper px-5 pt-8 pb-6 shadow-[var(--shadow-paper)] [perspective:1100px]"
+              : "relative rounded-[2px] border border-line bg-paper px-6 pt-6 pb-5"
+          }
         >
           {/* Encuadernación del taco: una tira con los agujeros de la espiral. */}
-          <div
-            aria-hidden
-            className="absolute inset-x-0 top-0 z-40 flex h-4 items-center justify-around rounded-t-[2px] bg-ink/85 px-6"
-          >
-            {Array.from({ length: 9 }, (_, i) => (
-              <span key={i} className="size-1.5 rounded-full bg-ivory/90" />
-            ))}
-          </div>
+          {isPad ? (
+            <div
+              aria-hidden
+              className="absolute inset-x-0 top-0 z-40 flex h-4 items-center justify-around rounded-t-[2px] bg-ink/85 px-6"
+            >
+              {Array.from({ length: 9 }, (_, i) => (
+                <span key={i} className="size-1.5 rounded-full bg-ivory/90" />
+              ))}
+            </div>
+          ) : null}
           {pages.map((page, i) => (
             <m.div
               key={`${page.year}-${page.month}`}
@@ -115,12 +134,18 @@ export function SaveTheDate({ event }: { event: WeddingEvent }) {
               </span>
             </m.div>
           ))}
-          <figcaption className="flex items-baseline justify-between border-b border-ink/20 pb-3">
-            <span className="font-display text-[2.25rem] leading-none text-ink italic first-letter:uppercase">
-              {monthName(event.date)}
-            </span>
-            <span className="font-display text-xl text-ink-soft">{day.slice(0, 4)}</span>
-          </figcaption>
+          {isPad ? (
+            <figcaption className="flex items-baseline justify-between border-b border-ink/20 pb-3">
+              <span className="font-display text-[2.25rem] leading-none text-ink italic first-letter:uppercase">
+                {monthName(event.date)}
+              </span>
+              <span className="font-display text-xl text-ink-soft">{day.slice(0, 4)}</span>
+            </figcaption>
+          ) : (
+            <figcaption className="text-center text-[0.8125rem] tracking-[0.3em] text-ink-soft uppercase">
+              {monthName(event.date)} · {day.slice(0, 4)}
+            </figcaption>
+          )}
           <table className="mt-3 w-full table-fixed text-center">
             <caption className="sr-only">
               Calendario de {monthName(event.date)} con el día de la boda marcado
@@ -149,18 +174,29 @@ export function SaveTheDate({ event }: { event: WeddingEvent }) {
                           <span
                             ref={isDay ? dayRef : undefined}
                             className={
-                              isDay
-                                ? "relative z-10 font-display text-xl text-wax"
-                                : i >= 5
-                                  ? "text-ink-soft"
-                                  : "text-ink"
+                              isDay && !isPad
+                                ? "relative z-10 font-display text-xl text-paper"
+                                : isDay
+                                  ? "relative z-10 font-display text-xl text-wax"
+                                  : i >= 5
+                                    ? "text-ink-soft"
+                                    : "text-ink"
                             }
                           >
                             {cell.day}
                             {isDay ? <span className="sr-only"> (día de la boda)</span> : null}
                           </span>
                         ) : null}
-                        {isDay ? (
+                        {isDay && !isPad ? (
+                          <m.span
+                            aria-hidden
+                            className="absolute top-1/2 left-1/2 size-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-wax"
+                            initial={{ scale: 0.4, opacity: 0 }}
+                            animate={inView ? { scale: 1, opacity: 1 } : undefined}
+                            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
+                          />
+                        ) : null}
+                        {isDay && isPad ? (
                           <svg
                             aria-hidden
                             viewBox="0 0 60 44"

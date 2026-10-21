@@ -16,6 +16,7 @@ import { DemoBadge } from "@/components/demo-badge";
 import { hasOpenedEnvelope, markEnvelopeOpened } from "@/lib/data/session";
 import { primeResponse } from "@/lib/data/rsvp-store";
 import type { GuestGroup, RsvpResponse, WeddingEvent } from "@/lib/domain/types";
+import { DEFAULT_THEME, STYLES, themeVars, type Theme } from "@/lib/theme";
 import type { InvitationContentProps } from "./content/invitation-content";
 import { BriefStage } from "./brief/brief-stage";
 import { CoverStage } from "./cover/cover-stage";
@@ -55,9 +56,12 @@ export function InvitationExperience({
   event,
   group,
   initialResponse,
+  theme = DEFAULT_THEME,
 }: {
   event: WeddingEvent;
   group: GuestGroup;
+  /** Estilo, sobre, lacre y calendario elegidos para el evento. */
+  theme?: Theme;
   /** Respuesta guardada en el servidor (invitaciones reales); undefined en la demo. */
   initialResponse?: RsvpResponse | null;
 }) {
@@ -122,95 +126,105 @@ export function InvitationExperience({
     <LazyMotion features={domAnimation} strict>
       <MotionConfig reducedMotion="user">
         <TiltProvider disabled={Boolean(reduce) || !intro}>
-          {intro ? (
-            <div className="fixed top-[max(1rem,env(safe-area-inset-top))] right-4 z-50 flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setMuted(!muted);
-                  if (!muted) stopAmbient(0.6);
-                  else if (stage === "envelope" || stage === "letter") {
-                    unlockAudio();
-                    startAmbient();
+          {/* El tema sobrescribe las variables de color y tipografía de toda la invitación. */}
+          <div
+            data-style={theme.style}
+            data-dark={STYLES[theme.style].dark ? "" : undefined}
+            className="min-h-dvh bg-ivory text-ink"
+            style={themeVars(theme)}
+          >
+            {intro ? (
+              <div className="fixed top-[max(1rem,env(safe-area-inset-top))] right-4 z-50 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMuted(!muted);
+                    if (!muted) stopAmbient(0.6);
+                    else if (stage === "envelope" || stage === "letter") {
+                      unlockAudio();
+                      startAmbient();
+                    }
+                  }}
+                  aria-pressed={!muted}
+                  aria-label={muted ? "Activar sonido" : "Silenciar sonido"}
+                  className={
+                    onDark
+                      ? "grid size-9 place-items-center rounded-full border border-white/40 bg-black/15 text-white backdrop-blur-sm transition-colors hover:bg-black/30"
+                      : "grid size-9 place-items-center rounded-full border border-ink/20 bg-paper/60 text-ink backdrop-blur-sm transition-colors hover:bg-paper"
                   }
-                }}
-                aria-pressed={!muted}
-                aria-label={muted ? "Activar sonido" : "Silenciar sonido"}
-                className={
-                  onDark
-                    ? "grid size-9 place-items-center rounded-full border border-white/40 bg-black/15 text-white backdrop-blur-sm transition-colors hover:bg-black/30"
-                    : "grid size-9 place-items-center rounded-full border border-ink/20 bg-paper/60 text-ink backdrop-blur-sm transition-colors hover:bg-paper"
-                }
-              >
-                {muted ? (
-                  <VolumeX aria-hidden className="size-4" />
-                ) : (
-                  <Volume2 aria-hidden className="size-4" />
-                )}
-              </button>
-              <button
-                type="button"
-                onClick={() => go("content")}
-                className={
-                  onDark
-                    ? "rounded-full border border-white/40 bg-black/15 px-4 py-2 text-[0.8125rem] text-white backdrop-blur-sm transition-colors hover:bg-black/30"
-                    : "rounded-full border border-ink/20 bg-paper/60 px-4 py-2 text-[0.8125rem] text-ink backdrop-blur-sm transition-colors hover:bg-paper"
-                }
-              >
-                Saltar intro
-              </button>
-            </div>
-          ) : null}
+                >
+                  {muted ? (
+                    <VolumeX aria-hidden className="size-4" />
+                  ) : (
+                    <Volume2 aria-hidden className="size-4" />
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => go("content")}
+                  className={
+                    onDark
+                      ? "rounded-full border border-white/40 bg-black/15 px-4 py-2 text-[0.8125rem] text-white backdrop-blur-sm transition-colors hover:bg-black/30"
+                      : "rounded-full border border-ink/20 bg-paper/60 px-4 py-2 text-[0.8125rem] text-ink backdrop-blur-sm transition-colors hover:bg-paper"
+                  }
+                >
+                  Saltar intro
+                </button>
+              </div>
+            ) : null}
 
-          {intro && !group.persisted ? (
-            <div className="fixed top-[max(1rem,env(safe-area-inset-top))] left-4 z-50">
-              <DemoBadge tone={onDark ? "dark" : "light"} />
-            </div>
-          ) : null}
+            {intro && !group.persisted ? (
+              <div className="fixed top-[max(1rem,env(safe-area-inset-top))] left-4 z-50">
+                <DemoBadge tone={onDark ? "dark" : "light"} />
+              </div>
+            ) : null}
 
-          {stage === "brief" ? (
-            <ViewTransition exit="fade-out" default="none">
-              <BriefStage event={event} onDone={toContent} />
-            </ViewTransition>
-          ) : null}
+            {stage === "brief" ? (
+              <ViewTransition exit="fade-out" default="none">
+                <BriefStage event={event} onDone={toContent} />
+              </ViewTransition>
+            ) : null}
 
-          {/* El sobre ya está debajo de la portada: al levantarla con el dedo se ve esperando. */}
-          {stage === "cover" || stage === "envelope" ? (
-            <ViewTransition exit="fade-out" default="none">
-              <EnvelopeStage
-                event={event}
-                group={group}
-                interactive={stage === "envelope"}
-                onOpened={() => go("letter")}
-              />
-            </ViewTransition>
-          ) : null}
-          {stage === "cover" ? <CoverStage event={event} onOpen={() => go("envelope")} /> : null}
-          {stage === "letter" ? (
-            <ViewTransition exit="fade-out" default="none">
-              <LetterStage event={event} group={group} onContinue={() => go("content")} />
-            </ViewTransition>
-          ) : null}
-
-          {stage === "content" ? (
-            Content ? (
-              <ViewTransition enter="fade-in" default="none">
-                <Content
+            {/* El sobre ya está debajo de la portada: al levantarla con el dedo se ve esperando. */}
+            {stage === "cover" || stage === "envelope" ? (
+              <ViewTransition exit="fade-out" default="none">
+                <EnvelopeStage
                   event={event}
                   group={group}
-                  onReplay={() => go("cover")}
-                  focusOnMount={chosenStage !== null}
+                  interactive={stage === "envelope"}
+                  envelope={theme.envelope}
+                  onOpened={() => go("letter")}
                 />
               </ViewTransition>
-            ) : (
-              <p
-                role="status"
-                className="grid min-h-dvh place-items-center text-[0.9375rem] text-muted"
-              >
-                Cargando la invitación…
-              </p>
-            )
-          ) : null}
+            ) : null}
+            {stage === "cover" ? <CoverStage event={event} onOpen={() => go("envelope")} /> : null}
+            {stage === "letter" ? (
+              <ViewTransition exit="fade-out" default="none">
+                <LetterStage event={event} group={group} onContinue={() => go("content")} />
+              </ViewTransition>
+            ) : null}
+
+            {stage === "content" ? (
+              Content ? (
+                <ViewTransition enter="fade-in" default="none">
+                  <Content
+                    event={event}
+                    group={group}
+                    onReplay={() => go("cover")}
+                    focusOnMount={chosenStage !== null}
+                    calendar={theme.calendar}
+                  />
+                </ViewTransition>
+              ) : (
+                <p
+                  role="status"
+                  className="grid min-h-dvh place-items-center text-[0.9375rem] text-muted"
+                >
+                  Cargando la invitación…
+                </p>
+              )
+            ) : null}
+          </div>
         </TiltProvider>
       </MotionConfig>
     </LazyMotion>

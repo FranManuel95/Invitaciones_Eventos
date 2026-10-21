@@ -39,6 +39,27 @@
   --shadow-lift: 0 2px 4px rgb(50 45 25 / 0.08), 0 30px 60px -20px rgb(35 30 15 / 0.35);
 }
 
+/*
+ * Variables de escena y de sobre (no son utilidades de Tailwind). Valores del estilo
+ * Mediterráneo; cada invitación las sobrescribe con su tema (src/lib/theme).
+ */
+:root {
+  --seal: #6b1e2a;
+  --scene-1: #f3e9dd;
+  --scene-2: #e3d6c2;
+  --scene-3: #cdbca4;
+  --scene-4: #b6a387;
+  --env-paper-a: #f3ebde;
+  --env-paper-b: #e7dcc9;
+  --env-inside: #2c3125;
+  --env-liner: repeating-linear-gradient(
+    135deg,
+    #2c3125 0 9px,
+    #a3874e 9px 9.6px,
+    #2c3125 9.6px 18px
+  );
+}
+
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
@@ -150,6 +171,13 @@
     text-shadow:
       0 1px 0 rgb(255 255 255 / 0.7),
       0 -1px 0 rgb(35 39 30 / 0.12);
+  }
+
+  /* En los estilos oscuros la luz viene del papel: el relieve se marca con sombra. */
+  [data-dark] .letterpress {
+    text-shadow:
+      0 -1px 0 rgb(0 0 0 / 0.55),
+      0 1px 0 rgb(255 255 255 / 0.06);
   }
 
   /* Oro en lámina: el brillo se desplaza con la inclinación (variable --sheen, 0–100). */

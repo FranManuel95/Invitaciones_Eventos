@@ -5,6 +5,7 @@ import { demoGroups, demoResponses, showcaseGroups } from "@/data/demo/guests";
 import { eventContentSchema } from "@/lib/domain/event-schema";
 import type { GuestGroup, RsvpResponse, WeddingEvent } from "@/lib/domain/types";
 import { rsvpResponseSchema } from "@/lib/rsvp/draft";
+import { DEFAULT_THEME, parseTheme, type Theme } from "@/lib/theme";
 import { createAnonClient, createSessionClient } from "@/lib/supabase/server";
 
 /**
@@ -19,6 +20,7 @@ export const DEMO_EVENT_KEY = "demo";
 export interface Invitation {
   event: WeddingEvent;
   group: GuestGroup;
+  theme: Theme;
   /** Respuesta ya guardada en el servidor (null si aún no ha respondido; undefined en la demo). */
   response?: RsvpResponse | null;
 }
@@ -30,7 +32,7 @@ export async function getEvent(): Promise<WeddingEvent> {
 /** Una sola consulta por petición aunque la usen los metadatos y la página (cache de React). */
 export const getInvitation = cache(async (token: string): Promise<Invitation | null> => {
   const demo = demoGroups.find((g) => g.token === token);
-  if (demo) return { event: demoEvent, group: demo };
+  if (demo) return { event: demoEvent, group: demo, theme: DEFAULT_THEME };
   return getLiveInvitation(token);
 });
 
@@ -53,6 +55,7 @@ async function getLiveInvitation(token: string): Promise<Invitation | null> {
       members: GuestGroup["members"];
       table: string | null;
     };
+    theme: unknown;
     response: unknown;
   };
   const content = eventContentSchema.safeParse(raw.event);
@@ -73,6 +76,7 @@ async function getLiveInvitation(token: string): Promise<Invitation | null> {
       tableName: raw.group.table,
       persisted: true,
     },
+    theme: parseTheme(raw.theme),
     response: response?.success ? response.data : null,
   };
 }
