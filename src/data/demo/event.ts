@@ -141,20 +141,20 @@ export const demoEvent: WeddingEvent = {
   ],
   story: {
     intro: "Once años, dos mudanzas y un perro. Esta es la versión corta.",
-    couplePhoto: null,
+    couplePhoto: "/fotos/pareja.jpg",
     moments: [
       {
         year: "2015",
         title: "Nos conocimos en Amalfi",
         text: "La misma excursión de Erasmus y el último sitio libre en el muro del mirador. Nos quedamos hasta que se fue el sol.",
-        photo: null,
+        photo: "/fotos/historia-amalfi.jpg",
         photoAlt: "María y Daniel de espaldas, sentados frente a la costa de Amalfi",
       },
       {
         year: "2017",
         title: "El primer viaje",
         text: "Florencia en agosto, con una mochila y un mapa de papel. Volvimos sabiendo que podíamos con todo.",
-        photo: null,
+        photo: "/fotos/historia-florencia.jpg",
         photoAlt: "María y Daniel mirando la cúpula de Florencia desde un mirador",
       },
       {
@@ -173,7 +173,7 @@ export const demoEvent: WeddingEvent = {
       },
     ],
   },
-  coverPhoto: null,
+  coverPhoto: "/fotos/portada.jpg",
   banquetPhoto: "/fotos/banquete.jpg",
   contactPhone: "+34 600 000 000",
   gift: {

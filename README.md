@@ -105,5 +105,6 @@ tests/
 - El paisaje de la portada es una ilustración SVG en lugar de una fotografía.
 - La animación del sobre (CSS y 3D) se ha probado en Chromium (móvil y escritorio). **Falta probarla en
   Safari/iOS real**, con giroscopio y sonido.
-- Las fotos de la historia y de los lugares son huecos ilustrados hasta tener las fotos reales.
+- Las fotos son capturas de unos 550×800 px: válidas para la demo en el móvil, pero hacen falta
+  los originales (≥ 2000 px, sin rótulos) para la versión final.
 - Solo hay un tema visual y está en español.
