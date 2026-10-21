@@ -1,7 +1,7 @@
 "use client";
 
 import { clsx } from "clsx";
-import { ExternalLink, Search, SearchX } from "lucide-react";
+import { BusFront, ExternalLink, Minus, Search, SearchX } from "lucide-react";
 import Link from "next/link";
 import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { MENU_LABELS, allergyLabel } from "@/lib/domain/catalog";
@@ -11,10 +11,13 @@ import { MenuDot, StatusBadge } from "./ui";
 
 export type StatusFilter = AttendanceStatus | "all";
 
+export type BusFilter = "all" | "si" | "no";
+
 export interface GuestFilters {
   q: string;
   estado: StatusFilter;
   grupo: string;
+  autobus: BusFilter;
   agrupar: boolean;
 }
 
@@ -27,10 +30,34 @@ const STATUS_OPTIONS: { value: StatusFilter; label: string }[] = [
 
 const normalize = (text: string) => text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 
-function transportLabel(row: GuestRow, routes: Record<string, string>) {
-  if (row.status !== "attending" || !row.transport) return "—";
-  if (row.transport === "bus") return `Autobús desde ${routes[row.routeId ?? ""] ?? ""}`;
-  return row.transport === "car" ? "Coche (ofrece plazas)" : "Por su cuenta";
+/** Autobús sí/no con icono y texto (nunca solo color) y el detalle debajo. */
+function BusCell({ row, routes }: { row: GuestRow; routes: Record<string, string> }) {
+  if (row.status !== "attending" || !row.transport) return <span className="text-muted">—</span>;
+  const yes = row.transport === "bus";
+  return (
+    <span className="inline-flex flex-col">
+      <span
+        className={clsx(
+          "inline-flex w-fit items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium",
+          yes ? "bg-ink text-paper" : "bg-ink/[0.07] text-ink",
+        )}
+      >
+        {yes ? (
+          <BusFront aria-hidden className="size-3" />
+        ) : (
+          <Minus aria-hidden className="size-3" />
+        )}
+        {yes ? "Sí" : "No"}
+      </span>
+      <span className="mt-0.5 text-xs text-muted">
+        {yes
+          ? `desde ${routes[row.routeId ?? ""] ?? ""}`
+          : row.transport === "car"
+            ? "en coche, ofrece plazas"
+            : "por su cuenta"}
+      </span>
+    </span>
+  );
 }
 
 export function GuestTable({
@@ -48,6 +75,7 @@ export function GuestTable({
   const [status, setStatus] = useState<StatusFilter>(initial.estado);
   const [category, setCategory] = useState(initial.grupo);
   const [grouped, setGrouped] = useState(initial.agrupar);
+  const [bus, setBus] = useState<BusFilter>(initial.autobus);
   const deferredQuery = useDeferredValue(query);
 
   // Los filtros viven en la URL: se pueden compartir, recargar y volver atrás sin perderlos.
@@ -57,10 +85,11 @@ export function GuestTable({
     if (deferredQuery.trim()) params.set("q", deferredQuery.trim());
     if (status !== "all") params.set("estado", status);
     if (category !== "all") params.set("grupo", category);
+    if (bus !== "all") params.set("autobus", bus);
     if (grouped) params.set("agrupar", "1");
     const search = params.toString();
     window.history.replaceState(null, "", search ? `?${search}` : window.location.pathname);
-  }, [deferredQuery, status, category, grouped]);
+  }, [deferredQuery, status, category, grouped, bus]);
 
   const filtered = useMemo(() => {
     const q = normalize(deferredQuery.trim());
@@ -68,9 +97,13 @@ export function GuestTable({
       (r) =>
         (status === "all" || r.status === status) &&
         (category === "all" || r.category === category) &&
+        (bus === "all" ||
+          (bus === "si"
+            ? r.transport === "bus"
+            : r.status === "attending" && r.transport !== "bus")) &&
         (!q || normalize(`${r.name} ${r.groupName}`).includes(q)),
     );
-  }, [rows, status, category, deferredQuery]);
+  }, [rows, status, category, bus, deferredQuery]);
 
   const groups = useMemo(() => {
     const map = new Map<string, GuestRow[]>();
@@ -82,6 +115,7 @@ export function GuestTable({
     setQuery("");
     setStatus("all");
     setCategory("all");
+    setBus("all");
   };
 
   return (
@@ -142,6 +176,18 @@ export function GuestTable({
               ))}
             </select>
           </label>
+          <label className="flex items-center gap-2 text-xs text-muted">
+            <span className="sr-only">Autobús</span>
+            <select
+              value={bus}
+              onChange={(e) => setBus(e.target.value as BusFilter)}
+              className="h-9 rounded-md border border-line bg-paper px-2.5 text-xs text-ink focus:border-ink focus:outline-none"
+            >
+              <option value="all">Autobús: todos</option>
+              <option value="si">Autobús: sí</option>
+              <option value="no">Autobús: no</option>
+            </select>
+          </label>
           <label className="flex cursor-pointer items-center gap-2 text-xs text-ink-soft">
             <input
               type="checkbox"
@@ -190,7 +236,7 @@ export function GuestTable({
                     Asistencia
                   </th>
                   <th scope="col" className="px-4 py-3 font-medium">
-                    Transporte
+                    Autobús
                   </th>
                   <th scope="col" className="px-4 py-3 font-medium">
                     Menú
@@ -245,7 +291,9 @@ export function GuestTable({
                       <td className="px-4 py-2.5">
                         <StatusBadge status={r.status} />
                       </td>
-                      <td className="px-4 py-2.5 text-ink-soft">{transportLabel(r, routes)}</td>
+                      <td className="px-4 py-2.5 text-ink-soft">
+                        <BusCell row={r} routes={routes} />
+                      </td>
                       <td className="px-4 py-2.5">
                         {r.menu ? (
                           <span className="inline-flex items-center gap-1.5 text-ink-soft">
@@ -300,8 +348,10 @@ export function GuestTable({
                       </dd>
                     </div>
                     <div>
-                      <dt className="text-muted">Transporte</dt>
-                      <dd className="mt-0.5 text-ink">{transportLabel(r, routes)}</dd>
+                      <dt className="text-muted">Autobús</dt>
+                      <dd className="mt-0.5 text-ink">
+                        <BusCell row={r} routes={routes} />
+                      </dd>
                     </div>
                     {r.allergies.length ? (
                       <div className="col-span-2">

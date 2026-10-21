@@ -10,6 +10,9 @@ import { formatWeekdayDate, isoDay } from "@/lib/format";
 import { AlmondBranch, Monogram } from "../ornaments";
 import { RsvpSection } from "../rsvp/rsvp-section";
 import { DaysLeft } from "./countdown";
+import { useSavedResponse } from "../rsvp/use-saved-response";
+import { GiftSection } from "./gift-section";
+import { ResponseStatus } from "./response-status";
 import { SaveTheDate } from "./save-the-date";
 import { PracticalSection, ProgramSection, TransportSection, VenuesSection } from "./sections";
 
@@ -19,6 +22,7 @@ const NAV = [
   { id: "lugares", label: "Dónde" },
   { id: "transporte", label: "Cómo llegar" },
   { id: "info", label: "Antes de venir" },
+  { id: "regalo", label: "Regalo" },
   { id: "confirmar", label: "Confirmar" },
 ];
 const NAV_IDS = NAV.map((n) => n.id);
@@ -58,6 +62,7 @@ export function InvitationContent({
   focusOnMount,
 }: InvitationContentProps) {
   const active = useActiveSection(NAV_IDS);
+  const saved = useSavedResponse(group.token);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
@@ -149,6 +154,12 @@ export function InvitationContent({
         </header>
       </ViewTransition>
 
+      <aside aria-label="Tu respuesta" className="border-t border-line bg-paper">
+        <div className="mx-auto max-w-5xl px-6 py-4 sm:px-10">
+          <ResponseStatus event={event} group={group} />
+        </div>
+      </aside>
+
       <nav
         aria-label="Secciones de la invitación"
         className="sticky top-0 z-30 border-y border-line bg-ivory/92 backdrop-blur-md"
@@ -186,8 +197,9 @@ export function InvitationContent({
         <SaveTheDate event={event} />
         <ProgramSection event={event} />
         <VenuesSection event={event} />
-        <TransportSection event={event} />
+        <TransportSection event={event} response={saved} />
         <PracticalSection event={event} />
+        <GiftSection event={event} />
         <RsvpSection event={event} group={group} />
       </main>
 

@@ -180,6 +180,13 @@ export function countBy<K extends string>(
   return counts;
 }
 
+export interface RouteBooking {
+  groupId: string;
+  groupName: string;
+  seats: number;
+  names: string[];
+}
+
 export interface RouteStats {
   id: string;
   label: string;
@@ -188,30 +195,80 @@ export interface RouteStats {
   seats: number;
   requested: number;
   available: number;
-  passengers: GuestRow[];
+  bookings: RouteBooking[];
 }
 
-export function transportStats(event: WeddingEvent, rows: GuestRow[]) {
-  const attending = rows.filter((r) => r.status === "attending");
+/**
+ * Autobuses a partir de las respuestas: cada invitación indica si usa el autobús (sí/no) y
+ * cuántas plazas reserva, que pueden ser menos que sus asistentes.
+ */
+export function transportStats(
+  event: WeddingEvent,
+  groups: GuestGroup[],
+  responses: RsvpResponse[],
+) {
+  const names = new Map(groups.map((g) => [g.id, g.displayName]));
+  const attending = responses.filter((r) => r.status === "attending" && r.transport);
   const routes: RouteStats[] = event.busRoutes.map((route) => {
-    const passengers = attending.filter((r) => r.transport === "bus" && r.routeId === route.id);
+    const bookings = attending
+      .filter((r) => r.transport!.needsBus && r.transport!.routeId === route.id)
+      .map((r) => ({
+        groupId: r.groupId,
+        groupName: names.get(r.groupId) ?? r.groupId,
+        seats: r.transport!.busSeats,
+        names: r.attendees.map((a) => a.name),
+      }));
+    const requested = bookings.reduce((s, b) => s + b.seats, 0);
     return {
       id: route.id,
       label: route.label,
       pickupPoint: route.pickupPoint,
       departure: route.departure,
       seats: route.seats,
-      requested: passengers.length,
-      available: route.seats - passengers.length,
-      passengers,
+      requested,
+      available: route.seats - requested,
+      bookings,
     };
   });
+  const yes = attending.filter((r) => r.transport!.needsBus);
+  const no = attending.filter((r) => !r.transport!.needsBus);
+  const responded = new Set(responses.map((r) => r.groupId));
   return {
     routes,
     busSeatsNeeded: routes.reduce((s, r) => s + r.requested, 0),
     busSeatsTotal: routes.reduce((s, r) => s + r.seats, 0),
-    byCar: attending.filter((r) => r.transport === "car" || r.transport === "own").length,
+    /** Invitaciones que usan el autobús, que no y que aún no han respondido. */
+    invitations: {
+      yes: yes.length,
+      no: no.length,
+      pending: groups.filter((g) => !responded.has(g.id)).length,
+    },
+    byCar: no.reduce((s, r) => s + r.attendees.length, 0),
   };
+}
+
+/** CSV de pasajeros por ruta (separador «;» para que Excel en español lo abra bien). */
+export function passengersCsv(routes: RouteStats[]): string {
+  const escape = (v: string | number) => `"${String(v).replaceAll('"', '""')}"`;
+  const lines = [["Ruta", "Recogida", "Salida", "Invitación", "Plazas", "Asistentes"]];
+  for (const r of routes)
+    for (const b of r.bookings)
+      lines.push([
+        r.label,
+        r.pickupPoint,
+        r.departure,
+        b.groupName,
+        String(b.seats),
+        b.names.join(", "),
+      ]);
+  return lines.map((l) => l.map(escape).join(";")).join("\r\n");
+}
+
+export function songRequests(groups: GuestGroup[], responses: RsvpResponse[]) {
+  const names = new Map(groups.map((g) => [g.id, g.displayName]));
+  return responses
+    .filter((r) => r.status === "attending" && r.song)
+    .map((r) => ({ song: r.song, groupName: names.get(r.groupId) ?? r.groupId }));
 }
 
 export function carOffers(groups: GuestGroup[], responses: RsvpResponse[]) {

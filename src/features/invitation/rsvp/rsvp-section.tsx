@@ -1,12 +1,10 @@
 "use client";
 
-import { CalendarPlus, Check, Lock } from "lucide-react";
+import { Check, Lock } from "lucide-react";
 import { AnimatePresence, m } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { Button, buttonClasses } from "@/components/ui/button";
-import { buildIcs } from "@/lib/calendar";
-import { loadResponse } from "@/lib/data/rsvp-store";
-import type { GuestGroup, RsvpResponse, WeddingEvent } from "@/lib/domain/types";
+import { Button } from "@/components/ui/button";
+import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
 import {
   createDraft,
   isDeadlinePassed,
@@ -17,15 +15,17 @@ import {
 import { formatLongDate } from "@/lib/format";
 import { Section } from "../content/sections";
 import { RsvpForm } from "./rsvp-form";
+import { GuestPass } from "./guest-pass";
 import { ResponseDetails } from "./rsvp-summary";
+import { useSavedResponse } from "./use-saved-response";
 
 type View = "intro" | "form" | "done";
 
 export function RsvpSection({ event, group }: { event: WeddingEvent; group: GuestGroup }) {
-  // Este componente solo se monta en el cliente (tras abrir la invitación), así que puede leer
-  // el almacenamiento local en el estado inicial.
-  const [saved, setSaved] = useState<RsvpResponse | null>(() => loadResponse(group.token));
-  const [view, setView] = useState<View>(() => (saved ? "done" : "intro"));
+  // La respuesta guardada es compartida con la cabecera y el pase (misma fuente de datos).
+  const saved = useSavedResponse(group.token);
+  const [editing, setEditing] = useState(false);
+  const view: View = editing ? "form" : saved ? "done" : "intro";
   const [form, setForm] = useState<{ draft: RsvpDraft; step: RsvpStep } | null>(null);
   const [justSaved, setJustSaved] = useState(false);
   const doneRef = useRef<HTMLHeadingElement>(null);
@@ -41,10 +41,8 @@ export function RsvpSection({ event, group }: { event: WeddingEvent; group: Gues
     // Si ya eligió "sí" o "no" en la tarjeta, empieza directamente en el segundo paso.
     const step = status ? (stepsFor(draft, event, group)[1] ?? "attendance") : "attendance";
     setForm({ draft, step });
-    setView("form");
+    setEditing(true);
   };
-
-  const calendarHref = `data:text/calendar;charset=utf-8,${encodeURIComponent(buildIcs(event))}`;
 
   return (
     <Section
@@ -60,6 +58,11 @@ export function RsvpSection({ event, group }: { event: WeddingEvent; group: Gues
       }
     >
       <div className="max-w-xl">
+        {saved?.status === "attending" && !editing ? (
+          <div className="mb-8">
+            <GuestPass event={event} group={group} response={saved} />
+          </div>
+        ) : null}
         <div className="paper-grain rounded-[3px] border border-line bg-paper px-5 py-8 shadow-[var(--shadow-paper)] sm:px-10 sm:py-10">
           <AnimatePresence mode="wait" initial={false}>
             <m.div
@@ -108,11 +111,10 @@ export function RsvpSection({ event, group }: { event: WeddingEvent; group: Gues
                   group={group}
                   initialDraft={form.draft}
                   initialStep={form.step}
-                  onCancel={() => setView(saved ? "done" : "intro")}
-                  onSaved={(response) => {
-                    setSaved(response);
+                  onCancel={() => setEditing(false)}
+                  onSaved={() => {
                     setJustSaved(true);
-                    setView("done");
+                    setEditing(false);
                   }}
                 />
               ) : null}
@@ -146,28 +148,30 @@ export function RsvpSection({ event, group }: { event: WeddingEvent; group: Gues
                       <span className="sr-only"> (demo: solo en este navegador)</span>
                     </p>
                   </div>
-                  <div className="mt-4">
-                    <ResponseDetails event={event} response={saved} />
-                  </div>
-                  <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                    {saved.status === "attending" ? (
-                      <a
-                        href={calendarHref}
-                        download="boda.ics"
-                        className={buttonClasses("secondary", "lg")}
-                      >
-                        <CalendarPlus aria-hidden className="size-4" /> Añadir al calendario
-                      </a>
-                    ) : null}
+                  {saved.status === "attending" ? (
+                    <details className="group mt-6 border-t border-line pt-4">
+                      <summary className="cursor-pointer list-none text-[0.9375rem] text-ink underline decoration-gold underline-offset-4 [&::-webkit-details-marker]:hidden">
+                        Ver la respuesta completa
+                      </summary>
+                      <div className="mt-2">
+                        <ResponseDetails event={event} response={saved} />
+                      </div>
+                    </details>
+                  ) : (
+                    <div className="mt-4">
+                      <ResponseDetails event={event} response={saved} />
+                    </div>
+                  )}
+                  <div className="mt-6">
                     {closed ? (
-                      <p className="text-center text-sm text-muted sm:col-span-2">
+                      <p className="text-center text-sm text-muted">
                         El plazo para cambiar la respuesta ha terminado.
                       </p>
                     ) : (
                       <Button
-                        variant={saved.status === "attending" ? "primary" : "secondary"}
+                        variant="secondary"
                         size="lg"
-                        className={saved.status === "attending" ? "" : "sm:col-span-2"}
+                        className="w-full"
                         onClick={() => start()}
                       >
                         Editar respuesta

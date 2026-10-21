@@ -1,22 +1,48 @@
 import { Bus, Car } from "lucide-react";
-import { Card, Meter, PageHeader } from "@/features/dashboard/ui";
+import { CsvButton } from "@/features/dashboard/csv-button";
+import { Card, KpiStrip, Meter, PageHeader } from "@/features/dashboard/ui";
 import { getOrganizerData } from "@/lib/data/repository";
-import { buildGuestRows, carOffers, transportStats } from "@/lib/stats";
+import { carOffers, passengersCsv, transportStats } from "@/lib/stats";
 
 export const metadata = { title: "Transporte" };
 
 export default async function TransportPage() {
   const { event, groups, responses } = await getOrganizerData();
-  const rows = buildGuestRows(groups, responses);
-  const { routes, busSeatsNeeded, busSeatsTotal, byCar } = transportStats(event, rows);
+  const { routes, busSeatsNeeded, busSeatsTotal, byCar, invitations } = transportStats(
+    event,
+    groups,
+    responses,
+  );
   const offers = carOffers(groups, responses);
 
   return (
     <>
       <PageHeader
         title="Transporte"
-        description={`${busSeatsNeeded} de ${busSeatsTotal} plazas de autobús reservadas. ${byCar} invitados llegan en coche.`}
+        description={`${busSeatsNeeded} de ${busSeatsTotal} plazas de autobús reservadas. ${byCar} invitados llegan por su cuenta.`}
+        actions={
+          <CsvButton
+            csv={passengersCsv(routes)}
+            filename="pasajeros-autobus.csv"
+            label="Descargar pasajeros (CSV)"
+          />
+        }
       />
+
+      <div className="mb-8">
+        <KpiStrip
+          items={[
+            { label: "Usan el autobús", value: invitations.yes, detail: "invitaciones" },
+            { label: "No usan el autobús", value: invitations.no, detail: "invitaciones" },
+            { label: "Sin responder", value: invitations.pending, detail: "invitaciones" },
+            {
+              label: "Plazas reservadas",
+              value: busSeatsNeeded,
+              detail: `de ${busSeatsTotal} disponibles`,
+            },
+          ]}
+        />
+      </div>
 
       <Card title="Rutas" icon={<Bus aria-hidden className="size-4" />}>
         <div
@@ -74,16 +100,21 @@ export default async function TransportPage() {
       <div className="mt-4 grid gap-4 lg:grid-cols-3">
         {routes.map((r) => (
           <Card key={r.id} title={`Pasajeros de ${r.label}`}>
-            {r.passengers.length ? (
+            {r.bookings.length ? (
               <ul
                 tabIndex={0}
                 aria-label={`Pasajeros de ${r.label}`}
                 className="max-h-72 divide-y divide-line overflow-y-auto rounded-sm text-sm"
               >
-                {r.passengers.map((p) => (
-                  <li key={p.id} className="flex justify-between gap-3 py-2">
-                    <span className="text-ink">{p.name}</span>
-                    <span className="text-xs text-muted">{p.groupName}</span>
+                {r.bookings.map((b) => (
+                  <li key={b.groupId} className="py-2">
+                    <span className="flex justify-between gap-3">
+                      <span className="font-medium text-ink">{b.groupName}</span>
+                      <span className="text-xs text-muted tabular-nums">
+                        {b.seats} {b.seats === 1 ? "plaza" : "plazas"}
+                      </span>
+                    </span>
+                    <span className="block text-xs text-muted">{b.names.join(", ")}</span>
                   </li>
                 ))}
               </ul>

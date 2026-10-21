@@ -14,6 +14,7 @@ import type { AllergyId, GuestGroup, MenuId, WeddingEvent } from "@/lib/domain/t
 import {
   addExtra,
   attendingPeople,
+  busSeatsFor,
   canAddExtra,
   type AttendeeDraft,
   type FieldErrors,
@@ -176,22 +177,26 @@ export function TransportStep({ event, draft, errors, update }: StepProps) {
   return (
     <div className="space-y-8">
       <fieldset {...groupError(errors, "needsBus")}>
-        <Legend hint="Hay autobuses desde Madrid, Valencia y Barcelona.">
-          ¿Necesitáis plaza en el autobús?
+        <Legend
+          hint={`Hay autobuses desde ${event.busRoutes.map((r) => r.label.split(" →")[0]).join(", ")} hasta la finca, ida y vuelta.`}
+        >
+          ¿Vais a usar el autobús?
         </Legend>
         <div className="grid gap-3 sm:grid-cols-2">
           <ChoiceCard
             id="needsBus"
             name="needsBus"
-            label="Sí, necesitamos plaza"
+            label="Sí, usaremos el autobús"
+            description="Te reservamos plaza de ida y vuelta."
             checked={draft.needsBus === true}
             onChange={() => update({ needsBus: true, offersCarSeats: null })}
           />
           <ChoiceCard
             name="needsBus"
-            label="No, gracias"
+            label="No, iremos por nuestra cuenta"
+            description="Hay aparcamiento en la finca."
             checked={draft.needsBus === false}
-            onChange={() => update({ needsBus: false, routeId: null })}
+            onChange={() => update({ needsBus: false, routeId: null, busSeats: null })}
           />
         </div>
         <FieldError id={errId("needsBus")} message={errors.needsBus} />
@@ -220,10 +225,26 @@ export function TransportStep({ event, draft, errors, update }: StepProps) {
           <FieldError id={errId("routeId")} message={errors.routeId} />
           {route ? (
             <p className="mt-3 text-sm text-muted">
-              Reservaremos {people} {people === 1 ? "plaza" : "plazas"}. Vuelta a las{" "}
-              {route.returnTrips.join(" o a las ")}.
+              Salida a las {route.departure}. Vuelta a las {route.returnTrips.join(" o a las ")}.
             </p>
           ) : null}
+          <div className="mt-5 flex items-center justify-between gap-4 rounded-md bg-cream/70 px-4 py-3">
+            <span className="text-sm text-ink-soft">
+              Plazas de autobús
+              <span className="block text-xs text-muted">
+                {people === 1 ? "Para ti" : `Sois ${people} en total`}
+              </span>
+            </span>
+            <Counter
+              id="busSeats"
+              label="Plazas de autobús"
+              value={busSeatsFor(draft)}
+              min={1}
+              max={Math.max(1, people)}
+              onChange={(busSeats) => update({ busSeats })}
+            />
+          </div>
+          <FieldError id={errId("busSeats")} message={errors.busSeats} />
         </div>
       ) : null}
 
@@ -367,7 +388,7 @@ export function MessageStep({ draft, errors, update }: StepProps) {
         placeholder={
           draft.status === "declined"
             ? "Escribe aquí…"
-            : "Una canción, una sorpresa, una necesidad…"
+            : "Una sorpresa, una necesidad, unas palabras…"
         }
         onChange={(e) => update({ message: e.target.value })}
         aria-describedby="message-count"
@@ -377,6 +398,27 @@ export function MessageStep({ draft, errors, update }: StepProps) {
         {draft.message.length}/500
       </p>
       <FieldError id={errId("message")} message={errors.message} />
+
+      {draft.status === "attending" ? (
+        <div className="mt-8">
+          <label htmlFor="song" className="block text-[0.9375rem] font-semibold text-ink">
+            ¿Qué canción no puede faltar?
+          </label>
+          <p className="mt-1 text-sm text-muted">Opcional. La pasaremos al DJ.</p>
+          <TextInput
+            id="song"
+            name="cancion"
+            className="mt-3"
+            maxLength={120}
+            autoComplete="off"
+            value={draft.song}
+            placeholder="Ej.: September — Earth, Wind & Fire…"
+            onChange={(e) => update({ song: e.target.value })}
+            {...invalid(errors, "song")}
+          />
+          <FieldError id={errId("song")} message={errors.song} />
+        </div>
+      ) : null}
     </div>
   );
 }

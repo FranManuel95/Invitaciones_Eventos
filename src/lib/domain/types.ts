@@ -79,6 +79,7 @@ export interface WeddingEvent {
   dressCode: { title: string; detail: string; palette: { name: string; hex: string }[] };
   accommodation: Accommodation[];
   faqs: Faq[];
+  gift: { message: string; holder: string; iban: string };
 }
 
 export interface Guest {
@@ -117,6 +118,8 @@ export interface AttendeeResponse {
 export interface TransportResponse {
   needsBus: boolean;
   routeId: string | null;
+  /** Plazas de autobús reservadas (0 si no usan el autobús). */
+  busSeats: number;
   offersCarSeats: boolean;
   carSeats: number;
 }
@@ -127,5 +130,7 @@ export interface RsvpResponse {
   attendees: AttendeeResponse[];
   transport: TransportResponse | null;
   message: string;
+  /** Canción que no puede faltar en la fiesta (opcional). */
+  song: string;
   updatedAt: string;
 }

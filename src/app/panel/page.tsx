@@ -18,6 +18,7 @@ import {
   countBy,
   recentMessages,
   summarize,
+  songRequests,
   transportStats,
 } from "@/lib/stats";
 
@@ -41,7 +42,8 @@ export default async function PanelHome() {
   const daily = confirmationsByDay(responses, "2026-09-01", DEMO_REFERENCE_DATE);
   const menus = countBy(rows, (r) => r.menu);
   const allergies = countBy(rows, (r) => r.allergies);
-  const transport = transportStats(event, rows);
+  const transport = transportStats(event, groups, responses);
+  const songs = songRequests(groups, responses);
   const offers = carOffers(groups, responses);
   const messages = recentMessages(groups, responses, 4);
   const daysLeft = Math.ceil(
@@ -136,7 +138,13 @@ export default async function PanelHome() {
               label="Ocupación total de autobuses"
             />
           </div>
-          <p className="mt-4 text-[0.875rem] text-muted">
+          <p className="mt-4 text-[0.875rem] text-ink-soft">
+            Autobús: <strong className="font-semibold text-ink">sí</strong> en{" "}
+            {transport.invitations.yes} invitaciones,{" "}
+            <strong className="font-semibold text-ink">no</strong> en {transport.invitations.no} y{" "}
+            {transport.invitations.pending} sin responder.
+          </p>
+          <p className="mt-2 text-[0.875rem] text-muted">
             {offers.length} invitaciones ofrecen {offers.reduce((s, o) => s + o.seats, 0)} plazas en
             su coche.
           </p>
@@ -175,6 +183,25 @@ export default async function PanelHome() {
           ) : (
             <p className="text-[0.9375rem] text-muted">
               Cuando los invitados dejen un mensaje al confirmar, aparecerá aquí.
+            </p>
+          )}
+        </Card>
+      </div>
+
+      <div className="mt-10">
+        <Card variant="ruled" title={`Canciones pedidas (${songs.length})`}>
+          {songs.length ? (
+            <ul className="columns-1 gap-8 text-[0.9375rem] sm:columns-2 xl:columns-3">
+              {songs.map((s) => (
+                <li key={s.groupName + s.song} className="mb-2 break-inside-avoid">
+                  <span className="text-ink">{s.song}</span>
+                  <span className="block text-[0.8125rem] text-muted">{s.groupName}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-[0.9375rem] text-muted">
+              Cuando los invitados pidan canciones al confirmar, aparecerán aquí para el DJ.
             </p>
           )}
         </Card>

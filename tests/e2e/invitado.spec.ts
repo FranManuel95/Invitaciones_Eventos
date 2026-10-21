@@ -47,9 +47,7 @@ test.describe("experiencia del invitado", () => {
     await context.close();
   });
 
-  test("RSVP completo: acompañante, autobús, menús y confirmación persistente", async ({
-    page,
-  }) => {
+  test("RSVP con autobús: 3 de 4 plazas, pase y estado visibles", async ({ page }) => {
     await page.goto("/i/familia-garcia");
     await page.getByRole("button", { name: "Saltar intro" }).click();
     await page.getByRole("button", { name: "Sí, asistiré" }).click();
@@ -60,8 +58,10 @@ test.describe("experiencia del invitado", () => {
     await page.getByLabel("Nombre del acompañante 1").fill("Jaime Torres");
     await next(page).click();
 
-    await page.getByText("Sí, necesitamos plaza").click();
+    await page.getByText("Sí, usaremos el autobús").click();
     await page.getByLabel("Punto de recogida").selectOption("madrid");
+    await expect(page.locator("output#busSeats")).toHaveText("4");
+    await page.getByRole("button", { name: "Quitar una (Plazas de autobús)" }).click();
     await next(page).click();
 
     for (const name of ["Lucía García", "Andrés García", "Jaime Torres"]) {
@@ -71,14 +71,67 @@ test.describe("experiencia del invitado", () => {
         .click();
     }
     await next(page).click();
+    await page.getByLabel("¿Qué canción no puede faltar?").fill("September");
     await next(page).click();
     await expect(page.getByRole("heading", { name: "Todo listo" })).toBeVisible();
     await page.getByRole("button", { name: "Enviar respuesta" }).click();
 
     await expect(page.getByRole("heading", { name: /Gracias por confirmar/ })).toBeVisible();
-    await expect(page.getByText("Sí, 4 personas")).toBeVisible();
+    const status = page.getByRole("complementary", { name: "Tu respuesta" });
+    await expect(status).toContainText("Confirmado: 4 personas");
+    await expect(status).toContainText("Autobús: Sí");
+    await expect(status).toContainText("3 plazas desde Hotel Plaza de España, Madrid");
+    await expect(page.getByRole("heading", { name: "Pase de Familia García" })).toBeVisible();
+    await expect(page.getByRole("img", { name: /Código QR de demostración/ })).toBeVisible();
+
     await page.reload();
-    await expect(page.getByRole("heading", { name: /Gracias por confirmar/ })).toBeVisible();
+    await expect(page.getByRole("complementary", { name: "Tu respuesta" })).toContainText(
+      "Autobús: Sí",
+    );
+  });
+
+  test("RSVP sin autobús: queda claro el «no»", async ({ page }) => {
+    await page.goto("/i/elena-y-pablo");
+    await page.getByRole("button", { name: "Saltar intro" }).click();
+    await page.getByRole("button", { name: "Sí, asistiré" }).click();
+    await next(page).click();
+    await page.getByText("No, iremos por nuestra cuenta").click();
+    await page
+      .getByRole("group", { name: /plazas en vuestro coche/ })
+      .getByText("No", { exact: true })
+      .click();
+    await next(page).click();
+    for (const name of ["Elena Vidal", "Pablo Serra"]) {
+      await page
+        .getByRole("group", { name: `Menú para ${name}` })
+        .getByText("Pescado")
+        .click();
+    }
+    await next(page).click();
+    await next(page).click();
+    await page.getByRole("button", { name: "Enviar respuesta" }).click();
+    const status = page.getByRole("complementary", { name: "Tu respuesta" });
+    await expect(status).toContainText("Autobús: No");
+    await expect(status).toContainText("Vais por vuestra cuenta");
+    await expect(page.locator("#transporte")).toContainText("Autobús: No");
+  });
+
+  test("calendario y regalo", async ({ page, context, browserName }) => {
+    test.skip(browserName !== "chromium", "Permisos de portapapeles solo en Chromium");
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+    await page.goto("/i/carlos-ruiz");
+    await page.getByRole("button", { name: "Saltar intro" }).click();
+    await expect(page.getByRole("heading", { name: "Guarda la fecha" })).toBeAttached();
+    await expect(page.getByRole("cell", { name: /22 \(día de la boda\)/ })).toBeAttached();
+    await expect(page.getByRole("link", { name: /Google Calendar/ })).toHaveAttribute(
+      "href",
+      /calendar\.google\.com/,
+    );
+    await page.getByRole("button", { name: "Copiar número de cuenta" }).click();
+    await expect(page.getByText("Número de cuenta copiado.")).toBeVisible();
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+      "ES0000000000000000000000",
+    );
   });
 
   test("muestra un error recuperable al enviar", async ({ page }) => {

@@ -14,6 +14,7 @@ export default async function GuestsPage(props: PageProps<"/panel/invitados">) {
     q: first(params.q),
     estado: STATUSES.find((s) => s === first(params.estado)) ?? "all",
     grupo: "all",
+    autobus: (["si", "no"] as const).find((b) => b === first(params.autobus)) ?? "all",
     agrupar: first(params.agrupar) === "1",
   };
   const { event, groups, responses } = await getOrganizerData();

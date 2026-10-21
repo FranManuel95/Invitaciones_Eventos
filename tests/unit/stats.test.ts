@@ -35,10 +35,13 @@ describe("resumen del panel", () => {
   });
 
   it("calcula plazas disponibles por ruta", () => {
-    const { routes, busSeatsNeeded } = transportStats(
+    const { routes, busSeatsNeeded, invitations } = transportStats(
       demoEvent,
-      buildGuestRows(demoGroups, demoResponses),
+      demoGroups,
+      demoResponses,
     );
+    const answered = demoResponses.filter((r) => r.status === "attending").length;
+    expect(invitations.yes + invitations.no).toBe(answered);
     expect(routes).toHaveLength(3);
     expect(routes.reduce((s, r) => s + r.requested, 0)).toBe(busSeatsNeeded);
     for (const r of routes) expect(r.available).toBe(r.seats - r.requested);

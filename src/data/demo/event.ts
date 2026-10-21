@@ -77,7 +77,7 @@ export const demoEvent: WeddingEvent = {
     {
       id: "madrid",
       label: "Madrid → Finca",
-      pickupPoint: "Madrid · Hotel Plaza de España",
+      pickupPoint: "Hotel Plaza de España, Madrid",
       departure: "15:15",
       returnTrips: ["01:30", "03:30"],
       seats: 50,
@@ -85,7 +85,7 @@ export const demoEvent: WeddingEvent = {
     {
       id: "valencia",
       label: "Valencia → Finca",
-      pickupPoint: "Valencia · Estación Joaquín Sorolla",
+      pickupPoint: "Estación Joaquín Sorolla, Valencia",
       departure: "12:00",
       returnTrips: ["03:30"],
       seats: 30,
@@ -93,7 +93,7 @@ export const demoEvent: WeddingEvent = {
     {
       id: "barcelona",
       label: "Barcelona → Finca",
-      pickupPoint: "Barcelona · Estación de Sants",
+      pickupPoint: "Estación de Sants, Barcelona",
       departure: "09:30",
       returnTrips: ["03:30"],
       seats: 20,
@@ -135,6 +135,13 @@ export const demoEvent: WeddingEvent = {
       detail: "Ideal para grupos y familias con niños.",
     },
   ],
+  gift: {
+    message:
+      "Vuestra presencia es nuestro mejor regalo. Si aun así queréis tener un detalle, os dejamos nuestra cuenta.",
+    holder: "María y Daniel (cuenta de demostración)",
+    // IBAN ficticio con formato válido de longitud, pero sin banco real: solo para la demo.
+    iban: "ES00 0000 0000 0000 0000 0000",
+  },
   faqs: [
     {
       question: "¿Puedo llevar a mis hijos?",
@@ -152,7 +159,7 @@ export const demoEvent: WeddingEvent = {
     {
       question: "¿Hay lista de bodas?",
       answer:
-        "Vuestra presencia es nuestro mejor regalo. Si aun así queréis tener un detalle, preguntadnos sin compromiso.",
+        "No hay lista: si queréis tener un detalle, en la sección «Regalo» tenéis nuestra cuenta.",
     },
   ],
 };

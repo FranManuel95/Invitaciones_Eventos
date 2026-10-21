@@ -1,6 +1,7 @@
 import { ArrowUpRight, Plus } from "lucide-react";
 import type { ReactNode } from "react";
-import type { WeddingEvent } from "@/lib/domain/types";
+import type { RsvpResponse, WeddingEvent } from "@/lib/domain/types";
+import { describeTransport } from "@/lib/rsvp/summary";
 import { formatLongDate } from "@/lib/format";
 
 /*
@@ -186,13 +187,26 @@ export function VenuesSection({ event }: { event: WeddingEvent }) {
   );
 }
 
-export function TransportSection({ event }: { event: WeddingEvent }) {
+export function TransportSection({
+  event,
+  response,
+}: {
+  event: WeddingEvent;
+  response: RsvpResponse | null;
+}) {
+  const yours = response?.status === "attending" ? describeTransport(response, event) : null;
   return (
     <Section
       id="transporte"
       title="Cómo llegar"
-      aside="Reserva tu plaza de autobús al confirmar asistencia."
+      aside={yours ? undefined : "Reserva tu plaza de autobús al confirmar asistencia."}
     >
+      {yours ? (
+        <p className="mb-8 rounded-[3px] border-l-2 border-gold bg-paper px-4 py-3 text-[0.9375rem] text-ink-soft">
+          Tu respuesta. Autobús: <strong className="font-semibold text-ink">{yours.answer}</strong>.{" "}
+          {yours.detail}
+        </p>
+      ) : null}
       <div
         role="region"
         aria-label="Horarios de autobús"

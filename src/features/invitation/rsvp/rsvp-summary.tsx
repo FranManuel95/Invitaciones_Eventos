@@ -1,5 +1,6 @@
 import { MENU_LABELS, allergyLabel } from "@/lib/domain/catalog";
 import type { RsvpResponse, WeddingEvent } from "@/lib/domain/types";
+import { describeTransport } from "@/lib/rsvp/summary";
 import { attendingPeople, toResponse, type RsvpDraft, type RsvpStep } from "@/lib/rsvp/draft";
 import type { GuestGroup } from "@/lib/domain/types";
 
@@ -41,7 +42,7 @@ export function ResponseDetails({
   response: RsvpResponse;
   onEdit?: (step: RsvpStep) => void;
 }) {
-  const route = event.busRoutes.find((r) => r.id === response.transport?.routeId);
+  const transport = describeTransport(response, event);
   const edit = (step: RsvpStep) => (onEdit ? () => onEdit(step) : undefined);
   return (
     <dl className="divide-y divide-line">
@@ -56,17 +57,18 @@ export function ResponseDetails({
             <ul className="space-y-1">
               {response.attendees.map((a) => (
                 <li key={a.guestId}>
-                  <span className="font-medium">{a.name}</span> ·{" "}
-                  {a.menu ? MENU_LABELS[a.menu] : "—"}
+                  <span className="font-medium">{a.name}</span>:{" "}
+                  {a.menu ? MENU_LABELS[a.menu].toLowerCase() : "sin menú"}
                   {a.allergies.length ? (
                     <span className="text-muted">
                       {" "}
-                      ·{" "}
+                      (alergia:{" "}
                       {a.allergies
                         .map((x) =>
                           x === "otros" && a.allergyNotes ? a.allergyNotes : allergyLabel(x),
                         )
                         .join(", ")}
+                      )
                     </span>
                   ) : null}
                 </li>
@@ -74,12 +76,8 @@ export function ResponseDetails({
             </ul>
           </Row>
           {response.transport ? (
-            <Row label="Transporte" onEdit={edit("transport")}>
-              {response.transport.needsBus
-                ? `Autobús desde ${route?.pickupPoint ?? "—"} (salida ${route?.departure ?? "—"})`
-                : response.transport.offersCarSeats
-                  ? `Van en coche y ofrecen ${response.transport.carSeats} ${response.transport.carSeats === 1 ? "plaza" : "plazas"}`
-                  : "Van por su cuenta"}
+            <Row label="Autobús" onEdit={edit("transport")}>
+              <strong className="font-semibold">{transport.answer}</strong>. {transport.detail}
             </Row>
           ) : null}
         </>
@@ -91,6 +89,11 @@ export function ResponseDetails({
           <span className="text-muted">Sin mensaje</span>
         )}
       </Row>
+      {response.status === "attending" ? (
+        <Row label="Canción" onEdit={edit("message")}>
+          {response.song ? response.song : <span className="text-muted">Sin canción</span>}
+        </Row>
+      ) : null}
     </dl>
   );
 }

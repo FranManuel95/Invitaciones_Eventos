@@ -22,9 +22,12 @@ export interface RsvpDraft {
   attendees: AttendeeDraft[];
   needsBus: boolean | null;
   routeId: string | null;
+  /** Plazas de autobús; null = tantas como asistentes. */
+  busSeats: number | null;
   offersCarSeats: boolean | null;
   carSeats: number;
   message: string;
+  song: string;
 }
 
 export type RsvpStep = "attendance" | "guests" | "transport" | "menu" | "message" | "summary";
@@ -34,7 +37,7 @@ export const STEP_TITLES: Record<RsvpStep, string> = {
   guests: "Quién viene",
   transport: "Transporte",
   menu: "Menú y alergias",
-  message: "Mensaje",
+  message: "Mensaje y canción",
   summary: "Resumen",
 };
 
@@ -62,11 +65,16 @@ export function createDraft(group: GuestGroup, previous?: RsvpResponse | null): 
     attendees: [...members, ...extras],
     needsBus: previous?.transport?.needsBus ?? null,
     routeId: previous?.transport?.routeId ?? null,
+    busSeats: previous?.transport?.needsBus ? previous.transport.busSeats : null,
     offersCarSeats: previous?.transport?.offersCarSeats ?? null,
     carSeats: previous?.transport?.carSeats || 1,
     message: previous?.message ?? "",
+    song: previous?.song ?? "",
   };
 }
+
+/** Plazas de autobús efectivas: las elegidas o, si no se tocó el contador, todos los asistentes. */
+export const busSeatsFor = (draft: RsvpDraft) => draft.busSeats ?? attendingPeople(draft).length;
 
 export function stepsFor(draft: RsvpDraft, event: WeddingEvent, group: GuestGroup): RsvpStep[] {
   if (draft.status !== "attending") return ["attendance", "message", "summary"];
@@ -136,11 +144,14 @@ export const rsvpResponseSchema = z.object({
     .object({
       needsBus: z.boolean(),
       routeId: z.string().nullable(),
+      busSeats: z.number().int().min(0).max(20),
       offersCarSeats: z.boolean(),
       carSeats: z.number().int().min(0).max(6),
     })
     .nullable(),
   message: z.string().max(500),
+  // Las respuestas guardadas antes de añadir la canción no la tienen.
+  song: z.string().max(120).default(""),
   updatedAt: z.iso.datetime(),
 }) satisfies z.ZodType<RsvpResponse>;
 
@@ -169,6 +180,8 @@ export function validateStep(step: RsvpStep, draft: RsvpDraft, group: GuestGroup
     case "transport":
       if (draft.needsBus === null) errors.needsBus = "Indica si necesitas plaza en el autobús.";
       if (draft.needsBus && !draft.routeId) errors.routeId = "Elige un punto de recogida.";
+      if (draft.needsBus && (busSeatsFor(draft) < 1 || busSeatsFor(draft) > people.length))
+        errors.busSeats = `Entre 1 y ${people.length} plazas.`;
       if (draft.needsBus === false && draft.offersCarSeats === null)
         errors.offersCarSeats = "Indica si puedes ofrecer plazas en tu coche.";
       if (draft.offersCarSeats && (draft.carSeats < 1 || draft.carSeats > 6))
@@ -185,6 +198,7 @@ export function validateStep(step: RsvpStep, draft: RsvpDraft, group: GuestGroup
       break;
     case "message":
       if (draft.message.length > 500) errors.message = "Máximo 500 caracteres.";
+      if (draft.song.length > 120) errors.song = "Máximo 120 caracteres.";
       break;
     case "summary":
       break;
@@ -213,11 +227,13 @@ export function toResponse(draft: RsvpDraft, group: GuestGroup, now = new Date()
       ? {
           needsBus: Boolean(draft.needsBus),
           routeId: draft.needsBus ? draft.routeId : null,
+          busSeats: draft.needsBus ? busSeatsFor(draft) : 0,
           offersCarSeats: !draft.needsBus && Boolean(draft.offersCarSeats),
           carSeats: !draft.needsBus && draft.offersCarSeats ? draft.carSeats : 0,
         }
       : null,
     message: draft.message.trim(),
+    song: draft.song.trim(),
     updatedAt: now.toISOString(),
   };
 }

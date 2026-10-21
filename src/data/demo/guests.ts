@@ -148,6 +148,16 @@ const SURNAMES = [
   "Esteban",
   "Rivas",
 ];
+const SONGS = [
+  "Despechá — Rosalía",
+  "La flaca — Jarabe de Palo",
+  "September — Earth, Wind & Fire",
+  "Mi gran noche — Raphael",
+  "Dancing Queen — ABBA",
+  "Bailando — Enrique Iglesias",
+  "Vivir así es morir de amor — Camilo Sesto",
+  "Mr. Brightside — The Killers",
+];
 const CATEGORIES = [
   "Familia de María",
   "Familia de Daniel",
@@ -276,6 +286,7 @@ function generateResponses(groups: GuestGroup[]): RsvpResponse[] {
         attendees: [],
         transport: null,
         message: rand.next() < 0.5 ? "Lo sentimos muchísimo, ¡os celebraremos a la vuelta!" : "",
+        song: "",
         updatedAt,
       });
       continue;
@@ -338,10 +349,12 @@ function generateResponses(groups: GuestGroup[]): RsvpResponse[] {
               ["barcelona", 2],
             ] as const)
           : null,
+        busSeats: needsBus ? attendees.length : 0,
         offersCarSeats: !needsBus && rand.next() < 0.18,
         carSeats: 0,
       },
       message: rand.next() < 0.22 ? (MESSAGES[messageIndex++ % MESSAGES.length] ?? "") : "",
+      song: rand.next() < 0.3 ? rand.pick(SONGS) : "",
       updatedAt,
     });
     const transport = responses[responses.length - 1]!.transport!;

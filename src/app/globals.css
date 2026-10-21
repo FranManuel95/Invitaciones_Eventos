@@ -325,3 +325,25 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
+
+/* Impresión del pase: solo se imprime la zona marcada, sin botones ni el resto de la página. */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+
+  .print-area {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}
