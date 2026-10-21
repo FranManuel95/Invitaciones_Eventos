@@ -127,7 +127,9 @@ export interface GuestGroup {
   phone?: string | null;
   /** Guardado en la base de datos: las respuestas se envían al servidor. */
   persisted?: boolean;
-  /** Mesa asignada en el plano (eventos reales). */
+  /** Mesa asignada en el plano. */
+  tableId?: string | null;
+  /** Nombre de la mesa (para el pase del invitado). */
   tableName?: string | null;
 }
 

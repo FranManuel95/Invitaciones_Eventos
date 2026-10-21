@@ -5,6 +5,8 @@ import { demoGroups, demoResponses, showcaseGroups } from "@/data/demo/guests";
 import { eventContentSchema, type EventContent } from "@/lib/domain/event-schema";
 import type { GuestGroup, RsvpResponse, WeddingEvent } from "@/lib/domain/types";
 import { rsvpResponseSchema } from "@/lib/rsvp/draft";
+import type { SeatingTable } from "@/lib/seating";
+import { demoAssignment, demoTables } from "@/data/demo/tables";
 import { DEFAULT_THEME, parseTheme, type Theme } from "@/lib/theme";
 import { createAnonClient, createSessionClient } from "@/lib/supabase/server";
 
@@ -97,6 +99,8 @@ export interface OrganizerData {
   event: WeddingEvent;
   groups: GuestGroup[];
   responses: RsvpResponse[];
+  /** Mesas del plano; la mesa de cada invitación va en `group.tableId`. */
+  tables: SeatingTable[];
   /** Solo en eventos reales. */
   meta?: EventMeta;
 }
@@ -104,13 +108,18 @@ export interface OrganizerData {
 /** Datos del panel. `eventKey` es "demo" o el id de un evento del usuario. */
 export async function getOrganizerData(eventKey = DEMO_EVENT_KEY): Promise<OrganizerData | null> {
   if (eventKey === DEMO_EVENT_KEY) {
-    return { event: demoEvent, groups: demoGroups, responses: demoResponses };
+    return {
+      event: demoEvent,
+      groups: demoGroups.map((g) => ({ ...g, tableId: demoAssignment[g.id] ?? null })),
+      responses: demoResponses,
+      tables: demoTables,
+    };
   }
   if (!/^[0-9a-f-]{36}$/.test(eventKey)) return null;
   const supabase = await createSessionClient();
   if (!supabase) return null;
 
-  const [eventRes, groupsRes, responsesRes, seatsRes] = await Promise.all([
+  const [eventRes, groupsRes, responsesRes, tablesRes] = await Promise.all([
     supabase
       .from("events")
       .select("id, slug, status, content, published_at")
@@ -119,24 +128,32 @@ export async function getOrganizerData(eventKey = DEMO_EVENT_KEY): Promise<Organ
     supabase
       .from("guest_groups")
       .select(
-        "id, token, display_name, category, max_attendees, phone, sort, guests (id, first_name, last_name, is_primary, is_child, sort)",
+        "id, token, display_name, category, max_attendees, phone, table_id, sort, guests (id, first_name, last_name, is_primary, is_child, sort)",
       )
       .eq("event_id", eventKey)
       .order("sort")
       .order("display_name"),
     supabase.from("rsvp_responses").select("group_id, payload").eq("event_id", eventKey),
-    supabase.from("seats").select("guest_id, tables (name)").eq("event_id", eventKey),
+    supabase
+      .from("tables")
+      .select("id, name, shape, seats, x, y")
+      .eq("event_id", eventKey)
+      .order("name"),
   ]);
   if (eventRes.error || !eventRes.data) return null;
 
   const content = eventContentSchema.safeParse(eventRes.data.content);
   if (!content.success) return null;
 
-  const tableByGuest = new Map<string, string>();
-  for (const seat of seatsRes.data ?? []) {
-    const table = seat.tables as unknown as { name: string } | null;
-    if (table) tableByGuest.set(seat.guest_id, table.name);
-  }
+  const tables: SeatingTable[] = (tablesRes.data ?? []).map((t) => ({
+    id: t.id,
+    name: t.name,
+    shape: t.shape === "rect" ? "rect" : "round",
+    seats: t.seats,
+    x: Number(t.x),
+    y: Number(t.y),
+  }));
+  const tableName = new Map(tables.map((t) => [t.id, t.name]));
 
   const groups: GuestGroup[] = (groupsRes.data ?? []).map((g) => {
     const guests = [...(g.guests ?? [])].sort((a, b) => a.sort - b.sort);
@@ -154,7 +171,8 @@ export async function getOrganizerData(eventKey = DEMO_EVENT_KEY): Promise<Organ
         isPrimary: p.is_primary,
         isChild: p.is_child,
       })),
-      tableName: guests.map((p) => tableByGuest.get(p.id)).find(Boolean) ?? null,
+      tableId: g.table_id,
+      tableName: g.table_id ? (tableName.get(g.table_id) ?? null) : null,
       persisted: true,
     };
   });
@@ -168,6 +186,7 @@ export async function getOrganizerData(eventKey = DEMO_EVENT_KEY): Promise<Organ
     event: { ...content.data, id: eventRes.data.id },
     groups,
     responses,
+    tables,
     meta: {
       id: eventRes.data.id,
       slug: eventRes.data.slug,

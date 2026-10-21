@@ -36,6 +36,23 @@ export function inviteMessage(
   ].join("\n\n");
 }
 
+export const DEFAULT_REMINDER =
+  "¡Hola, {nombre}! Os escribimos para recordaros que podéis confirmar asistencia a la boda de {pareja} hasta el {plazo}. Es un momento: {enlace}";
+
+/**
+ * Recordatorio a partir de una plantilla con huecos: {nombre}, {pareja}, {plazo} y {enlace}.
+ * Los huecos desconocidos se dejan tal cual para que se vean al revisar el texto.
+ */
+export function fillTemplate(
+  template: string,
+  values: { nombre: string; pareja: string; plazo: string; enlace: string },
+) {
+  return template.replace(
+    /\{(nombre|pareja|plazo|enlace)\}/g,
+    (_, key: keyof typeof values) => values[key],
+  );
+}
+
 export function whatsappUrl(text: string, phone?: string | null) {
   const number = normalizePhone(phone);
   return `https://wa.me/${number ?? ""}?text=${encodeURIComponent(text)}`;

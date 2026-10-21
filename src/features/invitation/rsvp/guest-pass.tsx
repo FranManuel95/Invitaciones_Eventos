@@ -100,11 +100,7 @@ export function GuestPass({
             aria-hidden
             className="absolute -top-3 -right-3 size-6 rounded-full bg-ivory sm:top-auto sm:right-auto sm:-bottom-3 sm:-left-3"
           />
-          <QrCode
-            value={code}
-            label={`Código QR de demostración ${code}`}
-            className="size-28"
-          />
+          <QrCode value={code} label={`Código QR de demostración ${code}`} className="size-28" />
           <p className="font-mono text-[0.6875rem] tracking-wide text-muted" translate="no">
             {code}
           </p>

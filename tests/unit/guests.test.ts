@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { CSV_TEMPLATE, csvToGroups, parseCsv } from "@/lib/guests/csv";
 import { validateGroup } from "@/lib/guests/group-input";
-import { inviteMessage, normalizePhone, whatsappUrl } from "@/lib/guests/share";
+import {
+  DEFAULT_REMINDER,
+  fillTemplate,
+  inviteMessage,
+  normalizePhone,
+  whatsappUrl,
+} from "@/lib/guests/share";
 
 describe("CSV de invitados", () => {
   it("lee comillas, comas dentro de un campo, BOM y saltos de línea de Windows", () => {
@@ -117,6 +123,22 @@ describe("envío", () => {
     expect(one).toContain("tienes tu invitación");
     expect(many).toContain("queremos que estéis");
     expect(many).toContain("tenéis vuestra invitación");
+  });
+
+  it("rellena la plantilla del recordatorio", () => {
+    expect(
+      fillTemplate(DEFAULT_REMINDER, {
+        nombre: "Familia Ruiz",
+        pareja: "María y Daniel",
+        plazo: "15 de abril",
+        enlace: "https://x/i/abc",
+      }),
+    ).toBe(
+      "¡Hola, Familia Ruiz! Os escribimos para recordaros que podéis confirmar asistencia a la boda de María y Daniel hasta el 15 de abril. Es un momento: https://x/i/abc",
+    );
+    expect(
+      fillTemplate("{otro} {nombre}", { nombre: "A", pareja: "", plazo: "", enlace: "" }),
+    ).toBe("{otro} A");
   });
 
   it("abre WhatsApp con el texto codificado y, si lo hay, el número", () => {

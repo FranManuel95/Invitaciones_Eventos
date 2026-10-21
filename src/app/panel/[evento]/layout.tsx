@@ -29,14 +29,14 @@ export default async function PanelLayout(props: LayoutProps<"/panel/[evento]">)
   );
 
   return (
-    <div className="min-h-dvh bg-ivory lg:grid lg:grid-cols-[15.5rem_1fr]">
+    <div className="min-h-dvh bg-ivory lg:grid lg:grid-cols-[15.5rem_1fr] print:block print:bg-white">
       <a
         href="#contenido"
         className="sr-only-focusable fixed top-2 left-2 z-50 rounded-md bg-ink px-4 py-2 text-sm text-paper"
       >
         Saltar al contenido
       </a>
-      <aside className="hidden border-r border-line bg-paper/70 lg:flex lg:flex-col lg:gap-8 lg:px-4 lg:py-6">
+      <aside className="hidden border-r border-line bg-paper/70 lg:flex lg:flex-col lg:gap-8 lg:px-4 lg:py-6 print:hidden">
         <div className="px-2">{brand}</div>
         <SidebarNav base={base} />
         <div className="mt-auto space-y-4 px-2">
@@ -64,7 +64,7 @@ export default async function PanelLayout(props: LayoutProps<"/panel/[evento]">)
         </div>
       </aside>
 
-      <header className="sticky top-0 z-30 border-b border-line bg-ivory/90 px-4 pt-4 pb-3 backdrop-blur-md lg:hidden">
+      <header className="sticky top-0 z-30 border-b border-line bg-ivory/90 px-4 pt-4 pb-3 backdrop-blur-md lg:hidden print:hidden">
         <div className="mb-3 flex items-center justify-between gap-3">
           {brand}
           {isDemo ? <DemoBadge /> : null}

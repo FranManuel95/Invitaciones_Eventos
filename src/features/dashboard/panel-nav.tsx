@@ -24,11 +24,11 @@ const ITEMS: { path: string; label: string; icon: LucideIcon }[] = [
   { path: "/invitados", label: "Invitados", icon: Users },
   { path: "/transporte", label: "Transporte", icon: Bus },
   { path: "/menus", label: "Menús", icon: UtensilsCrossed },
-  { path: "/comunicaciones", label: "Comunicaciones", icon: Send },
+  { path: "/mesas", label: "Mesas", icon: LayoutGrid },
+  { path: "/comunicaciones", label: "Recordatorios", icon: Send },
 ];
 
 const SOON: { label: string; icon: LucideIcon }[] = [
-  { label: "Mesas", icon: LayoutGrid },
   { label: "Tareas", icon: ClipboardList },
   { label: "Presupuesto", icon: Wallet },
   { label: "Agenda", icon: CalendarCheck },
