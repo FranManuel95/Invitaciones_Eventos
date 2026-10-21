@@ -20,7 +20,12 @@ export default async function TransportPage() {
       />
 
       <Card title="Rutas" icon={<Bus aria-hidden className="size-4" />}>
-        <div className="relative -mx-5 overflow-x-auto sm:-mx-6">
+        <div
+          role="region"
+          aria-label="Tabla de rutas"
+          tabIndex={0}
+          className="relative -mx-5 overflow-x-auto sm:-mx-6"
+        >
           <table className="w-full min-w-[34rem] text-left text-sm">
             <thead className="border-y border-line bg-ivory/60 text-xs text-muted">
               <tr>
@@ -71,7 +76,11 @@ export default async function TransportPage() {
         {routes.map((r) => (
           <Card key={r.id} title={`Pasajeros · ${r.label}`}>
             {r.passengers.length ? (
-              <ul className="max-h-72 divide-y divide-line overflow-y-auto text-sm">
+              <ul
+                tabIndex={0}
+                aria-label={`Pasajeros de ${r.label}`}
+                className="max-h-72 divide-y divide-line overflow-y-auto rounded-sm text-sm"
+              >
                 {r.passengers.map((p) => (
                   <li key={p.id} className="flex justify-between gap-3 py-2">
                     <span className="text-ink">{p.name}</span>

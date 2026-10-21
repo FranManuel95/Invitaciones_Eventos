@@ -2,6 +2,7 @@
 
 import { ChevronDown } from "lucide-react";
 import { motion, useReducedMotion, type PanInfo } from "motion/react";
+import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
 import { Divider, FloralCorner } from "../ornaments";
@@ -19,6 +20,12 @@ export function LetterStage({
   onContinue: () => void;
 }) {
   const reduce = useReducedMotion();
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  // Se monta tras la salida del sobre: enfoca su título al aparecer para teclado y lectores de pantalla.
+  useEffect(() => {
+    headingRef.current?.focus({ preventScroll: true });
+  }, []);
 
   const handlePanEnd = (_: PointerEvent, info: PanInfo) => {
     if (info.offset.y < -60 || info.velocity.y < -400) onContinue();
@@ -52,6 +59,7 @@ export function LetterStage({
         <p className="eyebrow text-muted">Para {group.displayName}</p>
         <h1
           id="letter-title"
+          ref={headingRef}
           tabIndex={-1}
           className="mt-5 font-display text-5xl font-light text-ink outline-none"
         >

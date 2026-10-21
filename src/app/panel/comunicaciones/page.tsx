@@ -8,16 +8,16 @@ const SENT = [
   {
     title: "Invitación inicial",
     date: "2026-09-01",
-    delivered: 58,
-    total: 58,
+    delivered: 74,
+    total: 74,
     channel: "WhatsApp y email",
   },
-  { title: "Recordatorio RSVP", date: "2026-09-29", delivered: 52, total: 58, channel: "WhatsApp" },
+  { title: "Recordatorio RSVP", date: "2026-09-29", delivered: 69, total: 74, channel: "WhatsApp" },
   {
     title: "Información de transporte",
     date: "2026-10-12",
-    delivered: 41,
-    total: 43,
+    delivered: 52,
+    total: 55,
     channel: "Email",
   },
 ];

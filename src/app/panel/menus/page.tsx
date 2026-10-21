@@ -73,7 +73,12 @@ export default async function MenusPage() {
           Información de salud: en la versión real solo será visible para organizadores con permiso.
         </p>
         {withAllergies.length ? (
-          <div className="relative -mx-5 overflow-x-auto sm:-mx-6">
+          <div
+            role="region"
+            aria-label="Tabla de alergias"
+            tabIndex={0}
+            className="relative -mx-5 overflow-x-auto sm:-mx-6"
+          >
             <table className="w-full min-w-[30rem] text-left text-sm">
               <thead className="border-y border-line bg-ivory/60 text-xs text-muted">
                 <tr>

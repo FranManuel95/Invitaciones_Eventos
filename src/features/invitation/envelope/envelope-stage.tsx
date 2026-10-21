@@ -149,7 +149,7 @@ export function EnvelopeStage({
           onPointerLeave={resetTilt}
           aria-label="Abrir el sobre"
           aria-disabled={opening}
-          className="group relative block w-[min(84vw,380px)] cursor-pointer rounded-sm focus-visible:outline-offset-8"
+          className="group relative block w-[min(84vw,380px)] cursor-pointer rounded-sm focus-visible:outline-offset-8 sm:w-[440px]"
           style={{ rotateX, rotateY, transformPerspective: 1100 }}
           whileTap={opening || reduce ? undefined : { scale: 0.985 }}
         >
