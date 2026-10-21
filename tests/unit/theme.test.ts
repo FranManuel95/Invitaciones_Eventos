@@ -38,6 +38,20 @@ describe("tema", () => {
     expect(contrast("#000000", "#ffffff")).toBeCloseTo(21, 0);
   });
 
+  it("los temas Clásico guardados antes de elegir letra conservan su garalda", () => {
+    expect(parseTheme({ style: "clasico" }).font).toBe("clasica");
+    expect(parseTheme({ style: "clasico", font: "deco" }).font).toBe("deco");
+    expect(parseTheme({ style: "noche" }).font).toBe("editorial");
+  });
+
+  it("la tipografía fija titulares y nombres", () => {
+    const vars = themeVars({ ...DEFAULT_THEME, font: "caligrafica" }) as Record<string, string>;
+    expect(vars["--font-display"]).toContain("--font-playfair");
+    expect(vars["--font-names"]).toContain("--font-great-vibes");
+    const plain = themeVars(DEFAULT_THEME) as Record<string, string>;
+    expect(plain["--font-names"]).toBe(plain["--font-display"]);
+  });
+
   it("acepta un color propio válido y descarta el que no lo es", () => {
     expect(parseTheme({ waxColor: "#C0FFEE" }).waxColor).toBe("#C0FFEE");
     expect(parseTheme({ waxColor: "rojo" }).waxColor).toBeNull();

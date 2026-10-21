@@ -30,11 +30,22 @@ export const WAX_IDS = [
   "negro",
 ] as const;
 export const CALENDAR_IDS = ["taco", "minimal"] as const;
+export const FONT_IDS = [
+  "editorial",
+  "clasica",
+  "romantica",
+  "caligrafica",
+  "moderna",
+  "deco",
+  "organica",
+  "minimal",
+] as const;
 
 export type StyleId = (typeof STYLE_IDS)[number];
 export type EnvelopeId = (typeof ENVELOPE_IDS)[number];
 export type WaxId = (typeof WAX_IDS)[number];
 export type CalendarId = (typeof CALENDAR_IDS)[number];
+export type FontId = (typeof FONT_IDS)[number];
 
 /** Secciones de la invitación que se pueden ocultar (la confirmación siempre se ve). */
 export const SECTION_IDS = [
@@ -68,6 +79,7 @@ export const themeInputSchema = z.strictObject({
   wax: z.enum(WAX_IDS),
   /** Si hay color propio, sustituye al lacre elegido (y al acento que sale de él). */
   waxColor: hexColor.nullable(),
+  font: z.enum(FONT_IDS),
   calendar: z.enum(CALENDAR_IDS),
   hidden: z.array(z.enum(SECTION_IDS)).max(SECTION_IDS.length),
   music: z.boolean(),
@@ -79,6 +91,7 @@ export const themeSchema = z.object({
   envelope: z.enum(ENVELOPE_IDS).catch("olivo"),
   wax: z.enum(WAX_IDS).catch("burdeos"),
   waxColor: hexColor.nullable().catch(null),
+  font: z.enum(FONT_IDS).catch("editorial"),
   calendar: z.enum(CALENDAR_IDS).catch("taco"),
   hidden: z.array(z.enum(SECTION_IDS)).max(SECTION_IDS.length).catch([]),
   music: z.boolean().catch(true),
@@ -91,6 +104,7 @@ export const DEFAULT_THEME: Theme = {
   envelope: "olivo",
   wax: "burdeos",
   waxColor: null,
+  font: "editorial",
   calendar: "taco",
   hidden: [],
   music: true,
@@ -98,8 +112,14 @@ export const DEFAULT_THEME: Theme = {
 
 /** Lee un tema guardado: lo que falte o no se reconozca vuelve al valor por defecto. */
 export function parseTheme(raw: unknown): Theme {
-  const result = themeSchema.safeParse(raw && typeof raw === "object" ? raw : {});
-  return result.success ? result.data : DEFAULT_THEME;
+  const input = raw && typeof raw === "object" ? (raw as Record<string, unknown>) : {};
+  const result = themeSchema.safeParse(input);
+  if (!result.success) return DEFAULT_THEME;
+  // Antes de elegir tipografía, el estilo Clásico llevaba su garalda: se respeta.
+  if (input.font === undefined && result.data.style === "clasico") {
+    return { ...result.data, font: "clasica" };
+  }
+  return result.data;
 }
 
 export interface Palette {
@@ -127,8 +147,6 @@ interface StyleDef {
   palette: Palette;
   /** Fondo de las escenas del sobre y de la carta, de claro a oscuro. */
   scene: [string, string, string, string];
-  /** Tipografía de titulares (variable de next/font definida en el layout raíz). */
-  display?: string;
 }
 
 export const STYLES: Record<StyleId, StyleDef> = {
@@ -177,7 +195,6 @@ export const STYLES: Record<StyleId, StyleDef> = {
       warning: "#7a5312",
     },
     scene: ["#f4f2ee", "#e6e3dd", "#d2cec6", "#bab5ab"],
-    display: "var(--font-cormorant), 'Cormorant Garamond', Garamond, Georgia, serif",
   },
   noche: {
     label: "Noche",
@@ -377,6 +394,61 @@ export const ENVELOPES: Record<EnvelopeId, EnvelopeDef> = {
   },
 };
 
+/*
+ * Tipografías: titulares y, si se indica, otra para los nombres de la pareja (las caligráficas
+ * solo se usan ahí, donde se leen bien). Las variables vienen de next/font en el layout raíz.
+ */
+const BODONI = "var(--font-bodoni), 'Bodoni Moda', Didot, Georgia, serif";
+const CORMORANT = "var(--font-cormorant), 'Cormorant Garamond', Garamond, Georgia, serif";
+
+export const FONTS: Record<
+  FontId,
+  { label: string; description: string; display: string; names?: string }
+> = {
+  editorial: {
+    label: "Editorial",
+    description: "Didona de alto contraste, como una revista de moda.",
+    display: BODONI,
+  },
+  clasica: {
+    label: "Clásica",
+    description: "Garalda fina y serena de papelería tradicional.",
+    display: CORMORANT,
+  },
+  romantica: {
+    label: "Romántica",
+    description: "Garalda en los textos y nombres a pluma.",
+    display: CORMORANT,
+    names: "var(--font-pinyon), 'Pinyon Script', cursive",
+  },
+  caligrafica: {
+    label: "Caligráfica",
+    description: "Nombres en caligrafía fluida y titulares con mucho carácter.",
+    display: "var(--font-playfair), 'Playfair Display', Georgia, serif",
+    names: "var(--font-great-vibes), 'Great Vibes', cursive",
+  },
+  moderna: {
+    label: "Moderna",
+    description: "Letra alta y delgada, limpia y muy elegante.",
+    display: "var(--font-italiana), Italiana, Didot, serif",
+  },
+  deco: {
+    label: "Art déco",
+    description: "Geométrica de los años veinte, ideal con oro.",
+    display: "var(--font-poiret), 'Poiret One', Futura, sans-serif",
+  },
+  organica: {
+    label: "Orgánica",
+    description: "Serifa suave y cálida, con curvas redondeadas.",
+    display: "var(--font-fraunces), Fraunces, Georgia, serif",
+  },
+  minimal: {
+    label: "Minimal",
+    description: "Sin serifa geométrica: sobria y contemporánea.",
+    display: "var(--font-jost), Jost, Futura, sans-serif",
+  },
+};
+
 export const CALENDARS: Record<CalendarId, { label: string; description: string }> = {
   taco: { label: "Taco de hojas", description: "Las hojas caen hasta el mes de la boda." },
   minimal: { label: "Minimal", description: "Una hoja limpia con el día marcado." },
@@ -467,7 +539,9 @@ export function themeVars(theme: Theme): CSSProperties {
     "--env-inside": envelope.inside,
     "--env-liner": envelope.liner,
   };
-  if (style.display) vars["--font-display"] = style.display;
+  const font = FONTS[theme.font];
+  vars["--font-display"] = font.display;
+  vars["--font-names"] = font.names ?? font.display;
   return vars as CSSProperties;
 }
 
@@ -496,42 +570,66 @@ export const TEMPLATES: Record<
   almendro: {
     label: "Almendro",
     description: "Mediterránea, con forro de olivo y lacre burdeos.",
-    look: { style: "mediterraneo", envelope: "olivo", wax: "burdeos", calendar: "taco" },
+    look: {
+      style: "mediterraneo",
+      envelope: "olivo",
+      wax: "burdeos",
+      calendar: "taco",
+      font: "editorial",
+    },
   },
   atelier: {
     label: "Atelier",
     description: "Blanco roto, lino y garalda: papelería clásica.",
-    look: { style: "clasico", envelope: "lino", wax: "azul", calendar: "minimal" },
+    look: { style: "clasico", envelope: "lino", wax: "azul", calendar: "minimal", font: "clasica" },
   },
   medianoche: {
     label: "Medianoche",
     description: "Fondo azul noche, oro y una sola hoja de calendario.",
-    look: { style: "noche", envelope: "lino", wax: "oro", calendar: "minimal" },
+    look: { style: "noche", envelope: "lino", wax: "oro", calendar: "minimal", font: "moderna" },
   },
   jardin: {
     label: "Jardín",
     description: "Verde salvia y rama de almendro para bodas de día.",
-    look: { style: "botanico", envelope: "olivo", wax: "salvia", calendar: "taco" },
+    look: {
+      style: "botanico",
+      envelope: "olivo",
+      wax: "salvia",
+      calendar: "taco",
+      font: "romantica",
+    },
   },
   terracota: {
     label: "Terracota",
     description: "Kraft, arcilla y lacre teja: rústico y cálido.",
-    look: { style: "terracota", envelope: "kraft", wax: "teja", calendar: "taco" },
+    look: {
+      style: "terracota",
+      envelope: "kraft",
+      wax: "teja",
+      calendar: "taco",
+      font: "organica",
+    },
   },
   empolvado: {
     label: "Rosa empolvado",
     description: "Romántica y ligera, con lacre rosa antiguo.",
-    look: { style: "empolvado", envelope: "lino", wax: "rosa", calendar: "minimal" },
+    look: {
+      style: "empolvado",
+      envelope: "lino",
+      wax: "rosa",
+      calendar: "minimal",
+      font: "caligrafica",
+    },
   },
   costa: {
     label: "Costa",
     description: "Gris azulado y lacre azul para bodas junto al mar.",
-    look: { style: "pizarra", envelope: "lino", wax: "azul", calendar: "minimal" },
+    look: { style: "pizarra", envelope: "lino", wax: "azul", calendar: "minimal", font: "minimal" },
   },
   esmeralda: {
     label: "Esmeralda",
     description: "Verde botella y oro: de noche y con mucho brillo.",
-    look: { style: "esmeralda", envelope: "kraft", wax: "oro", calendar: "minimal" },
+    look: { style: "esmeralda", envelope: "kraft", wax: "oro", calendar: "minimal", font: "deco" },
   },
 };
 

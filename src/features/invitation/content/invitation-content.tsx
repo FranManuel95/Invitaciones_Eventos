@@ -137,7 +137,7 @@ export function InvitationContent({
               ref={titleRef}
               tabIndex={-1}
               translate="no"
-              className="mt-16 font-display text-[clamp(4rem,19vw,10rem)] leading-[0.86] tracking-[-0.02em] text-ink outline-none sm:mt-24"
+              className="mt-16 font-names text-[clamp(4rem,19vw,10rem)] leading-[0.86] tracking-[-0.02em] text-ink outline-none sm:mt-24"
             >
               {event.couple.first}
               <span className="block pl-[0.6em]">&amp; {event.couple.second}</span>
@@ -246,7 +246,7 @@ export function InvitationContent({
       <footer className="border-t border-line bg-paper">
         <div className="mx-auto flex max-w-5xl flex-col gap-6 px-6 pt-14 pb-[max(3rem,env(safe-area-inset-bottom))] sm:flex-row sm:items-end sm:justify-between sm:px-10">
           <div>
-            <p translate="no" className="font-display text-4xl text-ink">
+            <p translate="no" className="font-names text-4xl text-ink">
               {event.couple.first} &amp; {event.couple.second}
             </p>
             <p translate="no" className="caption mt-1 text-ink-soft">

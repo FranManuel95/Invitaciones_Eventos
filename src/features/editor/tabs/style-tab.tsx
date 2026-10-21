@@ -10,6 +10,8 @@ import {
   CALENDARS,
   ENVELOPE_IDS,
   ENVELOPES,
+  FONT_IDS,
+  FONTS,
   SECTION_IDS,
   SECTIONS,
   STYLE_IDS,
@@ -35,7 +37,7 @@ function Swatches({ colors }: { colors: string[] }) {
   );
 }
 
-type ChoiceKey = "style" | "envelope" | "wax" | "calendar";
+type ChoiceKey = "style" | "envelope" | "wax" | "calendar" | "font";
 
 function Choice<K extends ChoiceKey>({
   name,
@@ -75,6 +77,7 @@ function Choice<K extends ChoiceKey>({
 const PARTS = [
   { id: "plantillas", label: "Plantillas", Panel: TemplatesPart },
   { id: "colores", label: "Colores", Panel: ColorsPart },
+  { id: "letra", label: "Tipografía", Panel: FontsPart },
   { id: "sobre", label: "Sobre", Panel: EnvelopePart },
   { id: "calendario", label: "Calendario", Panel: CalendarPart },
   { id: "secciones", label: "Secciones y música", Panel: SectionsPart },
@@ -293,6 +296,53 @@ function OwnColor() {
           : "Elige cualquier color para la cera, por ejemplo el de las flores."}
       </p>
     </div>
+  );
+}
+
+/** Pares de letra con una muestra escrita con los nombres de la pareja. */
+function FontsPart() {
+  const { draft, setTheme } = useEditor();
+  const { first, second } = draft.content.couple;
+  return (
+    <Group
+      title="Tipografía"
+      description="Letra de los nombres y los titulares. Los textos largos siguen en una letra fácil de leer."
+    >
+      <div role="radiogroup" aria-label="Tipografía" className="grid gap-3 sm:grid-cols-2">
+        {FONT_IDS.map((id) => {
+          const font = FONTS[id];
+          return (
+            <ChoiceCard
+              key={id}
+              name="tema-font"
+              value={id}
+              checked={draft.theme.font === id}
+              onChange={() => setTheme({ ...draft.theme, font: id })}
+              label={font.label}
+              description={
+                <>
+                  <span
+                    aria-hidden
+                    className="mt-1.5 mb-1 block truncate text-[1.75rem] leading-tight text-ink"
+                    style={{ fontFamily: font.names ?? font.display }}
+                  >
+                    {first} &amp; {second}
+                  </span>
+                  <span
+                    aria-hidden
+                    className="block text-[1.0625rem] leading-tight text-ink-soft"
+                    style={{ fontFamily: font.display }}
+                  >
+                    Guarda la fecha
+                  </span>
+                  <span className="mt-1 block">{font.description}</span>
+                </>
+              }
+            />
+          );
+        })}
+      </div>
+    </Group>
   );
 }
 

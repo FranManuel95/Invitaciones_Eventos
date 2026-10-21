@@ -35,6 +35,17 @@ test.describe("editor de la invitación", () => {
     await expect(page.getByText("Estilo personalizado")).toBeVisible();
   });
 
+  test("la tipografía cambia los nombres de la vista previa", async ({ page }) => {
+    await page.goto("/editor/demo");
+    const preview = page.frameLocator('iframe[title="Vista previa de la invitación"]');
+    await page.getByRole("tab", { name: "Tipografía" }).click();
+    await page.getByRole("radio", { name: /Caligráfica/ }).check({ force: true });
+    const family = await preview
+      .locator("#cover-title")
+      .evaluate((el) => getComputedStyle(el).fontFamily);
+    expect(family).toMatch(/Great Vibes/i);
+  });
+
   test("salta a la pantalla elegida", async ({ page, isMobile }) => {
     await page.goto("/editor/demo");
     if (isMobile) await page.getByRole("button", { name: "Vista previa" }).click();

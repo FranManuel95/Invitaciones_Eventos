@@ -80,7 +80,7 @@ export function LetterStage({
             </p>
             <p
               translate="no"
-              className="letterpress mt-8 font-display text-[1.75rem] leading-tight text-ink"
+              className="letterpress mt-8 font-names text-[1.75rem] leading-tight text-ink"
             >
               {event.couple.first} &amp; {event.couple.second}
             </p>

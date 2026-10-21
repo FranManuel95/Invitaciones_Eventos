@@ -148,7 +148,7 @@ export function CoverStage({ event, onOpen }: { event: WeddingEvent; onOpen: () 
           id="cover-title"
           tabIndex={-1}
           translate="no"
-          className="mt-[14svh] font-display text-[clamp(3.5rem,17vw,8rem)] leading-[0.9] tracking-[-0.01em] outline-none [text-shadow:0_2px_30px_rgb(0_0_0/0.25)]"
+          className="mt-[14svh] font-names text-[clamp(3.5rem,17vw,8rem)] leading-[0.9] tracking-[-0.01em] outline-none [text-shadow:0_2px_30px_rgb(0_0_0/0.25)]"
         >
           <SplitText text={event.couple.first} delay={1.1} animate={!reduce} className="block" />
           <SplitText
