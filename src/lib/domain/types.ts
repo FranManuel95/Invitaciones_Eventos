@@ -155,6 +155,8 @@ export interface GuestGroup {
   persisted?: boolean;
   /** Mesa asignada en el plano. */
   tableId?: string | null;
+  /** Primera vez que el invitado abrió su enlace (null: aún no). */
+  openedAt?: string | null;
   /** Nombre de la mesa (para el pase del invitado). */
   tableName?: string | null;
 }

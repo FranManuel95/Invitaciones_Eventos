@@ -1,6 +1,7 @@
 import { PageHeader } from "@/features/dashboard/ui";
 import { Reminders } from "@/features/guests/reminders";
 import { formatLongDate } from "@/lib/format";
+import { byNeedOfReminder } from "@/lib/guests/opened";
 import { loadOrganizer } from "../load";
 
 export const metadata = { title: "Recordatorios" };
@@ -12,7 +13,8 @@ export const metadata = { title: "Recordatorios" };
 export default async function RemindersPage(props: PageProps<"/panel/[evento]/comunicaciones">) {
   const { event, groups, responses, base } = await loadOrganizer(props.params);
   const answered = new Set(responses.map((r) => r.groupId));
-  const pending = groups.filter((g) => !answered.has(g.id) && !g.demo);
+  // Primero las que nadie ha abierto: son las que más necesitan el recordatorio.
+  const pending = byNeedOfReminder(groups.filter((g) => !answered.has(g.id) && !g.demo));
   return (
     <>
       <PageHeader

@@ -5,7 +5,7 @@ import { useDeferredValue, useState, useSyncExternalStore, useTransition } from 
 import { deleteGroup } from "@/app/panel/[evento]/invitaciones/actions";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
-import { StatusBadge } from "@/features/dashboard/ui";
+import { OpenedBadge, StatusBadge } from "@/features/dashboard/ui";
 import type { AttendanceStatus, GuestGroup } from "@/lib/domain/types";
 import { plural } from "@/lib/guests/share";
 import { CsvImport } from "./csv-import";
@@ -118,6 +118,9 @@ export function InvitationsManager({
                     {g.displayName}
                   </h3>
                   <StatusBadge status={statuses[g.id] ?? "pending"} />
+                  {(statuses[g.id] ?? "pending") === "pending" ? (
+                    <OpenedBadge openedAt={g.openedAt} />
+                  ) : null}
                 </div>
                 <p className="mt-1 text-[0.875rem] text-muted">
                   {g.category} · {g.members.map((m) => m.firstName).join(", ")} ·{" "}

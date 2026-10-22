@@ -4,6 +4,7 @@ import { Check, MessageCircle, RotateCcw } from "lucide-react";
 import { useMemo, useSyncExternalStore } from "react";
 import { Button } from "@/components/ui/button";
 import { TextArea } from "@/components/ui/fields";
+import { OpenedBadge } from "@/features/dashboard/ui";
 import type { GuestGroup } from "@/lib/domain/types";
 import {
   DEFAULT_REMINDER,
@@ -155,7 +156,10 @@ export function Reminders({
                 className="flex flex-wrap items-center justify-between gap-3 p-3 sm:px-4"
               >
                 <div className="min-w-0">
-                  <p className="font-medium text-ink">{g.displayName}</p>
+                  <p className="flex flex-wrap items-center gap-x-2 font-medium text-ink">
+                    {g.displayName}
+                    <OpenedBadge openedAt={g.openedAt} />
+                  </p>
                   <p className="text-[0.8125rem] text-muted">
                     {g.phone ? g.phone : "Sin teléfono: WhatsApp te dejará elegir el chat"}
                   </p>

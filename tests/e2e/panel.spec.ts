@@ -57,3 +57,20 @@ test.describe("panel del organizador", () => {
     });
   }
 });
+
+test.describe("aperturas de las invitaciones", () => {
+  test("el panel distingue las abiertas de las que nadie ha abierto", async ({ page }) => {
+    await page.goto("/panel/demo");
+    await expect(page.getByText(/aún no la han abierto/)).toBeVisible();
+    await page.goto("/panel/demo/invitaciones");
+    await expect(page.getByText("Sin abrir").first()).toBeVisible();
+    await expect(page.getByText(/^Abierta el \d{2}\/\d{2}\/\d{4}$/).first()).toBeVisible();
+    // Los recordatorios empiezan por las que nadie ha abierto.
+    await page.goto("/panel/demo/comunicaciones");
+    const first = page
+      .getByRole("listitem")
+      .filter({ hasText: /Sin abrir|Abierta el/ })
+      .first();
+    await expect(first).toContainText("Sin abrir");
+  });
+});

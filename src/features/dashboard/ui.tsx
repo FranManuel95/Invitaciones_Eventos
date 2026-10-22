@@ -1,7 +1,8 @@
 import { clsx } from "clsx";
-import { Check, Clock, X } from "lucide-react";
+import { Check, Clock, Eye, EyeOff, X } from "lucide-react";
 import type { ReactNode } from "react";
 import type { AttendanceStatus, MenuId } from "@/lib/domain/types";
+import { formatNumericDate } from "@/lib/format";
 
 /** Colores categóricos de menús, validados para daltonismo y contraste (ver docs/DECISIONS.md). */
 export const MENU_COLORS: Record<MenuId, string> = {
@@ -84,6 +85,21 @@ const STATUS: Record<AttendanceStatus, { label: string; icon: typeof Check; clas
   pending: { label: "Pendiente", icon: Clock, className: "bg-warning/10 text-warning" },
   declined: { label: "No asiste", icon: X, className: "bg-danger/10 text-danger" },
 };
+
+/** Si una invitación sin respuesta se ha abierto ya (texto e icono, nunca solo color). */
+export function OpenedBadge({ openedAt }: { openedAt: string | null | undefined }) {
+  return openedAt ? (
+    <span className="inline-flex items-center gap-1 text-xs text-ink-soft">
+      <Eye aria-hidden className="size-3" />
+      Abierta el {formatNumericDate(openedAt)}
+    </span>
+  ) : (
+    <span className="inline-flex items-center gap-1 text-xs text-muted">
+      <EyeOff aria-hidden className="size-3" />
+      Sin abrir
+    </span>
+  );
+}
 
 /** Estado con icono y texto: nunca solo color. */
 export function StatusBadge({ status }: { status: AttendanceStatus }) {

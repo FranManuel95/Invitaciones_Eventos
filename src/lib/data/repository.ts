@@ -138,9 +138,17 @@ export interface OrganizerData {
 /** Datos del panel. `eventKey` es "demo" o el id de un evento del usuario. */
 export async function getOrganizerData(eventKey = DEMO_EVENT_KEY): Promise<OrganizerData | null> {
   if (eventKey === DEMO_EVENT_KEY) {
+    // En la demo, las que han respondido la abrieron antes; de las demás, una de cada dos.
+    const answeredAt = new Map(demoResponses.map((r) => [r.groupId, r.updatedAt]));
     return {
       event: demoEvent,
-      groups: demoGroups.map((g) => ({ ...g, tableId: demoAssignment[g.id] ?? null })),
+      groups: demoGroups.map((g, i) => ({
+        ...g,
+        tableId: demoAssignment[g.id] ?? null,
+        openedAt:
+          answeredAt.get(g.id) ??
+          (i % 2 ? `2026-09-${String(10 + (i % 18)).padStart(2, "0")}T19:00:00Z` : null),
+      })),
       responses: demoResponses,
       tables: demoTables,
     };
@@ -149,7 +157,7 @@ export async function getOrganizerData(eventKey = DEMO_EVENT_KEY): Promise<Organ
   const supabase = await createSessionClient();
   if (!supabase) return null;
 
-  const [eventRes, groupsRes, responsesRes, tablesRes] = await Promise.all([
+  const [eventRes, groupsRes, responsesRes, tablesRes, openedRes] = await Promise.all([
     supabase
       .from("events")
       .select("id, slug, status, phase, content, published_at")
@@ -169,8 +177,16 @@ export async function getOrganizerData(eventKey = DEMO_EVENT_KEY): Promise<Organ
       .select("id, name, shape, seats, x, y")
       .eq("event_id", eventKey)
       .order("name"),
+    // Aperturas (migración «aperturas_invitacion»): si la columna aún no existe, sin datos.
+    supabase.from("guest_groups").select("id, opened_at").eq("event_id", eventKey),
   ]);
   if (eventRes.error || !eventRes.data) return null;
+  const openedAt = new Map(
+    (openedRes.error
+      ? []
+      : ((openedRes.data ?? []) as { id: string; opened_at: string | null }[])
+    ).map((o) => [o.id, o.opened_at]),
+  );
 
   const content = eventContentSchema.safeParse(eventRes.data.content);
   if (!content.success) return null;
@@ -203,6 +219,7 @@ export async function getOrganizerData(eventKey = DEMO_EVENT_KEY): Promise<Organ
       })),
       tableId: g.table_id,
       tableName: g.table_id ? (tableName.get(g.table_id) ?? null) : null,
+      openedAt: openedAt.get(g.id) ?? null,
       persisted: true,
     };
   });

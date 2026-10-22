@@ -1,5 +1,6 @@
 "use client";
 
+import { markOpened } from "@/app/actions/opened";
 import type { GiftStatus } from "@/lib/gifts";
 import { Volume2, VolumeX } from "lucide-react";
 import { domAnimation, LazyMotion, MotionConfig, useReducedMotion } from "motion/react";
@@ -122,6 +123,19 @@ export function InvitationExperience({
   }, [openedBefore, initialStage, preload]);
 
   useEffect(() => () => stopAmbient(0.3), []);
+
+  // Invitaciones reales: avisa una vez por sesión de que se ha abierto (para el panel).
+  useEffect(() => {
+    if (!group.persisted || preview) return;
+    const key = `invitacion:${group.token}:vista`;
+    try {
+      if (window.sessionStorage.getItem(key)) return;
+      window.sessionStorage.setItem(key, "1");
+    } catch {
+      // Sin almacenamiento se avisa igualmente; el servidor ignora repeticiones seguidas.
+    }
+    void markOpened(group.token).catch(() => {});
+  }, [group.persisted, group.token, preview]);
 
   const go = useCallback(
     (next: Stage) => {

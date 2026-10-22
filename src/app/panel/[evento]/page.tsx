@@ -1,3 +1,4 @@
+import { openSummary } from "@/lib/guests/opened";
 import Link from "next/link";
 import { DEMO_REFERENCE_DATE } from "@/data/demo/guests";
 import { ConfirmationsChart, DonutChart } from "@/features/dashboard/charts";
@@ -56,6 +57,7 @@ export default async function PanelHome(props: PageProps<"/panel/[evento]">) {
   const reference = isDemo ? `${DEMO_REFERENCE_DATE}T12:00:00Z` : new Date().toISOString();
   const daysLeft = Math.ceil((Date.parse(event.date) - Date.parse(reference)) / 86_400_000);
   const pendingGroups = summary.groups - summary.respondedGroups;
+  const opened = openSummary(groups, new Set(responses.map((r) => r.groupId)));
 
   return (
     <>
@@ -69,7 +71,7 @@ export default async function PanelHome(props: PageProps<"/panel/[evento]">) {
       ) : null}
       <PageHeader
         title={`Hola, ${event.couple.first}`}
-        description={`Faltan ${daysLeft} días para la boda. Han respondido ${summary.respondedGroups} de ${summary.groups} invitaciones; quedan ${pendingGroups} por contestar.`}
+        description={`Faltan ${daysLeft} días para la boda. Han respondido ${summary.respondedGroups} de ${summary.groups} invitaciones; quedan ${pendingGroups} por contestar${opened["sin-abrir"] ? ` y ${opened["sin-abrir"]} aún no la han abierto` : ""}.`}
         actions={
           <div className="flex flex-wrap gap-2">
             <Link
