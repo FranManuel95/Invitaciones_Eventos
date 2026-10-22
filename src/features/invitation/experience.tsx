@@ -71,6 +71,7 @@ export function InvitationExperience({
   initialStage,
   preview = false,
   phase = "invitacion",
+  albumToken = null,
 }: {
   event: WeddingEvent;
   group: GuestGroup;
@@ -82,6 +83,8 @@ export function InvitationExperience({
   preview?: boolean;
   /** «save_the_date»: aviso corto (fecha y calendario) antes de la invitación completa. */
   phase?: "save_the_date" | "invitacion";
+  /** Token del álbum de fotos de los invitados (enlace al final de la invitación). */
+  albumToken?: string | null;
   /** Respuesta guardada en el servidor (invitaciones reales); undefined en la demo. */
   initialResponse?: RsvpResponse | null;
 }) {
@@ -257,6 +260,7 @@ export function InvitationExperience({
                     hidden={theme.hidden}
                     order={theme.order}
                     phase={phase}
+                    albumToken={albumToken}
                     badge={badge}
                   />
                 </ViewTransition>

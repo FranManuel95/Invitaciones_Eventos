@@ -60,6 +60,7 @@ export default async function InvitationPage(props: PageProps<"/i/[token]">) {
       initialResponse={invitation.response}
       theme={theme}
       phase={phase}
+      albumToken={invitation.albumToken}
     />
   );
 }

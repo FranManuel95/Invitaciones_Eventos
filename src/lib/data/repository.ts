@@ -30,6 +30,8 @@ export interface Invitation {
   group: GuestGroup;
   theme: Theme;
   phase: EventPhase;
+  /** Token del álbum de fotos de los invitados (null si no hay). */
+  albumToken: string | null;
   /** Respuesta ya guardada en el servidor (null si aún no ha respondido; undefined en la demo). */
   response?: RsvpResponse | null;
 }
@@ -41,7 +43,15 @@ export async function getEvent(): Promise<WeddingEvent> {
 /** Una sola consulta por petición aunque la usen los metadatos y la página (cache de React). */
 export const getInvitation = cache(async (token: string): Promise<Invitation | null> => {
   const demo = demoGroups.find((g) => g.token === token);
-  if (demo) return { event: demoEvent, group: demo, theme: DEFAULT_THEME, phase: "invitacion" };
+  if (demo) {
+    return {
+      event: demoEvent,
+      group: demo,
+      theme: DEFAULT_THEME,
+      phase: "invitacion",
+      albumToken: "demo",
+    };
+  }
   return getLiveInvitation(token);
 });
 
@@ -66,6 +76,7 @@ async function getLiveInvitation(token: string): Promise<Invitation | null> {
     };
     theme: unknown;
     phase?: string;
+    albumToken?: string;
     response: unknown;
   };
   const content = eventContentSchema.safeParse(raw.event);
@@ -88,6 +99,7 @@ async function getLiveInvitation(token: string): Promise<Invitation | null> {
     },
     theme: parseTheme(raw.theme),
     phase: raw.phase === "save_the_date" ? "save_the_date" : "invitacion",
+    albumToken: raw.albumToken ?? null,
     response: response?.success ? response.data : null,
   };
 }

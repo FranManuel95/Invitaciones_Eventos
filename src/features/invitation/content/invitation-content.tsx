@@ -67,6 +67,8 @@ export interface InvitationContentProps {
   order?: readonly SectionId[];
   /** En «save_the_date» solo se ven la fecha y el calendario, sin confirmación. */
   phase?: "save_the_date" | "invitacion";
+  /** Token del álbum de fotos (null: sin álbum). */
+  albumToken?: string | null;
 }
 
 /** Pantallas 4 a 7 · La invitación completa con secciones y RSVP. */
@@ -80,6 +82,7 @@ export function InvitationContent({
   hidden = NO_HIDDEN,
   order = DEFAULT_ORDER,
   phase = "invitacion",
+  albumToken = null,
 }: InvitationContentProps) {
   const early = phase === "save_the_date";
   const shows = (id: SectionId) => !hidden.includes(id);
@@ -280,6 +283,27 @@ export function InvitationContent({
               </Fragment>
             ))}
             <RsvpSection event={event} group={group} />
+            {albumToken ? (
+              <section aria-labelledby="album-title" className="border-t border-line bg-paper">
+                <div className="mx-auto flex max-w-5xl flex-col gap-4 px-6 py-14 sm:flex-row sm:items-center sm:justify-between sm:px-10">
+                  <div>
+                    <h2
+                      id="album-title"
+                      className="font-display text-[1.75rem] leading-tight text-ink"
+                    >
+                      El álbum de la boda
+                    </h2>
+                    <p className="mt-1 max-w-[46ch] text-[0.9375rem] leading-relaxed text-muted">
+                      Ese día, sube aquí las fotos que hagas. Las mesas tendrán también un código
+                      QR.
+                    </p>
+                  </div>
+                  <a href={`/album/${albumToken}`} className={buttonClasses("secondary", "lg")}>
+                    Abrir el álbum
+                  </a>
+                </div>
+              </section>
+            ) : null}
           </main>
         </>
       )}

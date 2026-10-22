@@ -6,6 +6,7 @@ import {
   CalendarCheck,
   ClipboardList,
   Home,
+  Images,
   LayoutGrid,
   Mail,
   Send,
@@ -28,6 +29,7 @@ const GUESTS: Item[] = [
   { path: "/menus", label: "Menús", icon: UtensilsCrossed },
   { path: "/mesas", label: "Mesas", icon: LayoutGrid },
   { path: "/comunicaciones", label: "Recordatorios", icon: Send },
+  { path: "/album", label: "Álbum", icon: Images },
 ];
 
 const PLANNING: Item[] = [
