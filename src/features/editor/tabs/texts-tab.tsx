@@ -23,6 +23,18 @@ export function TextsTab() {
           maxLength={1200}
         />
       </Group>
+      <Group
+        title="Después de la boda"
+        description="Desde el día siguiente, la invitación da las gracias y enlaza al álbum de fotos."
+      >
+        <TextField
+          label="Mensaje de agradecimiento"
+          hint="Si lo dejáis vacío, se usa uno breve por defecto."
+          path={["thankYouMessage"]}
+          multiline
+          maxLength={800}
+        />
+      </Group>
       <Group title="Código de vestimenta">
         <TextField label="Estilo" path={["dressCode", "title"]} maxLength={80} />
         <TextField label="Detalles" path={["dressCode", "detail"]} multiline maxLength={400} />

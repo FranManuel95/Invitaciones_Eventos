@@ -14,7 +14,8 @@ import { useSavedResponse } from "../rsvp/use-saved-response";
 import { GiftSection } from "./gift-section";
 import { EMPTY_GIFT_STATUS, type GiftStatus } from "@/lib/gifts";
 import { ResponseStatus } from "./response-status";
-import { dayClock, liveProgram } from "@/lib/day-mode";
+import { dayClock, isAfterEvent, liveProgram } from "@/lib/day-mode";
+import { ThankYou } from "./thank-you";
 import { LiveDay } from "./live-day";
 import { SaveTheDate, SaveTheDateOnly } from "./save-the-date";
 import { SECTION_IDS, type CalendarId, type SectionId } from "@/lib/theme";
@@ -113,6 +114,8 @@ export function InvitationContent({
     return () => window.clearInterval(id);
   }, [clock.active, clock.simulated, event]);
   const live = clock.active ? liveProgram(event.program, clock.minutes) : null;
+  // Después de la boda: gracias y fotos en vez de confirmar (en la demo, ?dia=despues).
+  const [after] = useState(() => !early && isAfterEvent(event, new Date(), window.location.search));
   const titleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
@@ -135,7 +138,7 @@ export function InvitationContent({
 
   return (
     <div className="bg-ivory">
-      {early ? null : (
+      {early || after ? null : (
         <a
           href="#confirmar"
           className="sr-only-focusable fixed top-2 left-2 z-50 rounded-md bg-ink px-4 py-2 text-sm text-paper"
@@ -182,7 +185,7 @@ export function InvitationContent({
                     {event.city}, {event.region}
                   </span>
                 </p>
-                {clock.active ? null : (
+                {clock.active || after ? null : (
                   <div className="mt-3 flex flex-wrap items-baseline gap-x-5 gap-y-1 text-[0.9375rem]">
                     <DaysLeft date={event.date} className="text-muted" />
                     <a
@@ -203,12 +206,16 @@ export function InvitationContent({
                   <a href="#en-directo" className={buttonClasses("primary", "lg")}>
                     Qué pasa ahora
                   </a>
+                ) : after ? (
+                  <a href="#gracias-title" className={buttonClasses("primary", "lg")}>
+                    Leer nuestro agradecimiento
+                  </a>
                 ) : (
                   <a href="#confirmar" className={buttonClasses("primary", "lg")}>
                     Confirmar asistencia
                   </a>
                 )}
-                {early ? null : (
+                {early || after ? null : (
                   <a href="#programa" className={buttonClasses("secondary", "lg")}>
                     Ver el programa
                   </a>
@@ -221,16 +228,19 @@ export function InvitationContent({
       </ViewTransition>
 
       {clock.active ? <LiveDay event={event} clock={clock} /> : null}
+      {after ? <ThankYou event={event} albumToken={albumToken} /> : null}
 
       {early ? (
         <SaveTheDateOnly event={event} calendar={calendar} />
       ) : (
         <>
-          <aside aria-label="Tu respuesta" className="border-t border-line bg-paper">
-            <div className="mx-auto max-w-5xl px-6 py-4 sm:px-10">
-              <ResponseStatus event={event} group={group} />
-            </div>
-          </aside>
+          {after ? null : (
+            <aside aria-label="Tu respuesta" className="border-t border-line bg-paper">
+              <div className="mx-auto max-w-5xl px-6 py-4 sm:px-10">
+                <ResponseStatus event={event} group={group} />
+              </div>
+            </aside>
+          )}
 
           <nav
             aria-label="Secciones de la invitación"
@@ -240,22 +250,24 @@ export function InvitationContent({
               ref={navRef}
               className="relative mx-auto flex max-w-5xl [scrollbar-width:none] gap-6 overflow-x-auto px-6 sm:px-10"
             >
-              {nav.map((item) => (
-                <li key={item.id} className="shrink-0">
-                  <a
-                    href={`#${item.id}`}
-                    aria-current={active === item.id ? "true" : undefined}
-                    className={clsx(
-                      "block border-b-2 py-3.5 text-[0.9375rem] transition-colors",
-                      active === item.id
-                        ? "border-ink text-ink"
-                        : "border-transparent text-muted hover:text-ink",
-                    )}
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
+              {nav
+                .filter((item) => !(after && item.id === "confirmar"))
+                .map((item) => (
+                  <li key={item.id} className="shrink-0">
+                    <a
+                      href={`#${item.id}`}
+                      aria-current={active === item.id ? "true" : undefined}
+                      className={clsx(
+                        "block border-b-2 py-3.5 text-[0.9375rem] transition-colors",
+                        active === item.id
+                          ? "border-ink text-ink"
+                          : "border-transparent text-muted hover:text-ink",
+                      )}
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
             </ul>
           </nav>
 
@@ -293,7 +305,7 @@ export function InvitationContent({
                 }
               </Fragment>
             ))}
-            <RsvpSection event={event} group={group} />
+            {after ? null : <RsvpSection event={event} group={group} />}
             {albumToken ? (
               <section aria-labelledby="album-title" className="border-t border-line bg-paper">
                 <div className="mx-auto flex max-w-5xl flex-col gap-4 px-6 py-14 sm:flex-row sm:items-center sm:justify-between sm:px-10">
@@ -305,8 +317,9 @@ export function InvitationContent({
                       El álbum de la boda
                     </h2>
                     <p className="mt-1 max-w-[46ch] text-[0.9375rem] leading-relaxed text-muted">
-                      Ese día, sube aquí las fotos que hagas. Las mesas tendrán también un código
-                      QR.
+                      {after
+                        ? "Las fotos que hicisteis ese día. Si te queda alguna en el móvil, aún puedes subirla."
+                        : "Ese día, sube aquí las fotos que hagas. Las mesas tendrán también un código QR."}
                     </p>
                   </div>
                   <a href={`/album/${albumToken}`} className={buttonClasses("secondary", "lg")}>

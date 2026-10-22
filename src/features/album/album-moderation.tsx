@@ -8,6 +8,7 @@ import { deletePhoto, setPhotoStatus } from "@/app/panel/[evento]/album/actions"
 import { QrCode } from "@/components/qr-code";
 import { buttonClasses } from "@/components/ui/button";
 import type { AlbumPhoto } from "@/lib/data/album";
+import { DownloadAll } from "./download-all";
 
 type Filter = "pending" | "approved" | "hidden";
 
@@ -81,6 +82,12 @@ export function AlbumModeration({
               {f.label} ({count(f.id)})
             </button>
           ))}
+        </div>
+        <div className="mt-3">
+          <DownloadAll
+            urls={photos.filter((p) => (p.status ?? "approved") === "approved").map((p) => p.url)}
+            couple={couple}
+          />
         </div>
         <p role="status" aria-live="polite" className="mt-2 text-[0.875rem] text-danger">
           {error}

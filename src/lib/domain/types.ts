@@ -98,6 +98,8 @@ export interface WeddingEvent {
   hashtag: string;
   cardMessage: string;
   welcomeMessage: string;
+  /** Agradecimiento que ven los invitados después de la boda (si falta, uno por defecto). */
+  thankYouMessage?: string;
   program: ProgramItem[];
   venues: Venue[];
   busRoutes: BusRoute[];

@@ -65,6 +65,11 @@ const VARIANTS = [
         text: "Qué está pasando ahora y qué viene después (simulado a las 19:10).",
       },
       {
+        href: "/i/carlos-ruiz?dia=despues",
+        label: "Después de la boda",
+        text: "El agradecimiento de la pareja y el álbum, en el mismo enlace.",
+      },
+      {
         href: "/i/carlos-ruiz",
         label: "Lista de regalos",
         text: "Pulsa «Saltar intro» y baja hasta Regalos: reserva uno para que nadie lo repita.",

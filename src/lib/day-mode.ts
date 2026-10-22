@@ -61,6 +61,21 @@ export function dayClock(event: WeddingEvent, now: Date, search = ""): DayClock 
   return { active: false, minutes: 0, simulated: false };
 }
 
+/**
+ * ¿Ya pasó la boda? A partir de las 06:00 del día siguiente la invitación da las gracias en vez
+ * de pedir confirmación. En la demo se fuerza con ?dia=despues.
+ */
+export function isAfterEvent(event: WeddingEvent, now: Date, search = ""): boolean {
+  const params = new URLSearchParams(search);
+  if (params.get("dia") === "despues") return true;
+  if (params.get("dia") === "boda") return false;
+  const next = new Date(`${event.date.slice(0, 10)}T12:00:00Z`);
+  next.setUTCDate(next.getUTCDate() + 1);
+  const nextDay = next.toISOString().slice(0, 10);
+  const { day, time } = madridParts(now);
+  return day > nextDay || (day === nextDay && time >= "06:00");
+}
+
 export interface LiveProgram {
   current: ProgramItem | null;
   next: ProgramItem | null;

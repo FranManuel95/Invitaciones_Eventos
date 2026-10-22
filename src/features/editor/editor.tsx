@@ -41,7 +41,7 @@ const TABS = [
     id: "textos",
     label: "Textos",
     Panel: TextsTab,
-    roots: ["cardMessage", "welcomeMessage", "dressCode", "gift"],
+    roots: ["cardMessage", "welcomeMessage", "thankYouMessage", "dressCode", "gift"],
   },
   { id: "programa", label: "Programa y lugares", Panel: ProgramTab, roots: ["program", "venues"] },
   {

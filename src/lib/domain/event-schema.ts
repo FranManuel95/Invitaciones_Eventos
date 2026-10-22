@@ -26,6 +26,8 @@ export const eventContentSchema = z.object({
   hashtag: text(60),
   cardMessage: text(400),
   welcomeMessage: text(1200),
+  // Opcional en el contenido guardado antes de existir.
+  thankYouMessage: text(800).optional(),
   program: z
     .array(
       z.object({

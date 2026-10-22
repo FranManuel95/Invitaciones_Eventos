@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { demoEvent } from "@/data/demo/event";
-import { dayClock, formatIn, liveProgram, nextReturns, toMinutes } from "@/lib/day-mode";
+import {
+  dayClock,
+  formatIn,
+  isAfterEvent,
+  liveProgram,
+  nextReturns,
+  toMinutes,
+} from "@/lib/day-mode";
 
 describe("modo día de la boda", () => {
   it("cuenta la madrugada como parte de la noche del evento", () => {
@@ -38,5 +45,20 @@ describe("modo día de la boda", () => {
     });
     expect(dayClock(demoEvent, new Date("2027-05-21T16:00:00Z")).active).toBe(false);
     expect(dayClock(demoEvent, new Date("2027-05-23T10:00:00Z")).active).toBe(false);
+  });
+});
+
+describe("después de la boda", () => {
+  // La boda de la demo es el 22 de mayo de 2027 (hora de Madrid, UTC+2).
+  it("empieza a las 06:00 del día siguiente, cuando acaba el modo día", () => {
+    expect(isAfterEvent(demoEvent, new Date("2027-05-22T20:00:00Z"))).toBe(false);
+    expect(isAfterEvent(demoEvent, new Date("2027-05-23T03:30:00Z"))).toBe(false); // 05:30
+    expect(isAfterEvent(demoEvent, new Date("2027-05-23T04:00:00Z"))).toBe(true); // 06:00
+    expect(isAfterEvent(demoEvent, new Date("2027-07-01T10:00:00Z"))).toBe(true);
+    expect(isAfterEvent(demoEvent, new Date("2027-04-01T10:00:00Z"))).toBe(false);
+  });
+
+  it("en la demo se puede ver con ?dia=despues", () => {
+    expect(isAfterEvent(demoEvent, new Date("2026-01-01T00:00:00Z"), "?dia=despues")).toBe(true);
   });
 });
