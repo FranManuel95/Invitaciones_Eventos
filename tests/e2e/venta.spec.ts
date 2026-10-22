@@ -54,4 +54,27 @@ test.describe("página de venta", () => {
     await expect(page).toHaveURL(/apertura=caja/);
     await expect(page.getByRole("heading", { level: 1, name: /María/ })).toBeAttached();
   });
+
+  test("los textos legales se enlazan desde el pie y marcan los datos que faltan", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await page.getByRole("link", { name: "Privacidad", exact: true }).click();
+    await expect(
+      page.getByRole("heading", { level: 1, name: "Política de privacidad" }),
+    ).toBeVisible();
+    // En las pruebas no hay datos del titular: se ven los huecos por rellenar.
+    await expect(page.getByText(/Texto en preparación/)).toBeVisible();
+    await expect(page.getByText("[pendiente: NIF]").first()).toBeVisible();
+    await page.getByRole("link", { name: "Aviso legal", exact: true }).click();
+    await expect(page.getByRole("heading", { level: 1, name: "Aviso legal" })).toBeVisible();
+    const { violations } = await new AxeBuilder({ page }).analyze();
+    const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
+    expect(serious.map((v) => v.id)).toEqual([]);
+  });
+
+  test("sin dominio propio, robots.txt no deja indexar nada", async ({ request }) => {
+    const robots = await (await request.get("/robots.txt")).text();
+    expect(robots).toMatch(/Disallow: \/\s*$/m);
+  });
 });

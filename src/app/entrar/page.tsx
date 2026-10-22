@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Monogram } from "@/features/invitation/ornaments";
+import { signupOpen } from "@/lib/site";
 import { createSessionClient } from "@/lib/supabase/server";
 import { LoginForm } from "./login-form";
 
@@ -30,7 +31,7 @@ export default async function LoginPage(props: PageProps<"/entrar">) {
           Crea y gestiona vuestras invitaciones.
         </p>
         {supabase ? (
-          <LoginForm next={next} />
+          <LoginForm next={next} signup={signupOpen()} />
         ) : (
           <p className="rounded-md border border-line bg-paper p-4 text-[0.9375rem] text-ink-soft">
             Este entorno funciona en modo demostración, sin cuentas.
@@ -39,6 +40,15 @@ export default async function LoginPage(props: PageProps<"/entrar">) {
         {params.error === "enlace" ? (
           <p className="mt-4 text-center text-[0.875rem] text-danger">
             El enlace ha caducado o ya se usó. Entra con tu email y contraseña.
+          </p>
+        ) : null}
+        {supabase && !signupOpen() ? (
+          <p className="mt-6 text-center text-[0.875rem] text-muted">
+            ¿Aún no tenéis cuenta?{" "}
+            <Link href="/#pedir" className="text-ink underline decoration-gold underline-offset-4">
+              Pedid vuestra invitación
+            </Link>{" "}
+            y os la preparamos.
           </p>
         ) : null}
         <p className="mt-8 text-center text-[0.875rem] text-muted">

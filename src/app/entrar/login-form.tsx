@@ -9,7 +9,7 @@ import { createBrowserSupabase } from "@/lib/supabase/browser";
 type Mode = "entrar" | "crear";
 
 /** Acceso de los novios u organizadores: email y contraseña (Supabase Auth). */
-export function LoginForm({ next }: { next: string }) {
+export function LoginForm({ next, signup = true }: { next: string; signup?: boolean }) {
   const router = useRouter();
   const [mode, setMode] = useState<Mode>("entrar");
   const [busy, setBusy] = useState(false);
@@ -68,7 +68,13 @@ export function LoginForm({ next }: { next: string }) {
 
   return (
     <div>
-      <div role="tablist" aria-label="Acceso" className="grid grid-cols-2 rounded-md bg-ink/5 p-1">
+      {/* Con el alta cerrada solo se entra: las cuentas se piden por el formulario de la portada. */}
+      <div
+        role="tablist"
+        aria-label="Acceso"
+        hidden={!signup}
+        className="grid grid-cols-2 rounded-md bg-ink/5 p-1"
+      >
         {(
           [
             ["entrar", "Entrar"],

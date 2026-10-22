@@ -1,6 +1,7 @@
 "use client";
 
 import { Check } from "lucide-react";
+import Link from "next/link";
 import { useActionState, type ReactNode } from "react";
 import { requestContact, type ContactResult } from "@/app/actions/contact";
 import { Button } from "@/components/ui/button";
@@ -64,7 +65,11 @@ export function ContactForm() {
         <input id="contacto-web" name="web" tabIndex={-1} autoComplete="off" />
       </div>
       <p className="text-[0.8125rem] text-muted">
-        Solo usaremos estos datos para responderos. No los compartimos con nadie.
+        Solo usaremos estos datos para responderos. No los compartimos con nadie. Más detalles en la{" "}
+        <Link href="/privacidad" className="text-ink underline decoration-gold underline-offset-4">
+          política de privacidad
+        </Link>
+        .
       </p>
       <div className="flex flex-wrap items-center gap-4">
         <Button type="submit" size="lg" disabled={pending}>

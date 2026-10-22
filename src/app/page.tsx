@@ -1,14 +1,20 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { buttonClasses } from "@/components/ui/button";
 import { ContactForm } from "@/features/sales/contact-form";
 import { BlossomCorner } from "@/features/invitation/ornaments";
 import { PRICE_EUR } from "@/lib/sales/contact";
+import { siteUrl } from "@/lib/site";
 
-export const metadata = {
-  title: { absolute: "Invitaciones de boda que se abren como una carta" },
-  description:
-    "Invitación digital con sobre, lacre y carta, confirmaciones, mesas, menús y lista de regalos. Pago único de 129 €.",
-};
+export function generateMetadata(): Metadata {
+  const url = siteUrl();
+  return {
+    title: { absolute: "Invitaciones de boda que se abren como una carta" },
+    description: `Invitación digital con sobre, lacre y carta, confirmaciones, mesas, menús y lista de regalos. Pago único de ${PRICE_EUR} €.`,
+    // Solo con dominio propio: las direcciones de prueba de Vercel no deben indexarse.
+    ...(url ? { robots: { index: true, follow: true }, alternates: { canonical: url } } : {}),
+  };
+}
 
 /** Lo que vive cada invitado, en orden: es una secuencia, por eso va numerada. */
 const GUEST_STEPS = [
@@ -267,9 +273,17 @@ export default function SalesPage() {
       <footer className="border-t border-line">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-8 text-[0.875rem] text-muted sm:px-10">
           <p>Invitaciones digitales para bodas.</p>
-          <Link href="/ejemplos" className={linkClass}>
-            Ver todos los ejemplos
-          </Link>
+          <nav aria-label="Pie de página" className="flex flex-wrap gap-x-6 gap-y-2">
+            <Link href="/ejemplos" className={linkClass}>
+              Ver todos los ejemplos
+            </Link>
+            <Link href="/aviso-legal" className={linkClass}>
+              Aviso legal
+            </Link>
+            <Link href="/privacidad" className={linkClass}>
+              Privacidad
+            </Link>
+          </nav>
         </div>
       </footer>
     </div>
