@@ -1,12 +1,13 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Copy } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { buttonClasses } from "@/components/ui/button";
 import { Monogram } from "@/features/invitation/ornaments";
 import { listMyEvents } from "@/lib/data/repository";
 import { formatLongDate } from "@/lib/format";
 import { createSessionClient } from "@/lib/supabase/server";
-import { signOut } from "./actions";
+import { duplicateEvent, signOut } from "./actions";
 import { CreateEventForm } from "./create-event-form";
 
 export const metadata: Metadata = { title: "Mis eventos" };
@@ -41,17 +42,17 @@ export default async function MyEventsPage() {
         {events.length ? (
           <ul className="mt-6 border-t border-line">
             {events.map((e) => (
-              <li key={e.id} className="border-b border-line">
+              <li key={e.id} className="flex items-center gap-3 border-b border-line">
                 <Link
                   href={`/panel/${e.id}`}
-                  className="group flex items-center justify-between gap-4 py-5"
+                  className="group flex min-w-0 flex-1 items-center justify-between gap-4 py-5"
                 >
                   <span>
                     <span className="block font-display text-[1.625rem] leading-tight text-ink">
                       {e.couple}
                     </span>
                     <span className="mt-1 block text-[0.9375rem] text-muted">
-                      {e.date ? formatLongDate(e.date) : "Sin fecha"} ·{" "}
+                      {e.date ? formatLongDate(e.date) : "Sin fecha"}.{" "}
                       {e.status === "published" ? "Publicada" : "Borrador"}
                     </span>
                   </span>
@@ -60,6 +61,13 @@ export default async function MyEventsPage() {
                     className="size-5 shrink-0 text-ink-soft transition-transform group-hover:translate-x-1"
                   />
                 </Link>
+                <form action={duplicateEvent}>
+                  <input type="hidden" name="eventId" value={e.id} />
+                  <button type="submit" className={buttonClasses("ghost", "sm")}>
+                    <Copy aria-hidden className="size-4" />
+                    Duplicar<span className="sr-only"> {e.couple}</span>
+                  </button>
+                </form>
               </li>
             ))}
           </ul>

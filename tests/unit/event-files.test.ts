@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   removeEventFiles,
   removeUnusedEventFiles,
+  rewriteMediaRefs,
   unusedFiles,
   type StorageLike,
 } from "@/lib/data/event-files";
@@ -118,5 +119,24 @@ describe("limpieza de archivos sustituidos", () => {
       removed: 2,
     });
     expect(removed).toEqual([[`${EVENT}/foto-0.webp`, `${EVENT}/foto-1.webp`]]);
+  });
+});
+
+describe("fotos al duplicar un evento", () => {
+  it("cambia las rutas del evento original por las del nuevo y lista qué copiar", () => {
+    const base = "https://p.supabase.co/storage/v1/object/public/event-media";
+    const otherEvent = "33333333-3333-3333-3333-333333333333";
+    const json = JSON.stringify({
+      coverPhoto: `${base}/${EVENT}/portada.webp`,
+      depth: `${base}/${EVENT}/portada-profundidad.png`,
+      again: `${base}/${EVENT}/portada.webp`,
+      foreign: `${base}/${otherEvent}/x.webp`,
+      demo: "/fotos/finca.jpg",
+    });
+    const { names, json: out } = rewriteMediaRefs(json, EVENT, "nuevo-id");
+    expect(names).toEqual(["portada.webp", "portada-profundidad.png"]);
+    expect(out).toContain(`${base}/nuevo-id/portada.webp`);
+    expect(out).not.toContain(`${base}/${EVENT}/`);
+    expect(out).toContain(`${base}/${otherEvent}/x.webp`);
   });
 });

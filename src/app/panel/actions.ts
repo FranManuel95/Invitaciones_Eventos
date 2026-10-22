@@ -4,7 +4,7 @@ import { randomBytes, randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { showcaseGroups } from "@/data/demo/guests";
-import { removeUnusedEventFiles } from "@/lib/data/event-files";
+import { removeUnusedEventFiles, rewriteMediaRefs } from "@/lib/data/event-files";
 import { buildNewEventContent, slugFor, validateNewEvent } from "@/lib/events/new-event";
 import { createSessionClient } from "@/lib/supabase/server";
 
@@ -112,6 +112,64 @@ export async function publishEvent(
   ).catch(() => null);
   revalidatePath(`/panel/${eventId}`, "layout");
   return { error: null };
+}
+
+/**
+ * Duplica un evento: el contenido y el diseño, sin invitados ni respuestas. Las fotos se copian
+ * a la carpeta del nuevo, para que borrar o limpiar el original no deje la copia sin ellas.
+ */
+export async function duplicateEvent(form: FormData) {
+  const eventId = String(form.get("eventId") ?? "");
+  if (!/^[0-9a-f-]{36}$/.test(eventId)) return;
+  const supabase = await requireUser();
+  const { data: original } = await supabase
+    .from("events")
+    .select("content, theme")
+    .eq("id", eventId)
+    .maybeSingle();
+  if (!original) return;
+  const content = original.content as {
+    couple?: { first?: string; second?: string };
+    date?: string;
+  };
+  const id = randomUUID();
+  const { error } = await supabase.from("events").insert({
+    id,
+    slug: slugFor(
+      {
+        first: content.couple?.first ?? "evento",
+        second: content.couple?.second ?? "copia",
+        date: (content.date ?? "").slice(0, 10),
+      },
+      randomBytes(3).toString("hex"),
+    ),
+    content: original.content,
+    theme: original.theme,
+  });
+  if (error) return;
+
+  // Ya es miembro del nuevo evento: copia las fotos y cambia las rutas de las que se copiaron.
+  const json = JSON.stringify(original.content);
+  const { names } = rewriteMediaRefs(json, eventId, id);
+  const copied: string[] = [];
+  for (const name of names) {
+    const { error: copyError } = await supabase.storage
+      .from("event-media")
+      .copy(`${eventId}/${name}`, `${id}/${name}`);
+    if (!copyError) copied.push(name);
+  }
+  if (copied.length) {
+    let next = json;
+    for (const name of copied) {
+      next = next.replaceAll(`/event-media/${eventId}/${name}`, `/event-media/${id}/${name}`);
+    }
+    await supabase
+      .from("events")
+      .update({ content: JSON.parse(next) })
+      .eq("id", id);
+  }
+  revalidatePath("/panel");
+  redirect(`/editor/${id}`);
 }
 
 export async function signOut() {

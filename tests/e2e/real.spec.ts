@@ -112,5 +112,15 @@ test.describe("recorrido real con Supabase", () => {
     await budgetDialog.getByRole("button", { name: "Añadir partida" }).click();
     await page.reload();
     await expect(page.getByText("Fotografía", { exact: true })).toBeVisible();
+
+    // Duplicar: abre el editor de un evento nuevo con el mismo diseño.
+    await page.goto("/panel");
+    await page
+      .getByRole("listitem")
+      .filter({ has: page.locator(`a[href="${eventUrl}"]`) })
+      .getByRole("button", { name: /^Duplicar/ })
+      .click();
+    await expect(page).toHaveURL(/\/editor\/[0-9a-f-]{36}$/, { timeout: 20_000 });
+    expect(page.url()).not.toContain(eventId);
   });
 });

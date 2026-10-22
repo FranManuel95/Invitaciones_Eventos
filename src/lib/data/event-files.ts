@@ -96,3 +96,13 @@ export async function removeUnusedEventFiles(
   }
   return { ok: true, removed: paths.length };
 }
+
+/**
+ * Al duplicar un evento, sus fotos se copian a la carpeta del nuevo: busca en el contenido (JSON)
+ * los archivos del original y devuelve sus nombres y el JSON con las rutas ya cambiadas.
+ */
+export function rewriteMediaRefs(json: string, fromId: string, toId: string) {
+  const pattern = new RegExp(`/event-media/${fromId}/([\\w.-]+)`, "g");
+  const names = [...new Set([...json.matchAll(pattern)].map((m) => m[1]!))];
+  return { names, json: json.replace(pattern, `/event-media/${toId}/$1`) };
+}
