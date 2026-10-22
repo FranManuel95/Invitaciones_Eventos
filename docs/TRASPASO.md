@@ -10,15 +10,17 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 - **Vista previa** (Vercel, se despliega con cada push):
   https://invitaciones-eventos-git-claude-l-2820ea-franmanuel95s-projects.vercel.app
 - **Supabase**: proyecto `uzmrvclmjtxhcglyqadm` (París, plan gratuito). Todas las migraciones de
-  `supabase/migrations/` están aplicadas (comprobar la última, `videos_iphone`, con
+  `supabase/migrations/` están aplicadas (comprobar la última, `aperturas_invitacion`, con
   `list_migrations`: el usuario pidió dejar el SQL para el final y aceptarlo él).
 - **Rondas terminadas**: 1–4 (invitación cinematográfica), 5 (Supabase, editor y panel completo),
   6 (plantillas, paletas, tipografías, sobre a medida, carta, calendarios, orden de secciones) y 7
   (aperturas, portadas animadas, música, dress code, save the date y álbum con QR), 8 (borrado
-  de archivos con el evento, lista de regalos y página de venta) y 9 (imprimir, después de la
-  boda, duplicar, aperturas, tiempo habitual, otros tipos de evento y velocidad). Resumen de cada una en
+  de archivos con el evento, lista de regalos y página de venta), 9 (imprimir, después de la
+  boda, duplicar, aperturas, tiempo habitual, otros tipos de evento y velocidad) y 10 (sobre más
+  cuidado, plantillas Cine y Herbario, XV años, dress code de revista, programa que se enciende y
+  pase de fotos). Resumen de cada una en
   `docs/DECISIONS.md`.
-- **Pruebas al cerrar la ronda 9**: 261 unitarias y 190 E2E en verde (2 se saltan: las de Supabase
+- **Pruebas al cerrar la ronda 10**: 283 unitarias y 200 E2E en verde (2 se saltan: las de Supabase
   real, que necesitan red).
 - **Evento real del usuario**: `fm-y-lucia-2030-915f24` (lo creó probando en su iPhone). No tocar.
 
@@ -40,7 +42,8 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   ejecución crea un evento «Prueba y Automática» que se queda (no se borra nada sin permiso).
 - **Solicitudes de la página de venta**: se leen en Supabase → Table Editor → `contact_requests`.
 - **Ideas que salieron y no se han hecho**: cobro con Stripe (el usuario aún no tiene cuenta),
-  recordatorios por correo (necesitan un proveedor), dominio propio, versión en inglés
+  recordatorios por correo (necesitan un proveedor), dominio propio, vídeo promocional para
+  Instagram con Remotion (ver ronda 10), versión en inglés
   (descartada por ahora), playlist colaborativa, más escenas o aperturas.
 - **Revisión en iPhone real**: la hace el usuario y manda capturas; aquí solo hay Chromium.
 - **Datos de prueba que se conservan a propósito** (el usuario pidió no borrar nada): el evento

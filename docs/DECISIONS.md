@@ -23,6 +23,40 @@ ser sencilla y reversible.
 - Librerías de gráficos: son dos gráficos SVG pequeños hechos a mano.
 - Supabase y la autenticación: quedan fuera de este hito.
 
+## Ronda 10 · Más cine y más papelería de lujo
+
+Plan visual a partir del análisis de reels de invitaciones premium (fuera quedan las ideas solo
+para promoción, ver «Para más adelante»).
+
+- **Sobre**: el lacre «respira» mientras espera, se hunde al tocarlo y la carta aparece como si
+  se escribiera (recorte que avanza); el botón dice «Descubrir la invitación».
+- **Estilo y plantilla «Cine»** (portada `cine`): fundido desde negro, la foto en sepia a cámara
+  lenta, bandas negras, grano y un destello de luz. Los nombres entran letra a letra como créditos
+  (GSAP con SplitText, que solo se descarga en esta portada; el texto accesible es una copia
+  oculta, no la versión partida). En esta plantilla la invitación se desliza con inercia (Lenis);
+  con movimiento reducido no se activa.
+- **Plantilla «Herbario»** (portada `herbario`; «jardin» ya existía): ramas de olivo y eucalipto
+  en oro sobre verde botella y un marco doble que se trazan solos. La geometría (curvas y hojas)
+  está en `src/lib/botanical.ts`; el dibujo es CSS (`stroke-dashoffset` con `pathLength=1`), sin
+  librerías. Con movimiento reducido se ve ya dibujado.
+- **XV años**: nuevo tipo de evento (`quince`), de un solo nombre. No necesita SQL: el tipo va
+  dentro del contenido del evento.
+- **Dress code de revista**: cada sugerencia lleva un figurín dibujado (vestido, traje, niños o
+  percha), teñido con un color de la paleta de la pareja (`dress-figures.tsx`).
+- **Programa**: además del hilo que crece con el scroll, cada parada se enciende en oro al llegar
+  a media pantalla (`program-dot`, CSS nativo; donde no hay animaciones por scroll queda quieto).
+- **Pase de fotos** del álbum (`/album/<token>`, botón «Ver el pase de fotos»): pantalla
+  completa, fundido entre fotos y zoom lento distinto en cada una (`src/lib/slideshow.ts`), fondo
+  desenfocado para fotos verticales, pausa, flechas del teclado y Escape. Sirve para proyectarlo
+  en la fiesta. Solo se descarga al abrirlo.
+- **Dependencias nuevas**: `gsap` 3.13 (gratuita, incluidos sus plugins) y `lenis` 1.3.
+
+### Para más adelante
+
+- **Vídeo promocional para Instagram** (del mismo análisis): un generador de reels con Remotion
+  que grabe la apertura del sobre y la portada de cada plantilla. Es para promoción, no para la
+  app; se hará cuando el usuario lo pida.
+
 ## Ronda 9 · Lo que facilita los meses antes y el día después
 
 - **Imprimir** (`/panel/<evento>/imprimir`, lógica en `src/lib/print.ts`): tarjetas de mesa para
