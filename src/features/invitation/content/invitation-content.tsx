@@ -160,6 +160,11 @@ export function InvitationContent({
               {badge === null ? null : <DemoBadge label={badge} />}
             </div>
 
+            <p className="mt-12 flex items-center gap-3 font-sans text-[0.6875rem] font-medium uppercase tracking-[0.28em] text-muted sm:mt-16 sm:text-xs">
+              <span aria-hidden className="h-px w-8 bg-gold/80 sm:w-12" />
+              Una celebración, una historia
+            </p>
+
             <h1
               id="content-title"
               ref={titleRef}
