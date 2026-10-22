@@ -1,9 +1,11 @@
 "use client";
 
-import { TextInput } from "@/components/ui/fields";
+import { ChoiceCard, TextInput } from "@/components/ui/fields";
+import type { GiftItem } from "@/lib/domain/types";
 import { getIn } from "@/lib/editor/draft";
 import { Field, Group, TextField, useEditor } from "../fields";
-import { ListEditor } from "../list-editor";
+import { ListEditor, newId } from "../list-editor";
+import { PhotoField } from "../photo-field";
 
 /** Textos de la carta y de la invitación. */
 export function TextsTab() {
@@ -77,8 +79,67 @@ export function TextsTab() {
         <TextField label="Mensaje" path={["gift", "message"]} multiline maxLength={600} />
         <div className="grid gap-5 sm:grid-cols-2">
           <TextField label="Titular de la cuenta" path={["gift", "holder"]} maxLength={120} />
-          <TextField label="Número de cuenta (IBAN)" path={["gift", "iban"]} maxLength={40} />
+          <TextField
+            label="Número de cuenta (IBAN)"
+            hint="Déjalo vacío si no queréis mostrar una cuenta."
+            path={["gift", "iban"]}
+            maxLength={40}
+          />
         </div>
+      </Group>
+      <Group
+        title="Lista de regalos"
+        description="Cada invitación puede reservar un regalo para que no se repita. Los compartidos admiten a varias invitaciones."
+      >
+        <ListEditor<GiftItem>
+          path={["gift", "items"]}
+          max={30}
+          addLabel="Añadir regalo"
+          itemName={(g, i) => g.title || `Regalo ${i + 1}`}
+          create={() => ({
+            id: newId("regalo"),
+            title: "",
+            detail: "",
+            price: "",
+            url: "",
+            photo: null,
+            shared: false,
+          })}
+        >
+          {(i, item) => (
+            <>
+              <TextField label="Regalo" path={["gift", "items", i, "title"]} maxLength={120} />
+              <TextField
+                label="Descripción"
+                path={["gift", "items", i, "detail"]}
+                multiline
+                maxLength={300}
+              />
+              <div className="grid gap-5 sm:grid-cols-2">
+                <TextField
+                  label="Precio orientativo"
+                  hint="Por ejemplo: 120 € o Lo que queráis."
+                  path={["gift", "items", i, "price"]}
+                  maxLength={30}
+                />
+                <TextField
+                  label="Enlace a la tienda"
+                  hint="Opcional. Empieza por https://"
+                  path={["gift", "items", i, "url"]}
+                  maxLength={500}
+                />
+              </div>
+              <PhotoField label="Foto (opcional)" path={["gift", "items", i, "photo"]} />
+              <ChoiceCard
+                type="checkbox"
+                label="Se puede regalar entre varios"
+                description="Para el viaje o una aportación: se pueden apuntar varias invitaciones."
+                checked={item.shared}
+                onChange={(e) => set(["gift", "items", i, "shared"], e.target.checked)}
+              />
+            </>
+          )}
+        </ListEditor>
       </Group>
     </div>
   );

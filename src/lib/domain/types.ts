@@ -72,6 +72,20 @@ export interface StoryMoment {
   photoAlt: string;
 }
 
+/** Regalo de la lista: un invitado lo reserva («lo regalo yo»); los compartidos, varios. */
+export interface GiftItem {
+  id: string;
+  title: string;
+  detail: string;
+  /** Precio orientativo en texto libre («120 €», «A partir de 30 €»). */
+  price: string;
+  /** Enlace a la tienda (https) o vacío. */
+  url: string;
+  photo: string | null;
+  /** Se puede regalar entre varios (el viaje, una aportación…). */
+  shared: boolean;
+}
+
 export interface WeddingEvent {
   id: string;
   couple: { first: string; second: string; monogram: string };
@@ -97,7 +111,7 @@ export interface WeddingEvent {
   };
   accommodation: Accommodation[];
   faqs: Faq[];
-  gift: { message: string; holder: string; iban: string };
+  gift: { message: string; holder: string; iban: string; items?: GiftItem[] };
   story: { intro: string; couplePhoto: string | null; moments: StoryMoment[] };
   /** Foto de la portada (vertical); sin ella se usa el paisaje ilustrado en SVG. */
   coverPhoto: string | null;

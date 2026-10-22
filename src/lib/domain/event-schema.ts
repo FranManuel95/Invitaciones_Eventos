@@ -92,7 +92,32 @@ export const eventContentSchema = z.object({
     .array(z.object({ name: text(120), distance: text(60), detail: text(300) }))
     .max(8),
   faqs: z.array(z.object({ question: text(200), answer: text(800) })).max(20),
-  gift: z.object({ message: text(600), holder: text(120), iban: text(40) }),
+  gift: z.object({
+    message: text(600),
+    holder: text(120),
+    iban: text(40),
+    // Lista de regalos; opcional en el contenido guardado antes.
+    items: z
+      .array(
+        z.object({
+          id: text(40).min(1),
+          title: text(120).min(1),
+          detail: text(300),
+          price: text(30),
+          url: z.union([
+            z.literal(""),
+            z
+              .string()
+              .max(500)
+              .regex(/^https:\/\/[^\s]+$/, "El enlace debe empezar por https://"),
+          ]),
+          photo,
+          shared: z.boolean(),
+        }),
+      )
+      .max(30)
+      .optional(),
+  }),
   story: z.object({
     intro: text(400),
     couplePhoto: photo,

@@ -5,6 +5,7 @@ import {
   Bus,
   CalendarCheck,
   ClipboardList,
+  Gift,
   Home,
   Images,
   LayoutGrid,
@@ -30,6 +31,7 @@ const GUESTS: Item[] = [
   { path: "/mesas", label: "Mesas", icon: LayoutGrid },
   { path: "/comunicaciones", label: "Recordatorios", icon: Send },
   { path: "/album", label: "Álbum", icon: Images },
+  { path: "/regalos", label: "Regalos", icon: Gift },
 ];
 
 const PLANNING: Item[] = [

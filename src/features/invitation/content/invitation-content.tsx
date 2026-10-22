@@ -12,6 +12,7 @@ import { RsvpSection } from "../rsvp/rsvp-section";
 import { DaysLeft } from "./countdown";
 import { useSavedResponse } from "../rsvp/use-saved-response";
 import { GiftSection } from "./gift-section";
+import { EMPTY_GIFT_STATUS, type GiftStatus } from "@/lib/gifts";
 import { ResponseStatus } from "./response-status";
 import { dayClock, liveProgram } from "@/lib/day-mode";
 import { LiveDay } from "./live-day";
@@ -69,6 +70,8 @@ export interface InvitationContentProps {
   phase?: "save_the_date" | "invitacion";
   /** Token del álbum de fotos (null: sin álbum). */
   albumToken?: string | null;
+  /** Reservas de la lista de regalos. */
+  gifts?: GiftStatus;
 }
 
 /** Pantallas 4 a 7 · La invitación completa con secciones y RSVP. */
@@ -83,6 +86,7 @@ export function InvitationContent({
   order = DEFAULT_ORDER,
   phase = "invitacion",
   albumToken = null,
+  gifts = EMPTY_GIFT_STATUS,
 }: InvitationContentProps) {
   const early = phase === "save_the_date";
   const shows = (id: SectionId) => !hidden.includes(id);
@@ -277,7 +281,14 @@ export function InvitationContent({
                     transporte: <TransportSection event={event} response={saved} />,
                     info: <PracticalSection event={event} />,
                     historia: <StorySection event={event} />,
-                    regalo: <GiftSection event={event} />,
+                    regalo: (
+                      <GiftSection
+                        event={event}
+                        token={group.token}
+                        live={Boolean(group.persisted)}
+                        initial={gifts}
+                      />
+                    ),
                   }[id]
                 }
               </Fragment>

@@ -184,10 +184,48 @@ export const demoEvent: WeddingEvent = {
   contactPhone: "+34 600 000 000",
   gift: {
     message:
-      "Vuestra presencia es nuestro mejor regalo. Si aun así queréis tener un detalle, os dejamos nuestra cuenta.",
+      "Vuestra presencia es nuestro mejor regalo. Si aun así queréis tener un detalle, os dejamos algunas ideas y nuestra cuenta.",
     holder: "María y Daniel (cuenta de demostración)",
     // IBAN ficticio con formato válido de longitud, pero sin banco real: solo para la demo.
     iban: "ES00 0000 0000 0000 0000 0000",
+    items: [
+      {
+        id: "viaje",
+        title: "Nuestro viaje a Japón",
+        detail: "Dos semanas entre Kioto y las islas de Seto. Cualquier aportación nos acerca.",
+        price: "Lo que queráis",
+        url: "",
+        photo: null,
+        shared: true,
+      },
+      {
+        id: "vajilla",
+        title: "Vajilla de cerámica de Talavera",
+        detail: "La de doce servicios, en blanco y azul, para las comidas de los domingos.",
+        price: "340 €",
+        url: "",
+        photo: null,
+        shared: false,
+      },
+      {
+        id: "cafetera",
+        title: "Cafetera de espresso",
+        detail: "Para empezar cada mañana como en Florencia.",
+        price: "180 €",
+        url: "",
+        photo: null,
+        shared: false,
+      },
+      {
+        id: "olivo",
+        title: "Un olivo para la casa del pueblo",
+        detail: "Lo plantaremos el primer aniversario.",
+        price: "90 €",
+        url: "",
+        photo: null,
+        shared: false,
+      },
+    ],
   },
   faqs: [
     {

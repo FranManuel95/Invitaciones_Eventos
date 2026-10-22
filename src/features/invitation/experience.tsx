@@ -1,5 +1,6 @@
 "use client";
 
+import type { GiftStatus } from "@/lib/gifts";
 import { Volume2, VolumeX } from "lucide-react";
 import { domAnimation, LazyMotion, MotionConfig, useReducedMotion } from "motion/react";
 import {
@@ -72,6 +73,7 @@ export function InvitationExperience({
   preview = false,
   phase = "invitacion",
   albumToken = null,
+  gifts,
 }: {
   event: WeddingEvent;
   group: GuestGroup;
@@ -85,6 +87,8 @@ export function InvitationExperience({
   phase?: "save_the_date" | "invitacion";
   /** Token del álbum de fotos de los invitados (enlace al final de la invitación). */
   albumToken?: string | null;
+  /** Reservas de la lista de regalos (sin ellas, la lista empieza sin reservas). */
+  gifts?: GiftStatus;
   /** Respuesta guardada en el servidor (invitaciones reales); undefined en la demo. */
   initialResponse?: RsvpResponse | null;
 }) {
@@ -261,6 +265,7 @@ export function InvitationExperience({
                     order={theme.order}
                     phase={phase}
                     albumToken={albumToken}
+                    gifts={gifts}
                     badge={badge}
                   />
                 </ViewTransition>

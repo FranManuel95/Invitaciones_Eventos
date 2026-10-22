@@ -12,6 +12,8 @@ import type { BudgetItem } from "@/lib/planning/budget";
 import type { PlanTask } from "@/lib/planning/tasks";
 import { DEFAULT_THEME, parseTheme, type Theme } from "@/lib/theme";
 import { createAnonClient, createSessionClient } from "@/lib/supabase/server";
+import { demoGiftClaims, demoGiftStatus } from "@/data/demo/gifts";
+import { parseGiftStatus, type GiftClaim, type GiftStatus } from "@/lib/gifts";
 
 /**
  * Punto único de acceso a datos, con dos fuentes:
@@ -32,6 +34,8 @@ export interface Invitation {
   phase: EventPhase;
   /** Token del álbum de fotos de los invitados (null si no hay). */
   albumToken: string | null;
+  /** Reservas de la lista de regalos (en la demo, las de ejemplo). */
+  gifts: GiftStatus;
   /** Respuesta ya guardada en el servidor (null si aún no ha respondido; undefined en la demo). */
   response?: RsvpResponse | null;
 }
@@ -50,6 +54,7 @@ export const getInvitation = cache(async (token: string): Promise<Invitation | n
       theme: DEFAULT_THEME,
       phase: "invitacion",
       albumToken: "demo",
+      gifts: demoGiftStatus(),
     };
   }
   return getLiveInvitation(token);
@@ -77,6 +82,7 @@ async function getLiveInvitation(token: string): Promise<Invitation | null> {
     theme: unknown;
     phase?: string;
     albumToken?: string;
+    gifts?: unknown;
     response: unknown;
   };
   const content = eventContentSchema.safeParse(raw.event);
@@ -100,6 +106,7 @@ async function getLiveInvitation(token: string): Promise<Invitation | null> {
     theme: parseTheme(raw.theme),
     phase: raw.phase === "save_the_date" ? "save_the_date" : "invitacion",
     albumToken: raw.albumToken ?? null,
+    gifts: parseGiftStatus(raw.gifts),
     response: response?.success ? response.data : null,
   };
 }
@@ -413,5 +420,25 @@ export async function listMyEvents(): Promise<EventSummary[]> {
         role: row.role,
       },
     ];
+  });
+}
+
+/** Reservas vigentes de la lista de regalos, con el nombre de la invitación que reservó. */
+export async function getGiftClaims(eventKey: string): Promise<GiftClaim[] | null> {
+  if (eventKey === DEMO_EVENT_KEY) return demoGiftClaims;
+  if (!/^[0-9a-f-]{36}$/.test(eventKey)) return null;
+  const supabase = await createSessionClient();
+  if (!supabase) return null;
+  const { data, error } = await supabase
+    .from("gift_claims")
+    .select("item_id, created_at, guest_groups (display_name)")
+    .eq("event_id", eventKey)
+    .is("released_at", null)
+    .order("created_at");
+  if (error) return null;
+  return (data ?? []).map((c) => {
+    const group = c.guest_groups as { display_name: string } | { display_name: string }[] | null;
+    const name = Array.isArray(group) ? group[0]?.display_name : group?.display_name;
+    return { itemId: c.item_id, groupName: name ?? "Invitación borrada", createdAt: c.created_at };
   });
 }
