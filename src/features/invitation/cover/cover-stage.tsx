@@ -17,6 +17,8 @@ import { Landscape } from "./landscape";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 // Escenas animadas: cada una en su propio trozo, solo se descarga la que elige la pareja.
+const CineScene = dynamic(() => import("./scenes/cine-scene").then((mod) => mod.CineScene));
+const CineTitle = dynamic(() => import("./cine-title").then((mod) => mod.CineTitle));
 const SCENES = {
   luces: dynamic(() => import("./scenes/lights-scene").then((mod) => mod.LightsScene)),
   acuarela: dynamic(() => import("./scenes/watercolor-scene").then((mod) => mod.WatercolorScene)),
@@ -126,6 +128,8 @@ export function CoverStage({
             const Scene = SCENES[scene];
             return <Scene />;
           })()
+        ) : scene === "cine" ? (
+          <CineScene photo={event.coverPhoto} />
         ) : scene === "video" && event.coverVideo ? (
           <video
             className="absolute inset-0 size-full object-cover"
@@ -156,7 +160,9 @@ export function CoverStage({
         aria-hidden
         className="absolute inset-0 bg-[linear-gradient(180deg,rgb(20_22_32/0.55)_0%,rgb(20_22_32/0.05)_38%,rgb(20_16_22/0.15)_62%,rgb(14_11_16/0.8)_100%)]"
         // Las escenas ya son oscuras y están pensadas para el texto blanco: les basta menos velo.
-        style={{ opacity: scene === "foto" || scene === "video" ? 1 : 0.45 }}
+        style={{
+          opacity: scene === "foto" || scene === "video" ? 1 : scene === "cine" ? 0.6 : 0.45,
+        }}
       />
       {/* Una foto real tiene cielos más claros que la ilustración: algo más de velo tras el título. */}
       {event.coverPhoto ? (
@@ -172,7 +178,8 @@ export function CoverStage({
           className="pointer-events-none absolute inset-0 bg-black"
           initial={{ opacity: 1 }}
           animate={{ opacity: 0 }}
-          transition={{ duration: 1.6, delay: 0.2, ease: "easeOut" }}
+          // En «película», el fundido desde negro es más largo: es el primer plano de la película.
+          transition={{ duration: scene === "cine" ? 2.8 : 1.6, delay: 0.2, ease: "easeOut" }}
         />
       )}
       {/* Al levantarla, la hoja se oscurece un poco: deja de recibir la luz de frente. */}
@@ -189,15 +196,26 @@ export function CoverStage({
           translate="no"
           className="mt-[14svh] font-names text-[clamp(3.5rem,17vw,8rem)] leading-[0.9] tracking-[-0.01em] outline-none [text-shadow:0_2px_30px_rgb(0_0_0/0.25)]"
         >
-          <SplitText text={event.couple.first} delay={1.1} animate={!reduce} className="block" />
-          {event.couple.second ? (
-            <SplitText
-              text={`& ${event.couple.second}`}
-              delay={1.1 + event.couple.first.length * 0.045 + 0.15}
-              animate={!reduce}
-              className="block"
-            />
-          ) : null}
+          {scene === "cine" ? (
+            <CineTitle first={event.couple.first} second={event.couple.second} animate={!reduce} />
+          ) : (
+            <>
+              <SplitText
+                text={event.couple.first}
+                delay={1.1}
+                animate={!reduce}
+                className="block"
+              />
+              {event.couple.second ? (
+                <SplitText
+                  text={`& ${event.couple.second}`}
+                  delay={1.1 + event.couple.first.length * 0.045 + 0.15}
+                  animate={!reduce}
+                  className="block"
+                />
+              ) : null}
+            </>
+          )}
         </h1>
 
         <m.p

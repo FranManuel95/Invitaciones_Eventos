@@ -36,6 +36,26 @@ const NAV = [
 const NO_HIDDEN: SectionId[] = [];
 const DEFAULT_ORDER: readonly SectionId[] = SECTION_IDS;
 
+/**
+ * Scroll con inercia suave (Lenis), solo en la plantilla Cine y si no se pide reducir el
+ * movimiento. La librería se descarga únicamente cuando hace falta.
+ */
+function useSmoothScroll(enabled: boolean) {
+  useEffect(() => {
+    if (!enabled || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let lenis: { destroy: () => void } | null = null;
+    let cancelled = false;
+    void import("lenis").then(({ default: Lenis }) => {
+      if (cancelled) return;
+      lenis = new Lenis({ autoRaf: true, lerp: 0.08, anchors: true });
+    });
+    return () => {
+      cancelled = true;
+      lenis?.destroy();
+    };
+  }, [enabled]);
+}
+
 function useActiveSection(ids: string[]) {
   const [active, setActive] = useState<string | null>(null);
   useEffect(() => {
@@ -74,6 +94,8 @@ export interface InvitationContentProps {
   albumToken?: string | null;
   /** Reservas de la lista de regalos. */
   gifts?: GiftStatus;
+  /** Scroll suave «de película» (Lenis), en la plantilla Cine. */
+  smooth?: boolean;
 }
 
 /** Pantallas 4 a 7 · La invitación completa con secciones y RSVP. */
@@ -89,7 +111,9 @@ export function InvitationContent({
   phase = "invitacion",
   albumToken = null,
   gifts = EMPTY_GIFT_STATUS,
+  smooth = false,
 }: InvitationContentProps) {
+  useSmoothScroll(smooth);
   const early = phase === "save_the_date";
   const shows = (id: SectionId) => !hidden.includes(id);
   const nav = useMemo(() => {

@@ -236,6 +236,7 @@ test.describe("experiencia del invitado", () => {
     ["medianoche", "poster"],
     ["costa", "semana"],
     ["empolvado", "corazon"],
+    ["cine", "poster"],
   ]) {
     test(`plantilla ${plantilla}: calendario ${calendario} accesible`, async ({ page }) => {
       await page.goto(`/i/carlos-ruiz?plantilla=${plantilla}`);
@@ -253,6 +254,19 @@ test.describe("experiencia del invitado", () => {
       );
     });
   }
+
+  test("plantilla cine: portada de película con los nombres y accesible", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=cine");
+    await expect(page.locator("[data-cover='cine']")).toBeAttached();
+    await expect(page.locator("#cover-title")).toContainText(/María/i);
+    await expect(page.locator("#cover-title")).toContainText(/Daniel/i);
+    await page.waitForTimeout(3000);
+    const results = await new AxeBuilder({ page }).analyze();
+    const serious = results.violations.filter((v) =>
+      ["serious", "critical"].includes(v.impact ?? ""),
+    );
+    expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual([]);
+  });
 
   test("el dress code muestra los colores con nombre y las sugerencias", async ({ page }) => {
     await page.goto("/i/carlos-ruiz");

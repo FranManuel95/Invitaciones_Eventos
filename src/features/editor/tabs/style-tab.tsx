@@ -460,6 +460,7 @@ const COVER_SAMPLES: Record<Theme["cover"], string> = {
     "radial-gradient(circle at 15% 15%, #e9b7c3 0 9px, transparent 12px), radial-gradient(circle at 85% 85%, #f1cdd5 0 11px, transparent 14px), radial-gradient(110% 80% at 50% 40%, #5a3a48, #1c1219)",
   estrellas:
     "radial-gradient(circle at 25% 30%, #fff 0 1px, transparent 1.5px), radial-gradient(circle at 70% 18%, #fff 0 1.2px, transparent 2px), radial-gradient(circle at 55% 45%, #fff 0 0.8px, transparent 1.5px), linear-gradient(180deg, #04060f, #1b1830)",
+  cine: "linear-gradient(180deg, #000 0 14%, #6b4f37 14% 86%, #000 86%)",
   video: "linear-gradient(135deg, #2b2b2b, #555)",
 };
 

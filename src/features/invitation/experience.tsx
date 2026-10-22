@@ -280,6 +280,7 @@ export function InvitationExperience({
                     phase={phase}
                     albumToken={albumToken}
                     gifts={gifts}
+                    smooth={theme.cover === "cine"}
                     badge={badge}
                   />
                 </ViewTransition>

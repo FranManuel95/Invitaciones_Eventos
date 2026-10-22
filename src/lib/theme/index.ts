@@ -24,6 +24,7 @@ export const STYLE_IDS = [
   "empolvado",
   "pizarra",
   "esmeralda",
+  "cine",
 ] as const;
 export const ENVELOPE_IDS = [
   "olivo",
@@ -337,6 +338,29 @@ export const STYLES: Record<StyleId, StyleDef> = {
     },
     scene: ["#24382e", "#1a2a22", "#13201a", "#0c1511"],
   },
+  cine: {
+    label: "Cine",
+    description: "Casi negro, letras marfil y oro champán: como los créditos de una película.",
+    dark: true,
+    palette: {
+      paper: "#17140f",
+      ivory: "#0f0d0a",
+      cream: "#221e18",
+      sand: "#2f2a22",
+      taupe: "#5e564b",
+      stone: "#948a7b",
+      ink: "#f3ece0",
+      inkSoft: "#ddd4c5",
+      muted: "#b9b0a1",
+      line: "#302a22",
+      gold: "#d4b177",
+      goldSoft: "#8f7546",
+      success: "#8cc79a",
+      danger: "#f0938a",
+      warning: "#e5bb6c",
+    },
+    scene: ["#2a241d", "#1c1813", "#13100c", "#0a0806"],
+  },
 };
 
 /** Color de la cera. En los estilos oscuros el acento del texto se aclara para que se lea. */
@@ -619,6 +643,7 @@ export const TEMPLATE_IDS = [
   "luciernagas",
   "acuarela",
   "gala",
+  "cine",
 ] as const;
 export type TemplateId = (typeof TEMPLATE_IDS)[number];
 
@@ -813,6 +838,27 @@ export const TEMPLATES: Record<
       layout: "marco",
       edge: "recto",
       ornament: "geometrico",
+      musicStyle: "cuerdas",
+    },
+  },
+  cine: {
+    label: "Cine",
+    description:
+      "Fundido desde negro, vuestra foto a cámara lenta y los nombres como en los créditos.",
+    look: {
+      style: "cine",
+      envelope: "medianoche",
+      wax: "oro",
+      calendar: "poster",
+      font: "editorial",
+      opening: "pantalla",
+      cover: "cine",
+      weight: "grueso",
+      liner: "propio",
+      sealMark: "monograma",
+      layout: "editorial",
+      edge: "recto",
+      ornament: "ninguno",
       musicStyle: "cuerdas",
     },
   },

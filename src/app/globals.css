@@ -533,6 +533,78 @@
 }
 
 /* Escenas animadas de la portada (src/features/invitation/cover/scenes). */
+/* Scroll suave de la plantilla Cine (estilos que pide Lenis). */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Escena «película» de la portada. */
+.cine-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cine-kenburns {
+    animation: cine-kenburns 22s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  }
+  .cine-grain {
+    animation: cine-grain 0.9s steps(6) infinite;
+  }
+  .cine-leak {
+    animation: cine-leak 9s ease-in-out 2.5s infinite;
+  }
+}
+@keyframes cine-kenburns {
+  from {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.14) translate3d(-1.5%, -2%, 0);
+  }
+}
+@keyframes cine-grain {
+  0% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-3%, 2%);
+  }
+  40% {
+    transform: translate(2%, -3%);
+  }
+  60% {
+    transform: translate(-2%, -1%);
+  }
+  80% {
+    transform: translate(3%, 3%);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+@keyframes cine-leak {
+  0%,
+  60%,
+  100% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  70% {
+    opacity: 1;
+  }
+  90% {
+    transform: translateX(300%);
+    opacity: 0;
+  }
+}
+
 .scene-twinkle {
   animation: scene-twinkle 3s ease-in-out infinite;
 }

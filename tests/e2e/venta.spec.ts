@@ -50,7 +50,7 @@ test.describe("página de venta", () => {
     await page.goto("/ejemplos");
     const openings = page.getByRole("region", { name: "Aperturas" });
     await expect(openings.getByRole("link")).toHaveCount(4);
-    await expect(page.getByRole("region", { name: "Portadas" }).getByRole("link")).toHaveCount(4);
+    await expect(page.getByRole("region", { name: "Portadas" }).getByRole("link")).toHaveCount(5);
     await openings.getByRole("link", { name: /Caja con lazo/ }).click();
     await expect(page).toHaveURL(/apertura=caja/);
     await expect(page.getByRole("heading", { level: 1, name: /María/ })).toBeAttached();
