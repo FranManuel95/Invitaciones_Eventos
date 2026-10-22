@@ -7,10 +7,13 @@ Invitaciones digitales premium para bodas y eventos, con su panel de organizaci�
   asistencia por pasos (acompañantes, autobús, menús, alergias, canción y mensaje).
 - **Editor** (`/editor/[evento]`): la pareja parte de una de las ocho plantillas y ajusta cada
   detalle: paleta y color propio, tipografía, sobre (papel, solapa, gramaje, textura, forro y
-  lacre), composición de la carta, calendario y orden de las secciones. Cambia textos, programa,
+  lacre), composición de la carta, calendario y orden de las secciones; también la apertura
+  (sobre en la mesa o a pantalla completa, díptico o caja con lazo), la portada (foto en 3D,
+  escenas animadas o vídeo) y la música. Cambia textos, programa,
   lugares, autobuses, menús y fotos, y ve la invitación en vivo en un móvil antes de publicarla.
 - **Panel** (`/panel/[evento]`): resumen, invitaciones con enlace, WhatsApp y QR, lista de
-  invitados, transporte, menús, plano de mesas, recordatorios, tareas, presupuesto, agenda y ajustes.
+  invitados, transporte, menús, plano de mesas, recordatorios, álbum de fotos con QR, tareas,
+  presupuesto, agenda y ajustes; publicar primero un «save the date» y después la invitación.
 
 La especificación está en [`PROJECT_SPEC.md`](PROJECT_SPEC.md) y las decisiones técnicas en
 [`docs/DECISIONS.md`](docs/DECISIONS.md).
@@ -65,7 +68,10 @@ que se deshace).
 | `/`                                                                       | Portada de la demo: invitaciones de ejemplo, estilos y accesos      |
 | `/i/familia-garcia`                                                       | Familia con una niña y una plaza libre para acompañante             |
 | `/i/familia-garcia?estilo=noche&sobre=kraft&lacre=oro&calendario=minimal` | La misma invitación con otro tema                                   |
-| `/i/familia-garcia?plantilla=esmeralda`                                   | La misma invitación con una plantilla (ocho en la portada)          |
+| `/i/familia-garcia?plantilla=luciernagas`                                 | La misma invitación con una plantilla (once en la portada)          |
+| `/i/familia-garcia?apertura=pantalla&portada=luces`                       | Sobre a pantalla completa y portada con luces y mariposas           |
+| `/i/familia-garcia?fase=save-the-date`                                    | Fase «save the date»: solo la fecha, sin confirmación               |
+| `/album/demo`                                                             | Álbum de los invitados (subida simulada)                            |
 | `/i/carlos-ruiz?dia=boda&hora=19:10`                                      | Modo «día de la boda»: acto actual, siguiente y autobuses de vuelta |
 | `/i/prueba-error`                                                         | Simula un fallo de red al confirmar la primera vez                  |
 | `/i/plazo-cerrado`                                                        | Plazo de confirmación cerrado                                       |

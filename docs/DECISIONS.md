@@ -23,6 +23,36 @@ ser sencilla y reversible.
 - Librerías de gráficos: son dos gráficos SVG pequeños hechos a mano.
 - Supabase y la autenticación: quedan fuera de este hito.
 
+## Ronda 7 · Aperturas, portadas animadas y extras
+
+- **Aperturas** (`theme.opening`): sobre en la mesa, sobre a pantalla completa (como los anuncios
+  de referencia: el móvil entero es el sobre y se toca el lacre), díptico y caja con lazo. Todas
+  reciben las mismas props, comparten la guarda de `use-opening.ts` (una sola apertura aunque se
+  toque varias veces) y acaban en el mismo relevo `ViewTransition name="carta"`. El botón de cada
+  apertura es una capa vacía sobre el dibujo: así su nombre accesible no compite con los textos
+  de la carta (axe lo marcaba de forma intermitente).
+- **Portadas** (`theme.cover`): foto en 3D, luces y mariposas, acuarela floral, cielo estrellado o
+  vídeo propio. Las escenas son SVG y CSS propios (sin lienzos ni recursos de terceros), con
+  posiciones deterministas (`seeded`) y cada una en su trozo de JavaScript. Con movimiento
+  reducido se quedan quietas.
+- **Música** (`theme.musicStyle`): piano, caja de música, guitarra y cuerdas generados con Web
+  Audio, o una canción propia que pasa por el mismo volumen de Web Audio para tener fundidos
+  también en iOS. El editor avisa de los derechos de la canción.
+- **Almacenamiento**: el bucket del evento admite vídeo (MP4, WebM) y audio (MP3, M4A) hasta
+  30 MB; las fotos siguen reduciéndose en el navegador.
+- **Save the date** (`events.phase`): primero se publica un aviso con la fecha y el calendario y
+  después la invitación completa, con el mismo enlace. `submit_rsvp` rechaza respuestas en esa
+  fase; el botón del editor mantiene la fase publicada.
+- **Álbum de los invitados**: un token de álbum por evento (el QR de las mesas no puede llevar el
+  token de cada invitación). Los invitados piden un hueco de subida de un solo uso y 10 minutos
+  (`album_upload_slot`), suben la foto ya reducida al bucket `guest-photos` (la política solo
+  deja escribir en un hueco vigente) y la confirman (`album_confirm`). Las fotos quedan
+  pendientes hasta que la pareja las aprueba en el panel; el álbum solo lista las aprobadas. El
+  bucket es público por URL, pero las rutas llevan un uuid imposible de adivinar y no se pueden
+  listar. Los huecos no se borran (sirven de registro y para el límite de 300 al día).
+- **Dress code**: muestras de color con nombre y sugerencias por persona con pictograma
+  (`dressKind`).
+
 ## Ronda 6 · Personalización premium
 
 - **Plantillas y ajuste fino.** Ocho plantillas completas (`TEMPLATES` en `src/lib/theme`) como
