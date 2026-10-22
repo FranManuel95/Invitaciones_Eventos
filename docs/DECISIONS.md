@@ -23,6 +23,37 @@ ser sencilla y reversible.
 - Librerías de gráficos: son dos gráficos SVG pequeños hechos a mano.
 - Supabase y la autenticación: quedan fuera de este hito.
 
+## Ronda 9 · Lo que facilita los meses antes y el día después
+
+- **Imprimir** (`/panel/<evento>/imprimir`, lógica en `src/lib/print.ts`): tarjetas de mesa para
+  doblar, «Busca tu mesa» (alfabético, avisa de quién no tiene mesa), carteles del álbum con QR
+  por mesa, hoja del catering (menús por mesa y alergias con nombre, solo confirmados) y
+  canciones para el DJ sin repetir (copiar o CSV). Al imprimir solo sale el documento elegido
+  (`.print-area`).
+- **Después de la boda** (`isAfterEvent`, desde las 06:00 del día siguiente; demo `?dia=despues`):
+  la invitación da las gracias (`thankYouMessage`, opcional) y lleva al álbum; deja de pedir
+  confirmación. El panel descarga las fotos aprobadas en un zip montado en el navegador
+  (`fflate`, sin recomprimir).
+- **Duplicar evento** («Mis eventos»): copia contenido y diseño, sin invitados, y las fotos a la
+  carpeta del nuevo (`rewriteMediaRefs` + `storage.copy`), para que borrar o limpiar el
+  original no deje la copia sin ellas.
+- **Aperturas** (migración `aperturas_invitacion`: `opened_at`, `last_opened_at` y
+  `mark_invitation_opened`, como mucho una escritura por minuto y token): lo apunta el
+  navegador del invitado una vez por sesión, nunca el servidor, para que las vistas previas de
+  WhatsApp no cuenten. El panel lee la columna aparte y tolera que no exista.
+- **Tiempo habitual** (`src/lib/weather.ts`): media de los últimos diez años ±3 días con
+  Open-Meteo (sin cuenta), calculada desde el editor y guardada en `content.climate`. No se
+  consulta al abrir la invitación: el servicio tiene un límite diario por IP.
+- **Tipos de evento** (`src/lib/event-kind.ts`, `content.kind`; sin tipo, boda): boda, bautizo,
+  primera comunión, cumpleaños y aniversario. Bautizo, comunión y cumpleaños admiten un solo
+  nombre (el `refine` del esquema pide dos en bodas y aniversarios). Las frases (portada,
+  calendario, pase, WhatsApp, recordatorio, save the date, agradecimiento, álbum) salen de ahí;
+  las que no dependen del tipo dicen «el gran día».
+- **Velocidad** (móvil con 4G lenta y CPU ×4): la portada de venta carga la invitación de
+  ejemplo solo al tocar el móvil (2,1 MB → 0,9 MB); la invitación ya no carga Zod al abrir
+  (esquemas del tema en `lib/theme/schema.ts`, caché de la respuesta en
+  `lib/data/rsvp-cache.ts`): 889 → 776 KB de JavaScript, contenido principal en ~1,2 s.
+
 ## Ronda 8 · Regalos, limpieza de fotos y página de venta
 
 - **Borrar un evento borra sus archivos** (`src/lib/data/event-files.ts`): antes de borrar el

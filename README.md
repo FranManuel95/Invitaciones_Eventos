@@ -79,6 +79,8 @@ que se deshace).
 | `/editor/demo`                                                            | Editor con vista previa en vivo (sin guardar)                       |
 | `/panel/demo`                                                             | Panel del organizador con datos ficticios                           |
 | `/panel/demo/regalos`                                                     | Lista de regalos: quién ha reservado cada uno                       |
+| `/panel/demo/imprimir`                                                    | Tarjetas de mesa, Busca tu mesa, carteles QR, catering y canciones  |
+| `/i/carlos-ruiz?dia=despues`                                              | Después de la boda: agradecimiento y álbum                          |
 | `/entrar`                                                                 | Acceso y alta de cuentas (con Supabase)                             |
 | `/laboratorio/sobre-3d`                                                   | Prototipo del sobre con WebGL (React Three Fiber) para comparar     |
 

@@ -14,10 +14,11 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   `list_migrations`: el usuario pidió dejar el SQL para el final y aceptarlo él).
 - **Rondas terminadas**: 1–4 (invitación cinematográfica), 5 (Supabase, editor y panel completo),
   6 (plantillas, paletas, tipografías, sobre a medida, carta, calendarios, orden de secciones) y 7
-  (aperturas, portadas animadas, música, dress code, save the date y álbum con QR) y 8 (borrado
-  de archivos con el evento, lista de regalos y página de venta). Resumen de cada una en
+  (aperturas, portadas animadas, música, dress code, save the date y álbum con QR), 8 (borrado
+  de archivos con el evento, lista de regalos y página de venta) y 9 (imprimir, después de la
+  boda, duplicar, aperturas, tiempo habitual, otros tipos de evento y velocidad). Resumen de cada una en
   `docs/DECISIONS.md`.
-- **Pruebas al cerrar la ronda 8**: 242 unitarias y 170 E2E en verde (2 se saltan: las de Supabase
+- **Pruebas al cerrar la ronda 9**: 261 unitarias y 190 E2E en verde (2 se saltan: las de Supabase
   real, que necesitan red).
 - **Evento real del usuario**: `fm-y-lucia-2030-915f24` (lo creó probando en su iPhone). No tocar.
 
