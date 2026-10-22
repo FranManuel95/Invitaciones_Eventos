@@ -495,7 +495,7 @@ function CoverPart() {
             kind="video"
             label="Vídeo de portada"
             path={["coverVideo"]}
-            hint="MP4 o WebM, vertical y corto (5–15 s, hasta 30 MB). Se reproduce sin sonido; mientras carga se ve la foto de portada."
+            hint="MP4, MOV (el del iPhone) o WebM, vertical y corto (5–15 s, hasta 30 MB). Se reproduce sin sonido; mientras carga se ve la foto de portada."
           />
         </Group>
       ) : draft.theme.cover === "foto" ? (

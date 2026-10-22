@@ -145,9 +145,10 @@ const MAX_MEDIA = 30 * 1024 * 1024;
 
 const MEDIA = {
   video: {
-    types: ["video/mp4", "video/webm"],
-    accept: "video/mp4,video/webm",
-    wrongType: "Sube el vídeo en MP4 o WebM.",
+    // «video/quicktime» es el .mov de los vídeos grabados con el iPhone.
+    types: ["video/mp4", "video/quicktime", "video/webm"],
+    accept: "video/mp4,video/quicktime,video/webm,.mp4,.mov,.webm",
+    wrongType: "Sube el vídeo en MP4, MOV (el del iPhone) o WebM.",
     tooBig: "El vídeo pesa demasiado (máximo 30 MB). Recórtalo a unos segundos.",
     uploading: "Subiendo el vídeo…",
     done: "Vídeo subido.",
@@ -172,6 +173,7 @@ type MediaKind = keyof typeof MEDIA;
 const EXTENSIONS: Record<string, string> = {
   "video/mp4": ".mp4",
   "video/webm": ".webm",
+  "video/quicktime": ".mov",
   "audio/mpeg": ".mp3",
   "audio/mp4": ".m4a",
   "audio/x-m4a": ".m4a",

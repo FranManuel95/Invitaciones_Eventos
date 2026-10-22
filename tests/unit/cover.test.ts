@@ -39,7 +39,9 @@ describe("portadas", () => {
   it("solo acepta vídeos MP4 o WebM de hasta 30 MB", () => {
     const file = (type: string, size: number) => ({ type, size }) as File;
     expect(checkVideoFile(file("video/mp4", 5_000_000))).toBeNull();
-    expect(checkVideoFile(file("video/quicktime", 5_000_000))).toMatch(/MP4 o WebM/);
+    // Los vídeos del iPhone (.mov) se aceptan; otros formatos no.
+    expect(checkVideoFile(file("video/quicktime", 5_000_000))).toBeNull();
+    expect(checkVideoFile(file("video/x-msvideo", 5_000_000))).toMatch(/MP4, MOV/);
     expect(checkVideoFile(file("video/webm", 40 * 1024 * 1024))).toMatch(/30 MB/);
   });
 });
