@@ -19,14 +19,18 @@ export function PreviewFrame({
   onStage,
 }: {
   src: string;
+  /** Borrador válido, o null mientras haya campos con errores (la vista previa queda en pausa). */
   draft: Draft | null;
   /** Pantalla que se ve; el editor la cambia al elegir un apartado (p. ej. el sobre). */
   stage: Stage;
   onStage: (stage: Stage) => void;
 }) {
+  const paused = draft === null;
   const frame = useRef<HTMLIFrameElement>(null);
   const box = useRef<HTMLDivElement>(null);
-  const [ready, setReady] = useState(false);
+  // Cuántas veces ha avisado la vista previa de que está lista. Cada aviso (también tras una
+  // recarga del iframe, que el móvil puede hacer por su cuenta) vuelve a enviar borrador y pantalla.
+  const [ready, setReady] = useState(0);
   const [scale, setScale] = useState(0.7);
 
   const post = (message: ToPreview) =>
@@ -36,16 +40,23 @@ export function PreviewFrame({
   useEffect(() => {
     const onMessage = (e: MessageEvent<FromPreview>) => {
       if (e.origin !== window.location.origin || e.source !== frame.current?.contentWindow) return;
-      if (e.data?.type === "ready") setReady(true);
+      if (e.data?.type === "ready") setReady((n) => n + 1);
     };
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
   }, []);
 
+  // Último borrador válido: si el iframe se recarga mientras hay campos con errores, recibe este.
+  const lastDraft = useRef<Draft | null>(null);
   useEffect(() => {
-    if (!ready || !draft) return;
+    if (draft) lastDraft.current = draft;
+  }, [draft]);
+
+  useEffect(() => {
+    const current = draft ?? lastDraft.current;
+    if (!ready || !current) return;
     const id = window.setTimeout(
-      () => post({ type: "draft", content: draft.content, theme: draft.theme }),
+      () => post({ type: "draft", content: current.content, theme: current.theme }),
       120,
     );
     return () => window.clearTimeout(id);
@@ -92,6 +103,15 @@ export function PreviewFrame({
           </button>
         ))}
       </div>
+      <p
+        role="status"
+        className={clsx(
+          "max-w-[34ch] text-center text-[0.8125rem] font-medium text-danger",
+          !paused && "sr-only",
+        )}
+      >
+        {paused ? "La vista previa está en pausa: revisa los campos marcados en rojo." : ""}
+      </p>
       <div ref={box} className="flex min-h-0 w-full flex-1 justify-center">
         <div
           className="relative shrink-0 overflow-hidden rounded-[2.25rem] bg-ink shadow-[var(--shadow-lift)] ring-[6px] ring-ink"

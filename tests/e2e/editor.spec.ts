@@ -104,6 +104,35 @@ test.describe("editor de la invitación", () => {
     await expect(preview.locator("[data-opening='pantalla']")).toBeAttached();
   });
 
+  test("si la vista previa se recarga, recupera el borrador y la pantalla", async ({ page }) => {
+    await page.goto("/editor/demo");
+    const preview = page.frameLocator('iframe[title="Vista previa de la invitación"]');
+    await expect(preview.locator("#cover-title")).toBeAttached();
+    await page.getByRole("tab", { name: "Apertura", exact: true }).click();
+    await page.getByRole("radio", { name: /Caja con lazo/ }).check({ force: true });
+    await expect(preview.locator("[data-opening='caja']")).toBeAttached();
+    // El móvil puede descartar el iframe y volver a cargarlo por su cuenta.
+    await page.evaluate(() => {
+      const frame = document.querySelector<HTMLIFrameElement>(
+        'iframe[title="Vista previa de la invitación"]',
+      );
+      if (frame) frame.src = frame.src;
+    });
+    await expect(preview.locator("[data-opening='caja']")).toBeAttached();
+  });
+
+  test("con campos por revisar, la vista previa avisa de que está en pausa", async ({
+    page,
+    isMobile,
+  }) => {
+    await page.goto("/editor/demo");
+    await page.getByRole("tab", { name: "Pareja y fecha" }).click();
+    await page.getByLabel("Primer nombre").fill("");
+    // En el móvil, editar y ver se alternan.
+    if (isMobile) await page.getByRole("button", { name: "Vista previa" }).click();
+    await expect(page.getByText(/La vista previa está en pausa/)).toBeVisible();
+  });
+
   test("se elige el estilo de música y se escucha una muestra", async ({ page }) => {
     await page.goto("/editor/demo");
     await page.getByRole("tab", { name: "Secciones y música" }).click();

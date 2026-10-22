@@ -486,6 +486,11 @@ function CoverPart() {
       </Group>
       {draft.theme.cover === "video" ? (
         <Group title="Vuestro vídeo">
+          {draft.content.coverVideo ? null : (
+            <p className="text-[0.875rem] font-medium text-warning">
+              Aún no habéis subido el vídeo: mientras tanto, los invitados ven la foto de portada.
+            </p>
+          )}
           <MediaField
             kind="video"
             label="Vídeo de portada"
