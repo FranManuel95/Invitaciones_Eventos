@@ -47,12 +47,19 @@ export default async function InvitationPage(props: PageProps<"/i/[token]">) {
           }).filter(([, v]) => v !== undefined),
         ),
       });
+  // En la demo también se puede ver la fase de «save the date»: ?fase=save-the-date.
+  const phase = invitation.group.persisted
+    ? invitation.phase
+    : pick("fase") === "save-the-date"
+      ? "save_the_date"
+      : invitation.phase;
   return (
     <InvitationExperience
       event={invitation.event}
       group={invitation.group}
       initialResponse={invitation.response}
       theme={theme}
+      phase={phase}
     />
   );
 }

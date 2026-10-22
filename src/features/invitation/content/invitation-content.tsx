@@ -15,7 +15,7 @@ import { GiftSection } from "./gift-section";
 import { ResponseStatus } from "./response-status";
 import { dayClock, liveProgram } from "@/lib/day-mode";
 import { LiveDay } from "./live-day";
-import { SaveTheDate } from "./save-the-date";
+import { SaveTheDate, SaveTheDateOnly } from "./save-the-date";
 import { SECTION_IDS, type CalendarId, type SectionId } from "@/lib/theme";
 import { StorySection } from "./story-section";
 import { PracticalSection, ProgramSection, TransportSection, VenuesSection } from "./sections";
@@ -65,6 +65,8 @@ export interface InvitationContentProps {
   hidden?: SectionId[];
   /** Orden de las secciones elegido en el editor (la confirmación va siempre al final). */
   order?: readonly SectionId[];
+  /** En «save_the_date» solo se ven la fecha y el calendario, sin confirmación. */
+  phase?: "save_the_date" | "invitacion";
 }
 
 /** Pantallas 4 a 7 · La invitación completa con secciones y RSVP. */
@@ -77,7 +79,9 @@ export function InvitationContent({
   badge,
   hidden = NO_HIDDEN,
   order = DEFAULT_ORDER,
+  phase = "invitacion",
 }: InvitationContentProps) {
+  const early = phase === "save_the_date";
   const shows = (id: SectionId) => !hidden.includes(id);
   const nav = useMemo(() => {
     const rank = (id: string) => {
@@ -124,12 +128,14 @@ export function InvitationContent({
 
   return (
     <div className="bg-ivory">
-      <a
-        href="#confirmar"
-        className="sr-only-focusable fixed top-2 left-2 z-50 rounded-md bg-ink px-4 py-2 text-sm text-paper"
-      >
-        Ir a confirmar asistencia
-      </a>
+      {early ? null : (
+        <a
+          href="#confirmar"
+          className="sr-only-focusable fixed top-2 left-2 z-50 rounded-md bg-ink px-4 py-2 text-sm text-paper"
+        >
+          Ir a confirmar asistencia
+        </a>
+      )}
 
       {/* La carta de la pantalla anterior se transforma en esta cabecera de papel. */}
       <ViewTransition name="carta" share="paper-morph" default="none">
@@ -182,7 +188,11 @@ export function InvitationContent({
                 )}
               </div>
               <div className="flex flex-wrap gap-3">
-                {clock.active ? (
+                {early ? (
+                  <a href="#fecha" className={buttonClasses("primary", "lg")}>
+                    Guardar la fecha
+                  </a>
+                ) : clock.active ? (
                   <a href="#en-directo" className={buttonClasses("primary", "lg")}>
                     Qué pasa ahora
                   </a>
@@ -191,9 +201,11 @@ export function InvitationContent({
                     Confirmar asistencia
                   </a>
                 )}
-                <a href="#programa" className={buttonClasses("secondary", "lg")}>
-                  Ver el programa
-                </a>
+                {early ? null : (
+                  <a href="#programa" className={buttonClasses("secondary", "lg")}>
+                    Ver el programa
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -203,63 +215,74 @@ export function InvitationContent({
 
       {clock.active ? <LiveDay event={event} clock={clock} /> : null}
 
-      <aside aria-label="Tu respuesta" className="border-t border-line bg-paper">
-        <div className="mx-auto max-w-5xl px-6 py-4 sm:px-10">
-          <ResponseStatus event={event} group={group} />
-        </div>
-      </aside>
+      {early ? (
+        <SaveTheDateOnly event={event} calendar={calendar} />
+      ) : (
+        <>
+          <aside aria-label="Tu respuesta" className="border-t border-line bg-paper">
+            <div className="mx-auto max-w-5xl px-6 py-4 sm:px-10">
+              <ResponseStatus event={event} group={group} />
+            </div>
+          </aside>
 
-      <nav
-        aria-label="Secciones de la invitación"
-        className="sticky top-0 z-30 border-y border-line bg-ivory/92 backdrop-blur-md"
-      >
-        <ul
-          ref={navRef}
-          className="relative mx-auto flex max-w-5xl [scrollbar-width:none] gap-6 overflow-x-auto px-6 sm:px-10"
-        >
-          {nav.map((item) => (
-            <li key={item.id} className="shrink-0">
-              <a
-                href={`#${item.id}`}
-                aria-current={active === item.id ? "true" : undefined}
-                className={clsx(
-                  "block border-b-2 py-3.5 text-[0.9375rem] transition-colors",
-                  active === item.id
-                    ? "border-ink text-ink"
-                    : "border-transparent text-muted hover:text-ink",
-                )}
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+          <nav
+            aria-label="Secciones de la invitación"
+            className="sticky top-0 z-30 border-y border-line bg-ivory/92 backdrop-blur-md"
+          >
+            <ul
+              ref={navRef}
+              className="relative mx-auto flex max-w-5xl [scrollbar-width:none] gap-6 overflow-x-auto px-6 sm:px-10"
+            >
+              {nav.map((item) => (
+                <li key={item.id} className="shrink-0">
+                  <a
+                    href={`#${item.id}`}
+                    aria-current={active === item.id ? "true" : undefined}
+                    className={clsx(
+                      "block border-b-2 py-3.5 text-[0.9375rem] transition-colors",
+                      active === item.id
+                        ? "border-ink text-ink"
+                        : "border-transparent text-muted hover:text-ink",
+                    )}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-      <main>
-        <section aria-label="Bienvenida" className="mx-auto max-w-5xl px-6 py-16 sm:px-10 sm:py-24">
-          <p className="max-w-[34ch] font-display text-[1.625rem] leading-[1.45] text-ink sm:text-[2rem] md:ml-[15.5rem]">
-            {event.welcomeMessage}
-          </p>
-        </section>
+          <main>
+            <section
+              aria-label="Bienvenida"
+              className="mx-auto max-w-5xl px-6 py-16 sm:px-10 sm:py-24"
+            >
+              <p className="max-w-[34ch] font-display text-[1.625rem] leading-[1.45] text-ink sm:text-[2rem] md:ml-[15.5rem]">
+                {event.welcomeMessage}
+              </p>
+            </section>
 
-        {order.filter(shows).map((id) => (
-          <Fragment key={id}>
-            {
-              {
-                fecha: clock.active ? null : <SaveTheDate event={event} variant={calendar} />,
-                programa: <ProgramSection event={event} currentId={live?.current?.id ?? null} />,
-                lugares: <VenuesSection event={event} />,
-                transporte: <TransportSection event={event} response={saved} />,
-                info: <PracticalSection event={event} />,
-                historia: <StorySection event={event} />,
-                regalo: <GiftSection event={event} />,
-              }[id]
-            }
-          </Fragment>
-        ))}
-        <RsvpSection event={event} group={group} />
-      </main>
+            {order.filter(shows).map((id) => (
+              <Fragment key={id}>
+                {
+                  {
+                    fecha: clock.active ? null : <SaveTheDate event={event} variant={calendar} />,
+                    programa: (
+                      <ProgramSection event={event} currentId={live?.current?.id ?? null} />
+                    ),
+                    lugares: <VenuesSection event={event} />,
+                    transporte: <TransportSection event={event} response={saved} />,
+                    info: <PracticalSection event={event} />,
+                    historia: <StorySection event={event} />,
+                    regalo: <GiftSection event={event} />,
+                  }[id]
+                }
+              </Fragment>
+            ))}
+            <RsvpSection event={event} group={group} />
+          </main>
+        </>
+      )}
 
       <footer className="border-t border-line bg-paper">
         <div className="mx-auto flex max-w-5xl flex-col gap-6 px-6 pt-14 pb-[max(3rem,env(safe-area-inset-bottom))] sm:flex-row sm:items-end sm:justify-between sm:px-10">

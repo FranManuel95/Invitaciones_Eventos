@@ -5,23 +5,46 @@ import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { publishEvent } from "../actions";
 
+const TITLES = {
+  draft: "Borrador sin publicar",
+  save_the_date: "Save the date publicado",
+  invitacion: "Invitación publicada",
+};
+
+const DESCRIPTIONS = {
+  draft:
+    "Publica para que los enlaces de los invitados funcionen. Puedes empezar por un save the date: solo la fecha y el calendario, sin confirmación.",
+  save_the_date:
+    "Los invitados ven el aviso con la fecha. Cuando tengáis todo listo, publicad la invitación completa: el enlace es el mismo.",
+  invitacion:
+    "Los invitados ven la última versión publicada. Vuelve a publicar tras hacer cambios.",
+};
+
 /**
- * Estado del evento real: borrador o publicado, con el botón de publicar y los enlaces
- * personales de cada invitación (para copiar o abrir).
+ * Estado del evento real: borrador, save the date o invitación publicada, con los botones de
+ * publicar y los enlaces personales de cada invitación (para copiar o abrir).
  */
 export function PublishBar({
   eventId,
   status,
+  phase,
   links,
 }: {
   eventId: string;
   status: "draft" | "published";
+  phase: "save_the_date" | "invitacion";
   links: { name: string; token: string }[];
 }) {
+  const state = status === "draft" ? "draft" : phase;
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
   const origin = typeof window === "undefined" ? "" : window.location.origin;
+  const publish = (next: "save_the_date" | "invitacion") =>
+    start(async () => {
+      const result = await publishEvent(eventId, next);
+      setError(result.error);
+    });
 
   return (
     <section
@@ -31,25 +54,24 @@ export function PublishBar({
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h2 id="publicacion" className="font-display text-[1.5rem] text-ink">
-            {status === "published" ? "Invitación publicada" : "Borrador sin publicar"}
+            {TITLES[state]}
           </h2>
-          <p className="mt-1 text-[0.9375rem] text-muted">
-            {status === "published"
-              ? "Los invitados ven la última versión publicada. Vuelve a publicar tras hacer cambios."
-              : "Publica para que los enlaces de los invitados funcionen."}
-          </p>
+          <p className="mt-1 max-w-[60ch] text-[0.9375rem] text-muted">{DESCRIPTIONS[state]}</p>
         </div>
-        <Button
-          disabled={pending}
-          onClick={() =>
-            start(async () => {
-              const result = await publishEvent(eventId);
-              setError(result.error);
-            })
-          }
-        >
-          {pending ? "Publicando…" : status === "published" ? "Volver a publicar" : "Publicar"}
-        </Button>
+        <div className="flex flex-wrap gap-2">
+          {state === "invitacion" ? null : (
+            <Button variant="secondary" disabled={pending} onClick={() => publish("save_the_date")}>
+              {state === "save_the_date" ? "Actualizar save the date" : "Publicar save the date"}
+            </Button>
+          )}
+          <Button disabled={pending} onClick={() => publish("invitacion")}>
+            {pending
+              ? "Publicando…"
+              : state === "invitacion"
+                ? "Volver a publicar"
+                : "Publicar invitación completa"}
+          </Button>
+        </div>
       </div>
       <p role="status" aria-live="polite" className="text-[0.875rem] text-danger">
         {error}

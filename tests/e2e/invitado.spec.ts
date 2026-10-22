@@ -263,6 +263,29 @@ test.describe("experiencia del invitado", () => {
     await expect(info.getByText(/Traje claro o de lino/)).toBeAttached();
   });
 
+  test("save the date: solo la fecha, sin confirmación, y accesible", async ({ page }) => {
+    await page.goto("/i/familia-garcia?fase=save-the-date");
+    await page.getByRole("button", { name: /toca para abrir/i }).click();
+    await page.getByRole("button", { name: "Abrir el sobre" }).click();
+    await expect(page.getByText(/Guarda la fecha! Nos casamos/)).toBeVisible({ timeout: 8000 });
+    await page.getByRole("button", { name: "Ver la invitación" }).click();
+    await expect(page.getByRole("heading", { name: "Pronto, la invitación" })).toBeVisible();
+    await expect(page.locator("#fecha")).toBeAttached();
+    await expect(page.locator("#confirmar")).toHaveCount(0);
+    await expect(page.locator("#programa")).toHaveCount(0);
+    await expect(page.getByRole("navigation", { name: "Secciones de la invitación" })).toHaveCount(
+      0,
+    );
+    await expect(
+      page.getByText(/La confirmación de asistencia llegará con la invitación/),
+    ).toBeAttached();
+    for (let i = 0; i < 10; i++) await page.mouse.wheel(0, 600);
+    await page.waitForTimeout(1200);
+    const { violations } = await new AxeBuilder({ page }).analyze();
+    const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
+    expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual([]);
+  });
+
   test("un token desconocido devuelve 404", async ({ page }) => {
     const response = await page.goto("/i/no-existe");
     expect(response?.status()).toBe(404);

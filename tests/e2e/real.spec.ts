@@ -43,7 +43,7 @@ test.describe("recorrido real con Supabase", () => {
     await page.goto(eventUrl);
     await expect(page.getByRole("heading", { name: "Borrador sin publicar" })).toBeVisible();
 
-    await page.getByRole("button", { name: "Publicar" }).click();
+    await page.getByRole("button", { name: "Publicar invitación completa" }).click();
     await expect(page.getByRole("heading", { name: "Invitación publicada" })).toBeVisible({
       timeout: 15_000,
     });

@@ -63,6 +63,7 @@ export default async function PanelHome(props: PageProps<"/panel/[evento]">) {
         <PublishBar
           eventId={meta.id}
           status={meta.status}
+          phase={meta.phase}
           links={groups.map((g) => ({ name: g.displayName, token: g.token }))}
         />
       ) : null}

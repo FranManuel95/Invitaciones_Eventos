@@ -72,8 +72,18 @@ export async function createEvent(_prev: ActionState, form: FormData): Promise<A
   redirect(`/editor/${event.id}`);
 }
 
-/** Publica el borrador: a partir de ahora los invitados ven esta versión. */
-export async function publishEvent(eventId: string): Promise<ActionState> {
+/**
+ * Publica el borrador: a partir de ahora los invitados ven esta versión. Con `save_the_date` ven
+ * solo el aviso de la fecha (sin confirmación); con `invitacion`, la invitación completa. Sin
+ * fase (el botón del editor) se mantiene la que ya hubiera.
+ */
+export async function publishEvent(
+  eventId: string,
+  phase?: "save_the_date" | "invitacion",
+): Promise<ActionState> {
+  if (phase !== undefined && phase !== "save_the_date" && phase !== "invitacion") {
+    return { error: "Fase no válida." };
+  }
   const supabase = await requireUser();
   const { data: current } = await supabase
     .from("events")
@@ -85,6 +95,7 @@ export async function publishEvent(eventId: string): Promise<ActionState> {
     .from("events")
     .update({
       status: "published",
+      ...(phase ? { phase } : {}),
       published_content: current.content,
       published_theme: current.theme,
       published_at: new Date().toISOString(),

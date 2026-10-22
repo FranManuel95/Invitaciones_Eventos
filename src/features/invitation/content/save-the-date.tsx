@@ -56,9 +56,12 @@ const RING = "M38 6C22 2 6 9 5 22C4 34 18 41 32 39C47 37 57 28 55 17C53 8 42 4 3
 export function SaveTheDate({
   event,
   variant = "taco",
+  early = false,
 }: {
   event: WeddingEvent;
   variant?: CalendarId;
+  /** Fase «save the date»: todavía no se puede confirmar. */
+  early?: boolean;
 }) {
   const isPad = variant === "taco";
   // Cómo se marca el día en las variantes de hoja mensual.
@@ -251,7 +254,9 @@ export function SaveTheDate({
             {ceremony ? `A las ${ceremony.time}, en ${ceremony.place}.` : null}
           </p>
           <p className="mt-2 max-w-prose text-[0.9375rem] leading-relaxed text-muted">
-            Guárdalo ya en tu calendario. Podrás confirmar asistencia más abajo cuando quieras.
+            {early
+              ? "Guárdalo ya en tu calendario. La confirmación de asistencia llegará con la invitación."
+              : "Guárdalo ya en tu calendario. Podrás confirmar asistencia más abajo cuando quieras."}
           </p>
           <FlipCountdown date={event.date} className="mt-6" />
           <div className="mt-6 flex flex-wrap gap-3">
@@ -391,5 +396,37 @@ function Poster({ event, day, inView, dayRef, figureRef }: FigureProps & { event
       <div aria-hidden className="mx-auto mt-4 h-px w-12 bg-gold" />
       <p className="mt-4 text-[0.875rem] tracking-[0.5em] text-ink-soft">{day.slice(0, 4)}</p>
     </figure>
+  );
+}
+
+/**
+ * Fase «save the date»: sin secciones ni confirmación. Un aviso de que la invitación llegará en el
+ * mismo enlace y el calendario para guardar la fecha.
+ */
+export function SaveTheDateOnly({
+  event,
+  calendar = "taco",
+}: {
+  event: WeddingEvent;
+  calendar?: CalendarId;
+}) {
+  return (
+    <main>
+      <section aria-labelledby="pronto-title" className="border-y border-line bg-paper">
+        <div className="mx-auto max-w-5xl px-6 py-12 sm:px-10 sm:py-16 md:ml-auto">
+          <h2
+            id="pronto-title"
+            className="font-display text-[1.75rem] leading-tight text-ink sm:text-[2.25rem]"
+          >
+            Pronto, la invitación
+          </h2>
+          <p className="mt-3 max-w-[52ch] text-[1.0625rem] leading-relaxed text-ink-soft">
+            Por ahora solo queremos que guardes el día. Muy pronto tendrás aquí, en este mismo
+            enlace, el programa, los lugares, el transporte y la confirmación de asistencia.
+          </p>
+        </div>
+      </section>
+      <SaveTheDate event={event} variant={calendar} early />
+    </main>
   );
 }

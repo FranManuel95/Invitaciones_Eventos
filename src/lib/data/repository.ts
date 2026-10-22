@@ -22,10 +22,14 @@ import { createAnonClient, createSessionClient } from "@/lib/supabase/server";
 
 export const DEMO_EVENT_KEY = "demo";
 
+/** Fase publicada: primero el aviso «save the date» y después la invitación completa. */
+export type EventPhase = "save_the_date" | "invitacion";
+
 export interface Invitation {
   event: WeddingEvent;
   group: GuestGroup;
   theme: Theme;
+  phase: EventPhase;
   /** Respuesta ya guardada en el servidor (null si aún no ha respondido; undefined en la demo). */
   response?: RsvpResponse | null;
 }
@@ -37,7 +41,7 @@ export async function getEvent(): Promise<WeddingEvent> {
 /** Una sola consulta por petición aunque la usen los metadatos y la página (cache de React). */
 export const getInvitation = cache(async (token: string): Promise<Invitation | null> => {
   const demo = demoGroups.find((g) => g.token === token);
-  if (demo) return { event: demoEvent, group: demo, theme: DEFAULT_THEME };
+  if (demo) return { event: demoEvent, group: demo, theme: DEFAULT_THEME, phase: "invitacion" };
   return getLiveInvitation(token);
 });
 
@@ -61,6 +65,7 @@ async function getLiveInvitation(token: string): Promise<Invitation | null> {
       table: string | null;
     };
     theme: unknown;
+    phase?: string;
     response: unknown;
   };
   const content = eventContentSchema.safeParse(raw.event);
@@ -82,6 +87,7 @@ async function getLiveInvitation(token: string): Promise<Invitation | null> {
       persisted: true,
     },
     theme: parseTheme(raw.theme),
+    phase: raw.phase === "save_the_date" ? "save_the_date" : "invitacion",
     response: response?.success ? response.data : null,
   };
 }
@@ -95,6 +101,8 @@ export interface EventMeta {
   id: string;
   slug: string;
   status: "draft" | "published";
+  /** Qué se ha publicado: el «save the date» o la invitación completa. */
+  phase: EventPhase;
   publishedAt: string | null;
 }
 
@@ -125,7 +133,7 @@ export async function getOrganizerData(eventKey = DEMO_EVENT_KEY): Promise<Organ
   const [eventRes, groupsRes, responsesRes, tablesRes] = await Promise.all([
     supabase
       .from("events")
-      .select("id, slug, status, content, published_at")
+      .select("id, slug, status, phase, content, published_at")
       .eq("id", eventKey)
       .maybeSingle(),
     supabase
@@ -194,6 +202,7 @@ export async function getOrganizerData(eventKey = DEMO_EVENT_KEY): Promise<Organ
       id: eventRes.data.id,
       slug: eventRes.data.slug,
       status: eventRes.data.status,
+      phase: eventRes.data.phase === "save_the_date" ? "save_the_date" : "invitacion",
       publishedAt: eventRes.data.published_at,
     },
   };
@@ -329,7 +338,9 @@ export async function getEventDraft(eventKey: string): Promise<EventDraft | null
   if (!supabase) return null;
   const { data } = await supabase
     .from("events")
-    .select("id, slug, status, content, theme, published_content, published_theme, published_at")
+    .select(
+      "id, slug, status, phase, content, theme, published_content, published_theme, published_at",
+    )
     .eq("id", eventKey)
     .maybeSingle();
   if (!data) return null;
@@ -342,6 +353,7 @@ export async function getEventDraft(eventKey: string): Promise<EventDraft | null
       id: data.id,
       slug: data.slug,
       status: data.status,
+      phase: data.phase === "save_the_date" ? "save_the_date" : "invitacion",
       publishedAt: data.published_at,
       // Las dos columnas son jsonb: Postgres ordena las claves igual en ambas.
       unpublishedChanges:
@@ -365,13 +377,14 @@ export async function listMyEvents(): Promise<EventSummary[]> {
   if (!user.user) return [];
   const { data } = await supabase
     .from("event_members")
-    .select("role, events (id, slug, status, published_at, content)")
+    .select("role, events (id, slug, status, phase, published_at, content)")
     .eq("user_id", user.user.id);
   return (data ?? []).flatMap((row) => {
     const e = row.events as unknown as {
       id: string;
       slug: string;
       status: "draft" | "published";
+      phase: string;
       published_at: string | null;
       content: { couple?: { first?: string; second?: string }; date?: string };
     } | null;
@@ -381,6 +394,7 @@ export async function listMyEvents(): Promise<EventSummary[]> {
         id: e.id,
         slug: e.slug,
         status: e.status,
+        phase: e.phase === "save_the_date" ? "save_the_date" : "invitacion",
         publishedAt: e.published_at,
         couple: `${e.content.couple?.first ?? ""} & ${e.content.couple?.second ?? ""}`,
         date: e.content.date ?? "",

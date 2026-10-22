@@ -70,6 +70,7 @@ export function InvitationExperience({
   theme = DEFAULT_THEME,
   initialStage,
   preview = false,
+  phase = "invitacion",
 }: {
   event: WeddingEvent;
   group: GuestGroup;
@@ -79,6 +80,8 @@ export function InvitationExperience({
   initialStage?: Stage;
   /** Vista previa del editor: el distintivo dice «Vista previa». */
   preview?: boolean;
+  /** «save_the_date»: aviso corto (fecha y calendario) antes de la invitación completa. */
+  phase?: "save_the_date" | "invitacion";
   /** Respuesta guardada en el servidor (invitaciones reales); undefined en la demo. */
   initialResponse?: RsvpResponse | null;
 }) {
@@ -142,6 +145,15 @@ export function InvitationExperience({
 
   const intro = stage !== "content";
   const Opening = OPENINGS[theme.opening];
+  const early = phase === "save_the_date";
+  // En el save the date, la carta anuncia la fecha en lugar del mensaje de la invitación.
+  const letterEvent = early
+    ? {
+        ...event,
+        cardMessage:
+          "¡Guarda la fecha! Nos casamos y queremos que estés. Muy pronto te llegará la invitación con todos los detalles, en este mismo enlace.",
+      }
+    : event;
   const onDark = stage === "cover" || stage === "brief";
 
   return (
@@ -225,7 +237,7 @@ export function InvitationExperience({
             {stage === "letter" ? (
               <ViewTransition exit="fade-out" default="none">
                 <LetterStage
-                  event={event}
+                  event={letterEvent}
                   group={group}
                   theme={theme}
                   onContinue={() => go("content")}
@@ -244,6 +256,7 @@ export function InvitationExperience({
                     calendar={theme.calendar}
                     hidden={theme.hidden}
                     order={theme.order}
+                    phase={phase}
                     badge={badge}
                   />
                 </ViewTransition>
