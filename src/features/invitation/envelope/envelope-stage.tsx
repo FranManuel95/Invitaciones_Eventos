@@ -415,7 +415,7 @@ export function EnvelopeStage({
               >
                 <span
                   data-seal-whole
-                  className="absolute inset-0 block overflow-hidden rounded-full transition-transform duration-500 group-hover:scale-105"
+                  className="absolute inset-0 block overflow-hidden rounded-full transition-transform duration-500 group-hover:scale-105 group-focus-visible:scale-105 motion-reduce:transition-none"
                 >
                   <WaxSealArt
                     monogram={event.couple.monogram}
