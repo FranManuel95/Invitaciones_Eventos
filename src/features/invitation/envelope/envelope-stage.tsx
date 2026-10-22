@@ -248,6 +248,7 @@ export function EnvelopeStage({
           aria-label="Abrir el sobre"
           disabled={opening}
           aria-disabled={opening}
+          aria-busy={opening}
           className={`group relative block w-[min(84vw,380px)] rounded-sm focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-[var(--env-seal)] sm:w-[440px] ${opening ? "cursor-not-allowed" : "cursor-pointer"}`}
           style={reduce ? undefined : { rotateX, rotateY, transformPerspective: 1100 }}
         >
