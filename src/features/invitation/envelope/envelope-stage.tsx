@@ -130,7 +130,7 @@ export function EnvelopeStage({
     animate(
       "[data-seal-half='r']",
       { x: 22, y: 96, rotate: 30, opacity: 0 },
-      { duration: 0.8, ease: [0.5, 0, 0.9, 0.6] },
+      { duration: 0.8, delay: 0.035, ease: [0.5, 0, 0.9, 0.6] },
     );
     CRUMBS.forEach(([x, y, rotate], i) => {
       animate(
