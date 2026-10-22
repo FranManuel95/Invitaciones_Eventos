@@ -108,9 +108,10 @@ export function EnvelopeStage({
     }
 
     // El título se retira para dejar espacio a la solapa abierta y a la carta.
-    animate("[data-heading]", { opacity: 0, y: -12 }, { duration: 0.45, ease: "easeOut" });
+    animate("[data-title-heading]", { opacity: 0, y: -12 }, { duration: 0.45, ease: "easeOut" });
     // Cámara: un acercamiento lento durante toda la apertura y un foco que oscurece los bordes.
-    animate(scope.current, { scale: 1.1, y: 18 }, { duration: 4.6, ease: [0.45, 0, 0.25, 1] });
+    const cameraDuration = 3.82 + (pace - 1) * 0.92;
+    animate(scope.current, { scale: 1.1, y: 18 }, { duration: cameraDuration, ease: [0.45, 0, 0.25, 1] });
     if (spotlight.current) {
       animate(spotlight.current, { opacity: 1 }, { duration: 2.6, delay: 0.6, ease: "easeInOut" });
     }
@@ -131,7 +132,7 @@ export function EnvelopeStage({
     animate(
       "[data-seal-half='r']",
       { x: 22, y: 96, rotate: 30, opacity: 0 },
-      { duration: 0.8, ease: [0.5, 0, 0.9, 0.6] },
+      { duration: 0.8, delay: 0.035, ease: [0.5, 0, 0.9, 0.6] },
     );
     CRUMBS.forEach(([x, y, rotate], i) => {
       animate(
@@ -225,7 +226,7 @@ export function EnvelopeStage({
 
       <div ref={scope} className="relative flex w-full flex-col items-center">
         <div
-          data-heading
+          data-title-heading
           className="mb-10 flex flex-col items-center text-center text-ink-soft sm:mb-12"
         >
           <Monogram
@@ -247,8 +248,10 @@ export function EnvelopeStage({
           type="button"
           onClick={open}
           aria-label="Abrir el sobre"
+          disabled={opening}
           aria-disabled={opening}
-          className="group relative block w-[min(84vw,380px)] cursor-pointer rounded-sm focus-visible:outline-offset-8 sm:w-[440px]"
+          aria-busy={opening}
+          className={`group relative block w-[min(84vw,380px)] rounded-sm focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-[var(--env-seal)] sm:w-[440px] ${opening ? "cursor-not-allowed" : "cursor-pointer"}`}
           style={reduce ? undefined : { rotateX, rotateY, transformPerspective: 1100 }}
         >
           {/* Flotación en reposo (CSS) en un contenedor propio para no competir con Motion. */}
@@ -282,7 +285,7 @@ export function EnvelopeStage({
               <m.span
                 data-letter
                 aria-hidden
-                className="paper-grain absolute inset-x-[6%] top-[5%] z-10 block h-[88%] origin-bottom rounded-[2px] bg-paper shadow-[0_1px_3px_rgb(60_45_25/0.18)]"
+                className="paper-grain absolute inset-x-[6%] top-[5%] z-10 block h-[88%] origin-bottom rounded-[2px] bg-paper shadow-[0_1px_3px_rgb(60_45_25/0.2),0_8px_18px_rgb(40_30_20/0.1)] ring-1 ring-inset ring-[rgb(120_90_50/0.1)]"
               >
                 {/* Destello de luz que cruza el papel al llegar al primer plano */}
                 <span className="pointer-events-none absolute inset-0 block overflow-hidden rounded-[2px]">
@@ -429,7 +432,7 @@ export function EnvelopeStage({
                 </span>
                 <m.span
                   data-seal-half="l"
-                  className="absolute inset-0 block opacity-0"
+                  className="absolute inset-0 block opacity-0 drop-shadow-[0_1px_1px_rgb(40_10_10/0.3)]"
                   style={{ clipPath: "polygon(0 0, 52% 0, 44% 30%, 56% 55%, 46% 100%, 0 100%)" }}
                 >
                   <WaxSealArt
@@ -441,7 +444,7 @@ export function EnvelopeStage({
                 </m.span>
                 <m.span
                   data-seal-half="r"
-                  className="absolute inset-0 block opacity-0"
+                  className="absolute inset-0 block opacity-0 drop-shadow-[0_1px_1px_rgb(40_10_10/0.3)]"
                   style={{
                     clipPath: "polygon(52% 0, 100% 0, 100% 100%, 46% 100%, 56% 55%, 44% 30%)",
                   }}
@@ -468,7 +471,9 @@ export function EnvelopeStage({
 
         <p
           data-heading
+          role="status"
           aria-live="polite"
+          aria-atomic="true"
           className="mt-14 flex items-center gap-2 text-[0.9375rem] text-ink-soft"
         >
           {opening ? (
