@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { removeEventFiles, type StorageLike } from "@/lib/data/event-files";
+import {
+  removeEventFiles,
+  removeUnusedEventFiles,
+  unusedFiles,
+  type StorageLike,
+} from "@/lib/data/event-files";
 
 const EVENT = "11111111-1111-1111-1111-111111111111";
 
@@ -71,5 +76,47 @@ describe("borrado de los archivos de un evento", () => {
   it("un evento sin archivos se da por limpio", async () => {
     const { storage } = fakeStorage({});
     expect(await removeEventFiles(storage, EVENT)).toEqual({ ok: true, removed: 0 });
+  });
+});
+
+describe("limpieza de archivos sustituidos", () => {
+  const now = Date.parse("2027-01-10T12:00:00Z");
+  const hoursAgo = (h: number) => new Date(now - h * 3_600_000).toISOString();
+  const url = (name: string) =>
+    `https://proyecto.supabase.co/storage/v1/object/public/event-media/${EVENT}/${name}`;
+
+  it("borra lo que ni el borrador ni lo publicado nombran, si tiene más de una hora", () => {
+    const referenced = JSON.stringify([{ coverPhoto: url("nueva.webp") }, { style: "noche" }]);
+    const files = [
+      { name: "nueva.webp", created_at: hoursAgo(5) },
+      { name: "vieja.webp", created_at: hoursAgo(5) },
+      { name: "recien-subida.webp", created_at: hoursAgo(0.2) },
+      { name: "sin-fecha.webp", created_at: null },
+    ];
+    expect(unusedFiles(files, EVENT, referenced, now)).toEqual([`${EVENT}/vieja.webp`]);
+  });
+
+  it("lista todas las páginas antes de borrar y borra solo lo que sobra", async () => {
+    const names = Array.from({ length: 130 }, (_, i) => `foto-${i}.webp`);
+    const store = names.map((name) => ({ name, created_at: hoursAgo(3) }));
+    const removed: string[][] = [];
+    const storage: StorageLike = {
+      from: () => ({
+        async list(_folder, { limit, offset }) {
+          return { data: store.slice(offset, offset + limit), error: null };
+        },
+        async remove(paths) {
+          removed.push(paths);
+          return { data: paths, error: null };
+        },
+      }),
+    };
+    // El borrador usa todas menos las dos primeras.
+    const referenced = JSON.stringify(names.slice(2).map(url));
+    expect(await removeUnusedEventFiles(storage, EVENT, referenced, now)).toEqual({
+      ok: true,
+      removed: 2,
+    });
+    expect(removed).toEqual([[`${EVENT}/foto-0.webp`, `${EVENT}/foto-1.webp`]]);
   });
 });

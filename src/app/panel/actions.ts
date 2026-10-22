@@ -4,6 +4,7 @@ import { randomBytes, randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { showcaseGroups } from "@/data/demo/guests";
+import { removeUnusedEventFiles } from "@/lib/data/event-files";
 import { buildNewEventContent, slugFor, validateNewEvent } from "@/lib/events/new-event";
 import { createSessionClient } from "@/lib/supabase/server";
 
@@ -102,6 +103,13 @@ export async function publishEvent(
     })
     .eq("id", eventId);
   if (error) return { error: "No hemos podido publicar. Inténtalo de nuevo." };
+  // Tras publicar, borrador y publicado coinciden: lo que no nombran (fotos sustituidas) sobra.
+  // Si falla, no pasa nada: se intentará en la próxima publicación.
+  await removeUnusedEventFiles(
+    supabase.storage,
+    eventId,
+    JSON.stringify([current.content, current.theme]),
+  ).catch(() => null);
   revalidatePath(`/panel/${eventId}`, "layout");
   return { error: null };
 }

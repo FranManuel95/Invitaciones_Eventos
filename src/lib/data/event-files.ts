@@ -11,7 +11,7 @@ export type StorageLike = {
     list(
       folder: string,
       options: { limit: number; offset: number },
-    ): Promise<{ data: { name: string }[] | null; error: unknown }>;
+    ): Promise<{ data: { name: string; created_at?: string | null }[] | null; error: unknown }>;
     remove(paths: string[]): Promise<{ data: unknown; error: unknown }>;
   };
 };
@@ -45,4 +45,54 @@ export async function removeEventFiles(
     }
   }
   return { ok: true, removed };
+}
+
+/** Una hora: lo recién subido puede no estar guardado aún en el borrador. */
+export const UNUSED_MIN_AGE_MS = 60 * 60 * 1000;
+
+/**
+ * Archivos del editor que ya no usa el evento: ni el borrador ni lo publicado los nombran
+ * (p. ej. una foto sustituida). Solo cuentan los que tienen más de `minAgeMs`.
+ */
+export function unusedFiles(
+  files: { name: string; created_at?: string | null }[],
+  eventId: string,
+  referenced: string,
+  now: number,
+  minAgeMs = UNUSED_MIN_AGE_MS,
+): string[] {
+  return files
+    .filter((f) => {
+      if (referenced.includes(`${eventId}/${f.name}`)) return false;
+      const created = f.created_at ? Date.parse(f.created_at) : NaN;
+      // Sin fecha (o una carpeta) no se toca: mejor dejar un archivo que borrar uno en uso.
+      return Number.isFinite(created) && now - created >= minAgeMs;
+    })
+    .map((f) => `${eventId}/${f.name}`);
+}
+
+/**
+ * Borra del almacenamiento del editor los archivos que el evento ya no usa. `referenced` es el
+ * texto (JSON) del borrador y de lo publicado. Devuelve cuántos ha borrado.
+ */
+export async function removeUnusedEventFiles(
+  storage: StorageLike,
+  eventId: string,
+  referenced: string,
+  now = Date.now(),
+): Promise<{ ok: true; removed: number } | { ok: false }> {
+  const files = storage.from("event-media");
+  const all: { name: string; created_at?: string | null }[] = [];
+  for (let offset = 0; ; offset += PAGE) {
+    const { data, error } = await files.list(eventId, { limit: PAGE, offset });
+    if (error || !data) return { ok: false };
+    all.push(...data);
+    if (data.length < PAGE) break;
+  }
+  const paths = unusedFiles(all, eventId, referenced, now);
+  for (let i = 0; i < paths.length; i += PAGE) {
+    const { error } = await files.remove(paths.slice(i, i + PAGE));
+    if (error) return { ok: false };
+  }
+  return { ok: true, removed: paths.length };
 }
