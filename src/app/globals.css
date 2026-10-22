@@ -616,3 +616,28 @@
     display: none;
   }
 }
+
+/* La sombra acompaña la flotación del sobre para reforzar su volumen sobre la mesa. */
+@keyframes envelope-shadow-breathe {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 0.82;
+  }
+  50% {
+    transform: scaleX(0.88);
+    opacity: 0.58;
+  }
+}
+
+.envelope-shadow {
+  transform-origin: center;
+  animation: envelope-shadow-breathe 4.5s ease-in-out 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .envelope-shadow {
+    animation: none;
+  }
+}
+
