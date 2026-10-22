@@ -1,6 +1,6 @@
 "use server";
 
-import { randomBytes } from "node:crypto";
+import { randomBytes, randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { showcaseGroups } from "@/data/demo/guests";
@@ -30,15 +30,15 @@ export async function createEvent(_prev: ActionState, form: FormData): Promise<A
   if (invalid) return { error: invalid };
 
   const supabase = await requireUser();
-  const { data: event, error } = await supabase
-    .from("events")
-    .insert({
-      slug: slugFor(input, randomBytes(3).toString("hex")),
-      content: buildNewEventContent(input),
-    })
-    .select("id")
-    .single();
-  if (error || !event) return { error: "No hemos podido crear el evento. Inténtalo de nuevo." };
+  // El id se genera aquí y no se pide de vuelta: quien crea el evento pasa a ser miembro en un
+  // disparador posterior a la inserción, así que aún no podría leerlo (la RLS lo rechazaría).
+  const event = { id: randomUUID() };
+  const { error } = await supabase.from("events").insert({
+    id: event.id,
+    slug: slugFor(input, randomBytes(3).toString("hex")),
+    content: buildNewEventContent(input),
+  });
+  if (error) return { error: "No hemos podido crear el evento. Inténtalo de nuevo." };
 
   if (form.get("sample") === "on") {
     // Grupos de ejemplo (con tokens nuevos y aleatorios generados por la base de datos).
