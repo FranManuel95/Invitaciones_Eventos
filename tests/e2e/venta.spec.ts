@@ -44,4 +44,14 @@ test.describe("página de venta", () => {
     const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
     expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual([]);
   });
+
+  test("los ejemplos enlazan cada apertura, portada y momento", async ({ page }) => {
+    await page.goto("/ejemplos");
+    const openings = page.getByRole("region", { name: "Aperturas" });
+    await expect(openings.getByRole("link")).toHaveCount(4);
+    await expect(page.getByRole("region", { name: "Portadas" }).getByRole("link")).toHaveCount(4);
+    await openings.getByRole("link", { name: /Caja con lazo/ }).click();
+    await expect(page).toHaveURL(/apertura=caja/);
+    await expect(page.getByRole("heading", { level: 1, name: /María/ })).toBeAttached();
+  });
 });

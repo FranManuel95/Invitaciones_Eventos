@@ -4,6 +4,8 @@ import { DemoBadge } from "@/components/demo-badge";
 import { buttonClasses } from "@/components/ui/button";
 import { BlossomCorner, Monogram } from "@/features/invitation/ornaments";
 import { getEvent, listShowcaseInvitations } from "@/lib/data/repository";
+import { COVER_IDS, COVERS } from "@/lib/theme/cover";
+import { OPENING_IDS, OPENINGS } from "@/lib/theme/envelope";
 import {
   applyTemplate,
   DEFAULT_THEME,
@@ -23,6 +25,58 @@ const NOTES: Record<string, string> = {
 };
 
 export const metadata = { title: "Ejemplos" };
+
+/** Variantes que no se ven con la invitación por defecto: cada una con su enlace directo. */
+const VARIANTS = [
+  {
+    id: "aperturas",
+    title: "Aperturas",
+    note: "Cómo se abre la invitación después de la portada.",
+    links: OPENING_IDS.map((id) => ({
+      href: `/i/familia-garcia?apertura=${id}`,
+      label: OPENINGS[id].label,
+      text: OPENINGS[id].description,
+    })),
+  },
+  {
+    id: "portadas",
+    title: "Portadas",
+    note: "Lo primero que ve el invitado, con sus nombres.",
+    // «Vuestro vídeo» necesita un vídeo subido por la pareja: en la demo no hay.
+    links: COVER_IDS.filter((id) => id !== "video").map((id) => ({
+      href: `/i/familia-garcia?portada=${id}`,
+      label: COVERS[id].label,
+      text: COVERS[id].description,
+    })),
+  },
+  {
+    id: "momentos",
+    title: "Momentos",
+    note: "La invitación cambia según el momento.",
+    links: [
+      {
+        href: "/i/familia-garcia?fase=save-the-date",
+        label: "Save the date",
+        text: "El primer aviso: solo la fecha y el calendario, sin confirmación.",
+      },
+      {
+        href: "/i/carlos-ruiz?dia=boda&hora=19:10",
+        label: "El día de la boda",
+        text: "Qué está pasando ahora y qué viene después (simulado a las 19:10).",
+      },
+      {
+        href: "/i/carlos-ruiz",
+        label: "Lista de regalos",
+        text: "Pulsa «Saltar intro» y baja hasta Regalos: reserva uno para que nadie lo repita.",
+      },
+      {
+        href: "/album/demo",
+        label: "Álbum de los invitados",
+        text: "Las fotos que suben los invitados desde el QR de las mesas.",
+      },
+    ],
+  },
+];
 
 /** Índice de la demostración: invitaciones de ejemplo, estilos y el panel de los novios. */
 export default async function Examples() {
@@ -146,6 +200,42 @@ export default async function Examples() {
             })}
           </ul>
         </section>
+
+        {VARIANTS.map((group) => (
+          <section
+            key={group.id}
+            aria-labelledby={group.id}
+            className="mt-16 md:grid md:grid-cols-[13rem_minmax(0,1fr)] md:gap-14"
+          >
+            <div>
+              <h2 id={group.id} className="font-display text-[1.75rem] leading-tight text-ink">
+                {group.title}
+              </h2>
+              <p className="mt-2 text-[0.9375rem] text-muted">{group.note}</p>
+            </div>
+            <ul className="mt-4 grid border-t border-ink/30 sm:grid-cols-2 sm:gap-x-8 md:mt-0">
+              {group.links.map((l) => (
+                <li key={l.href} className="border-b border-line">
+                  <Link
+                    href={l.href}
+                    className="group flex items-center justify-between gap-4 py-4 transition-colors hover:bg-ivory/60"
+                  >
+                    <span>
+                      <span className="block font-display text-[1.375rem] leading-tight text-ink">
+                        {l.label}
+                      </span>
+                      <span className="mt-1 block text-[0.875rem] text-muted">{l.text}</span>
+                    </span>
+                    <ArrowRight
+                      aria-hidden
+                      className="size-4 shrink-0 text-ink-soft transition-transform group-hover:translate-x-1"
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
 
         <div className="mt-14 md:ml-[15.5rem]">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
