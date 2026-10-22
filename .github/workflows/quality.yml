@@ -36,6 +36,10 @@ jobs:
       - name: Instalar dependencias bloqueadas
         run: npm ci
 
+      # Next genera PageProps/LayoutProps globales a partir de las rutas de la app.
+      - name: Generar tipos de rutas de Next.js
+        run: npx next typegen
+
       - name: Revisar estilo y errores de lint
         run: npm run lint
 
