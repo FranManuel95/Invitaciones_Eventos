@@ -111,7 +111,11 @@ export function EnvelopeStage({
     animate("[data-title-heading]", { opacity: 0, y: -12 }, { duration: 0.45, ease: "easeOut" });
     // Cámara: un acercamiento lento durante toda la apertura y un foco que oscurece los bordes.
     const cameraDuration = 3.82 + (pace - 1) * 0.92;
-    animate(scope.current, { scale: 1.1, y: 18 }, { duration: cameraDuration, ease: [0.45, 0, 0.25, 1] });
+    animate(
+      scope.current,
+      { scale: 1.1, y: 18 },
+      { duration: cameraDuration, ease: [0.45, 0, 0.25, 1] },
+    );
     if (spotlight.current) {
       animate(spotlight.current, { opacity: 1 }, { duration: 2.6, delay: 0.6, ease: "easeInOut" });
     }
@@ -285,7 +289,7 @@ export function EnvelopeStage({
               <m.span
                 data-letter
                 aria-hidden
-                className="paper-grain absolute inset-x-[6%] top-[5%] z-10 block h-[88%] origin-bottom rounded-[2px] bg-paper shadow-[0_1px_3px_rgb(60_45_25/0.2),0_8px_18px_rgb(40_30_20/0.1)] ring-1 ring-inset ring-[rgb(120_90_50/0.1)]"
+                className="paper-grain absolute inset-x-[6%] top-[5%] z-10 block h-[88%] origin-bottom rounded-[2px] bg-paper shadow-[0_1px_3px_rgb(60_45_25/0.2),0_8px_18px_rgb(40_30_20/0.1)] ring-1 ring-[rgb(120_90_50/0.1)] ring-inset"
               >
                 {/* Destello de luz que cruza el papel al llegar al primer plano */}
                 <span className="pointer-events-none absolute inset-0 block overflow-hidden rounded-[2px]">
