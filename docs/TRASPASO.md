@@ -21,8 +21,9 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 
 ## Pendiente
 
-- **De la pareja (panel de Supabase)**: Authentication → URL Configuration (Site URL y
-  `https://<dominio>/**` en Redirect URLs) y activar «Leaked password protection».
+- **Supabase (hecho el 22/10/2026)**: contraseña mínima de 8 caracteres y direcciones de la web
+  en URL Configuration. «Leaked password protection» solo existe en el plan Pro: activarla al
+  pasar a un plan de pago (el aviso de seguridad seguirá saliendo hasta entonces).
 - **Revisar y fusionar el PR** cuando el usuario lo decida.
 - **Antes de abrir la página de venta al público** (decide el usuario): textos legales (aviso
   legal y privacidad, por el formulario), quitar `robots: noindex` de la portada si se quiere
