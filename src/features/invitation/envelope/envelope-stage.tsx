@@ -246,6 +246,7 @@ export function EnvelopeStage({
           type="button"
           onClick={open}
           aria-label="Abrir el sobre"
+          disabled={opening}
           aria-disabled={opening}
           className="group relative block w-[min(84vw,380px)] cursor-pointer rounded-sm focus-visible:outline-offset-8 sm:w-[440px]"
           style={reduce ? undefined : { rotateX, rotateY, transformPerspective: 1100 }}
