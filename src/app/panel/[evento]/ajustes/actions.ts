@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { removeEventFiles } from "@/lib/data/event-files";
 import { createSessionClient } from "@/lib/supabase/server";
 
 /*
@@ -67,7 +68,10 @@ export async function removeMember(eventId: string, userId: string): Promise<Set
   return { ok: true };
 }
 
-/** Borra el evento con todo lo que cuelga de él. Pide escribir los nombres de la pareja. */
+/**
+ * Borra el evento con todo lo que cuelga de él, también sus fotos, vídeos y música. Pide escribir
+ * los nombres de la pareja.
+ */
 export async function deleteEvent(
   eventId: string,
   confirmation: string,
@@ -78,6 +82,22 @@ export async function deleteEvent(
     return { ok: false, error: "El texto no coincide." };
   }
   const supabase = await client();
+  // Primero se comprueba que es propietario: los archivos se borran antes que el evento (después
+  // ya no sería miembro y el almacenamiento no le dejaría) y no deben borrarse si no puede.
+  const { data: auth } = await supabase.auth.getUser();
+  if (!auth.user) return { ok: false, error: "Tu sesión ha caducado. Vuelve a entrar." };
+  const { data: owner } = await supabase
+    .from("event_members")
+    .select("role")
+    .eq("event_id", eventId)
+    .eq("user_id", auth.user.id)
+    .eq("role", "owner")
+    .maybeSingle();
+  if (!owner) return { ok: false, error: "Solo quien creó el evento puede borrarlo." };
+  const files = await removeEventFiles(supabase.storage, eventId);
+  if (!files.ok) {
+    return { ok: false, error: "No hemos podido borrar las fotos del evento. Inténtalo de nuevo." };
+  }
   const { data, error } = await supabase.from("events").delete().eq("id", eventId).select("id");
   if (error || !data?.length) {
     return { ok: false, error: "Solo quien creó el evento puede borrarlo." };

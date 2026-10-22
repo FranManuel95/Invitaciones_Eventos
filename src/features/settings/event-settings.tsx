@@ -211,8 +211,9 @@ export function EventSettingsPanel({
             Borrar el evento
           </h2>
           <p className="mt-1 text-[0.9375rem] text-ink-soft">
-            Se borran la invitación, los invitados, sus respuestas, las mesas, las tareas y el
-            presupuesto. Los enlaces dejarán de funcionar. No se puede deshacer.
+            Se borran la invitación, los invitados, sus respuestas, las mesas, las tareas, el
+            presupuesto y todas las fotos, vídeos y canciones, también las del álbum. Los enlaces
+            dejarán de funcionar. No se puede deshacer.
           </p>
           <Button
             className="mt-4 bg-danger hover:bg-danger/90"
