@@ -81,7 +81,7 @@ export function ProgramSection({
             >
               <span
                 className={`relative row-span-2 grid size-11 place-items-center rounded-full border bg-paper sm:row-span-1 ${
-                  now ? "border-wax text-wax" : "border-gold/60 text-gold"
+                  now ? "border-wax text-wax" : "program-dot border-gold/60 text-gold"
                 }`}
               >
                 <ProgramIcon id={item.id} />

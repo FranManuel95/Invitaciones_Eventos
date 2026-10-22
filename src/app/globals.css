@@ -461,6 +461,12 @@
       animation-timeline: --program;
       animation-range: entry 40% exit 70%;
     }
+    /* Cada parada del programa se enciende cuando el hilo llega a ella (a media pantalla). */
+    .program-dot {
+      animation: program-dot linear both;
+      animation-timeline: view();
+      animation-range: entry 100% cover 50%;
+    }
   }
 }
 
@@ -496,6 +502,19 @@
   }
   to {
     transform: translateY(-3rem);
+  }
+}
+@keyframes program-dot {
+  0%,
+  80% {
+    background-color: var(--color-paper);
+    color: var(--color-gold);
+    box-shadow: 0 0 0 0 transparent;
+  }
+  100% {
+    background-color: var(--color-gold);
+    color: var(--color-paper);
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-gold) 18%, transparent);
   }
 }
 @keyframes grow-y {
@@ -751,5 +770,32 @@ html.lenis body {
   }
   to {
     transform: rotate(1.6deg);
+  }
+}
+
+/* Pase de fotos del álbum: fundido entre fotos y movimiento lento (Ken Burns). */
+@media (prefers-reduced-motion: no-preference) {
+  .slide-fade {
+    animation: slide-fade 1.4s ease-out both;
+  }
+  .slide-kb {
+    transform-origin: var(--kb-origin, 50% 50%);
+    animation: slide-kb 7.5s linear both;
+  }
+}
+@keyframes slide-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slide-kb {
+  from {
+    transform: scale(var(--kb-from, 1));
+  }
+  to {
+    transform: scale(var(--kb-to, 1.12));
   }
 }

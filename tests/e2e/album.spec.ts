@@ -14,6 +14,24 @@ async function noSerious(page: Page) {
 }
 
 test.describe("álbum de los invitados", () => {
+  test("el pase de fotos avanza, se pausa y se cierra", async ({ page }) => {
+    await page.goto("/album/demo");
+    await page.getByRole("button", { name: "Ver el pase de fotos" }).click();
+    const show = page.getByRole("dialog", { name: "Pase de fotos" });
+    await expect(show).toBeVisible();
+    await expect(show.getByRole("img", { name: "Foto 1 de 6" })).toBeAttached();
+    await show.getByRole("button", { name: "Foto siguiente" }).click();
+    await expect(show.getByRole("img", { name: "Foto 2 de 6" })).toBeAttached();
+    await show.getByRole("button", { name: "Pausar el pase" }).click();
+    await expect(show.getByText("2 / 6")).toBeVisible();
+    await page.keyboard.press("ArrowLeft");
+    await expect(show.getByText("1 / 6")).toBeVisible();
+    await noSerious(page);
+    await page.keyboard.press("Escape");
+    await expect(show).toBeHidden();
+    await expect(page.getByRole("button", { name: "Ver el pase de fotos" })).toBeFocused();
+  });
+
   test("se ven las fotos aprobadas y se sube una (demo)", async ({ page }) => {
     await page.goto("/album/demo");
     await expect(

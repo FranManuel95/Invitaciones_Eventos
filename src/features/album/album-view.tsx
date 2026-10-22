@@ -1,7 +1,8 @@
 "use client";
 
 import { hostNames } from "@/lib/event-kind";
-import { Camera, Check, ImagePlus } from "lucide-react";
+import { Camera, Check, ImagePlus, Play } from "lucide-react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useId, useState } from "react";
 import { DemoBadge } from "@/components/demo-badge";
@@ -11,6 +12,9 @@ import { Monogram } from "@/features/invitation/ornaments";
 import type { Album } from "@/lib/data/album";
 import { formatLongDate } from "@/lib/format";
 import { createBrowserSupabase } from "@/lib/supabase/browser";
+
+// El pase de fotos solo se descarga al abrirlo.
+const Slideshow = dynamic(() => import("./slideshow").then((mod) => mod.Slideshow));
 
 const BUCKET = "guest-photos";
 const MAX_FILES = 10;
@@ -32,6 +36,7 @@ export function AlbumView({ album }: { album: Album }) {
   const inputId = useId();
   const [uploads, setUploads] = useState<Upload[]>([]);
   const [busy, setBusy] = useState(false);
+  const [showing, setShowing] = useState(false);
   const done = uploads.filter((u) => u.state === "done").length;
 
   const update = (id: string, patch: Partial<Upload>) =>
@@ -198,9 +203,21 @@ export function AlbumView({ album }: { album: Album }) {
       </section>
 
       <section aria-labelledby="fotos" className="mt-12">
-        <h2 id="fotos" className="font-display text-[1.75rem] text-ink">
-          Las fotos de todos
-        </h2>
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <h2 id="fotos" className="font-display text-[1.75rem] text-ink">
+            Las fotos de todos
+          </h2>
+          {album.photos.length > 1 ? (
+            <button
+              type="button"
+              onClick={() => setShowing(true)}
+              className={buttonClasses("secondary", "md")}
+            >
+              <Play aria-hidden className="size-4" />
+              Ver el pase de fotos
+            </button>
+          ) : null}
+        </div>
         {album.photos.length ? (
           <ul className="mt-5 columns-2 gap-3 sm:columns-3">
             {album.photos.map((p, i) => (
@@ -225,6 +242,7 @@ export function AlbumView({ album }: { album: Album }) {
           </p>
         )}
       </section>
+      {showing ? <Slideshow photos={album.photos} onClose={() => setShowing(false)} /> : null}
     </main>
   );
 }
