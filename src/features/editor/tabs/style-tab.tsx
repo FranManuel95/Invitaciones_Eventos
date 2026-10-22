@@ -23,6 +23,8 @@ import {
   accentFor,
   applyTemplate,
   CALENDAR_IDS,
+  COVER_IDS,
+  COVERS,
   CALENDARS,
   ENVELOPE_IDS,
   EDGE_IDS,
@@ -65,6 +67,7 @@ import {
 
 // Pestaña «Estilo» del editor: plantillas y, por apartados, cada detalle del aspecto.
 import { Group, useEditor } from "../fields";
+import { VideoField } from "../photo-field";
 
 function Swatches({ colors }: { colors: string[] }) {
   return (
@@ -89,6 +92,7 @@ type ChoiceKey =
   | "sealShape"
   | "sealMark"
   | "opening"
+  | "cover"
   | "layout"
   | "edge"
   | "ornament";
@@ -133,6 +137,7 @@ const PARTS: readonly { id: string; label: string; Panel: () => ReactNode; stage
   { id: "plantillas", label: "Plantillas", Panel: TemplatesPart },
   { id: "colores", label: "Colores", Panel: ColorsPart },
   { id: "letra", label: "Tipografía", Panel: FontsPart, stage: "cover" },
+  { id: "portada", label: "Portada", Panel: CoverPart, stage: "cover" },
   { id: "apertura", label: "Apertura", Panel: OpeningPart, stage: "envelope" },
   { id: "sobre", label: "Sobre", Panel: EnvelopePart, stage: "envelope" },
   { id: "carta", label: "Carta", Panel: LetterPart, stage: "letter" },
@@ -437,6 +442,56 @@ function OpeningSample({ opening }: { opening: Theme["opening"] }) {
         </span>
       )}
     </span>
+  );
+}
+
+/** Miniatura de cada portada: degradado y un detalle de la escena. */
+const COVER_SAMPLES: Record<Theme["cover"], string> = {
+  foto: "linear-gradient(180deg, #e2a46a, #6b4a3a 60%, #2c2a24)",
+  luces:
+    "radial-gradient(circle at 20% 22%, #ffe3a3 0 2px, transparent 3px), radial-gradient(circle at 50% 28%, #ffe3a3 0 2px, transparent 3px), radial-gradient(circle at 80% 20%, #ffe3a3 0 2px, transparent 3px), radial-gradient(circle at 60% 72%, #6fa0ff 0 4px, transparent 5px), radial-gradient(120% 90% at 50% 30%, #1b2a6b, #070a17)",
+  acuarela:
+    "radial-gradient(circle at 15% 15%, #e9b7c3 0 9px, transparent 12px), radial-gradient(circle at 85% 85%, #f1cdd5 0 11px, transparent 14px), radial-gradient(110% 80% at 50% 40%, #5a3a48, #1c1219)",
+  estrellas:
+    "radial-gradient(circle at 25% 30%, #fff 0 1px, transparent 1.5px), radial-gradient(circle at 70% 18%, #fff 0 1.2px, transparent 2px), radial-gradient(circle at 55% 45%, #fff 0 0.8px, transparent 1.5px), linear-gradient(180deg, #04060f, #1b1830)",
+  video: "linear-gradient(135deg, #2b2b2b, #555)",
+};
+
+function CoverPart() {
+  const { draft } = useEditor();
+  return (
+    <>
+      <Group
+        title="Portada"
+        description="Lo primero que ve el invitado, con vuestros nombres y la fecha."
+      >
+        <div role="radiogroup" aria-label="Portada" className="grid gap-3 sm:grid-cols-2">
+          {COVER_IDS.map((id) => (
+            <Choice
+              key={id}
+              name="cover"
+              value={id}
+              label={COVERS[id].label}
+              description={COVERS[id].description}
+              swatch={<Tile background={COVER_SAMPLES[id]} />}
+            />
+          ))}
+        </div>
+      </Group>
+      {draft.theme.cover === "video" ? (
+        <Group title="Vuestro vídeo">
+          <VideoField
+            label="Vídeo de portada"
+            path={["coverVideo"]}
+            hint="MP4 o WebM, vertical y corto (5–15 s, hasta 30 MB). Se reproduce sin sonido; mientras carga se ve la foto de portada."
+          />
+        </Group>
+      ) : draft.theme.cover === "foto" ? (
+        <p className="text-[0.8125rem] text-muted">
+          La foto se cambia en la pestaña «Fotos e historia».
+        </p>
+      ) : null}
+    </>
   );
 }
 

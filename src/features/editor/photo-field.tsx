@@ -1,6 +1,6 @@
 "use client";
 
-import { ImagePlus, Trash2 } from "lucide-react";
+import { Film, ImagePlus, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useId, useRef, useState } from "react";
 import { buttonClasses } from "@/components/ui/button";
@@ -128,6 +128,122 @@ export function PhotoField({
           ) : (
             <p className="text-[0.8125rem] text-muted">
               En la demo no se suben fotos. Crea vuestro evento para usar las vuestras.
+            </p>
+          )}
+          {hint ? <p className="mt-1.5 text-[0.8125rem] text-muted">{hint}</p> : null}
+          <p role="status" aria-live="polite" className="mt-1 text-[0.8125rem] text-ink-soft">
+            {status.message}
+          </p>
+          {error ? <p className="text-[0.8125rem] font-medium text-danger">{error}</p> : null}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const VIDEO_TYPES = ["video/mp4", "video/webm"];
+const MAX_VIDEO = 30 * 1024 * 1024;
+
+/** Comprueba un vídeo de portada antes de subirlo. */
+export function checkVideoFile(file: File): string | null {
+  if (!VIDEO_TYPES.includes(file.type)) return "Sube el vídeo en MP4 o WebM.";
+  if (file.size > MAX_VIDEO)
+    return "El vídeo pesa demasiado (máximo 30 MB). Recórtalo a unos segundos.";
+  return null;
+}
+
+/**
+ * Vídeo de fondo de la portada. Se sube tal cual (sin sonido en la invitación) al almacenamiento
+ * del evento; conviene que sea corto (5–15 s) y vertical.
+ */
+export function VideoField({ label, path, hint }: { label: string; path: Path; hint?: string }) {
+  const { draft, set, eventId, errors } = useEditor();
+  const src = getIn(draft.content, path) as string | null | undefined;
+  const id = useId();
+  const [status, setStatus] = useState<{ busy: boolean; message: string | null }>({
+    busy: false,
+    message: null,
+  });
+  const error = errorFor(errors, path);
+
+  async function upload(file: File) {
+    const invalid = checkVideoFile(file);
+    if (invalid) return setStatus({ busy: false, message: invalid });
+    const supabase = createBrowserSupabase();
+    if (!supabase || !eventId) return;
+    setStatus({ busy: true, message: "Subiendo el vídeo…" });
+    const ext = file.type === "video/webm" ? ".webm" : ".mp4";
+    const key = `${eventId}/${crypto.randomUUID()}${ext}`;
+    const { error: e } = await supabase.storage
+      .from(BUCKET)
+      .upload(key, file, { contentType: file.type, cacheControl: "31536000", upsert: false });
+    if (e)
+      return setStatus({
+        busy: false,
+        message: "No hemos podido subir el vídeo. Revisa tu conexión.",
+      });
+    set(path, supabase.storage.from(BUCKET).getPublicUrl(key).data.publicUrl);
+    setStatus({ busy: false, message: "Vídeo subido." });
+  }
+
+  return (
+    <div>
+      <p id={`${id}-label`} className="mb-1.5 text-[0.875rem] font-medium text-ink">
+        {label}
+      </p>
+      <div className="flex items-center gap-4">
+        <div className="relative grid size-20 shrink-0 place-items-center overflow-hidden rounded-md border border-line bg-cream">
+          {src ? (
+            <video
+              src={src}
+              muted
+              playsInline
+              preload="metadata"
+              className="size-full object-cover"
+            />
+          ) : (
+            <Film aria-hidden className="size-6 text-stone" />
+          )}
+        </div>
+        <div className="min-w-0">
+          {eventId ? (
+            <div className="flex flex-wrap gap-2">
+              <label
+                className={buttonClasses(
+                  "secondary",
+                  "sm",
+                  "cursor-pointer has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ink",
+                )}
+              >
+                <input
+                  type="file"
+                  accept="video/mp4,video/webm"
+                  className="sr-only"
+                  aria-describedby={`${id}-label`}
+                  disabled={status.busy}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) void upload(file);
+                    e.target.value = "";
+                  }}
+                />
+                {src ? "Cambiar vídeo" : "Subir vídeo"}
+              </label>
+              {src ? (
+                <button
+                  type="button"
+                  className={buttonClasses("ghost", "sm")}
+                  disabled={status.busy}
+                  onClick={() => set(path, null)}
+                >
+                  <Trash2 aria-hidden className="size-4" />
+                  Quitar
+                </button>
+              ) : null}
+            </div>
+          ) : (
+            <p className="text-[0.8125rem] text-muted">
+              En la demo no se suben vídeos. Crea vuestro evento para usar el vuestro.
             </p>
           )}
           {hint ? <p className="mt-1.5 text-[0.8125rem] text-muted">{hint}</p> : null}

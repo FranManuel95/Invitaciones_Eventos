@@ -97,6 +97,8 @@ export interface WeddingEvent {
   coverPhoto: string | null;
   /** Mapa de profundidad de la portada (blanco = cerca), generado con scripts/depth-map.py. */
   coverDepthMap: string | null;
+  /** Vídeo corto de fondo de la portada (si la pareja elige «Vuestro vídeo»). */
+  coverVideo?: string | null;
   /** Foto de ambiente del banquete, en la tarjeta de confirmación. */
   banquetPhoto: string | null;
   /** Teléfono de contacto para el día de la boda (de demostración). */

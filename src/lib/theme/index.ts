@@ -13,8 +13,10 @@ import {
   WEIGHTS,
 } from "./envelope";
 
+import { COVER_IDS } from "./cover";
 import { EDGE_IDS, LAYOUT_IDS, ORNAMENT_IDS } from "./letter";
 
+export * from "./cover";
 export * from "./envelope";
 export * from "./letter";
 
@@ -125,6 +127,7 @@ export const themeInputSchema = z.strictObject({
   sealShape: z.enum(SEAL_SHAPE_IDS),
   sealMark: z.enum(SEAL_MARK_IDS),
   opening: z.enum(OPENING_IDS),
+  cover: z.enum(COVER_IDS),
   layout: z.enum(LAYOUT_IDS),
   edge: z.enum(EDGE_IDS),
   ornament: z.enum(ORNAMENT_IDS),
@@ -151,6 +154,7 @@ export const themeSchema = z.object({
   sealShape: z.enum(SEAL_SHAPE_IDS).catch("cera"),
   sealMark: z.enum(SEAL_MARK_IDS).catch("monograma"),
   opening: z.enum(OPENING_IDS).catch("mesa"),
+  cover: z.enum(COVER_IDS).catch("foto"),
   layout: z.enum(LAYOUT_IDS).catch("clasica"),
   edge: z.enum(EDGE_IDS).catch("barba"),
   ornament: z.enum(ORNAMENT_IDS).catch("almendro"),
@@ -175,6 +179,7 @@ export const DEFAULT_THEME: Theme = {
   sealShape: "cera",
   sealMark: "monograma",
   opening: "mesa",
+  cover: "foto",
   layout: "clasica",
   edge: "barba",
   ornament: "almendro",

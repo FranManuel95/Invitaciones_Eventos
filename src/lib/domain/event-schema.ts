@@ -105,6 +105,8 @@ export const eventContentSchema = z.object({
   }),
   coverPhoto: photo,
   coverDepthMap: photo,
+  // Vídeo de fondo de la portada (MP4 o WebM en Storage); opcional para el contenido guardado antes.
+  coverVideo: photo.optional(),
   banquetPhoto: photo,
   contactPhone: text(30),
 }) satisfies z.ZodType<Omit<WeddingEvent, "id">>;

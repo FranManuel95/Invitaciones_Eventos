@@ -30,7 +30,7 @@ import { TextsTab } from "./tabs/texts-tab";
 import { TransportTab } from "./tabs/transport-tab";
 
 const TABS = [
-  { id: "estilo", label: "Estilo", Panel: StyleTab, roots: ["theme"] },
+  { id: "estilo", label: "Estilo", Panel: StyleTab, roots: ["theme", "coverVideo"] },
   {
     id: "datos",
     label: "Pareja y fecha",

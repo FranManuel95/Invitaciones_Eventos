@@ -2,8 +2,10 @@
 
 import { ChevronDown } from "lucide-react";
 import { animate, m, useMotionValue, useReducedMotion, useTransform } from "motion/react";
+import dynamic from "next/dynamic";
 import { useRef, type PointerEvent } from "react";
 import type { WeddingEvent } from "@/lib/domain/types";
+import type { CoverId } from "@/lib/theme";
 import { formatLongDate, isoDay } from "@/lib/format";
 import { playPaper, unlockAudio } from "../effects/sound";
 import { SplitText } from "../effects/split-text";
@@ -13,13 +15,29 @@ import { Landscape } from "./landscape";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+// Escenas animadas: cada una en su propio trozo, solo se descarga la que elige la pareja.
+const SCENES = {
+  luces: dynamic(() => import("./scenes/lights-scene").then((mod) => mod.LightsScene)),
+  acuarela: dynamic(() => import("./scenes/watercolor-scene").then((mod) => mod.WatercolorScene)),
+  estrellas: dynamic(() => import("./scenes/stars-scene").then((mod) => mod.StarsScene)),
+};
+
 /**
  * Pantalla 1 · Portada cinematográfica.
  * Se levanta con el dedo como una hoja: sigue al gesto, vuelve con un muelle si no se suelta
  * lo bastante arriba y sale con inercia si sí. Debajo ya está el sobre esperando.
  * El botón hace lo mismo para quien no quiera (o no pueda) arrastrar.
  */
-export function CoverStage({ event, onOpen }: { event: WeddingEvent; onOpen: () => void }) {
+export function CoverStage({
+  event,
+  onOpen,
+  scene = "foto",
+}: {
+  event: WeddingEvent;
+  onOpen: () => void;
+  /** Fondo de la portada: foto en 3D, escena animada o vídeo de la pareja. */
+  scene?: CoverId;
+}) {
   const reduce = useReducedMotion();
   const tilt = useTilt();
   const lift = useMotionValue(0);
@@ -88,6 +106,7 @@ export function CoverStage({ event, onOpen }: { event: WeddingEvent; onOpen: () 
   return (
     <m.section
       aria-labelledby="cover-title"
+      data-cover={scene}
       className="fixed inset-0 z-20 overflow-hidden bg-[#2f3547] text-white shadow-[0_30px_60px_rgb(0_0_0/0.45)] select-none"
       style={{ y: lift, opacity, touchAction: "none" }}
       onPointerDown={onPointerDown}
@@ -101,7 +120,24 @@ export function CoverStage({ event, onOpen }: { event: WeddingEvent; onOpen: () 
         animate={{ scale: 1 }}
         transition={{ duration: 3.4, ease }}
       >
-        {event.coverPhoto ? (
+        {scene === "luces" || scene === "acuarela" || scene === "estrellas" ? (
+          (() => {
+            const Scene = SCENES[scene];
+            return <Scene />;
+          })()
+        ) : scene === "video" && event.coverVideo ? (
+          <video
+            className="absolute inset-0 size-full object-cover"
+            src={event.coverVideo}
+            poster={event.coverPhoto ?? undefined}
+            muted
+            playsInline
+            loop
+            autoPlay={!reduce}
+            preload="metadata"
+            aria-hidden
+          />
+        ) : event.coverPhoto ? (
           <CoverPhoto
             src={event.coverPhoto}
             depthSrc={event.coverDepthMap}
@@ -118,6 +154,8 @@ export function CoverStage({ event, onOpen }: { event: WeddingEvent; onOpen: () 
       <div
         aria-hidden
         className="absolute inset-0 bg-[linear-gradient(180deg,rgb(20_22_32/0.55)_0%,rgb(20_22_32/0.05)_38%,rgb(20_16_22/0.15)_62%,rgb(14_11_16/0.8)_100%)]"
+        // Las escenas ya son oscuras y están pensadas para el texto blanco: les basta menos velo.
+        style={{ opacity: scene === "foto" || scene === "video" ? 1 : 0.45 }}
       />
       {/* Una foto real tiene cielos más claros que la ilustración: algo más de velo tras el título. */}
       {event.coverPhoto ? (
