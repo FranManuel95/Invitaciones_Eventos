@@ -46,6 +46,34 @@ ser sencilla y reversible.
   correo y 200 al día. Nadie las lee desde la API (sin políticas): se consultan en el panel de
   Supabase (Table Editor → `contact_requests`). Campo trampa contra robots en el formulario.
 
+### Después de probarlo en un iPhone
+
+- **Crear un evento real fallaba** (desde la ronda 5): la inserción pedía el evento de vuelta,
+  pero quien lo crea pasa a ser miembro en un disparador posterior y la RLS rechazaba la lectura
+  y con ella toda la inserción. El id se genera ahora en el servidor y no se pide de vuelta. La
+  prueba real (`tests/e2e/real.spec.ts`) lo habría visto, pero no se ejecutaba nunca: ahora hay
+  una tarea de GitHub Actions (`prueba-real.yml`) que se lanza a mano con los secretos del
+  usuario de prueba.
+- **Vista previa del editor**: si el iframe se recargaba (el móvil puede descartarlo), volvía a
+  la portada con lo último guardado y no recibía más cambios, porque el aviso de «lista» solo se
+  atendía una vez. Ahora cada aviso reenvía borrador y pantalla. Con campos por revisar, la
+  vista previa dice que está en pausa.
+- **Vídeos del iPhone**: la portada admite `.mov` (`video/quicktime`) además de MP4 y WebM. Si un
+  navegador no lo reproduce, se ve la foto de portada (`poster`). Sin vídeo subido, el editor
+  avisa de que se ve la foto.
+- **Ejemplos**: enlaces directos a cada apertura, portada y momento (las invitaciones de ejemplo
+  abren siempre con el sobre en la mesa y la foto).
+- **Fotos sustituidas**: al publicar se borran los archivos de `event-media` que ni el borrador
+  ni lo publicado nombran y que tienen más de una hora (`removeUnusedEventFiles`). Si falla, la
+  publicación sigue.
+- **Venta lista para el público**, todo por variables de entorno de Vercel (cambiar exige volver
+  a desplegar): `LEGAL_TITULAR`, `LEGAL_NIF`, `LEGAL_DOMICILIO` y `LEGAL_EMAIL` para el aviso legal
+  y la privacidad (mientras falten se marcan como pendientes; son datos reales, nunca van al
+  repositorio); `SITE_URL` (dominio propio) para indexar la portada, los ejemplos y los textos
+  legales (sin él, `robots.txt` lo prohíbe todo; Vercel ya marca las vistas previas como no
+  indexables); `SIGNUP_OPEN=false` para ocultar «Crear cuenta» (cerrar el alta de verdad se hace
+  en Supabase → Authentication → Sign In / Providers → «Allow new users to sign up»).
+
 ## Ronda 7 · Aperturas, portadas animadas y extras
 
 - **Aperturas** (`theme.opening`): sobre en la mesa, sobre a pantalla completa (como los anuncios
@@ -369,4 +397,4 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
 2. Recordatorios masivos por email (requiere un proveedor de correo).
 3. Opcionales propuestos: versión en inglés, tiempo habitual en mayo y galería posterior a la boda.
 4. Cobro automático (Stripe) cuando haya cuenta; hoy la página de venta solo recoge solicitudes.
-5. Limpiar las fotos que se sustituyen en el editor (la anterior se queda en el almacenamiento).
+5. Dominio propio (Vercel) y, con él, `SITE_URL`.

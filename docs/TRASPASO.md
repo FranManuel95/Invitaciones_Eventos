@@ -10,14 +10,16 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 - **Vista previa** (Vercel, se despliega con cada push):
   https://invitaciones-eventos-git-claude-l-2820ea-franmanuel95s-projects.vercel.app
 - **Supabase**: proyecto `uzmrvclmjtxhcglyqadm` (París, plan gratuito). Todas las migraciones de
-  `supabase/migrations/` están aplicadas.
+  `supabase/migrations/` están aplicadas (comprobar la última, `videos_iphone`, con
+  `list_migrations`: el usuario pidió dejar el SQL para el final y aceptarlo él).
 - **Rondas terminadas**: 1–4 (invitación cinematográfica), 5 (Supabase, editor y panel completo),
   6 (plantillas, paletas, tipografías, sobre a medida, carta, calendarios, orden de secciones) y 7
   (aperturas, portadas animadas, música, dress code, save the date y álbum con QR) y 8 (borrado
   de archivos con el evento, lista de regalos y página de venta). Resumen de cada una en
   `docs/DECISIONS.md`.
-- **Pruebas al cerrar la ronda 8**: 236 unitarias y 160 E2E en verde (2 se saltan: las de Supabase
+- **Pruebas al cerrar la ronda 8**: 242 unitarias y 170 E2E en verde (2 se saltan: las de Supabase
   real, que necesitan red).
+- **Evento real del usuario**: `fm-y-lucia-2030-915f24` (lo creó probando en su iPhone). No tocar.
 
 ## Pendiente
 
@@ -25,13 +27,21 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   en URL Configuration. «Leaked password protection» solo existe en el plan Pro: activarla al
   pasar a un plan de pago (el aviso de seguridad seguirá saliendo hasta entonces).
 - **Revisar y fusionar el PR** cuando el usuario lo decida.
-- **Antes de abrir la página de venta al público** (decide el usuario): textos legales (aviso
-  legal y privacidad, por el formulario), quitar `robots: noindex` de la portada si se quiere
-  que la encuentren los buscadores, y revisar si el alta libre en `/entrar` debe seguir abierta.
+- **Antes de abrir la página de venta al público** (lo hace el usuario en Vercel → Settings →
+  Environment Variables, y vuelve a desplegar): `LEGAL_TITULAR`, `LEGAL_NIF`, `LEGAL_DOMICILIO`,
+  `LEGAL_EMAIL`; revisar los borradores de `/aviso-legal` y `/privacidad` (plazos de
+  conservación incluidos); `SITE_URL` cuando haya dominio; `SIGNUP_OPEN=false` si las cuentas se
+  dan solo a quien las pide (y desactivar el alta en Supabase).
+- **Prueba real en GitHub Actions** («Prueba real con Supabase», se lanza a mano; solo aparece
+  cuando el archivo está en `main`): variables `NEXT_PUBLIC_SUPABASE_URL` y
+  `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, secretos `E2E_EMAIL` y `E2E_PASSWORD` (un usuario de
+  prueba creado en Supabase → Authentication → Users → Add user, con «Auto Confirm»). Cada
+  ejecución crea un evento «Prueba y Automática» que se queda (no se borra nada sin permiso).
 - **Solicitudes de la página de venta**: se leen en Supabase → Table Editor → `contact_requests`.
 - **Ideas que salieron y no se han hecho**: cobro con Stripe (el usuario aún no tiene cuenta),
-  versión en inglés (descartada por ahora), playlist colaborativa, más escenas o aperturas,
-  revisión en iPhone real.
+  recordatorios por correo (necesitan un proveedor), dominio propio, versión en inglés
+  (descartada por ahora), playlist colaborativa, más escenas o aperturas.
+- **Revisión en iPhone real**: la hace el usuario y manda capturas; aquí solo hay Chromium.
 - **Datos de prueba que se conservan a propósito** (el usuario pidió no borrar nada): el evento
   `prueba-despliegue-e2e` y el usuario `prueba-e2e@invitaciones.invalid`. Su contraseña no está en
   el repositorio; la E2E real la lee de `E2E_PASSWORD`.
@@ -48,6 +58,8 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 - **Supabase desde el sandbox**: el proxy bloquea `*.supabase.co`; la app real solo se prueba en
   Vercel. La base de datos se toca con las herramientas MCP (`apply_migration`, `execute_sql`,
   `get_advisors`).
+- **SQL con el usuario**: pidió dejar las migraciones para el final del trabajo y aceptarlas él;
+  también puede rechazar consultas de solo lectura. Preguntar antes de tocar Supabase.
 - **Confirmaciones de Supabase**: el servidor MCP pide confirmación cuando el SQL contiene
   `delete` (aunque sea dentro de una función) y la llamada caduca a los 60 s si nadie la acepta.
   Diseñar sin borrados cuando sea posible o avisar al usuario antes.
