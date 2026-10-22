@@ -469,7 +469,9 @@ export function EnvelopeStage({
 
         <p
           data-heading
+          role="status"
           aria-live="polite"
+          aria-atomic="true"
           className="mt-14 flex items-center gap-2 text-[0.9375rem] text-ink-soft"
         >
           {opening ? (
