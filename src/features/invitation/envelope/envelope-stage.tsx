@@ -109,7 +109,8 @@ export function EnvelopeStage({
     // El título se retira para dejar espacio a la solapa abierta y a la carta.
     animate("[data-title-heading]", { opacity: 0, y: -12 }, { duration: 0.45, ease: "easeOut" });
     // Cámara: un acercamiento lento durante toda la apertura y un foco que oscurece los bordes.
-    animate(scope.current, { scale: 1.1, y: 18 }, { duration: 4.05, ease: [0.45, 0, 0.25, 1] });
+    const cameraDuration = 3.82 + (pace - 1) * 0.92;
+    animate(scope.current, { scale: 1.1, y: 18 }, { duration: cameraDuration, ease: [0.45, 0, 0.25, 1] });
     if (spotlight.current) {
       animate(spotlight.current, { opacity: 1 }, { duration: 2.6, delay: 0.6, ease: "easeInOut" });
     }
