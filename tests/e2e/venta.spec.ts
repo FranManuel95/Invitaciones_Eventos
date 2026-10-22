@@ -49,7 +49,7 @@ test.describe("página de venta", () => {
   test("los ejemplos enlazan cada apertura, portada y momento", async ({ page }) => {
     await page.goto("/ejemplos");
     const openings = page.getByRole("region", { name: "Aperturas" });
-    await expect(openings.getByRole("link")).toHaveCount(4);
+    await expect(openings.getByRole("link")).toHaveCount(5);
     await expect(page.getByRole("region", { name: "Portadas" }).getByRole("link")).toHaveCount(6);
     await openings.getByRole("link", { name: /Caja con lazo/ }).click();
     await expect(page).toHaveURL(/apertura=caja/);

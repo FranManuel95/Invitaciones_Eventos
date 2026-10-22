@@ -29,6 +29,7 @@ import { TiltProvider } from "./effects/tilt";
 import { Diptych } from "./envelope/diptych";
 import { EnvelopeStage } from "./envelope/envelope-stage";
 import { FullEnvelope } from "./envelope/full-envelope";
+import { PhotoEnvelope } from "./envelope/photo-envelope";
 import { RibbonBox } from "./envelope/ribbon-box";
 import { LetterStage } from "./letter/letter-stage";
 
@@ -51,6 +52,7 @@ const OPENINGS = {
   pantalla: FullEnvelope,
   diptico: Diptych,
   caja: RibbonBox,
+  foto: PhotoEnvelope,
 } satisfies Record<Theme["opening"], unknown>;
 
 const HEADINGS: Record<Stage, string> = {

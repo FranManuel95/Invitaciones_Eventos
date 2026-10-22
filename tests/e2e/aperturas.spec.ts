@@ -1,11 +1,12 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-// Las tres aperturas nuevas: cada una se abre una sola vez, llega a la carta y es accesible.
+// Las aperturas distintas del sobre en la mesa: cada una se abre una sola vez, llega a la carta y es accesible.
 const OPENINGS = [
   { opening: "pantalla", button: "Abrir el sobre", heading: "Familia García" },
   { opening: "diptico", button: "Abrir la invitación", heading: "Familia García" },
   { opening: "caja", button: "Abrir la caja", heading: "Familia García" },
+  { opening: "foto", button: "Abrir el sobre", heading: "Familia García" },
 ];
 
 test.describe("aperturas", () => {

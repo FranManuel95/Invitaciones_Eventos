@@ -419,7 +419,7 @@ function FontsPart() {
   );
 }
 
-/** Esquema de cada apertura: sobre en la mesa, a pantalla completa, díptico o caja con lazo. */
+/** Esquema de cada apertura: sobre en la mesa, a pantalla completa, díptico, caja o foto. */
 function OpeningSample({ opening }: { opening: Theme["opening"] }) {
   return (
     <span
@@ -440,6 +440,11 @@ function OpeningSample({ opening }: { opening: Theme["opening"] }) {
           <span className="block flex-1 rounded-l-[2px] bg-sand" />
           <span className="block flex-1 rounded-r-[2px] bg-sand" />
           <span className="absolute top-1/2 left-1/2 block size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-wax" />
+        </span>
+      ) : opening === "foto" ? (
+        <span className="absolute inset-0 block bg-[linear-gradient(160deg,#efe7da,#d9cbb4)]">
+          <span className="absolute inset-x-1.5 top-4 block h-6 rounded-[2px] bg-[#f8f4ec] shadow-[0_2px_4px_rgb(60_45_25/0.3)]" />
+          <span className="absolute top-7 left-1/2 block size-2.5 -translate-x-1/2 rounded-full bg-[radial-gradient(circle,#f3d98f,#b8892f)]" />
         </span>
       ) : (
         <span className="absolute inset-x-1.5 inset-y-2.5 block rounded-[3px] bg-sand">
