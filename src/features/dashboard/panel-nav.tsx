@@ -10,6 +10,7 @@ import {
   Images,
   LayoutGrid,
   Mail,
+  Printer,
   Send,
   Settings,
   Users,
@@ -32,6 +33,7 @@ const GUESTS: Item[] = [
   { path: "/comunicaciones", label: "Recordatorios", icon: Send },
   { path: "/album", label: "Álbum", icon: Images },
   { path: "/regalos", label: "Regalos", icon: Gift },
+  { path: "/imprimir", label: "Imprimir", icon: Printer },
 ];
 
 const PLANNING: Item[] = [

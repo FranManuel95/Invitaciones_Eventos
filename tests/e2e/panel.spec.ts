@@ -8,6 +8,7 @@ const PAGES = [
   "/panel/demo/menus",
   "/panel/demo/comunicaciones",
   "/panel/demo/regalos",
+  "/panel/demo/imprimir",
 ];
 
 test.describe("panel del organizador", () => {
