@@ -26,8 +26,14 @@ export function PhotoSlot({
   const aspect = { "4/5": "aspect-[4/5]", "3/2": "aspect-[3/2]", "2/3": "aspect-[2/3]" }[ratio];
   if (src) {
     return (
-      <div className={clsx("relative overflow-hidden rounded-[2px] bg-cream", aspect, className)}>
-        <Image src={src} alt={alt} fill sizes={sizes} className="object-cover" />
+      <div className={clsx("group relative overflow-hidden rounded-[2px] bg-cream", aspect, className)}>
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes={sizes}
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035] motion-reduce:transition-none"
+        />
       </div>
     );
   }
