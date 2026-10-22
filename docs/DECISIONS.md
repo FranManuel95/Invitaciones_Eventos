@@ -23,6 +23,29 @@ ser sencilla y reversible.
 - Librerías de gráficos: son dos gráficos SVG pequeños hechos a mano.
 - Supabase y la autenticación: quedan fuera de este hito.
 
+## Ronda 8 · Regalos, limpieza de fotos y página de venta
+
+- **Borrar un evento borra sus archivos** (`src/lib/data/event-files.ts`): antes de borrar el
+  evento se vacían sus carpetas de `event-media` y `guest-photos`, de cien en cien. Primero se
+  comprueba que quien borra es propietario (después ya no sería miembro y el almacenamiento no le
+  dejaría). El almacenamiento exige permiso de lectura para borrar, así que los miembros ven ya
+  los archivos de su evento; sin ese permiso, quitar una foto del álbum dejaba el archivo.
+- **Lista de regalos**: los regalos van en el contenido (`gift.items`, opcional para el
+  contenido de antes) y las reservas en `gift_claims`. Los invitados reservan con
+  `gift_claim(token, regalo, reservar)`; un regalo normal es de una sola invitación (bloqueo
+  `pg_advisory_xact_lock` mientras se comprueba) y uno compartido admite a varias. Deshacer no
+  borra la fila: la marca con `released_at` (queda registro y no hace falta borrar). Los
+  invitados ven cuántas reservas hay, nunca quién; el panel (`/panel/<evento>/regalos`) sí.
+  Máximo de 10 reservas vigentes por invitación. En la demo, las reservas propias se guardan
+  en el navegador.
+- **Página de venta** (`/`): un móvil con una invitación de ejemplo real (iframe escalado), lo
+  que vive el invitado (numerado, porque es una secuencia), lo que tiene la pareja, el precio
+  (`PRICE_EUR` en `src/lib/sales/contact.ts`, 129 €), preguntas con `details` y un formulario.
+  Sin cobro automático: la pareja deja sus datos y se le escribe. La demo pasa a `/ejemplos`.
+- **Solicitudes** (`contact_requests`): solo se crean con `request_contact`, que limita a 3 por
+  correo y 200 al día. Nadie las lee desde la API (sin políticas): se consultan en el panel de
+  Supabase (Table Editor → `contact_requests`). Campo trampa contra robots en el formulario.
+
 ## Ronda 7 · Aperturas, portadas animadas y extras
 
 - **Aperturas** (`theme.opening`): sobre en la mesa, sobre a pantalla completa (como los anuncios
@@ -345,5 +368,5 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).
 2. Recordatorios masivos por email (requiere un proveedor de correo).
 3. Opcionales propuestos: versión en inglés, tiempo habitual en mayo y galería posterior a la boda.
-4. Limpiar del almacenamiento las fotos de los eventos borrados (hoy se borran los datos, no los
-   archivos).
+4. Cobro automático (Stripe) cuando haya cuenta; hoy la página de venta solo recoge solicitudes.
+5. Limpiar las fotos que se sustituyen en el editor (la anterior se queda en el almacenamiento).

@@ -13,9 +13,10 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   `supabase/migrations/` están aplicadas.
 - **Rondas terminadas**: 1–4 (invitación cinematográfica), 5 (Supabase, editor y panel completo),
   6 (plantillas, paletas, tipografías, sobre a medida, carta, calendarios, orden de secciones) y 7
-  (aperturas, portadas animadas, música, dress code, save the date y álbum con QR). Resumen de
-  cada una en `docs/DECISIONS.md`.
-- **Pruebas al cerrar la ronda 7**: 222 unitarias y 144 E2E en verde (2 se saltan: las de Supabase
+  (aperturas, portadas animadas, música, dress code, save the date y álbum con QR) y 8 (borrado
+  de archivos con el evento, lista de regalos y página de venta). Resumen de cada una en
+  `docs/DECISIONS.md`.
+- **Pruebas al cerrar la ronda 8**: 236 unitarias y 160 E2E en verde (2 se saltan: las de Supabase
   real, que necesitan red).
 
 ## Pendiente
@@ -23,8 +24,13 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 - **De la pareja (panel de Supabase)**: Authentication → URL Configuration (Site URL y
   `https://<dominio>/**` en Redirect URLs) y activar «Leaked password protection».
 - **Revisar y fusionar el PR** cuando el usuario lo decida.
-- **Ideas que salieron y no se han hecho**: pagos y página de venta (Stripe), versión en inglés,
-  playlist colaborativa, lista de regalos, más escenas o aperturas, revisión en iPhone real.
+- **Antes de abrir la página de venta al público** (decide el usuario): textos legales (aviso
+  legal y privacidad, por el formulario), quitar `robots: noindex` de la portada si se quiere
+  que la encuentren los buscadores, y revisar si el alta libre en `/entrar` debe seguir abierta.
+- **Solicitudes de la página de venta**: se leen en Supabase → Table Editor → `contact_requests`.
+- **Ideas que salieron y no se han hecho**: cobro con Stripe (el usuario aún no tiene cuenta),
+  versión en inglés (descartada por ahora), playlist colaborativa, más escenas o aperturas,
+  revisión en iPhone real.
 - **Datos de prueba que se conservan a propósito** (el usuario pidió no borrar nada): el evento
   `prueba-despliegue-e2e` y el usuario `prueba-e2e@invitaciones.invalid`. Su contraseña no está en
   el repositorio; la E2E real la lee de `E2E_PASSWORD`.

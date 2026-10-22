@@ -65,7 +65,8 @@ que se deshace).
 
 | URL                                                                       | Qué muestra                                                         |
 | ------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `/`                                                                       | Portada de la demo: invitaciones de ejemplo, estilos y accesos      |
+| `/`                                                                       | Página de venta: producto, precio, preguntas y formulario           |
+| `/ejemplos`                                                               | Índice de la demo: invitaciones de ejemplo, estilos y accesos       |
 | `/i/familia-garcia`                                                       | Familia con una niña y una plaza libre para acompañante             |
 | `/i/familia-garcia?estilo=noche&sobre=kraft&lacre=oro&calendario=minimal` | La misma invitación con otro tema                                   |
 | `/i/familia-garcia?plantilla=luciernagas`                                 | La misma invitación con una plantilla (once en la portada)          |
@@ -77,6 +78,7 @@ que se deshace).
 | `/i/plazo-cerrado`                                                        | Plazo de confirmación cerrado                                       |
 | `/editor/demo`                                                            | Editor con vista previa en vivo (sin guardar)                       |
 | `/panel/demo`                                                             | Panel del organizador con datos ficticios                           |
+| `/panel/demo/regalos`                                                     | Lista de regalos: quién ha reservado cada uno                       |
 | `/entrar`                                                                 | Acceso y alta de cuentas (con Supabase)                             |
 | `/laboratorio/sobre-3d`                                                   | Prototipo del sobre con WebGL (React Three Fiber) para comparar     |
 
