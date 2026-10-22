@@ -429,7 +429,7 @@ export function EnvelopeStage({
                 </span>
                 <m.span
                   data-seal-half="l"
-                  className="absolute inset-0 block opacity-0"
+                  className="absolute inset-0 block opacity-0 drop-shadow-[0_1px_1px_rgb(40_10_10/0.3)]"
                   style={{ clipPath: "polygon(0 0, 52% 0, 44% 30%, 56% 55%, 46% 100%, 0 100%)" }}
                 >
                   <WaxSealArt
@@ -441,7 +441,7 @@ export function EnvelopeStage({
                 </m.span>
                 <m.span
                   data-seal-half="r"
-                  className="absolute inset-0 block opacity-0"
+                  className="absolute inset-0 block opacity-0 drop-shadow-[0_1px_1px_rgb(40_10_10/0.3)]"
                   style={{
                     clipPath: "polygon(52% 0, 100% 0, 100% 100%, 46% 100%, 56% 55%, 44% 30%)",
                   }}
