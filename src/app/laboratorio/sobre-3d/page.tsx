@@ -17,7 +17,7 @@ export default async function SobreTresDe() {
       <div className="mx-auto max-w-5xl px-4 pt-8 pb-16 sm:px-10">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Link
-            href="/"
+            href="/ejemplos"
             className="text-[0.9375rem] text-ink-soft underline decoration-gold underline-offset-4 hover:text-ink"
           >
             Volver a la demo

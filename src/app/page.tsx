@@ -1,169 +1,277 @@
-import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { DemoBadge } from "@/components/demo-badge";
 import { buttonClasses } from "@/components/ui/button";
-import { BlossomCorner, Monogram } from "@/features/invitation/ornaments";
-import { getEvent, listShowcaseInvitations } from "@/lib/data/repository";
-import {
-  applyTemplate,
-  DEFAULT_THEME,
-  ENVELOPES,
-  STYLES,
-  TEMPLATE_IDS,
-  TEMPLATES,
-  waxHex,
-} from "@/lib/theme";
+import { ContactForm } from "@/features/sales/contact-form";
+import { BlossomCorner } from "@/features/invitation/ornaments";
+import { PRICE_EUR } from "@/lib/sales/contact";
 
-const NOTES: Record<string, string> = {
-  "familia-garcia": "Familia con una niña y una plaza libre para acompañante.",
-  "carlos-ruiz": "Invitación individual con acompañante opcional.",
-  "elena-y-pablo": "Pareja con dos plazas.",
-  "prueba-error": "Simula un fallo de red al enviar la respuesta la primera vez.",
-  "plazo-cerrado": "Muestra cómo se ve la invitación con el plazo de confirmación cerrado.",
+export const metadata = {
+  title: { absolute: "Invitaciones de boda que se abren como una carta" },
+  description:
+    "Invitación digital con sobre, lacre y carta, confirmaciones, mesas, menús y lista de regalos. Pago único de 129 €.",
 };
 
-export default async function Home() {
-  const [event, invitations] = await Promise.all([getEvent(), listShowcaseInvitations()]);
+/** Lo que vive cada invitado, en orden: es una secuencia, por eso va numerada. */
+const GUEST_STEPS = [
+  {
+    title: "Una portada con vuestros nombres",
+    text: "Vuestra foto, un cielo de estrellas o una acuarela. Con música, si queréis.",
+  },
+  {
+    title: "Un sobre que se abre con un toque",
+    text: "Papel, forro y lacre a vuestro gusto. Dentro, una carta con su nombre.",
+  },
+  {
+    title: "La invitación, con todo lo que necesita saber",
+    text: "El programa del día, cómo llegar, el autobús, el código de vestimenta y vuestra historia.",
+  },
+  {
+    title: "Confirma en un minuto",
+    text: "Quién viene, menú, alergias y si necesita autobús. Puede cambiarlo hasta la fecha límite.",
+  },
+];
 
+const PANEL_FEATURES = [
+  ["Confirmaciones al momento", "Quién viene, quién falta y a quién recordárselo por WhatsApp."],
+  ["Menús y alergias", "El resumen que pide el catering, listo para enviar."],
+  ["Mesas", "Un plano para colocar a cada invitado arrastrando."],
+  ["Autobuses", "Plazas por ruta y quién ofrece coche."],
+  ["Lista de regalos", "Cada invitado reserva uno y nadie repite. La cuenta, si preferís."],
+  ["Álbum con QR", "Los invitados suben sus fotos desde la mesa y vosotros elegís cuáles se ven."],
+  ["Tareas y presupuesto", "Lo que queda por hacer y lo que queda por pagar, con fechas."],
+  ["Save the date", "Primero el aviso con la fecha; después, la invitación con el mismo enlace."],
+];
+
+const INCLUDED = [
+  "Invitaciones para todos vuestros invitados, sin límite",
+  "Editor con plantillas, colores, tipografías, sobres y lacres",
+  "Panel de organización hasta el día de la boda",
+  "Cambios ilimitados, también después de enviarla",
+  "Ayuda por correo para dejarla a vuestro gusto",
+];
+
+const FAQS = [
+  {
+    q: "¿Los invitados tienen que instalar algo?",
+    a: "No. Es un enlace que se abre en el navegador del móvil o del ordenador. Se lo podéis mandar por WhatsApp, por correo o como queráis.",
+  },
+  {
+    q: "¿Cada invitado recibe su propia invitación?",
+    a: "Sí. Cada familia o pareja tiene su enlace, con su nombre en la carta y sus plazas. Así sabéis quién ha respondido.",
+  },
+  {
+    q: "¿Podemos cambiar algo después de enviarla?",
+    a: "Sí, cuando queráis. Los invitados ven siempre la última versión con el mismo enlace.",
+  },
+  {
+    q: "¿Y nuestras fotos y los datos de los invitados?",
+    a: "Solo los veis vosotros y las personas a las que deis acceso. Las invitaciones no aparecen en buscadores y, si borráis el evento, se borra todo, fotos incluidas.",
+  },
+  {
+    q: "¿Hay que pagar algo más?",
+    a: `No. Son ${PRICE_EUR} € una sola vez por boda, sin suscripciones ni cobros por invitado.`,
+  },
+];
+
+const linkClass =
+  "text-[0.9375rem] text-ink-soft underline decoration-gold underline-offset-4 hover:text-ink hover:decoration-ink";
+
+export default function SalesPage() {
   return (
-    <main className="paper-grain relative min-h-dvh overflow-hidden bg-paper">
-      <BlossomCorner className="pointer-events-none absolute -top-8 -right-10 w-48 rotate-180 opacity-80 sm:w-72" />
+    <div className="bg-paper">
+      <header className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 pt-6 sm:px-10">
+        <p className="font-display text-[1.375rem] text-ink">Invitaciones</p>
+        <nav aria-label="Principal" className="flex items-center gap-5">
+          <Link href="/ejemplos" className={linkClass}>
+            Ejemplos
+          </Link>
+          <Link href="/entrar" className={linkClass}>
+            Entrar
+          </Link>
+        </nav>
+      </header>
 
-      <div className="relative mx-auto max-w-5xl px-6 pt-10 pb-20 sm:px-10 sm:pt-14">
-        <div className="flex items-center gap-4">
-          <Monogram
-            first={event.couple.first}
-            second={event.couple.second}
-            className="size-11 text-gold"
-          />
-          <DemoBadge />
-        </div>
-
-        <h1 className="mt-16 max-w-[14ch] font-display text-[clamp(3rem,9vw,5.75rem)] leading-[0.95] tracking-[-0.01em] text-ink">
-          Invitaciones que se abren como una carta
-        </h1>
-        <p className="mt-6 max-w-[52ch] text-[1.0625rem] leading-relaxed text-ink-soft">
-          Una demo navegable con la boda ficticia de {event.couple.first} y {event.couple.second}.
-          Abre cualquiera de estas invitaciones como lo haría un invitado, o entra en el panel donde
-          los novios siguen las respuestas.
-        </p>
-
-        <section
-          aria-labelledby="invitaciones"
-          className="mt-16 md:grid md:grid-cols-[13rem_minmax(0,1fr)] md:gap-14"
-        >
-          <h2 id="invitaciones" className="font-display text-[1.75rem] leading-tight text-ink">
-            Invitaciones de ejemplo
-          </h2>
-          <ul className="mt-4 border-t border-ink/30 md:mt-0">
-            {invitations.map((g) => (
-              <li key={g.token} className="border-b border-line">
-                <Link
-                  href={`/i/${g.token}`}
-                  className="group flex items-center justify-between gap-4 py-5 transition-colors hover:bg-ivory/60"
-                >
-                  <span>
-                    <span className="block font-display text-[1.625rem] leading-tight text-ink">
-                      {g.displayName}
-                    </span>
-                    <span className="mt-1 block text-[0.9375rem] text-muted">{NOTES[g.token]}</span>
-                  </span>
-                  <ArrowRight
-                    aria-hidden
-                    className="size-5 shrink-0 text-ink-soft transition-transform group-hover:translate-x-1"
-                  />
+      <main>
+        {/* Portada: el titular y, al lado, una invitación de verdad que se puede abrir. */}
+        <section className="paper-grain relative overflow-hidden">
+          <BlossomCorner className="pointer-events-none absolute -top-10 -left-14 hidden w-64 opacity-70 sm:block" />
+          <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 pt-14 pb-20 sm:px-10 md:grid-cols-[minmax(0,1fr)_auto] md:pt-20">
+            <div>
+              <h1 className="max-w-[13ch] font-display text-[clamp(3rem,8vw,5.5rem)] leading-[0.95] tracking-[-0.01em] text-ink">
+                Una invitación que se abre como una carta
+              </h1>
+              <p className="mt-6 max-w-[46ch] text-[1.0625rem] leading-relaxed text-ink-soft">
+                Vuestros invitados la reciben en el móvil, rompen el lacre y leen una carta con su
+                nombre. Vosotros veis quién viene, qué come y dónde se sienta, sin hojas de cálculo.
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+                <a href="#pedir" className={buttonClasses("primary", "lg")}>
+                  Pedir la nuestra
+                </a>
+                <Link href="/i/familia-garcia" className={linkClass}>
+                  Abrir una de ejemplo a pantalla completa
                 </Link>
-              </li>
-            ))}
-          </ul>
+              </div>
+              <p className="mt-6 text-[0.9375rem] text-muted">
+                {PRICE_EUR} €, pago único por boda.
+              </p>
+            </div>
+
+            <figure className="mx-auto [--s:0.72] sm:[--s:0.8]">
+              <div className="relative h-[calc(844px*var(--s))] w-[calc(390px*var(--s))] overflow-hidden rounded-[2.25rem] border-[6px] border-ink bg-ink shadow-[var(--shadow-lift)]">
+                <iframe
+                  src="/i/familia-garcia"
+                  title="Invitación de ejemplo de María y Daniel"
+                  loading="lazy"
+                  className="absolute top-0 left-0 h-[844px] w-[390px] origin-top-left scale-[var(--s)] rounded-[1.75rem] bg-ivory"
+                />
+              </div>
+              <figcaption className="mt-3 text-center text-[0.8125rem] text-muted">
+                Tocadla: es una invitación de verdad.
+              </figcaption>
+            </figure>
+          </div>
         </section>
 
-        <section
-          aria-labelledby="estilos"
-          className="mt-16 md:grid md:grid-cols-[13rem_minmax(0,1fr)] md:gap-14"
-        >
-          <div>
-            <h2 id="estilos" className="font-display text-[1.75rem] leading-tight text-ink">
-              Estilos
+        <section aria-labelledby="invitado" className="mx-auto max-w-6xl px-6 py-20 sm:px-10">
+          <div className="md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:gap-14">
+            <h2
+              id="invitado"
+              className="font-display text-[2.25rem] leading-[1.05] text-ink sm:text-[2.75rem]"
+            >
+              Lo que vive cada invitado
             </h2>
-            <p className="mt-2 text-[0.9375rem] text-muted">
-              La misma invitación con cada una de las plantillas del editor.
-            </p>
+            <ol className="mt-8 grid gap-x-10 gap-y-8 sm:grid-cols-2 md:mt-0">
+              {GUEST_STEPS.map((step, i) => (
+                <li key={step.title} className="border-t border-ink/25 pt-4">
+                  <span aria-hidden className="font-display text-[1.75rem] leading-none text-gold">
+                    {i + 1}
+                  </span>
+                  <h3 className="mt-2 font-display text-[1.5rem] leading-tight text-ink">
+                    {step.title}
+                  </h3>
+                  <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-ink-soft">
+                    {step.text}
+                  </p>
+                </li>
+              ))}
+            </ol>
           </div>
-          <ul className="mt-6 grid gap-4 sm:grid-cols-2 md:mt-0 lg:grid-cols-4">
-            {TEMPLATE_IDS.map((id) => {
-              const t = applyTemplate(DEFAULT_THEME, id);
-              const style = STYLES[t.style];
-              return (
-                <li key={id}>
-                  <Link
-                    href={`/i/familia-garcia?plantilla=${id}`}
-                    className="group block rounded-[3px] border border-line bg-paper p-4 transition-shadow hover:shadow-[var(--shadow-paper)]"
-                  >
-                    {/* Muestra: papel, tinta, oro, sobre y lacre del estilo. */}
+        </section>
+
+        <section aria-labelledby="vosotros" className="bg-ivory">
+          <div className="mx-auto max-w-6xl px-6 py-20 sm:px-10 md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:gap-14">
+            <div>
+              <h2
+                id="vosotros"
+                className="font-display text-[2.25rem] leading-[1.05] text-ink sm:text-[2.75rem]"
+              >
+                Lo que tenéis vosotros
+              </h2>
+              <p className="mt-3 text-[0.9375rem] text-muted">
+                Un panel para organizar la boda entre los dos, o con quien queráis.
+              </p>
+              <Link href="/panel/demo" className={`${linkClass} mt-4 inline-block`}>
+                Ver el panel de ejemplo
+              </Link>
+            </div>
+            <dl className="mt-8 grid gap-x-10 sm:grid-cols-2 md:mt-0">
+              {PANEL_FEATURES.map(([title, text]) => (
+                <div key={title} className="border-b border-line py-4">
+                  <dt className="font-medium text-ink">{title}</dt>
+                  <dd className="mt-1 text-[0.9375rem] text-ink-soft">{text}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+
+        <section aria-labelledby="precio" className="mx-auto max-w-6xl px-6 py-20 sm:px-10">
+          <div className="md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:gap-14">
+            <h2
+              id="precio"
+              className="font-display text-[2.25rem] leading-[1.05] text-ink sm:text-[2.75rem]"
+            >
+              Precio
+            </h2>
+            <div className="paper-grain mt-8 max-w-2xl rounded-[3px] border border-line bg-paper p-6 shadow-[var(--shadow-paper)] sm:p-8 md:mt-0">
+              <p className="font-display text-[4.5rem] leading-none text-ink lining-nums">
+                {PRICE_EUR} €
+              </p>
+              <p className="mt-2 text-[0.9375rem] text-muted">Una sola vez por boda.</p>
+              <ul className="mt-6 grid gap-2.5 border-t border-line pt-5">
+                {INCLUDED.map((item) => (
+                  <li key={item} className="flex gap-3 text-[0.9375rem] text-ink-soft">
+                    <span aria-hidden className="mt-2 size-1.5 shrink-0 rounded-full bg-gold" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <a href="#pedir" className={buttonClasses("primary", "lg", "mt-7")}>
+                Pedir la nuestra
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section aria-labelledby="preguntas" className="bg-ivory">
+          <div className="mx-auto max-w-6xl px-6 py-20 sm:px-10 md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:gap-14">
+            <h2
+              id="preguntas"
+              className="font-display text-[2.25rem] leading-[1.05] text-ink sm:text-[2.75rem]"
+            >
+              Preguntas
+            </h2>
+            <div className="mt-8 max-w-2xl border-t border-ink/25 md:mt-0">
+              {FAQS.map((f) => (
+                <details key={f.q} className="group border-b border-line">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 font-medium text-ink [&::-webkit-details-marker]:hidden">
+                    {f.q}
                     <span
                       aria-hidden
-                      className="relative flex h-24 items-end gap-1.5 rounded-[2px] p-3"
-                      style={{ background: style.palette.ivory }}
+                      className="font-display text-[1.5rem] leading-none text-gold transition-transform group-open:rotate-45"
                     >
-                      {[style.palette.paper, style.palette.ink, style.palette.gold].map((c) => (
-                        <span
-                          key={c}
-                          className="size-6 rounded-full ring-1 ring-black/10"
-                          style={{ background: c }}
-                        />
-                      ))}
-                      <span
-                        className="absolute top-3 right-3 h-10 w-14 rounded-[2px] shadow-sm"
-                        style={{
-                          background: `linear-gradient(180deg, ${ENVELOPES[t.envelope].paper[0]}, ${ENVELOPES[t.envelope].paper[1]})`,
-                        }}
-                      >
-                        <span
-                          className="absolute top-1/2 left-1/2 size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full"
-                          style={{ background: waxHex(t) }}
-                        />
-                      </span>
+                      +
                     </span>
-                    <span className="mt-3 flex items-center justify-between gap-2">
-                      <span className="font-display text-[1.375rem] leading-tight text-ink">
-                        {TEMPLATES[id].label}
-                      </span>
-                      <ArrowRight
-                        aria-hidden
-                        className="size-4 shrink-0 text-ink-soft transition-transform group-hover:translate-x-1"
-                      />
-                    </span>
-                    <span className="mt-1 block text-[0.875rem] text-muted">
-                      {TEMPLATES[id].description}
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+                  </summary>
+                  <p className="pb-5 text-[0.9375rem] leading-relaxed text-ink-soft">{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
         </section>
 
-        <div className="mt-14 md:ml-[15.5rem]">
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
-            <Link href="/panel/demo" className={buttonClasses("primary", "lg")}>
-              Abrir el panel de los novios
-            </Link>
-            <Link
-              href="/entrar"
-              className="text-[0.9375rem] text-ink-soft underline decoration-gold underline-offset-4 hover:text-ink hover:decoration-ink"
-            >
-              Crear vuestra invitación
-            </Link>
-            <Link
-              href="/laboratorio/sobre-3d"
-              className="text-[0.9375rem] text-ink-soft underline decoration-gold underline-offset-4 hover:text-ink hover:decoration-ink"
-            >
-              Comparar con el sobre 3D
-            </Link>
+        <section
+          id="pedir"
+          aria-labelledby="pedir-title"
+          className="mx-auto max-w-6xl scroll-mt-6 px-6 py-20 sm:px-10"
+        >
+          <div className="md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:gap-14">
+            <div>
+              <h2
+                id="pedir-title"
+                className="font-display text-[2.25rem] leading-[1.05] text-ink sm:text-[2.75rem]"
+              >
+                Pedid la vuestra
+              </h2>
+              <p className="mt-3 text-[0.9375rem] text-muted">
+                Dejadnos vuestros datos y os escribimos para empezar.
+              </p>
+            </div>
+            <div className="relative mt-8 max-w-2xl md:mt-0">
+              <ContactForm />
+            </div>
           </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-line">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-8 text-[0.875rem] text-muted sm:px-10">
+          <p>Invitaciones digitales para bodas.</p>
+          <Link href="/ejemplos" className={linkClass}>
+            Ver todos los ejemplos
+          </Link>
         </div>
-      </div>
-    </main>
+      </footer>
+    </div>
   );
 }

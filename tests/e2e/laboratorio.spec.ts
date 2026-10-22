@@ -5,7 +5,7 @@ test.describe("laboratorio del sobre 3D", () => {
   test("se enlaza desde la portada y abre el sobre (o muestra la alternativa)", async ({
     page,
   }) => {
-    await page.goto("/");
+    await page.goto("/ejemplos");
     await page.getByRole("link", { name: "Comparar con el sobre 3D" }).click();
     await expect(page.getByRole("heading", { name: "Sobre 3D con WebGL" })).toBeVisible();
     const open = page.getByRole("button", { name: "Abrir el sobre" });
