@@ -1,10 +1,10 @@
 import { ArrowUpRight, CloudSun, Plus } from "lucide-react";
 import { climateText } from "@/lib/weather";
 import type { ReactNode } from "react";
-import { dressKind } from "@/lib/dress";
 import type { RsvpResponse, WeddingEvent } from "@/lib/domain/types";
 import { describeTransport } from "@/lib/rsvp/summary";
 import { formatLongDate } from "@/lib/format";
+import { DressFigures } from "./dress-figures";
 import { PhotoSlot } from "./photo-slot";
 import { ProgramIcon } from "./program-icons";
 import { RouteMap } from "./route-map";
@@ -274,20 +274,7 @@ export function PracticalSection({ event }: { event: WeddingEvent }) {
             </>
           ) : null}
           {event.dressCode.examples?.length ? (
-            <ul className="mt-7 grid gap-3">
-              {event.dressCode.examples.map((example) => (
-                <li
-                  key={example.who}
-                  className="flex items-start gap-3 rounded-[3px] border border-line bg-paper p-3.5"
-                >
-                  <DressIcon who={example.who} />
-                  <div>
-                    <p className="text-[0.9375rem] font-medium text-ink">{example.who}</p>
-                    <p className="text-[0.875rem] leading-relaxed text-muted">{example.text}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <DressFigures examples={event.dressCode.examples} palette={event.dressCode.palette} />
           ) : null}
         </div>
         <div>
@@ -324,34 +311,5 @@ export function PracticalSection({ event }: { event: WeddingEvent }) {
         ))}
       </div>
     </Section>
-  );
-}
-
-/**
- * Pictograma de la sugerencia de vestimenta según a quién va dirigida: vestido, traje, niños o
- * una percha para cualquier otro caso.
- */
-function DressIcon({ who }: { who: string }) {
-  const kind = dressKind(who);
-  return (
-    <svg
-      viewBox="0 0 32 32"
-      aria-hidden
-      className="mt-0.5 size-8 shrink-0 text-gold"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.4"
-      strokeLinejoin="round"
-    >
-      {kind === "dress" ? (
-        <path d="M12 3h8l-1.5 6 6 18H7.5l6-18L12 3Zm1.5 6h5" />
-      ) : kind === "suit" ? (
-        <path d="M9 4h14l3 6-3 18H9L6 10l3-6Zm3 0 4 9 4-9M16 13v15M12.5 18h-3" />
-      ) : kind === "kids" ? (
-        <path d="M16 7a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5 4h10l3 7h-4l-1 11h-6l-1-11H8l3-7Z" />
-      ) : (
-        <path d="M16 9a2.5 2.5 0 1 1 2.5-2.5M16 9v2L4 22h24L16 11" />
-      )}
-    </svg>
   );
 }

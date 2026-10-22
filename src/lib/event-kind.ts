@@ -4,7 +4,14 @@
  * Los eventos guardados antes no tienen tipo: son bodas.
  */
 
-export const EVENT_KINDS = ["boda", "bautizo", "comunion", "cumpleanos", "aniversario"] as const;
+export const EVENT_KINDS = [
+  "boda",
+  "bautizo",
+  "comunion",
+  "cumpleanos",
+  "quince",
+  "aniversario",
+] as const;
 export type EventKind = (typeof EVENT_KINDS)[number];
 
 interface KindWords {
@@ -42,6 +49,12 @@ export const KIND_WORDS: Record<EventKind, KindWords> = {
     verb: ["celebra su cumpleaños el", "celebran su cumpleaños el"],
     pair: false,
   },
+  quince: {
+    label: "XV años",
+    noun: "los XV años",
+    verb: ["celebra sus XV años el", "celebran sus XV años el"],
+    pair: false,
+  },
   aniversario: {
     label: "Aniversario",
     noun: "el aniversario",
@@ -72,7 +85,7 @@ export function eventTitle(hosts: Hosts): string {
 /** «la boda», «el bautizo»… */
 export const eventNoun = (hosts: { kind?: EventKind }) => KIND_WORDS[kindOf(hosts)].noun;
 
-/** «de la boda», «del bautizo». */
+/** «de la boda», «del bautizo», «de los XV años». */
 export function ofEvent(hosts: { kind?: EventKind }): string {
   const noun = eventNoun(hosts);
   return noun.startsWith("el ") ? `del ${noun.slice(3)}` : `de ${noun}`;

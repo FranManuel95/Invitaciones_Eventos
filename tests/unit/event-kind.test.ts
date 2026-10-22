@@ -32,6 +32,18 @@ describe("tipos de evento", () => {
     );
   });
 
+  it("los XV años con un solo nombre", () => {
+    const hosts = { first: "Valeria", second: "", kind: "quince" as const };
+    expect(eventTitle(hosts)).toBe("XV años de Valeria");
+    expect(coverVerb(hosts)).toBe("celebra sus XV años el");
+    expect(ofEvent(hosts)).toBe("de los XV años");
+    expect(toEvent(hosts)).toBe("a los XV años");
+    expect(announcement(hosts)).toBe("Celebramos los XV años de Valeria");
+    const input = { first: "Valeria", second: "", date: "2027-06-12", kind: "quince" as const };
+    expect(validateNewEvent(input, today)).toBeNull();
+    expect(buildNewEventContent(input).cardMessage).toContain("los XV años de Valeria");
+  });
+
   it("bodas y aniversarios necesitan dos nombres; un bautizo no", () => {
     const content = eventContentSchema.parse(demoEvent);
     const one = { ...content, couple: { ...content.couple, second: "" } };
