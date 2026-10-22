@@ -6,16 +6,15 @@ import {
   DEFAULT_THEME,
   mix,
   normalizeOrder,
-  parseTheme,
   SECTION_IDS,
   STYLE_IDS,
   STYLES,
   TEMPLATE_IDS,
   templateOf,
-  themeInputSchema,
   themeVars,
   WAX_IDS,
 } from "@/lib/theme";
+import { parseTheme, themeInputSchema } from "@/lib/theme/schema";
 
 describe("tema", () => {
   it("vuelve a los valores por defecto con datos incompletos o desconocidos", () => {

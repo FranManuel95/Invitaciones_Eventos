@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { checkVideoFile } from "@/features/editor/photo-field";
-import { parseTheme, seeded } from "@/lib/theme";
+import { seeded } from "@/lib/theme";
+import { parseTheme } from "@/lib/theme/schema";
 import { eventContentSchema } from "@/lib/domain/event-schema";
 import { demoEvent } from "@/data/demo/event";
 

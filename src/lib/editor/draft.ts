@@ -1,6 +1,7 @@
 import type { z } from "zod";
 import { eventContentSchema, type EventContent } from "@/lib/domain/event-schema";
-import { themeInputSchema, type Theme } from "@/lib/theme";
+import type { Theme } from "@/lib/theme";
+import { themeInputSchema } from "@/lib/theme/schema";
 
 /*
  * Borrador del editor: el contenido del evento y su tema. Se edita por rutas

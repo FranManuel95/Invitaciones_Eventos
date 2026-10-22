@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { PREVIEW_GROUP, type FromPreview, type ToPreview } from "@/features/editor/messages";
 import { InvitationExperience, type Stage } from "@/features/invitation/experience";
 import { eventContentSchema, type EventContent } from "@/lib/domain/event-schema";
-import { themeInputSchema, type Theme } from "@/lib/theme";
+import type { Theme } from "@/lib/theme";
+import { themeInputSchema } from "@/lib/theme/schema";
 
 /**
  * Recibe el borrador del editor por postMessage y vuelve a pintar la invitación al momento.

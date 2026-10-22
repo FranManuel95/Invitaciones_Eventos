@@ -5,12 +5,12 @@ import {
   flapGeometry,
   LINER_IDS,
   linerBackground,
-  parseTheme,
   SEAL_SHAPE_IDS,
   sealDroplets,
   sealOutline,
   themeVars,
 } from "@/lib/theme";
+import { parseTheme } from "@/lib/theme/schema";
 
 const points = (clip: string) =>
   clip

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { checkMediaFile } from "@/features/editor/photo-field";
 import { dressKind } from "@/lib/dress";
-import { parseTheme } from "@/lib/theme";
+import { parseTheme } from "@/lib/theme/schema";
 
 describe("música y vestimenta", () => {
   it("sin estilo elegido suena el piano de siempre", () => {

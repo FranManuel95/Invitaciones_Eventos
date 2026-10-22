@@ -17,7 +17,7 @@ import {
 } from "react";
 import { DemoBadge } from "@/components/demo-badge";
 import { hasOpenedEnvelope, markEnvelopeOpened } from "@/lib/data/session";
-import { primeResponse } from "@/lib/data/rsvp-store";
+import { primeResponse } from "@/lib/data/rsvp-cache";
 import type { GuestGroup, RsvpResponse, WeddingEvent } from "@/lib/domain/types";
 import { DEFAULT_THEME, STYLES, themeVars, type Theme } from "@/lib/theme";
 import type { InvitationContentProps } from "./content/invitation-content";

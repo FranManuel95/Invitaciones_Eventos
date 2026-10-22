@@ -3,6 +3,9 @@
 import type { GuestGroup, RsvpResponse } from "@/lib/domain/types";
 import { submitRsvp } from "@/app/actions/rsvp";
 import { rsvpResponseSchema } from "@/lib/rsvp/draft";
+import { notifyResponses, responseCache as cache } from "./rsvp-cache";
+
+export { primeResponse, subscribeResponses } from "./rsvp-cache";
 
 /**
  * Respuesta del invitado, compartida por la cabecera, el RSVP y el pase.
@@ -14,23 +17,6 @@ import { rsvpResponseSchema } from "@/lib/rsvp/draft";
 
 const keyFor = (token: string) => `invitacion:${token}:rsvp`;
 const failedOnce = new Set<string>();
-// Caché en memoria: useSyncExternalStore necesita devolver el mismo objeto si nada cambió.
-const cache = new Map<string, RsvpResponse | null>();
-const listeners = new Set<() => void>();
-
-/** Suscripción para que la cabecera, el RSVP y el pase muestren siempre la misma respuesta. */
-export function subscribeResponses(listener: () => void) {
-  listeners.add(listener);
-  return () => {
-    listeners.delete(listener);
-  };
-}
-
-/** La respuesta que ya tiene el servidor manda sobre la del navegador. */
-export function primeResponse(token: string, response: RsvpResponse | null) {
-  cache.set(token, response);
-}
-
 export function getSavedResponse(token: string): RsvpResponse | null {
   if (!cache.has(token)) cache.set(token, loadResponse(token));
   return cache.get(token) ?? null;
@@ -76,7 +62,7 @@ function remember(token: string, response: RsvpResponse) {
     // Sin almacenamiento (modo privado): la confirmación se muestra igualmente en esta sesión.
   }
   cache.set(token, response);
-  listeners.forEach((l) => l());
+  notifyResponses();
 }
 
 export function clearResponse(token: string) {
@@ -86,5 +72,5 @@ export function clearResponse(token: string) {
     // Nada que limpiar.
   }
   cache.set(token, null);
-  listeners.forEach((l) => l());
+  notifyResponses();
 }

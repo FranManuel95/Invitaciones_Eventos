@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { InvitationExperience } from "@/features/invitation/experience";
 import { getInvitation } from "@/lib/data/repository";
-import { applyTemplate, parseTheme, TEMPLATE_IDS, type TemplateId } from "@/lib/theme";
+import { applyTemplate, TEMPLATE_IDS, type TemplateId } from "@/lib/theme";
+import { parseTheme } from "@/lib/theme/schema";
 
 // Las invitaciones reales viven en la base de datos (y su respuesta puede cambiar), así que se
 // pintan en cada petición. Los tokens desconocidos devuelven 404.

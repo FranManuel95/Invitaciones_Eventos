@@ -3,7 +3,8 @@ import { cache } from "react";
 import { demoEvent } from "@/data/demo/event";
 import { createAnonClient, createSessionClient } from "@/lib/supabase/server";
 import { supabaseEnv } from "@/lib/supabase/env";
-import { DEFAULT_THEME, parseTheme, type Theme } from "@/lib/theme";
+import { DEFAULT_THEME, type Theme } from "@/lib/theme";
+import { parseTheme } from "@/lib/theme/schema";
 
 /*
  * Álbum de los invitados. Los invitados lo abren con el token del álbum del evento (el del QR de

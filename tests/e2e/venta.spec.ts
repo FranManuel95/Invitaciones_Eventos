@@ -8,7 +8,8 @@ test.describe("página de venta", () => {
       page.getByRole("heading", { level: 1, name: "Una invitación que se abre como una carta" }),
     ).toBeVisible();
     await expect(page.getByText("129 €", { exact: true })).toBeVisible();
-    // La invitación de ejemplo se ve dentro del móvil.
+    // La invitación de ejemplo se carga dentro del móvil al tocarlo.
+    await page.getByRole("button", { name: "Abrir la invitación aquí" }).click();
     const phone = page.frameLocator('iframe[title="Invitación de ejemplo de María y Daniel"]');
     await expect(phone.getByRole("heading", { level: 1, name: /María/ })).toBeAttached();
 

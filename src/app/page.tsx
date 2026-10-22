@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { buttonClasses } from "@/components/ui/button";
 import { ContactForm } from "@/features/sales/contact-form";
+import { PhoneDemo } from "@/features/sales/phone-demo";
 import { BlossomCorner } from "@/features/invitation/ornaments";
 import { PRICE_EUR } from "@/lib/sales/contact";
 import { siteUrl } from "@/lib/site";
@@ -123,16 +124,9 @@ export default function SalesPage() {
             </div>
 
             <figure className="mx-auto [--s:0.72] sm:[--s:0.8]">
-              <div className="relative h-[calc(844px*var(--s))] w-[calc(390px*var(--s))] overflow-hidden rounded-[2.25rem] border-[6px] border-ink bg-ink shadow-[var(--shadow-lift)]">
-                <iframe
-                  src="/i/familia-garcia"
-                  title="Invitación de ejemplo de María y Daniel"
-                  loading="lazy"
-                  className="absolute top-0 left-0 h-[844px] w-[390px] origin-top-left scale-[var(--s)] rounded-[1.75rem] bg-ivory"
-                />
-              </div>
+              <PhoneDemo />
               <figcaption className="mt-3 text-center text-[0.8125rem] text-muted">
-                Tocadla: es una invitación de verdad.
+                Es una invitación de verdad: ábrela y prueba a confirmar.
               </figcaption>
             </figure>
           </div>
