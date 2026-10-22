@@ -23,6 +23,7 @@ const SCENES = {
   luces: dynamic(() => import("./scenes/lights-scene").then((mod) => mod.LightsScene)),
   acuarela: dynamic(() => import("./scenes/watercolor-scene").then((mod) => mod.WatercolorScene)),
   estrellas: dynamic(() => import("./scenes/stars-scene").then((mod) => mod.StarsScene)),
+  herbario: dynamic(() => import("./scenes/herbarium-scene").then((mod) => mod.HerbariumScene)),
 };
 
 /**
@@ -123,7 +124,10 @@ export function CoverStage({
         animate={{ scale: 1 }}
         transition={{ duration: 3.4, ease }}
       >
-        {scene === "luces" || scene === "acuarela" || scene === "estrellas" ? (
+        {scene === "luces" ||
+        scene === "acuarela" ||
+        scene === "estrellas" ||
+        scene === "herbario" ? (
           (() => {
             const Scene = SCENES[scene];
             return <Scene />;

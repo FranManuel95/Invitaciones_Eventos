@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 
 // Portadas animadas: se leen bien, son accesibles y dejan abrir la invitación.
 test.describe("portadas", () => {
-  for (const scene of ["luces", "acuarela", "estrellas"]) {
+  for (const scene of ["luces", "acuarela", "estrellas", "herbario"]) {
     test(`${scene}: título legible, accesible y se abre`, async ({ page }) => {
       const errors: string[] = [];
       page.on("pageerror", (e) => errors.push(e.message));
@@ -34,6 +34,23 @@ test.describe("portadas", () => {
       );
     expect(animated).toBe(0);
     await expect(page.locator("canvas")).toHaveCount(0);
+    await context.close();
+  });
+
+  test("herbario: con movimiento reducido las ramas ya están dibujadas", async ({ browser }) => {
+    const context = await browser.newContext({ reducedMotion: "reduce" });
+    const page = await context.newPage();
+    await page.goto("/i/familia-garcia?portada=herbario");
+    const drawn = page.locator("[data-cover='herbario'] .herb-draw");
+    await expect(drawn.first()).toBeAttached();
+    const hidden = await drawn.evaluateAll(
+      (els) =>
+        els.filter((el) => {
+          const style = getComputedStyle(el);
+          return style.animationName !== "none" || style.strokeDasharray !== "none";
+        }).length,
+    );
+    expect(hidden).toBe(0);
     await context.close();
   });
 

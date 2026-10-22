@@ -1,9 +1,17 @@
 /*
- * Portada: la foto con efecto 3D de siempre, tres escenas animadas dibujadas en SVG y CSS, la
+ * Portada: la foto con efecto 3D de siempre, cuatro escenas animadas dibujadas en SVG y CSS, la
  * foto como en una película o un vídeo corto subido por la pareja.
  */
 
-export const COVER_IDS = ["foto", "luces", "acuarela", "estrellas", "cine", "video"] as const;
+export const COVER_IDS = [
+  "foto",
+  "luces",
+  "acuarela",
+  "estrellas",
+  "herbario",
+  "cine",
+  "video",
+] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
 export const COVERS: Record<CoverId, { label: string; description: string }> = {
@@ -22,6 +30,10 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
   estrellas: {
     label: "Cielo estrellado",
     description: "Estrellas que titilan y alguna estrella fugaz.",
+  },
+  herbario: {
+    label: "Herbario",
+    description: "Ramas de olivo y eucalipto en oro que se dibujan solas, con un marco fino.",
   },
   cine: {
     label: "Película",

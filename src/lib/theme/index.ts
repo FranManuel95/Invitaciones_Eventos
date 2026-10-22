@@ -643,6 +643,7 @@ export const TEMPLATE_IDS = [
   "luciernagas",
   "acuarela",
   "gala",
+  "herbario",
   "cine",
 ] as const;
 export type TemplateId = (typeof TEMPLATE_IDS)[number];
@@ -839,6 +840,27 @@ export const TEMPLATES: Record<
       edge: "recto",
       ornament: "geometrico",
       musicStyle: "cuerdas",
+    },
+  },
+  herbario: {
+    label: "Herbario",
+    description: "Verde botella y ramas de oro que se dibujan solas, como una lámina antigua.",
+    look: {
+      style: "esmeralda",
+      envelope: "salvia",
+      wax: "oro",
+      calendar: "mano",
+      font: "romantica",
+      opening: "pantalla",
+      cover: "herbario",
+      flap: "festoneada",
+      texture: "verjurado",
+      liner: "flores",
+      sealMark: "almendro",
+      layout: "marco",
+      edge: "barba",
+      ornament: "eucalipto",
+      musicStyle: "piano",
     },
   },
   cine: {
