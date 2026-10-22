@@ -263,7 +263,7 @@ export function EnvelopeStage({
             <span
               data-body
               aria-hidden
-              className="absolute inset-x-[6%] -bottom-6 block h-8 rounded-[50%] bg-[#4b3a28] blur-xl"
+              className={`absolute inset-x-[6%] -bottom-6 block h-8 rounded-[50%] bg-[#4b3a28] blur-xl ${opening ? "" : "envelope-shadow"}`}
               style={{ opacity: weight.shadow + 0.06 }}
             />
 
