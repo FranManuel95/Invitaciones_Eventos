@@ -107,7 +107,7 @@ export function EnvelopeStage({
     }
 
     // El título se retira para dejar espacio a la solapa abierta y a la carta.
-    animate("[data-heading]", { opacity: 0, y: -12 }, { duration: 0.45, ease: "easeOut" });
+    animate("[data-title-heading]", { opacity: 0, y: -12 }, { duration: 0.45, ease: "easeOut" });
     // Cámara: un acercamiento lento durante toda la apertura y un foco que oscurece los bordes.
     animate(scope.current, { scale: 1.1, y: 18 }, { duration: 4.6, ease: [0.45, 0, 0.25, 1] });
     if (spotlight.current) {
@@ -224,7 +224,7 @@ export function EnvelopeStage({
 
       <div ref={scope} className="relative flex w-full flex-col items-center">
         <div
-          data-heading
+          data-title-heading
           className="mb-10 flex flex-col items-center text-center text-ink-soft sm:mb-12"
         >
           <Monogram
