@@ -281,7 +281,7 @@ export function EnvelopeStage({
               <m.span
                 data-letter
                 aria-hidden
-                className="paper-grain absolute inset-x-[6%] top-[5%] z-10 block h-[88%] origin-bottom rounded-[2px] bg-paper shadow-[0_1px_3px_rgb(60_45_25/0.18)]"
+                className="paper-grain absolute inset-x-[6%] top-[5%] z-10 block h-[88%] origin-bottom rounded-[2px] bg-paper shadow-[0_1px_3px_rgb(60_45_25/0.2),0_8px_18px_rgb(40_30_20/0.1)] ring-1 ring-inset ring-[rgb(120_90_50/0.1)]"
               >
                 {/* Destello de luz que cruza el papel al llegar al primer plano */}
                 <span className="pointer-events-none absolute inset-0 block overflow-hidden rounded-[2px]">
