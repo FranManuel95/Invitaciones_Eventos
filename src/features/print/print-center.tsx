@@ -1,5 +1,6 @@
 "use client";
 
+import { hostNames } from "@/lib/event-kind";
 import { clsx } from "clsx";
 import { Check, Copy, Printer } from "lucide-react";
 import { useState, type ReactNode } from "react";
@@ -62,7 +63,7 @@ export interface PrintData {
 /** Elige un documento, lo ves tal cual y lo imprimes (o lo guardas en PDF desde el navegador). */
 export function PrintCenter({ data }: { data: PrintData }) {
   const [doc, setDoc] = useState<DocId>("tarjetas");
-  const couple = `${data.couple.first} & ${data.couple.second}`;
+  const couple = hostNames(data.couple);
   const origin = typeof window === "undefined" ? "" : window.location.origin;
   const albumUrl = data.albumToken ? `${origin}/album/${data.albumToken}` : null;
 

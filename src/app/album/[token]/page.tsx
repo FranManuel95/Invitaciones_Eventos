@@ -1,3 +1,4 @@
+import { hostNames } from "@/lib/event-kind";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AlbumView } from "@/features/album/album-view";
@@ -11,7 +12,7 @@ export async function generateMetadata(props: PageProps<"/album/[token]">): Prom
   const { token } = await props.params;
   const album = await getAlbum(token);
   if (!album) return {};
-  return { title: `Álbum de ${album.couple.first} & ${album.couple.second}` };
+  return { title: `Álbum de ${hostNames(album.couple)}` };
 }
 
 export default async function AlbumPage(props: PageProps<"/album/[token]">) {

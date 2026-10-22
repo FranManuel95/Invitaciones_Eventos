@@ -1,3 +1,4 @@
+import { hostNames } from "@/lib/event-kind";
 import type { WeddingEvent } from "@/lib/domain/types";
 import { RollingYear } from "../effects/rolling-year";
 import { PhotoSlot } from "./photo-slot";
@@ -14,7 +15,7 @@ export function StorySection({ event }: { event: WeddingEvent }) {
     <Section id="historia" title="Nuestra historia" aside={story.intro} tone="tinted">
       <PhotoSlot
         src={story.couplePhoto}
-        alt={`${event.couple.first} y ${event.couple.second}`}
+        alt={hostNames(event.couple, " y ")}
         ratio="4/5"
         sizes="(min-width: 640px) 352px, 92vw"
         tone={0}

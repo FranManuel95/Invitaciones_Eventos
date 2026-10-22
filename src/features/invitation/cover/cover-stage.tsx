@@ -1,5 +1,6 @@
 "use client";
 
+import { coverVerb, hostsOf } from "@/lib/event-kind";
 import { ChevronDown } from "lucide-react";
 import { animate, m, useMotionValue, useReducedMotion, useTransform } from "motion/react";
 import dynamic from "next/dynamic";
@@ -189,12 +190,14 @@ export function CoverStage({
           className="mt-[14svh] font-names text-[clamp(3.5rem,17vw,8rem)] leading-[0.9] tracking-[-0.01em] outline-none [text-shadow:0_2px_30px_rgb(0_0_0/0.25)]"
         >
           <SplitText text={event.couple.first} delay={1.1} animate={!reduce} className="block" />
-          <SplitText
-            text={`& ${event.couple.second}`}
-            delay={1.1 + event.couple.first.length * 0.045 + 0.15}
-            animate={!reduce}
-            className="block"
-          />
+          {event.couple.second ? (
+            <SplitText
+              text={`& ${event.couple.second}`}
+              delay={1.1 + event.couple.first.length * 0.045 + 0.15}
+              animate={!reduce}
+              className="block"
+            />
+          ) : null}
         </h1>
 
         <m.p
@@ -203,7 +206,7 @@ export function CoverStage({
           transition={{ duration: 1.2, delay: 2.4 }}
           className="mt-8 max-w-[19rem] font-display text-[1.375rem] leading-snug text-white/90 italic"
         >
-          se casan el{" "}
+          {coverVerb(hostsOf(event))}{" "}
           <time dateTime={isoDay(event.date)} className="whitespace-nowrap">
             {formatLongDate(event.date)}
           </time>{" "}

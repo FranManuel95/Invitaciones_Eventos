@@ -159,7 +159,7 @@ test.describe("experiencia del invitado", () => {
     await page.goto("/i/carlos-ruiz");
     await page.getByRole("button", { name: "Saltar intro" }).click();
     await expect(page.getByRole("heading", { name: "Guarda la fecha" })).toBeAttached();
-    await expect(page.getByRole("cell", { name: /22 \(día de la boda\)/ })).toBeAttached();
+    await expect(page.getByRole("cell", { name: /22 \(el gran día\)/ })).toBeAttached();
     await expect(page.getByText(/^Faltan \d+ días, \d+ horas y \d+ minutos\.$/)).toBeAttached();
     await expect(page.getByRole("link", { name: /Google Calendar/ })).toHaveAttribute(
       "href",
@@ -222,7 +222,7 @@ test.describe("experiencia del invitado", () => {
     await expect(page.locator("[data-style='noche']")).toBeAttached();
     await page.getByRole("button", { name: "Saltar intro" }).click();
     await expect(page.locator("[data-calendar='minimal']")).toBeAttached();
-    await expect(page.getByRole("cell", { name: /22 \(día de la boda\)/ })).toBeAttached();
+    await expect(page.getByRole("cell", { name: /22 \(el gran día\)/ })).toBeAttached();
     for (let i = 0; i < 20; i++) await page.mouse.wheel(0, 600);
     await page.waitForTimeout(1500);
     const results = await new AxeBuilder({ page }).analyze();
@@ -241,7 +241,7 @@ test.describe("experiencia del invitado", () => {
       await page.goto(`/i/carlos-ruiz?plantilla=${plantilla}`);
       await page.getByRole("button", { name: "Saltar intro" }).click();
       await expect(page.locator(`[data-calendar='${calendario}']`)).toBeAttached();
-      await expect(page.locator("#fecha").getByText("(día de la boda)")).toBeAttached();
+      await expect(page.locator("#fecha").getByText("(el gran día)")).toBeAttached();
       for (let i = 0; i < 20; i++) await page.mouse.wheel(0, 600);
       await page.waitForTimeout(1500);
       const results = await new AxeBuilder({ page }).analyze();

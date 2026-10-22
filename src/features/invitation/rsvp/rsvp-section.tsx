@@ -1,5 +1,6 @@
 "use client";
 
+import { hostNames } from "@/lib/event-kind";
 import { Check, Lock } from "lucide-react";
 import { AnimatePresence, m } from "motion/react";
 import { useEffect, useRef, useState } from "react";
@@ -92,8 +93,7 @@ export function RsvpSection({ event, group }: { event: WeddingEvent; group: Gues
                   <h3 className="mt-4 font-display text-3xl text-ink">El plazo ha terminado</h3>
                   <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">
                     La confirmación se cerró el {formatLongDate(event.rsvpDeadline)}. Si necesitas
-                    cambiar algo, escribe directamente a {event.couple.first} o{" "}
-                    {event.couple.second}.
+                    cambiar algo, escribe directamente a {hostNames(event.couple, " o ")}.
                   </p>
                 </div>
               ) : null}

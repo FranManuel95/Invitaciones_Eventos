@@ -1,3 +1,4 @@
+import { hostsOf } from "@/lib/event-kind";
 import { PageHeader } from "@/features/dashboard/ui";
 import { InvitationsManager } from "@/features/guests/invitations-manager";
 import type { AttendanceStatus } from "@/lib/domain/types";
@@ -25,7 +26,7 @@ export default async function InvitationsPage(props: PageProps<"/panel/[evento]/
         eventId={meta?.id ?? null}
         groups={groups}
         statuses={statuses}
-        couple={event.couple}
+        couple={hostsOf(event)}
       />
     </>
   );

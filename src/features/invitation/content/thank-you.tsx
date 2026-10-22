@@ -1,3 +1,4 @@
+import { hostNames, ofEvent } from "@/lib/event-kind";
 import { Images } from "lucide-react";
 import { buttonClasses } from "@/components/ui/button";
 import type { WeddingEvent } from "@/lib/domain/types";
@@ -26,13 +27,11 @@ export function ThankYou({
           <p className="font-display text-[1.625rem] leading-[1.45] text-ink sm:text-[1.875rem]">
             {event.thankYouMessage?.trim() || DEFAULT_MESSAGE}
           </p>
-          <p className="mt-4 text-ink-soft">
-            {event.couple.first} &amp; {event.couple.second}
-          </p>
+          <p className="mt-4 text-ink-soft">{hostNames(event.couple)}</p>
           {albumToken ? (
             <a href={`/album/${albumToken}`} className={buttonClasses("primary", "lg", "mt-8")}>
               <Images aria-hidden className="size-5" />
-              Ver las fotos de la boda
+              Ver las fotos {ofEvent(event)}
             </a>
           ) : null}
         </div>

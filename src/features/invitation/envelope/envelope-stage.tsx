@@ -1,5 +1,6 @@
 "use client";
 
+import { hostNames } from "@/lib/event-kind";
 import { Pointer } from "lucide-react";
 import { m, useAnimate, useReducedMotion, useTransform } from "motion/react";
 import { useEffect, useRef, useState, ViewTransition } from "react";
@@ -301,7 +302,7 @@ export function EnvelopeStage({
                     className="size-[clamp(1.9rem,7.5vw,2.4rem)] text-[clamp(1.9rem,7.5vw,2.4rem)]"
                   />
                   <span className="letterpress mt-2 block font-names text-[clamp(1.5rem,6.5vw,2.125rem)] leading-none text-ink">
-                    {event.couple.first} &amp; {event.couple.second}
+                    {hostNames(event.couple)}
                   </span>
                   <span className="caption mt-2 block !text-[clamp(0.75rem,3vw,0.9375rem)] text-ink-soft">
                     {formatLongDate(event.date)}

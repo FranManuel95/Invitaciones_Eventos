@@ -1,3 +1,5 @@
+import { announcement, toEvent, type EventKind, type Hosts } from "../event-kind";
+
 /*
  * Envío de invitaciones: el enlace personal, el mensaje de WhatsApp y el número de teléfono.
  * WhatsApp se abre con wa.me (no hace falta ninguna cuenta de empresa ni API).
@@ -23,14 +25,14 @@ export function invitationUrl(origin: string, token: string) {
 
 /** Mensaje cercano, en singular o plural según cuántas personas haya en la invitación. */
 export function inviteMessage(
-  couple: { first: string; second: string },
+  couple: Hosts,
   group: { displayName: string; members: unknown[]; maxAttendees: number },
   url: string,
 ) {
   const plural = group.members.length > 1 || group.maxAttendees > 1;
   return [
     `¡Hola, ${group.displayName}!`,
-    `${couple.first} y ${couple.second} nos casamos y ${plural ? "queremos que estéis" : "queremos que estés"} con nosotros.`,
+    `${announcement(couple)} y ${plural ? "queremos que estéis" : "queremos que estés"} con nosotros.`,
     `Aquí ${plural ? "tenéis vuestra" : "tienes tu"} invitación, con todos los detalles y para confirmar asistencia:`,
     url,
   ].join("\n\n");
@@ -38,6 +40,10 @@ export function inviteMessage(
 
 export const DEFAULT_REMINDER =
   "¡Hola, {nombre}! Os escribimos para recordaros que podéis confirmar asistencia a la boda de {pareja} hasta el {plazo}. Es un momento: {enlace}";
+
+/** Recordatorio por defecto según el tipo de evento («a la boda», «al bautizo»…). */
+export const defaultReminder = (hosts: { kind?: EventKind }) =>
+  DEFAULT_REMINDER.replace("a la boda", toEvent(hosts));
 
 /**
  * Recordatorio a partir de una plantilla con huecos: {nombre}, {pareja}, {plazo} y {enlace}.

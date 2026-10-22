@@ -1,3 +1,4 @@
+import { eventTitle, hostsOf } from "./event-kind";
 import type { WeddingEvent } from "@/lib/domain/types";
 
 const toIcsDate = (date: Date) =>
@@ -21,7 +22,7 @@ export function buildIcs(event: WeddingEvent): string {
     `DTSTAMP:${toIcsDate(new Date())}`,
     `DTSTART:${toIcsDate(start)}`,
     `DTEND:${toIcsDate(end)}`,
-    `SUMMARY:${escape(`Boda de ${event.couple.first} y ${event.couple.second}`)}`,
+    `SUMMARY:${escape(eventTitle(hostsOf(event)))}`,
     venue ? `LOCATION:${escape(`${venue.name}, ${venue.address}, ${venue.city}`)}` : "",
     "END:VEVENT",
     "END:VCALENDAR",
@@ -37,7 +38,7 @@ export function googleCalendarUrl(event: WeddingEvent): string {
   const venue = event.venues[0];
   const params = new URLSearchParams({
     action: "TEMPLATE",
-    text: `Boda de ${event.couple.first} y ${event.couple.second}`,
+    text: eventTitle(hostsOf(event)),
     dates: `${toIcsDate(start)}/${toIcsDate(end)}`,
     details: `Ceremonia a las ${event.program[0]?.time ?? ""}. Toda la información en la invitación.`,
     location: venue ? `${venue.name}, ${venue.address}, ${venue.city}` : "",

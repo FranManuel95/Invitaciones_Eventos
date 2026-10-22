@@ -1,5 +1,6 @@
 "use client";
 
+import { eventNoun, eventTitle, hostNames, hostsOf } from "@/lib/event-kind";
 import { Printer, Share2 } from "lucide-react";
 import { QrCode } from "@/components/qr-code";
 import { Button } from "@/components/ui/button";
@@ -36,8 +37,8 @@ export function GuestPass({
   const share = () => {
     void navigator
       .share({
-        title: `Boda de ${event.couple.first} y ${event.couple.second}`,
-        text: `Nuestro pase para la boda de ${event.couple.first} y ${event.couple.second}.`,
+        title: eventTitle(hostsOf(event)),
+        text: `Nuestro pase para ${eventNoun(event)} de ${hostNames(event.couple, " y ")}.`,
         url: window.location.href,
       })
       .catch(() => {});

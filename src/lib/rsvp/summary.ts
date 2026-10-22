@@ -18,7 +18,7 @@ const listTimes = (times: string[]) =>
  */
 export function describeTransport(response: RsvpResponse, event: WeddingEvent): TransportSummary {
   if (response.status !== "attending" || !response.transport) {
-    return { usesBus: null, answer: null, detail: "No asistirán a la boda." };
+    return { usesBus: null, answer: null, detail: "No asistirán." };
   }
   const t = response.transport;
   const solo = response.attendees.length === 1;

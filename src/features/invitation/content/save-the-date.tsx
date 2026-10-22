@@ -168,7 +168,7 @@ export function SaveTheDate({
             )}
             <table className="mt-3 w-full table-fixed text-center">
               <caption className="sr-only">
-                Calendario de {monthName(event.date)} con el día de la boda marcado
+                Calendario de {monthName(event.date)} con el gran día marcado
               </caption>
               <thead>
                 <tr>
@@ -204,7 +204,7 @@ export function SaveTheDate({
                               }
                             >
                               {cell.day}
-                              {isDay ? <span className="sr-only"> (día de la boda)</span> : null}
+                              {isDay ? <span className="sr-only"> (el gran día)</span> : null}
                             </span>
                           ) : null}
                           {isDay && marker === "fill" ? (
@@ -273,7 +273,7 @@ export function SaveTheDate({
             </a>
             <a
               href={icsHref}
-              download="boda.ics"
+              download="invitacion.ics"
               className={buttonClasses("secondary", "md")}
               onClick={fly}
             >
@@ -349,7 +349,7 @@ function WeekStrip({ day, inView, dayRef, figureRef }: FigureProps) {
                     transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
                   >
                     {cell.day}
-                    <span className="sr-only"> (día de la boda)</span>
+                    <span className="sr-only"> (el gran día)</span>
                   </m.span>
                 ) : (
                   <span className="flex h-24 items-center font-display text-xl text-ink-soft tabular-nums">
@@ -388,7 +388,7 @@ function Poster({ event, day, inView, dayRef, figureRef }: FigureProps & { event
         transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
       >
         {Number(day.slice(8))}
-        <span className="sr-only"> (día de la boda)</span>
+        <span className="sr-only"> (el gran día)</span>
       </m.span>
       <p className="mt-3 font-display text-[2rem] leading-none text-ink italic first-letter:uppercase">
         {monthName(event.date)}

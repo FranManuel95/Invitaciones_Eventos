@@ -49,7 +49,7 @@ export function BriefStage({ event, onDone }: { event: WeddingEvent; onDone: () 
         transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
       >
         {event.couple.first}
-        <span className="block">&amp; {event.couple.second}</span>
+        {event.couple.second ? <span className="block">&amp; {event.couple.second}</span> : null}
       </m.h1>
     </section>
   );

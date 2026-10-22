@@ -1,3 +1,4 @@
+import { eventNoun } from "@/lib/event-kind";
 import { openSummary } from "@/lib/guests/opened";
 import Link from "next/link";
 import { DEMO_REFERENCE_DATE } from "@/data/demo/guests";
@@ -71,7 +72,7 @@ export default async function PanelHome(props: PageProps<"/panel/[evento]">) {
       ) : null}
       <PageHeader
         title={`Hola, ${event.couple.first}`}
-        description={`Faltan ${daysLeft} días para la boda. Han respondido ${summary.respondedGroups} de ${summary.groups} invitaciones; quedan ${pendingGroups} por contestar${opened["sin-abrir"] ? ` y ${opened["sin-abrir"]} aún no la han abierto` : ""}.`}
+        description={`Faltan ${daysLeft} días para ${eventNoun(event)}. Han respondido ${summary.respondedGroups} de ${summary.groups} invitaciones; quedan ${pendingGroups} por contestar${opened["sin-abrir"] ? ` y ${opened["sin-abrir"]} aún no la han abierto` : ""}.`}
         actions={
           <div className="flex flex-wrap gap-2">
             <Link

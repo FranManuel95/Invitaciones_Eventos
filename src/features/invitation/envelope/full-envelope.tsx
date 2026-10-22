@@ -1,5 +1,6 @@
 "use client";
 
+import { hostNames } from "@/lib/event-kind";
 import { Pointer } from "lucide-react";
 import { m, useAnimate, useReducedMotion, useTransform } from "motion/react";
 import { ViewTransition } from "react";
@@ -136,7 +137,7 @@ export function FullEnvelope({
               className="size-12 text-[3rem]"
             />
             <p className="letterpress mt-4 font-names text-[2.25rem] leading-none text-ink">
-              {event.couple.first} &amp; {event.couple.second}
+              {hostNames(event.couple)}
             </p>
             <p className="caption mt-2 text-ink-soft">{formatLongDate(event.date)}</p>
           </div>

@@ -1,3 +1,4 @@
+import { ofEvent, type EventKind } from "../event-kind";
 import type { BudgetItem } from "./budget";
 import type { PlanTask } from "./tasks";
 
@@ -19,12 +20,12 @@ export interface AgendaEntry {
 }
 
 export function agendaEntries(
-  event: { date: string; rsvpDeadline: string },
+  event: { date: string; rsvpDeadline: string; kind?: EventKind },
   tasks: PlanTask[],
   budget: BudgetItem[],
 ): AgendaEntry[] {
   const entries: AgendaEntry[] = [
-    { date: event.date.slice(0, 10), kind: "wedding", label: "Día de la boda", path: "" },
+    { date: event.date.slice(0, 10), kind: "wedding", label: `Día ${ofEvent(event)}`, path: "" },
     {
       date: event.rsvpDeadline.slice(0, 10),
       kind: "deadline",

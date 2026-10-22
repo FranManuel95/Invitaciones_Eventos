@@ -1,3 +1,4 @@
+import { hostNames } from "@/lib/event-kind";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/features/dashboard/ui";
 import { AlbumModeration } from "@/features/album/album-moderation";
@@ -23,7 +24,7 @@ export default async function AlbumPanelPage(props: PageProps<"/panel/[evento]/a
         eventId={meta?.id ?? null}
         token={album.token}
         photos={album.photos}
-        couple={`${event.couple.first} & ${event.couple.second}`}
+        couple={hostNames(event.couple)}
       />
     </>
   );

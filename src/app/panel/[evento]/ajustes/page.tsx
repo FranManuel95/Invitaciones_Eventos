@@ -1,3 +1,4 @@
+import { hostNames } from "@/lib/event-kind";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/features/dashboard/ui";
 import { EventSettingsPanel } from "@/features/settings/event-settings";
@@ -22,7 +23,7 @@ export default async function SettingsPage(props: PageProps<"/panel/[evento]/aju
       <EventSettingsPanel
         eventId={meta?.id ?? null}
         settings={settings}
-        couple={`${event.couple.first} y ${event.couple.second}`}
+        couple={hostNames(event.couple, " y ")}
       />
     </>
   );

@@ -24,7 +24,7 @@ export function TextsTab() {
         />
       </Group>
       <Group
-        title="Después de la boda"
+        title="Después del gran día"
         description="Desde el día siguiente, la invitación da las gracias y enlaza al álbum de fotos."
       >
         <TextField

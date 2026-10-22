@@ -76,6 +76,7 @@ export function Reminders({
   groups,
   couple,
   deadline,
+  reminder = DEFAULT_REMINDER,
 }: {
   eventKey: string;
   /** Invitaciones sin respuesta. */
@@ -83,13 +84,15 @@ export function Reminders({
   couple: string;
   /** Plazo ya escrito («15 de abril de 2027»). */
   deadline: string;
+  /** Texto por defecto, según el tipo de evento. */
+  reminder?: string;
 }) {
   const origin = useSyncExternalStore(
     noopSubscribe,
     () => window.location.origin,
     () => "",
   );
-  const [template, setTemplate] = useStored(`recordatorio:${eventKey}`, DEFAULT_REMINDER);
+  const [template, setTemplate] = useStored(`recordatorio:${eventKey}`, reminder);
   const [sent, setSent] = useStored<string[]>(`recordados:${eventKey}`, NO_SENT);
   const pending = groups.filter((g) => !sent.includes(g.id));
 
@@ -120,7 +123,7 @@ export function Reminders({
           invitación.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
-          <Button variant="ghost" size="sm" onClick={() => setTemplate(DEFAULT_REMINDER)}>
+          <Button variant="ghost" size="sm" onClick={() => setTemplate(reminder)}>
             <RotateCcw aria-hidden className="size-3.5" />
             Texto original
           </Button>

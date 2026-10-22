@@ -21,8 +21,8 @@ export function Monogram({
       <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="0.6" />
       <circle cx="32" cy="32" r="27.5" fill="none" stroke="currentColor" strokeWidth="0.3" />
       <text
-        x="24.5"
-        y="36"
+        x={second ? "24.5" : "32"}
+        y={second ? "36" : "40"}
         textAnchor="middle"
         fontFamily="var(--font-display)"
         fontStyle="italic"
@@ -31,17 +31,19 @@ export function Monogram({
       >
         {first.charAt(0)}
       </text>
-      <text
-        x="40"
-        y="45"
-        textAnchor="middle"
-        fontFamily="var(--font-display)"
-        fontStyle="italic"
-        fontSize="21"
-        fill="currentColor"
-      >
-        {second.charAt(0)}
-      </text>
+      {second ? (
+        <text
+          x="40"
+          y="45"
+          textAnchor="middle"
+          fontFamily="var(--font-display)"
+          fontStyle="italic"
+          fontSize="21"
+          fill="currentColor"
+        >
+          {second.charAt(0)}
+        </text>
+      ) : null}
     </svg>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { hostNames } from "@/lib/event-kind";
 import { Camera, Check, ImagePlus } from "lucide-react";
 import Image from "next/image";
 import { useId, useState } from "react";
@@ -99,11 +100,11 @@ export function AlbumView({ album }: { album: Album }) {
       </div>
       <p className="caption mt-12 text-ink-soft">{formatLongDate(album.date)}</p>
       <h1 className="mt-2 font-names text-[clamp(2.75rem,12vw,5rem)] leading-[0.95] text-ink">
-        El álbum de {album.couple.first} &amp; {album.couple.second}
+        El álbum de {hostNames(album.couple)}
       </h1>
       <p className="mt-4 max-w-[52ch] text-[1.0625rem] leading-relaxed text-ink-soft">
-        Comparte las fotos que hagas hoy. Las verán los novios y, cuando las revisen, aparecerán
-        aquí para todos.
+        Comparte las fotos que hagas hoy. Las verán {hostNames(album.couple, " y ")} y, cuando las
+        revisen, aparecerán aquí para todos.
       </p>
 
       <section
@@ -162,7 +163,7 @@ export function AlbumView({ album }: { album: Album }) {
           {busy
             ? "Subiendo…"
             : done
-              ? `${done === 1 ? "1 foto enviada" : `${done} fotos enviadas`}. ¡Gracias! Aparecerán cuando los novios las revisen.`
+              ? `${done === 1 ? "1 foto enviada" : `${done} fotos enviadas`}. ¡Gracias! Aparecerán cuando ${hostNames(album.couple, " y ")} las revisen.`
               : null}
         </p>
         {uploads.length ? (
@@ -198,7 +199,7 @@ export function AlbumView({ album }: { album: Album }) {
 
       <section aria-labelledby="fotos" className="mt-12">
         <h2 id="fotos" className="font-display text-[1.75rem] text-ink">
-          Fotos de la boda
+          Las fotos de todos
         </h2>
         {album.photos.length ? (
           <ul className="mt-5 columns-2 gap-3 sm:columns-3">

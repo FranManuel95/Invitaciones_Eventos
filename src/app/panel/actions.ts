@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { showcaseGroups } from "@/data/demo/guests";
 import { removeUnusedEventFiles, rewriteMediaRefs } from "@/lib/data/event-files";
+import type { EventKind } from "@/lib/event-kind";
 import { buildNewEventContent, slugFor, validateNewEvent } from "@/lib/events/new-event";
 import { createSessionClient } from "@/lib/supabase/server";
 
@@ -26,6 +27,7 @@ export async function createEvent(_prev: ActionState, form: FormData): Promise<A
     first: String(form.get("first") ?? "").trim(),
     second: String(form.get("second") ?? "").trim(),
     date: String(form.get("date") ?? ""),
+    kind: String(form.get("kind") ?? "boda") as EventKind,
   };
   const invalid = validateNewEvent(input);
   if (invalid) return { error: invalid };

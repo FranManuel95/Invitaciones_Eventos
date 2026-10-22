@@ -1,5 +1,6 @@
 "use client";
 
+import { hostNames, ofEvent } from "@/lib/event-kind";
 import { clsx } from "clsx";
 import { RotateCcw } from "lucide-react";
 import { Fragment, useEffect, useMemo, useRef, useState, ViewTransition } from "react";
@@ -168,7 +169,9 @@ export function InvitationContent({
               className="mt-16 font-names text-[clamp(4rem,19vw,10rem)] leading-[0.86] tracking-[-0.02em] text-ink outline-none sm:mt-24"
             >
               {event.couple.first}
-              <span className="block pl-[0.6em]">&amp; {event.couple.second}</span>
+              {event.couple.second ? (
+                <span className="block pl-[0.6em]">&amp; {event.couple.second}</span>
+              ) : null}
             </h1>
 
             <div className="mt-10 grid gap-8 sm:mt-14 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
@@ -314,7 +317,7 @@ export function InvitationContent({
                       id="album-title"
                       className="font-display text-[1.75rem] leading-tight text-ink"
                     >
-                      El álbum de la boda
+                      El álbum {ofEvent(event)}
                     </h2>
                     <p className="mt-1 max-w-[46ch] text-[0.9375rem] leading-relaxed text-muted">
                       {after
@@ -336,7 +339,7 @@ export function InvitationContent({
         <div className="mx-auto flex max-w-5xl flex-col gap-6 px-6 pt-14 pb-[max(3rem,env(safe-area-inset-bottom))] sm:flex-row sm:items-end sm:justify-between sm:px-10">
           <div>
             <p translate="no" className="font-names text-4xl text-ink">
-              {event.couple.first} &amp; {event.couple.second}
+              {hostNames(event.couple)}
             </p>
             <p translate="no" className="caption mt-1 text-ink-soft">
               {event.hashtag}

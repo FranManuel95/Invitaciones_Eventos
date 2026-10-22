@@ -310,7 +310,7 @@ function ColorsPart() {
       </Group>
       <Group
         title="Lacre y acento"
-        description="El color de la cera también marca el día de la boda y los detalles."
+        description="El color de la cera también marca el gran día en el calendario y los detalles."
       >
         <div role="radiogroup" aria-label="Lacre" className="grid gap-3 sm:grid-cols-2">
           {WAX_IDS.map((id) => (

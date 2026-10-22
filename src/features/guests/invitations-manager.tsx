@@ -1,5 +1,6 @@
 "use client";
 
+import type { Hosts } from "@/lib/event-kind";
 import { Pencil, Plus, Search, Trash2, Upload } from "lucide-react";
 import { useDeferredValue, useState, useSyncExternalStore, useTransition } from "react";
 import { deleteGroup } from "@/app/panel/[evento]/invitaciones/actions";
@@ -32,7 +33,7 @@ export function InvitationsManager({
   eventId: string | null;
   groups: GuestGroup[];
   statuses: Record<string, AttendanceStatus>;
-  couple: { first: string; second: string };
+  couple: Hosts;
 }) {
   const origin = useSyncExternalStore(
     noopSubscribe,

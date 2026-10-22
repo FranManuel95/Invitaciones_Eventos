@@ -1,3 +1,4 @@
+import { hostNames } from "@/lib/event-kind";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { DemoBadge } from "@/components/demo-badge";
@@ -21,7 +22,7 @@ export default async function PanelLayout(props: LayoutProps<"/panel/[evento]">)
       />
       <span>
         <span translate="no" className="block font-display text-xl leading-none text-ink">
-          {event.couple.first} &amp; {event.couple.second}
+          {hostNames(event.couple)}
         </span>
         <span className="mt-1 block text-[0.8125rem] text-muted">{formatLongDate(event.date)}</span>
       </span>

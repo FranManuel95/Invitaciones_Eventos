@@ -1,5 +1,6 @@
 "use client";
 
+import { hostNames } from "@/lib/event-kind";
 import { clsx } from "clsx";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -36,6 +37,7 @@ const TABS = [
     label: "Pareja y fecha",
     Panel: BasicsTab,
     roots: [
+      "kind",
       "couple",
       "date",
       "city",
@@ -220,7 +222,7 @@ export function Editor({
               Panel
             </Link>
             <h1 className="min-w-0 flex-1 truncate font-display text-[1.375rem] leading-tight text-ink">
-              {draft.content.couple.first || "…"} &amp; {draft.content.couple.second || "…"}
+              {hostNames({ ...draft.content.couple, first: draft.content.couple.first || "…" })}
             </h1>
             <p
               role="status"

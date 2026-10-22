@@ -1,5 +1,6 @@
 "use client";
 
+import { hostNames } from "@/lib/event-kind";
 import { clsx } from "clsx";
 import { ChevronDown } from "lucide-react";
 import { m } from "motion/react";
@@ -166,7 +167,7 @@ function Greeting({
 function Names({ event, className }: { event: WeddingEvent; className: string }) {
   return (
     <p translate="no" className={clsx("letterpress font-names leading-tight text-ink", className)}>
-      {event.couple.first} &amp; {event.couple.second}
+      {hostNames(event.couple)}
     </p>
   );
 }

@@ -4,6 +4,8 @@
  * Las invitaciones se asignan a un grupo (familia, pareja…) con un enlace personal (token).
  */
 
+import type { EventKind } from "../event-kind";
+
 export type MenuId = "carne" | "pescado" | "vegetariano" | "vegano" | "infantil";
 
 export type AllergyId = "gluten" | "lactosa" | "frutos-secos" | "marisco" | "huevo" | "otros";
@@ -88,6 +90,8 @@ export interface GiftItem {
 
 export interface WeddingEvent {
   id: string;
+  /** Tipo de evento; sin él (contenido de antes), boda. */
+  kind?: EventKind;
   couple: { first: string; second: string; monogram: string };
   /** Fecha ISO local del evento. */
   date: string;

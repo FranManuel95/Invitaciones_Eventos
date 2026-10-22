@@ -3,7 +3,8 @@
 import { TextInput } from "@/components/ui/fields";
 import { madridIso, splitIso } from "@/lib/events/datetime";
 import { ClimateField } from "../climate-field";
-import { Field, Group, TextField, useEditor } from "../fields";
+import { EVENT_KINDS, KIND_WORDS } from "@/lib/event-kind";
+import { Field, Group, SelectField, TextField, useEditor } from "../fields";
 
 /** Nombres, fecha y datos de contacto. */
 export function BasicsTab() {
@@ -12,10 +13,25 @@ export function BasicsTab() {
   const deadline = splitIso(draft.content.rsvpDeadline);
   return (
     <div className="grid gap-8">
-      <Group title="La pareja">
+      <Group title="Quién lo celebra">
+        <SelectField
+          label="Qué celebráis"
+          path={["kind"]}
+          options={EVENT_KINDS.map((k) => ({ value: k, label: KIND_WORDS[k].label }))}
+          className="max-w-56"
+        />
         <div className="grid gap-5 sm:grid-cols-2">
           <TextField label="Primer nombre" path={["couple", "first"]} maxLength={40} />
-          <TextField label="Segundo nombre" path={["couple", "second"]} maxLength={40} />
+          <TextField
+            label="Segundo nombre"
+            hint={
+              KIND_WORDS[draft.content.kind ?? "boda"].pair
+                ? undefined
+                : "Opcional: déjalo vacío si es una sola persona."
+            }
+            path={["couple", "second"]}
+            maxLength={40}
+          />
         </div>
         <TextField
           label="Iniciales del monograma"
@@ -82,7 +98,7 @@ export function BasicsTab() {
           <TextField label="Hashtag" path={["hashtag"]} maxLength={60} />
           <TextField
             label="Teléfono de contacto"
-            hint="Aparece el día de la boda por si alguien se pierde."
+            hint="Aparece el gran día por si alguien se pierde."
             path={["contactPhone"]}
             type="tel"
             maxLength={30}

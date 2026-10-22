@@ -1,3 +1,5 @@
+import { hostNames, hostsOf } from "@/lib/event-kind";
+import { defaultReminder } from "@/lib/guests/share";
 import { PageHeader } from "@/features/dashboard/ui";
 import { Reminders } from "@/features/guests/reminders";
 import { formatLongDate } from "@/lib/format";
@@ -24,7 +26,8 @@ export default async function RemindersPage(props: PageProps<"/panel/[evento]/co
       <Reminders
         eventKey={base}
         groups={pending}
-        couple={`${event.couple.first} y ${event.couple.second}`}
+        couple={hostNames(hostsOf(event), " y ")}
+        reminder={defaultReminder(hostsOf(event))}
         deadline={formatLongDate(event.rsvpDeadline)}
       />
     </>

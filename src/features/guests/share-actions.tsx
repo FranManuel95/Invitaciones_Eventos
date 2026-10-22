@@ -1,5 +1,6 @@
 "use client";
 
+import type { Hosts } from "@/lib/event-kind";
 import { Check, Copy, Download, MessageCircle, QrCode as QrIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import { QrCode } from "@/components/qr-code";
@@ -18,7 +19,7 @@ export function ShareActions({
   origin,
 }: {
   group: GuestGroup;
-  couple: { first: string; second: string };
+  couple: Hosts;
   origin: string;
 }) {
   const [copied, setCopied] = useState(false);

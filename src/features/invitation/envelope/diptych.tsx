@@ -1,5 +1,6 @@
 "use client";
 
+import { hostNames } from "@/lib/event-kind";
 import { Pointer } from "lucide-react";
 import { m, useAnimate, useReducedMotion, useTransform } from "motion/react";
 import { ViewTransition } from "react";
@@ -131,7 +132,7 @@ export function Diptych({
                   className="size-11 text-[2.75rem]"
                 />
                 <span className="letterpress mt-4 block font-names text-[2rem] leading-none text-ink">
-                  {event.couple.first} &amp; {event.couple.second}
+                  {hostNames(event.couple)}
                 </span>
                 <span className="caption mt-2 block text-ink-soft">
                   {formatLongDate(event.date)}

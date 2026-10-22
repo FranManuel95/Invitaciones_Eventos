@@ -25,7 +25,7 @@ test.describe("recorrido real con Supabase", () => {
 
     await page.getByLabel("Nombre de uno").fill("Prueba");
     await page.getByLabel("Nombre del otro").fill("Automática");
-    await page.getByLabel("Fecha de la boda").fill("2030-06-15");
+    await page.getByLabel("Fecha", { exact: true }).fill("2030-06-15");
     await page.getByRole("button", { name: "Crear invitación" }).click();
 
     // Tras crearlo se abre el editor: un cambio de estilo y de texto se guarda solo.

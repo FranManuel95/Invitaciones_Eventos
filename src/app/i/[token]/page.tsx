@@ -1,3 +1,4 @@
+import { hostNames } from "@/lib/event-kind";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { InvitationExperience } from "@/features/invitation/experience";
@@ -14,7 +15,7 @@ export async function generateMetadata(props: PageProps<"/i/[token]">): Promise<
   if (!invitation) return {};
   const { couple } = invitation.event;
   return {
-    title: `${couple.first} & ${couple.second}`,
+    title: hostNames(couple),
     description: `Invitación para ${invitation.group.displayName}`,
   };
 }

@@ -14,7 +14,7 @@ export default async function TasksPage(props: PageProps<"/panel/[evento]/tareas
     <>
       <PageHeader
         title="Tareas"
-        description="Lo que queda por hacer hasta la boda, con su fecha y quién se encarga."
+        description="Lo que queda por hacer hasta el gran día, con su fecha y quién se encarga."
       />
       {/* Al guardar en el servidor llegan los ids reales: la lista se vuelve a montar. */}
       <TasksBoard

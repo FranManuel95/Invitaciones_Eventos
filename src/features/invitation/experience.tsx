@@ -1,6 +1,7 @@
 "use client";
 
 import { markOpened } from "@/app/actions/opened";
+import { eventNoun } from "@/lib/event-kind";
 import type { GiftStatus } from "@/lib/gifts";
 import { Volume2, VolumeX } from "lucide-react";
 import { domAnimation, LazyMotion, MotionConfig, useReducedMotion } from "motion/react";
@@ -171,8 +172,7 @@ export function InvitationExperience({
   const letterEvent = early
     ? {
         ...event,
-        cardMessage:
-          "¡Guarda la fecha! Nos casamos y queremos que estés. Muy pronto te llegará la invitación con todos los detalles, en este mismo enlace.",
+        cardMessage: `¡Guarda la fecha! ${(event.kind ?? "boda") === "boda" ? "Nos casamos" : `Celebramos ${eventNoun(event)}`} y queremos que estés. Muy pronto te llegará la invitación con todos los detalles, en este mismo enlace.`,
       }
     : event;
   const onDark = stage === "cover" || stage === "brief";
