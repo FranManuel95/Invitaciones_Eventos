@@ -23,7 +23,10 @@ import { CoverStage } from "./cover/cover-stage";
 import { startAmbient, stopAmbient } from "./effects/ambient";
 import { isMuted, setMuted, subscribeMuted, unlockAudio } from "./effects/sound";
 import { TiltProvider } from "./effects/tilt";
+import { Diptych } from "./envelope/diptych";
 import { EnvelopeStage } from "./envelope/envelope-stage";
+import { FullEnvelope } from "./envelope/full-envelope";
+import { RibbonBox } from "./envelope/ribbon-box";
 import { LetterStage } from "./letter/letter-stage";
 
 export type Stage = "brief" | "cover" | "envelope" | "letter" | "content";
@@ -38,6 +41,14 @@ const loadContent = () =>
   import("./content/invitation-content").then((mod) => mod.InvitationContent);
 
 const noopSubscribe = () => () => {};
+
+// Apertura elegida en el tema: todas reciben las mismas props y acaban en la carta.
+const OPENINGS = {
+  mesa: EnvelopeStage,
+  pantalla: FullEnvelope,
+  diptico: Diptych,
+  caja: RibbonBox,
+} satisfies Record<Theme["opening"], unknown>;
 
 const HEADINGS: Record<Stage, string> = {
   brief: "brief-title",
@@ -130,6 +141,7 @@ export function InvitationExperience({
   }, [stage]);
 
   const intro = stage !== "content";
+  const Opening = OPENINGS[theme.opening];
   const onDark = stage === "cover" || stage === "brief";
 
   return (
@@ -198,7 +210,7 @@ export function InvitationExperience({
             {/* El sobre ya está debajo de la portada: al levantarla con el dedo se ve esperando. */}
             {stage === "cover" || stage === "envelope" ? (
               <ViewTransition exit="fade-out" default="none">
-                <EnvelopeStage
+                <Opening
                   event={event}
                   group={group}
                   interactive={stage === "envelope"}

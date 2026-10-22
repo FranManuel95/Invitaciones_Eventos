@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { sealOutline, type SealMarkId, type SealShapeId } from "@/lib/theme/envelope";
+import { sealDroplets, sealOutline, type SealMarkId, type SealShapeId } from "@/lib/theme/envelope";
 
 /*
  * Ornamentos de la papelería. El motivo es el almendro de la finca: ramas con almendras
@@ -207,7 +207,7 @@ export function WaxSealArt({
   // Contorno: cera derramada (irregular), círculo limpio o flor de ocho pétalos.
   const lobes = sealOutline(shape);
   return (
-    <svg viewBox="0 0 100 100" aria-hidden className={className}>
+    <svg viewBox="0 0 100 100" aria-hidden className={className} overflow="visible">
       <defs>
         <radialGradient id={`${id}-wax`} cx="38%" cy="32%" r="75%">
           <stop offset="0" style={{ stopColor: "color-mix(in srgb, var(--seal), white 22%)" }} />
@@ -225,6 +225,11 @@ export function WaxSealArt({
         </linearGradient>
       </defs>
       <polygon points={lobes} fill={`url(#${id}-wax)`} />
+      {shape === "goteo"
+        ? sealDroplets().map(([cx, cy, r]) => (
+            <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r={r} fill={`url(#${id}-wax)`} />
+          ))
+        : null}
       <circle cx="50" cy="50" r="33" fill={`url(#${id}-inner)`} />
       <circle
         cx="50"

@@ -38,6 +38,8 @@ import {
   LINER_IDS,
   linerBackground,
   LINERS,
+  OPENING_IDS,
+  OPENINGS,
   ORNAMENT_IDS,
   ORNAMENTS,
   SEAL_MARK_IDS,
@@ -86,6 +88,7 @@ type ChoiceKey =
   | "liner"
   | "sealShape"
   | "sealMark"
+  | "opening"
   | "layout"
   | "edge"
   | "ornament";
@@ -130,6 +133,7 @@ const PARTS: readonly { id: string; label: string; Panel: () => ReactNode; stage
   { id: "plantillas", label: "Plantillas", Panel: TemplatesPart },
   { id: "colores", label: "Colores", Panel: ColorsPart },
   { id: "letra", label: "Tipografía", Panel: FontsPart, stage: "cover" },
+  { id: "apertura", label: "Apertura", Panel: OpeningPart, stage: "envelope" },
   { id: "sobre", label: "Sobre", Panel: EnvelopePart, stage: "envelope" },
   { id: "carta", label: "Carta", Panel: LetterPart, stage: "letter" },
   { id: "calendario", label: "Calendario", Panel: CalendarPart, stage: "content" },
@@ -399,6 +403,60 @@ function FontsPart() {
             />
           );
         })}
+      </div>
+    </Group>
+  );
+}
+
+/** Esquema de cada apertura: sobre en la mesa, a pantalla completa, díptico o caja con lazo. */
+function OpeningSample({ opening }: { opening: Theme["opening"] }) {
+  return (
+    <span
+      aria-hidden
+      className="relative block h-14 w-11 shrink-0 overflow-hidden rounded-md bg-ivory ring-1 ring-ink/10"
+    >
+      {opening === "mesa" ? (
+        <span className="absolute inset-x-1.5 top-4 block h-6 rounded-[2px] bg-sand">
+          <span className="absolute inset-x-0 top-0 block h-3.5 bg-taupe/70 [clip-path:polygon(0_0,100%_0,50%_100%)]" />
+        </span>
+      ) : opening === "pantalla" ? (
+        <span className="absolute inset-0 block bg-sand">
+          <span className="absolute inset-x-0 top-0 block h-8 bg-taupe/70 [clip-path:polygon(0_0,100%_0,100%_55%,50%_100%,0_55%)]" />
+          <span className="absolute top-8 left-1/2 block size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-wax" />
+        </span>
+      ) : opening === "diptico" ? (
+        <span className="absolute inset-x-2 inset-y-2 flex gap-px">
+          <span className="block flex-1 rounded-l-[2px] bg-sand" />
+          <span className="block flex-1 rounded-r-[2px] bg-sand" />
+          <span className="absolute top-1/2 left-1/2 block size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-wax" />
+        </span>
+      ) : (
+        <span className="absolute inset-x-1.5 inset-y-2.5 block rounded-[3px] bg-sand">
+          <span className="absolute inset-y-0 left-1/2 block w-1 -translate-x-1/2 bg-wax" />
+          <span className="absolute inset-x-0 top-1/2 block h-1 -translate-y-1/2 bg-wax" />
+        </span>
+      )}
+    </span>
+  );
+}
+
+function OpeningPart() {
+  return (
+    <Group
+      title="Apertura"
+      description="Lo primero que hace el invitado al levantar la portada. Usa el papel, el forro y el lacre del apartado Sobre."
+    >
+      <div role="radiogroup" aria-label="Apertura" className="grid gap-3 sm:grid-cols-2">
+        {OPENING_IDS.map((id) => (
+          <Choice
+            key={id}
+            name="opening"
+            value={id}
+            label={OPENINGS[id].label}
+            description={OPENINGS[id].description}
+            swatch={<OpeningSample opening={id} />}
+          />
+        ))}
       </div>
     </Group>
   );

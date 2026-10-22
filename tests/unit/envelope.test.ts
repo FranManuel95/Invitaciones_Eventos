@@ -7,6 +7,7 @@ import {
   linerBackground,
   parseTheme,
   SEAL_SHAPE_IDS,
+  sealDroplets,
   sealOutline,
   themeVars,
 } from "@/lib/theme";
@@ -50,6 +51,22 @@ describe("sobre a medida", () => {
     for (const [x, y] of pts) {
       expect(Math.hypot(x! - 50, y! - 50)).toBeLessThanOrEqual(50.5);
     }
+  });
+
+  it("el lacre con goteo rebosa en varias gotas y suelta gotitas junto a ellas", () => {
+    const radii = sealOutline("goteo")
+      .split(" ")
+      .map((p) => p.split(",").map(Number))
+      .map(([x, y]) => Math.hypot(x! - 50, y! - 50));
+    expect(Math.max(...radii) - Math.min(...radii)).toBeGreaterThan(5);
+    const drops = sealDroplets();
+    expect(drops.length).toBeGreaterThanOrEqual(4);
+    for (const [x, y] of drops) expect(Math.hypot(x - 50, y - 50)).toBeGreaterThan(44);
+  });
+
+  it("sin apertura elegida, el sobre sigue en la mesa", () => {
+    expect(parseTheme({}).opening).toBe("mesa");
+    expect(parseTheme({ opening: "cohete" }).opening).toBe("mesa");
   });
 
   it("los temas guardados antes del sobre a medida lo ven igual que antes", () => {

@@ -42,6 +42,7 @@ export default async function InvitationPage(props: PageProps<"/i/[token]">) {
             envelope: pick("sobre"),
             wax: pick("lacre"),
             calendar: pick("calendario"),
+            opening: pick("apertura"),
           }).filter(([, v]) => v !== undefined),
         ),
       });

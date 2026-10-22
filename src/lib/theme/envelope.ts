@@ -7,7 +7,8 @@ export const FLAP_IDS = ["pico", "recta", "redonda", "festoneada"] as const;
 export const WEIGHT_IDS = ["ligero", "medio", "grueso"] as const;
 export const TEXTURE_IDS = ["liso", "verjurado", "lino", "acanalado"] as const;
 export const LINER_IDS = ["propio", "rayas", "flores", "lunares", "marmol", "liso"] as const;
-export const SEAL_SHAPE_IDS = ["cera", "redondo", "flor"] as const;
+export const SEAL_SHAPE_IDS = ["cera", "goteo", "redondo", "flor"] as const;
+export const OPENING_IDS = ["mesa", "pantalla", "diptico", "caja"] as const;
 export const SEAL_MARK_IDS = ["monograma", "almendro", "corazon", "estrella"] as const;
 
 export type FlapId = (typeof FLAP_IDS)[number];
@@ -16,6 +17,24 @@ export type TextureId = (typeof TEXTURE_IDS)[number];
 export type LinerId = (typeof LINER_IDS)[number];
 export type SealShapeId = (typeof SEAL_SHAPE_IDS)[number];
 export type SealMarkId = (typeof SEAL_MARK_IDS)[number];
+export type OpeningId = (typeof OPENING_IDS)[number];
+
+/** Cómo se abre la invitación antes de la carta. */
+export const OPENINGS: Record<OpeningId, { label: string; description: string }> = {
+  mesa: {
+    label: "Sobre en la mesa",
+    description: "El sobre flota sobre la mesa y se abre al tocarlo.",
+  },
+  pantalla: {
+    label: "Sobre a pantalla completa",
+    description: "El sobre ocupa todo el móvil; se rompe el lacre y se levanta la solapa.",
+  },
+  diptico: { label: "Díptico", description: "Una tarjeta de dos hojas que se abren como puertas." },
+  caja: {
+    label: "Caja con lazo",
+    description: "Una caja de papel con un lazo de seda que se desata.",
+  },
+};
 
 export const FLAPS: Record<FlapId, { label: string; description: string }> = {
   pico: { label: "Pico", description: "La solapa clásica en punta." },
@@ -79,6 +98,7 @@ export const LINERS: Record<LinerId, { label: string; description: string }> = {
 
 export const SEAL_SHAPES: Record<SealShapeId, { label: string; description: string }> = {
   cera: { label: "Cera derramada", description: "Borde irregular, como recién sellado." },
+  goteo: { label: "Cera con goteo", description: "Cera abundante que gotea por los bordes." },
   redondo: { label: "Redondo", description: "Círculo limpio, de sello moderno." },
   flor: { label: "Flor", description: "Ocho pétalos redondeados." },
 };
@@ -188,13 +208,37 @@ export function linerBackground(
 
 /** Contorno del lacre en un lienzo de 100 × 100, como atributo `points` de un polígono SVG. */
 export function sealOutline(shape: SealShapeId): string {
-  const n = shape === "flor" ? 96 : 36;
+  const n = shape === "flor" || shape === "goteo" ? 96 : 36;
   return Array.from({ length: n }, (_, i) => {
     const angle = (i / n) * Math.PI * 2;
     let r: number;
     if (shape === "cera") r = i % 2 ? 46 : 48.5 + ((i * 7) % 5) * 0.4;
+    else if (shape === "goteo") r = 40 + dripBulge(angle) + ((i * 13) % 7) * 0.25;
     else if (shape === "redondo") r = 47.5;
     else r = 42 + 6 * Math.abs(Math.cos(angle * 4));
     return `${(50 + Math.cos(angle) * r).toFixed(1)},${(50 + Math.sin(angle) * r).toFixed(1)}`;
   }).join(" ");
+}
+
+/** Ángulos (radianes) donde la cera rebosa y forma una gota. */
+const DRIPS = [0.35, 1.45, 2.3, 3.55, 4.5, 5.6];
+
+/** Abultamiento del borde en cada gota: una campana estrecha alrededor de su ángulo. */
+function dripBulge(angle: number) {
+  return DRIPS.reduce((sum, a, i) => {
+    const d = Math.atan2(Math.sin(angle - a), Math.cos(angle - a));
+    return sum + (6 + (i % 3) * 1.5) * Math.exp(-((d / 0.13) ** 2));
+  }, 0);
+}
+
+/** Gotitas sueltas junto a las gotas grandes del lacre con goteo: [x, y, radio]. */
+export function sealDroplets(): [number, number, number][] {
+  return DRIPS.map((a, i) => {
+    const r = 49.5 - (i % 2) * 1.5;
+    return [
+      Number((50 + Math.cos(a + 0.05) * r).toFixed(1)),
+      Number((50 + Math.sin(a + 0.05) * r).toFixed(1)),
+      i % 2 ? 1 : 1.4,
+    ];
+  });
 }

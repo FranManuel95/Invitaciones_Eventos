@@ -93,6 +93,17 @@ test.describe("editor de la invitación", () => {
       .toBe("regalo");
   });
 
+  test("la apertura elegida se ve en la vista previa", async ({ page }) => {
+    await page.goto("/editor/demo");
+    const preview = page.frameLocator('iframe[title="Vista previa de la invitación"]');
+    await expect(preview.locator("#cover-title")).toBeAttached();
+    await page.getByRole("tab", { name: "Apertura", exact: true }).click();
+    await page.getByRole("radio", { name: /Caja con lazo/ }).check({ force: true });
+    await expect(preview.locator("[data-opening='caja']")).toBeAttached();
+    await page.getByRole("radio", { name: /pantalla completa/ }).check({ force: true });
+    await expect(preview.locator("[data-opening='pantalla']")).toBeAttached();
+  });
+
   test("salta a la pantalla elegida", async ({ page, isMobile }) => {
     await page.goto("/editor/demo");
     if (isMobile) await page.getByRole("button", { name: "Vista previa" }).click();
