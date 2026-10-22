@@ -418,10 +418,22 @@ export function EnvelopeStage({
                 data-seal
                 className="relative block aspect-square drop-shadow-[0_3px_4px_rgb(60_20_10/0.35)]"
               >
+                {/* Mientras espera, un halo dorado respira alrededor: invita a tocarlo. */}
+                {interactive && !opening ? (
+                  <span
+                    aria-hidden
+                    className="seal-halo pointer-events-none absolute -inset-[18%] block rounded-full"
+                  />
+                ) : null}
                 <span
                   data-seal-whole
-                  className="absolute inset-0 block overflow-hidden rounded-full transition-transform duration-500 group-hover:scale-105"
+                  className="absolute inset-0 block overflow-hidden rounded-full transition-transform duration-500 group-hover:scale-105 group-active:scale-[0.9] group-active:duration-100"
                 >
+                  {/* Al apretar, la cera se hunde: sombra interior como un botón físico. */}
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 z-10 block rounded-full opacity-0 shadow-[inset_0_3px_7px_rgb(30_5_5/0.55)] transition-opacity duration-100 group-active:opacity-100"
+                  />
                   <WaxSealArt
                     monogram={event.couple.monogram}
                     shape={theme.sealShape}

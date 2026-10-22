@@ -74,7 +74,10 @@ export function LetterStage({
         )}
       >
         <ViewTransition name="carta" share="paper-morph" default="none">
-          <article
+          <m.article
+            initial="hidden"
+            animate="show"
+            variants={sequence}
             data-layout={layout}
             className={clsx(
               "paper-grain relative bg-paper",
@@ -93,7 +96,7 @@ export function LetterStage({
             ) : (
               <ClassicLetter {...props} framed={layout === "marco"} />
             )}
-          </article>
+          </m.article>
         </ViewTransition>
       </div>
 
@@ -105,6 +108,51 @@ export function LetterStage({
         <ChevronDown className="nudge size-4" />
       </p>
     </section>
+  );
+}
+
+/*
+ * Coreografía de la carta: el papel llega en blanco (el relevo desde el sobre) y el contenido
+ * se «imprime» por partes, como una tarjeta que se lee de arriba abajo. Los nombres se
+ * escriben de izquierda a derecha, como con tinta, y el botón llega el último. Con movimiento
+ * reducido, Motion deja solo los fundidos.
+ */
+const EASE = [0.22, 1, 0.36, 1] as const;
+const sequence = {
+  hidden: {},
+  show: { transition: { delayChildren: 0.45, staggerChildren: 0.24 } },
+};
+const piece = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
+};
+const ink = {
+  hidden: { opacity: 0, clipPath: "inset(0 100% 0 0)" },
+  show: {
+    opacity: 1,
+    clipPath: "inset(0 0% 0 0)",
+    transition: { duration: 1.6, ease: [0.6, 0, 0.2, 1] as const },
+  },
+};
+const finale = {
+  hidden: { opacity: 0, y: 14, scale: 0.98 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.8, delay: 0.25, ease: EASE } },
+};
+
+/** Una parte de la carta que entra en su turno. */
+function Reveal({
+  children,
+  variants = piece,
+  className,
+}: {
+  children: ReactNode;
+  variants?: typeof piece | typeof ink | typeof finale;
+  className?: string;
+}) {
+  return (
+    <m.div variants={variants} className={className}>
+      {children}
+    </m.div>
   );
 }
 
@@ -166,17 +214,24 @@ function Greeting({
 
 function Names({ event, className }: { event: WeddingEvent; className: string }) {
   return (
-    <p translate="no" className={clsx("letterpress font-names leading-tight text-ink", className)}>
-      {hostNames(event.couple)}
-    </p>
+    <Reveal variants={ink}>
+      <p
+        translate="no"
+        className={clsx("letterpress font-names leading-tight text-ink", className)}
+      >
+        {hostNames(event.couple)}
+      </p>
+    </Reveal>
   );
 }
 
 function Continue({ onContinue, className }: { onContinue: () => void; className?: string }) {
   return (
-    <Button className={clsx("w-full", className)} size="lg" onClick={onContinue}>
-      Ver la invitación
-    </Button>
+    <Reveal variants={finale} className={className}>
+      <Button className="w-full" size="lg" onClick={onContinue}>
+        Descubrir la invitación
+      </Button>
+    </Reveal>
   );
 }
 
@@ -216,19 +271,27 @@ function ClassicLetter({
       ) : (
         <div aria-hidden className="pointer-events-none absolute inset-4 border border-gold/35" />
       )}
-      <FoilMonogram
-        first={event.couple.first}
-        second={event.couple.second}
-        className="mx-auto size-12 text-[3rem]"
-      />
-      <Greeting
-        group={group}
-        headingRef={headingRef}
-        className="mt-6 text-[2rem] sm:text-[2.375rem]"
-      />
-      <Message className="mx-auto mt-5 max-w-[18rem]">{event.cardMessage}</Message>
+      <Reveal>
+        <FoilMonogram
+          first={event.couple.first}
+          second={event.couple.second}
+          className="mx-auto size-12 text-[3rem]"
+        />
+      </Reveal>
+      <Reveal>
+        <Greeting
+          group={group}
+          headingRef={headingRef}
+          className="mt-6 text-[2rem] sm:text-[2.375rem]"
+        />
+      </Reveal>
+      <Reveal>
+        <Message className="mx-auto mt-5 max-w-[18rem]">{event.cardMessage}</Message>
+      </Reveal>
       <Names event={event} className="mt-8 text-[1.75rem]" />
-      <p className="caption mt-1 text-ink-soft">{formatWeekdayDate(event.date)}</p>
+      <Reveal>
+        <p className="caption mt-1 text-ink-soft">{formatWeekdayDate(event.date)}</p>
+      </Reveal>
       <Continue onContinue={onContinue} className="mt-9" />
     </>
   );
@@ -238,11 +301,19 @@ function ClassicLetter({
 function EditorialLetter({ event, group, headingRef, onContinue }: LetterProps) {
   return (
     <>
-      <p className="caption text-ink-soft">{formatWeekdayDate(event.date)}</p>
+      <Reveal>
+        <p className="caption text-ink-soft">{formatWeekdayDate(event.date)}</p>
+      </Reveal>
       <Names event={event} className="mt-3 text-[2.75rem] !leading-[0.95] sm:text-[3.25rem]" />
-      <div aria-hidden className="mt-6 h-px w-16 bg-gold" />
-      <Greeting group={group} headingRef={headingRef} className="mt-6 text-[1.625rem]" />
-      <Message className="mt-3">{event.cardMessage}</Message>
+      <Reveal>
+        <div aria-hidden className="mt-6 h-px w-16 bg-gold" />
+      </Reveal>
+      <Reveal>
+        <Greeting group={group} headingRef={headingRef} className="mt-6 text-[1.625rem]" />
+      </Reveal>
+      <Reveal>
+        <Message className="mt-3">{event.cardMessage}</Message>
+      </Reveal>
       <Continue onContinue={onContinue} className="mt-9" />
     </>
   );
@@ -272,9 +343,15 @@ function PhotoLetter({
         />
       </div>
       <Names event={event} className="text-[2rem]" />
-      <p className="caption mt-1 text-ink-soft">{formatWeekdayDate(event.date)}</p>
-      <Greeting group={group} headingRef={headingRef} className="mt-6 text-[1.5rem]" />
-      <Message className="mx-auto mt-3 max-w-[18rem]">{event.cardMessage}</Message>
+      <Reveal>
+        <p className="caption mt-1 text-ink-soft">{formatWeekdayDate(event.date)}</p>
+      </Reveal>
+      <Reveal>
+        <Greeting group={group} headingRef={headingRef} className="mt-6 text-[1.5rem]" />
+      </Reveal>
+      <Reveal>
+        <Message className="mx-auto mt-3 max-w-[18rem]">{event.cardMessage}</Message>
+      </Reveal>
       <Continue onContinue={onContinue} className="mt-8" />
     </>
   );
@@ -284,13 +361,19 @@ function PhotoLetter({
 function MinimalLetter({ event, group, headingRef, onContinue }: LetterProps) {
   return (
     <div className="py-4">
-      <p className="text-[0.6875rem] tracking-[0.32em] text-ink-soft uppercase">
-        {formatWeekdayDate(event.date)}
-      </p>
-      <Greeting group={group} headingRef={headingRef} className="mt-10 text-[1.5rem]" />
-      <Message className="mx-auto mt-4 max-w-[17rem] !text-[1.0625rem]">
-        {event.cardMessage}
-      </Message>
+      <Reveal>
+        <p className="text-[0.6875rem] tracking-[0.32em] text-ink-soft uppercase">
+          {formatWeekdayDate(event.date)}
+        </p>
+      </Reveal>
+      <Reveal>
+        <Greeting group={group} headingRef={headingRef} className="mt-10 text-[1.5rem]" />
+      </Reveal>
+      <Reveal>
+        <Message className="mx-auto mt-4 max-w-[17rem] !text-[1.0625rem]">
+          {event.cardMessage}
+        </Message>
+      </Reveal>
       <Names event={event} className="mt-12 text-[1.5rem]" />
       <Continue onContinue={onContinue} className="mt-10" />
     </div>

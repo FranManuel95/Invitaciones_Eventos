@@ -20,7 +20,7 @@ test.describe("experiencia del invitado", () => {
     await expect(letter).toBeVisible({ timeout: 8000 });
     await expect(letter).toBeFocused();
 
-    await page.getByRole("button", { name: "Ver la invitación" }).click();
+    await page.getByRole("button", { name: "Descubrir la invitación" }).click();
     await expect(page.getByRole("heading", { name: "El día" })).toBeAttached();
     expect(errors).toEqual([]);
   });
@@ -268,7 +268,7 @@ test.describe("experiencia del invitado", () => {
     await page.getByRole("button", { name: /toca para abrir/i }).click();
     await page.getByRole("button", { name: "Abrir el sobre" }).click();
     await expect(page.getByText(/Guarda la fecha! Nos casamos/)).toBeVisible({ timeout: 8000 });
-    await page.getByRole("button", { name: "Ver la invitación" }).click();
+    await page.getByRole("button", { name: "Descubrir la invitación" }).click();
     await expect(page.getByRole("heading", { name: "Pronto, la invitación" })).toBeVisible();
     await expect(page.locator("#fecha")).toBeAttached();
     await expect(page.locator("#confirmar")).toHaveCount(0);
