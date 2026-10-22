@@ -1,5 +1,6 @@
 import { ArrowUpRight, Plus } from "lucide-react";
 import type { ReactNode } from "react";
+import { dressKind } from "@/lib/dress";
 import type { RsvpResponse, WeddingEvent } from "@/lib/domain/types";
 import { describeTransport } from "@/lib/rsvp/summary";
 import { formatLongDate } from "@/lib/format";
@@ -242,18 +243,42 @@ export function PracticalSection({ event }: { event: WeddingEvent }) {
           <p className="mt-2 max-w-prose text-[0.9375rem] leading-relaxed text-muted">
             {event.dressCode.detail}
           </p>
-          <p className="mt-5 text-[0.875rem] text-ink-soft">Colores que nos gustan</p>
-          <ul className="mt-2 flex gap-2">
-            {event.dressCode.palette.map((color) => (
-              <li
-                key={color.hex}
-                className="size-9 rounded-full ring-1 ring-ink/15"
-                style={{ backgroundColor: color.hex }}
-              >
-                <span className="sr-only">{color.name}</span>
-              </li>
-            ))}
-          </ul>
+          {event.dressCode.palette.length ? (
+            <>
+              <p className="mt-6 text-[0.875rem] text-ink-soft">Colores que nos gustan</p>
+              <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-3">
+                {event.dressCode.palette.map((color) => (
+                  <li
+                    key={color.hex}
+                    className="flex w-14 flex-col items-center gap-1.5 text-center"
+                  >
+                    <span
+                      aria-hidden
+                      className="block size-12 rounded-full shadow-[inset_0_-4px_8px_rgb(0_0_0/0.12)] ring-1 ring-ink/15"
+                      style={{ backgroundColor: color.hex }}
+                    />
+                    <span className="text-[0.75rem] leading-tight text-muted">{color.name}</span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : null}
+          {event.dressCode.examples?.length ? (
+            <ul className="mt-7 grid gap-3">
+              {event.dressCode.examples.map((example) => (
+                <li
+                  key={example.who}
+                  className="flex items-start gap-3 rounded-[3px] border border-line bg-paper p-3.5"
+                >
+                  <DressIcon who={example.who} />
+                  <div>
+                    <p className="text-[0.9375rem] font-medium text-ink">{example.who}</p>
+                    <p className="text-[0.875rem] leading-relaxed text-muted">{example.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
         <div>
           <h3 className="font-display text-[1.75rem] leading-tight text-ink">Dónde dormir</h3>
@@ -289,5 +314,34 @@ export function PracticalSection({ event }: { event: WeddingEvent }) {
         ))}
       </div>
     </Section>
+  );
+}
+
+/**
+ * Pictograma de la sugerencia de vestimenta según a quién va dirigida: vestido, traje, niños o
+ * una percha para cualquier otro caso.
+ */
+function DressIcon({ who }: { who: string }) {
+  const kind = dressKind(who);
+  return (
+    <svg
+      viewBox="0 0 32 32"
+      aria-hidden
+      className="mt-0.5 size-8 shrink-0 text-gold"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.4"
+      strokeLinejoin="round"
+    >
+      {kind === "dress" ? (
+        <path d="M12 3h8l-1.5 6 6 18H7.5l6-18L12 3Zm1.5 6h5" />
+      ) : kind === "suit" ? (
+        <path d="M9 4h14l3 6-3 18H9L6 10l3-6Zm3 0 4 9 4-9M16 13v15M12.5 18h-3" />
+      ) : kind === "kids" ? (
+        <path d="M16 7a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5 4h10l3 7h-4l-1 11h-6l-1-11H8l3-7Z" />
+      ) : (
+        <path d="M16 9a2.5 2.5 0 1 1 2.5-2.5M16 9v2L4 22h24L16 11" />
+      )}
+    </svg>
   );
 }

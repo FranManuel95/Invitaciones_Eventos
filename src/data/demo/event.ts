@@ -126,6 +126,11 @@ export const demoEvent: WeddingEvent = {
       { name: "Azul atardecer", hex: "#6f8cab" },
       { name: "Lino", hex: "#e6e0d2" },
     ],
+    examples: [
+      { who: "Ellas", text: "Vestido midi o largo de tejido fluido; sandalia o tacón ancho." },
+      { who: "Ellos", text: "Traje claro o de lino; la corbata es opcional." },
+      { who: "Niños", text: "Ropa cómoda en los colores de la paleta: habrá juegos en el jardín." },
+    ],
   },
   accommodation: [
     {

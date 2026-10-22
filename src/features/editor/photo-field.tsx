@@ -1,6 +1,6 @@
 "use client";
 
-import { Film, ImagePlus, Trash2 } from "lucide-react";
+import { Film, ImagePlus, Music, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useId, useRef, useState } from "react";
 import { buttonClasses } from "@/components/ui/button";
@@ -141,22 +141,68 @@ export function PhotoField({
   );
 }
 
-const VIDEO_TYPES = ["video/mp4", "video/webm"];
-const MAX_VIDEO = 30 * 1024 * 1024;
+const MAX_MEDIA = 30 * 1024 * 1024;
 
-/** Comprueba un vídeo de portada antes de subirlo. */
-export function checkVideoFile(file: File): string | null {
-  if (!VIDEO_TYPES.includes(file.type)) return "Sube el vídeo en MP4 o WebM.";
-  if (file.size > MAX_VIDEO)
-    return "El vídeo pesa demasiado (máximo 30 MB). Recórtalo a unos segundos.";
+const MEDIA = {
+  video: {
+    types: ["video/mp4", "video/webm"],
+    accept: "video/mp4,video/webm",
+    wrongType: "Sube el vídeo en MP4 o WebM.",
+    tooBig: "El vídeo pesa demasiado (máximo 30 MB). Recórtalo a unos segundos.",
+    uploading: "Subiendo el vídeo…",
+    done: "Vídeo subido.",
+    add: "Subir vídeo",
+    change: "Cambiar vídeo",
+    demo: "En la demo no se suben vídeos. Crea vuestro evento para usar el vuestro.",
+  },
+  audio: {
+    types: ["audio/mpeg", "audio/mp4", "audio/x-m4a", "audio/aac"],
+    accept: "audio/mpeg,audio/mp4,audio/x-m4a,audio/aac,.mp3,.m4a",
+    wrongType: "Sube la canción en MP3 o M4A.",
+    tooBig: "La canción pesa demasiado (máximo 30 MB).",
+    uploading: "Subiendo la canción…",
+    done: "Canción subida.",
+    add: "Subir canción",
+    change: "Cambiar canción",
+    demo: "En la demo no se suben canciones. Crea vuestro evento para usar la vuestra.",
+  },
+} as const;
+type MediaKind = keyof typeof MEDIA;
+
+const EXTENSIONS: Record<string, string> = {
+  "video/mp4": ".mp4",
+  "video/webm": ".webm",
+  "audio/mpeg": ".mp3",
+  "audio/mp4": ".m4a",
+  "audio/x-m4a": ".m4a",
+  "audio/aac": ".aac",
+};
+
+/** Comprueba un vídeo de portada o una canción antes de subirlos. */
+export function checkMediaFile(file: File, kind: MediaKind): string | null {
+  const media = MEDIA[kind];
+  if (!(media.types as readonly string[]).includes(file.type)) return media.wrongType;
+  if (file.size > MAX_MEDIA) return media.tooBig;
   return null;
 }
+export const checkVideoFile = (file: File) => checkMediaFile(file, "video");
 
 /**
- * Vídeo de fondo de la portada. Se sube tal cual (sin sonido en la invitación) al almacenamiento
- * del evento; conviene que sea corto (5–15 s) y vertical.
+ * Vídeo de fondo de la portada o canción de la apertura. Se suben tal cual (sin procesar) al
+ * almacenamiento del evento.
  */
-export function VideoField({ label, path, hint }: { label: string; path: Path; hint?: string }) {
+export function MediaField({
+  label,
+  path,
+  hint,
+  kind,
+}: {
+  label: string;
+  path: Path;
+  hint?: string;
+  kind: MediaKind;
+}) {
+  const media = MEDIA[kind];
   const { draft, set, eventId, errors } = useEditor();
   const src = getIn(draft.content, path) as string | null | undefined;
   const id = useId();
@@ -167,23 +213,20 @@ export function VideoField({ label, path, hint }: { label: string; path: Path; h
   const error = errorFor(errors, path);
 
   async function upload(file: File) {
-    const invalid = checkVideoFile(file);
+    const invalid = checkMediaFile(file, kind);
     if (invalid) return setStatus({ busy: false, message: invalid });
     const supabase = createBrowserSupabase();
     if (!supabase || !eventId) return;
-    setStatus({ busy: true, message: "Subiendo el vídeo…" });
-    const ext = file.type === "video/webm" ? ".webm" : ".mp4";
-    const key = `${eventId}/${crypto.randomUUID()}${ext}`;
+    setStatus({ busy: true, message: media.uploading });
+    const key = `${eventId}/${crypto.randomUUID()}${EXTENSIONS[file.type] ?? ""}`;
     const { error: e } = await supabase.storage
       .from(BUCKET)
       .upload(key, file, { contentType: file.type, cacheControl: "31536000", upsert: false });
-    if (e)
-      return setStatus({
-        busy: false,
-        message: "No hemos podido subir el vídeo. Revisa tu conexión.",
-      });
+    if (e) {
+      return setStatus({ busy: false, message: "No hemos podido subirlo. Revisa tu conexión." });
+    }
     set(path, supabase.storage.from(BUCKET).getPublicUrl(key).data.publicUrl);
-    setStatus({ busy: false, message: "Vídeo subido." });
+    setStatus({ busy: false, message: media.done });
   }
 
   return (
@@ -193,7 +236,7 @@ export function VideoField({ label, path, hint }: { label: string; path: Path; h
       </p>
       <div className="flex items-center gap-4">
         <div className="relative grid size-20 shrink-0 place-items-center overflow-hidden rounded-md border border-line bg-cream">
-          {src ? (
+          {src && kind === "video" ? (
             <video
               src={src}
               muted
@@ -201,8 +244,10 @@ export function VideoField({ label, path, hint }: { label: string; path: Path; h
               preload="metadata"
               className="size-full object-cover"
             />
-          ) : (
+          ) : kind === "video" ? (
             <Film aria-hidden className="size-6 text-stone" />
+          ) : (
+            <Music aria-hidden className={src ? "size-6 text-ink" : "size-6 text-stone"} />
           )}
         </div>
         <div className="min-w-0">
@@ -217,7 +262,7 @@ export function VideoField({ label, path, hint }: { label: string; path: Path; h
               >
                 <input
                   type="file"
-                  accept="video/mp4,video/webm"
+                  accept={media.accept}
                   className="sr-only"
                   aria-describedby={`${id}-label`}
                   disabled={status.busy}
@@ -227,7 +272,7 @@ export function VideoField({ label, path, hint }: { label: string; path: Path; h
                     e.target.value = "";
                   }}
                 />
-                {src ? "Cambiar vídeo" : "Subir vídeo"}
+                {src ? media.change : media.add}
               </label>
               {src ? (
                 <button
@@ -242,9 +287,7 @@ export function VideoField({ label, path, hint }: { label: string; path: Path; h
               ) : null}
             </div>
           ) : (
-            <p className="text-[0.8125rem] text-muted">
-              En la demo no se suben vídeos. Crea vuestro evento para usar el vuestro.
-            </p>
+            <p className="text-[0.8125rem] text-muted">{media.demo}</p>
           )}
           {hint ? <p className="mt-1.5 text-[0.8125rem] text-muted">{hint}</p> : null}
           <p role="status" aria-live="polite" className="mt-1 text-[0.8125rem] text-ink-soft">

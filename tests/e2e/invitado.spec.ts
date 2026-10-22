@@ -254,6 +254,15 @@ test.describe("experiencia del invitado", () => {
     });
   }
 
+  test("el dress code muestra los colores con nombre y las sugerencias", async ({ page }) => {
+    await page.goto("/i/carlos-ruiz");
+    await page.getByRole("button", { name: "Saltar intro" }).click();
+    const info = page.locator("#info");
+    await expect(info.getByText("Rosa flor de almendro")).toBeAttached();
+    await expect(info.getByText("Ellas", { exact: true })).toBeAttached();
+    await expect(info.getByText(/Traje claro o de lino/)).toBeAttached();
+  });
+
   test("un token desconocido devuelve 404", async ({ page }) => {
     const response = await page.goto("/i/no-existe");
     expect(response?.status()).toBe(404);

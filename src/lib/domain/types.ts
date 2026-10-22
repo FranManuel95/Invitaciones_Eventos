@@ -88,7 +88,13 @@ export interface WeddingEvent {
   venues: Venue[];
   busRoutes: BusRoute[];
   menu: MenuOption[];
-  dressCode: { title: string; detail: string; palette: { name: string; hex: string }[] };
+  dressCode: {
+    title: string;
+    detail: string;
+    palette: { name: string; hex: string }[];
+    /** Sugerencias por persona («Ellas», «Ellos», «Niños»…). */
+    examples?: { who: string; text: string }[];
+  };
   accommodation: Accommodation[];
   faqs: Faq[];
   gift: { message: string; holder: string; iban: string };
@@ -99,6 +105,8 @@ export interface WeddingEvent {
   coverDepthMap: string | null;
   /** Vídeo corto de fondo de la portada (si la pareja elige «Vuestro vídeo»). */
   coverVideo?: string | null;
+  /** Canción propia para la apertura (si la pareja elige «Vuestra canción»). */
+  song?: string | null;
   /** Foto de ambiente del banquete, en la tarjeta de confirmación. */
   banquetPhoto: string | null;
   /** Teléfono de contacto para el día de la boda (de demostración). */

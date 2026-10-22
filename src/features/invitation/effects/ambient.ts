@@ -1,11 +1,14 @@
 "use client";
 
+import type { MusicId } from "@/lib/theme/music";
 import { audioContext } from "./sound";
 
 /**
- * Música ambiente generada en el navegador (Web Audio): una progresión lenta de piano
- * (Fa maj7 · La m7 · Re m9 · Do maj7) sobre un colchón de cuerdas, con reverberación hecha con
- * ruido. No hay archivos de audio ni licencias. Entra en 3 s y sale con un fundido.
+ * Música ambiente generada en el navegador (Web Audio) sobre la progresión lenta
+ * Fa maj7 · La m7 · Re m9 · Do maj7, con reverberación hecha con ruido. Cuatro estilos: piano
+ * con cuerdas, caja de música, guitarra punteada y solo cuerdas. No hay archivos de audio ni
+ * licencias. Con «propia» suena la canción que ha subido la pareja. Entra en 3 s y sale con un
+ * fundido.
  */
 
 const CHORDS = [
@@ -17,12 +20,17 @@ const CHORDS = [
 const CHORD_SECONDS = 4.2;
 const midi = (n: number) => 440 * 2 ** ((n - 69) / 12);
 
+type Generated = Exclude<MusicId, "propia">;
+
 let state: {
   master: GainNode;
   timer: number;
   next: number;
   index: number;
+  style: Generated;
   nodes: Set<AudioScheduledSourceNode>;
+  /** Canción propia (en vez de música generada). */
+  audio?: HTMLAudioElement;
 } | null = null;
 
 function reverb(ctx: AudioContext) {
@@ -60,6 +68,51 @@ function piano(ctx: AudioContext, out: AudioNode, note: number, at: number, velo
   }
 }
 
+/** Nota de caja de música: seno brillante con un parcial metálico y caída corta. */
+function musicBox(ctx: AudioContext, out: AudioNode, note: number, at: number, velocity: number) {
+  if (!state) return;
+  for (const [ratio, level] of [
+    [1, 1],
+    [3.01, 0.18],
+    [5.4, 0.05],
+  ] as const) {
+    const osc = ctx.createOscillator();
+    osc.type = "sine";
+    osc.frequency.value = midi(note) * ratio;
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.0001, at);
+    gain.gain.exponentialRampToValueAtTime(0.05 * velocity * level, at + 0.004);
+    gain.gain.exponentialRampToValueAtTime(0.0001, at + 1.8 / ratio ** 0.3);
+    osc.connect(gain).connect(out);
+    osc.start(at);
+    osc.stop(at + 2);
+    state.nodes.add(osc);
+    osc.onended = () => state?.nodes.delete(osc);
+  }
+}
+
+/** Cuerda pulsada de guitarra: triángulo con un filtro que se cierra deprisa, como el nailon. */
+function pluck(ctx: AudioContext, out: AudioNode, note: number, at: number, velocity: number) {
+  if (!state) return;
+  const osc = ctx.createOscillator();
+  osc.type = "sawtooth";
+  osc.frequency.value = midi(note);
+  const filter = ctx.createBiquadFilter();
+  filter.type = "lowpass";
+  filter.Q.value = 0.7;
+  filter.frequency.setValueAtTime(3200, at);
+  filter.frequency.exponentialRampToValueAtTime(420, at + 0.35);
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(0.0001, at);
+  gain.gain.exponentialRampToValueAtTime(0.045 * velocity, at + 0.006);
+  gain.gain.exponentialRampToValueAtTime(0.0001, at + 2.2);
+  osc.connect(filter).connect(gain).connect(out);
+  osc.start(at);
+  osc.stop(at + 2.3);
+  state.nodes.add(osc);
+  osc.onended = () => state?.nodes.delete(osc);
+}
+
 /** Cuerdas: dos sierras ligeramente desafinadas, filtradas y con ataque lento. */
 function strings(ctx: AudioContext, out: AudioNode, note: number, at: number) {
   if (!state) return;
@@ -90,12 +143,37 @@ function schedule(ctx: AudioContext) {
   while (state.next < ctx.currentTime + 1.5) {
     const chord = CHORDS[state.index % CHORDS.length]!;
     const at = state.next;
-    strings(ctx, state.master, chord[0]! - 12, at);
-    strings(ctx, state.master, chord[2]!, at);
-    // Arpegio suave con un pequeño rubato.
-    chord.forEach((note, i) =>
-      piano(ctx, state!.master, note, at + i * 0.38 + (i % 2) * 0.03, 1 - i * 0.12),
-    );
+    const out = state.master;
+    switch (state.style) {
+      case "piano":
+        strings(ctx, out, chord[0]! - 12, at);
+        strings(ctx, out, chord[2]!, at);
+        // Arpegio suave con un pequeño rubato.
+        chord.forEach((note, i) =>
+          piano(ctx, out, note, at + i * 0.38 + (i % 2) * 0.03, 1 - i * 0.12),
+        );
+        break;
+      case "cajita":
+        // Dos octavas arriba, subiendo y bajando: el giro de una cajita de música.
+        [...chord, ...chord.slice(1, -1).reverse()].forEach((note, i) =>
+          musicBox(ctx, out, note + 24, at + i * 0.26, 0.9 - (i % 4) * 0.12),
+        );
+        break;
+      case "guitarra":
+        // Punteo: bajo y tres cuerdas que se repiten (p-i-m-a), dos veces por acorde.
+        for (let rep = 0; rep < 2; rep++) {
+          const base = at + rep * (CHORD_SECONDS / 2);
+          pluck(ctx, out, chord[0]! - 12, base, 1);
+          [chord[2]!, chord[3]!, chord[4]!, chord[3]!].forEach((note, i) =>
+            pluck(ctx, out, note, base + 0.35 + i * 0.35, 0.75),
+          );
+        }
+        break;
+      case "cuerdas":
+        strings(ctx, out, chord[0]! - 12, at);
+        chord.slice(1, 4).forEach((note) => strings(ctx, out, note, at));
+        break;
+    }
     state.index += 1;
     state.next += CHORD_SECONDS;
   }
@@ -103,7 +181,11 @@ function schedule(ctx: AudioContext) {
 
 let waiting = false;
 
-export function startAmbient() {
+/**
+ * Arranca la música de la apertura. `song` es la canción propia (si el estilo es «propia»); sin
+ * ella se usa el piano.
+ */
+export function startAmbient(style: MusicId = "piano", song?: string | null) {
   const ctx = audioContext();
   if (!ctx || state || waiting) return;
   // En iOS el contexto puede tardar un instante en pasar a «running» tras el gesto.
@@ -113,7 +195,7 @@ export function startAmbient() {
       .resume()
       .then(() => {
         waiting = false;
-        if (ctx.state === "running") startAmbient();
+        if (ctx.state === "running") startAmbient(style, song);
       })
       .catch(() => {
         waiting = false;
@@ -130,7 +212,28 @@ export function startAmbient() {
   const room = reverb(ctx);
   master.connect(dry).connect(ctx.destination);
   master.connect(room).connect(wet).connect(ctx.destination);
-  state = { master, timer: 0, next: ctx.currentTime + 0.1, index: 0, nodes: new Set() };
+  if (style === "propia" && song) {
+    // La canción pasa por el mismo volumen general: entra y sale con fundido (en iOS el volumen
+    // del elemento <audio> no se puede cambiar, pero el de Web Audio sí).
+    wet.gain.value = 0; // la canción ya trae su propia sala: sin reverberación añadida
+    const audio = new Audio();
+    audio.crossOrigin = "anonymous";
+    audio.src = song;
+    audio.loop = true;
+    ctx.createMediaElementSource(audio).connect(master);
+    state = { master, timer: 0, next: 0, index: 0, style: "piano", nodes: new Set(), audio };
+    void audio.play().catch(() => {});
+    return;
+  }
+  const generated: Generated = style === "propia" ? "piano" : style;
+  state = {
+    master,
+    timer: 0,
+    next: ctx.currentTime + 0.1,
+    index: 0,
+    style: generated,
+    nodes: new Set(),
+  };
   schedule(ctx);
   state.timer = window.setInterval(() => schedule(ctx), 500);
 }
@@ -153,6 +256,7 @@ export function stopAmbient(fadeSeconds = 2.5) {
           // Ya parado.
         }
       });
+      current.audio?.pause();
       current.master.disconnect();
     },
     (fadeSeconds + 0.2) * 1000,

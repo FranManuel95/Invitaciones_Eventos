@@ -105,14 +105,18 @@ export function Diptych({
           </h1>
         </div>
 
-        <m.button
-          type="button"
-          onClick={() => void open()}
-          aria-label="Abrir la invitación"
-          aria-disabled={opening}
-          className="relative block aspect-[5/7] w-[min(74vw,340px)] cursor-pointer focus-visible:outline-offset-8"
+        <m.div
+          className="relative block aspect-[5/7] w-[min(74vw,340px)]"
           style={reduce ? undefined : { rotateX, rotateY, transformPerspective: 1300 }}
         >
+          {/* Botón vacío encima del dibujo: su nombre accesible no compite con los textos. */}
+          <button
+            type="button"
+            onClick={() => void open()}
+            aria-label="Abrir la invitación"
+            aria-disabled={opening}
+            className="absolute inset-0 z-30 cursor-pointer rounded-[4px] focus-visible:outline-offset-8"
+          />
           {/* Interior: la carta que se ve al abrir las hojas. */}
           <ViewTransition name="carta" share="paper-morph" default="none">
             <m.span
@@ -178,7 +182,7 @@ export function Diptych({
               className="block aspect-square size-full"
             />
           </m.span>
-        </m.button>
+        </m.div>
 
         <p
           data-heading

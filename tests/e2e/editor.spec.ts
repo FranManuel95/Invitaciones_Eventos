@@ -104,6 +104,21 @@ test.describe("editor de la invitación", () => {
     await expect(preview.locator("[data-opening='pantalla']")).toBeAttached();
   });
 
+  test("se elige el estilo de música y se escucha una muestra", async ({ page }) => {
+    await page.goto("/editor/demo");
+    await page.getByRole("tab", { name: "Secciones y música" }).click();
+    await page.getByRole("radio", { name: /Caja de música/ }).check({ force: true });
+    const sample = page.getByRole("button", { name: "Escuchar una muestra" });
+    await sample.click();
+    await expect(page.getByRole("button", { name: "Parar" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    await page.getByRole("button", { name: "Parar" }).click();
+    await page.getByRole("radio", { name: /Vuestra canción/ }).check({ force: true });
+    await expect(page.getByText(/En la demo no se suben canciones/)).toBeVisible();
+  });
+
   test("salta a la pantalla elegida", async ({ page, isMobile }) => {
     await page.goto("/editor/demo");
     if (isMobile) await page.getByRole("button", { name: "Vista previa" }).click();

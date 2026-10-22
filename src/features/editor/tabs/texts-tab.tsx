@@ -48,6 +48,30 @@ export function TextsTab() {
             </>
           )}
         </ListEditor>
+        <ListEditor<{ who: string; text: string }>
+          path={["dressCode", "examples"]}
+          max={4}
+          addLabel="Añadir sugerencia"
+          itemName={(e, i) => e.who || `Sugerencia ${i + 1}`}
+          create={() => ({ who: "", text: "" })}
+        >
+          {(i) => (
+            <>
+              <TextField
+                label="Para quién"
+                hint="Por ejemplo: Ellas, Ellos o Niños."
+                path={["dressCode", "examples", i, "who"]}
+                maxLength={40}
+              />
+              <TextField
+                label="Sugerencia"
+                path={["dressCode", "examples", i, "text"]}
+                multiline
+                maxLength={200}
+              />
+            </>
+          )}
+        </ListEditor>
       </Group>
       <Group title="Regalo">
         <TextField label="Mensaje" path={["gift", "message"]} multiline maxLength={600} />

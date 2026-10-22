@@ -15,10 +15,12 @@ import {
 
 import { COVER_IDS } from "./cover";
 import { EDGE_IDS, LAYOUT_IDS, ORNAMENT_IDS } from "./letter";
+import { MUSIC_IDS } from "./music";
 
 export * from "./cover";
 export * from "./envelope";
 export * from "./letter";
+export * from "./music";
 
 /*
  * Tema de una invitación (events.theme). Es una lista cerrada de opciones, no colores libres:
@@ -138,6 +140,7 @@ export const themeInputSchema = z.strictObject({
     .length(SECTION_IDS.length)
     .refine((o) => new Set(o).size === o.length, "Cada sección solo puede aparecer una vez."),
   music: z.boolean(),
+  musicStyle: z.enum(MUSIC_IDS),
 });
 
 /** Tema leído de la base de datos: lo que falte o no se reconozca vuelve al valor por defecto. */
@@ -162,6 +165,7 @@ export const themeSchema = z.object({
   hidden: z.array(z.enum(SECTION_IDS)).max(SECTION_IDS.length).catch([]),
   order: z.array(z.string()).catch([]).transform(normalizeOrder),
   music: z.boolean().catch(true),
+  musicStyle: z.enum(MUSIC_IDS).catch("piano"),
 });
 
 export type Theme = z.infer<typeof themeSchema>;
@@ -187,6 +191,7 @@ export const DEFAULT_THEME: Theme = {
   hidden: [],
   order: [...SECTION_IDS],
   music: true,
+  musicStyle: "piano",
 };
 
 /** Lee un tema guardado: lo que falte o no se reconozca vuelve al valor por defecto. */

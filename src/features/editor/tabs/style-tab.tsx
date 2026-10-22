@@ -1,8 +1,9 @@
 "use client";
 
 import { clsx } from "clsx";
-import { ArrowDown, ArrowUp } from "lucide-react";
+import { ArrowDown, ArrowUp, Play, Square } from "lucide-react";
 import {
+  useEffect,
   useId,
   useRef,
   useState,
@@ -38,6 +39,8 @@ import {
   LAYOUT_IDS,
   LAYOUTS,
   LINER_IDS,
+  MUSIC_IDS,
+  MUSICS,
   linerBackground,
   LINERS,
   OPENING_IDS,
@@ -67,7 +70,9 @@ import {
 
 // Pestaña «Estilo» del editor: plantillas y, por apartados, cada detalle del aspecto.
 import { Group, useEditor } from "../fields";
-import { VideoField } from "../photo-field";
+import { startAmbient, stopAmbient } from "@/features/invitation/effects/ambient";
+import { unlockAudio } from "@/features/invitation/effects/sound";
+import { MediaField } from "../photo-field";
 
 function Swatches({ colors }: { colors: string[] }) {
   return (
@@ -93,6 +98,7 @@ type ChoiceKey =
   | "sealMark"
   | "opening"
   | "cover"
+  | "musicStyle"
   | "layout"
   | "edge"
   | "ornament";
@@ -480,7 +486,8 @@ function CoverPart() {
       </Group>
       {draft.theme.cover === "video" ? (
         <Group title="Vuestro vídeo">
-          <VideoField
+          <MediaField
+            kind="video"
             label="Vídeo de portada"
             path={["coverVideo"]}
             hint="MP4 o WebM, vertical y corto (5–15 s, hasta 30 MB). Se reproduce sin sonido; mientras carga se ve la foto de portada."
@@ -866,15 +873,97 @@ function SectionsPart() {
           ))}
         </ol>
       </Group>
-      <Group title="Música">
-        <ChoiceCard
-          type="checkbox"
-          label="Música al abrir el sobre"
-          description="Piano suave compuesto en el navegador. Cada invitado puede silenciarla."
-          checked={draft.theme.music}
-          onChange={(e) => setTheme({ ...draft.theme, music: e.target.checked })}
-        />
-      </Group>
+      <MusicGroup />
     </>
+  );
+}
+
+/** Música de la apertura: si suena, qué estilo y, con «Vuestra canción», la subida. */
+function MusicGroup() {
+  const { draft, setTheme } = useEditor();
+  const [listening, setListening] = useState(false);
+  const stopTimer = useRef(0);
+  const { music, musicStyle } = draft.theme;
+
+  // Al salir del apartado, la muestra se apaga.
+  useEffect(
+    () => () => {
+      window.clearTimeout(stopTimer.current);
+      stopAmbient(0.2);
+    },
+    [],
+  );
+
+  const listen = () => {
+    window.clearTimeout(stopTimer.current);
+    if (listening) {
+      stopAmbient(0.4);
+      setListening(false);
+      return;
+    }
+    unlockAudio();
+    stopAmbient(0.1);
+    startAmbient(musicStyle, draft.content.song);
+    setListening(true);
+    // Una muestra corta: se apaga sola a los 12 s.
+    stopTimer.current = window.setTimeout(() => {
+      stopAmbient(1.5);
+      setListening(false);
+    }, 12_000);
+  };
+
+  return (
+    <Group title="Música">
+      <ChoiceCard
+        type="checkbox"
+        label="Música al abrir"
+        description="Suena desde que se levanta la portada hasta llegar a la invitación. Cada invitado puede silenciarla."
+        checked={music}
+        onChange={(e) => setTheme({ ...draft.theme, music: e.target.checked })}
+      />
+      {music ? (
+        <>
+          <div
+            role="radiogroup"
+            aria-label="Estilo de música"
+            className="mt-4 grid gap-3 sm:grid-cols-2"
+          >
+            {MUSIC_IDS.map((id) => (
+              <Choice
+                key={id}
+                name="musicStyle"
+                value={id}
+                label={MUSICS[id].label}
+                description={MUSICS[id].description}
+                swatch={null}
+              />
+            ))}
+          </div>
+          {musicStyle === "propia" ? (
+            <div className="mt-4">
+              <MediaField
+                kind="audio"
+                label="Vuestra canción"
+                path={["song"]}
+                hint="MP3 o M4A, hasta 30 MB. Subid solo música que podáis usar (vuestra, con licencia o con permiso del autor)."
+              />
+            </div>
+          ) : null}
+          <button
+            type="button"
+            onClick={listen}
+            aria-pressed={listening}
+            className="mt-4 inline-flex items-center gap-2 rounded-full border border-line bg-paper px-4 py-2 text-[0.875rem] text-ink hover:border-ink/40"
+          >
+            {listening ? (
+              <Square aria-hidden className="size-3.5" />
+            ) : (
+              <Play aria-hidden className="size-3.5" />
+            )}
+            {listening ? "Parar" : "Escuchar una muestra"}
+          </button>
+        </>
+      ) : null}
+    </Group>
   );
 }

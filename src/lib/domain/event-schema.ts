@@ -82,6 +82,11 @@ export const eventContentSchema = z.object({
     palette: z
       .array(z.object({ name: text(40), hex: z.string().regex(/^#[0-9a-fA-F]{6}$/) }))
       .max(8),
+    // Sugerencias por persona («Ellas», «Ellos», «Niños»…); opcional en el contenido de antes.
+    examples: z
+      .array(z.object({ who: text(40), text: text(200) }))
+      .max(4)
+      .optional(),
   }),
   accommodation: z
     .array(z.object({ name: text(120), distance: text(60), detail: text(300) }))
@@ -107,6 +112,8 @@ export const eventContentSchema = z.object({
   coverDepthMap: photo,
   // Vídeo de fondo de la portada (MP4 o WebM en Storage); opcional para el contenido guardado antes.
   coverVideo: photo.optional(),
+  // Canción propia para la apertura (MP3 o M4A en Storage), si la pareja la elige.
+  song: photo.optional(),
   banquetPhoto: photo,
   contactPhone: text(30),
 }) satisfies z.ZodType<Omit<WeddingEvent, "id">>;
