@@ -1,0 +1,48 @@
+# Recorrido real contra Supabase (tests/e2e/real.spec.ts): entrar, crear un evento, publicarlo,
+# responder como invitado y verlo en el panel. Se lanza a mano desde la pestaña Actions de
+# GitHub porque cada ejecución crea un evento de prueba de verdad.
+#
+# Necesita, en Settings → Secrets and variables → Actions:
+#   - Variables: NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY (públicas).
+#   - Secretos: E2E_EMAIL y E2E_PASSWORD (el usuario de prueba). Nunca van en el repositorio.
+name: Prueba real con Supabase
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  recorrido:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CI: "true"
+      NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+      E2E_EMAIL: ${{ secrets.E2E_EMAIL }}
+      E2E_PASSWORD: ${{ secrets.E2E_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Comprobar la configuración
+        run: |
+          for v in NEXT_PUBLIC_SUPABASE_URL NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY E2E_EMAIL E2E_PASSWORD; do
+            if [ -z "${!v}" ]; then echo "::error::Falta $v en Settings → Secrets and variables → Actions"; exit 1; fi
+          done
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - name: Recorrido real
+        run: npx playwright test tests/e2e/real.spec.ts --project=escritorio
+      - name: Guardar la traza si falla
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: traza-prueba-real
+          path: test-results/
+          retention-days: 7
