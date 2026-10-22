@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { climateSchema } from "../weather";
 import type { WeddingEvent } from "./types";
 
 /*
@@ -143,6 +144,7 @@ export const eventContentSchema = z.object({
   song: photo.optional(),
   banquetPhoto: photo,
   contactPhone: text(30),
+  climate: climateSchema.nullable().optional(),
 }) satisfies z.ZodType<Omit<WeddingEvent, "id">>;
 
 export type EventContent = z.infer<typeof eventContentSchema>;

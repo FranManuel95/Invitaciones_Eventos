@@ -125,6 +125,8 @@ export interface WeddingEvent {
   song?: string | null;
   /** Foto de ambiente del banquete, en la tarjeta de confirmación. */
   banquetPhoto: string | null;
+  /** Tiempo habitual en esas fechas (calculado desde el editor; opcional). */
+  climate?: { max: number; min: number; rainChance: number; place: string } | null;
   /** Teléfono de contacto para el día de la boda (de demostración). */
   contactPhone: string;
 }

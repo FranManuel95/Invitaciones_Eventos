@@ -2,6 +2,7 @@
 
 import { TextInput } from "@/components/ui/fields";
 import { madridIso, splitIso } from "@/lib/events/datetime";
+import { ClimateField } from "../climate-field";
 import { Field, Group, TextField, useEditor } from "../fields";
 
 /** Nombres, fecha y datos de contacto. */
@@ -53,6 +54,9 @@ export function BasicsTab() {
           <TextField label="Localidad" path={["city"]} maxLength={80} />
           <TextField label="Provincia" path={["region"]} maxLength={80} />
         </div>
+      </Group>
+      <Group title="Tiempo habitual">
+        <ClimateField />
       </Group>
       <Group title="Respuestas">
         <Field

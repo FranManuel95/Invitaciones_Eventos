@@ -35,7 +35,16 @@ const TABS = [
     id: "datos",
     label: "Pareja y fecha",
     Panel: BasicsTab,
-    roots: ["couple", "date", "city", "region", "rsvpDeadline", "hashtag", "contactPhone"],
+    roots: [
+      "couple",
+      "date",
+      "city",
+      "region",
+      "climate",
+      "rsvpDeadline",
+      "hashtag",
+      "contactPhone",
+    ],
   },
   {
     id: "textos",

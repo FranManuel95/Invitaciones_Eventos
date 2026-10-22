@@ -1,4 +1,5 @@
-import { ArrowUpRight, Plus } from "lucide-react";
+import { ArrowUpRight, CloudSun, Plus } from "lucide-react";
+import { climateText } from "@/lib/weather";
 import type { ReactNode } from "react";
 import { dressKind } from "@/lib/dress";
 import type { RsvpResponse, WeddingEvent } from "@/lib/domain/types";
@@ -243,6 +244,15 @@ export function PracticalSection({ event }: { event: WeddingEvent }) {
           <p className="mt-2 max-w-prose text-[0.9375rem] leading-relaxed text-muted">
             {event.dressCode.detail}
           </p>
+          {event.climate ? (
+            <p className="mt-5 flex max-w-prose items-start gap-2.5 rounded-[3px] border border-line bg-paper p-3.5 text-[0.9375rem] leading-relaxed text-ink-soft">
+              <CloudSun aria-hidden className="mt-0.5 size-5 shrink-0 text-gold" />
+              <span>
+                <span className="font-medium text-ink">El tiempo en estas fechas. </span>
+                {climateText(event.climate)}
+              </span>
+            </p>
+          ) : null}
           {event.dressCode.palette.length ? (
             <>
               <p className="mt-6 text-[0.875rem] text-ink-soft">Colores que nos gustan</p>

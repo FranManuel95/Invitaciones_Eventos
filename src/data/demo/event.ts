@@ -39,6 +39,8 @@ export const demoEvent: WeddingEvent = {
       photoAlt: "Jardín de la finca al anochecer, con guirnaldas de luces y mesas altas",
     },
   ],
+  // Valores de ejemplo para la demo.
+  climate: { max: 24, min: 11, rainChance: 20, place: "Chinchón, Madrid" },
   thankYouMessage:
     "Gracias por venir, por bailar hasta tarde y por cada abrazo. Aquí están las fotos que hicisteis: nos encanta verlas una y otra vez.",
   program: [
