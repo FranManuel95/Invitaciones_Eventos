@@ -30,6 +30,7 @@ import { Diptych } from "./envelope/diptych";
 import { EnvelopeStage } from "./envelope/envelope-stage";
 import { FullEnvelope } from "./envelope/full-envelope";
 import { RibbonBox } from "./envelope/ribbon-box";
+import { Envelope3D } from "./envelope/envelope-3d";
 import { VideoEnvelope } from "./envelope/video-envelope";
 import { LetterStage } from "./letter/letter-stage";
 
@@ -53,6 +54,7 @@ const OPENINGS = {
   diptico: Diptych,
   caja: RibbonBox,
   pelicula: VideoEnvelope,
+  sobre3d: Envelope3D,
 } satisfies Record<Theme["opening"], unknown>;
 
 const HEADINGS: Record<Stage, string> = {

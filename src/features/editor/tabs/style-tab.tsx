@@ -441,6 +441,13 @@ function OpeningSample({ opening }: { opening: Theme["opening"] }) {
           <span className="block flex-1 rounded-r-[2px] bg-sand" />
           <span className="absolute top-1/2 left-1/2 block size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-wax" />
         </span>
+      ) : opening === "sobre3d" ? (
+        <span className="absolute inset-0 block bg-[radial-gradient(90%_70%_at_50%_45%,#f4ede2,#cdbfa8)]">
+          <span className="absolute inset-x-1.5 top-4 block h-6 rounded-[2px] bg-sand shadow-[0_4px_6px_rgb(60_45_25/0.35)]">
+            <span className="absolute inset-x-0 top-0 block h-3.5 bg-[linear-gradient(180deg,#e7dcc9,#bfae8f)] [clip-path:polygon(0_0,100%_0,50%_100%)]" />
+            <span className="absolute top-3.5 left-1/2 block size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_35%_30%,#c55,var(--color-wax-dark))] shadow-[0_1px_2px_rgb(0_0_0/0.4)]" />
+          </span>
+        </span>
       ) : opening === "pelicula" ? (
         <span
           className="absolute inset-0 block bg-cover bg-center"

@@ -7,11 +7,16 @@ const OPENINGS = [
   { opening: "diptico", button: "Abrir la invitación", heading: "Familia García" },
   { opening: "caja", button: "Abrir la caja", heading: "Familia García" },
   { opening: "pelicula", button: "Abrir el sobre", heading: "Familia García" },
+  { opening: "sobre3d", button: "Abrir el sobre", heading: "Familia García" },
 ];
 
 test.describe("aperturas", () => {
   for (const { opening, button, heading } of OPENINGS) {
     test(`${opening}: se abre una vez y llega a la carta`, async ({ page }) => {
+      // El sobre 3D se dibuja aquí sin tarjeta gráfica (por software): va mucho más lento que en
+      // un móvil, sobre todo con varias pruebas a la vez.
+      const slow = opening === "sobre3d";
+      if (slow) test.setTimeout(90_000);
       const errors: string[] = [];
       page.on("pageerror", (e) => errors.push(e.message));
       await page.goto(`/i/familia-garcia?apertura=${opening}`);
@@ -31,7 +36,7 @@ test.describe("aperturas", () => {
       await page.waitForTimeout(300);
       await trigger.click({ force: true }).catch(() => {});
       const letter = page.getByRole("heading", { name: "Hola, Familia García:" });
-      await expect(letter).toBeVisible({ timeout: 20_000 });
+      await expect(letter).toBeVisible({ timeout: slow ? 60_000 : 20_000 });
       await expect(letter).toBeFocused();
       expect(errors).toEqual([]);
     });
@@ -49,6 +54,42 @@ test.describe("aperturas", () => {
       timeout: 8000,
     });
     await expect(page.getByRole("button", { name: "Descubrir la invitación" })).toBeVisible();
+  });
+
+  test("sobre 3D: sin WebGL se abre el sobre de siempre", async ({ page }) => {
+    // Como un móvil antiguo sin gráficos 3D: no debe quedarse en blanco.
+    await page.addInitScript(() => {
+      const original = HTMLCanvasElement.prototype.getContext;
+      HTMLCanvasElement.prototype.getContext = function (
+        this: HTMLCanvasElement,
+        type: string,
+        ...rest: unknown[]
+      ) {
+        if (type.startsWith("webgl")) return null;
+        return (original as (...args: unknown[]) => RenderingContext | null).call(
+          this,
+          type,
+          ...rest,
+        );
+      } as typeof original;
+    });
+    await page.goto("/i/familia-garcia?apertura=sobre3d");
+    await page.getByRole("button", { name: /toca para abrir/i }).click();
+    await expect(page.locator("[data-opening='sobre3d']")).not.toBeAttached();
+    await page.getByRole("button", { name: "Abrir el sobre" }).click();
+    await expect(page.getByRole("heading", { name: "Hola, Familia García:" })).toBeVisible({
+      timeout: 10_000,
+    });
+  });
+
+  test("sobre 3D: si no llegan las texturas, se abre el sobre de siempre", async ({ page }) => {
+    await page.route("**/texturas/**", (route) => route.abort());
+    await page.goto("/i/familia-garcia?apertura=sobre3d");
+    await page.getByRole("button", { name: /toca para abrir/i }).click();
+    await page.getByRole("button", { name: "Abrir el sobre" }).click();
+    await expect(page.getByRole("heading", { name: "Hola, Familia García:" })).toBeVisible({
+      timeout: 15_000,
+    });
   });
 
   test("con movimiento reducido las aperturas pasan directas a la carta", async ({ browser }) => {

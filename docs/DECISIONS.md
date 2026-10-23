@@ -71,6 +71,19 @@ para promoción, ver «Para más adelante»).
   «imprime» con animaciones CSS, que empiezan al montarse; las de Motion esperaban a que acabase
   el relevo y la carta salía en blanco medio segundo. El fundido de la carta a la invitación es
   más corto y escalonado para que no se vean textos dobles.
+- **Apertura «Sobre en 3D»** (`sobre3d`): el sobre del tema (papel, forma de la solapa, forro y
+  lacre con su marca) dibujado con three.js, con luz, reflejos y sombras reales. La solapa es una
+  malla que se curva al levantarse (la punta se queda atrás y vuelve plana), el lacre tiene volumen
+  y se parte por una grieta en zigzag en dos mitades que caen con peso y rozamiento, y la luz sigue
+  la inclinación del móvil, así que el brillo recorre la cera y el oro. Texturas de papel de
+  ambientCG (Paper002, licencia CC0) en `public/texturas/` (230 KB). Cálculos sin React en
+  `src/lib/envelope-3d.ts`, con pruebas. La escena solo se descarga para esta apertura, mientras el
+  invitado ve la portada. Al final, una carta de papel de la página releva a la carta 3D en su mismo
+  sitio y se transforma en la carta grande. Sin WebGL, con movimiento reducido o si la escena falla
+  (p. ej., no llegan las texturas), se usa el sobre en la mesa.
+  - Sombras: las del sobre sobre el fondo y la del borde de la solapa son manchas suaves pintadas
+    (un mapa de sombras daba bordes duros); el papel proyecta sombra por las dos caras
+    (`shadowSide`), sin lo que las láminas no daban sombra.
 - **Dependencias nuevas**: `gsap` 3.13 (gratuita, incluidos sus plugins) y `lenis` 1.3.
 
 ### Para más adelante
