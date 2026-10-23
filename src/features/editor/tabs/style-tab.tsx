@@ -419,7 +419,7 @@ function FontsPart() {
   );
 }
 
-/** Esquema de cada apertura: sobre en la mesa, a pantalla completa, díptico o caja con lazo. */
+/** Esquema de cada apertura: sobre en la mesa, a pantalla completa, díptico, caja o película. */
 function OpeningSample({ opening }: { opening: Theme["opening"] }) {
   return (
     <span
@@ -441,6 +441,11 @@ function OpeningSample({ opening }: { opening: Theme["opening"] }) {
           <span className="block flex-1 rounded-r-[2px] bg-sand" />
           <span className="absolute top-1/2 left-1/2 block size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-wax" />
         </span>
+      ) : opening === "pelicula" ? (
+        <span
+          className="absolute inset-0 block bg-cover bg-center"
+          style={{ backgroundImage: "url(/aperturas/sobre-video/inicio.webp)" }}
+        />
       ) : (
         <span className="absolute inset-x-1.5 inset-y-2.5 block rounded-[3px] bg-sand">
           <span className="absolute inset-y-0 left-1/2 block w-1 -translate-x-1/2 bg-wax" />

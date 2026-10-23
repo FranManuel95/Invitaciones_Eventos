@@ -49,6 +49,13 @@ para promoción, ver «Para más adelante»).
   completa, fundido entre fotos y zoom lento distinto en cada una (`src/lib/slideshow.ts`), fondo
   desenfocado para fotos verticales, pausa, flechas del teclado y Escape. Sirve para proyectarlo
   en la fiesta. Solo se descarga al abrirlo.
+- **Apertura «Sobre de película»** (`pelicula`): vídeo real de 6 s generado con Higgsfield
+  (Minimax Hailuo, 6 créditos) a partir de dos fotos del usuario: sobre cerrado y el mismo con la
+  tarjeta fuera y el lacre partido (retocado aquí). Antes se probó Seedance 1.5 (9,6 créditos),
+  que rajaba el sobre. Un destello dorado al romperse el lacre tapa el instante en que el vídeo
+  duplica el sello; al acabar, los nombres y la fecha se escriben sobre la tarjeta, inclinados
+  como ella, y se pasa a la carta. WebM (VP9) primero y MP4 de respaldo, en
+  `public/aperturas/sobre-video/`. Una primera versión con cuatro fotos fijas no gustó y se quitó.
 - **Dependencias nuevas**: `gsap` 3.13 (gratuita, incluidos sus plugins) y `lenis` 1.3.
 
 ### Para más adelante

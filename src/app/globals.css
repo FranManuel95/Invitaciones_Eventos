@@ -799,3 +799,15 @@ html.lenis body {
     transform: scale(var(--kb-to, 1.12));
   }
 }
+
+/* Apertura «sobre de película»: el vídeo vertical llena el móvil; en pantallas anchas se ve
+   entero y centrado (el fondo desenfocado rellena los lados). */
+.video-envelope-frame {
+  aspect-ratio: 768 / 1364;
+  width: max(100vw, calc(100dvh * 768 / 1364));
+}
+@media (min-aspect-ratio: 3 / 4) {
+  .video-envelope-frame {
+    width: min(100vw, calc(100dvh * 768 / 1364));
+  }
+}
