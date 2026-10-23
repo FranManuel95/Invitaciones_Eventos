@@ -105,8 +105,12 @@ termina en un fotograma estable que coincida con la imagen final.
   carta: saludo «Hola, {grupo}:», mensaje y botón «Descubrir la invitación» (los nombres de los
   novios ya salen en la portada). Con movimiento reducido o sin vídeo, se muestra el último
   fotograma con el texto.
-- Las posiciones del texto se dan en % del vídeo y los tamaños en `cqw`, para que encajen con la
-  tarjeta en cualquier pantalla. Mide la inclinación de la tarjeta en el último fotograma.
+- Mide las cuatro esquinas de la tarjeta en el último fotograma (rejilla sobre la imagen) y pega
+  el texto con `quadToMatrix3d` (`src/lib/quad.ts`): se maqueta en una tarjeta plana y una
+  transformación proyectiva la lleva a esas esquinas, con su perspectiva.
+- Montaje entre clips con ffmpeg: zoom (`zoompan` sobre el vídeo ampliado a 4K para que no
+  tiemble) que cae en el mismo objeto del clip siguiente, con fundido corto (0,15 s); y
+  `xfade=fadewhite` para pasar a una escena con luz. Evita `tmix` en zooms rápidos: duplica objetos.
 - Añade la apertura a `OPENING_IDS`, al mapa de `experience.tsx`, a la muestra del editor y a
   `tests/e2e/aperturas.spec.ts`. Comprueba en Playwright que el vídeo se reproduce
   (`currentSrc`, `ended`).

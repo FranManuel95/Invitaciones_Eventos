@@ -56,6 +56,13 @@ para promoción, ver «Para más adelante»).
   duplica el sello; al acabar, los nombres y la fecha se escriben sobre la tarjeta, inclinados
   como ella, y se pasa a la carta. WebM (VP9) primero y MP4 de respaldo, en
   `public/aperturas/sobre-video/`. Una primera versión con cuatro fotos fijas no gustó y se quitó.
+- **Sobre de película, versión 2** (mismo id `pelicula`): siguiendo el guion del usuario, imagen
+  final 2K con `nano_banana_pro` (tarjeta en blanco flotando entre pétalos, 2 créditos), vídeo de
+  10 s con Kling 3.0 (12,5), primer plano del lacre (imagen 2K + Hailuo 2.3, 8) y montaje aquí con
+  ffmpeg: zoom que cae en el lacre y enlaza con el primer plano, y destello de luz hacia el sobre
+  abierto. El texto de la tarjeta (saludo, mensaje y botón) se pega a sus cuatro esquinas con una
+  transformación proyectiva (`src/lib/quad.ts`, `matrix3d`). Gasto total de la sesión: 38,1
+  créditos. Guía para repetirlo: `.claude/skills/apertura-en-video`.
 - **Dependencias nuevas**: `gsap` 3.13 (gratuita, incluidos sus plugins) y `lenis` 1.3.
 
 ### Para más adelante

@@ -31,7 +31,7 @@ test.describe("aperturas", () => {
       await page.waitForTimeout(300);
       await trigger.click({ force: true }).catch(() => {});
       const letter = page.getByRole("heading", { name: "Hola, Familia García:" });
-      await expect(letter).toBeVisible({ timeout: 10_000 });
+      await expect(letter).toBeVisible({ timeout: 20_000 });
       await expect(letter).toBeFocused();
       expect(errors).toEqual([]);
     });
