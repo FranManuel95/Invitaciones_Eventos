@@ -11,6 +11,7 @@ import { FoilMonogram } from "../effects/foil";
 import { haptic, playPaper, playSealCrack, unlockAudio } from "../effects/sound";
 import { useTilt } from "../effects/tilt";
 import { WaxSealArt } from "../ornaments";
+import { breakSeal, SealBreakPieces } from "./seal-break";
 import { useOpening } from "./use-opening";
 
 /*
@@ -61,40 +62,41 @@ export function FullEnvelope({
     if (!alive.current) return;
     playSealCrack();
     haptic([8, 30, 14]);
-    animate("[data-seal-whole]", { opacity: 0 }, { duration: 0 });
-    animate("[data-seal-half]", { opacity: 1 }, { duration: 0 });
-    animate(
-      "[data-seal-half='l']",
-      { x: -40, y: 160, rotate: -40, opacity: 0 },
-      { duration: 0.9, ease: [0.5, 0, 0.9, 0.6] },
-    );
-    animate(
-      "[data-seal-half='r']",
-      { x: 36, y: 180, rotate: 32, opacity: 0 },
-      { duration: 0.9, ease: [0.5, 0, 0.9, 0.6] },
-    );
+    const sealSize = scope.current?.querySelector("[data-seal]")?.getBoundingClientRect().width;
+    await breakSeal(animate, scope, { size: sealSize ?? 130, fall: 1.7 });
+    if (!alive.current) return;
 
     // 2. La solapa se levanta hacia la cámara: se oscurece de canto y cambia de cara.
     playPaper(0.6, 0.05);
     animate("[data-flap-shade]", { opacity: 0.45 }, { duration: 0.45 * pace, ease: "easeIn" });
+    // El papel se curva un poco al levantarse y se recupera al caer del otro lado.
     await animate(
       "[data-flap]",
-      { rotateX: 90 },
+      { rotateX: 90, scaleY: 0.95 },
       { duration: 0.45 * pace, ease: [0.55, 0, 1, 0.45] },
     );
     if (!alive.current) return;
     animate("[data-flap-outer]", { opacity: 0 }, { duration: 0 });
     animate("[data-flap]", { zIndex: 5 }, { duration: 0 });
+    // El forro sale de la sombra poco a poco, como la cara interior que empieza a recibir luz.
+    animate("[data-liner-shade]", { opacity: [0.7, 0] }, { duration: 0.8 * pace, ease: "easeOut" });
     await animate(
       "[data-flap]",
-      { rotateX: 178 },
-      { duration: 0.55 * pace, ease: [0, 0.55, 0.45, 1] },
+      { rotateX: 178, scaleY: 1 },
+      { duration: 0.6 * pace, ease: [0, 0.55, 0.45, 1] },
     );
     if (!alive.current) return;
 
-    // 3. La carta sube desde dentro; el sobre se queda atrás y se funde.
+    // 3. La carta sube desde dentro y el sobre cae entero por abajo: si se fundiera encima, el
+    //    bolsillo se transparentaría sobre la carta.
     playPaper(0.9, 0.05);
-    animate("[data-body]", { opacity: 0, y: 60 }, { duration: 0.9, delay: 0.5, ease: "easeIn" });
+    animate(
+      "[data-body]",
+      { y: ["0%", "100%"], opacity: [1, 1, 0] },
+      { duration: 0.9, delay: 0.45, ease: [0.45, 0, 0.75, 0.4], times: [0, 0.8, 1] },
+    );
+    // El fondo del sobre, detrás de la carta, solo se funde.
+    animate("[data-inside]", { opacity: 0 }, { duration: 0.8, delay: 0.7, ease: "easeIn" });
     animate("[data-flap]", { opacity: 0 }, { duration: 0.6, delay: 0.5 });
     await animate("[data-letter]", { y: "-30%" }, { duration: 1, ease: [0.33, 0, 0.15, 1] });
     if (!alive.current) return;
@@ -116,7 +118,7 @@ export function FullEnvelope({
       onClick={() => void open()}
     >
       {/* Interior del sobre y forro, visibles al levantar la solapa. */}
-      <div data-body aria-hidden className="absolute inset-0 bg-[var(--env-inside)]">
+      <div data-inside aria-hidden className="absolute inset-0 bg-[var(--env-inside)]">
         <div
           className="absolute inset-x-0 top-0 h-[46%]"
           style={{ background: "var(--env-liner)" }}
@@ -148,7 +150,7 @@ export function FullEnvelope({
       <div
         data-body
         aria-hidden
-        className="absolute inset-0 z-20 drop-shadow-[0_-1px_2px_rgb(60_45_25/0.25)]"
+        className="absolute inset-0 z-20 drop-shadow-[0_-1px_2px_rgb(60_45_25/0.3)] drop-shadow-[0_-3px_5px_rgb(60_45_25/0.18)]"
       >
         <div
           className="paper-grain absolute inset-0"
@@ -198,7 +200,13 @@ export function FullEnvelope({
         <div
           className="absolute inset-0"
           style={{ background: "var(--env-liner)", clipPath: flapInner }}
-        />
+        >
+          <div
+            data-liner-shade
+            className="absolute inset-0 bg-black opacity-0"
+            style={{ clipPath: flapInner }}
+          />
+        </div>
         <div
           data-flap-outer
           className="paper-grain absolute inset-0"
@@ -244,26 +252,11 @@ export function FullEnvelope({
               style={{ x: shineX }}
             />
           </span>
-          {(["l", "r"] as const).map((side) => (
-            <m.span
-              key={side}
-              data-seal-half={side}
-              className="absolute inset-0 block opacity-0"
-              style={{
-                clipPath:
-                  side === "l"
-                    ? "polygon(0 0, 52% 0, 44% 30%, 56% 55%, 46% 100%, 0 100%)"
-                    : "polygon(52% 0, 100% 0, 100% 100%, 46% 100%, 56% 55%, 44% 30%)",
-              }}
-            >
-              <WaxSealArt
-                monogram={event.couple.monogram}
-                shape={theme.sealShape}
-                mark={theme.sealMark}
-                className="size-full"
-              />
-            </m.span>
-          ))}
+          <SealBreakPieces
+            monogram={event.couple.monogram}
+            shape={theme.sealShape}
+            mark={theme.sealMark}
+          />
         </span>
       </m.div>
 

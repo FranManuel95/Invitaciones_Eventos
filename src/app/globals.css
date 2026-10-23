@@ -289,12 +289,13 @@
   object-fit: cover;
 }
 
+/* Fundido cruzado: lo viejo se va deprisa y lo nuevo entra justo detrás, sin textos dobles. */
 ::view-transition-old(.fade-out) {
-  animation: 300ms ease-out both vt-fade reverse;
+  animation: 320ms cubic-bezier(0.4, 0, 1, 1) both vt-fade reverse;
 }
 
 ::view-transition-new(.fade-in) {
-  animation: 420ms ease-out 80ms both vt-fade;
+  animation: 420ms cubic-bezier(0, 0, 0.2, 1) 90ms both vt-fade;
 }
 
 ::view-transition-old(.step-forward) {
@@ -340,6 +341,56 @@
   }
 }
 
+/*
+ * La carta se «imprime» mientras crece desde la tarjeta: animaciones CSS, que empiezan al
+ * montarse (las de Motion esperarían a que acabase la transición y la carta saldría en blanco).
+ * `--i` es el turno de cada pieza.
+ */
+.letter-piece,
+.letter-ink,
+.letter-finale {
+  animation-fill-mode: both;
+  animation-delay: calc(0.12s + var(--i, 0) * 0.16s);
+}
+.letter-piece {
+  animation-name: letter-piece;
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+.letter-ink {
+  animation-name: letter-ink;
+  animation-duration: 1.15s;
+  animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1);
+}
+.letter-finale {
+  animation-name: letter-finale;
+  animation-duration: 0.8s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-delay: calc(0.37s + var(--i, 0) * 0.16s);
+}
+@keyframes letter-piece {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+@keyframes letter-ink {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes letter-finale {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(*),
   ::view-transition-new(*),
@@ -350,6 +401,14 @@
 
   .petal {
     display: none;
+  }
+
+  .letter-piece,
+  .letter-ink,
+  .letter-finale {
+    animation-name: vt-fade;
+    animation-duration: 0.2s;
+    animation-delay: 0s;
   }
 }
 

@@ -5,7 +5,14 @@ import { clsx } from "clsx";
 import { ChevronDown } from "lucide-react";
 import { m } from "motion/react";
 import Image from "next/image";
-import { useEffect, useRef, ViewTransition, type ReactNode, type RefObject } from "react";
+import {
+  useEffect,
+  useRef,
+  ViewTransition,
+  type CSSProperties,
+  type ReactNode,
+  type RefObject,
+} from "react";
 import { Button } from "@/components/ui/button";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
 import { formatWeekdayDate } from "@/lib/format";
@@ -74,10 +81,7 @@ export function LetterStage({
         )}
       >
         <ViewTransition name="carta" share="paper-morph" default="none">
-          <m.article
-            initial="hidden"
-            animate="show"
-            variants={sequence}
+          <article
             data-layout={layout}
             className={clsx(
               "paper-grain relative bg-paper",
@@ -96,7 +100,7 @@ export function LetterStage({
             ) : (
               <ClassicLetter {...props} framed={layout === "marco"} />
             )}
-          </m.article>
+          </article>
         </ViewTransition>
       </div>
 
@@ -112,47 +116,30 @@ export function LetterStage({
 }
 
 /*
- * Coreografía de la carta: el papel llega en blanco (el relevo desde el sobre) y el contenido
- * se «imprime» por partes, como una tarjeta que se lee de arriba abajo. Los nombres se
- * escriben de izquierda a derecha, como con tinta, y el botón llega el último. Con movimiento
- * reducido, Motion deja solo los fundidos.
+ * Coreografía de la carta: el contenido se «imprime» por partes mientras el papel aún llega desde
+ * el sobre, como una tarjeta que se lee de arriba abajo. Los nombres se escriben de izquierda a
+ * derecha, como con tinta, y el botón llega el último. Son animaciones CSS (globals.css:
+ * letter-piece, letter-ink, letter-finale) y no de Motion: las de Motion esperan a que acabe el
+ * relevo de pantalla y dejaban la carta en blanco medio segundo. `i` es el turno de cada parte.
  */
-const EASE = [0.22, 1, 0.36, 1] as const;
-const sequence = {
-  hidden: {},
-  show: { transition: { delayChildren: 0.45, staggerChildren: 0.24 } },
-};
-const piece = {
-  hidden: { opacity: 0, y: 10 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
-};
-const ink = {
-  hidden: { opacity: 0, clipPath: "inset(0 100% 0 0)" },
-  show: {
-    opacity: 1,
-    clipPath: "inset(0 0% 0 0)",
-    transition: { duration: 1.6, ease: [0.6, 0, 0.2, 1] as const },
-  },
-};
-const finale = {
-  hidden: { opacity: 0, y: 14, scale: 0.98 },
-  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.8, delay: 0.25, ease: EASE } },
-};
+type RevealKind = "piece" | "ink" | "finale";
 
 /** Una parte de la carta que entra en su turno. */
 function Reveal({
   children,
-  variants = piece,
+  i,
+  kind = "piece",
   className,
 }: {
   children: ReactNode;
-  variants?: typeof piece | typeof ink | typeof finale;
+  i: number;
+  kind?: RevealKind;
   className?: string;
 }) {
   return (
-    <m.div variants={variants} className={className}>
+    <div className={clsx(`letter-${kind}`, className)} style={{ "--i": i } as CSSProperties}>
       {children}
-    </m.div>
+    </div>
   );
 }
 
@@ -212,9 +199,9 @@ function Greeting({
   );
 }
 
-function Names({ event, className }: { event: WeddingEvent; className: string }) {
+function Names({ event, className, i }: { event: WeddingEvent; className: string; i: number }) {
   return (
-    <Reveal variants={ink}>
+    <Reveal i={i} kind="ink">
       <p
         translate="no"
         className={clsx("letterpress font-names leading-tight text-ink", className)}
@@ -225,9 +212,17 @@ function Names({ event, className }: { event: WeddingEvent; className: string })
   );
 }
 
-function Continue({ onContinue, className }: { onContinue: () => void; className?: string }) {
+function Continue({
+  onContinue,
+  className,
+  i,
+}: {
+  onContinue: () => void;
+  className?: string;
+  i: number;
+}) {
   return (
-    <Reveal variants={finale} className={className}>
+    <Reveal i={i} kind="finale" className={className}>
       <Button className="w-full" size="lg" onClick={onContinue}>
         Descubrir la invitación
       </Button>
@@ -271,28 +266,28 @@ function ClassicLetter({
       ) : (
         <div aria-hidden className="pointer-events-none absolute inset-4 border border-gold/35" />
       )}
-      <Reveal>
+      <Reveal i={0}>
         <FoilMonogram
           first={event.couple.first}
           second={event.couple.second}
           className="mx-auto size-12 text-[3rem]"
         />
       </Reveal>
-      <Reveal>
+      <Reveal i={1}>
         <Greeting
           group={group}
           headingRef={headingRef}
           className="mt-6 text-[2rem] sm:text-[2.375rem]"
         />
       </Reveal>
-      <Reveal>
+      <Reveal i={2}>
         <Message className="mx-auto mt-5 max-w-[18rem]">{event.cardMessage}</Message>
       </Reveal>
-      <Names event={event} className="mt-8 text-[1.75rem]" />
-      <Reveal>
+      <Names i={3} event={event} className="mt-8 text-[1.75rem]" />
+      <Reveal i={4}>
         <p className="caption mt-1 text-ink-soft">{formatWeekdayDate(event.date)}</p>
       </Reveal>
-      <Continue onContinue={onContinue} className="mt-9" />
+      <Continue i={5} onContinue={onContinue} className="mt-9" />
     </>
   );
 }
@@ -301,20 +296,24 @@ function ClassicLetter({
 function EditorialLetter({ event, group, headingRef, onContinue }: LetterProps) {
   return (
     <>
-      <Reveal>
+      <Reveal i={0}>
         <p className="caption text-ink-soft">{formatWeekdayDate(event.date)}</p>
       </Reveal>
-      <Names event={event} className="mt-3 text-[2.75rem] !leading-[0.95] sm:text-[3.25rem]" />
-      <Reveal>
+      <Names
+        i={1}
+        event={event}
+        className="mt-3 text-[2.75rem] !leading-[0.95] sm:text-[3.25rem]"
+      />
+      <Reveal i={2}>
         <div aria-hidden className="mt-6 h-px w-16 bg-gold" />
       </Reveal>
-      <Reveal>
+      <Reveal i={3}>
         <Greeting group={group} headingRef={headingRef} className="mt-6 text-[1.625rem]" />
       </Reveal>
-      <Reveal>
+      <Reveal i={4}>
         <Message className="mt-3">{event.cardMessage}</Message>
       </Reveal>
-      <Continue onContinue={onContinue} className="mt-9" />
+      <Continue i={5} onContinue={onContinue} className="mt-9" />
     </>
   );
 }
@@ -342,17 +341,17 @@ function PhotoLetter({
           className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-paper to-transparent"
         />
       </div>
-      <Names event={event} className="text-[2rem]" />
-      <Reveal>
+      <Names i={0} event={event} className="text-[2rem]" />
+      <Reveal i={1}>
         <p className="caption mt-1 text-ink-soft">{formatWeekdayDate(event.date)}</p>
       </Reveal>
-      <Reveal>
+      <Reveal i={2}>
         <Greeting group={group} headingRef={headingRef} className="mt-6 text-[1.5rem]" />
       </Reveal>
-      <Reveal>
+      <Reveal i={3}>
         <Message className="mx-auto mt-3 max-w-[18rem]">{event.cardMessage}</Message>
       </Reveal>
-      <Continue onContinue={onContinue} className="mt-8" />
+      <Continue i={4} onContinue={onContinue} className="mt-8" />
     </>
   );
 }
@@ -361,21 +360,21 @@ function PhotoLetter({
 function MinimalLetter({ event, group, headingRef, onContinue }: LetterProps) {
   return (
     <div className="py-4">
-      <Reveal>
+      <Reveal i={0}>
         <p className="text-[0.6875rem] tracking-[0.32em] text-ink-soft uppercase">
           {formatWeekdayDate(event.date)}
         </p>
       </Reveal>
-      <Reveal>
+      <Reveal i={1}>
         <Greeting group={group} headingRef={headingRef} className="mt-10 text-[1.5rem]" />
       </Reveal>
-      <Reveal>
+      <Reveal i={2}>
         <Message className="mx-auto mt-4 max-w-[17rem] !text-[1.0625rem]">
           {event.cardMessage}
         </Message>
       </Reveal>
-      <Names event={event} className="mt-12 text-[1.5rem]" />
-      <Continue onContinue={onContinue} className="mt-10" />
+      <Names i={3} event={event} className="mt-12 text-[1.5rem]" />
+      <Continue i={4} onContinue={onContinue} className="mt-10" />
     </div>
   );
 }

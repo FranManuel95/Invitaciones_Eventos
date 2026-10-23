@@ -11,6 +11,7 @@ import { FoilMonogram } from "../effects/foil";
 import { haptic, playPaper, playSealCrack, unlockAudio } from "../effects/sound";
 import { useTilt } from "../effects/tilt";
 import { AlmondBranch, Monogram, WaxSealArt } from "../ornaments";
+import { breakSeal, SealBreakPieces } from "./seal-break";
 
 /*
  * Pantalla 2 · Sobre con apertura 3D.
@@ -36,18 +37,6 @@ import { AlmondBranch, Monogram, WaxSealArt } from "../ornaments";
 const linerPattern = "var(--env-liner)";
 const paper = (angle: string) =>
   `var(--env-texture), linear-gradient(${angle}, var(--env-paper-b), var(--env-paper-a))`;
-
-// Fragmentos de cera: posición final relativa al lacre (px), giro y tamaño.
-const CRUMBS: [number, number, number, number][] = [
-  [-38, 90, -140, 7],
-  [-20, 120, 90, 5],
-  [-6, 70, 200, 4],
-  [14, 110, -60, 6],
-  [30, 84, 160, 5],
-  [44, 128, -220, 4],
-  [-48, 60, 40, 4],
-  [6, 140, 300, 3],
-];
 
 const friction = [0.33, 0, 0.15, 1] as const;
 
@@ -126,25 +115,9 @@ export function EnvelopeStage({
     if (!alive.current) return;
     playSealCrack();
     haptic([8, 30, 14]);
-    animate("[data-seal-whole]", { opacity: 0 }, { duration: 0 });
-    animate("[data-seal-half]", { opacity: 1 }, { duration: 0 });
-    animate(
-      "[data-seal-half='l']",
-      { x: -26, y: 84, rotate: -38, opacity: 0 },
-      { duration: 0.8, ease: [0.5, 0, 0.9, 0.6] },
-    );
-    animate(
-      "[data-seal-half='r']",
-      { x: 22, y: 96, rotate: 30, opacity: 0 },
-      { duration: 0.8, delay: 0.035, ease: [0.5, 0, 0.9, 0.6] },
-    );
-    CRUMBS.forEach(([x, y, rotate], i) => {
-      animate(
-        `[data-crumb='${i}']`,
-        { x: [0, x * 0.4, x], y: [0, -14 - i * 2, y], rotate, opacity: [1, 1, 0] },
-        { duration: 0.75 + i * 0.04, ease: "easeIn" },
-      );
-    });
+    const sealSize = scope.current?.querySelector("[data-seal]")?.getBoundingClientRect().width;
+    await breakSeal(animate, scope, { size: sealSize ?? 70, fall: 1.4 });
+    if (!alive.current) return;
 
     // 2. La solapa se levanta: se oscurece al ponerse de canto, cambia de cara y se aclara.
     playPaper(0.55, 0.05);
@@ -154,21 +127,27 @@ export function EnvelopeStage({
       { opacity: 0.42 },
       { duration: 0.42 * pace, delay: 0.1, ease: "easeIn" },
     );
+    // El papel se curva un poco al levantarse (se acorta en perspectiva) y se recupera al caer.
     await animate(
       "[data-flap]",
-      { rotateX: 90 },
-      { duration: 0.42 * pace, delay: 0.1, ease: [0.55, 0, 1, 0.45] },
+      { rotateX: 90, scaleY: 0.96 },
+      { duration: 0.42 * pace, ease: [0.55, 0, 1, 0.45] },
     );
     if (!alive.current) return;
     animate("[data-flap]", { zIndex: 5 }, { duration: 0 });
     animate("[data-flap-outer]", { opacity: 0 }, { duration: 0 });
-    animate("[data-liner-shade]", { opacity: [0.5, 0] }, { duration: 0.5, ease: "easeOut" });
+    // El forro sale de la sombra poco a poco, como la cara interior que empieza a recibir luz.
+    animate(
+      "[data-liner-shade]",
+      { opacity: [0.7, 0] },
+      { duration: 0.75 * pace, ease: "easeOut" },
+    );
     // La solapa abierta deja una sombra suave sobre el borde superior de la carta.
     animate("[data-letter-shadow]", { opacity: [0, 0.55, 0.25] }, { duration: 0.6 });
     await animate(
       "[data-flap]",
-      { rotateX: 180 },
-      { duration: 0.5 * pace, ease: [0, 0.55, 0.45, 1] },
+      { rotateX: 180, scaleY: 1 },
+      { duration: 0.55 * pace, ease: [0, 0.55, 0.45, 1] },
     );
     if (!alive.current) return;
 
@@ -198,6 +177,9 @@ export function EnvelopeStage({
       { duration: 0.8, ease: [0.55, 0, 0.85, 0.35] },
     );
     animate("[data-flap]", { y: 280, opacity: 0 }, { duration: 0.65, ease: [0.55, 0, 0.85, 0.35] });
+    // A media salida la carta pasa por delante del bolsillo: mientras se desvanece no debe
+    // verse a través de él.
+    animate("[data-letter]", { zIndex: 25 }, { duration: 0, delay: 0.3 });
     animate(
       "[data-letter-sheen]",
       { x: ["-160%", "160%"], opacity: [0, 1, 0] },
@@ -324,7 +306,7 @@ export function EnvelopeStage({
               aria-hidden
               className="absolute inset-0 z-20 block"
               style={{
-                filter: `drop-shadow(0 ${-weight.edge * 0.7}px ${weight.edge + 0.6}px rgb(80 60 35 / ${weight.shadow}))`,
+                filter: `drop-shadow(0 ${-weight.edge * 0.7}px ${weight.edge + 0.6}px rgb(80 60 35 / ${weight.shadow})) drop-shadow(0 -2px 3px rgb(60 45 25 / 0.22))`,
               }}
             >
               <span
@@ -446,40 +428,11 @@ export function EnvelopeStage({
                     style={{ x: sealShineX }}
                   />
                 </span>
-                <m.span
-                  data-seal-half="l"
-                  className="absolute inset-0 block opacity-0 drop-shadow-[0_1px_1px_rgb(40_10_10/0.3)]"
-                  style={{ clipPath: "polygon(0 0, 52% 0, 44% 30%, 56% 55%, 46% 100%, 0 100%)" }}
-                >
-                  <WaxSealArt
-                    monogram={event.couple.monogram}
-                    shape={theme.sealShape}
-                    mark={theme.sealMark}
-                    className="size-full"
-                  />
-                </m.span>
-                <m.span
-                  data-seal-half="r"
-                  className="absolute inset-0 block opacity-0 drop-shadow-[0_1px_1px_rgb(40_10_10/0.3)]"
-                  style={{
-                    clipPath: "polygon(52% 0, 100% 0, 100% 100%, 46% 100%, 56% 55%, 44% 30%)",
-                  }}
-                >
-                  <WaxSealArt
-                    monogram={event.couple.monogram}
-                    shape={theme.sealShape}
-                    mark={theme.sealMark}
-                    className="size-full"
-                  />
-                </m.span>
-                {CRUMBS.map(([, , , size], i) => (
-                  <m.span
-                    key={i}
-                    data-crumb={i}
-                    className="absolute top-1/2 left-1/2 block rounded-[40%] bg-[var(--seal)] opacity-0"
-                    style={{ width: size, height: size * 0.8 }}
-                  />
-                ))}
+                <SealBreakPieces
+                  monogram={event.couple.monogram}
+                  shape={theme.sealShape}
+                  mark={theme.sealMark}
+                />
               </m.span>
             </span>
           </span>

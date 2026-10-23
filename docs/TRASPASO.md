@@ -20,7 +20,7 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   cuidado, plantillas Cine y Herbario, XV años, dress code de revista, programa que se enciende y
   pase de fotos). Resumen de cada una en
   `docs/DECISIONS.md`.
-- **Pruebas al cerrar la ronda 10**: 283 unitarias y 200 E2E en verde (2 se saltan: las de Supabase
+- **Pruebas al cerrar la ronda 10** (con las aperturas pulidas): 286 unitarias y 204 E2E en verde (2 se saltan: las de Supabase
   real, que necesitan red).
 - **Evento real del usuario**: `fm-y-lucia-2030-915f24` (lo creó probando en su iPhone). No tocar.
 

@@ -63,6 +63,14 @@ para promoción, ver «Para más adelante»).
   abierto. El texto de la tarjeta (saludo, mensaje y botón) se pega a sus cuatro esquinas con una
   transformación proyectiva (`src/lib/quad.ts`, `matrix3d`). Gasto total de la sesión: 38,1
   créditos. Guía para repetirlo: `.claude/skills/apertura-en-video`.
+- **Aperturas hechas con código, más reales** (mesa y pantalla): el lacre se raja con un destello,
+  las dos mitades aguantan un instante y caen con su peso girando, con migas que saltan en arco
+  (`envelope/seal-break.tsx`, común a ambos sobres). La solapa se curva al levantarse y el forro
+  sale de la sombra poco a poco. Al irse el sobre, la carta pasa por delante del bolsillo (mesa) o
+  el bolsillo cae entero por abajo (pantalla): antes se transparentaba encima. La carta grande se
+  «imprime» con animaciones CSS, que empiezan al montarse; las de Motion esperaban a que acabase
+  el relevo y la carta salía en blanco medio segundo. El fundido de la carta a la invitación es
+  más corto y escalonado para que no se vean textos dobles.
 - **Dependencias nuevas**: `gsap` 3.13 (gratuita, incluidos sus plugins) y `lenis` 1.3.
 
 ### Para más adelante
