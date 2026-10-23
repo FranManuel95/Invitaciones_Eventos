@@ -4,6 +4,12 @@ Copias literales de skills públicas que Claude Code carga automáticamente al t
 repositorio. Se incluyen sin modificar, con su licencia original. Este README solo añade las
 notas propias del proyecto.
 
+Además hay una skill propia, escrita para este proyecto: `apertura-en-video` (cómo crear con
+Higgsfield una apertura en vídeo, gastando lo mínimo, revisarla y montarla en la app). Se
+descartó instalar packs externos de producción de vídeo (cinema-skills, universal-video-skills):
+estaban a medias o eran genéricos; sus mejores ideas (guion por tomas, continuidad, revisión por
+toma) están en la propia.
+
 | Skill | Origen | Commit | Licencia |
 | --- | --- | --- | --- |
 | `frontend-design` | [anthropics/skills](https://github.com/anthropics/skills/tree/main/skills/frontend-design) | `dbd4588` | Apache-2.0 (`LICENSE.txt`) |
