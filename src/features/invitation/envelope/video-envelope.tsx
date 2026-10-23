@@ -1,19 +1,18 @@
 "use client";
 
-import { hostNames } from "@/lib/event-kind";
 import { Pointer } from "lucide-react";
 import { m, useAnimate, useReducedMotion } from "motion/react";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
-import { formatLongDate } from "@/lib/format";
 import type { Theme } from "@/lib/theme";
 import { haptic, playSealCrack, unlockAudio } from "../effects/sound";
 import { useOpening } from "./use-opening";
 
 /*
  * Apertura «sobre de película»: un vídeo real (generado con Higgsfield a partir de dos fotos) en
- * el que se rompe el lacre, se levanta la solapa y sale una tarjeta en blanco. Al acabar, los
- * nombres aparecen escritos sobre esa tarjeta, inclinados como ella, y se pasa a la carta.
+ * el que se rompe el lacre, se levanta la solapa y sale una tarjeta en blanco. Al acabar, la
+ * tarjeta hace de carta: el saludo al invitado y el mensaje aparecen escritos en ella, inclinados
+ * como ella, con el botón para descubrir la invitación (los nombres ya salen en la portada).
  * El vídeo es siempre el mismo (no depende del tema) y vive en public/aperturas/sobre-video.
  */
 
@@ -39,21 +38,34 @@ export function VideoEnvelope({
   const [scope, animate] = useAnimate<HTMLDivElement>();
   const { opening, begin, alive } = useOpening(interactive);
   const video = useRef<HTMLVideoElement>(null);
+  // La tarjeta ya está fuera: al acabar el vídeo, o directamente con movimiento reducido.
+  const [done, setDone] = useState(false);
+  const [still, setStill] = useState(false);
+  const greeting = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    if (done) greeting.current?.focus({ preventScroll: true });
+  }, [done]);
+
+  const finish = (withStill: boolean) => {
+    setStill(withStill);
+    setDone(true);
+  };
 
   async function open() {
     if (!begin()) return;
     unlockAudio();
     const el = video.current;
     if (reduce || !el) {
-      onOpened();
+      finish(true);
       return;
     }
     animate("[data-heading]", { opacity: 0, y: -10 }, { duration: 0.5 });
     try {
       await el.play();
     } catch {
-      // Si el navegador no deja reproducirlo, se pasa directamente a la carta.
-      onOpened();
+      // Si el navegador no deja reproducirlo, se muestra ya la tarjeta abierta.
+      finish(true);
       return;
     }
     await new Promise((r) => setTimeout(r, CRACK_AT * 1000));
@@ -67,16 +79,8 @@ export function VideoEnvelope({
     );
   }
 
-  async function onEnded() {
-    // Los nombres se escriben sobre la tarjeta y, tras un momento, empieza la carta.
-    await animate(
-      "[data-names]",
-      { opacity: [0, 1], filter: ["blur(8px)", "blur(0px)"] },
-      { duration: 1.1, ease },
-    );
-    await new Promise((r) => setTimeout(r, 1200));
-    if (!alive.current) return;
-    await animate("[data-paper]", { opacity: 1 }, { duration: 0.6 });
+  async function continueToInvitation() {
+    await animate("[data-paper]", { opacity: 1 }, { duration: reduce ? 0 : 0.5 });
     if (alive.current) onOpened();
   }
 
@@ -103,7 +107,7 @@ export function VideoEnvelope({
             playsInline
             preload="auto"
             aria-hidden
-            onEnded={() => void onEnded()}
+            onEnded={() => finish(false)}
             className="size-full object-cover"
           >
             <source src={`${DIR}/sobre.webm`} type="video/webm" />
@@ -114,27 +118,49 @@ export function VideoEnvelope({
             aria-hidden
             className="absolute inset-0 bg-[radial-gradient(36%_21%_at_47%_51%,#fffaf0_0%,#fffaf0_30%,rgb(255_238_196/0.98)_55%,rgb(242_212_150/0.6)_75%,transparent_100%),radial-gradient(80%_55%_at_46%_51%,rgb(255_236_190/0.55),transparent_80%)] opacity-0"
           />
-          {/* Los nombres, escritos sobre la tarjeta en blanco del último fotograma. */}
-          <m.div
-            data-names
-            aria-hidden
-            className="absolute flex flex-col items-center text-center text-[#3d3226] opacity-0"
-            style={{ left: "13%", top: "25%", width: "82%", rotate: "11deg" }}
-          >
-            <span className="text-[2.8cqw] tracking-[0.25em] text-[#6b5a45] uppercase">
-              Os invitamos
-            </span>
-            <span className="mt-3 font-names text-[9cqw] leading-[1] text-balance">
-              {hostNames(event.couple)}
-            </span>
-            <span className="mt-4 font-display text-[4.2cqw] italic">
-              {formatLongDate(event.date)}
-            </span>
-          </m.div>
+          {/* Último fotograma, para quien no ve el vídeo (movimiento reducido o sin vídeo). */}
+          {still ? (
+            // eslint-disable-next-line @next/next/no-img-element -- fotograma fijo a pantalla completa
+            <img
+              src={`${DIR}/final.webp`}
+              alt=""
+              className="absolute inset-0 size-full object-cover"
+            />
+          ) : null}
+          {/* La tarjeta hace de carta: saludo, mensaje y botón, inclinados como ella. */}
+          {done ? (
+            <m.div
+              initial={reduce ? false : { opacity: 0, filter: "blur(8px)" }}
+              animate={{ opacity: 1, filter: "blur(0px)" }}
+              transition={{ duration: 1.1, ease }}
+              className="absolute z-20 flex flex-col items-center text-center text-[#3d3226]"
+              style={{ left: "18%", top: "22%", width: "68%", rotate: "11deg" }}
+            >
+              <h2
+                ref={greeting}
+                id="letter-title"
+                tabIndex={-1}
+                className="font-display text-[8cqw] leading-[1.05] text-balance outline-none"
+              >
+                Hola, {group.displayName}:
+              </h2>
+              <p className="mt-[4cqw] text-[3.6cqw] leading-relaxed text-pretty text-[#4a3b2a]">
+                {event.cardMessage}
+              </p>
+              <button
+                type="button"
+                onClick={() => void continueToInvitation()}
+                className="mt-[6cqw] rounded-[3px] bg-[#2f2a22] px-[6cqw] py-[2.6cqw] text-[3.6cqw] font-medium text-[#f4ede2] transition-colors hover:bg-[#1f1b15]"
+              >
+                Descubrir la invitación
+              </button>
+            </m.div>
+          ) : null}
         </div>
 
         <div
           data-heading
+          style={done ? { opacity: 0 } : undefined}
           className="absolute inset-x-0 top-0 bg-gradient-to-b from-[#f4ede2]/90 via-[#f4ede2]/60 to-transparent px-6 pt-[max(4.5rem,env(safe-area-inset-top))] pb-16 text-center text-[#3d3226]"
         >
           <p className="caption text-[#6b5a45]">Una invitación para</p>
@@ -148,17 +174,20 @@ export function VideoEnvelope({
         </div>
 
         {/* Botón invisible sobre todo el vídeo: tocar en cualquier sitio abre el sobre. */}
-        <button
-          type="button"
-          onClick={() => void open()}
-          aria-label="Abrir el sobre"
-          aria-disabled={opening}
-          className="absolute inset-0 z-10 cursor-pointer focus-visible:outline-offset-[-8px]"
-        />
+        {done ? null : (
+          <button
+            type="button"
+            onClick={() => void open()}
+            aria-label="Abrir el sobre"
+            aria-disabled={opening}
+            className="absolute inset-0 z-10 cursor-pointer focus-visible:outline-offset-[-8px]"
+          />
+        )}
 
         <p
           data-heading
           aria-live="polite"
+          style={done ? { opacity: 0 } : undefined}
           className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex items-center justify-center gap-2 bg-gradient-to-t from-[#f4ede2]/90 to-transparent px-6 pt-16 pb-[max(2rem,env(safe-area-inset-bottom))] text-[0.9375rem] text-[#4a3b2a]"
         >
           {opening ? (
@@ -172,7 +201,7 @@ export function VideoEnvelope({
         </p>
       </div>
 
-      {/* El papel de la tarjeta, que llena la pantalla justo antes de la carta. */}
+      {/* El papel, que llena la pantalla justo antes de la invitación. */}
       <m.div
         data-paper
         aria-hidden

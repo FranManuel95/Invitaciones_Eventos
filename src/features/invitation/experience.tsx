@@ -246,11 +246,12 @@ export function InvitationExperience({
             {stage === "cover" || stage === "envelope" ? (
               <ViewTransition exit="fade-out" default="none">
                 <Opening
-                  event={event}
+                  event={letterEvent}
                   group={group}
                   interactive={stage === "envelope"}
                   theme={theme}
-                  onOpened={() => go("letter")}
+                  // En «película» la tarjeta del vídeo ya hace de carta: se pasa a la invitación.
+                  onOpened={() => go(theme.opening === "pelicula" ? "content" : "letter")}
                 />
               </ViewTransition>
             ) : null}
