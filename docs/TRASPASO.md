@@ -59,6 +59,12 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 
 ## Trucos del entorno (ahorran tiempo)
 
+- **Higgsfield** (vídeo e imagen con IA, cuenta del usuario, plan Lite): conector personalizado
+  `https://mcp.higgsfield.ai/mcp` (el del catálogo de Claude solo lee). Antes de generar,
+  `get_cost: true` y gastar lo mínimo (prueba a 720p o en Hailuo). Las guías de trabajo vienen en
+  el propio conector: `get_workflow_instructions` (por ejemplo `product-photoshoot`). Subir
+  imágenes: `media_upload`, `curl -X PUT` y `media_confirm`.
+
 - **Supabase desde el sandbox**: el proxy bloquea `*.supabase.co`; la app real solo se prueba en
   Vercel. La base de datos se toca con las herramientas MCP (`apply_migration`, `execute_sql`,
   `get_advisors`).
