@@ -8,7 +8,7 @@ export const WEIGHT_IDS = ["ligero", "medio", "grueso"] as const;
 export const TEXTURE_IDS = ["liso", "verjurado", "lino", "acanalado"] as const;
 export const LINER_IDS = ["propio", "rayas", "flores", "lunares", "marmol", "liso"] as const;
 export const SEAL_SHAPE_IDS = ["cera", "goteo", "redondo", "flor"] as const;
-export const OPENING_IDS = ["mesa", "pantalla", "diptico", "caja", "foto"] as const;
+export const OPENING_IDS = ["mesa", "pantalla", "diptico", "caja"] as const;
 export const SEAL_MARK_IDS = ["monograma", "almendro", "corazon", "estrella"] as const;
 
 export type FlapId = (typeof FLAP_IDS)[number];
@@ -33,11 +33,6 @@ export const OPENINGS: Record<OpeningId, { label: string; description: string }>
   caja: {
     label: "Caja con lazo",
     description: "Una caja de papel con un lazo de seda que se desata.",
-  },
-  foto: {
-    label: "Sobre fotográfico",
-    description:
-      "Un sobre de verdad: el lacre salta en chispas de oro, sale luz y aparece la tarjeta.",
   },
 };
 

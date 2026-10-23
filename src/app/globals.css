@@ -799,25 +799,3 @@ html.lenis body {
     transform: scale(var(--kb-to, 1.12));
   }
 }
-
-/* Apertura «sobre fotográfico»: el lacre de la foto respira mientras espera. */
-.photo-seal-glow {
-  background: radial-gradient(circle, rgb(255 228 150 / 0.55), transparent 65%);
-  mix-blend-mode: screen;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .photo-seal-glow {
-    animation: photo-seal-glow 2.6s ease-in-out infinite;
-  }
-}
-@keyframes photo-seal-glow {
-  0%,
-  100% {
-    opacity: 0.25;
-    transform: translate(-50%, -50%) scale(0.85);
-  }
-  50% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.15);
-  }
-}

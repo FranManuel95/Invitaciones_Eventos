@@ -49,12 +49,6 @@ para promoción, ver «Para más adelante»).
   completa, fundido entre fotos y zoom lento distinto en cada una (`src/lib/slideshow.ts`), fondo
   desenfocado para fotos verticales, pausa, flechas del teclado y Escape. Sirve para proyectarlo
   en la fiesta. Solo se descarga al abrirlo.
-- **Apertura «Sobre fotográfico»** (`foto`): cuatro fotos realistas que trajo el usuario (sobre
-  cerrado, lacre que salta, sobre abierto con luz y tarjeta con cinta) montadas como una película:
-  zoom al lacre, chispas doradas, destello y la cámara que entra en la tarjeta hasta la carta. Se
-  descartó usar vídeo con IA (de pago o con dudas de uso comercial). Las fotos están en
-  `public/aperturas/sobre-foto/` (recortadas y ampliadas ×2 desde 378 px): para ganar nitidez,
-  basta sustituirlas por versiones más grandes con el mismo encuadre.
 - **Dependencias nuevas**: `gsap` 3.13 (gratuita, incluidos sus plugins) y `lenis` 1.3.
 
 ### Para más adelante
