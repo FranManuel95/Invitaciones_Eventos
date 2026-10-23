@@ -52,6 +52,7 @@ export function VideoEnvelope({
   const video = useRef<HTMLVideoElement>(null);
   // La tarjeta ya está fuera: al acabar el vídeo, o directamente con movimiento reducido.
   const [done, setDone] = useState(false);
+  const doneRef = useRef(false);
   const [still, setStill] = useState(false);
   const greeting = useRef<HTMLHeadingElement>(null);
   const frame = useRef<HTMLDivElement>(null);
@@ -76,8 +77,16 @@ export function VideoEnvelope({
   }, [done]);
 
   const finish = (withStill: boolean) => {
+    if (withStill) video.current?.pause();
+    doneRef.current = true;
     setStill(withStill);
     setDone(true);
+  };
+
+  // Red de seguridad: si el vídeo da error o no avanza, se muestra ya la tarjeta abierta. Así la
+  // apertura nunca se queda parada (p. ej., un navegador que elige un formato que luego no pinta).
+  const fallBack = () => {
+    if (alive.current && !doneRef.current) finish(true);
   };
 
   async function open() {
@@ -89,11 +98,15 @@ export function VideoEnvelope({
       return;
     }
     animate("[data-heading]", { opacity: 0, y: -10 }, { duration: 0.5 });
+    const watchdog = setTimeout(() => {
+      if (el.currentTime < 0.3) fallBack();
+    }, 4000);
     try {
       await el.play();
     } catch {
       // Si el navegador no deja reproducirlo, se muestra ya la tarjeta abierta.
-      finish(true);
+      clearTimeout(watchdog);
+      fallBack();
       return;
     }
     await new Promise((r) => setTimeout(r, CRACK_AT * 1000));
@@ -134,10 +147,15 @@ export function VideoEnvelope({
             preload="auto"
             aria-hidden
             onEnded={() => finish(false)}
+            onError={() => {
+              if (opening) fallBack();
+            }}
             className="size-full object-cover"
           >
-            <source src={`${DIR}/sobre.webm`} type="video/webm" />
-            <source src={`${DIR}/sobre.mp4`} type="video/mp4" />
+            {/* MP4 (H.264) primero, con su códec exacto: el iPhone solo elige lo que de verdad
+                reproduce. El WebM queda para navegadores sin H.264. */}
+            <source src={`${DIR}/sobre.mp4`} type='video/mp4; codecs="avc1.64001F"' />
+            <source src={`${DIR}/sobre.webm`} type='video/webm; codecs="vp9"' />
           </video>
           {/* Último fotograma, para quien no ve el vídeo (movimiento reducido o sin vídeo). */}
           {still ? (
