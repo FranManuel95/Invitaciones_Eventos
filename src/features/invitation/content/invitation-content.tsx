@@ -96,6 +96,11 @@ export interface InvitationContentProps {
   gifts?: GiftStatus;
   /** Scroll suave «de película» (Lenis), en la plantilla Cine. */
   smooth?: boolean;
+  /**
+   * Mensaje de bienvenida de la pareja. Si la invitación no tiene carta de bienvenida, el saludo
+   * al invitado y este mensaje encabezan la invitación (null: ya los leyó en la carta).
+   */
+  greeting?: string | null;
 }
 
 /** Pantallas 4 a 7 · La invitación completa con secciones y RSVP. */
@@ -112,6 +117,7 @@ export function InvitationContent({
   albumToken = null,
   gifts = EMPTY_GIFT_STATUS,
   smooth = false,
+  greeting = null,
 }: InvitationContentProps) {
   useSmoothScroll(smooth);
   const early = phase === "save_the_date";
@@ -185,12 +191,23 @@ export function InvitationContent({
               {badge === null ? null : <DemoBadge label={badge} />}
             </div>
 
+            {greeting && !after ? (
+              <div className="mt-12 max-w-xl sm:mt-16">
+                <p className="font-display text-[1.5rem] leading-snug text-ink sm:text-[1.75rem]">
+                  Hola, {group.displayName}:
+                </p>
+                <p className="mt-3 text-[1.0625rem] leading-relaxed text-pretty text-ink-soft">
+                  {greeting}
+                </p>
+              </div>
+            ) : null}
+
             <h1
               id="content-title"
               ref={titleRef}
               tabIndex={-1}
               translate="no"
-              className="mt-16 font-names text-[clamp(4rem,19vw,10rem)] leading-[0.86] tracking-[-0.02em] text-ink outline-none sm:mt-24"
+              className={`${greeting && !after ? "mt-10 sm:mt-12" : "mt-16 sm:mt-24"} font-names text-[clamp(4rem,19vw,10rem)] leading-[0.86] tracking-[-0.02em] text-ink outline-none`}
             >
               {event.couple.first}
               {event.couple.second ? (

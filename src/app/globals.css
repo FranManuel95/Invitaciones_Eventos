@@ -289,6 +289,15 @@
   object-fit: cover;
 }
 
+/* El texto de la tarjeta pequeña se va pronto y el de la nueva entra cuando el papel ya ha
+   crecido: así no se ven dos textos superpuestos mientras se transforma. */
+::view-transition-old(.paper-morph) {
+  animation: 260ms cubic-bezier(0.4, 0, 1, 1) both vt-fade reverse;
+}
+::view-transition-new(.paper-morph) {
+  animation: 420ms cubic-bezier(0, 0, 0.2, 1) 200ms both vt-fade;
+}
+
 /* Fundido cruzado: lo viejo se va deprisa y lo nuevo entra justo detrás, sin textos dobles. */
 ::view-transition-old(.fade-out) {
   animation: 320ms cubic-bezier(0.4, 0, 1, 1) both vt-fade reverse;

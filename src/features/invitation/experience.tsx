@@ -254,7 +254,7 @@ export function InvitationExperience({
                   group={group}
                   interactive={stage === "envelope"}
                   theme={theme}
-                  onOpened={() => go("letter")}
+                  onOpened={() => go(theme.welcome ? "letter" : "content")}
                 />
               </ViewTransition>
             ) : null}
@@ -288,6 +288,8 @@ export function InvitationExperience({
                     gifts={gifts}
                     smooth={theme.cover === "cine"}
                     badge={badge}
+                    // Sin carta de bienvenida, el saludo y el mensaje van arriba de la invitación.
+                    greeting={theme.welcome ? null : letterEvent.cardMessage}
                   />
                 </ViewTransition>
               ) : (
