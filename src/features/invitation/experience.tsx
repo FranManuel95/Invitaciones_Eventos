@@ -267,6 +267,8 @@ export function InvitationExperience({
                   event={letterEvent}
                   group={group}
                   theme={theme}
+                  // Todas las aperturas sacan la carta ya escrita: no se vuelve a escribir.
+                  printed
                   onContinue={() => go("content")}
                 />
               </ViewTransition>

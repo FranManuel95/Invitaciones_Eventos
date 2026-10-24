@@ -6,6 +6,8 @@ import { ChevronDown } from "lucide-react";
 import { m } from "motion/react";
 import Image from "next/image";
 import {
+  createContext,
+  useContext,
   useEffect,
   useRef,
   ViewTransition,
@@ -13,7 +15,7 @@ import {
   type ReactNode,
   type RefObject,
 } from "react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonClasses } from "@/components/ui/button";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
 import { formatWeekdayDate } from "@/lib/format";
 import { DEFAULT_THEME, type OrnamentId, type Theme } from "@/lib/theme";
@@ -35,11 +37,17 @@ export function LetterStage({
   group,
   onContinue,
   theme = DEFAULT_THEME,
+  printed = false,
 }: {
   event: WeddingEvent;
   group: GuestGroup;
   onContinue: () => void;
   theme?: Theme;
+  /**
+   * La carta ya llegó escrita: salió entera del sobre (mesa, pantalla) y no se vuelve a
+   * «imprimir». Si no, el texto aparece por partes mientras crece desde la tarjeta del sobre.
+   */
+  printed?: boolean;
 }) {
   const headingRef = useRef<HTMLHeadingElement>(null);
 
@@ -49,10 +57,7 @@ export function LetterStage({
   }, []);
 
   const swipe = useSwipeUp(onContinue);
-  const photo = event.story.couplePhoto ?? event.coverPhoto;
-  // Sin foto, la composición «con foto» se queda en la clásica.
-  const layout = theme.layout === "foto" && !photo ? "clasica" : theme.layout;
-  const props = { event, group, headingRef, onContinue };
+  const layout = letterLayout(event, theme);
 
   return (
     <section
@@ -81,26 +86,14 @@ export function LetterStage({
         )}
       >
         <ViewTransition name="carta" share="paper-morph" default="none">
-          <article
-            data-layout={layout}
-            className={clsx(
-              "paper-grain relative bg-paper",
-              theme.edge === "barba" && "deckle",
-              theme.edge === "redondeado" && "overflow-hidden rounded-[1.25rem]",
-              layout === "foto" ? "pb-12 sm:pb-14" : "py-12 sm:py-14",
-              layout === "editorial" ? "px-8 text-left sm:px-11" : "px-8 text-center sm:px-12",
-            )}
-          >
-            {layout === "editorial" ? (
-              <EditorialLetter {...props} />
-            ) : layout === "minimal" ? (
-              <MinimalLetter {...props} />
-            ) : layout === "foto" ? (
-              <PhotoLetter {...props} photo={photo!} />
-            ) : (
-              <ClassicLetter {...props} framed={layout === "marco"} />
-            )}
-          </article>
+          <LetterPaper
+            event={event}
+            group={group}
+            theme={theme}
+            headingRef={headingRef}
+            onContinue={onContinue}
+            animate={!printed}
+          />
         </ViewTransition>
       </div>
 
@@ -112,6 +105,74 @@ export function LetterStage({
         <ChevronDown className="nudge size-4" />
       </p>
     </section>
+  );
+}
+
+/** Composición efectiva: sin foto, la carta «con foto» se queda en la clásica. */
+function letterLayout(event: WeddingEvent, theme: Theme) {
+  const photo = event.story.couplePhoto ?? event.coverPhoto;
+  return theme.layout === "foto" && !photo ? "clasica" : theme.layout;
+}
+
+/**
+ * Cómo se dibuja la carta: `animate`, el texto entra por partes; `preview`, es la copia que va
+ * dentro del sobre (decorativa: sin título ni botón de verdad, para que no se dupliquen).
+ */
+const LetterMode = createContext({ animate: true, preview: false });
+
+/**
+ * El papel de la carta con su composición, borde y contenido. Lo usan la pantalla de la carta y
+ * la copia que va dentro del sobre: así la carta que sale del sobre es exactamente esta.
+ */
+export function LetterPaper({
+  event,
+  group,
+  theme = DEFAULT_THEME,
+  headingRef,
+  onContinue = () => {},
+  animate = true,
+  preview = false,
+  bare = false,
+}: {
+  event: WeddingEvent;
+  group: GuestGroup;
+  theme?: Theme;
+  headingRef?: RefObject<HTMLHeadingElement | null>;
+  onContinue?: () => void;
+  animate?: boolean;
+  preview?: boolean;
+  /** Solo la tinta, sin papel: para imprimirla sobre una tarjeta que ya es papel (una foto). */
+  bare?: boolean;
+}) {
+  const fallbackRef = useRef<HTMLHeadingElement>(null);
+  const layout = letterLayout(event, theme);
+  const photo = event.story.couplePhoto ?? event.coverPhoto;
+  const props = { event, group, headingRef: headingRef ?? fallbackRef, onContinue };
+  return (
+    <LetterMode.Provider value={{ animate, preview }}>
+      <article
+        data-layout={layout}
+        aria-hidden={preview || undefined}
+        className={clsx(
+          "relative",
+          !bare && "paper-grain bg-paper",
+          !bare && theme.edge === "barba" && "deckle",
+          !bare && theme.edge === "redondeado" && "overflow-hidden rounded-[1.25rem]",
+          layout === "foto" ? "pb-12 sm:pb-14" : "py-12 sm:py-14",
+          layout === "editorial" ? "px-8 text-left sm:px-11" : "px-8 text-center sm:px-12",
+        )}
+      >
+        {layout === "editorial" ? (
+          <EditorialLetter {...props} />
+        ) : layout === "minimal" ? (
+          <MinimalLetter {...props} />
+        ) : layout === "foto" ? (
+          <PhotoLetter {...props} photo={photo!} />
+        ) : (
+          <ClassicLetter {...props} framed={layout === "marco"} />
+        )}
+      </article>
+    </LetterMode.Provider>
   );
 }
 
@@ -136,6 +197,8 @@ function Reveal({
   kind?: RevealKind;
   className?: string;
 }) {
+  const { animate } = useContext(LetterMode);
+  if (!animate) return <div className={className}>{children}</div>;
   return (
     <div className={clsx(`letter-${kind}`, className)} style={{ "--i": i } as CSSProperties}>
       {children}
@@ -187,6 +250,14 @@ function Greeting({
   headingRef,
   className,
 }: Pick<LetterProps, "group" | "headingRef"> & { className: string }) {
+  const { preview } = useContext(LetterMode);
+  if (preview) {
+    return (
+      <p className={clsx("letterpress font-display leading-tight text-ink", className)}>
+        Hola, {group.displayName}:
+      </p>
+    );
+  }
   return (
     <h1
       id="letter-title"
@@ -221,11 +292,16 @@ function Continue({
   className?: string;
   i: number;
 }) {
+  const { preview } = useContext(LetterMode);
   return (
     <Reveal i={i} kind="finale" className={className}>
-      <Button className="w-full" size="lg" onClick={onContinue}>
-        Descubrir la invitación
-      </Button>
+      {preview ? (
+        <span className={buttonClasses("primary", "lg", "w-full")}>Descubrir la invitación</span>
+      ) : (
+        <Button className="w-full" size="lg" onClick={onContinue}>
+          Descubrir la invitación
+        </Button>
+      )}
     </Reveal>
   );
 }

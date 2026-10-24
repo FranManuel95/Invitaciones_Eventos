@@ -20,7 +20,7 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   cuidado, plantillas Cine y Herbario, XV años, dress code de revista, programa que se enciende y
   pase de fotos). Resumen de cada una en
   `docs/DECISIONS.md`.
-- **Pruebas al cerrar la ronda 10** (con el sobre junto a la ventana): 293 unitarias y 216 E2E en verde (2 se saltan: las de Supabase
+- **Pruebas al cerrar la ronda 10** (con el sobre junto a la ventana): 293 unitarias y 226 E2E en verde (2 se saltan: las de Supabase
   real, que necesitan red).
 - **Evento real del usuario**: `fm-y-lucia-2030-915f24` (lo creó probando en su iPhone). No tocar.
 
@@ -29,7 +29,11 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 - **Supabase (hecho el 22/10/2026)**: contraseña mínima de 8 caracteres y direcciones de la web
   en URL Configuration. «Leaked password protection» solo existe en el plan Pro: activarla al
   pasar a un plan de pago (el aviso de seguridad seguirá saliendo hasta entonces).
-- **Revisar y fusionar el PR** cuando el usuario lo decida.
+- **PR #1 fusionado en `main` (24/10/2026)**: producción en
+  https://invitaciones-eventos-franmanuel95s-projects.vercel.app. La rama de trabajo sigue siendo
+  `claude/loving-faraday-2aw3om`, recreada desde `main` para lo nuevo (cada bloque, un PR nuevo).
+- **Vercel Authentication desactivada (24/10/2026)**: las direcciones `*.vercel.app` se abren sin
+  cuenta. Supabase → URL Configuration: Site URL de producción y `…vercel.app/**` añadidas.
 - **Antes de abrir la página de venta al público** (lo hace el usuario en Vercel → Settings →
   Environment Variables, y vuelve a desplegar): `LEGAL_TITULAR`, `LEGAL_NIF`, `LEGAL_DOMICILIO`,
   `LEGAL_EMAIL`; revisar los borradores de `/aviso-legal` y `/privacidad` (plazos de

@@ -1,16 +1,14 @@
 "use client";
 
-import { hostNames } from "@/lib/event-kind";
 import { Pointer } from "lucide-react";
 import { m, useAnimate, useReducedMotion, useTransform } from "motion/react";
 import { ViewTransition } from "react";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
-import { formatLongDate } from "@/lib/format";
 import { DEFAULT_THEME, WEIGHTS, type Theme } from "@/lib/theme";
-import { FoilMonogram } from "../effects/foil";
 import { haptic, playPaper, playSealCrack, unlockAudio } from "../effects/sound";
 import { useTilt } from "../effects/tilt";
 import { WaxSealArt } from "../ornaments";
+import { LetterMiniature } from "../letter/letter-miniature";
 import { breakSeal, SealBreakPieces } from "./seal-break";
 import { useOpening } from "./use-opening";
 
@@ -18,7 +16,8 @@ import { useOpening } from "./use-opening";
  * Apertura «sobre a pantalla completa»: el móvil entero es el sobre. La solapa baja en V hasta el
  * lacre, en el centro; el nombre del invitado va escrito en el frente, como una dirección. Al tocar
  * el lacre se parte, la solapa se levanta hacia arriba (rotateX con perspectiva propia) y la carta
- * sube desde dentro hasta convertirse en la carta grande (<ViewTransition name="carta">).
+ * sube desde dentro (es la misma carta de la invitación, en pequeño) hasta convertirse en la carta
+ * grande (<ViewTransition name="carta">).
  */
 
 const TIP = 56; // % de altura donde acaba la punta de la solapa (y va el lacre)
@@ -98,7 +97,7 @@ export function FullEnvelope({
     // El fondo del sobre, detrás de la carta, solo se funde.
     animate("[data-inside]", { opacity: 0 }, { duration: 0.8, delay: 0.7, ease: "easeIn" });
     animate("[data-flap]", { opacity: 0 }, { duration: 0.6, delay: 0.5 });
-    await animate("[data-letter]", { y: "-30%" }, { duration: 1, ease: [0.33, 0, 0.15, 1] });
+    await animate("[data-letter]", { y: "-22%" }, { duration: 1, ease: [0.33, 0, 0.15, 1] });
     if (!alive.current) return;
     await animate(
       "[data-letter]",
@@ -130,19 +129,10 @@ export function FullEnvelope({
         <m.div
           data-letter
           aria-hidden
-          className="paper-grain absolute inset-x-[7%] top-[12%] bottom-[10%] z-10 rounded-[2px] bg-paper shadow-[0_1px_3px_rgb(60_45_25/0.18)]"
+          className="absolute inset-x-[7%] top-[12%] z-10 drop-shadow-[0_1px_3px_rgb(60_45_25/0.2)]"
         >
-          <div className="flex flex-col items-center px-6 pt-[14%] text-center">
-            <FoilMonogram
-              first={event.couple.first}
-              second={event.couple.second}
-              className="size-12 text-[3rem]"
-            />
-            <p className="letterpress mt-4 font-names text-[2.25rem] leading-none text-ink">
-              {hostNames(event.couple)}
-            </p>
-            <p className="caption mt-2 text-ink-soft">{formatLongDate(event.date)}</p>
-          </div>
+          {/* La misma carta de la invitación: sale entera del sobre. */}
+          <LetterMiniature event={event} group={group} theme={theme} />
         </m.div>
       </ViewTransition>
 

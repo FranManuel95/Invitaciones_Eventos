@@ -1,16 +1,14 @@
 "use client";
 
-import { hostNames } from "@/lib/event-kind";
 import { Pointer } from "lucide-react";
 import { m, useAnimate, useReducedMotion, useTransform } from "motion/react";
 import { ViewTransition } from "react";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
-import { formatLongDate } from "@/lib/format";
 import { DEFAULT_THEME, WEIGHTS, type Theme } from "@/lib/theme";
-import { FoilMonogram } from "../effects/foil";
 import { haptic, playPaper, playSealCrack, unlockAudio } from "../effects/sound";
 import { useTilt } from "../effects/tilt";
 import { Monogram, WaxSealArt } from "../ornaments";
+import { LetterMiniature } from "../letter/letter-miniature";
 import { useOpening } from "./use-opening";
 
 /*
@@ -107,7 +105,7 @@ export function Diptych({
         </div>
 
         <m.div
-          className="relative block aspect-[5/7] w-[min(74vw,340px)]"
+          className="relative block w-[min(62vw,300px)]"
           style={reduce ? undefined : { rotateX, rotateY, transformPerspective: 1300 }}
         >
           {/* Botón vacío encima del dibujo: su nombre accesible no compite con los textos. */}
@@ -123,21 +121,10 @@ export function Diptych({
             <m.span
               data-letter
               aria-hidden
-              className="paper-grain absolute inset-0 block rounded-[2px] bg-paper shadow-[0_20px_30px_-12px_rgb(35_30_15/0.4)]"
+              className="relative block drop-shadow-[0_14px_16px_rgb(35_30_15/0.3)]"
             >
-              <span className="flex h-full flex-col items-center justify-center px-5 text-center">
-                <FoilMonogram
-                  first={event.couple.first}
-                  second={event.couple.second}
-                  className="size-11 text-[2.75rem]"
-                />
-                <span className="letterpress mt-4 block font-names text-[2rem] leading-none text-ink">
-                  {hostNames(event.couple)}
-                </span>
-                <span className="caption mt-2 block text-ink-soft">
-                  {formatLongDate(event.date)}
-                </span>
-              </span>
+              {/* La misma carta de la invitación, en pequeño: es la que se abre. */}
+              <LetterMiniature event={event} group={group} theme={theme} />
             </m.span>
           </ViewTransition>
 

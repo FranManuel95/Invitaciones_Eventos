@@ -2,10 +2,11 @@
 
 import { Pointer } from "lucide-react";
 import { m, useAnimate, useReducedMotion } from "motion/react";
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useRef, useSyncExternalStore, ViewTransition } from "react";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
-import type { Theme } from "@/lib/theme";
+import { DEFAULT_THEME, type Theme } from "@/lib/theme";
 import { haptic, isMuted, subscribeMuted, unlockAudio } from "../effects/sound";
+import { LetterMiniature } from "../letter/letter-miniature";
 import { useOpening } from "./use-opening";
 
 /*
@@ -32,9 +33,11 @@ function subscribeWide(callback: () => void) {
 const isWide = () => window.matchMedia(WIDE).matches;
 
 export function VideoEnvelope({
+  event,
   group,
   onOpened,
   interactive = true,
+  theme = DEFAULT_THEME,
 }: {
   event: WeddingEvent;
   group: GuestGroup;
@@ -67,7 +70,17 @@ export function VideoEnvelope({
   async function finish() {
     if (finished.current || !alive.current) return;
     finished.current = true;
-    await animate("[data-paper]", { opacity: 1 }, { duration: reduce ? 0 : 0.8, ease: "easeIn" });
+    if (reduce) {
+      onOpened();
+      return;
+    }
+    // La luz del sobre se vuelve papel y de ella sale la carta, ya escrita, hasta su sitio.
+    animate("[data-paper]", { opacity: 0.94 }, { duration: 0.7, ease: "easeIn" });
+    await animate(
+      "[data-letter]",
+      { opacity: [0, 1], scale: [0.5, 1], y: ["22%", "0%"] },
+      { duration: 1.05, delay: 0.25, ease: [0.22, 1, 0.36, 1] },
+    );
     if (alive.current) onOpened();
   }
 
@@ -181,6 +194,18 @@ export function VideoEnvelope({
           aria-hidden
           className="pointer-events-none absolute inset-0 z-30 bg-[radial-gradient(circle_at_50%_45%,#fffaf0,var(--color-ivory)_70%)] opacity-0"
         />
+        {/* La carta de la invitación, que sale del destello y se transforma en la carta grande. */}
+        <div className="pointer-events-none absolute inset-0 z-40 flex items-center justify-center px-5">
+          <ViewTransition name="carta" share="paper-morph" default="none">
+            <m.div
+              data-letter
+              aria-hidden
+              className="w-full max-w-[22rem] opacity-0 drop-shadow-[0_24px_30px_rgb(35_30_15/0.28)] sm:max-w-md"
+            >
+              <LetterMiniature event={event} group={group} theme={theme} />
+            </m.div>
+          </ViewTransition>
+        </div>
       </div>
     </section>
   );

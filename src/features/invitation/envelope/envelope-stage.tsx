@@ -1,16 +1,14 @@
 "use client";
 
-import { hostNames } from "@/lib/event-kind";
 import { Pointer } from "lucide-react";
 import { m, useAnimate, useReducedMotion, useTransform } from "motion/react";
 import { useEffect, useRef, useState, ViewTransition } from "react";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
 import { DEFAULT_THEME, ENVELOPES, flapGeometry, WEIGHTS, type Theme } from "@/lib/theme";
-import { formatLongDate } from "@/lib/format";
-import { FoilMonogram } from "../effects/foil";
 import { haptic, playPaper, playSealCrack, unlockAudio } from "../effects/sound";
 import { useTilt } from "../effects/tilt";
 import { AlmondBranch, Monogram, WaxSealArt } from "../ornaments";
+import { LetterMiniature } from "../letter/letter-miniature";
 import { breakSeal, SealBreakPieces } from "./seal-break";
 
 /*
@@ -84,6 +82,22 @@ export function EnvelopeStage({
       alive.current = false;
     };
   }, []);
+
+  /**
+   * Dónde y a qué tamaño queda la carta antes del relevo: centrada y tan ancha como la carta
+   * grande (ancho de la pantalla menos márgenes, como en la pantalla de la carta). Se calcula
+   * desde su posición actual (subida la mitad de su altura) y su origen abajo.
+   */
+  function presentLetter() {
+    const el = scope.current?.querySelector<HTMLElement>("[data-letter]");
+    if (!el) return { y: "-18%", scale: 1.16 };
+    const rect = el.getBoundingClientRect();
+    const camera = rect.width / el.offsetWidth;
+    const width = window.innerWidth >= 640 ? 448 : Math.min(352, window.innerWidth - 40);
+    const scale = width / rect.width;
+    const shift = (window.innerHeight / 2 - rect.bottom + (scale * rect.height) / 2) / camera;
+    return { y: `${-50 + (shift / el.offsetHeight) * 100}%`, scale };
+  }
 
   async function open() {
     if (started.current || !interactive) return;
@@ -163,7 +177,7 @@ export function EnvelopeStage({
     if (!alive.current) return;
     await animate(
       "[data-letter]",
-      { y: "-64%", rotate: 0.5, skewY: [0.8, 0.3, 0], scaleY: [0.992, 1] },
+      { y: "-50%", rotate: 0.5, skewY: [0.8, 0.3, 0], scaleY: [0.992, 1] },
       { duration: 1.05, ease: friction },
     );
     if (!alive.current) return;
@@ -177,19 +191,22 @@ export function EnvelopeStage({
       { duration: 0.8, ease: [0.55, 0, 0.85, 0.35] },
     );
     animate("[data-flap]", { y: 280, opacity: 0 }, { duration: 0.65, ease: [0.55, 0, 0.85, 0.35] });
-    // A media salida la carta pasa por delante del bolsillo: mientras se desvanece no debe
-    // verse a través de él.
-    animate("[data-letter]", { zIndex: 25 }, { duration: 0, delay: 0.3 });
+    // A media salida la carta pasa por delante del bolsillo (mientras se desvanece no debe verse a
+    // través de él) y deja de recortarse: ya se ve entera.
+    animate(
+      "[data-letter-clip]",
+      { zIndex: 25, clipPath: "inset(-500% -30% -500% -30%)" },
+      { duration: 0, delay: 0.3 },
+    );
     animate(
       "[data-letter-sheen]",
       { x: ["-160%", "160%"], opacity: [0, 1, 0] },
       { duration: 1.1, delay: 0.25, ease: "easeInOut" },
     );
-    await animate(
-      "[data-letter]",
-      { y: "-18%", rotate: 0, scale: 1.16 },
-      { duration: 0.95, ease: friction },
-    );
+    // La carta va al centro de la pantalla con el tamaño de la carta grande: el relevo solo
+    // termina de ajustarla.
+    const { y, scale } = presentLetter();
+    await animate("[data-letter]", { y, rotate: 0, scale }, { duration: 0.95, ease: friction });
     if (!alive.current) return;
     // Un instante de calma antes del relevo: da respiro al plano.
     await new Promise((resolve) => window.setTimeout(resolve, 160));
@@ -266,39 +283,34 @@ export function EnvelopeStage({
               />
             </span>
 
-            {/* Carta: se transforma en la carta grande de la siguiente pantalla */}
-            <ViewTransition name="carta" share="paper-morph" default="none">
-              <m.span
-                data-letter
-                aria-hidden
-                className="paper-grain absolute inset-x-[6%] top-[5%] z-10 block h-[88%] origin-bottom rounded-[2px] bg-paper shadow-[0_1px_3px_rgb(60_45_25/0.2),0_8px_18px_rgb(40_30_20/0.1)] ring-1 ring-[rgb(120_90_50/0.1)] ring-inset"
-              >
-                {/* Destello de luz que cruza el papel al llegar al primer plano */}
-                <span className="pointer-events-none absolute inset-0 block overflow-hidden rounded-[2px]">
+            {/* Carta: la misma carta de la invitación, en pequeño. Es más alta que el sobre: lo
+                que sobresale por abajo queda recortado mientras está dentro. */}
+            <span
+              data-letter-clip
+              className="absolute inset-0 z-10 block"
+              style={{ clipPath: "inset(-500% -30% 0 -30%)" }}
+            >
+              <ViewTransition name="carta" share="paper-morph" default="none">
+                <m.span
+                  data-letter
+                  aria-hidden
+                  className="absolute inset-x-[6%] top-[5%] block origin-bottom drop-shadow-[0_2px_4px_rgb(60_45_25/0.22)]"
+                >
+                  <LetterMiniature event={event} group={group} theme={theme} />
+                  {/* Destello de luz que cruza el papel al llegar al primer plano */}
+                  <span className="pointer-events-none absolute inset-0 block overflow-hidden">
+                    <span
+                      data-letter-sheen
+                      className="absolute inset-y-0 left-1/4 block w-1/2 -skew-x-12 bg-[linear-gradient(90deg,transparent,rgb(255_250_235/0.75),transparent)] opacity-0"
+                    />
+                  </span>
                   <span
-                    data-letter-sheen
-                    className="absolute inset-y-0 left-1/4 block w-1/2 -skew-x-12 bg-[linear-gradient(90deg,transparent,rgb(255_250_235/0.75),transparent)] opacity-0"
+                    data-letter-shadow
+                    className="pointer-events-none absolute inset-x-0 top-0 block h-1/4 bg-[linear-gradient(180deg,rgb(35_30_20/0.45),transparent)] opacity-0"
                   />
-                </span>
-                <span
-                  data-letter-shadow
-                  className="pointer-events-none absolute inset-x-0 top-0 block h-1/3 rounded-t-[2px] bg-[linear-gradient(180deg,rgb(35_30_20/0.45),transparent)] opacity-0"
-                />
-                <span className="flex flex-col items-center px-4 pt-[7%] text-center">
-                  <FoilMonogram
-                    first={event.couple.first}
-                    second={event.couple.second}
-                    className="size-[clamp(1.9rem,7.5vw,2.4rem)] text-[clamp(1.9rem,7.5vw,2.4rem)]"
-                  />
-                  <span className="letterpress mt-2 block font-names text-[clamp(1.5rem,6.5vw,2.125rem)] leading-none text-ink">
-                    {hostNames(event.couple)}
-                  </span>
-                  <span className="caption mt-2 block !text-[clamp(0.75rem,3vw,0.9375rem)] text-ink-soft">
-                    {formatLongDate(event.date)}
-                  </span>
-                </span>
-              </m.span>
-            </ViewTransition>
+                </m.span>
+              </ViewTransition>
+            </span>
 
             {/* Bolsillo: tres triángulos con sombra estática de pliegue */}
             <span
