@@ -124,7 +124,6 @@ export const DEFAULT_THEME: Theme = {
   order: [...SECTION_IDS],
   music: true,
   musicStyle: "piano",
-  welcome: false,
 };
 
 export interface Palette {

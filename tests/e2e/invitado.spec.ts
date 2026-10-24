@@ -16,26 +16,13 @@ test.describe("experiencia del invitado", () => {
     await expect(page.getByRole("heading", { name: "Familia García" })).toBeVisible();
 
     await page.getByRole("button", { name: "Abrir el sobre" }).click();
-    // Del sobre sale directa la invitación: el saludo y el mensaje van arriba.
-    const title = page.locator("#content-title");
-    await expect(title).toBeVisible({ timeout: 8000 });
-    await expect(title).toBeFocused();
-    await expect(page.getByText("Hola, Familia García:")).toBeVisible();
-    await expect(page.getByRole("heading", { name: "El día" })).toBeAttached();
-    expect(errors).toEqual([]);
-  });
-
-  test("con carta de bienvenida, la carta sale antes de la invitación", async ({ page }) => {
-    await page.goto("/i/familia-garcia?carta=si");
-    await page.getByRole("button", { name: /toca para abrir/i }).click();
-    await page.getByRole("button", { name: "Abrir el sobre" }).click();
     const letter = page.getByRole("heading", { name: "Hola, Familia García:" });
     await expect(letter).toBeVisible({ timeout: 8000 });
     await expect(letter).toBeFocused();
+
     await page.getByRole("button", { name: "Descubrir la invitación" }).click();
-    await expect(page.locator("#content-title")).toBeFocused();
-    // El saludo ya se leyó en la carta: no se repite arriba de la invitación.
-    await expect(page.getByText("Hola, Familia García:")).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "El día" })).toBeAttached();
+    expect(errors).toEqual([]);
   });
 
   test("varios toques al sobre no repiten la apertura", async ({ page }) => {
@@ -59,7 +46,7 @@ test.describe("experiencia del invitado", () => {
       await page.waitForTimeout(120);
     }
     expect(angles).toEqual([...angles].sort((x, y) => x - y));
-    await expect(page.getByText("Hola, Familia García:")).toBeVisible({
+    await expect(page.getByRole("heading", { name: "Hola, Familia García:" })).toBeVisible({
       timeout: 8000,
     });
   });
@@ -83,13 +70,12 @@ test.describe("experiencia del invitado", () => {
     await page.goto("/i/elena-y-pablo");
     await page.getByRole("button", { name: /toca para abrir/i }).click();
     await page.getByRole("button", { name: "Abrir el sobre" }).click();
-    await expect(page.getByText(/^Hola, Elena y Pablo/)).toBeVisible({
+    await expect(page.getByRole("heading", { name: /^Hola, Elena y Pablo/ })).toBeVisible({
       timeout: 2000,
     });
     // Sin portada en WebGL ni apertura corta al volver: directo al contenido.
     await expect(page.locator("canvas")).toHaveCount(0);
-    // Ya está en la invitación (el sobre lleva directo a ella).
-    await expect(page.locator("#content-title")).toBeVisible();
+    await page.getByRole("button", { name: "Saltar intro" }).click();
     await page.reload();
     await expect(page.locator("#brief-title")).toHaveCount(0);
     await expect(
@@ -296,6 +282,7 @@ test.describe("experiencia del invitado", () => {
     await page.getByRole("button", { name: /toca para abrir/i }).click();
     await page.getByRole("button", { name: "Abrir el sobre" }).click();
     await expect(page.getByText(/Guarda la fecha! Nos casamos/)).toBeVisible({ timeout: 8000 });
+    await page.getByRole("button", { name: "Descubrir la invitación" }).click();
     await expect(page.getByRole("heading", { name: "Pronto, la invitación" })).toBeVisible();
     await expect(page.locator("#fecha")).toBeAttached();
     await expect(page.locator("#confirmar")).toHaveCount(0);

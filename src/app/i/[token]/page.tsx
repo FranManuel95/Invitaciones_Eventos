@@ -46,8 +46,6 @@ export default async function InvitationPage(props: PageProps<"/i/[token]">) {
             calendar: pick("calendario"),
             opening: pick("apertura"),
             cover: pick("portada"),
-            // ?carta=si muestra la carta de bienvenida antes de la invitación.
-            welcome: pick("carta") === undefined ? undefined : pick("carta") === "si",
           }).filter(([, v]) => v !== undefined),
         ),
       });

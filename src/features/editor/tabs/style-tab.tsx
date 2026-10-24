@@ -784,18 +784,8 @@ function OrnamentSample({ ornament }: { ornament: Theme["ornament"] }) {
 
 /** Composición, borde y ornamento de la carta. */
 function LetterPart() {
-  const { draft, setTheme } = useEditor();
   return (
     <>
-      <Group title="Carta de bienvenida">
-        <ChoiceCard
-          type="checkbox"
-          label="Mostrar una carta antes de la invitación"
-          description="Al abrir el sobre sale primero una carta con el saludo al invitado y vuestro mensaje. Si no, el sobre lleva directo a la invitación y el saludo va arriba de ella."
-          checked={draft.theme.welcome}
-          onChange={(e) => setTheme({ ...draft.theme, welcome: e.target.checked })}
-        />
-      </Group>
       <Group title="Composición" description="Cómo se reparten nombres, saludo y mensaje.">
         <div role="radiogroup" aria-label="Composición" className="grid gap-3 sm:grid-cols-2">
           {LAYOUT_IDS.map((id) => (

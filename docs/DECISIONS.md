@@ -107,11 +107,6 @@ para promoción, ver «Para más adelante»).
   (0,7 a 1,6 MB). Los vídeos de la versión 2 se borraron con el permiso del usuario. Se ofrece como
   apertura «Premium» (marca `premium` en `OPENINGS`, visible en el editor y en los ejemplos); las
   demás aperturas siguen disponibles.
-- **Del sobre, directo a la invitación** (petición del usuario): por defecto ya no hay carta
-  intermedia. La tarjeta del sobre se transforma en la cabecera de la invitación, que lleva
-  arriba el saludo al invitado y el mensaje de la pareja. La carta de bienvenida sigue como
-  opción (`theme.welcome`, interruptor en Estilo → Carta; en la demo, `?carta=si`). En el relevo,
-  el texto de la tarjeta pequeña se va antes de que entre el de la nueva, para no superponerse.
 - **Dependencias nuevas**: `gsap` 3.13 (gratuita, incluidos sus plugins) y `lenis` 1.3.
 
 ### Para más adelante

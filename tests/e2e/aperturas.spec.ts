@@ -36,11 +36,9 @@ test.describe("aperturas", () => {
       // Toques extra a mitad de la apertura: no la relanzan.
       await page.waitForTimeout(300);
       await trigger.click({ force: true }).catch(() => {});
-      // Del sobre sale directa la invitación, con el saludo arriba.
-      const letter = page.locator("#content-title");
+      const letter = page.getByRole("heading", { name: "Hola, Familia García:" });
       await expect(letter).toBeVisible({ timeout: slow ? 60_000 : 20_000 });
       await expect(letter).toBeFocused();
-      await expect(page.getByText("Hola, Familia García:")).toBeVisible();
       expect(errors).toEqual([]);
     });
   }
@@ -53,7 +51,7 @@ test.describe("aperturas", () => {
     await page.goto("/i/familia-garcia?apertura=pelicula");
     await page.getByRole("button", { name: /toca para abrir/i }).click();
     await page.getByRole("button", { name: "Abrir el sobre" }).click();
-    await expect(page.getByText("Hola, Familia García:")).toBeVisible({
+    await expect(page.getByRole("heading", { name: "Hola, Familia García:" })).toBeVisible({
       timeout: 8000,
     });
   });
@@ -79,7 +77,7 @@ test.describe("aperturas", () => {
     await page.getByRole("button", { name: /toca para abrir/i }).click();
     await expect(page.locator("[data-opening='sobre3d']")).not.toBeAttached();
     await page.getByRole("button", { name: "Abrir el sobre" }).click();
-    await expect(page.getByText("Hola, Familia García:")).toBeVisible({
+    await expect(page.getByRole("heading", { name: "Hola, Familia García:" })).toBeVisible({
       timeout: 10_000,
     });
   });
@@ -89,7 +87,7 @@ test.describe("aperturas", () => {
     await page.goto("/i/familia-garcia?apertura=sobre3d");
     await page.getByRole("button", { name: /toca para abrir/i }).click();
     await page.getByRole("button", { name: "Abrir el sobre" }).click();
-    await expect(page.getByText("Hola, Familia García:")).toBeVisible({
+    await expect(page.getByRole("heading", { name: "Hola, Familia García:" })).toBeVisible({
       timeout: 15_000,
     });
   });
@@ -110,7 +108,7 @@ test.describe("aperturas", () => {
     await page.mouse.down();
     for (let i = 1; i <= 20; i++) await page.mouse.move(x, y - i * 22);
     await page.mouse.up();
-    await expect(page.getByText("Hola, Familia García:")).toBeVisible({
+    await expect(page.getByRole("heading", { name: "Hola, Familia García:" })).toBeVisible({
       timeout: 10_000,
     });
   });
@@ -120,7 +118,7 @@ test.describe("aperturas", () => {
     await page.goto("/i/familia-garcia?apertura=ventana");
     await page.getByRole("button", { name: /toca para abrir/i }).click();
     await page.getByRole("button", { name: "Abrir el sobre" }).click();
-    await expect(page.getByText("Hola, Familia García:")).toBeVisible({
+    await expect(page.getByRole("heading", { name: "Hola, Familia García:" })).toBeVisible({
       timeout: 15_000,
     });
   });
@@ -134,7 +132,7 @@ test.describe("aperturas", () => {
       await page.reload();
       await page.getByRole("button", { name: /toca para abrir/i }).click();
       await page.getByRole("button", { name: button }).click();
-      await expect(page.getByText(/^Hola, Elena y Pablo/)).toBeVisible({
+      await expect(page.getByRole("heading", { name: /^Hola, Elena y Pablo/ })).toBeVisible({
         timeout: 2000,
       });
     }

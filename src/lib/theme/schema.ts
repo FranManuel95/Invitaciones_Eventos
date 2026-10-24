@@ -58,8 +58,6 @@ export const themeInputSchema = z.strictObject({
     .refine((o) => new Set(o).size === o.length, "Cada sección solo puede aparecer una vez."),
   music: z.boolean(),
   musicStyle: z.enum(MUSIC_IDS),
-  /** Carta de bienvenida entre el sobre y la invitación (si no, el sobre lleva directo a ella). */
-  welcome: z.boolean(),
 });
 
 /** Tema leído de la base de datos: lo que falte o no se reconozca vuelve al valor por defecto. */
@@ -85,7 +83,6 @@ export const themeSchema = z.object({
   order: z.array(z.string()).catch([]).transform(normalizeOrder),
   music: z.boolean().catch(true),
   musicStyle: z.enum(MUSIC_IDS).catch("piano"),
-  welcome: z.boolean().catch(false),
 });
 
 /** Lee un tema guardado: lo que falte o no se reconozca vuelve al valor por defecto. */
