@@ -29,7 +29,12 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 - **Supabase (hecho el 22/10/2026)**: contraseña mínima de 8 caracteres y direcciones de la web
   en URL Configuration. «Leaked password protection» solo existe en el plan Pro: activarla al
   pasar a un plan de pago (el aviso de seguridad seguirá saliendo hasta entonces).
-- **Revisar y fusionar el PR** cuando el usuario lo decida.
+- **PR #1 fusionado en `main` (24/10/2026)**: producción en
+  https://invitaciones-eventos-franmanuel95s-projects.vercel.app. La rama de trabajo sigue siendo
+  `claude/loving-faraday-2aw3om`, recreada desde `main` para lo nuevo (cada bloque, un PR nuevo).
+- **Ojo: Vercel Authentication está activa** («all_except_custom_domains»): en las direcciones
+  `*.vercel.app` Vercel pide iniciar sesión. Antes de mandar enlaces a invitados reales, el
+  usuario debe desactivarla (Vercel → Settings → Deployment Protection) o usar un dominio propio.
 - **Antes de abrir la página de venta al público** (lo hace el usuario en Vercel → Settings →
   Environment Variables, y vuelve a desplegar): `LEGAL_TITULAR`, `LEGAL_NIF`, `LEGAL_DOMICILIO`,
   `LEGAL_EMAIL`; revisar los borradores de `/aviso-legal` y `/privacidad` (plazos de
