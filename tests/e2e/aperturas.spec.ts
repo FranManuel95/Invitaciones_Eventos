@@ -123,6 +123,20 @@ test.describe("aperturas", () => {
     });
   });
 
+  for (const opening of ["mesa", "pantalla"]) {
+    test(`${opening}: del sobre sale la carta completa, no una tarjeta distinta`, async ({
+      page,
+    }) => {
+      await page.goto(`/i/familia-garcia?apertura=${opening}`);
+      // Antes de abrir, dentro del sobre ya está la carta con el saludo, el mensaje y el botón.
+      const inside = page.locator("[data-letter]");
+      await expect(inside.getByText("Hola, Familia García:")).toBeAttached();
+      await expect(inside.getByText("Descubrir la invitación")).toBeAttached();
+      // Es decorativa: no añade un segundo título ni un segundo botón.
+      await expect(inside.getByRole("button")).toHaveCount(0);
+    });
+  }
+
   test("con movimiento reducido las aperturas pasan directas a la carta", async ({ browser }) => {
     const context = await browser.newContext({ reducedMotion: "reduce" });
     const page = await context.newPage();

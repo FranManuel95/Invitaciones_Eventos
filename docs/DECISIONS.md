@@ -107,6 +107,16 @@ para promoción, ver «Para más adelante»).
   (0,7 a 1,6 MB). Los vídeos de la versión 2 se borraron con el permiso del usuario. Se ofrece como
   apertura «Premium» (marca `premium` en `OPENINGS`, visible en el editor y en los ejemplos); las
   demás aperturas siguen disponibles.
+- **Del sobre sale la carta completa** (petición del usuario): en las aperturas mesa y pantalla,
+  la tarjeta del sobre ya no es una tarjetita con nombres y fecha. Es la misma carta de la
+  invitación (saludo, mensaje, nombres, fecha y botón, con la composición y el borde del tema)
+  maquetada al ancho de la carta grande y reducida entera (`LetterMiniature`), así que al crecer
+  no cambia nada de sitio y la carta grande no se vuelve a «escribir» (`printed`). La carta es más
+  alta que el sobre: lo que sobresale por abajo se recorta mientras está dentro
+  (`data-letter-clip`) y se libera cuando el sobre se va. `LetterPaper` es el papel de la carta,
+  compartido por la pantalla de la carta y la miniatura (ésta, decorativa: sin título ni botón).
+  Un primer intento quitó la carta intermedia y llevó directo al contenido; no era lo pedido y se
+  deshizo.
 - **Dependencias nuevas**: `gsap` 3.13 (gratuita, incluidos sus plugins) y `lenis` 1.3.
 
 ### Para más adelante
