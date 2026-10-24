@@ -97,6 +97,15 @@ para promoción, ver «Para más adelante»).
   AgX (el marfil salía gris), separar el sobre del fondo oscureciendo la mesa y 3 rebotes. Limitación:
   el color del sobre y del forro va en la foto (no cambia con el tema); para otros colores hay que
   renderizar otra secuencia.
+- **Sobre de película, versión 3** (mismo id `pelicula`): dos vídeos nuevos del usuario hechos con
+  Higgsfield (sobre blanco, lacre dorado con un árbol, paniculata y luz de ventana; 8 s), uno
+  vertical para el móvil y otro horizontal para pantallas anchas (se elige con
+  `min-aspect-ratio: 1/1`). Traen su propio sonido (ambiente, golpe del lacre a los 2,5 s, papel y
+  brillo), que respeta el botón de silencio; la vibración va con el golpe. Ya no se pega texto a
+  una tarjeta del vídeo: en el destello final (7,1 s) el papel llena la pantalla y entra la carta
+  de la invitación. MP4 (H.264 + AAC) y WebM (VP9 + Opus) en `public/aperturas/sobre-dorado/`
+  (0,7 a 1,6 MB). Los vídeos de la versión 2 (`public/aperturas/sobre-video/`) siguen en el
+  repositorio sin usarse hasta que el usuario decida si se borran.
 - **Dependencias nuevas**: `gsap` 3.13 (gratuita, incluidos sus plugins) y `lenis` 1.3.
 
 ### Para más adelante

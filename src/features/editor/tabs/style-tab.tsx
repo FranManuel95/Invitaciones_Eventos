@@ -456,7 +456,7 @@ function OpeningSample({ opening }: { opening: Theme["opening"] }) {
       ) : opening === "pelicula" ? (
         <span
           className="absolute inset-0 block bg-cover bg-center"
-          style={{ backgroundImage: "url(/aperturas/sobre-video/inicio.webp)" }}
+          style={{ backgroundImage: "url(/aperturas/sobre-dorado/vertical.webp)" }}
         />
       ) : (
         <span className="absolute inset-x-1.5 inset-y-2.5 block rounded-[3px] bg-sand">

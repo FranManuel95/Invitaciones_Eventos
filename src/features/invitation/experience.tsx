@@ -254,8 +254,7 @@ export function InvitationExperience({
                   group={group}
                   interactive={stage === "envelope"}
                   theme={theme}
-                  // En «película» la tarjeta del vídeo ya hace de carta: se pasa a la invitación.
-                  onOpened={() => go(theme.opening === "pelicula" ? "content" : "letter")}
+                  onOpened={() => go("letter")}
                 />
               </ViewTransition>
             ) : null}

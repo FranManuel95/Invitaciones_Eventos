@@ -43,18 +43,17 @@ test.describe("aperturas", () => {
     });
   }
 
-  test("película: si el vídeo no se puede reproducir, sale igualmente la tarjeta", async ({
+  test("película: si el vídeo no se puede reproducir, sale igualmente la carta", async ({
     page,
   }) => {
     // Como un móvil que no logra pintar el vídeo: no debe quedarse parada en el fondo.
-    await page.route("**/aperturas/sobre-video/sobre.*", (route) => route.abort());
+    await page.route("**/aperturas/sobre-dorado/*.{mp4,webm}", (route) => route.abort());
     await page.goto("/i/familia-garcia?apertura=pelicula");
     await page.getByRole("button", { name: /toca para abrir/i }).click();
     await page.getByRole("button", { name: "Abrir el sobre" }).click();
     await expect(page.getByRole("heading", { name: "Hola, Familia García:" })).toBeVisible({
       timeout: 8000,
     });
-    await expect(page.getByRole("button", { name: "Descubrir la invitación" })).toBeVisible();
   });
 
   test("sobre 3D: sin WebGL se abre el sobre de siempre", async ({ page }) => {

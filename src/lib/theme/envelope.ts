@@ -45,7 +45,7 @@ export const OPENINGS: Record<OpeningId, { label: string; description: string }>
   pelicula: {
     label: "Sobre de película",
     description:
-      "Un sobre real en vídeo: se rompe el lacre, se abre y sale la tarjeta con vuestros nombres.",
+      "Un sobre real en vídeo, con lacre dorado y luz de ventana: el lacre salta, la solapa se abre y del destello sale la carta.",
   },
   sobre3d: {
     label: "Sobre en 3D",
