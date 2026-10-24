@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { buttonClasses } from "@/components/ui/button";
 import { ContactForm } from "@/features/sales/contact-form";
 import { PhoneDemo } from "@/features/sales/phone-demo";
+import { OpeningShowcase, PhoneFrame, TemplateShowcase } from "@/features/sales/showcase";
 import { BlossomCorner } from "@/features/invitation/ornaments";
 import { PRICE_EUR } from "@/lib/sales/contact";
 import { siteUrl } from "@/lib/site";
@@ -123,42 +125,104 @@ export default function SalesPage() {
               </p>
             </div>
 
-            <figure className="mx-auto [--s:0.72] sm:[--s:0.8]">
-              <PhoneDemo />
-              <figcaption className="mt-3 text-center text-[0.8125rem] text-muted">
+            <figure className="relative mx-auto [--s:0.72] sm:[--s:0.8] md:mx-20">
+              {/* Detrás, otras dos invitaciones abiertas en abanico, como en la mano. */}
+              <div
+                aria-hidden
+                className="absolute inset-x-0 top-0 hidden h-[calc(844px*var(--s))] md:block"
+              >
+                <PhoneFrame className="absolute top-6 -left-[26%] w-[70%] -rotate-[8deg]">
+                  <Image src="/venta/plantilla-medianoche.webp" alt="" fill sizes="240px" />
+                </PhoneFrame>
+                <PhoneFrame className="absolute top-0 -right-[26%] w-[70%] rotate-[8deg]">
+                  <Image src="/venta/plantilla-jardin.webp" alt="" fill sizes="240px" />
+                </PhoneFrame>
+              </div>
+              <div className="relative">
+                <PhoneDemo />
+              </div>
+              <figcaption className="relative mt-3 text-center text-[0.8125rem] text-muted">
                 Es una invitación de verdad: ábrela y prueba a confirmar.
               </figcaption>
             </figure>
           </div>
         </section>
 
-        <section aria-labelledby="invitado" className="mx-auto max-w-6xl px-6 py-20 sm:px-10">
-          <div className="md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:gap-14">
+        {/* Las aperturas en marcha, sobre el color de la mesa en la que se abre el sobre. */}
+        <section
+          aria-labelledby="aperturas"
+          className="overflow-hidden bg-[linear-gradient(180deg,var(--scene-1),var(--scene-2))] pt-20"
+        >
+          <div className="mx-auto max-w-6xl px-6 sm:px-10 md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:gap-14">
             <h2
-              id="invitado"
+              id="aperturas"
               className="font-display text-[2.25rem] leading-[1.05] text-ink sm:text-[2.75rem]"
             >
-              Lo que vive cada invitado
+              Elegid cómo se abre
             </h2>
-            <ol className="mt-8 grid gap-x-10 gap-y-8 sm:grid-cols-2 md:mt-0">
-              {GUEST_STEPS.map((step, i) => (
-                <li key={step.title} className="border-t border-ink/25 pt-4">
-                  <span aria-hidden className="font-display text-[1.75rem] leading-none text-gold">
-                    {i + 1}
-                  </span>
-                  <h3 className="mt-2 font-display text-[1.5rem] leading-tight text-ink">
-                    {step.title}
-                  </h3>
-                  <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-ink-soft">
-                    {step.text}
-                  </p>
-                </li>
-              ))}
-            </ol>
+            <p className="mt-4 max-w-[52ch] text-[1.0625rem] leading-relaxed text-ink-soft md:mt-2">
+              Después de la portada llega el sobre. Puede esperar en la mesa, ocupar toda la
+              pantalla o venir en una caja con lazo. Tocad cualquiera para probarla.
+            </p>
+          </div>
+          <OpeningShowcase className="mx-auto mt-10 max-w-[90rem]" />
+        </section>
+
+        <section aria-labelledby="plantillas" className="mx-auto max-w-6xl px-6 py-20 sm:px-10">
+          <div className="md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:gap-14">
+            <div>
+              <h2
+                id="plantillas"
+                className="font-display text-[2.25rem] leading-[1.05] text-ink sm:text-[2.75rem]"
+              >
+                Plantillas para empezar
+              </h2>
+              <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted">
+                Cada una trae su papel, su forro, su lacre y su letra. Luego cambiáis lo que queráis
+                en el editor.
+              </p>
+              <Link href="/ejemplos" className={`${linkClass} mt-4 inline-block`}>
+                Ver portadas y momentos
+              </Link>
+            </div>
+            <div className="mt-10 md:mt-0">
+              <TemplateShowcase />
+            </div>
           </div>
         </section>
 
-        <section aria-labelledby="vosotros" className="bg-ivory">
+        <section aria-labelledby="invitado" className="bg-ivory">
+          <div className="mx-auto max-w-6xl px-6 py-20 sm:px-10">
+            <div className="md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:gap-14">
+              <h2
+                id="invitado"
+                className="font-display text-[2.25rem] leading-[1.05] text-ink sm:text-[2.75rem]"
+              >
+                Lo que vive cada invitado
+              </h2>
+              <ol className="mt-8 grid gap-x-10 gap-y-8 sm:grid-cols-2 md:mt-0">
+                {GUEST_STEPS.map((step, i) => (
+                  <li key={step.title} className="border-t border-ink/25 pt-4">
+                    <span
+                      aria-hidden
+                      className="font-display text-[1.75rem] leading-none text-gold"
+                    >
+                      {i + 1}
+                    </span>
+                    <h3 className="mt-2 font-display text-[1.5rem] leading-tight text-ink">
+                      {step.title}
+                    </h3>
+                    <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-ink-soft">
+                      {step.text}
+                    </p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <section aria-labelledby="vosotros">
           <div className="mx-auto max-w-6xl px-6 py-20 sm:px-10 md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:gap-14">
             <div>
               <h2
@@ -183,10 +247,25 @@ export default function SalesPage() {
               ))}
             </dl>
           </div>
+          <figure className="mx-auto max-w-6xl px-6 pb-20 sm:px-10">
+            <div className="overflow-hidden rounded-[10px] border border-line shadow-[var(--shadow-lift)]">
+              <Image
+                src="/venta/panel.webp"
+                width={1280}
+                height={800}
+                sizes="(min-width: 1152px) 1072px, 100vw"
+                alt="El panel de María y Daniel: 111 de 150 invitados confirmados, cómo han llegado las respuestas y los menús elegidos."
+                className="h-auto w-full"
+              />
+            </div>
+            <figcaption className="mt-3 text-[0.8125rem] text-muted">
+              El inicio del panel de la boda de ejemplo.
+            </figcaption>
+          </figure>
         </section>
 
-        <section aria-labelledby="precio" className="mx-auto max-w-6xl px-6 py-20 sm:px-10">
-          <div className="md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:gap-14">
+        <section aria-labelledby="precio" className="bg-ivory">
+          <div className="mx-auto max-w-6xl px-6 py-20 sm:px-10 md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:gap-14">
             <h2
               id="precio"
               className="font-display text-[2.25rem] leading-[1.05] text-ink sm:text-[2.75rem]"
@@ -213,7 +292,7 @@ export default function SalesPage() {
           </div>
         </section>
 
-        <section aria-labelledby="preguntas" className="bg-ivory">
+        <section aria-labelledby="preguntas">
           <div className="mx-auto max-w-6xl px-6 py-20 sm:px-10 md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:gap-14">
             <h2
               id="preguntas"
@@ -240,12 +319,8 @@ export default function SalesPage() {
           </div>
         </section>
 
-        <section
-          id="pedir"
-          aria-labelledby="pedir-title"
-          className="mx-auto max-w-6xl scroll-mt-6 px-6 py-20 sm:px-10"
-        >
-          <div className="md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:gap-14">
+        <section id="pedir" aria-labelledby="pedir-title" className="scroll-mt-6 bg-ivory">
+          <div className="mx-auto max-w-6xl px-6 py-20 sm:px-10 md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:gap-14">
             <div>
               <h2
                 id="pedir-title"
