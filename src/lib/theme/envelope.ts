@@ -27,8 +27,11 @@ export type SealShapeId = (typeof SEAL_SHAPE_IDS)[number];
 export type SealMarkId = (typeof SEAL_MARK_IDS)[number];
 export type OpeningId = (typeof OPENING_IDS)[number];
 
-/** Cómo se abre la invitación antes de la carta. */
-export const OPENINGS: Record<OpeningId, { label: string; description: string }> = {
+/** Cómo se abre la invitación antes de la carta. `premium`: se ofrece como opción de pago superior. */
+export const OPENINGS: Record<
+  OpeningId,
+  { label: string; description: string; premium?: boolean }
+> = {
   mesa: {
     label: "Sobre en la mesa",
     description: "El sobre flota sobre la mesa y se abre al tocarlo.",
@@ -44,6 +47,7 @@ export const OPENINGS: Record<OpeningId, { label: string; description: string }>
   },
   pelicula: {
     label: "Sobre de película",
+    premium: true,
     description:
       "Un sobre real en vídeo, con lacre dorado y luz de ventana: el lacre salta, la solapa se abre y del destello sale la carta.",
   },

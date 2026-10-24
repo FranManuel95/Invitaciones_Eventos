@@ -110,12 +110,15 @@ function Choice<K extends ChoiceKey>({
   description,
   swatch,
   extra,
+  badge,
 }: {
   name: K;
   value: Theme[K];
   label: string;
   description?: string;
   swatch: ReactNode;
+  /** Etiqueta corta junto al nombre (p. ej. «Premium»). */
+  badge?: string;
   /** Cambios que acompañan a la elección (p. ej. quitar el color propio al elegir un lacre). */
   extra?: Partial<Theme>;
 }) {
@@ -129,12 +132,23 @@ function Choice<K extends ChoiceKey>({
       onChange={() => setTheme({ ...draft.theme, [name]: value, ...extra })}
       label={
         <span className="flex items-center justify-between gap-3">
-          {label}
+          <span className="flex flex-wrap items-center gap-2">
+            {label}
+            {badge ? <PremiumBadge>{badge}</PremiumBadge> : null}
+          </span>
           {swatch}
         </span>
       }
       description={description}
     />
+  );
+}
+
+function PremiumBadge({ children }: { children: ReactNode }) {
+  return (
+    <span className="rounded-full border border-gold/60 bg-gold/10 px-2 py-0.5 text-[0.6875rem] font-medium tracking-wide text-ink-soft uppercase">
+      {children}
+    </span>
   );
 }
 
@@ -541,6 +555,7 @@ function OpeningPart() {
             value={id}
             label={OPENINGS[id].label}
             description={OPENINGS[id].description}
+            badge={OPENINGS[id].premium ? "Premium" : undefined}
             swatch={<OpeningSample opening={id} />}
           />
         ))}

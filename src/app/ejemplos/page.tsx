@@ -36,6 +36,7 @@ const VARIANTS = [
       href: `/i/familia-garcia?apertura=${id}`,
       label: OPENINGS[id].label,
       text: OPENINGS[id].description,
+      badge: OPENINGS[id].premium ? "Premium" : undefined,
     })),
   },
   {
@@ -228,6 +229,11 @@ export default async function Examples() {
                     <span>
                       <span className="block font-display text-[1.375rem] leading-tight text-ink">
                         {l.label}
+                        {"badge" in l && typeof l.badge === "string" ? (
+                          <span className="ml-2 inline-block rounded-full border border-gold/60 bg-gold/10 px-2 py-0.5 align-middle font-sans text-[0.6875rem] font-medium tracking-wide text-ink-soft uppercase">
+                            {l.badge}
+                          </span>
+                        ) : null}
                       </span>
                       <span className="mt-1 block text-[0.875rem] text-muted">{l.text}</span>
                     </span>

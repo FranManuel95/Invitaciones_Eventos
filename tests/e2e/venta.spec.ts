@@ -50,6 +50,8 @@ test.describe("página de venta", () => {
     await page.goto("/ejemplos");
     const openings = page.getByRole("region", { name: "Aperturas" });
     await expect(openings.getByRole("link")).toHaveCount(7);
+    // La película se ofrece como apertura premium.
+    await expect(openings.getByRole("link", { name: /Sobre de película.*Premium/ })).toBeVisible();
     await expect(page.getByRole("region", { name: "Portadas" }).getByRole("link")).toHaveCount(6);
     await openings.getByRole("link", { name: /Caja con lazo/ }).click();
     await expect(page).toHaveURL(/apertura=caja/);
