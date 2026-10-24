@@ -9,14 +9,13 @@ import {
 } from "motion/react";
 import { useEffect, useRef, useState, ViewTransition, type PointerEvent } from "react";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
-import { hostNames } from "@/lib/event-kind";
-import { formatLongDate } from "@/lib/format";
 import { lerpQuad, quadBounds, quadToMatrix3d, scaleQuad, type Quad } from "@/lib/quad";
 import { DEFAULT_THEME, type Theme } from "@/lib/theme";
 import { haptic, playPaper, playSealCrack, unlockAudio } from "../effects/sound";
 import { WaxSealArt } from "../ornaments";
 import { EnvelopeStage } from "./envelope-stage";
 import { breakSeal, SealBreakPieces } from "./seal-break";
+import { LetterMiniature } from "../letter/letter-miniature";
 import { useOpening } from "./use-opening";
 import { WINDOW_FRAMES as META } from "./window-frames";
 
@@ -224,26 +223,21 @@ function WindowEnvelopeStage({
 
   const last = META.cards[LAST] as Quad;
   const [cl, ct, cw, ch] = quadBounds(last);
-  const [first, second] = [event.couple.first, event.couple.second];
   const [leftTop, tip, rightTop] = META.pocket as [number, number][];
   const pct = (v: number) => `${(v * 100).toFixed(2)}%`;
   // Lo que queda por encima del borde del bolsillo: la tarjeta solo se ve ahí mientras sale.
   const aboveTheFold = `polygon(0 0, 100% 0, 100% ${pct(rightTop![1])}, ${pct(rightTop![0])} ${pct(rightTop![1])}, ${pct(tip![0])} ${pct(tip![1])}, ${pct(leftTop![0])} ${pct(leftTop![1])}, 0 ${pct(leftTop![1])})`;
 
+  // La carta de la invitación, solo la tinta: se imprime sobre la tarjeta de la foto.
   const printed = (
-    <div className="flex h-full flex-col items-center px-[8%] pt-[9%] text-center">
-      <span className="font-display text-[34px] leading-none text-[#9a7a3e] italic">
-        {first.charAt(0)}
-        <span className="mx-1 text-[22px]">&</span>
-        {second.charAt(0)}
-      </span>
-      <span className="mt-5 block font-names text-[52px] leading-none text-[#2f2a22]">
-        {hostNames(event.couple)}
-      </span>
-      <span className="mt-4 block font-display text-[19px] text-[#5a4c3a] italic">
-        {formatLongDate(event.date)}
-      </span>
-    </div>
+    <LetterMiniature
+      event={event}
+      group={group}
+      theme={theme}
+      bare
+      fitHeight="box"
+      className="size-full"
+    />
   );
 
   return (
@@ -326,7 +320,9 @@ function WindowEnvelopeStage({
                 backgroundSize: `${100 / cw}% ${100 / ch}%`,
                 backgroundPosition: `${(cl / (1 - cw)) * 100}% ${(ct / (1 - ch)) * 100}%`,
               }}
-            />
+            >
+              <div className="absolute inset-0 mix-blend-multiply">{printed}</div>
+            </div>
           </ViewTransition>
         </div>
 

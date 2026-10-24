@@ -20,12 +20,13 @@ TEX = os.environ.get("TEXTURAS", os.path.join(HERE, "..", "tex"))
 os.makedirs(OUT, exist_ok=True)
 
 # --- Medidas (metros) ---------------------------------------------------------------------
-W, H = 0.20, 0.138
-CY = -0.045  # centro del sobre en la mesa
+# Sobre vertical (como los de las invitaciones): la carta completa cabe dentro.
+W, H = 0.15, 0.215
+CY = -0.09  # centro del sobre en la mesa
 TOP = CY + H / 2  # bisagra de la solapa
-FLAP = H * 0.56
-TIP_Y = TOP - H * 0.54  # punta del bolsillo
-CARD_W, CARD_H = W - 0.012, H - 0.012
+FLAP = H * 0.42
+TIP_Y = TOP - H * 0.40  # punta del bolsillo
+CARD_W, CARD_H = W - 0.01, H - 0.01
 N_FLAP = 18  # fotogramas de la solapa
 N_CARD = 22  # fotogramas de la tarjeta
 FRAMES = N_FLAP + N_CARD
@@ -328,7 +329,7 @@ def pose(frame):
     pose_flap(math.pi)
     k = ease_out((frame - N_FLAP + 1) / N_CARD)
     # La tarjeta sale hacia arriba, pasa por encima de la solapa abierta y se eleva un poco.
-    y = CY + 0.001 + k * H * 1.02
+    y = CY + 0.001 + k * H * 1.0
     # Mientras su borde de abajo siga dentro, va entre el fondo y el bolsillo; al salir se eleva.
     out = (y - CARD_H / 2) - TOP
     lift = min(1.0, max(0.0, out / 0.008))
@@ -348,7 +349,7 @@ meta["pocket"] = [screen((-W / 2, TOP, z)), screen((0, TIP_Y, z)), screen((W / 2
 meta["envelope"] = [screen((-W / 2, TOP, 0)), screen((W / 2, TOP, 0)), screen((W / 2, CY - H / 2, 0)),
                     screen((-W / 2, CY - H / 2, 0))]
 meta["seal"] = screen((0, TOP - FLAP, 0.002))
-meta["sealSize"] = round(abs(screen((0.018, TOP - FLAP, 0.002))[0] - meta["seal"][0]) * 2, 5)
+meta["sealSize"] = round(abs(screen((0.014, TOP - FLAP, 0.002))[0] - meta["seal"][0]) * 2, 5)
 
 frames = range(FRAMES) if WHICH == "all" else [] if WHICH == "none" else [int(f) for f in WHICH.split(",")]
 for f in range(FRAMES):

@@ -123,7 +123,7 @@ test.describe("aperturas", () => {
     });
   });
 
-  for (const opening of ["mesa", "pantalla"]) {
+  for (const opening of ["mesa", "pantalla", "diptico", "caja", "pelicula"]) {
     test(`${opening}: del sobre sale la carta completa, no una tarjeta distinta`, async ({
       page,
     }) => {

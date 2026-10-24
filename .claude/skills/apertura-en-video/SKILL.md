@@ -129,6 +129,8 @@ Para un sobre fotorrealista que se abre con el dedo («Sobre junto a la ventana�
   - `env/bin/python sobre-ventana.py salida none`: solo los datos, sin renderizar.
   - Texturas de ambientCG (CC0): `Paper002` y `Fabric036` en la carpeta `TEXTURAS`; `forro.png` y
     `ramas.png` se dibujan con OpenCV (rayas doradas y siluetas de hojas).
+- Sobre y tarjeta verticales (15 × 21,5 cm): la tarjeta lleva la carta completa de la invitación
+  impresa encima (solo la tinta), así que tiene que ser vertical como ella.
 - Encuadre: el sobre no debe pasar del 72 % del ancho del fotograma (en un iPhone se recorta un
   20 % de cada lado al cubrir la pantalla).
 - Fotogramas a WebP (`ffmpeg -i f00.png -quality 72 f00.webp`) en `public/aperturas/sobre-ventana/`

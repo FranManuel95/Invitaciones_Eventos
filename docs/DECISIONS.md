@@ -117,6 +117,13 @@ para promoción, ver «Para más adelante»).
   compartido por la pantalla de la carta y la miniatura (ésta, decorativa: sin título ni botón).
   Un primer intento quitó la carta intermedia y llevó directo al contenido; no era lo pedido y se
   deshizo.
+  - Después, en todas las aperturas: díptico y caja (se adaptan al alto de la carta), película (la
+    carta sale del destello dorado al final del vídeo), sobre 3D (la carta 3D es vertical, con la
+    proporción medida en la de papel; se dibuja en un lienzo y un plano de recorte que sigue al
+    borde del sobre la oculta por debajo mientras está dentro) y sobre junto a la ventana
+    (secuencia de Blender rehecha con sobre y tarjeta verticales; la carta se imprime entera sobre
+    la tarjeta, solo la tinta: `LetterPaper bare`). La carta grande ya no se vuelve a escribir en
+    ninguna apertura.
 - **Dependencias nuevas**: `gsap` 3.13 (gratuita, incluidos sus plugins) y `lenis` 1.3.
 
 ### Para más adelante

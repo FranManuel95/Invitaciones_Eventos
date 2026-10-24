@@ -15,11 +15,11 @@ import {
 } from "react";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
 import { hostNames } from "@/lib/event-kind";
-import { formatLongDate } from "@/lib/format";
+import { formatWeekdayDate } from "@/lib/format";
 import { DEFAULT_THEME, WEIGHTS, type Theme } from "@/lib/theme";
-import { FoilMonogram } from "../effects/foil";
 import { unlockAudio } from "../effects/sound";
 import { useTilt } from "../effects/tilt";
+import { LetterMiniature } from "../letter/letter-miniature";
 import { EnvelopeStage } from "./envelope-stage";
 import type { SceneHandle } from "./three/envelope-scene";
 import { useOpening } from "./use-opening";
@@ -92,6 +92,11 @@ function Envelope3DStage({
   const displayProbe = useRef<HTMLHeadingElement>(null);
   const namesProbe = useRef<HTMLSpanElement>(null);
   const [fonts, setFonts] = useState<{ display: string; names: string } | null>(null);
+  // Proporción de la carta, medida en la carta de papel: la 3D se dibuja con la misma forma.
+  const [aspect, setAspect] = useState<number | null>(null);
+  const onMeasure = useCallback((value: number) => {
+    setAspect((current) => current ?? value);
+  }, []);
   const [ready, setReady] = useState(false);
   const [presented, setPresented] = useState(false);
 
@@ -148,14 +153,19 @@ function Envelope3DStage({
         aria-hidden
         className={`absolute inset-0 transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
       >
-        {fonts ? (
+        {fonts && aspect ? (
           <SceneBoundary onError={onFail}>
             <Scene
               theme={theme}
               monogram={event.couple.monogram}
               initials={[first.charAt(0), second.charAt(0)]}
               names={hostNames(event.couple)}
-              date={formatLongDate(event.date)}
+              date={formatWeekdayDate(event.date)}
+              letter={{
+                aspect,
+                greeting: `Hola, ${group.displayName}:`,
+                message: event.cardMessage,
+              }}
               fonts={fonts}
               tilt={tilt}
               pace={WEIGHTS[theme.weight].pace}
@@ -216,21 +226,10 @@ function Envelope3DStage({
         <div
           ref={proxy}
           aria-hidden
-          className={`paper-grain pointer-events-none absolute z-20 overflow-hidden rounded-[2px] bg-paper transition-opacity duration-200 ${presented ? "opacity-100" : "opacity-0"}`}
+          className={`pointer-events-none absolute z-20 transition-opacity duration-200 ${presented ? "opacity-100" : "opacity-0"}`}
         >
-          <div className="flex h-full flex-col items-center justify-start pt-[6%] text-center">
-            <FoilMonogram
-              first={first}
-              second={second}
-              className="size-[clamp(2rem,9vw,3rem)] text-[clamp(2rem,9vw,3rem)]"
-            />
-            <span className="letterpress mt-[4%] block font-names text-[clamp(1.6rem,7.5vw,2.75rem)] leading-none text-ink">
-              {hostNames(event.couple)}
-            </span>
-            <span className="caption mt-[4%] block text-ink-soft">
-              {formatLongDate(event.date)}
-            </span>
-          </div>
+          {/* La misma carta de la invitación; su forma da la de la carta 3D. */}
+          <LetterMiniature event={event} group={group} theme={theme} onMeasure={onMeasure} />
         </div>
       </ViewTransition>
     </section>

@@ -17,6 +17,7 @@ import {
   MeshStandardMaterial,
   NeutralToneMapping,
   PCFShadowMap,
+  Plane,
   type DirectionalLight,
   type PerspectiveCamera,
   PlaneGeometry,
@@ -73,8 +74,8 @@ const SEAL_R = 0.3;
 const FLAP_ROWS = 28;
 const FLAP_COLS = 24;
 const LETTER_W = W - 0.24;
-const LETTER_H = H - 0.2;
 const FOV = 32;
+const ROOT_Y = -0.75;
 const SHADOW_PAD = 0.14;
 const FLAP_SHADOW_PAD = 0.04;
 
@@ -89,6 +90,8 @@ export interface SceneProps {
   names: string;
   date: string;
   fonts: { display: string; names: string };
+  /** La carta completa: su proporción (alto/ancho, medida en la carta de papel) y sus textos. */
+  letter: { aspect: number; greeting: string; message: string };
   tilt: { x: MotionValue<number>; y: MotionValue<number> };
   pace: number;
   handleRef: React.RefObject<SceneHandle | null>;
@@ -146,6 +149,12 @@ function canvasTexture(el: HTMLCanvasElement, color = true) {
 
 function Envelope(props: SceneProps) {
   const { theme, handleRef, proxyRef, tilt, pace, onReady, onPresented } = props;
+  // La carta es la de la invitación: vertical y más alta que el sobre.
+  const letterH = LETTER_W * props.letter.aspect;
+  // Plano que recorta la carta por debajo del sobre mientras está dentro (sigue al sobre).
+  const clip = useMemo(() => new Plane(new Vector3(0, 1, 0), 0), []);
+  const clipPoint = useMemo(() => new Vector3(), []);
+  const clipNormal = useMemo(() => new Vector3(), []);
   const { camera, size, gl } = useThree();
 
   const [detail, relief] = useLoader(TextureLoader, [
@@ -243,13 +252,14 @@ function Envelope(props: SceneProps) {
       ),
       letter: canvasTexture(
         letterCanvas({
-          width: LETTER_W,
-          height: LETTER_H,
+          aspect: props.letter.aspect,
           paper: look.palette.paper,
           ink: look.palette.ink,
           inkSoft: look.palette.inkSoft,
           gold: look.palette.gold,
           initials: props.initials,
+          greeting: props.letter.greeting,
+          message: props.letter.message,
           names: props.names,
           date: props.date,
           displayFont: props.fonts.display,
@@ -267,6 +277,7 @@ function Envelope(props: SceneProps) {
     props.names,
     props.date,
     props.fonts,
+    props.letter,
   ]);
 
   const geometry = useMemo(() => {
@@ -292,9 +303,9 @@ function Envelope(props: SceneProps) {
       flap: new PlaneGeometry(W, look.flapDepth, FLAP_COLS, FLAP_ROWS),
       seal: new ExtrudeGeometry(shapeFrom(outline), WAX_EXTRUDE),
       halves: [left, right].map((half) => new ExtrudeGeometry(shapeFrom(half), WAX_EXTRUDE)),
-      letter: new PlaneGeometry(LETTER_W, LETTER_H, 16, 2),
+      letter: new PlaneGeometry(LETTER_W, letterH, 16, 2),
     };
-  }, [look, theme.sealShape]);
+  }, [look, theme.sealShape, letterH]);
 
   // Reflejos suaves de una habitación: dan brillo de cera al lacre y de oro a la marca.
   const environment = useMemo(() => {
@@ -346,6 +357,8 @@ function Envelope(props: SceneProps) {
       inside: new MeshStandardMaterial({ map: textures.liner, roughness: 0.92 }),
       letter: new MeshStandardMaterial({
         map: textures.letter,
+        clippingPlanes: [clip],
+        clipShadows: true,
         normalMap: textures.bumps,
         normalScale: new Vector2(0.5, 0.5),
         roughness: 0.86,
@@ -373,7 +386,7 @@ function Envelope(props: SceneProps) {
       material.shadowSide = DoubleSide;
     }
     return all;
-  }, [textures, look, environment]);
+  }, [textures, look, environment, clip]);
 
   // Al desmontarse se libera la memoria de la tarjeta gráfica.
   useEffect(
@@ -393,14 +406,16 @@ function Envelope(props: SceneProps) {
   const fit = useMemo(() => {
     const aspect = size.width / Math.max(1, size.height);
     const byWidth = distanceToFill(W, FOV, aspect, 0.84);
-    const byHeight = distanceToFill(H * 2.1, FOV, 1, 0.92);
-    // La carta, al final, ocupa casi todo el ancho (o el alto, en pantallas anchas).
+    // Aire por arriba: la carta sale hacia arriba y es más alta que el sobre.
+    const byHeight = distanceToFill(H * 2.5, FOV, 1, 0.95);
+    // Al final, la carta mide lo que la carta grande de papel (ancho de pantalla menos márgenes).
+    const paperWidth = size.width >= 640 ? 448 : Math.min(352, size.width - 40);
     const letterAt = Math.max(
-      distanceToFill(LETTER_W, FOV, aspect, 0.9),
-      distanceToFill(LETTER_H, FOV, 1, 0.6),
+      distanceToFill(LETTER_W, FOV, aspect, paperWidth / Math.max(1, size.width)),
+      distanceToFill(letterH, FOV, 1, 0.85),
     );
     return { distance: Math.max(byWidth, byHeight), letterAt };
-  }, [size]);
+  }, [size, letterH]);
 
   useLayoutEffect(() => {
     const cam = camera as PerspectiveCamera;
@@ -443,7 +458,8 @@ function Envelope(props: SceneProps) {
         0.08,
       );
       root.current.rotation.y = lerp(root.current.rotation.y, tx * 0.16 * calm, 0.08);
-      root.current.position.y = idle * 0.6 * calm;
+      // El sobre va algo bajo en la pantalla: deja sitio a la carta que sale hacia arriba.
+      root.current.position.y = (ROOT_Y + idle * 0.6) * calm;
     }
 
     // 1. Presión: el sobre cede bajo el dedo y la cera se aplasta un poco.
@@ -530,7 +546,8 @@ function Envelope(props: SceneProps) {
     const rise = easeOut(pull);
     if (letter.current) {
       const bend = Math.sin(pull * Math.PI) * 0.07;
-      const yIn = rise * H * 0.88;
+      // Empieza con el borde de arriba bajo la bisagra y sale algo más de un tercio de su alto.
+      const yIn = H / 2 - 0.1 - letterH / 2 + rise * letterH * 0.4;
       letter.current.position.set(
         0,
         lerp(yIn, 0, present),
@@ -548,6 +565,15 @@ function Envelope(props: SceneProps) {
       body.current.visible = away < 1;
     }
 
+    // El recorte sigue al borde de abajo del sobre (también cuando el sobre cae y la libera).
+    if (body.current) {
+      body.current.updateWorldMatrix(true, false);
+      clipPoint.set(0, -H / 2, 0);
+      body.current.localToWorld(clipPoint);
+      clipNormal.set(0, 1, 0).transformDirection(body.current.matrixWorld);
+      clip.setFromNormalAndCoplanarPoint(clipNormal, clipPoint);
+    }
+
     // El hueco de la carta en la pantalla sigue a la carta 3D (para el relevo a la carta grande).
     if (letter.current && proxyRef.current && present > 0) {
       let minX = Infinity;
@@ -560,7 +586,7 @@ function Envelope(props: SceneProps) {
         [1, 1],
         [-1, 1],
       ] as const) {
-        corner.set((x * LETTER_W) / 2, (y * LETTER_H) / 2, 0);
+        corner.set((x * LETTER_W) / 2, (y * letterH) / 2, 0);
         letter.current.localToWorld(corner).project(camera);
         const sx = ((corner.x + 1) / 2) * size.width;
         const sy = ((1 - corner.y) / 2) * size.height;
@@ -725,6 +751,9 @@ export default function EnvelopeScene(props: SceneProps) {
       camera={{ fov: FOV, near: 0.1, far: 80, position: [0, 0, 8] }}
       gl={{ antialias: true, alpha: true, toneMapping: NeutralToneMapping }}
       style={{ position: "absolute", inset: 0 }}
+      onCreated={({ gl }) => {
+        gl.localClippingEnabled = true;
+      }}
     >
       <Envelope {...props} />
     </Canvas>

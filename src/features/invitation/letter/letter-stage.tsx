@@ -132,6 +132,7 @@ export function LetterPaper({
   onContinue = () => {},
   animate = true,
   preview = false,
+  bare = false,
 }: {
   event: WeddingEvent;
   group: GuestGroup;
@@ -140,6 +141,8 @@ export function LetterPaper({
   onContinue?: () => void;
   animate?: boolean;
   preview?: boolean;
+  /** Solo la tinta, sin papel: para imprimirla sobre una tarjeta que ya es papel (una foto). */
+  bare?: boolean;
 }) {
   const fallbackRef = useRef<HTMLHeadingElement>(null);
   const layout = letterLayout(event, theme);
@@ -151,9 +154,10 @@ export function LetterPaper({
         data-layout={layout}
         aria-hidden={preview || undefined}
         className={clsx(
-          "paper-grain relative bg-paper",
-          theme.edge === "barba" && "deckle",
-          theme.edge === "redondeado" && "overflow-hidden rounded-[1.25rem]",
+          "relative",
+          !bare && "paper-grain bg-paper",
+          !bare && theme.edge === "barba" && "deckle",
+          !bare && theme.edge === "redondeado" && "overflow-hidden rounded-[1.25rem]",
           layout === "foto" ? "pb-12 sm:pb-14" : "py-12 sm:py-14",
           layout === "editorial" ? "px-8 text-left sm:px-11" : "px-8 text-center sm:px-12",
         )}

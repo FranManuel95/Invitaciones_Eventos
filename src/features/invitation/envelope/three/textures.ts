@@ -276,52 +276,104 @@ export function flapMaskCanvas(points: [number, number][]) {
   return el;
 }
 
-/** La carta dentro del sobre: papel con el monograma, los nombres y la fecha, como en el CSS. */
+/** Parte un texto en líneas que caben en `max` píxeles con la fuente actual del lienzo. */
+function wrap(ctx: CanvasRenderingContext2D, text: string, max: number) {
+  const lines: string[] = [];
+  let line = "";
+  for (const word of text.split(/\s+/)) {
+    const next = line ? `${line} ${word}` : word;
+    if (line && ctx.measureText(next).width > max) {
+      lines.push(line);
+      line = word;
+    } else line = next;
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+
+/**
+ * La carta de la invitación completa (composición clásica): monograma, saludo, mensaje, nombres,
+ * fecha y botón, con las medidas de la carta de papel (maquetada a 352 px de ancho). Así la carta
+ * 3D que sale del sobre es la misma que la carta grande que la releva.
+ */
 export function letterCanvas(opts: {
-  width: number;
-  height: number;
+  aspect: number;
   paper: string;
   ink: string;
   inkSoft: string;
   gold: string;
   initials: [string, string];
+  greeting: string;
+  message: string;
   names: string;
   date: string;
   displayFont: string;
   namesFont: string;
 }) {
-  const scale = 1024 / opts.width;
   const w = 1024;
-  const h = Math.round(opts.height * scale);
+  const h = Math.round(w * opts.aspect);
   const [el, ctx] = canvas(w, h);
+  const u = w / 352; // un píxel de la carta de papel
   ctx.fillStyle = opts.paper;
   ctx.fillRect(0, 0, w, h);
-  const cx = w / 2;
-  // Monograma: aro dorado con las iniciales en cursiva.
-  const r = w * 0.055;
-  const cy = h * 0.135;
+  // Filete dorado interior.
   ctx.strokeStyle = opts.gold;
-  ctx.lineWidth = 2;
+  ctx.globalAlpha = 0.35;
+  ctx.lineWidth = u;
+  ctx.strokeRect(16 * u, 16 * u, w - 32 * u, h - 32 * u);
+  ctx.globalAlpha = 1;
+  const cx = w / 2;
+  ctx.textAlign = "center";
+  // Monograma: aro dorado con las iniciales.
+  let y = 48 * u;
+  const r = 24 * u;
+  ctx.lineWidth = 1.5 * u;
+  ctx.strokeStyle = opts.gold;
   ctx.beginPath();
-  ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.arc(cx, y + r, r, 0, Math.PI * 2);
   ctx.stroke();
   ctx.fillStyle = opts.gold;
-  ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.font = `italic ${r * 0.95}px ${opts.displayFont}`;
-  ctx.fillText(opts.initials[0], cx - r * 0.18, cy - r * 0.2);
-  ctx.fillText(opts.initials[1], cx + r * 0.14, cy + r * 0.24);
-  ctx.fillStyle = opts.ink;
+  ctx.font = `italic ${24 * u}px ${opts.displayFont}`;
+  ctx.fillText(opts.initials[0], cx - 5 * u, y + r - 4 * u);
+  ctx.fillText(opts.initials[1], cx + 5 * u, y + r + 6 * u);
+  y += 2 * r + 24 * u;
   ctx.textBaseline = "alphabetic";
-  let size = w * 0.085;
-  ctx.font = `${size}px ${opts.namesFont}`;
-  while (ctx.measureText(opts.names).width > w * 0.84 && size > 20) {
-    size -= 2;
-    ctx.font = `${size}px ${opts.namesFont}`;
+  // Saludo.
+  ctx.fillStyle = opts.ink;
+  ctx.font = `${32 * u}px ${opts.displayFont}`;
+  for (const line of wrap(ctx, opts.greeting, 288 * u)) {
+    y += 40 * u;
+    ctx.fillText(line, cx, y - 10 * u);
   }
-  ctx.fillText(opts.names, cx, h * 0.38);
+  // Mensaje.
+  y += 20 * u;
   ctx.fillStyle = opts.inkSoft;
-  ctx.font = `italic ${w * 0.036}px ${opts.displayFont}`;
-  ctx.fillText(opts.date, cx, h * 0.485);
+  ctx.font = `${19 * u}px ${opts.displayFont}`;
+  for (const line of wrap(ctx, opts.message, 288 * u)) {
+    y += 30.4 * u;
+    ctx.fillText(line, cx, y - 8 * u);
+  }
+  // Nombres y fecha.
+  y += 32 * u + 35 * u;
+  ctx.fillStyle = opts.ink;
+  ctx.font = `${28 * u}px ${opts.namesFont}`;
+  ctx.fillText(opts.names, cx, y - 8 * u);
+  y += 4 * u + 20 * u;
+  ctx.fillStyle = opts.inkSoft;
+  ctx.font = `italic ${14 * u}px ${opts.displayFont}`;
+  ctx.fillText(opts.date, cx, y - 5 * u);
+  // Botón.
+  y += 36 * u;
+  const bw = 288 * u;
+  const bh = 48 * u;
+  ctx.fillStyle = opts.ink;
+  ctx.beginPath();
+  ctx.roundRect(cx - bw / 2, y, bw, bh, 6 * u);
+  ctx.fill();
+  ctx.fillStyle = opts.paper;
+  ctx.textBaseline = "middle";
+  ctx.font = `500 ${16 * u}px system-ui, sans-serif`;
+  ctx.fillText("Descubrir la invitación", cx, y + bh / 2);
   return el;
 }
