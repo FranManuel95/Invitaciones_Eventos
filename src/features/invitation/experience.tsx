@@ -32,6 +32,7 @@ import { FullEnvelope } from "./envelope/full-envelope";
 import { RibbonBox } from "./envelope/ribbon-box";
 import { Envelope3D } from "./envelope/envelope-3d";
 import { VideoEnvelope } from "./envelope/video-envelope";
+import { WindowEnvelope } from "./envelope/window-envelope";
 import { LetterStage } from "./letter/letter-stage";
 
 export type Stage = "brief" | "cover" | "envelope" | "letter" | "content";
@@ -55,6 +56,7 @@ const OPENINGS = {
   caja: RibbonBox,
   pelicula: VideoEnvelope,
   sobre3d: Envelope3D,
+  ventana: WindowEnvelope,
 } satisfies Record<Theme["opening"], unknown>;
 
 const HEADINGS: Record<Stage, string> = {

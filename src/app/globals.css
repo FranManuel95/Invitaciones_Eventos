@@ -861,6 +861,17 @@ html.lenis body {
 
 /* Apertura «sobre de película»: el vídeo vertical llena el móvil; en pantallas anchas se ve
    entero y centrado (el fondo desenfocado rellena los lados). */
+/* Sobre junto a la ventana: fotogramas 9:16 que cubren el móvil y se ven enteros en pantallas anchas. */
+.photo-envelope-frame {
+  aspect-ratio: 9 / 16;
+  width: max(100vw, calc(100dvh * 9 / 16));
+}
+@media (min-aspect-ratio: 3 / 4) {
+  .photo-envelope-frame {
+    width: min(100vw, calc(100dvh * 9 / 16));
+  }
+}
+
 .video-envelope-frame {
   aspect-ratio: 768 / 1364;
   width: max(100vw, calc(100dvh * 768 / 1364));

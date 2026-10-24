@@ -84,6 +84,19 @@ para promoción, ver «Para más adelante»).
   - Sombras: las del sobre sobre el fondo y la del borde de la solapa son manchas suaves pintadas
     (un mapa de sombras daba bordes duros); el papel proyecta sombra por las dos caras
     (`shadowSide`), sin lo que las láminas no daban sombra.
+- **Apertura «Sobre junto a la ventana»** (`ventana`, prototipo para comparar): 40 fotogramas
+  renderizados en Blender (Cycles) con papel de algodón, mantel de lino, forro rayado en oro y sol
+  de ventana con sombra de ramas (texturas de ambientCG, CC0). Se abre con el dedo: al deslizar
+  hacia arriba se rompe el lacre y el recorrido del dedo lleva la solapa y la tarjeta (si se suelta
+  pronto, vuelve); con un toque se abre sola. El lacre del tema y el texto de la tarjeta van encima
+  de la foto: el texto sigue las cuatro esquinas de la tarjeta en cada fotograma (`quadToMatrix3d`)
+  y se mezcla en «multiplicar», así la sombra de las ramas también lo oscurece. La tarjeta final se
+  transforma en la carta grande con una copia recortada del último fotograma. 600 KB de WebP en
+  `public/aperturas/sobre-ventana/`; guion de Blender en `.claude/skills/apertura-en-video/`.
+  Criterios de luz y color de Blender Expert Skills (edemaistre): «Khronos PBR Neutral» en vez de
+  AgX (el marfil salía gris), separar el sobre del fondo oscureciendo la mesa y 3 rebotes. Limitación:
+  el color del sobre y del forro va en la foto (no cambia con el tema); para otros colores hay que
+  renderizar otra secuencia.
 - **Dependencias nuevas**: `gsap` 3.13 (gratuita, incluidos sus plugins) y `lenis` 1.3.
 
 ### Para más adelante

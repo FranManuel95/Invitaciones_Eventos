@@ -115,3 +115,31 @@ termina en un fotograma estable que coincida con la imagen final.
   `tests/e2e/aperturas.spec.ts`. Comprueba en Playwright que el vídeo se reproduce
   (`currentSrc`, `ended`).
 - Apunta en `docs/DECISIONS.md` el modelo, los créditos gastados y los fallos encontrados.
+
+## 8. Sobre renderizado en Blender (sin IA, sin créditos)
+
+Para un sobre fotorrealista que se abre con el dedo («Sobre junto a la ventana», id `ventana`):
+
+- Blender como módulo de Python: `python3 -m venv env && env/bin/pip install bpy` (versión 5.x).
+- Guion: `sobre-ventana.py` (en esta carpeta). Construye la escena (mantel de lino, sobre de algodón
+  con forro, tarjeta, sol con sombra de ramas, luz de relleno y cámara con desenfoque), renderiza
+  la secuencia con Cycles y exporta `meta.json` con las esquinas de la tarjeta en cada fotograma,
+  el borde del bolsillo y la punta de la solapa (para el lacre).
+  - `env/bin/python sobre-ventana.py salida all 40` (40 muestras, ~1,5 min por fotograma con 4 CPU).
+  - `env/bin/python sobre-ventana.py salida none`: solo los datos, sin renderizar.
+  - Texturas de ambientCG (CC0): `Paper002` y `Fabric036` en la carpeta `TEXTURAS`; `forro.png` y
+    `ramas.png` se dibujan con OpenCV (rayas doradas y siluetas de hojas).
+- Encuadre: el sobre no debe pasar del 72 % del ancho del fotograma (en un iPhone se recorta un
+  20 % de cada lado al cubrir la pantalla).
+- Fotogramas a WebP (`ffmpeg -i f00.png -quality 72 f00.webp`) en `public/aperturas/sobre-ventana/`
+  y los datos a `window-frames.ts` (el texto y el lacre se ponen encima en la app).
+- Lecciones del primer render (aplicando los criterios de Blender Expert Skills, edemaistre):
+  - Color: «Khronos PBR Neutral», no AgX. AgX desvía los colores de producto y el marfil salía gris.
+  - Separar el sujeto por valor: oscurecer la mesa en vez de subir luces. El brillo general se
+    ajusta con `exposure`, no escalando las luces.
+  - Cycles de producto: 3 rebotes, sin cáusticas, 32 muestras con eliminación de ruido.
+  - Orden en profundidad: la tarjeta va entre el fondo y el bolsillo hasta que su borde de abajo
+    sale; la solapa abierta queda tendida y plana (ángulo π) por debajo de la tarjeta. Revisa los
+    fotogramas del cruce (tarjeta saliendo sobre la solapa) antes de renderizarlo todo.
+  - Sombra de ramas: una lámina recortada (`ramas.png`) a 22 cm de la mesa, en la dirección de un
+    sol de 3,5°. Con una luz de área grande la sombra se emborrona del todo.

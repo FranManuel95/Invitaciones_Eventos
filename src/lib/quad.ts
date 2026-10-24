@@ -50,3 +50,16 @@ export function quadToMatrix3d(w: number, h: number, quad: Quad): string {
 /** Escala unas esquinas dadas en fracciones (0–1) al tamaño real del marco. */
 export const scaleQuad = (quad: Quad, width: number, height: number): Quad =>
   quad.map(([x, y]) => [x * width, y * height]) as Quad;
+
+/** Punto intermedio entre dos cuadriláteros (para pasar suavemente de un fotograma al siguiente). */
+export const lerpQuad = (a: Quad, b: Quad, t: number): Quad =>
+  a.map(([x, y], i) => [x + (b[i]![0] - x) * t, y + (b[i]![1] - y) * t]) as Quad;
+
+/** Rectángulo que envuelve un cuadrilátero: [izquierda, arriba, ancho, alto]. */
+export function quadBounds(quad: Quad): [number, number, number, number] {
+  const xs = quad.map(([x]) => x);
+  const ys = quad.map(([, y]) => y);
+  const left = Math.min(...xs);
+  const top = Math.min(...ys);
+  return [left, top, Math.max(...xs) - left, Math.max(...ys) - top];
+}

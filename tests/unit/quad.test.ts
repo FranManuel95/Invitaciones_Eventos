@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { mapPoint, quadToMatrix3d, scaleQuad, type Quad } from "@/lib/quad";
+import { lerpQuad, mapPoint, quadBounds, quadToMatrix3d, scaleQuad, type Quad } from "@/lib/quad";
 
 const card: Quad = [
   [228, 358],
@@ -47,5 +47,11 @@ describe("texto pegado a la tarjeta", () => {
         400,
       )[0],
     ).toEqual([100, 200]);
+  });
+
+  it("pasa de un cuadrilátero a otro y calcula su caja", () => {
+    const moved = card.map(([x, y]) => [x + 10, y - 20]) as Quad;
+    expect(lerpQuad(card, moved, 0.5)[0]).toEqual([233, 348]);
+    expect(quadBounds(card)).toEqual([145, 358, 431, 580]);
   });
 });

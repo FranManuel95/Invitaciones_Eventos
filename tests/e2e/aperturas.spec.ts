@@ -8,6 +8,7 @@ const OPENINGS = [
   { opening: "caja", button: "Abrir la caja", heading: "Familia García" },
   { opening: "pelicula", button: "Abrir el sobre", heading: "Familia García" },
   { opening: "sobre3d", button: "Abrir el sobre", heading: "Familia García" },
+  { opening: "ventana", button: "Abrir el sobre", heading: "Familia García" },
 ];
 
 test.describe("aperturas", () => {
@@ -85,6 +86,37 @@ test.describe("aperturas", () => {
   test("sobre 3D: si no llegan las texturas, se abre el sobre de siempre", async ({ page }) => {
     await page.route("**/texturas/**", (route) => route.abort());
     await page.goto("/i/familia-garcia?apertura=sobre3d");
+    await page.getByRole("button", { name: /toca para abrir/i }).click();
+    await page.getByRole("button", { name: "Abrir el sobre" }).click();
+    await expect(page.getByRole("heading", { name: "Hola, Familia García:" })).toBeVisible({
+      timeout: 15_000,
+    });
+  });
+
+  test("ventana: se abre deslizando el dedo hacia arriba", async ({ page }) => {
+    await page.goto("/i/familia-garcia?apertura=ventana");
+    await page.getByRole("button", { name: /toca para abrir/i }).click();
+    const trigger = page.getByRole("button", { name: "Abrir el sobre" });
+    await expect(trigger).toBeVisible();
+    // Espera a que estén los fotogramas (el lienzo deja de estar oculto).
+    await expect(page.locator("[data-opening='ventana'] canvas")).toBeVisible({ timeout: 15_000 });
+    // Espera a que la portada termine de irse: el dedo tiene que caer sobre el sobre.
+    await trigger.hover();
+    const box = (await trigger.boundingBox())!;
+    const x = box.x + box.width / 2;
+    const y = box.y + box.height * 0.85;
+    await page.mouse.move(x, y);
+    await page.mouse.down();
+    for (let i = 1; i <= 20; i++) await page.mouse.move(x, y - i * 22);
+    await page.mouse.up();
+    await expect(page.getByRole("heading", { name: "Hola, Familia García:" })).toBeVisible({
+      timeout: 10_000,
+    });
+  });
+
+  test("ventana: si no llegan los fotogramas, se abre el sobre de siempre", async ({ page }) => {
+    await page.route("**/aperturas/sobre-ventana/**", (route) => route.abort());
+    await page.goto("/i/familia-garcia?apertura=ventana");
     await page.getByRole("button", { name: /toca para abrir/i }).click();
     await page.getByRole("button", { name: "Abrir el sobre" }).click();
     await expect(page.getByRole("heading", { name: "Hola, Familia García:" })).toBeVisible({

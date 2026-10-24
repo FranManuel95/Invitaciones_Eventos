@@ -8,7 +8,15 @@ export const WEIGHT_IDS = ["ligero", "medio", "grueso"] as const;
 export const TEXTURE_IDS = ["liso", "verjurado", "lino", "acanalado"] as const;
 export const LINER_IDS = ["propio", "rayas", "flores", "lunares", "marmol", "liso"] as const;
 export const SEAL_SHAPE_IDS = ["cera", "goteo", "redondo", "flor"] as const;
-export const OPENING_IDS = ["mesa", "pantalla", "diptico", "caja", "pelicula", "sobre3d"] as const;
+export const OPENING_IDS = [
+  "mesa",
+  "pantalla",
+  "diptico",
+  "caja",
+  "pelicula",
+  "sobre3d",
+  "ventana",
+] as const;
 export const SEAL_MARK_IDS = ["monograma", "almendro", "corazon", "estrella"] as const;
 
 export type FlapId = (typeof FLAP_IDS)[number];
@@ -43,6 +51,11 @@ export const OPENINGS: Record<OpeningId, { label: string; description: string }>
     label: "Sobre en 3D",
     description:
       "Vuestro sobre con luz y sombras reales: el papel se dobla, la cera brilla al mover el móvil.",
+  },
+  ventana: {
+    label: "Sobre junto a la ventana",
+    description:
+      "Un sobre de verdad sobre un mantel de lino, con luz de ventana. Se abre con el dedo: rompes el lacre, levantas la solapa y sacas la tarjeta.",
   },
 };
 

@@ -448,6 +448,11 @@ function OpeningSample({ opening }: { opening: Theme["opening"] }) {
             <span className="absolute top-3.5 left-1/2 block size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_35%_30%,#c55,var(--color-wax-dark))] shadow-[0_1px_2px_rgb(0_0_0/0.4)]" />
           </span>
         </span>
+      ) : opening === "ventana" ? (
+        <span
+          className="absolute inset-0 block bg-cover bg-center"
+          style={{ backgroundImage: "url(/aperturas/sobre-ventana/f00.webp)" }}
+        />
       ) : opening === "pelicula" ? (
         <span
           className="absolute inset-0 block bg-cover bg-center"
