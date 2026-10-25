@@ -17,6 +17,18 @@ test.describe("página de venta", () => {
     await expect(page.getByRole("heading", { name: "Invitaciones de ejemplo" })).toBeVisible();
   });
 
+  test("enseña cada apertura en marcha y cada plantilla, con su enlace", async ({ page }) => {
+    await page.goto("/");
+    const openings = page.getByRole("region", { name: "Elegid cómo se abre" });
+    await expect(openings.getByRole("link")).toHaveCount(7);
+    // Los vídeos se pueden parar.
+    await openings.getByRole("button", { name: "Pausar «Caja con lazo»" }).click();
+    await expect(openings.getByRole("button", { name: "Ver «Caja con lazo»" })).toBeVisible();
+    const templates = page.getByRole("region", { name: "Plantillas para empezar" });
+    await templates.getByRole("link", { name: "Medianoche", exact: true }).click();
+    await expect(page).toHaveURL(/plantilla=medianoche/);
+  });
+
   test("el formulario marca los errores y conserva lo escrito", async ({ page }) => {
     await page.goto("/#pedir");
     await page.getByLabel("Vuestros nombres").fill("Ana y Luis");

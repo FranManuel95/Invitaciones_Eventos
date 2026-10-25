@@ -463,6 +463,19 @@ composition-patterns y writing-guidelines (Vercel, MIT), y webapp-testing (Anthr
 Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mismo formato
 (`PhotoSlot`), así que la maquetación no cambiará al ponerlas.
 
+## Página de venta y ejemplos con imágenes reales
+
+- La venta y `/ejemplos` enseñan el producto en vez de describirlo: cada apertura se ve en marcha
+  dentro de un móvil, cada plantilla por el sobre con el que llega (es lo que más cambia entre
+  ellas) y cada portada en su móvil. El panel aparece en una captura.
+- Todo sale de la invitación de ejemplo con `scripts/capturas-venta.mjs` (build local, Playwright
+  y ffmpeg) y se guarda en `public/venta/`: si cambia una apertura o una plantilla, se vuelve a
+  ejecutar. Los vídeos (MP4 y WebM, unos 250 KB) no se descargan hasta que se ven, se paran al
+  salir de la pantalla, tienen botón para pausarlos y con movimiento reducido no arrancan solos.
+- Las aperturas van sobre el color de la mesa del sobre y alternan la altura, como sobres dejados
+  en una mesa; en el móvil se deslizan de lado. La primera plantilla va en grande para que la
+  rejilla quede completa con trece.
+
 ## Experiencia del invitado
 
 - **Orden de pantallas:** portada → sobre → carta → contenido, como en la imagen de referencia. Hay un
