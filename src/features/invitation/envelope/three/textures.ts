@@ -377,3 +377,70 @@ export function letterCanvas(opts: {
   ctx.fillText("Descubrir la invitación", cx, y + bh / 2);
   return el;
 }
+
+/**
+ * Ramas con hojas en blanco sobre transparente: una lámina con este dibujo, puesta delante del
+ * sol, deja sobre la mesa la sombra de un árbol junto a la ventana.
+ */
+export function foliageCanvas() {
+  const size = 1024;
+  const [el, ctx] = canvas(size);
+  ctx.fillStyle = "#fff";
+  ctx.strokeStyle = "#fff";
+  ctx.lineCap = "round";
+  // Reparto fijo: la sombra es la misma en cada visita.
+  let seed = 7;
+  const random = () => {
+    seed = (seed * 16807) % 2147483647;
+    return seed / 2147483647;
+  };
+  for (let b = 0; b < 9; b++) {
+    let x = random() * size;
+    let y = random() * size;
+    let angle = random() * Math.PI * 2;
+    const steps = 9 + Math.floor(random() * 6);
+    for (let i = 0; i < steps; i++) {
+      const nx = x + Math.cos(angle) * 46;
+      const ny = y + Math.sin(angle) * 46;
+      ctx.lineWidth = 7 - (i / steps) * 4;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(nx, ny);
+      ctx.stroke();
+      // Una hoja a cada lado del tallo, alternando.
+      const side = i % 2 ? 1 : -1;
+      const leaf = angle + side * (0.7 + random() * 0.4);
+      const length = 44 + random() * 30;
+      ctx.beginPath();
+      ctx.ellipse(
+        nx + Math.cos(leaf) * length * 0.55,
+        ny + Math.sin(leaf) * length * 0.55,
+        length * 0.55,
+        length * 0.2,
+        leaf,
+        0,
+        Math.PI * 2,
+      );
+      ctx.fill();
+      x = nx;
+      y = ny;
+      angle += (random() - 0.5) * 0.5;
+    }
+  }
+  return el;
+}
+
+/** Mancha de luz redonda y suave: el resplandor del sobre, las chispas y las motas. */
+export function glowCanvas(core = 0.12) {
+  const size = 128;
+  const [el, ctx] = canvas(size);
+  const gradient = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+  gradient.addColorStop(0, "rgb(255 255 255 / 1)");
+  gradient.addColorStop(core, "rgb(255 255 255 / 0.7)");
+  gradient.addColorStop(0.3, "rgb(255 255 255 / 0.34)");
+  gradient.addColorStop(0.6, "rgb(255 255 255 / 0.1)");
+  gradient.addColorStop(1, "rgb(255 255 255 / 0)");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, size, size);
+  return el;
+}

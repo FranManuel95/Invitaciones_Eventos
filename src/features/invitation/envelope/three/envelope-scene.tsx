@@ -2,9 +2,24 @@
 
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import type { MotionValue } from "motion/react";
-import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import {
+  BloomEffect,
+  DepthOfFieldEffect,
+  EffectComposer,
+  EffectPass,
+  NoiseEffect,
+  RenderPass,
+  ToneMappingEffect,
+  ToneMappingMode,
+  VignetteEffect,
+  BlendFunction,
+} from "postprocessing";
+import { useEffect, useMemo, useRef } from "react";
+import {
+  AdditiveBlending,
   BackSide,
+  BufferAttribute,
+  BufferGeometry,
   CanvasTexture,
   DoubleSide,
   ClampToEdgeWrapping,
@@ -12,10 +27,12 @@ import {
   ExtrudeGeometry,
   FrontSide,
   type Group,
+  HalfFloatType,
+  Matrix4,
   type Mesh,
   MeshBasicMaterial,
   MeshStandardMaterial,
-  NeutralToneMapping,
+  NoToneMapping,
   PCFShadowMap,
   Plane,
   type DirectionalLight,
@@ -23,6 +40,8 @@ import {
   PlaneGeometry,
   PMREMGenerator,
   type PointLight,
+  type Points,
+  PointsMaterial,
   RepeatWrapping,
   Shape,
   ShapeGeometry,
@@ -35,10 +54,8 @@ import {
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import {
   distanceToFill,
-  easeIn,
   easeInOut,
   easeOut,
-  fall,
   flapProfile,
   lerp,
   parseOutline,
@@ -46,12 +63,13 @@ import {
   type Point,
   sealHalves,
   segment,
-  TIMELINE as T,
 } from "@/lib/envelope-3d";
 import { ENVELOPES, flapGeometry, mix, sealOutline, STYLES, type Theme, waxHex } from "@/lib/theme";
 import { haptic, playPaper, playSealCrack } from "../../effects/sound";
 import {
   flapMaskCanvas,
+  foliageCanvas,
+  glowCanvas,
   letterCanvas,
   linerCanvas,
   sealCanvases,
@@ -59,10 +77,15 @@ import {
 } from "./textures";
 
 /*
- * Sobre en 3D (three.js): papel con relieve real (texturas de ambientCG, CC0), una solapa que se
- * curva al levantarse, un lacre de cera con volumen que se parte en dos y una luz que sigue la
- * inclinación del móvil. Todo se mueve por tiempo (no por fotogramas), así que en un móvil lento
- * la apertura dura lo mismo, solo que con menos fotogramas.
+ * Sobre en 3D rodado como una película (three.js). El sobre descansa en una mesa, a contraluz,
+ * con la sombra de unas ramas que se mueven. Al tocarlo, la cámara baja en grúa hasta el lacre y
+ * enfoca la cera; el lacre se parte a cámara lenta, las mitades saltan y ruedan por la mesa y las
+ * migas vuelan; la solapa se levanta curvándose y del sobre sale luz y chispas doradas; la carta
+ * se desliza fuera y sube hacia la cámara, que ya mira desde arriba, mientras la mesa se
+ * desenfoca. La imagen pasa por un objetivo: profundidad de campo, brillo, viñeta y grano.
+ *
+ * Todo se mueve por tiempo (no por fotogramas): en un móvil lento dura lo mismo, con menos
+ * fotogramas, y si va muy justo se quita el desenfoque, que es lo más caro.
  */
 
 /** Medidas en unidades de escena: apaisado, como el sobre CSS. */
@@ -75,9 +98,69 @@ const FLAP_ROWS = 28;
 const FLAP_COLS = 24;
 const LETTER_W = W - 0.24;
 const FOV = 32;
-const ROOT_Y = -0.75;
-const SHADOW_PAD = 0.14;
 const FLAP_SHADOW_PAD = 0.04;
+
+const TABLE_Z = -0.02;
+/** De dónde viene el sol: alto, desde detrás y a la izquierda (a contraluz). */
+const SUN = new Vector3(-5.5, 8, 6.5);
+
+/** Coreografía en segundos (a ritmo normal). */
+const T = {
+  dolly: [0, 0.9],
+  press: [0.5, 0.9],
+  crack: 0.9,
+  flap: [1.35, 2.6],
+  glow: [1.85, 2.6],
+  pullBack: [1.3, 2.7],
+  letter: [2.45, 3.9],
+  rise: [3.7, 5],
+} as const;
+
+/**
+ * Un plano de cámara: a qué mira, desde qué distancia, a qué altura sobre la mesa (90° es desde
+ * arriba) y desde qué lado; el alabeo inclina el horizonte. Entre dos planos la cámara recorre un
+ * arco, como una grúa.
+ */
+interface Shot {
+  target: [number, number, number];
+  dist: number;
+  elev: number;
+  azim: number;
+  roll: number;
+}
+
+function mixShot(a: Shot, b: Shot, k: number): Shot {
+  return {
+    target: [
+      lerp(a.target[0], b.target[0], k),
+      lerp(a.target[1], b.target[1], k),
+      lerp(a.target[2], b.target[2], k),
+    ],
+    dist: lerp(a.dist, b.dist, k),
+    elev: lerp(a.elev, b.elev, k),
+    azim: lerp(a.azim, b.azim, k),
+    roll: lerp(a.roll, b.roll, k),
+  };
+}
+
+/** Rebote de una pieza lanzada hacia arriba con velocidad `v`: sube, cae, bota una vez y se queda. */
+function bounce(v: number, t: number, gravity = 9) {
+  const first = (2 * v) / gravity;
+  if (t < first) return v * t - (gravity * t * t) / 2;
+  const v2 = v * 0.32;
+  const k = t - first;
+  if (k < (2 * v2) / gravity) return v2 * k - (gravity * k * k) / 2;
+  return 0;
+}
+
+/** Recorrido de una pieza que resbala por la mesa hasta pararse. */
+const slide = (v: number, t: number, drag = 2.4) => (v / drag) * (1 - Math.exp(-drag * t));
+
+/** Cámara lenta al romperse el lacre: el primer instante dura cuatro veces más. */
+const slowMotion = (k: number) => (k < 0.48 ? k * 0.25 : 0.12 + (k - 0.48));
+
+const DUST = 150;
+const SPARKS = 70;
 
 export interface SceneHandle {
   open: () => void;
@@ -101,17 +184,14 @@ export interface SceneProps {
   onPresented: () => void;
 }
 
-/** Migas de cera: velocidad inicial (x, y, z), giro y tamaño, deterministas. */
-const CRUMBS = Array.from({ length: 16 }, (_, i) => {
-  const a = (i / 16) * Math.PI * 2 + 0.3;
+/** Migas de cera: velocidad por la mesa (x, y), salto hacia arriba, giro y tamaño. */
+const CRUMBS = Array.from({ length: 22 }, (_, i) => {
+  const a = (i / 22) * Math.PI * 2 + 0.3;
+  const speed = 0.7 + (i % 5) * 0.32;
   return {
-    v: [
-      Math.cos(a) * (0.7 + (i % 4) * 0.25),
-      0.6 + Math.abs(Math.sin(a)) * 1.3,
-      0.5 + (i % 3) * 0.35,
-    ],
+    v: [Math.cos(a) * speed, Math.sin(a) * speed - 0.5, 1.1 + (i % 4) * 0.5],
     spin: 5 + (i % 5) * 2,
-    size: 0.018 + (i % 4) * 0.007,
+    size: 0.016 + (i % 4) * 0.008,
   };
 });
 
@@ -152,17 +232,14 @@ function Envelope(props: SceneProps) {
   // La carta es la de la invitación: vertical y más alta que el sobre.
   const letterH = LETTER_W * props.letter.aspect;
   // Plano que recorta la carta por debajo del sobre mientras está dentro (sigue al sobre).
-  const clip = useMemo(() => new Plane(new Vector3(0, 1, 0), 0), []);
-  const clipPoint = useMemo(() => new Vector3(), []);
-  const clipNormal = useMemo(() => new Vector3(), []);
-  const { camera, size, gl } = useThree();
+  const clip = useMemo(() => new Plane(new Vector3(0, 1, 0), H / 2), []);
+  const { camera, size, gl, scene } = useThree();
 
   const [detail, relief] = useLoader(TextureLoader, [
     "/texturas/papel-detalle.webp",
     "/texturas/papel-relieve.webp",
   ]) as [Texture, Texture];
 
-  const root = useRef<Group>(null);
   const body = useRef<Group>(null);
   const flapMesh = useRef<Mesh>(null);
   const flapGroup = useRef<Group>(null);
@@ -171,9 +248,13 @@ function Envelope(props: SceneProps) {
   const halves = useRef<(Group | null)[]>([]);
   const crumbs = useRef<(Mesh | null)[]>([]);
   const flash = useRef<PointLight>(null);
-  const dropShadow = useRef<Mesh>(null);
   const flapShadow = useRef<Mesh>(null);
-  const key = useRef<DirectionalLight>(null);
+  const sun = useRef<DirectionalLight>(null);
+  const foliage = useRef<Mesh>(null);
+  const innerGlow = useRef<Mesh>(null);
+  const innerLight = useRef<PointLight>(null);
+  const dust = useRef<Points>(null);
+  const sparks = useRef<Points>(null);
   const startedAt = useRef<number | null>(null);
   const presented = useRef(false);
   const sounds = useRef({ crack: false, flap: false, letter: false });
@@ -192,6 +273,7 @@ function Envelope(props: SceneProps) {
       flapPoints: parsePolygon(flap.clip),
       pocketTip: theme.flap === "pico" ? 0.54 : flap.depth / 100 - 0.01,
       linerIsDots: envelope.liner.includes("radial-gradient"),
+      scene: STYLES[theme.style].scene,
     };
   }, [theme]);
 
@@ -230,19 +312,24 @@ function Envelope(props: SceneProps) {
       sealColor,
       sealMetal,
       sealRelief,
-      // Sombras suaves pintadas: la del sobre sobre el fondo y la del borde de la solapa.
-      envelopeShadow: canvasTexture(
-        softShadowCanvas(
-          [
-            [0, 0],
-            [1, 0],
-            [1, 1],
-            [0, 1],
-          ],
-          W / H,
-          { pad: SHADOW_PAD, blur: 0.06, color: "rgb(52 38 22 / 0.9)" },
-        ),
-      ),
+      // La mesa: el mismo papel, con el grano más menudo.
+      table: (() => {
+        const t = detail.clone();
+        t.wrapS = t.wrapT = RepeatWrapping;
+        t.repeat.set(26, 26);
+        t.colorSpace = SRGBColorSpace;
+        t.anisotropy = 4;
+        return t;
+      })(),
+      tableBumps: (() => {
+        const t = relief.clone();
+        t.wrapS = t.wrapT = RepeatWrapping;
+        t.repeat.set(26, 26);
+        return t;
+      })(),
+      foliage: canvasTexture(foliageCanvas(), false),
+      glow: canvasTexture(glowCanvas(), false),
+      // Sombra suave pintada del borde de la solapa sobre el bolsillo.
       flapShadow: canvasTexture(
         softShadowCanvas(look.flapPoints, W / look.flapDepth, {
           pad: FLAP_SHADOW_PAD,
@@ -304,6 +391,14 @@ function Envelope(props: SceneProps) {
       seal: new ExtrudeGeometry(shapeFrom(outline), WAX_EXTRUDE),
       halves: [left, right].map((half) => new ExtrudeGeometry(shapeFrom(half), WAX_EXTRUDE)),
       letter: new PlaneGeometry(LETTER_W, letterH, 16, 2),
+      dust: new BufferGeometry().setAttribute(
+        "position",
+        new BufferAttribute(new Float32Array(DUST * 3), 3),
+      ),
+      sparks: new BufferGeometry().setAttribute(
+        "position",
+        new BufferAttribute(new Float32Array(SPARKS * 3), 3),
+      ),
     };
   }, [look, theme.sealShape, letterH]);
 
@@ -365,11 +460,52 @@ function Envelope(props: SceneProps) {
       }),
       seal: [sealFace, sealSide],
       crumb: new MeshStandardMaterial({ color: new Color(look.wax), roughness: 0.4 }),
-      envelopeShadow: new MeshBasicMaterial({
-        map: textures.envelopeShadow,
+      table: new MeshStandardMaterial({
+        color: new Color(look.scene[1]),
+        map: textures.table,
+        normalMap: textures.tableBumps,
+        normalScale: new Vector2(0.45, 0.45),
+        roughness: 0.96,
+      }),
+      // Lámina de ramas delante del sol: no se ve, solo da sombra.
+      foliage: new MeshBasicMaterial({
+        map: textures.foliage,
+        alphaTest: 0.5,
+        side: DoubleSide,
+        colorWrite: false,
+        depthWrite: false,
+      }),
+      // La luz que sale del sobre: se suma a la imagen y hace brillar el objetivo.
+      innerGlow: new MeshBasicMaterial({
+        map: textures.glow,
+        color: new Color(1.15, 0.95, 0.6),
+        transparent: true,
+        opacity: 0,
+        depthWrite: false,
+        blending: AdditiveBlending,
+        toneMapped: false,
+      }),
+      dust: new PointsMaterial({
+        map: textures.glow,
+        color: new Color(1.6, 1.4, 1.1),
+        size: 0.09,
+        sizeAttenuation: true,
         transparent: true,
         opacity: 0.5,
         depthWrite: false,
+        blending: AdditiveBlending,
+        toneMapped: false,
+      }),
+      sparks: new PointsMaterial({
+        map: textures.glow,
+        color: new Color(4, 2.9, 1.3),
+        size: 0.1,
+        sizeAttenuation: true,
+        transparent: true,
+        opacity: 0,
+        depthWrite: false,
+        blending: AdditiveBlending,
+        toneMapped: false,
       }),
       flapShadow: new MeshBasicMaterial({
         map: textures.flapShadow,
@@ -379,7 +515,7 @@ function Envelope(props: SceneProps) {
       }),
     };
     for (const material of Object.values(all).flat()) {
-      if (!(material instanceof MeshStandardMaterial)) continue;
+      if (!(material instanceof MeshStandardMaterial) || material === all.table) continue;
       material.envMap = environment;
       material.envMapIntensity = material === sealFace ? 0.4 : 0.25;
       // El papel es una lámina: proyecta sombra por las dos caras (por defecto, solo por detrás).
@@ -402,13 +538,12 @@ function Envelope(props: SceneProps) {
     [geometry, textures, materials],
   );
 
-  // Encuadre: el sobre cabe a lo ancho en el móvil y deja aire arriba para que salga la carta.
+  // Encuadre: desde arriba, el sobre cabe a lo ancho en el móvil; al final la carta mide lo que
+  // la carta grande de papel (ancho de pantalla menos márgenes).
   const fit = useMemo(() => {
     const aspect = size.width / Math.max(1, size.height);
     const byWidth = distanceToFill(W, FOV, aspect, 0.84);
-    // Aire por arriba: la carta sale hacia arriba y es más alta que el sobre.
     const byHeight = distanceToFill(H * 2.5, FOV, 1, 0.95);
-    // Al final, la carta mide lo que la carta grande de papel (ancho de pantalla menos márgenes).
     const paperWidth = size.width >= 640 ? 448 : Math.min(352, size.width - 40);
     const letterAt = Math.max(
       distanceToFill(LETTER_W, FOV, aspect, paperWidth / Math.max(1, size.width)),
@@ -417,11 +552,112 @@ function Envelope(props: SceneProps) {
     return { distance: Math.max(byWidth, byHeight), letterAt };
   }, [size, letterH]);
 
-  useLayoutEffect(() => {
-    const cam = camera as PerspectiveCamera;
-    cam.position.set(0, 0, fit.distance);
-    cam.lookAt(0, 0, 0);
-  }, [camera, fit]);
+  const sealY = H / 2 - look.flapDepth;
+  // La carta empieza dentro, con el borde de arriba bajo la bisagra, y sale entera por la boca
+  // del sobre hasta quedar sobre la mesa, justo encima de él.
+  const letterIn = H / 2 - 0.1 - letterH / 2;
+  const letterOut = H / 2 + 0.06 + letterH / 2;
+
+  // Los planos de la película, en orden.
+  const shots = useMemo(() => {
+    const d = fit.distance;
+    return {
+      idle: { target: [0, 0.05, 0], dist: d * 0.92, elev: 44, azim: -13, roll: 0 },
+      macro: { target: [0, sealY, 0.05], dist: d * 0.4, elev: 33, azim: 9, roll: -2.5 },
+      macroEnd: { target: [0, sealY, 0.05], dist: d * 0.36, elev: 32, azim: 13, roll: -3 },
+      reveal: { target: [0, 0.7, 0.2], dist: d * 0.9, elev: 62, azim: -6, roll: 0 },
+      follow: { target: [0, letterOut - 0.5, 0.1], dist: d * 0.95, elev: 72, azim: 4, roll: 0 },
+      top: { target: [0, letterOut, 0], dist: d, elev: 90, azim: 0, roll: 0 },
+    } satisfies Record<string, Shot>;
+  }, [fit, sealY, letterOut]);
+
+  // Reparto fijo del polvo y de las chispas (posición de partida y carácter de cada una).
+  const seeds = useMemo(() => {
+    const spread = (i: number, k: number) => (i * k) % 1;
+    return {
+      dust: Array.from({ length: DUST }, (_, i) => ({
+        x: spread(i, 0.6180339887) * 12 - 6,
+        y: spread(i, 0.3819660113) * 12 - 5,
+        z: 0.15 + spread(i, 0.7548776662) * 5,
+        phase: i * 1.7,
+      })),
+      sparks: Array.from({ length: SPARKS }, (_, i) => ({
+        x: spread(i, 0.6180339887) * 2.2 - 1.1,
+        delay: spread(i, 0.3819660113) * 1.5,
+        vx: spread(i, 0.7548776662) - 0.5,
+        vy: 0.25 + spread(i, 0.569840291) * 0.7,
+        vz: 0.9 + spread(i, 0.2360679775) * 1.8,
+      })),
+    };
+  }, []);
+
+  // El objetivo: profundidad de campo, brillo, viñeta, curva de color y grano de película.
+  const lens = useRef<{
+    composer: EffectComposer;
+    dof: DepthOfFieldEffect | null;
+    bloom: BloomEffect;
+    vignette: VignetteEffect;
+    focus: Vector3;
+    /** Sin desenfoque, para móviles que van justos. */
+    simplify: () => void;
+  } | null>(null);
+
+  useEffect(() => {
+    const composer = new EffectComposer(gl, {
+      frameBufferType: HalfFloatType,
+      multisampling: gl.getPixelRatio() > 1.5 ? 0 : 4,
+    });
+    composer.addPass(new RenderPass(scene, camera));
+    const focus = new Vector3();
+    const finishing = () => {
+      const bloom = new BloomEffect({
+        mipmapBlur: true,
+        luminanceThreshold: 1.0,
+        luminanceSmoothing: 0.25,
+        intensity: 0.6,
+        radius: 0.72,
+      });
+      const vignette = new VignetteEffect({ offset: 0.26, darkness: 0.45 });
+      const tone = new ToneMappingEffect({ mode: ToneMappingMode.NEUTRAL });
+      const grain = new NoiseEffect({ blendFunction: BlendFunction.OVERLAY });
+      grain.blendMode.opacity.value = 0.055;
+      return { bloom, vignette, tone, grain };
+    };
+    const full = finishing();
+    const dof = new DepthOfFieldEffect(camera, {
+      focusRange: 1.6,
+      bokehScale: 5,
+      resolutionScale: 0.5,
+    });
+    dof.target = focus;
+    let pass = new EffectPass(camera, dof, full.bloom, full.vignette, full.tone, full.grain);
+    composer.addPass(pass);
+    const current: NonNullable<typeof lens.current> = {
+      composer,
+      dof,
+      bloom: full.bloom,
+      vignette: full.vignette,
+      focus,
+      simplify() {
+        if (!current.dof) return;
+        composer.removePass(pass);
+        pass.dispose();
+        const lite = finishing();
+        pass = new EffectPass(camera, lite.bloom, lite.vignette, lite.tone, lite.grain);
+        composer.addPass(pass);
+        Object.assign(current, { dof: null, bloom: lite.bloom, vignette: lite.vignette });
+      },
+    };
+    lens.current = current;
+    return () => {
+      lens.current = null;
+      composer.dispose();
+    };
+  }, [gl, scene, camera]);
+
+  useEffect(() => {
+    lens.current?.composer.setSize(size.width, size.height);
+  }, [size]);
 
   useEffect(() => {
     handleRef.current = {
@@ -436,86 +672,133 @@ function Envelope(props: SceneProps) {
   }, [handleRef, onReady]);
 
   const corner = useMemo(() => new Vector3(), []);
+  const speed = useRef({ frames: 0, total: 0, done: false });
 
-  useFrame((state) => {
+  // Prioridad 1: la imagen la pinta el objetivo, no el render automático.
+  useFrame((state, delta) => {
+    const cam = state.camera as PerspectiveCamera;
     const now = state.clock.elapsedTime;
     if (startedAt.current === -1) startedAt.current = now;
-    const t = startedAt.current === null ? 0 : (now - startedAt.current) / pace;
+    // Para revisar la película plano a plano (capturas): `window.__cine = { t: 1.2, alta: true }`.
+    const debug = (window as { __cine?: { t?: number; alta?: boolean } }).__cine;
+    const started = startedAt.current !== null || debug?.t !== undefined;
+    const t = debug?.t ?? (started ? (now - startedAt.current!) / pace : 0);
     const tx = tilt.x.get();
     const ty = tilt.y.get();
+    const post = lens.current;
 
-    // Luz: sigue la inclinación del móvil (o el ratón); el brillo recorre la cera y el oro.
-    if (key.current) key.current.position.set(-3.2 + tx * 3, 4.2 - ty * 2.2, 3.6);
+    // Si el equipo va justo en reposo, se quita el desenfoque (lo más caro): enseguida si va
+    // muy lento, o tras un segundo si no llega a 30 imágenes por segundo.
+    const pace60 = speed.current;
+    if (!pace60.done && !started && !debug?.alta) {
+      pace60.frames += 1;
+      if (pace60.frames > 5) pace60.total += delta;
+      const average = pace60.total / Math.max(1, pace60.frames - 5);
+      if ((pace60.frames === 15 && average > 0.06) || (pace60.frames === 60 && average > 0.034)) {
+        pace60.done = true;
+        post?.simplify();
+      } else if (pace60.frames >= 60) pace60.done = true;
+    }
 
-    // Inclinación del conjunto, que se calma cuando la carta pasa al primer plano.
-    const present = easeInOut(segment(t, ...T.present));
-    if (root.current) {
-      const calm = 1 - present;
-      const idle = startedAt.current === null ? Math.sin(now * 1.1) * 0.025 : 0;
-      root.current.rotation.x = lerp(
-        root.current.rotation.x,
-        (-0.16 + ty * 0.1 + idle) * calm,
-        0.08,
-      );
-      root.current.rotation.y = lerp(root.current.rotation.y, tx * 0.16 * calm, 0.08);
-      // El sobre va algo bajo en la pantalla: deja sitio a la carta que sale hacia arriba.
-      root.current.position.y = (ROOT_Y + idle * 0.6) * calm;
+    // ── Cámara ────────────────────────────────────────────────────────────────────────────
+    let shot: Shot;
+    if (t < T.dolly[1]) shot = mixShot(shots.idle, shots.macro, easeInOut(segment(t, ...T.dolly)));
+    else if (t < T.pullBack[0])
+      shot = mixShot(shots.macro, shots.macroEnd, segment(t, T.dolly[1], T.pullBack[0]));
+    else if (t < T.pullBack[1])
+      shot = mixShot(shots.macroEnd, shots.reveal, easeInOut(segment(t, ...T.pullBack)));
+    else if (t < T.rise[0])
+      shot = mixShot(shots.reveal, shots.follow, easeInOut(segment(t, T.pullBack[1], T.rise[0])));
+    else
+      shot = mixShot(shots.follow, shots.top, easeInOut(segment(t, T.rise[0], T.rise[1] - 0.15)));
+    // En reposo la cámara respira y acompaña la inclinación del móvil; al abrir se calma.
+    const calm = 1 - segment(t, 0, 0.6);
+    const elev = ((shot.elev + (Math.cos(now * 0.21) * 1.3 - ty * 4) * calm) * Math.PI) / 180;
+    const azim = ((shot.azim + (Math.sin(now * 0.17) * 3 + tx * 6) * calm) * Math.PI) / 180;
+    const dist = shot.dist * (1 - Math.sin(now * 0.26) * 0.012 * calm);
+    DIR.set(Math.sin(azim) * Math.cos(elev), -Math.cos(azim) * Math.cos(elev), Math.sin(elev));
+    RIGHT.set(Math.cos(azim), Math.sin(azim), 0);
+    UP.crossVectors(DIR, RIGHT);
+    cam.quaternion.setFromRotationMatrix(BASIS.makeBasis(RIGHT, UP, DIR));
+    cam.rotateZ((shot.roll * Math.PI) / 180);
+    cam.position.set(...shot.target).addScaledVector(DIR, dist);
+    // El golpe del lacre sacude la cámara un instante.
+    const tc = t - T.crack;
+    if (tc >= 0 && tc < 0.6) {
+      const amp = 0.03 * Math.exp(-7 * tc);
+      cam.position.x += Math.sin(tc * 95) * amp;
+      cam.position.y += Math.cos(tc * 71) * amp;
+    }
+
+    // Sol entre las ramas: la lámina de hojas se mece delante de la luz.
+    if (foliage.current) {
+      foliage.current.position
+        .copy(SUN)
+        .multiplyScalar(0.5)
+        .addScaledVector(RIGHT.set(1, 0.4, 0), Math.sin(now * 0.35) * 0.18);
+      foliage.current.lookAt(0, 0, 0);
+      foliage.current.rotateZ(0.4 + Math.sin(now * 0.27) * 0.035);
     }
 
     // 1. Presión: el sobre cede bajo el dedo y la cera se aplasta un poco.
     const press = Math.sin(segment(t, ...T.press) * Math.PI);
-    if (body.current) body.current.position.z = -press * 0.06;
     if (seal.current)
       seal.current.scale.set(
-        SEAL_R * (1 + press * 0.04),
-        SEAL_R * (1 + press * 0.04),
-        SEAL_R * (1 - press * 0.35),
+        SEAL_R * (1 + press * 0.05),
+        SEAL_R * (1 + press * 0.05),
+        SEAL_R * (1 - press * 0.4),
       );
 
-    // 2. El lacre se parte: las mitades se abren por la grieta y caen girando; saltan migas.
-    const tc = t - T.crack[0];
+    // 2. El lacre se parte a cámara lenta: las mitades saltan, giran y resbalan por la mesa; las
+    //    migas vuelan, botan y se quedan donde caen.
     const broken = tc >= 0;
+    const physics = slowMotion(Math.max(0, tc));
     if (broken && !sounds.current.crack) {
       sounds.current.crack = true;
       playSealCrack();
       haptic([10, 30, 18]);
     }
     if (seal.current) seal.current.visible = !broken;
-    if (flash.current) flash.current.intensity = broken ? Math.max(0, 1 - tc / 0.18) * 3 : 0;
+    if (flash.current) flash.current.intensity = broken ? Math.max(0, 1 - tc / 0.22) * 1.2 : 0;
     halves.current.forEach((half, i) => {
       if (!half) return;
       const dir = i === 0 ? -1 : 1;
-      const k = Math.max(0, tc);
-      half.visible = broken && k < T.crack[1] - T.crack[0];
-      // Un instante pegadas a la cera (se separan apenas) y después caen con su peso.
-      const hold = Math.min(k, 0.12);
-      const drop = Math.max(0, k - 0.12);
+      half.visible = broken;
+      const wobble = Math.sin(Math.min(physics / 0.75, 1) * Math.PI);
       half.position.set(
-        dir * (hold * 0.25 + fall(0.55, 0, drop)),
-        fall(0.35, -7.5, drop),
-        fall(0.9, 0, drop),
+        dir * (0.02 + slide(0.95 + i * 0.25, physics)),
+        -slide(0.5 + i * 0.3, physics),
+        bounce(1.25 + i * 0.2, physics),
       );
-      half.rotation.set(-drop * 2.2, dir * drop * 1.2, dir * (hold * 0.6 + drop * 3.2));
+      half.rotation.set(
+        -wobble * 0.8,
+        dir * wobble * 0.55,
+        dir * (slide(2.6 + i, physics) + Math.min(physics * 6, 0.3)),
+      );
     });
     crumbs.current.forEach((crumb, i) => {
       const c = CRUMBS[i]!;
       if (!crumb) return;
-      const k = Math.max(0, tc);
-      crumb.visible = broken && k < 1.2;
-      crumb.position.set(fall(c.v[0]!, 0, k), fall(c.v[1]!, -8, k), fall(c.v[2]!, 0, k) + 0.04);
-      crumb.rotation.set(k * c.spin, k * c.spin * 0.7, 0);
+      crumb.visible = broken;
+      crumb.position.set(
+        slide(c.v[0]!, physics),
+        slide(c.v[1]!, physics),
+        bounce(c.v[2]!, physics) + c.size * 0.6 - 0.06,
+      );
+      const spin = slide(c.spin, physics, 1.6);
+      crumb.rotation.set(spin, spin * 0.7, 0);
     });
 
     // 3. La solapa gira sobre la bisagra y se curva; pasados los 90° queda detrás de la carta.
     const flapK = easeInOut(segment(t, ...T.flap));
     if (flapK > 0 && !sounds.current.flap) {
       sounds.current.flap = true;
-      playPaper(0.7, 0.05);
+      playPaper(0.9, 0.05);
     }
     const angle = Math.PI * 1.02 * flapK;
     if (flapMesh.current) {
       const pos = flapMesh.current.geometry.attributes.position!;
-      const profile = flapProfile(FLAP_ROWS, look.flapDepth, angle);
+      const profile = flapProfile(FLAP_ROWS, look.flapDepth, angle, 0.7);
       for (let r = 0; r <= FLAP_ROWS; r++) {
         const [y, z] = profile[r]!;
         for (let c = 0; c <= FLAP_COLS; c++) {
@@ -529,53 +812,87 @@ function Envelope(props: SceneProps) {
       (flapShadow.current.material as MeshBasicMaterial).opacity =
         0.55 * (1 - segment(angle, 0, 0.9));
     }
-    // La sombra del sobre se desplaza al contrario que la luz y se aprieta al pulsarlo.
-    if (dropShadow.current) {
-      dropShadow.current.position.x = 0.1 - tx * 0.12;
-      dropShadow.current.position.y = -0.16 + ty * 0.1;
-    }
     if (flapGroup.current)
       flapGroup.current.position.z = angle > Math.PI / 2 ? 0.004 : POCKET_Z + 0.022;
 
-    // 4. La carta sale con un tirón y se desliza con fricción, algo flexionada.
+    // La luz de dentro: se enciende al abrirse el sobre y baja cuando la carta ya está fuera.
+    const rise = easeInOut(segment(t, ...T.rise));
+    const glow = easeOut(segment(t, ...T.glow)) * (1 - 0.7 * segment(t, T.letter[1], T.rise[1]));
+    if (innerGlow.current) {
+      (innerGlow.current.material as MeshBasicMaterial).opacity = glow * 0.9;
+      innerGlow.current.scale.setScalar(3.2 * (0.6 + glow * 0.5));
+    }
+    if (innerLight.current) innerLight.current.intensity = glow * 1.5 * (1 - rise);
+
+    // Chispas doradas que suben del sobre y se apagan.
+    if (sparks.current) {
+      const pos = sparks.current.geometry.attributes.position!;
+      const since = t - T.glow[0];
+      seeds.sparks.forEach((s, i) => {
+        const age = since - s.delay;
+        if (age < 0 || age > 1.9) return pos.setXYZ(i, 0, 0, -50);
+        const k = slide(1, age, 1.1);
+        pos.setXYZ(
+          i,
+          s.x + s.vx * k + Math.sin(age * 5 + i) * 0.04,
+          H / 2 - 0.3 + s.vy * k,
+          0.05 + s.vz * k,
+        );
+      });
+      pos.needsUpdate = true;
+      (sparks.current.material as PointsMaterial).opacity =
+        segment(since, 0, 0.3) * (1 - segment(t, T.letter[1] - 0.6, T.rise[0] + 0.4));
+    }
+
+    // Motas de polvo en el aire, que suben despacio; cerca de la luz del sobre se ven más.
+    if (dust.current) {
+      const pos = dust.current.geometry.attributes.position!;
+      seeds.dust.forEach((d, i) => {
+        pos.setXYZ(
+          i,
+          d.x + Math.sin(now * 0.3 + d.phase) * 0.25,
+          d.y + Math.cos(now * 0.24 + d.phase) * 0.2,
+          0.15 + ((d.z + now * 0.06) % 5),
+        );
+      });
+      pos.needsUpdate = true;
+      (dust.current.material as PointsMaterial).opacity = 0.32 + glow * 0.4;
+    }
+
+    // 4. La carta sale con un tirón y se desliza con fricción, algo flexionada; después sube
+    //    hacia la cámara, primero por el borde de arriba, como al sacarla con la mano.
     const pull = segment(t, ...T.letter);
     if (pull > 0 && !sounds.current.letter) {
       sounds.current.letter = true;
       playPaper(0.9, 0.05);
     }
-    const rise = easeOut(pull);
     if (letter.current) {
-      const bend = Math.sin(pull * Math.PI) * 0.07;
-      // Empieza con el borde de arriba bajo la bisagra y sale algo más de un tercio de su alto.
-      const yIn = H / 2 - 0.1 - letterH / 2 + rise * letterH * 0.4;
+      const bend = Math.sin(pull * Math.PI) * 0.05;
       letter.current.position.set(
         0,
-        lerp(yIn, 0, present),
-        lerp(LETTER_Z, fit.distance - fit.letterAt, present),
+        lerp(letterIn, letterOut, easeInOut(pull)),
+        lerp(LETTER_Z, fit.distance - fit.letterAt, rise),
       );
-      // Se inclina hacia quien la saca (la parte de abajo sigue dentro, detrás del bolsillo).
-      letter.current.rotation.set(bend * (1 - present), 0, lerp(-0.012, 0, present));
+      letter.current.rotation.set(bend + Math.sin(rise * Math.PI) * 0.32, 0, lerp(-0.012, 0, rise));
     }
 
-    // 5. El sobre se va hacia abajo con su peso mientras la carta llega al primer plano.
-    const away = segment(t, ...T.away);
-    if (body.current) {
-      body.current.position.y = -easeIn(away) * 4.2;
-      body.current.rotation.z = easeIn(away) * 0.1;
-      body.current.visible = away < 1;
-    }
-
-    // El recorte sigue al borde de abajo del sobre (también cuando el sobre cae y la libera).
-    if (body.current) {
-      body.current.updateWorldMatrix(true, false);
-      clipPoint.set(0, -H / 2, 0);
-      body.current.localToWorld(clipPoint);
-      clipNormal.set(0, 1, 0).transformDirection(body.current.matrixWorld);
-      clip.setFromNormalAndCoplanarPoint(clipNormal, clipPoint);
+    // ── Objetivo: el foco sigue a lo que importa en cada plano ─────────────────────────────
+    if (post) {
+      const toMouth = easeInOut(segment(t, ...T.pullBack));
+      post.focus.set(0, lerp(sealY, H / 2 - 0.2, toMouth), 0.05);
+      if (letter.current) post.focus.lerp(letter.current.position, segment(pull, 0.3, 0.9));
+      if (post.dof) {
+        const macro = Math.sin(segment(t, 0.2, T.pullBack[1]) * Math.PI);
+        post.dof.cocMaterial.focusRange = lerp(1.5, 0.55, macro) + rise * 1.2;
+        post.dof.bokehScale = lerp(5, 7.5, macro);
+      }
+      post.bloom.intensity = 0.6 + glow * 0.7;
+      post.vignette.darkness = 0.45 + segment(t, 0, 1.2) * 0.25;
+      post.composer.render(delta);
     }
 
     // El hueco de la carta en la pantalla sigue a la carta 3D (para el relevo a la carta grande).
-    if (letter.current && proxyRef.current && present > 0) {
+    if (letter.current && proxyRef.current && rise > 0) {
       let minX = Infinity;
       let minY = Infinity;
       let maxX = -Infinity;
@@ -587,7 +904,7 @@ function Envelope(props: SceneProps) {
         [-1, 1],
       ] as const) {
         corner.set((x * LETTER_W) / 2, (y * letterH) / 2, 0);
-        letter.current.localToWorld(corner).project(camera);
+        letter.current.localToWorld(corner).project(cam);
         const sx = ((corner.x + 1) / 2) * size.width;
         const sy = ((1 - corner.y) / 2) * size.height;
         minX = Math.min(minX, sx);
@@ -603,153 +920,185 @@ function Envelope(props: SceneProps) {
       });
     }
 
-    if (!presented.current && t >= T.present[1]) {
+    if (!presented.current && t >= T.rise[1]) {
       presented.current = true;
       onPresented();
     }
-  });
+  }, 1);
 
-  const sealY = H / 2 - look.flapDepth;
+  // El fondo es la bruma luminosa del contraluz: la mesa se pierde en ella a lo lejos.
+  const haze = mix(look.scene[0], "#ffffff", 0.3);
 
   return (
     <>
-      <hemisphereLight args={["#fff8ec", "#8a7c66", 0.62]} />
+      <color attach="background" args={[haze]} />
+      <fog attach="fog" args={[haze, fit.distance * 1.1, fit.distance * 2.3]} />
+      <hemisphereLight args={["#fff6e8", "#8a7c66", 0.5]} />
       {/* Relleno suave desde la derecha: las sombras no se quedan negras. */}
-      <directionalLight position={[3, 1, 4]} intensity={0.35} color="#f2ece4" />
+      <directionalLight position={[4, -2, 5]} intensity={0.3} color="#f2ece4" />
       <directionalLight
-        ref={key}
-        position={[-3.2, 4.2, 3.6]}
-        intensity={1.5}
-        color="#fff4e2"
+        ref={sun}
+        position={SUN}
+        intensity={2.3}
+        color="#ffeed2"
         castShadow
-        shadow-mapSize={[1024, 1024]}
-        shadow-camera-left={-4}
-        shadow-camera-right={4}
-        shadow-camera-top={4}
-        shadow-camera-bottom={-4}
+        shadow-mapSize={[2048, 2048]}
+        shadow-camera-left={-8}
+        shadow-camera-right={8}
+        shadow-camera-top={8}
+        shadow-camera-bottom={-8}
+        shadow-camera-near={1}
+        shadow-camera-far={30}
         shadow-bias={-0.0004}
         shadow-normalBias={0.02}
-        shadow-radius={6}
-        shadow-intensity={0.6}
+        shadow-radius={7}
+        shadow-intensity={0.62}
       />
-      {/* Sombra del sobre sobre el fondo (el fondo de verdad es el degradado de la página). */}
+      <mesh ref={foliage} material={materials.foliage} scale={11} castShadow>
+        <planeGeometry />
+      </mesh>
 
-      <group ref={root}>
-        <group ref={body}>
-          {/* Sombra suave del sobre sobre el fondo, algo desplazada por la luz. */}
-          <mesh
-            ref={dropShadow}
-            material={materials.envelopeShadow}
-            position={[0.1, -0.16, -0.3]}
-            scale={[W * (1 + 2 * SHADOW_PAD), H * (1 + 2 * SHADOW_PAD), 1]}
-          >
-            <planeGeometry />
-          </mesh>
-          {/* Interior con el forro, visible al levantar la solapa. */}
-          <mesh material={materials.inside} receiveShadow castShadow>
-            <planeGeometry args={[W, H]} />
-          </mesh>
-          {/* Bolsillo: tres pliegues de papel con un poco de altura entre ellos. */}
-          <mesh
-            geometry={geometry.left}
-            material={materials.pocketSide}
-            position-z={POCKET_Z}
-            castShadow
-            receiveShadow
-          />
-          <mesh
-            geometry={geometry.right}
-            material={materials.pocketSide}
-            position-z={POCKET_Z}
-            castShadow
-            receiveShadow
-          />
-          <mesh
-            geometry={geometry.bottom}
-            material={materials.pocketBottom}
-            position-z={POCKET_Z + 0.006}
-            castShadow
-            receiveShadow
-          />
+      {/* La mesa. */}
+      <mesh material={materials.table} position-z={TABLE_Z} receiveShadow>
+        <planeGeometry args={[90, 90]} />
+      </mesh>
 
-          {/* Sombra del borde de la solapa sobre el bolsillo: se va al levantarla. */}
+      <points ref={dust} geometry={geometry.dust} material={materials.dust} frustumCulled={false} />
+      <points
+        ref={sparks}
+        geometry={geometry.sparks}
+        material={materials.sparks}
+        frustumCulled={false}
+      />
+
+      <group ref={body}>
+        {/* Interior con el forro, visible al levantar la solapa. */}
+        <mesh material={materials.inside} receiveShadow castShadow>
+          <planeGeometry args={[W, H]} />
+        </mesh>
+        {/* La luz que sale de dentro: un resplandor en la boca del sobre y una luz que baña el
+            forro y la carta. */}
+        <mesh
+          ref={innerGlow}
+          material={materials.innerGlow}
+          position={[0, H / 2 - 0.15, 0.02]}
+          scale={3.2}
+        >
+          <planeGeometry />
+        </mesh>
+        <pointLight
+          ref={innerLight}
+          position={[0, H / 2 - 0.2, 1.5]}
+          color="#ffd08a"
+          intensity={0}
+          distance={7}
+        />
+        {/* Bolsillo: tres pliegues de papel con un poco de altura entre ellos. */}
+        <mesh
+          geometry={geometry.left}
+          material={materials.pocketSide}
+          position-z={POCKET_Z}
+          castShadow
+          receiveShadow
+        />
+        <mesh
+          geometry={geometry.right}
+          material={materials.pocketSide}
+          position-z={POCKET_Z}
+          castShadow
+          receiveShadow
+        />
+        <mesh
+          geometry={geometry.bottom}
+          material={materials.pocketBottom}
+          position-z={POCKET_Z + 0.006}
+          castShadow
+          receiveShadow
+        />
+
+        {/* Sombra del borde de la solapa sobre el bolsillo: se va al levantarla. */}
+        <mesh
+          ref={flapShadow}
+          material={materials.flapShadow}
+          position={[0.025, H / 2 - look.flapDepth / 2 - 0.035, POCKET_Z + 0.014]}
+          scale={[W * (1 + 2 * FLAP_SHADOW_PAD), look.flapDepth * (1 + 2 * FLAP_SHADOW_PAD), 1]}
+        >
+          <planeGeometry />
+        </mesh>
+        {/* Solapa: malla que se deforma fotograma a fotograma; el recorte viene del tema. */}
+        <group ref={flapGroup} position={[0, H / 2, POCKET_Z + 0.022]}>
           <mesh
-            ref={flapShadow}
-            material={materials.flapShadow}
-            position={[0.025, H / 2 - look.flapDepth / 2 - 0.035, POCKET_Z + 0.014]}
-            scale={[W * (1 + 2 * FLAP_SHADOW_PAD), look.flapDepth * (1 + 2 * FLAP_SHADOW_PAD), 1]}
-          >
-            <planeGeometry />
-          </mesh>
-          {/* Solapa: malla que se deforma fotograma a fotograma; el recorte viene del tema. */}
-          <group ref={flapGroup} position={[0, H / 2, POCKET_Z + 0.022]}>
-            <mesh
-              ref={flapMesh}
-              geometry={geometry.flap}
-              material={materials.flapOuter}
-              castShadow
-              receiveShadow
-            />
-            <mesh geometry={geometry.flap} material={materials.flapInner} receiveShadow />
+            ref={flapMesh}
+            geometry={geometry.flap}
+            material={materials.flapOuter}
+            castShadow
+            receiveShadow
+          />
+          <mesh geometry={geometry.flap} material={materials.flapInner} receiveShadow />
+        </group>
+
+        {/* Lacre entero, en la punta de la solapa. */}
+        <group position={[0, sealY, POCKET_Z + 0.05]}>
+          <group ref={seal} scale={SEAL_R}>
+            <mesh geometry={geometry.seal} material={materials.seal} castShadow />
           </group>
-
-          {/* Lacre entero, en la punta de la solapa. */}
-          <group position={[0, sealY, POCKET_Z + 0.05]}>
-            <group ref={seal} scale={SEAL_R}>
-              <mesh geometry={geometry.seal} material={materials.seal} castShadow />
+          {/* Destello cálido en la grieta al partirse el lacre. */}
+          <pointLight
+            ref={flash}
+            position={[0, 0, 0.4]}
+            color="#ffd9a8"
+            intensity={0}
+            distance={2.5}
+          />
+          {geometry.halves.map((g, i) => (
+            <group
+              key={i}
+              ref={(el) => {
+                halves.current[i] = el;
+              }}
+              visible={false}
+            >
+              <mesh geometry={g} material={materials.seal} scale={SEAL_R} castShadow />
             </group>
-            {/* Destello cálido en la grieta al partirse el lacre. */}
-            <pointLight
-              ref={flash}
-              position={[0, 0, 0.4]}
-              color="#ffd9a8"
-              intensity={0}
-              distance={2}
-            />
-            {geometry.halves.map((g, i) => (
-              <group
-                key={i}
-                ref={(el) => {
-                  halves.current[i] = el;
-                }}
-                visible={false}
-              >
-                <mesh geometry={g} material={materials.seal} scale={SEAL_R} castShadow />
-              </group>
-            ))}
-            {CRUMBS.map((c, i) => (
-              <mesh
-                key={i}
-                ref={(el) => {
-                  crumbs.current[i] = el;
-                }}
-                material={materials.crumb}
-                visible={false}
-                castShadow
-              >
-                <dodecahedronGeometry args={[c.size, 0]} />
-              </mesh>
-            ))}
-          </group>
+          ))}
+          {CRUMBS.map((c, i) => (
+            <mesh
+              key={i}
+              ref={(el) => {
+                crumbs.current[i] = el;
+              }}
+              material={materials.crumb}
+              visible={false}
+              castShadow
+            >
+              <dodecahedronGeometry args={[c.size, 0]} />
+            </mesh>
+          ))}
         </group>
+      </group>
 
-        {/* La carta va fuera del cuerpo: se queda cuando el sobre se va. */}
-        <group ref={letter} position={[0, 0, LETTER_Z]}>
-          <mesh geometry={geometry.letter} material={materials.letter} castShadow receiveShadow />
-        </group>
+      {/* La carta va fuera del cuerpo: sube sola hacia la cámara. */}
+      <group ref={letter} position={[0, 0, LETTER_Z]}>
+        <mesh geometry={geometry.letter} material={materials.letter} castShadow receiveShadow />
       </group>
     </>
   );
 }
 
+const DIR = new Vector3();
+const RIGHT = new Vector3();
+const UP = new Vector3();
+const BASIS = new Matrix4();
+
 export default function EnvelopeScene(props: SceneProps) {
   return (
     <Canvas
       aria-hidden
+      flat
       shadows={{ type: PCFShadowMap }}
-      dpr={[1, 2]}
-      camera={{ fov: FOV, near: 0.1, far: 80, position: [0, 0, 8] }}
-      gl={{ antialias: true, alpha: true, toneMapping: NeutralToneMapping }}
+      dpr={[1, 1.75]}
+      camera={{ fov: FOV, near: 0.1, far: 140, position: [0, 0, 8] }}
+      gl={{ antialias: false, alpha: false, toneMapping: NoToneMapping }}
       style={{ position: "absolute", inset: 0 }}
       onCreated={({ gl }) => {
         gl.localClippingEnabled = true;

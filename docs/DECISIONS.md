@@ -463,17 +463,25 @@ composition-patterns y writing-guidelines (Vercel, MIT), y webapp-testing (Anthr
 Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mismo formato
 (`PhotoSlot`), así que la maquetación no cambiará al ponerlas.
 
-## Dirección de cine en las aperturas
+## Aperturas rodadas como una película
 
-- `src/features/invitation/envelope/cinema.tsx` da a cualquier apertura una cámara (acercarse a
-  un punto, acusar un golpe, abrir el plano), un foco en los bordes, la luz que sale del sobre,
-  un fogonazo y motas de polvo que se encienden al cruzar la luz. Mueve la escena con GSAP (ya se
-  usaba en la portada Cine), que se descarga mientras se ve la portada; si no ha llegado, la
-  apertura sigue con su coreografía de siempre. Con movimiento reducido no se usa.
-- Primera apertura con esta dirección: el sobre en la mesa. La cámara se cierra sobre el lacre,
-  hay un instante de tensión, el golpe sacude el plano, sale luz al levantar la solapa y la cámara
-  se retira al encuadre en el que sale la carta (el mismo de antes, para no tocar el relevo).
-- Pendiente: llevarla a pantalla completa, díptico, caja, 3D y ventana.
+- **Sobre en 3D, rehecho como una escena de cine** (`envelope/three/envelope-scene.tsx`): el
+  sobre descansa en una mesa a contraluz, con la sombra de unas ramas que se mecen (una lámina
+  de hojas invisible delante del sol). Al tocarlo, la cámara baja en grúa hasta el lacre; se
+  parte a cámara lenta, las mitades saltan y resbalan por la mesa y las migas botan; la solapa
+  se curva al abrirse y del sobre sale luz y chispas; la carta sale entera por la boca del sobre
+  y sube hacia la cámara, que acaba mirando desde arriba con la mesa desenfocada.
+- La cámara se describe con planos (a qué mira, distancia, altura y lado) y va de uno a otro en
+  arco. La imagen pasa por un «objetivo» (`postprocessing`): profundidad de campo con el foco en
+  lo que importa en cada plano, brillo, viñeta, curva de color y grano.
+- Todo va por tiempo, no por fotogramas. Si el equipo va justo en reposo se quita el desenfoque
+  (lo más caro). Sin WebGL o con movimiento reducido se usa el sobre en la mesa, como antes.
+- Para revisar la película plano a plano: `window.__cine = { t: 1.2, alta: true }` fija el
+  instante y fuerza la calidad alta (así se sacan las capturas y el vídeo de la venta).
+- **Capa común para las aperturas dibujadas** (`envelope/cinema.tsx`, con GSAP): cámara que se
+  acerca y acusa el golpe, foco, luz de dentro y polvo. De momento la usa el sobre en la mesa.
+- Pendiente: llevar la escena de cine al díptico y a la caja (mismo plató, otro objeto) y decidir
+  si el sobre en la mesa y el de pantalla completa pasan a ser dos planos de esta misma escena.
 
 ## Página de venta y ejemplos con imágenes reales
 
