@@ -5,10 +5,9 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 
 ## Dónde estamos
 
-- **Rama de trabajo**: `claude/loving-faraday-2aw3om`. PR:
-  https://github.com/FranManuel95/Invitaciones_Eventos/pull/1
-- **Vista previa** (Vercel, se despliega con cada push):
-  https://invitaciones-eventos-git-claude-l-2820ea-franmanuel95s-projects.vercel.app
+- **Rama de trabajo**: `claude/exciting-franklin-43k083` (sin PR abierto todavía).
+- **Vista previa** (Vercel, se despliega con cada push): la dirección depende de la rama; la de
+  esta se ve en Vercel → Deployments (la anterior era `…git-claude-l-2820ea…vercel.app`).
 - **Supabase**: proyecto `uzmrvclmjtxhcglyqadm` (París, plan gratuito). Todas las migraciones de
   `supabase/migrations/` están aplicadas (comprobar la última, `aperturas_invitacion`, con
   `list_migrations`: el usuario pidió dejar el SQL para el final y aceptarlo él).
@@ -27,8 +26,10 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 ## Pendiente
 
 - **Plan en curso (10/11/2026)**: llevar toda la invitación al nivel de la apertura del sobre en
-  3D. Qué falta, en qué orden y con qué riesgos: `docs/PLAN-CINE.md`. Rama de trabajo actual:
-  `claude/loving-faraday-2aw3om-grogl2` (sin PR abierto; producción no tiene aún el 3D nuevo).
+  3D (`docs/PLAN-CINE.md`). La parte A (después de la carta) está hecha entera; queda la parte B
+  (resto de aperturas) y la limpieza de la parte C. Rama de trabajo actual:
+  `claude/exciting-franklin-43k083` (continúa `claude/loving-faraday-2aw3om-grogl2`; sin PR
+  abierto: producción no tiene aún ni el 3D nuevo ni las escenas de después de la carta).
 
 - **Supabase (hecho el 22/10/2026)**: contraseña mínima de 8 caracteres y direcciones de la web
   en URL Configuration. «Leaked password protection» solo existe en el plan Pro: activarla al

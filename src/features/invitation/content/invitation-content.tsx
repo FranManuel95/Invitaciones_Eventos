@@ -169,6 +169,14 @@ export function InvitationContent({
   const heroPhoto = event.story.couplePhoto ?? event.coverPhoto;
   const hero = useScrollProgress<HTMLElement>("leave", Boolean(heroPhoto) && !reduce);
   const page = useViewProgress<HTMLDivElement>(!reduce);
+  // Para el abanico del álbum: hasta tres fotos del evento, las que haya.
+  const albumPhotos = useMemo(
+    () =>
+      [event.venues[1]?.photo, heroPhoto, event.venues[0]?.photo, event.coverPhoto]
+        .filter((src, i, all): src is string => Boolean(src) && all.indexOf(src) === i)
+        .slice(0, 3),
+    [event.venues, event.coverPhoto, heroPhoto],
+  );
   const welcome = useMemo(() => event.welcomeMessage.split(/\s+/), [event.welcomeMessage]);
 
   useEffect(() => {
@@ -463,24 +471,50 @@ export function InvitationContent({
             ))}
             {after ? null : <RsvpSection event={event} group={group} seal={seal} />}
             {albumToken ? (
-              <section aria-labelledby="album-title" className="border-t border-line bg-paper">
-                <div className="mx-auto flex max-w-5xl flex-col gap-4 px-6 py-14 sm:flex-row sm:items-center sm:justify-between sm:px-10">
+              <section
+                aria-labelledby="album-title"
+                className="overflow-hidden border-t border-line bg-paper"
+              >
+                <div className="mx-auto grid max-w-5xl gap-10 px-6 py-16 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:px-10 sm:py-20">
+                  {/* Tres fotos reveladas que se abren en abanico al llegar. */}
+                  {albumPhotos.length >= 2 ? (
+                    <div
+                      data-view
+                      aria-hidden
+                      className="flex justify-center py-4 sm:order-2 sm:px-8"
+                    >
+                      {albumPhotos.map((src, i) => (
+                        <span
+                          key={src}
+                          className="fan-card relative -mx-4 block w-32 bg-white p-1.5 pb-6 shadow-[0_14px_28px_-14px_rgb(0_0_0/0.55)]"
+                          style={{ "--k": i - (albumPhotos.length - 1) / 2 } as CSSProperties}
+                        >
+                          <span className="relative block aspect-square overflow-hidden bg-cream">
+                            <Image src={src} alt="" fill sizes="128px" className="object-cover" />
+                          </span>
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
                   <div>
                     <h2
                       id="album-title"
-                      className="font-display text-[1.75rem] leading-tight text-ink"
+                      className="reveal-title font-display text-[2.5rem] leading-[1.05] text-ink sm:text-[3rem]"
                     >
                       El álbum {ofEvent(event)}
                     </h2>
-                    <p className="mt-1 max-w-[46ch] text-[0.9375rem] leading-relaxed text-muted">
+                    <p className="mt-4 max-w-[46ch] text-[1.0625rem] leading-relaxed text-ink-soft">
                       {after
                         ? "Las fotos que hicisteis ese día. Si te queda alguna en el móvil, aún puedes subirla."
                         : "Ese día, sube aquí las fotos que hagas. Las mesas tendrán también un código QR."}
                     </p>
+                    <a
+                      href={`/album/${albumToken}`}
+                      className={clsx(buttonClasses("primary", "lg"), "mt-7")}
+                    >
+                      Abrir el álbum
+                    </a>
                   </div>
-                  <a href={`/album/${albumToken}`} className={buttonClasses("secondary", "lg")}>
-                    Abrir el álbum
-                  </a>
                 </div>
               </section>
             ) : null}

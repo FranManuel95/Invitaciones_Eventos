@@ -48,18 +48,21 @@ function FlipDigit({ digit }: { digit: string }) {
 
 function Unit({ value, pad, label }: { value: number; pad: number; label: string }) {
   return (
-    <span className="flex flex-col items-center gap-1.5">
-      <span className="flex gap-[3px] font-display text-[1.75rem] leading-none tabular-nums">
+    <span className="flex flex-col gap-2">
+      <span className="flex gap-[0.08em] font-display leading-none tabular-nums">
         {Array.from(String(value).padStart(pad, "0")).map((d, i) => (
           <FlipDigit key={i} digit={d} />
         ))}
       </span>
-      <span className="text-[0.75rem] text-muted">{label}</span>
+      <span className="text-[0.8125rem] text-muted">{label}</span>
     </span>
   );
 }
 
-/** Cuenta atrás de días, horas y minutos con cifras que se pliegan al cambiar. */
+/**
+ * Cuenta atrás con cifras que se pliegan al cambiar. Los días mandan: van en grande, y las horas
+ * y los minutos, a su lado, en pequeño.
+ */
 export function FlipCountdown({ date, className }: { date: string; className?: string }) {
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
@@ -74,10 +77,14 @@ export function FlipCountdown({ date, className }: { date: string; className?: s
       <p className="sr-only">
         Faltan {days} días, {hours} horas y {minutes} minutos.
       </p>
-      <div aria-hidden className="flex items-start gap-4">
-        <Unit value={days} pad={days > 99 ? 3 : 2} label="días" />
-        <Unit value={hours} pad={2} label="horas" />
-        <Unit value={minutes} pad={2} label="minutos" />
+      <div aria-hidden className="flex items-end gap-5">
+        <span className="text-[clamp(3.25rem,15vw,4.5rem)]">
+          <Unit value={days} pad={days > 99 ? 3 : 2} label={days === 1 ? "día" : "días"} />
+        </span>
+        <span className="flex gap-3 pb-px text-[1.75rem]">
+          <Unit value={hours} pad={2} label="horas" />
+          <Unit value={minutes} pad={2} label="minutos" />
+        </span>
       </div>
     </div>
   );

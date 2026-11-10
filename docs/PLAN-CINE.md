@@ -57,6 +57,9 @@ las figuras del código de vestimenta y la línea de tiempo de la historia.
 
 Orden propuesto: A1 y A2 primero (marcan el tono), después A3, A5, A4, A6, A7, A8 y A9.
 
+**Estado (10/11/2026)**: de A1 a A9, hechos. Además, «Cómo llegar» (billetes), las muestras de
+color de «Antes de venir» y el bloque del álbum. Falta el visto bueno en el iPhone.
+
 ### Con qué se hace
 
 - **Movimiento ligado al desplazamiento**: GSAP con ScrollTrigger (GSAP ya está instalado) y

@@ -512,8 +512,14 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
 - **Dónde** (A4): el camino del plano se dibuja al cruzar la pantalla; las fotos de los sitios van
   grandes, con el nombre encima, y se desplazan dentro de su marco.
 - **Regalos** (A7): las tarjetas llegan una a una y «Reservado a vuestro nombre» cae como un sello.
-- Pendiente del plan (`docs/PLAN-CINE.md`): A6 (el calendario ya se anima al llegar; falta
-  ligarlo al dedo) y la parte B (resto de aperturas).
+- **Guarda la fecha** (A6): las hojas del taco caen con el dedo (`.cal-page`, con `--c`) y, al
+  caer la última, el día se rodea a mano; si se vuelve a subir, las hojas regresan. La cuenta
+  atrás pone los días en grande y las horas y los minutos, al lado, en pequeño.
+- **Cómo llegar**: cada autobús es un billete (la hora de salida en el resguardo, con su línea de
+  corte). Sustituye a la tabla, que en el móvil obligaba a desplazarse de lado para ver la vuelta.
+- **Antes de venir**: los colores del código de vestimenta son muestras de tela, algo torcidas.
+- **El álbum**: tres fotos del evento (las que haya) llegan apiladas y se abren en abanico.
+- Pendiente del plan (`docs/PLAN-CINE.md`): la parte B (resto de aperturas).
 
 ## Página de venta y ejemplos con imágenes reales
 

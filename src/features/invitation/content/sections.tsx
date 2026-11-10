@@ -221,42 +221,42 @@ export function TransportSection({
           {yours.detail}
         </p>
       ) : null}
-      <div
-        role="region"
-        aria-label="Horarios de autobús"
-        tabIndex={0}
-        className="relative overflow-x-auto"
-      >
-        <table className="w-full min-w-[30rem] text-left text-[0.9375rem]">
-          <caption className="sr-only">Autobuses a la finca</caption>
-          <thead>
-            <tr className="border-b border-ink/30 text-muted">
-              <th scope="col" className="py-3 pr-4 font-normal">
-                Recogida
-              </th>
-              <th scope="col" className="py-3 pr-4 font-normal">
-                Salida
-              </th>
-              <th scope="col" className="py-3 font-normal">
-                Vuelta
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {event.busRoutes.map((route) => (
-              <tr key={route.id} className="border-b border-line">
-                <th scope="row" className="py-4 pr-4 font-normal text-ink">
-                  {route.pickupPoint}
-                </th>
-                <td className="py-4 pr-4 font-display text-xl text-ink tabular-nums">
-                  {route.departure}
-                </td>
-                <td className="py-4 text-ink-soft tabular-nums">{route.returnTrips.join(" y ")}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {/* Cada autobús, como un billete: la hora de salida en el resguardo y el resto al lado. */}
+      <ul aria-label="Autobuses a la finca" className="grid max-w-xl gap-4">
+        {event.busRoutes.map((route) => (
+          <li
+            key={route.id}
+            data-view
+            className="tag-in paper-grain relative grid grid-cols-[auto_minmax(0,1fr)] overflow-hidden rounded-[3px] border border-line bg-paper shadow-[0_10px_24px_-18px_rgb(0_0_0/0.35)]"
+          >
+            <div className="relative border-r border-dashed border-ink/30 px-5 py-5 text-center">
+              <p className="text-[0.8125rem] text-muted">Salida</p>
+              <p className="mt-1 font-display text-[2.5rem] leading-none text-ink tabular-nums">
+                {route.departure}
+              </p>
+              {/* Las muescas del troquel, arriba y abajo de la línea de corte. */}
+              <span
+                aria-hidden
+                className="absolute -top-2 -right-2 size-4 rounded-full border border-line bg-ivory"
+              />
+              <span
+                aria-hidden
+                className="absolute -right-2 -bottom-2 size-4 rounded-full border border-line bg-ivory"
+              />
+            </div>
+            <div className="flex flex-col justify-center px-5 py-5">
+              <h3 className="text-[1.0625rem] leading-snug font-medium text-ink">
+                {route.pickupPoint}
+              </h3>
+              {route.returnTrips.length ? (
+                <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-ink-soft tabular-nums">
+                  Vuelta a las {route.returnTrips.join(" y a las ")}
+                </p>
+              ) : null}
+            </div>
+          </li>
+        ))}
+      </ul>
       <p className="mt-6 max-w-prose text-[0.9375rem] leading-relaxed text-muted">
         Si vienes en coche, hay aparcamiento en la finca. Al confirmar puedes ofrecer plazas a otros
         invitados.
@@ -288,18 +288,23 @@ export function PracticalSection({ event }: { event: WeddingEvent }) {
           {event.dressCode.palette.length ? (
             <>
               <p className="mt-6 text-[0.875rem] text-ink-soft">Colores que nos gustan</p>
-              <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-3">
-                {event.dressCode.palette.map((color) => (
+              {/* Muestras de tela: una carta de colores, cada una algo torcida. */}
+              <ul className="mt-4 flex flex-wrap gap-x-3 gap-y-5">
+                {event.dressCode.palette.map((color, i) => (
                   <li
                     key={color.hex}
-                    className="flex w-14 flex-col items-center gap-1.5 text-center"
+                    data-view
+                    className="tag-in w-[4.75rem] bg-paper p-1.5 pb-2 shadow-[0_8px_18px_-12px_rgb(0_0_0/0.4)] ring-1 ring-ink/10"
+                    style={{ rotate: `${[-2.5, 1.5, -1, 2.5, -1.5][i % 5]}deg` }}
                   >
                     <span
                       aria-hidden
-                      className="block size-12 rounded-full shadow-[inset_0_-4px_8px_rgb(0_0_0/0.12)] ring-1 ring-ink/15"
+                      className="paper-grain block h-[4.5rem]"
                       style={{ backgroundColor: color.hex }}
                     />
-                    <span className="text-[0.75rem] leading-tight text-muted">{color.name}</span>
+                    <span className="mt-1.5 block text-[0.75rem] leading-tight text-ink-soft">
+                      {color.name}
+                    </span>
                   </li>
                 ))}
               </ul>
