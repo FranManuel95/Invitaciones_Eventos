@@ -1084,6 +1084,24 @@ html.lenis body {
     rotate(calc(var(--k) * (2deg + var(--v, 1) * 6deg)));
 }
 
+/* Píldora de secciones del móvil: anillo de avance e índice que se despliega. */
+.dock-ring {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--page, 0));
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dock-index {
+    transform-origin: 50% 100%;
+    animation: dock-index 0.32s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+  }
+}
+@keyframes dock-index {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0) scale(0.96);
+  }
+}
+
 /* «Reservado a vuestro nombre»: cae como un sello al reservar. */
 @media (prefers-reduced-motion: no-preference) {
   .stamp-in {

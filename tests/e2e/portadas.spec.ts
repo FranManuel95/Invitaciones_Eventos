@@ -43,14 +43,18 @@ test.describe("portadas", () => {
     await page.goto("/i/familia-garcia?portada=herbario");
     const drawn = page.locator("[data-cover='herbario'] .herb-draw");
     await expect(drawn.first()).toBeAttached();
-    const hidden = await drawn.evaluateAll(
-      (els) =>
-        els.filter((el) => {
-          const style = getComputedStyle(el);
-          return style.animationName !== "none" || style.strokeDasharray !== "none";
-        }).length,
-    );
-    expect(hidden).toBe(0);
+    // Se comprueba cuando la página se ha asentado (los estilos tardan un instante en aplicarse).
+    await expect
+      .poll(() =>
+        drawn.evaluateAll(
+          (els) =>
+            els.filter((el) => {
+              const style = getComputedStyle(el);
+              return style.animationName !== "none" || style.strokeDasharray !== "none";
+            }).length,
+        ),
+      )
+      .toBe(0);
     await context.close();
   });
 

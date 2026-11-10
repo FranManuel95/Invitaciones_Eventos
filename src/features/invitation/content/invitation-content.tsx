@@ -30,6 +30,8 @@ import { dayClock, isAfterEvent, liveProgram } from "@/lib/day-mode";
 import { ThankYou } from "./thank-you";
 import { LiveDay } from "./live-day";
 import { SaveTheDate, SaveTheDateOnly } from "./save-the-date";
+import { SectionDock, type DockLink } from "./section-dock";
+import { isDeadlinePassed } from "@/lib/rsvp/draft";
 import {
   SECTION_IDS,
   type CalendarId,
@@ -192,6 +194,17 @@ export function InvitationContent({
   // Dentro de una escena la barra de secciones se retira: la pantalla es toda suya.
   const immersive =
     (active === "programa" && programScene) || (active === "historia" && storyScene);
+  // Lo que ofrece la píldora del móvil: confirmar, o el pase si ya se ha confirmado.
+  const closed = isDeadlinePassed(event, group);
+  const dockCta: DockLink | null = after
+    ? null
+    : saved?.status === "attending"
+      ? { href: "#pase", label: "Tu pase" }
+      : closed
+        ? null
+        : saved
+          ? { href: "#confirmar", label: "Cambiar respuesta" }
+          : { href: "#confirmar", label: "Confirmar" };
   const cta = heroPhoto
     ? buttonClasses("secondary", "lg", "border-transparent")
     : buttonClasses("primary", "lg");
@@ -388,7 +401,7 @@ export function InvitationContent({
             aria-label="Secciones de la invitación"
             inert={immersive}
             className={clsx(
-              "sticky top-0 z-30 border-y border-line bg-ivory/92 backdrop-blur-md transition-[translate,opacity] duration-500",
+              "sticky top-0 z-30 border-y border-line bg-ivory/92 backdrop-blur-md transition-[translate,opacity] duration-500 max-sm:hidden",
               immersive && "-translate-y-full opacity-0",
             )}
           >
@@ -417,12 +430,23 @@ export function InvitationContent({
             </ul>
           </nav>
 
+          {/* En el móvil, la barra de secciones es una píldora flotante abajo, junto al pulgar. */}
+          <SectionDock
+            nav={after ? nav.filter((item) => item.id !== "confirmar") : nav}
+            active={active}
+            hidden={immersive || active === "confirmar"}
+            cta={dockCta}
+          />
+
           <main>
             <section
               aria-label="Bienvenida"
               className="mx-auto max-w-5xl px-6 py-16 sm:px-10 sm:py-24"
             >
               {/* La bienvenida se enciende palabra a palabra al pasar por el centro. */}
+              <p className="mb-5 font-display text-[1.25rem] text-ink-soft italic md:ml-[15.5rem]">
+                {group.displayName}:
+              </p>
               <p
                 data-view
                 style={{ "--n": welcome.length } as CSSProperties}

@@ -519,6 +519,15 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
   corte). Sustituye a la tabla, que en el móvil obligaba a desplazarse de lado para ver la vuelta.
 - **Antes de venir**: los colores del código de vestimenta son muestras de tela, algo torcidas.
 - **El álbum**: tres fotos del evento (las que haya) llegan apiladas y se abren en abanico.
+- **Barra de secciones en el móvil** (`content/section-dock.tsx`): una píldora flotante abajo, al
+  alcance del pulgar, en lugar de la barra de arriba (que sigue en pantallas anchas). Muestra por
+  dónde vas con un anillo que se completa al bajar, despliega el índice al tocarla y lleva
+  siempre lo importante: «Confirmar» o, si ya se ha confirmado, «Tu pase». Aparece al dejar la
+  portada y se retira en las escenas, en el formulario y en el cierre.
+- **Bienvenida**: empieza con el nombre del invitado («Familia García:»).
+- **Código de vestimenta en el móvil**: las figuras son un pase que se desliza con el dedo.
+- **Prioridad**: el móvil. El escritorio se mantiene correcto, pero las mejoras se piensan y se
+  revisan primero a 390 px de ancho.
 - Pendiente del plan (`docs/PLAN-CINE.md`): la parte B (resto de aperturas).
 
 ## Página de venta y ejemplos con imágenes reales
