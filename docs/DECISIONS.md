@@ -463,6 +463,18 @@ composition-patterns y writing-guidelines (Vercel, MIT), y webapp-testing (Anthr
 Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mismo formato
 (`PhotoSlot`), así que la maquetación no cambiará al ponerlas.
 
+## Dirección de cine en las aperturas
+
+- `src/features/invitation/envelope/cinema.tsx` da a cualquier apertura una cámara (acercarse a
+  un punto, acusar un golpe, abrir el plano), un foco en los bordes, la luz que sale del sobre,
+  un fogonazo y motas de polvo que se encienden al cruzar la luz. Mueve la escena con GSAP (ya se
+  usaba en la portada Cine), que se descarga mientras se ve la portada; si no ha llegado, la
+  apertura sigue con su coreografía de siempre. Con movimiento reducido no se usa.
+- Primera apertura con esta dirección: el sobre en la mesa. La cámara se cierra sobre el lacre,
+  hay un instante de tensión, el golpe sacude el plano, sale luz al levantar la solapa y la cámara
+  se retira al encuadre en el que sale la carta (el mismo de antes, para no tocar el relevo).
+- Pendiente: llevarla a pantalla completa, díptico, caja, 3D y ventana.
+
 ## Página de venta y ejemplos con imágenes reales
 
 - La venta y `/ejemplos` enseñan el producto en vez de describirlo: cada apertura se ve en marcha
