@@ -289,6 +289,7 @@ export function InvitationExperience({
                     albumToken={albumToken}
                     gifts={gifts}
                     smooth={theme.cover === "cine"}
+                    seal={{ shape: theme.sealShape, mark: theme.sealMark }}
                     badge={badge}
                   />
                 </ViewTransition>

@@ -2,12 +2,15 @@
 
 import { hostNames, ofEvent } from "@/lib/event-kind";
 import { clsx } from "clsx";
-import { RotateCcw } from "lucide-react";
+import { ChevronDown, RotateCcw } from "lucide-react";
+import { useReducedMotion } from "motion/react";
+import Image from "next/image";
 import { Fragment, useEffect, useMemo, useRef, useState, ViewTransition } from "react";
 import { DemoBadge } from "@/components/demo-badge";
 import { buttonClasses } from "@/components/ui/button";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
 import { formatWeekdayDate, isoDay } from "@/lib/format";
+import { useScrollProgress } from "../effects/scroll-progress";
 import { AlmondBranch, Monogram } from "../ornaments";
 import { RsvpSection } from "../rsvp/rsvp-section";
 import { DaysLeft } from "./countdown";
@@ -19,7 +22,15 @@ import { dayClock, isAfterEvent, liveProgram } from "@/lib/day-mode";
 import { ThankYou } from "./thank-you";
 import { LiveDay } from "./live-day";
 import { SaveTheDate, SaveTheDateOnly } from "./save-the-date";
-import { SECTION_IDS, type CalendarId, type SectionId } from "@/lib/theme";
+import {
+  SECTION_IDS,
+  type CalendarId,
+  type SealMarkId,
+  type SealShapeId,
+  type SectionId,
+} from "@/lib/theme";
+import { ProgramScene } from "./program-scene";
+import { StoryScene } from "./story-scene";
 import { StorySection } from "./story-section";
 import { PracticalSection, ProgramSection, TransportSection, VenuesSection } from "./sections";
 
@@ -96,6 +107,8 @@ export interface InvitationContentProps {
   gifts?: GiftStatus;
   /** Scroll suave «de película» (Lenis), en la plantilla Cine. */
   smooth?: boolean;
+  /** El lacre del tema: sella la respuesta al confirmar. */
+  seal?: { shape: SealShapeId; mark: SealMarkId };
 }
 
 /** Pantallas 4 a 7 · La invitación completa con secciones y RSVP. */
@@ -112,6 +125,7 @@ export function InvitationContent({
   albumToken = null,
   gifts = EMPTY_GIFT_STATUS,
   smooth = false,
+  seal,
 }: InvitationContentProps) {
   useSmoothScroll(smooth);
   const early = phase === "save_the_date";
@@ -142,6 +156,10 @@ export function InvitationContent({
   // Después de la boda: gracias y fotos en vez de confirmar (en la demo, ?dia=despues).
   const [after] = useState(() => !early && isAfterEvent(event, new Date(), window.location.search));
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const reduce = useReducedMotion();
+  // Portada con foto: la de la pareja y, si no la hay, la de la portada.
+  const heroPhoto = event.story.couplePhoto ?? event.coverPhoto;
+  const hero = useScrollProgress<HTMLElement>("leave", Boolean(heroPhoto) && !reduce);
 
   useEffect(() => {
     if (!focusOnMount) return;
@@ -149,6 +167,16 @@ export function InvitationContent({
     titleRef.current?.focus({ preventScroll: true });
   }, [focusOnMount]);
   const navRef = useRef<HTMLUListElement>(null);
+  // Las escenas a pantalla completa («El día» y «Nuestra historia»): con movimiento reducido, o
+  // el día de la boda, se usan las listas de siempre.
+  const programScene = !reduce && !clock.active;
+  const storyScene = !reduce && event.story.moments.every((moment) => moment.photo);
+  // Dentro de una escena la barra de secciones se retira: la pantalla es toda suya.
+  const immersive =
+    (active === "programa" && programScene) || (active === "historia" && storyScene);
+  const cta = heroPhoto
+    ? buttonClasses("secondary", "lg", "border-transparent")
+    : buttonClasses("primary", "lg");
 
   // En móvil la barra de secciones se desplaza en horizontal: mantiene visible la sección activa.
   useEffect(() => {
@@ -172,85 +200,154 @@ export function InvitationContent({
         </a>
       )}
 
-      {/* La carta de la pantalla anterior se transforma en esta cabecera de papel. */}
+      {/* La carta de la pantalla anterior se transforma en esta cabecera: con foto, una portada a
+          pantalla completa que se aleja al bajar; sin foto, una cabecera de papel. */}
       <ViewTransition name="carta" share="paper-morph" default="none">
-        <header className="paper-grain relative overflow-hidden bg-paper">
-          <div className="mx-auto max-w-5xl px-6 pt-[max(1.25rem,env(safe-area-inset-top))] pb-16 sm:px-10 sm:pb-24">
+        <header
+          ref={hero}
+          className={clsx(
+            "relative overflow-hidden",
+            heroPhoto
+              ? "hero flex min-h-[100svh] flex-col bg-ink text-white"
+              : "paper-grain bg-paper",
+          )}
+        >
+          {heroPhoto ? (
+            <>
+              <div aria-hidden className="hero-photo absolute inset-0">
+                <Image
+                  src={heroPhoto}
+                  alt=""
+                  fill
+                  priority
+                  sizes="100vw"
+                  className="hero-photo-in object-cover object-[50%_28%]"
+                />
+              </div>
+              {/* Sombra para leer: arriba, el distintivo; abajo, los nombres y los botones. */}
+              <div
+                aria-hidden
+                className="absolute inset-0 bg-[linear-gradient(180deg,rgb(0_0_0/0.42)_0%,rgb(0_0_0/0)_24%,rgb(0_0_0/0)_38%,rgb(0_0_0/0.72)_82%,rgb(0_0_0/0.86)_100%)]"
+              />
+              <div aria-hidden className="hero-shade absolute inset-0 bg-ink" />
+            </>
+          ) : null}
+          <div
+            className={clsx(
+              "relative mx-auto w-full max-w-5xl px-6 pt-[max(1.25rem,env(safe-area-inset-top))] sm:px-10",
+              heroPhoto ? "flex flex-1 flex-col pb-20" : "pb-16 sm:pb-24",
+            )}
+          >
             <div className="flex items-center justify-between">
               <Monogram
                 first={event.couple.first}
                 second={event.couple.second}
-                className="size-11 text-gold"
+                className={clsx("size-11", heroPhoto ? "text-white/90" : "text-gold")}
               />
               {badge === null ? null : <DemoBadge label={badge} />}
             </div>
 
-            <h1
-              id="content-title"
-              ref={titleRef}
-              tabIndex={-1}
-              translate="no"
-              className="mt-16 font-names text-[clamp(4rem,19vw,10rem)] leading-[0.86] tracking-[-0.02em] text-ink outline-none sm:mt-24"
-            >
-              {event.couple.first}
-              {event.couple.second ? (
-                <span className="block pl-[0.6em]">&amp; {event.couple.second}</span>
-              ) : null}
-            </h1>
+            <div className={heroPhoto ? "hero-copy mt-auto pt-24" : undefined}>
+              <h1
+                id="content-title"
+                ref={titleRef}
+                tabIndex={-1}
+                translate="no"
+                className={clsx(
+                  "font-names leading-[0.86] tracking-[-0.02em] outline-none",
+                  heroPhoto
+                    ? "hero-rise text-[clamp(3.75rem,18vw,9rem)] text-white [text-shadow:0_2px_30px_rgb(0_0_0/0.45)]"
+                    : "mt-16 text-[clamp(4rem,19vw,10rem)] text-ink sm:mt-24",
+                )}
+              >
+                {event.couple.first}
+                {event.couple.second ? (
+                  <span className="block pl-[0.6em]">&amp; {event.couple.second}</span>
+                ) : null}
+              </h1>
 
-            <div className="mt-10 grid gap-8 sm:mt-14 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
-              <div>
-                <p className="font-display text-[1.5rem] leading-snug text-ink sm:text-[1.75rem]">
-                  <time
-                    dateTime={isoDay(event.date)}
-                    className="inline-block first-letter:uppercase"
+              <div
+                className={clsx(
+                  "grid gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end",
+                  heroPhoto ? "hero-rise mt-7 [animation-delay:160ms]" : "mt-10 sm:mt-14",
+                )}
+              >
+                <div>
+                  <p
+                    className={clsx(
+                      "font-display text-[1.5rem] leading-snug sm:text-[1.75rem]",
+                      heroPhoto ? "text-white" : "text-ink",
+                    )}
                   >
-                    {formatWeekdayDate(event.date)}
-                  </time>
-                  <br />
-                  <span className="text-ink-soft italic">
-                    {event.city}, {event.region}
-                  </span>
-                </p>
-                {clock.active || after ? null : (
-                  <div className="mt-3 flex flex-wrap items-baseline gap-x-5 gap-y-1 text-[0.9375rem]">
-                    <DaysLeft date={event.date} className="text-muted" />
-                    <a
-                      href="#fecha"
-                      className="text-ink underline decoration-gold underline-offset-4 hover:decoration-ink"
+                    <time
+                      dateTime={isoDay(event.date)}
+                      className="inline-block first-letter:uppercase"
                     >
-                      Añadir al calendario
+                      {formatWeekdayDate(event.date)}
+                    </time>
+                    <br />
+                    <span className={clsx("italic", heroPhoto ? "text-white/85" : "text-ink-soft")}>
+                      {event.city}, {event.region}
+                    </span>
+                  </p>
+                  {clock.active || after ? null : (
+                    <div className="mt-3 flex flex-wrap items-baseline gap-x-5 gap-y-1 text-[0.9375rem]">
+                      <DaysLeft
+                        date={event.date}
+                        className={heroPhoto ? "text-white/85" : "text-muted"}
+                      />
+                      <a
+                        href="#fecha"
+                        className={clsx(
+                          "underline underline-offset-4",
+                          heroPhoto
+                            ? "text-white decoration-white/60 hover:decoration-white"
+                            : "text-ink decoration-gold hover:decoration-ink",
+                        )}
+                      >
+                        Añadir al calendario
+                      </a>
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  {early ? (
+                    <a href="#fecha" className={cta}>
+                      Guardar la fecha
                     </a>
-                  </div>
-                )}
-              </div>
-              <div className="flex flex-wrap gap-3">
-                {early ? (
-                  <a href="#fecha" className={buttonClasses("primary", "lg")}>
-                    Guardar la fecha
-                  </a>
-                ) : clock.active ? (
-                  <a href="#en-directo" className={buttonClasses("primary", "lg")}>
-                    Qué pasa ahora
-                  </a>
-                ) : after ? (
-                  <a href="#gracias-title" className={buttonClasses("primary", "lg")}>
-                    Leer nuestro agradecimiento
-                  </a>
-                ) : (
-                  <a href="#confirmar" className={buttonClasses("primary", "lg")}>
-                    Confirmar asistencia
-                  </a>
-                )}
-                {early || after ? null : (
-                  <a href="#programa" className={buttonClasses("secondary", "lg")}>
-                    Ver el programa
-                  </a>
-                )}
+                  ) : clock.active ? (
+                    <a href="#en-directo" className={cta}>
+                      Qué pasa ahora
+                    </a>
+                  ) : after ? (
+                    <a href="#gracias-title" className={cta}>
+                      Leer nuestro agradecimiento
+                    </a>
+                  ) : (
+                    <a href="#confirmar" className={cta}>
+                      Confirmar asistencia
+                    </a>
+                  )}
+                  {early || after ? null : (
+                    <a
+                      href="#programa"
+                      className={buttonClasses(heroPhoto ? "light" : "secondary", "lg")}
+                    >
+                      Ver el programa
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-          <AlmondBranch className="pointer-events-none absolute -right-6 bottom-6 w-40 rotate-[-12deg] opacity-80 sm:right-[6%] sm:w-56" />
+          {heroPhoto ? (
+            <ChevronDown
+              aria-hidden
+              className="nudge absolute bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 size-5 -translate-x-1/2 text-white/80"
+            />
+          ) : (
+            <AlmondBranch className="pointer-events-none absolute -right-6 bottom-6 w-40 rotate-[-12deg] opacity-80 sm:right-[6%] sm:w-56" />
+          )}
         </header>
       </ViewTransition>
 
@@ -271,7 +368,11 @@ export function InvitationContent({
 
           <nav
             aria-label="Secciones de la invitación"
-            className="sticky top-0 z-30 border-y border-line bg-ivory/92 backdrop-blur-md"
+            inert={immersive}
+            className={clsx(
+              "sticky top-0 z-30 border-y border-line bg-ivory/92 backdrop-blur-md transition-[translate,opacity] duration-500",
+              immersive && "-translate-y-full opacity-0",
+            )}
           >
             <ul
               ref={navRef}
@@ -313,13 +414,20 @@ export function InvitationContent({
                 {
                   {
                     fecha: clock.active ? null : <SaveTheDate event={event} variant={calendar} />,
-                    programa: (
+                    // El día de la boda manda lo práctico: la lista, con el acto de ahora.
+                    programa: programScene ? (
+                      <ProgramScene event={event} />
+                    ) : (
                       <ProgramSection event={event} currentId={live?.current?.id ?? null} />
                     ),
                     lugares: <VenuesSection event={event} />,
                     transporte: <TransportSection event={event} response={saved} />,
                     info: <PracticalSection event={event} />,
-                    historia: <StorySection event={event} />,
+                    historia: storyScene ? (
+                      <StoryScene event={event} />
+                    ) : (
+                      <StorySection event={event} />
+                    ),
                     regalo: (
                       <GiftSection
                         event={event}
@@ -332,7 +440,7 @@ export function InvitationContent({
                 }
               </Fragment>
             ))}
-            {after ? null : <RsvpSection event={event} group={group} />}
+            {after ? null : <RsvpSection event={event} group={group} seal={seal} />}
             {albumToken ? (
               <section aria-labelledby="album-title" className="border-t border-line bg-paper">
                 <div className="mx-auto flex max-w-5xl flex-col gap-4 px-6 py-14 sm:flex-row sm:items-center sm:justify-between sm:px-10">
@@ -359,28 +467,87 @@ export function InvitationContent({
         </>
       )}
 
-      <footer className="border-t border-line bg-paper">
-        <div className="mx-auto flex max-w-5xl flex-col gap-6 px-6 pt-14 pb-[max(3rem,env(safe-area-inset-bottom))] sm:flex-row sm:items-end sm:justify-between sm:px-10">
+      {/* Cierre: con foto de portada, la última imagen es esa; sin ella, un pie de papel. */}
+      <footer
+        className={clsx(
+          "relative overflow-hidden",
+          event.coverPhoto ? "bg-ink text-white" : "border-t border-line bg-paper",
+        )}
+      >
+        {event.coverPhoto ? (
+          <>
+            <Image
+              src={event.coverPhoto}
+              alt=""
+              fill
+              sizes="100vw"
+              className="object-cover object-[50%_40%]"
+            />
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-[linear-gradient(180deg,rgb(0_0_0/0.5)_0%,rgb(0_0_0/0.12)_40%,rgb(0_0_0/0.78)_100%)]"
+            />
+          </>
+        ) : null}
+        <div
+          className={clsx(
+            "relative mx-auto flex max-w-5xl flex-col gap-6 px-6 pb-[max(3rem,env(safe-area-inset-bottom))] sm:px-10",
+            event.coverPhoto
+              ? "min-h-[82svh] justify-end pt-24"
+              : "pt-14 sm:flex-row sm:items-end sm:justify-between",
+          )}
+        >
           <div>
-            <p translate="no" className="font-names text-4xl text-ink">
+            {event.coverPhoto ? (
+              <p className="mb-4 font-display text-[1.5rem] leading-snug first-letter:uppercase">
+                {after ? "Gracias por estar" : "Os esperamos"}
+              </p>
+            ) : null}
+            <p
+              translate="no"
+              className={clsx(
+                "font-names",
+                event.coverPhoto
+                  ? "text-[clamp(3rem,15vw,6rem)] leading-[0.9] [text-shadow:0_2px_30px_rgb(0_0_0/0.45)]"
+                  : "text-4xl text-ink",
+              )}
+            >
               {hostNames(event.couple)}
             </p>
-            <p translate="no" className="caption mt-1 text-ink-soft">
+            {event.coverPhoto ? (
+              <p className="mt-4 font-display text-[1.25rem] first-letter:uppercase">
+                {formatWeekdayDate(event.date)}, en {event.city}
+              </p>
+            ) : null}
+            <p
+              translate="no"
+              className={clsx("caption mt-1", event.coverPhoto ? "text-white/80" : "text-ink-soft")}
+            >
               {event.hashtag}
             </p>
           </div>
           <button
             type="button"
             onClick={onReplay}
-            className="inline-flex items-center gap-2 self-start rounded-md px-3 py-2 text-[0.9375rem] text-ink-soft transition-colors hover:bg-ink/5 hover:text-ink sm:self-auto"
+            className={clsx(
+              "inline-flex items-center gap-2 self-start rounded-md px-3 py-2 text-[0.9375rem] transition-colors",
+              event.coverPhoto
+                ? "-ml-3 text-white/90 hover:bg-white/10 hover:text-white"
+                : "text-ink-soft hover:bg-ink/5 hover:text-ink sm:self-auto",
+            )}
           >
             <RotateCcw aria-hidden className="size-4" /> Volver a abrir el sobre
           </button>
+          <p
+            className={clsx(
+              "max-w-prose text-[0.8125rem] leading-relaxed",
+              event.coverPhoto ? "text-white/70" : "text-muted",
+            )}
+          >
+            Prototipo de demostración. Los nombres, lugares y respuestas son ficticios, y las
+            respuestas solo se guardan en este navegador.
+          </p>
         </div>
-        <p className="mx-auto max-w-5xl px-6 pb-10 text-[0.8125rem] leading-relaxed text-muted sm:px-10">
-          Prototipo de demostración. Los nombres, lugares y respuestas son ficticios, y las
-          respuestas solo se guardan en este navegador.
-        </p>
       </footer>
     </div>
   );

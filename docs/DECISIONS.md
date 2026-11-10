@@ -487,6 +487,27 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
 - Pendiente: llevar la escena de cine al díptico y a la caja (mismo plató, otro objeto) y decidir
   si el sobre en la mesa y el de pantalla completa pasan a ser dos planos de esta misma escena.
 
+## Después de la carta: escenas que avanzan con el dedo
+
+- **Cómo se mueven**: `effects/scroll-progress.ts` escribe en una variable CSS (`--p`, de 0 a 1)
+  cuánto se ha bajado por un elemento; los estilos (`globals.css`: `.hero-*`, `.day-*`,
+  `.story-*`) calculan lo demás. No hay renders de React al bajar y funciona en cualquier
+  navegador (no depende de las animaciones de scroll nativas, que Safari solo tiene desde la 26).
+- **Portada con foto** (A1): la foto de la pareja a pantalla completa con los nombres; al bajar se
+  queda atrás y se oscurece. Sin foto, la cabecera de papel de antes.
+- **El día** (A2, `content/program-scene.tsx`): escena fija, un acto por pantalla; el cielo pasa
+  de la tarde a la noche, el sol se pone, sale la luna y se encienden las luces. Al acabar,
+  amanece hacia la sección siguiente.
+- **Nuestra historia** (A3, `content/story-scene.tsx`): un capítulo por pantalla con la foto a
+  sangre. Solo si todos los momentos tienen foto.
+- **Confirmar** (A5): al decir que sí, el lacre del tema cae y sella la respuesta (con vibración,
+  sonido y pétalos).
+- **Cierre** (A8): termina con la foto de portada, los nombres y la fecha.
+- **Barra de secciones** (A9): se retira dentro de las escenas a pantalla completa.
+- Con movimiento reducido, y el día de la boda para el programa, se usan las listas de siempre.
+- Pendiente del plan (`docs/PLAN-CINE.md`): A4 (recorrido de «Dónde»), A6 (calendario con el
+  dedo) y A7 (regalos).
+
 ## Página de venta y ejemplos con imágenes reales
 
 - La venta y `/ejemplos` enseñan el producto en vez de describirlo: cada apertura se ve en marcha
