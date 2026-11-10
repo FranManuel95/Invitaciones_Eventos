@@ -193,6 +193,9 @@ function slowMotion(k: number) {
 /** Tiempo desde la rotura del lacre. */
 const tc0 = (t: number) => t - T.crack;
 
+/** Segundos antes del final en los que la mesa se funde con la pantalla de la carta. */
+export const ARRIVAL = 0.7;
+
 const DUST = 150;
 const SPARKS = 70;
 
@@ -208,13 +211,13 @@ export interface SceneProps {
   date: string;
   fonts: { display: string; names: string };
   /** La carta completa: su proporción (alto/ancho, medida en la carta de papel) y sus textos. */
-  letter: { aspect: number; greeting: string; message: string };
+  letter: { aspect: number; greeting: string; message: string; tilt: number };
   tilt: { x: MotionValue<number>; y: MotionValue<number> };
   pace: number;
   handleRef: React.RefObject<SceneHandle | null>;
-  /** Hueco de la carta en la pantalla: se coloca encima de la carta 3D para el relieve final. */
-  proxyRef: React.RefObject<HTMLDivElement | null>;
   onReady: () => void;
+  /** La carta está llegando a su sitio: empieza el fundido con la pantalla de la carta. */
+  onArriving: () => void;
   onPresented: () => void;
 }
 
@@ -262,7 +265,7 @@ function canvasTexture(el: HTMLCanvasElement, color = true) {
 }
 
 function Envelope(props: SceneProps) {
-  const { theme, handleRef, proxyRef, tilt, pace, onReady, onPresented } = props;
+  const { theme, handleRef, tilt, pace, onReady, onArriving, onPresented } = props;
   // La carta es la de la invitación: vertical y más alta que el sobre.
   const letterH = LETTER_W * props.letter.aspect;
   // Plano que recorta la carta por debajo del sobre mientras está dentro (sigue al sobre).
@@ -291,6 +294,7 @@ function Envelope(props: SceneProps) {
   const sparks = useRef<Points>(null);
   const startedAt = useRef<number | null>(null);
   const presented = useRef(false);
+  const arriving = useRef(false);
   const sounds = useRef({ crack: false, flap: false, letter: false });
 
   // Colores y formas del tema: los mismos que el sobre CSS.
@@ -716,7 +720,6 @@ function Envelope(props: SceneProps) {
     };
   }, [handleRef, onReady]);
 
-  const corner = useMemo(() => new Vector3(), []);
   const speed = useRef({ frames: 0, total: 0, done: false, level: 0 });
   const frame = useRef(0);
 
@@ -921,7 +924,13 @@ function Envelope(props: SceneProps) {
         lerp(letterIn, letterOut, easeInOut(pull)),
         lerp(LETTER_Z, fit.distance - fit.letterAt, rise),
       );
-      letter.current.rotation.set(bend + Math.sin(rise * Math.PI) * 0.32, 0, lerp(-0.012, 0, rise));
+      // Sube plana (sin inclinarse: se vería encoger y crecer) y acaba girada como la carta
+      // de la pantalla siguiente.
+      letter.current.rotation.set(
+        bend * (1 - rise),
+        0,
+        lerp(-0.012, (props.letter.tilt * Math.PI) / 180, rise),
+      );
     }
 
     // ── Objetivo: el foco sigue a lo que importa en cada plano ─────────────────────────────
@@ -939,35 +948,10 @@ function Envelope(props: SceneProps) {
       post.composer.render(delta);
     }
 
-    // El hueco de la carta en la pantalla sigue a la carta 3D (para el relevo a la carta grande).
-    if (letter.current && proxyRef.current && rise > 0) {
-      let minX = Infinity;
-      let minY = Infinity;
-      let maxX = -Infinity;
-      let maxY = -Infinity;
-      for (const [x, y] of [
-        [-1, -1],
-        [1, -1],
-        [1, 1],
-        [-1, 1],
-      ] as const) {
-        corner.set((x * LETTER_W) / 2, (y * letterH) / 2, 0);
-        letter.current.localToWorld(corner).project(cam);
-        const sx = ((corner.x + 1) / 2) * size.width;
-        const sy = ((1 - corner.y) / 2) * size.height;
-        minX = Math.min(minX, sx);
-        maxX = Math.max(maxX, sx);
-        minY = Math.min(minY, sy);
-        maxY = Math.max(maxY, sy);
-      }
-      Object.assign(proxyRef.current.style, {
-        left: `${minX}px`,
-        top: `${minY}px`,
-        width: `${maxX - minX}px`,
-        height: `${maxY - minY}px`,
-      });
+    if (!arriving.current && t >= T.rise[1] - ARRIVAL) {
+      arriving.current = true;
+      onArriving();
     }
-
     if (!presented.current && t >= T.rise[1]) {
       presented.current = true;
       onPresented();

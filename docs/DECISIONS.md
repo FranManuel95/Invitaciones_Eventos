@@ -474,6 +474,10 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
 - La cámara se describe con planos (a qué mira, distancia, altura y lado) y los recorre en un
   solo movimiento continuo (curva de Hermite: no frena al pasar por cada plano). Dura unos 7 s. La imagen pasa por un «objetivo» (`postprocessing`): profundidad de campo con el foco en
   lo que importa en cada plano, brillo, viñeta, curva de color y grano.
+- El final no es un corte: la carta sube plana hasta el sitio, el tamaño y el giro exactos de la
+  carta de la pantalla siguiente y, en el último tramo, esa pantalla (su fondo, su foco y su
+  carta: `LETTER_SET`, `LETTER_SPOTLIGHT` y `letterFrame` de `letter-stage.tsx`) se funde encima
+  de la escena. Al cambiar de pantalla ya no cambia nada a la vista.
 - Todo va por tiempo, no por fotogramas. Si el equipo va justo en reposo se quita el desenfoque
   (lo más caro). Sin WebGL o con movimiento reducido se usa el sobre en la mesa, como antes.
 - Para revisar la película plano a plano: `window.__cine = { t: 1.2, alta: true }` fija el
