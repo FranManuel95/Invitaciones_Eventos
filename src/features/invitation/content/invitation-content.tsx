@@ -5,12 +5,20 @@ import { clsx } from "clsx";
 import { ChevronDown, RotateCcw } from "lucide-react";
 import { useReducedMotion } from "motion/react";
 import Image from "next/image";
-import { Fragment, useEffect, useMemo, useRef, useState, ViewTransition } from "react";
+import {
+  type CSSProperties,
+  Fragment,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  ViewTransition,
+} from "react";
 import { DemoBadge } from "@/components/demo-badge";
 import { buttonClasses } from "@/components/ui/button";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
 import { formatWeekdayDate, isoDay } from "@/lib/format";
-import { useScrollProgress } from "../effects/scroll-progress";
+import { useScrollProgress, useViewProgress } from "../effects/scroll-progress";
 import { AlmondBranch, Monogram } from "../ornaments";
 import { RsvpSection } from "../rsvp/rsvp-section";
 import { DaysLeft } from "./countdown";
@@ -160,6 +168,8 @@ export function InvitationContent({
   // Portada con foto: la de la pareja y, si no la hay, la de la portada.
   const heroPhoto = event.story.couplePhoto ?? event.coverPhoto;
   const hero = useScrollProgress<HTMLElement>("leave", Boolean(heroPhoto) && !reduce);
+  const page = useViewProgress<HTMLDivElement>(!reduce);
+  const welcome = useMemo(() => event.welcomeMessage.split(/\s+/), [event.welcomeMessage]);
 
   useEffect(() => {
     if (!focusOnMount) return;
@@ -190,7 +200,7 @@ export function InvitationContent({
   }, [active]);
 
   return (
-    <div className="bg-ivory">
+    <div ref={page} className="bg-ivory">
       {early || after ? null : (
         <a
           href="#confirmar"
@@ -404,8 +414,19 @@ export function InvitationContent({
               aria-label="Bienvenida"
               className="mx-auto max-w-5xl px-6 py-16 sm:px-10 sm:py-24"
             >
-              <p className="max-w-[34ch] font-display text-[1.625rem] leading-[1.45] text-ink sm:text-[2rem] md:ml-[15.5rem]">
-                {event.welcomeMessage}
+              {/* La bienvenida se enciende palabra a palabra al pasar por el centro. */}
+              <p
+                data-view
+                style={{ "--n": welcome.length } as CSSProperties}
+                className="max-w-[34ch] font-display text-[1.625rem] leading-[1.45] text-ink sm:text-[2rem] md:ml-[15.5rem]"
+              >
+                {welcome.map((word, i) => (
+                  <Fragment key={i}>
+                    <span className="lit-word" style={{ "--i": i } as CSSProperties}>
+                      {word}
+                    </span>{" "}
+                  </Fragment>
+                ))}
               </p>
             </section>
 

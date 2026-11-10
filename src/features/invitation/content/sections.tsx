@@ -1,5 +1,6 @@
 import { ArrowUpRight, CloudSun, Plus } from "lucide-react";
 import { climateText } from "@/lib/weather";
+import Image from "next/image";
 import type { ReactNode } from "react";
 import type { RsvpResponse, WeddingEvent } from "@/lib/domain/types";
 import { describeTransport } from "@/lib/rsvp/summary";
@@ -123,18 +124,49 @@ export function VenuesSection({ event }: { event: WeddingEvent }) {
       <div className="mt-10 grid gap-10 sm:grid-cols-2">
         {event.venues.map((venue) => (
           <article key={venue.id}>
-            <PhotoSlot
-              src={venue.photo}
-              alt={venue.photoAlt}
-              ratio="3/2"
-              sizes="(min-width: 640px) 320px, 92vw"
-              tone={venue.id === "finca" ? 1 : 3}
-              className="mb-5"
-            />
-            <p className="caption text-ink-soft">{venue.kind}</p>
-            <h3 className="mt-1 font-display text-[1.75rem] leading-tight text-ink">
-              {venue.name}
-            </h3>
+            {venue.photo ? (
+              // La foto, grande y con el nombre encima; se desplaza despacio dentro de su marco.
+              <div
+                data-view
+                className="reveal-photo relative -mx-6 mb-5 aspect-[4/5] overflow-hidden bg-cream sm:mx-0 sm:aspect-[3/2] sm:rounded-[2px]"
+              >
+                <div className="absolute inset-0">
+                  <div className="photo-drift absolute inset-0">
+                    <Image
+                      src={venue.photo}
+                      alt={venue.photoAlt}
+                      fill
+                      sizes="(min-width: 640px) 320px, 100vw"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div
+                    aria-hidden
+                    className="absolute inset-0 bg-[linear-gradient(180deg,rgb(0_0_0/0)_45%,rgb(0_0_0/0.72)_100%)]"
+                  />
+                  <div className="absolute inset-x-6 bottom-6 text-white sm:inset-x-5 sm:bottom-5">
+                    <p className="caption text-white/85">{venue.kind}</p>
+                    <h3 className="mt-1 font-display text-[2.25rem] leading-[1.05] [text-shadow:0_2px_20px_rgb(0_0_0/0.4)] sm:text-[1.75rem]">
+                      {venue.name}
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <>
+                <PhotoSlot
+                  src={null}
+                  alt={venue.photoAlt}
+                  ratio="3/2"
+                  tone={venue.id === "finca" ? 1 : 3}
+                  className="mb-5"
+                />
+                <p className="caption text-ink-soft">{venue.kind}</p>
+                <h3 className="mt-1 font-display text-[1.75rem] leading-tight text-ink">
+                  {venue.name}
+                </h3>
+              </>
+            )}
             <address className="mt-2 text-[0.9375rem] leading-relaxed text-ink-soft not-italic">
               {venue.address}
               <br />

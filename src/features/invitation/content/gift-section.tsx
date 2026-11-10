@@ -143,11 +143,12 @@ function GiftTag({
   const taken = state === "taken";
   return (
     <li
+      data-view
       className={clsx(
-        "paper-grain relative flex flex-col rounded-[3px] border border-line bg-paper p-5 pt-8 shadow-[0_1px_2px_rgb(35_39_30/0.06)]",
+        "tag-in paper-grain relative flex flex-col rounded-[3px] border border-line bg-paper p-5 pt-8 shadow-[0_1px_2px_rgb(35_39_30/0.06)]",
         // Las etiquetas caen ligeramente torcidas, como colgadas de su cordel.
         index % 2 ? "sm:rotate-[0.6deg]" : "sm:-rotate-[0.5deg]",
-        taken && "opacity-80",
+        taken && "[--dim:0.8]",
       )}
     >
       {/* Ojal y cordel de la etiqueta. */}
@@ -190,7 +191,7 @@ function GiftTag({
             </span>
           ) : state === "mine" ? (
             <>
-              <span className="inline-flex items-center gap-1.5 text-[0.9375rem] font-medium text-success">
+              <span className="stamp-in inline-flex items-center gap-1.5 text-[0.9375rem] font-medium text-success">
                 <Check aria-hidden className="size-4" />
                 {item.shared ? "Apuntado a vuestro nombre" : "Reservado a vuestro nombre"}
               </span>

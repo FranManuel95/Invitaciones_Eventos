@@ -505,8 +505,15 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
 - **Cierre** (A8): termina con la foto de portada, los nombres y la fecha.
 - **Barra de secciones** (A9): se retira dentro de las escenas a pantalla completa.
 - Con movimiento reducido, y el día de la boda para el programa, se usan las listas de siempre.
-- Pendiente del plan (`docs/PLAN-CINE.md`): A4 (recorrido de «Dónde»), A6 (calendario con el
-  dedo) y A7 (regalos).
+- **Lo que se descubre al llegar** (`useViewProgress`): un solo escuchador escribe `--v` y `--c`
+  en fotos, titulares y tarjetas. Sustituye a las animaciones de scroll nativas de esas piezas,
+  que en iPhones sin Safari 26 no se movían.
+- **Bienvenida**: se enciende palabra a palabra (sin bajar del contraste mínimo de texto grande).
+- **Dónde** (A4): el camino del plano se dibuja al cruzar la pantalla; las fotos de los sitios van
+  grandes, con el nombre encima, y se desplazan dentro de su marco.
+- **Regalos** (A7): las tarjetas llegan una a una y «Reservado a vuestro nombre» cae como un sello.
+- Pendiente del plan (`docs/PLAN-CINE.md`): A6 (el calendario ya se anima al llegar; falta
+  ligarlo al dedo) y la parte B (resto de aperturas).
 
 ## Página de venta y ejemplos con imágenes reales
 

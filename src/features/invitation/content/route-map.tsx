@@ -1,13 +1,13 @@
 "use client";
 
-import { m, useReducedMotion } from "motion/react";
+import { useReducedMotion } from "motion/react";
 import { useId } from "react";
 
 const ROUTE = "M140 120C210 120 220 190 300 190S400 150 470 165";
 
 /**
- * Plano ilustrado del trayecto iglesia → finca (orientativo, no a escala). Al llegar, el
- * camino se dibuja y un autobús lo recorre una y otra vez (SMIL animateMotion, sin JavaScript
+ * Plano ilustrado del trayecto iglesia → finca (orientativo, no a escala). El camino se dibuja
+ * mientras el plano cruza la pantalla (.route-draw) y un autobús lo recorre una y otra vez (SMIL animateMotion, sin JavaScript
  * por fotograma). Con «reducir movimiento» se ve el camino completo y sin autobús.
  */
 export function RouteMap({ from, to }: { from: string; to: string }) {
@@ -17,7 +17,7 @@ export function RouteMap({ from, to }: { from: string; to: string }) {
   const maskId = `trazo-${uid}`;
 
   return (
-    <figure className="overflow-hidden rounded-[2px] border border-line bg-paper">
+    <figure data-view className="overflow-hidden rounded-[2px] border border-line bg-paper">
       <svg
         viewBox="0 0 640 260"
         role="img"
@@ -29,16 +29,14 @@ export function RouteMap({ from, to }: { from: string; to: string }) {
           <path id={routeId} d={ROUTE} />
           {/* El camino punteado se descubre con una máscara que se va dibujando. */}
           <mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width="640" height="260">
-            <m.path
+            <path
               d={ROUTE}
+              pathLength={1}
               fill="none"
               stroke="#fff"
               strokeWidth="14"
               strokeLinecap="round"
-              initial={{ pathLength: reduce ? 1 : 0 }}
-              whileInView={{ pathLength: 1 }}
-              viewport={{ once: true, amount: 0.6 }}
-              transition={{ duration: 1.6, ease: [0.45, 0, 0.2, 1], delay: 0.2 }}
+              className="route-draw"
             />
           </mask>
         </defs>
