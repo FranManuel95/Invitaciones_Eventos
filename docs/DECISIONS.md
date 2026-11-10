@@ -471,8 +471,8 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
   parte a cámara lenta, las mitades saltan y resbalan por la mesa y las migas botan; la solapa
   se curva al abrirse y del sobre sale luz y chispas; la carta sale entera por la boca del sobre
   y sube hacia la cámara, que acaba mirando desde arriba con la mesa desenfocada.
-- La cámara se describe con planos (a qué mira, distancia, altura y lado) y va de uno a otro en
-  arco. La imagen pasa por un «objetivo» (`postprocessing`): profundidad de campo con el foco en
+- La cámara se describe con planos (a qué mira, distancia, altura y lado) y los recorre en un
+  solo movimiento continuo (curva de Hermite: no frena al pasar por cada plano). Dura unos 7 s. La imagen pasa por un «objetivo» (`postprocessing`): profundidad de campo con el foco en
   lo que importa en cada plano, brillo, viñeta, curva de color y grano.
 - Todo va por tiempo, no por fotogramas. Si el equipo va justo en reposo se quita el desenfoque
   (lo más caro). Sin WebGL o con movimiento reducido se usa el sobre en la mesa, como antes.

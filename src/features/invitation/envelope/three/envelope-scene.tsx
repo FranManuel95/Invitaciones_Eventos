@@ -106,14 +106,14 @@ const SUN = new Vector3(-5.5, 8, 6.5);
 
 /** Coreografía en segundos (a ritmo normal). */
 const T = {
-  dolly: [0, 0.9],
-  press: [0.5, 0.9],
-  crack: 0.9,
-  flap: [1.35, 2.6],
-  glow: [1.85, 2.6],
-  pullBack: [1.3, 2.7],
-  letter: [2.45, 3.9],
-  rise: [3.7, 5],
+  dolly: [0, 1.5],
+  press: [1.05, 1.6],
+  crack: 1.6,
+  pullBack: [2.5, 4.3],
+  flap: [2.45, 4.1],
+  glow: [3.0, 4.1],
+  letter: [3.9, 5.8],
+  rise: [5.4, 7.2],
 } as const;
 
 /**
@@ -129,18 +129,44 @@ interface Shot {
   roll: number;
 }
 
-function mixShot(a: Shot, b: Shot, k: number): Shot {
-  return {
-    target: [
-      lerp(a.target[0], b.target[0], k),
-      lerp(a.target[1], b.target[1], k),
-      lerp(a.target[2], b.target[2], k),
-    ],
-    dist: lerp(a.dist, b.dist, k),
-    elev: lerp(a.elev, b.elev, k),
-    azim: lerp(a.azim, b.azim, k),
-    roll: lerp(a.roll, b.roll, k),
-  };
+const SHOT_KEYS = ["dist", "elev", "azim", "roll"] as const;
+
+/** Curva suave entre dos valores con sus pendientes (Hermite): no frena al pasar por cada punto. */
+function hermite(p0: number, p1: number, m0: number, m1: number, h: number, u: number) {
+  const u2 = u * u;
+  const u3 = u2 * u;
+  return (
+    (2 * u3 - 3 * u2 + 1) * p0 +
+    (u3 - 2 * u2 + u) * h * m0 +
+    (-2 * u3 + 3 * u2) * p1 +
+    (u3 - u2) * h * m1
+  );
+}
+
+/**
+ * La cámara en el instante `t`: recorre los planos de `path` en un solo movimiento continuo. Sale
+ * despacio del primero y llega despacio al último, pero pasa por los intermedios sin detenerse.
+ */
+function shotAt(path: { at: number; shot: Shot }[], t: number): Shot {
+  const last = path.length - 1;
+  if (t <= path[0]!.at) return path[0]!.shot;
+  if (t >= path[last]!.at) return path[last]!.shot;
+  let i = 0;
+  while (t > path[i + 1]!.at) i++;
+  const [a, b] = [path[i]!, path[i + 1]!];
+  const h = b.at - a.at;
+  const u = (t - a.at) / h;
+  // Pendiente en cada plano: la que une el anterior con el siguiente (cero en los extremos).
+  const slope = (k: number, value: (shot: Shot) => number) =>
+    k === 0 || k === last
+      ? 0
+      : (value(path[k + 1]!.shot) - value(path[k - 1]!.shot)) / (path[k + 1]!.at - path[k - 1]!.at);
+  const curve = (value: (shot: Shot) => number) =>
+    hermite(value(a.shot), value(b.shot), slope(i, value), slope(i + 1, value), h, u);
+  const shot = { ...a.shot, target: [0, 0, 0] as [number, number, number] };
+  for (const key of SHOT_KEYS) shot[key] = curve((s) => s[key]);
+  for (const axis of [0, 1, 2] as const) shot.target[axis] = curve((s) => s.target[axis]);
+  return shot;
 }
 
 /** Rebote de una pieza lanzada hacia arriba con velocidad `v`: sube, cae, bota una vez y se queda. */
@@ -156,8 +182,16 @@ function bounce(v: number, t: number, gravity = 9) {
 /** Recorrido de una pieza que resbala por la mesa hasta pararse. */
 const slide = (v: number, t: number, drag = 2.4) => (v / drag) * (1 - Math.exp(-drag * t));
 
-/** Cámara lenta al romperse el lacre: el primer instante dura cuatro veces más. */
-const slowMotion = (k: number) => (k < 0.48 ? k * 0.25 : 0.12 + (k - 0.48));
+/** Cámara lenta al romperse el lacre: el tiempo de las piezas que saltan. */
+function slowMotion(k: number) {
+  const [a, b] = [0.45, 1.5];
+  const u = Math.min(1, Math.max(0, (k - a) / (b - a)));
+  // El tiempo va al 16 % y acelera poco a poco hasta la velocidad normal, sin escalón.
+  return 0.16 * k + 0.84 * ((b - a) * (u * u * u - (u * u * u * u) / 2) + Math.max(0, k - b));
+}
+
+/** Tiempo desde la rotura del lacre. */
+const tc0 = (t: number) => t - T.crack;
 
 const DUST = 150;
 const SPARKS = 70;
@@ -478,7 +512,7 @@ function Envelope(props: SceneProps) {
       // La luz que sale del sobre: se suma a la imagen y hace brillar el objetivo.
       innerGlow: new MeshBasicMaterial({
         map: textures.glow,
-        color: new Color(1.15, 0.95, 0.6),
+        color: new Color(0.95, 0.8, 0.5),
         transparent: true,
         opacity: 0,
         depthWrite: false,
@@ -559,16 +593,27 @@ function Envelope(props: SceneProps) {
   const letterOut = H / 2 + 0.06 + letterH / 2;
 
   // Los planos de la película, en orden.
-  const shots = useMemo(() => {
+  const path = useMemo(() => {
     const d = fit.distance;
-    return {
-      idle: { target: [0, 0.05, 0], dist: d * 0.92, elev: 44, azim: -13, roll: 0 },
-      macro: { target: [0, sealY, 0.05], dist: d * 0.4, elev: 33, azim: 9, roll: -2.5 },
-      macroEnd: { target: [0, sealY, 0.05], dist: d * 0.36, elev: 32, azim: 13, roll: -3 },
-      reveal: { target: [0, 0.7, 0.2], dist: d * 0.9, elev: 62, azim: -6, roll: 0 },
-      follow: { target: [0, letterOut - 0.5, 0.1], dist: d * 0.95, elev: 72, azim: 4, roll: 0 },
-      top: { target: [0, letterOut, 0], dist: d, elev: 90, azim: 0, roll: 0 },
-    } satisfies Record<string, Shot>;
+    const seal: [number, number, number] = [0, sealY, 0.05];
+    return [
+      { at: 0, shot: { target: [0, 0.05, 0], dist: d * 0.92, elev: 44, azim: -13, roll: 0 } },
+      { at: T.dolly[1], shot: { target: seal, dist: d * 0.42, elev: 34, azim: 7, roll: -2 } },
+      // Mientras el lacre se rompe, la cámara sigue deslizándose muy despacio a su alrededor.
+      { at: T.pullBack[0], shot: { target: seal, dist: d * 0.38, elev: 33, azim: 13, roll: -3 } },
+      {
+        at: T.pullBack[1],
+        shot: { target: [0, 0.7, 0.2], dist: d * 0.9, elev: 60, azim: -5, roll: 0 },
+      },
+      {
+        at: T.rise[0] + 0.2,
+        shot: { target: [0, letterOut - 0.6, 0.1], dist: d * 0.96, elev: 74, azim: 3, roll: 0 },
+      },
+      {
+        at: T.rise[1] - 0.2,
+        shot: { target: [0, letterOut, 0], dist: d, elev: 90, azim: 0, roll: 0 },
+      },
+    ] satisfies { at: number; shot: Shot }[];
   }, [fit, sealY, letterOut]);
 
   // Reparto fijo del polvo y de las chispas (posición de partida y carácter de cada una).
@@ -672,7 +717,8 @@ function Envelope(props: SceneProps) {
   }, [handleRef, onReady]);
 
   const corner = useMemo(() => new Vector3(), []);
-  const speed = useRef({ frames: 0, total: 0, done: false });
+  const speed = useRef({ frames: 0, total: 0, done: false, level: 0 });
+  const frame = useRef(0);
 
   // Prioridad 1: la imagen la pinta el objetivo, no el render automático.
   useFrame((state, delta) => {
@@ -687,32 +733,34 @@ function Envelope(props: SceneProps) {
     const ty = tilt.y.get();
     const post = lens.current;
 
-    // Si el equipo va justo en reposo, se quita el desenfoque (lo más caro): enseguida si va
-    // muy lento, o tras un segundo si no llega a 30 imágenes por segundo.
-    const pace60 = speed.current;
-    if (!pace60.done && !started && !debug?.alta) {
-      pace60.frames += 1;
-      if (pace60.frames > 5) pace60.total += delta;
-      const average = pace60.total / Math.max(1, pace60.frames - 5);
-      if ((pace60.frames === 15 && average > 0.06) || (pace60.frames === 60 && average > 0.034)) {
-        pace60.done = true;
+    // Si el equipo va justo en reposo, se aligera la imagen antes de que empiece la película:
+    // primero se quita el desenfoque (lo más caro) y, si aun así no va suelto, se baja la
+    // resolución. Se mide un segundo cada vez.
+    const meter = speed.current;
+    if (!meter.done && !started && !debug?.alta) {
+      meter.frames += 1;
+      if (meter.frames > 8) meter.total += delta;
+      const average = meter.total / Math.max(1, meter.frames - 8);
+      const slow =
+        (meter.frames === 20 && average > 0.05) || (meter.frames === 50 && average > 0.021);
+      if (slow && meter.level === 0) {
         post?.simplify();
-      } else if (pace60.frames >= 60) pace60.done = true;
+        Object.assign(meter, { level: 1, frames: 0, total: 0 });
+      } else if (slow) {
+        state.setDpr(1);
+        meter.done = true;
+      } else if (meter.frames >= 50) meter.done = true;
     }
 
+    // Las sombras se recalculan una imagen sí y otra no: las ramas se mueven muy despacio.
+    frame.current += 1;
+    if (frame.current % 2 === 0 || (tc0(t) >= 0 && tc0(t) < 2.5))
+      state.gl.shadowMap.needsUpdate = true;
+
     // ── Cámara ────────────────────────────────────────────────────────────────────────────
-    let shot: Shot;
-    if (t < T.dolly[1]) shot = mixShot(shots.idle, shots.macro, easeInOut(segment(t, ...T.dolly)));
-    else if (t < T.pullBack[0])
-      shot = mixShot(shots.macro, shots.macroEnd, segment(t, T.dolly[1], T.pullBack[0]));
-    else if (t < T.pullBack[1])
-      shot = mixShot(shots.macroEnd, shots.reveal, easeInOut(segment(t, ...T.pullBack)));
-    else if (t < T.rise[0])
-      shot = mixShot(shots.reveal, shots.follow, easeInOut(segment(t, T.pullBack[1], T.rise[0])));
-    else
-      shot = mixShot(shots.follow, shots.top, easeInOut(segment(t, T.rise[0], T.rise[1] - 0.15)));
+    const shot = shotAt(path, t);
     // En reposo la cámara respira y acompaña la inclinación del móvil; al abrir se calma.
-    const calm = 1 - segment(t, 0, 0.6);
+    const calm = 1 - easeInOut(segment(t, 0, 1.2));
     const elev = ((shot.elev + (Math.cos(now * 0.21) * 1.3 - ty * 4) * calm) * Math.PI) / 180;
     const azim = ((shot.azim + (Math.sin(now * 0.17) * 3 + tx * 6) * calm) * Math.PI) / 180;
     const dist = shot.dist * (1 - Math.sin(now * 0.26) * 0.012 * calm);
@@ -724,10 +772,10 @@ function Envelope(props: SceneProps) {
     cam.position.set(...shot.target).addScaledVector(DIR, dist);
     // El golpe del lacre sacude la cámara un instante.
     const tc = t - T.crack;
-    if (tc >= 0 && tc < 0.6) {
-      const amp = 0.03 * Math.exp(-7 * tc);
-      cam.position.x += Math.sin(tc * 95) * amp;
-      cam.position.y += Math.cos(tc * 71) * amp;
+    if (tc >= 0 && tc < 0.9) {
+      const amp = 0.022 * Math.exp(-5 * tc);
+      cam.position.x += Math.sin(tc * 34) * amp;
+      cam.position.y += Math.cos(tc * 27) * amp;
     }
 
     // Sol entre las ramas: la lámina de hojas se mece delante de la luz.
@@ -763,23 +811,23 @@ function Envelope(props: SceneProps) {
     halves.current.forEach((half, i) => {
       if (!half) return;
       const dir = i === 0 ? -1 : 1;
-      half.visible = broken;
-      const wobble = Math.sin(Math.min(physics / 0.75, 1) * Math.PI);
+      half.scale.setScalar(broken ? 1 : 0);
+      const wobble = Math.sin(Math.min(physics / 0.6, 1) * Math.PI);
       half.position.set(
         dir * (0.02 + slide(0.95 + i * 0.25, physics)),
         -slide(0.5 + i * 0.3, physics),
         bounce(1.25 + i * 0.2, physics),
       );
       half.rotation.set(
-        -wobble * 0.8,
-        dir * wobble * 0.55,
+        -wobble * 0.3,
+        dir * wobble * 0.22,
         dir * (slide(2.6 + i, physics) + Math.min(physics * 6, 0.3)),
       );
     });
     crumbs.current.forEach((crumb, i) => {
       const c = CRUMBS[i]!;
       if (!crumb) return;
-      crumb.visible = broken;
+      crumb.scale.setScalar(broken ? 1 : 0);
       crumb.position.set(
         slide(c.v[0]!, physics),
         slide(c.v[1]!, physics),
@@ -822,7 +870,7 @@ function Envelope(props: SceneProps) {
       (innerGlow.current.material as MeshBasicMaterial).opacity = glow * 0.9;
       innerGlow.current.scale.setScalar(3.2 * (0.6 + glow * 0.5));
     }
-    if (innerLight.current) innerLight.current.intensity = glow * 1.5 * (1 - rise);
+    if (innerLight.current) innerLight.current.intensity = glow * 0.8 * (1 - rise);
 
     // Chispas doradas que suben del sobre y se apagan.
     if (sparks.current) {
@@ -882,7 +930,7 @@ function Envelope(props: SceneProps) {
       post.focus.set(0, lerp(sealY, H / 2 - 0.2, toMouth), 0.05);
       if (letter.current) post.focus.lerp(letter.current.position, segment(pull, 0.3, 0.9));
       if (post.dof) {
-        const macro = Math.sin(segment(t, 0.2, T.pullBack[1]) * Math.PI);
+        const macro = Math.sin(easeInOut(segment(t, 0.3, T.pullBack[1])) * Math.PI);
         post.dof.cocMaterial.focusRange = lerp(1.5, 0.55, macro) + rise * 1.2;
         post.dof.bokehScale = lerp(5, 7.5, macro);
       }
@@ -942,7 +990,7 @@ function Envelope(props: SceneProps) {
         intensity={2.3}
         color="#ffeed2"
         castShadow
-        shadow-mapSize={[2048, 2048]}
+        shadow-mapSize={[1536, 1536]}
         shadow-camera-left={-8}
         shadow-camera-right={8}
         shadow-camera-top={8}
@@ -951,7 +999,7 @@ function Envelope(props: SceneProps) {
         shadow-camera-far={30}
         shadow-bias={-0.0004}
         shadow-normalBias={0.02}
-        shadow-radius={7}
+        shadow-radius={5}
         shadow-intensity={0.62}
       />
       <mesh ref={foliage} material={materials.foliage} scale={11} castShadow>
@@ -989,7 +1037,7 @@ function Envelope(props: SceneProps) {
         <pointLight
           ref={innerLight}
           position={[0, H / 2 - 0.2, 1.5]}
-          color="#ffd08a"
+          color="#ffe2b0"
           intensity={0}
           distance={7}
         />
@@ -1056,7 +1104,7 @@ function Envelope(props: SceneProps) {
               ref={(el) => {
                 halves.current[i] = el;
               }}
-              visible={false}
+              scale={0}
             >
               <mesh geometry={g} material={materials.seal} scale={SEAL_R} castShadow />
             </group>
@@ -1068,7 +1116,7 @@ function Envelope(props: SceneProps) {
                 crumbs.current[i] = el;
               }}
               material={materials.crumb}
-              visible={false}
+              scale={0}
               castShadow
             >
               <dodecahedronGeometry args={[c.size, 0]} />
@@ -1096,12 +1144,14 @@ export default function EnvelopeScene(props: SceneProps) {
       aria-hidden
       flat
       shadows={{ type: PCFShadowMap }}
-      dpr={[1, 1.75]}
+      dpr={[1, 1.5]}
       camera={{ fov: FOV, near: 0.1, far: 140, position: [0, 0, 8] }}
       gl={{ antialias: false, alpha: false, toneMapping: NoToneMapping }}
       style={{ position: "absolute", inset: 0 }}
       onCreated={({ gl }) => {
         gl.localClippingEnabled = true;
+        gl.shadowMap.autoUpdate = false;
+        gl.shadowMap.needsUpdate = true;
       }}
     >
       <Envelope {...props} />
