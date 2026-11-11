@@ -551,6 +551,17 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
   día», la noche enlaza con ella sin amanecer.
 - **«¿Venís?» sobre la foto del banquete**: la pregunta, en grande y a toda pantalla, con los dos
   botones encima. Sin foto, la tarjeta de papel de antes.
+- **Lo que tiene la competencia y faltaba** (repaso del 11/11/2026 a proveedores españoles de
+  Bodas.net y a Joy, Greenvelope y similares; son fichas comerciales, no comparativas neutrales):
+  - **Bizum** en los regalos (`gift.bizum`, opcional): el teléfono en grande y «Copiar teléfono».
+  - **La lista de la fiesta** (`playlistUrl`, opcional; `content/playlist-band.tsx`): banda oscura
+    con un vinilo que gira, la canción que pidió el invitado al confirmar y el botón a la lista
+    colaborativa de la pareja. Solo se aceptan enlaces https.
+  - **Waze** junto a Google Maps y Apple Maps en cada sitio.
+  - Los dos campos nuevos van dentro de `events.content` (JSON): no hacen falta migraciones.
+  - Pendiente, porque necesita tabla nueva y migración: **libro de firmas** (mensajes de los
+    invitados visibles para todos, con moderación de la pareja) y la lista de canciones pedidas a
+    la vista de todos. También la reconfirmación de asistencia, que depende del correo.
 - **Prioridad**: el móvil. El escritorio se mantiene correcto, pero las mejoras se piensan y se
   revisan primero a 390 px de ancho.
 - Pendiente del plan (`docs/PLAN-CINE.md`): la parte B (resto de aperturas).

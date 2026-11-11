@@ -117,7 +117,16 @@ export interface WeddingEvent {
   };
   accommodation: Accommodation[];
   faqs: Faq[];
-  gift: { message: string; holder: string; iban: string; items?: GiftItem[] };
+  gift: {
+    message: string;
+    holder: string;
+    iban: string;
+    /** Teléfono para Bizum, o vacío si no se quiere mostrar. */
+    bizum?: string;
+    items?: GiftItem[];
+  };
+  /** Enlace https a la lista de música colaborativa de la fiesta (Spotify, Apple Music…). */
+  playlistUrl?: string;
   story: { intro: string; couplePhoto: string | null; moments: StoryMoment[] };
   /** Foto de la portada (vertical); sin ella se usa el paisaje ilustrado en SVG. */
   coverPhoto: string | null;

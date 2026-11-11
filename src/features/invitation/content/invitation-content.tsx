@@ -39,6 +39,7 @@ import {
   type SealShapeId,
   type SectionId,
 } from "@/lib/theme";
+import { PlaylistBand } from "./playlist-band";
 import { ProgramScene } from "./program-scene";
 import { StoryScene } from "./story-scene";
 import { VenueScene } from "./venue-scene";
@@ -544,6 +545,7 @@ export function InvitationContent({
               </Fragment>
             ))}
             {after ? null : <RsvpSection event={event} group={group} seal={seal} />}
+            {after ? null : <PlaylistBand url={event.playlistUrl ?? ""} response={saved} />}
             {albumToken ? (
               <section
                 aria-labelledby="album-title"

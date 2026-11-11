@@ -98,6 +98,23 @@ export function TextsTab() {
             maxLength={40}
           />
         </div>
+        <TextField
+          label="Teléfono para Bizum"
+          hint="Opcional. Los invitados podrán copiarlo con un toque."
+          path={["gift", "bizum"]}
+          maxLength={20}
+        />
+      </Group>
+      <Group
+        title="Música de la fiesta"
+        description="Si tenéis una lista colaborativa (Spotify, Apple Music, YouTube…), los invitados podrán abrirla y añadir canciones."
+      >
+        <TextField
+          label="Enlace a la lista"
+          hint="Opcional. Empieza por https://"
+          path={["playlistUrl"]}
+          maxLength={500}
+        />
       </Group>
       <Group
         title="Lista de regalos"

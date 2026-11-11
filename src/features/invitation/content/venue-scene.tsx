@@ -8,6 +8,7 @@ import type { WeddingEvent } from "@/lib/domain/types";
 import { useScrollProgress } from "../effects/scroll-progress";
 import { haptic, playTick } from "../effects/sound";
 
+const waze = (q: string) => `https://waze.com/ul?q=${encodeURIComponent(q)}&navigate=yes`;
 const appleMaps = (q: string) => `https://maps.apple.com/?q=${encodeURIComponent(q)}`;
 /** Ruta hasta el sitio: en el móvil abre la aplicación de mapas con el destino ya puesto. */
 const directions = (q: string) =>
@@ -104,16 +105,26 @@ export function VenueScene({ event }: { event: WeddingEvent }) {
                         a {venue.name} (se abre Google Maps en una pestaña nueva)
                       </span>
                     </a>
-                    <a
-                      href={appleMaps(venue.mapsQuery)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-[0.9375rem] text-white underline decoration-white/60 decoration-1 underline-offset-[5px] hover:decoration-white"
-                    >
-                      Apple Maps
-                      <ArrowUpRight aria-hidden className="size-3.5" />
-                      <span className="sr-only">: {venue.name} (se abre en una pestaña nueva)</span>
-                    </a>
+                    {(
+                      [
+                        ["Apple Maps", appleMaps(venue.mapsQuery)],
+                        ["Waze", waze(venue.mapsQuery)],
+                      ] as const
+                    ).map(([label, href]) => (
+                      <a
+                        key={label}
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-[0.9375rem] text-white underline decoration-white/60 decoration-1 underline-offset-[5px] hover:decoration-white"
+                      >
+                        {label}
+                        <ArrowUpRight aria-hidden className="size-3.5" />
+                        <span className="sr-only">
+                          : {venue.name} (se abre en una pestaña nueva)
+                        </span>
+                      </a>
+                    ))}
                   </div>
                 </li>
               ))}

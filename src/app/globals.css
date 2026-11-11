@@ -1164,6 +1164,36 @@ html.lenis body {
   }
 }
 
+/* El vinilo de la lista de la fiesta: surcos, brillo y un giro lento. */
+.vinyl {
+  background:
+    conic-gradient(
+      from 20deg,
+      rgb(255 255 255 / 0.14),
+      transparent 12% 38%,
+      rgb(255 255 255 / 0.1) 50%,
+      transparent 62% 88%,
+      rgb(255 255 255 / 0.14)
+    ),
+    repeating-radial-gradient(circle, #191a16 0 1.5px, #0a0a08 1.5px 3px);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.08),
+    0 30px 60px -20px rgb(0 0 0 / 0.8);
+}
+.vinyl-in {
+  transform: translate3d(calc((1 - var(--v, 1)) * -30%), 0, 0) rotate(calc(var(--c, 0.5) * 220deg));
+}
+@media (prefers-reduced-motion: no-preference) {
+  .vinyl {
+    animation: vinyl-spin 9s linear infinite;
+  }
+}
+@keyframes vinyl-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* «Reservado a vuestro nombre»: cae como un sello al reservar. */
 @media (prefers-reduced-motion: no-preference) {
   .stamp-in {

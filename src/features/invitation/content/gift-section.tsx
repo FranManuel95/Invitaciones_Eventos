@@ -132,6 +132,7 @@ export function GiftSection({
             </p>
           </>
         ) : null}
+        {event.gift.bizum?.trim() ? <Bizum phone={event.gift.bizum.trim()} /> : null}
         {event.gift.iban.trim() ? <BankAccount event={event} titled={items.length > 0} /> : null}
       </div>
     </Section>
@@ -242,6 +243,51 @@ function GiftTag({
         </div>
       </div>
     </li>
+  );
+}
+
+/** Bizum: el teléfono en grande y un toque para copiarlo. */
+function Bizum({ phone }: { phone: string }) {
+  const [status, setStatus] = useState<"idle" | "copied" | "error">("idle");
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(phone.replaceAll(" ", ""));
+      setStatus("copied");
+      window.setTimeout(() => setStatus("idle"), 2500);
+    } catch {
+      setStatus("error");
+    }
+  };
+  return (
+    <div className="paper-grain mt-6 flex max-w-xl flex-wrap items-center justify-between gap-x-6 gap-y-4 rounded-[3px] border border-line bg-paper p-5">
+      <div>
+        <p className="text-[0.8125rem] text-muted">Por Bizum</p>
+        <p
+          translate="no"
+          className="font-display text-[1.75rem] leading-tight text-ink tabular-nums"
+        >
+          {phone}
+        </p>
+      </div>
+      <Button variant="secondary" onClick={copy}>
+        {status === "copied" ? (
+          <>
+            <Check aria-hidden className="size-4" /> Copiado
+          </>
+        ) : (
+          <>
+            <Copy aria-hidden className="size-4" /> Copiar teléfono
+          </>
+        )}
+      </Button>
+      <p aria-live="polite" className="sr-only">
+        {status === "copied"
+          ? "Teléfono copiado."
+          : status === "error"
+            ? "No se ha podido copiar. Selecciona el teléfono y cópialo a mano."
+            : ""}
+      </p>
+    </div>
   );
 }
 
