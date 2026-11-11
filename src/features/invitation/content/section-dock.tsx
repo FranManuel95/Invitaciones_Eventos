@@ -12,7 +12,8 @@ export interface DockLink {
 /**
  * Barra de secciones del móvil: una píldora flotante al alcance del pulgar. A la izquierda, por
  * dónde vas (con un anillo que se completa al bajar) y, al tocarla, el índice de la invitación; a
- * la derecha, lo más importante en cada momento (confirmar, o tu pase si ya has confirmado).
+ * la derecha, lo más importante en cada momento: «Confirmar», que pregunta ahí mismo si vienes y
+ * lleva directo al paso siguiente, o tu pase si ya has confirmado.
  * Aparece al dejar atrás la portada y se retira en las escenas a pantalla completa y al final.
  */
 export function SectionDock({
@@ -20,19 +21,24 @@ export function SectionDock({
   active,
   hidden,
   cta,
+  ask = null,
 }: {
   nav: { id: string; label: string }[];
   active: string | null;
   /** Dentro de una escena a pantalla completa o del formulario: la pantalla es suya. */
   hidden: boolean;
   cta: DockLink | null;
+  /** Si aún no ha respondido: la pregunta, que se contesta aquí mismo. */
+  ask?: { question: string; onAnswer: (status: "attending" | "declined") => void } | null;
 }) {
   const root = useRef<HTMLElement>(null);
   const [inRange, setInRange] = useState(false);
   const [open, setOpen] = useState(false);
+  const [asking, setAsking] = useState(false);
   const listId = useId();
   const shown = inRange && !hidden;
   const expanded = open && shown;
+  const answering = asking && shown && Boolean(ask);
 
   // Avance por la página (--page, de 0 a 1) y si estamos entre la portada y el cierre.
   useEffect(() => {
@@ -61,12 +67,16 @@ export function SectionDock({
 
   // El índice se cierra con Escape o al tocar fuera.
   useEffect(() => {
-    if (!expanded) return;
+    if (!expanded && !answering) return;
+    const close = () => {
+      setOpen(false);
+      setAsking(false);
+    };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") close();
     };
     const onPointer = (e: PointerEvent) => {
-      if (!root.current?.contains(e.target as Node)) setOpen(false);
+      if (!root.current?.contains(e.target as Node)) close();
     };
     window.addEventListener("keydown", onKey);
     window.addEventListener("pointerdown", onPointer);
@@ -74,7 +84,7 @@ export function SectionDock({
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("pointerdown", onPointer);
     };
-  }, [expanded]);
+  }, [expanded, answering]);
 
   const current = nav.find((item) => item.id === active)?.label ?? "Secciones";
 
@@ -112,12 +122,46 @@ export function SectionDock({
           </li>
         ))}
       </ul>
+      {/* La pregunta, sin salir de donde estás: la respuesta lleva directa al siguiente paso. */}
+      {ask && answering ? (
+        <div className="dock-index mb-2 rounded-[1.25rem] bg-ink/95 px-6 pt-5 pb-6 text-center text-paper shadow-[0_18px_40px_-16px_rgb(0_0_0/0.6)] backdrop-blur-md">
+          <p className="font-display text-[1.75rem] leading-tight">{ask.question}</p>
+          <div className="mt-4 grid grid-cols-2 gap-2.5">
+            {(
+              [
+                ["attending", "Sí"],
+                ["declined", "No puedo"],
+              ] as const
+            ).map(([status, label]) => (
+              <button
+                key={status}
+                type="button"
+                onClick={() => {
+                  setAsking(false);
+                  ask.onAnswer(status);
+                }}
+                className={clsx(
+                  "min-h-12 rounded-full text-[1rem] font-medium",
+                  status === "attending"
+                    ? "bg-paper text-ink"
+                    : "border border-paper/40 text-paper",
+                )}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
       <div className="flex items-center gap-2 rounded-full bg-ink/95 p-1.5 text-paper shadow-[0_14px_32px_-12px_rgb(0_0_0/0.55)] backdrop-blur-md">
         <button
           type="button"
           aria-expanded={expanded}
           aria-controls={listId}
-          onClick={() => setOpen((value) => !value)}
+          onClick={() => {
+            setAsking(false);
+            setOpen((value) => !value);
+          }}
           className="flex min-h-11 min-w-0 flex-1 items-center gap-3 rounded-full pr-3 pl-1.5 text-left"
         >
           {/* Anillo de avance: se completa al llegar al final de la invitación. */}
@@ -154,7 +198,19 @@ export function SectionDock({
             )}
           />
         </button>
-        {cta ? (
+        {ask ? (
+          <button
+            type="button"
+            aria-expanded={answering}
+            onClick={() => {
+              setOpen(false);
+              setAsking((value) => !value);
+            }}
+            className="flex min-h-11 shrink-0 items-center rounded-full bg-paper px-5 text-[0.9375rem] font-medium text-ink"
+          >
+            Confirmar
+          </button>
+        ) : cta ? (
           <a
             href={cta.href}
             onClick={() => setOpen(false)}

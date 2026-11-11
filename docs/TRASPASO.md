@@ -19,8 +19,8 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   cuidado, plantillas Cine y Herbario, XV años, dress code de revista, programa que se enciende y
   pase de fotos). Resumen de cada una en
   `docs/DECISIONS.md`.
-- **Pruebas tras rediseñar la venta y los ejemplos**: 293 unitarias y 228 E2E en verde (2 se saltan: las de Supabase
-  real, que necesitan red).
+- **Pruebas (11/11/2026)**: 293 unitarias y 229 E2E en verde (3 se saltan: las 2 de Supabase real, que
+  necesitan red, y la de la píldora en el proyecto de escritorio).
 - **Evento real del usuario**: `fm-y-lucia-2030-915f24` (lo creó probando en su iPhone). No tocar.
 
 ## Pendiente
@@ -29,7 +29,8 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   3D (`docs/PLAN-CINE.md`). La parte A (después de la carta) está hecha entera; queda la parte B
   (resto de aperturas) y la limpieza de la parte C. Rama de trabajo actual:
   `claude/exciting-franklin-43k083` (continúa `claude/loving-faraday-2aw3om-grogl2`; sin PR
-  abierto: producción no tiene aún ni el 3D nuevo ni las escenas de después de la carta).
+  abierto: producción no tiene aún ni el 3D nuevo ni las escenas de después de la carta). El
+  usuario pide centrarse en el móvil y seguir puliendo todo lo de después de la carta.
 
 - **Supabase (hecho el 22/10/2026)**: contraseña mínima de 8 caracteres y direcciones de la web
   en URL Configuration. «Leaked password protection» solo existe en el plan Pro: activarla al

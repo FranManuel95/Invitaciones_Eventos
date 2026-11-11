@@ -526,6 +526,21 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
   portada y se retira en las escenas, en el formulario y en el cierre.
 - **Bienvenida**: empieza con el nombre del invitado («Familia García:»).
 - **Código de vestimenta en el móvil**: las figuras son un pase que se desliza con el dedo.
+- **Responder desde la píldora**: si aún no se ha contestado, «Confirmar» pregunta ahí mismo
+  («¿Venís?», «Sí» o «No puedo») y abre el formulario ya en el paso siguiente (evento
+  `RSVP_START_EVENT`). No se salta ningún dato: menús y autobús se siguen pidiendo.
+- **Transiciones entre secciones**: las secciones con otro tono entran y salen en degradado
+  (`.tone-tinted`), «Nuestra historia» se funde con el papel al terminar (`.story-out`) y una raya
+  dorada se traza antes de cada titular (`.title-rule`).
+- **Dónde y regalos en el móvil**: se pasan de lado con el dedo. Cada sitio lleva «Cómo llegar»
+  (ruta en Google Maps) y Apple Maps al lado; los regalos sin foto llevan su papel de regalo.
+- **Carruseles**: el contenedor que se desliza lleva `relative`. Sin él, los textos solo para
+  lectores de pantalla (`sr-only`, en posición absoluta) de las tarjetas que quedan fuera
+  ensanchaban la página entera en el móvil.
+- **Alojamiento y preguntas**: fichas de papel; cada alojamiento, con su enlace al mapa.
+- **Vibración y sonido al bajar**: cada hoja del calendario suena a papel, y cada acto de «El día»
+  y cada capítulo de la historia dan un toque (`playTick`). Solo suena si el invitado no ha
+  silenciado; la vibración no existe en iPhone (Safari no la ofrece).
 - **Prioridad**: el móvil. El escritorio se mantiene correcto, pero las mejoras se piensan y se
   revisan primero a 390 px de ancho.
 - Pendiente del plan (`docs/PLAN-CINE.md`): la parte B (resto de aperturas).

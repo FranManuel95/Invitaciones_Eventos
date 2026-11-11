@@ -20,7 +20,7 @@ import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
 import { formatWeekdayDate, isoDay } from "@/lib/format";
 import { useScrollProgress, useViewProgress } from "../effects/scroll-progress";
 import { AlmondBranch, Monogram } from "../ornaments";
-import { RsvpSection } from "../rsvp/rsvp-section";
+import { RSVP_START_EVENT, RsvpSection } from "../rsvp/rsvp-section";
 import { DaysLeft } from "./countdown";
 import { useSavedResponse } from "../rsvp/use-saved-response";
 import { GiftSection } from "./gift-section";
@@ -205,6 +205,11 @@ export function InvitationContent({
         : saved
           ? { href: "#confirmar", label: "Cambiar respuesta" }
           : { href: "#confirmar", label: "Confirmar" };
+  // Responder desde la píldora: el formulario se abre ya en el paso siguiente.
+  const answerFromDock = (status: "attending" | "declined") => {
+    window.dispatchEvent(new CustomEvent(RSVP_START_EVENT, { detail: status }));
+    document.getElementById("confirmar")?.scrollIntoView({ block: "start" });
+  };
   const cta = heroPhoto
     ? buttonClasses("secondary", "lg", "border-transparent")
     : buttonClasses("primary", "lg");
@@ -436,6 +441,14 @@ export function InvitationContent({
             active={active}
             hidden={immersive || active === "confirmar"}
             cta={dockCta}
+            ask={
+              !saved && !closed && !after
+                ? {
+                    question: group.members.length > 1 ? "¿Venís?" : "¿Vienes?",
+                    onAnswer: answerFromDock,
+                  }
+                : null
+            }
           />
 
           <main>

@@ -1,4 +1,5 @@
-import { ArrowUpRight, CloudSun, Plus } from "lucide-react";
+import { ArrowUpRight, CloudSun, MapPin, Navigation, Plus } from "lucide-react";
+import { buttonClasses } from "@/components/ui/button";
 import { climateText } from "@/lib/weather";
 import Image from "next/image";
 import type { ReactNode } from "react";
@@ -34,10 +35,12 @@ export function Section({
     <section
       id={id}
       aria-labelledby={`${id}-title`}
-      className={tone === "tinted" ? "bg-cream/55" : undefined}
+      className={tone === "tinted" ? "tone-tinted" : undefined}
     >
       <div className="mx-auto grid max-w-5xl gap-8 px-6 py-16 sm:px-10 sm:py-24 md:grid-cols-[13rem_minmax(0,1fr)] md:gap-14">
         <div>
+          {/* Una raya dorada se traza antes de que suba el titular. */}
+          <span data-view aria-hidden className="title-rule mb-5 block h-px bg-gold" />
           <h2
             id={`${id}-title`}
             className="reveal-title font-display text-[2.5rem] leading-[1.05] text-ink sm:text-[3rem] md:sticky md:top-24"
@@ -114,6 +117,9 @@ export function ProgramSection({
 
 const googleMaps = (q: string) =>
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+/** Ruta hasta el sitio: en el móvil abre la aplicación de mapas con el destino ya puesto. */
+const directions = (q: string) =>
+  `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(q)}`;
 const appleMaps = (q: string) => `https://maps.apple.com/?q=${encodeURIComponent(q)}`;
 
 export function VenuesSection({ event }: { event: WeddingEvent }) {
@@ -121,14 +127,20 @@ export function VenuesSection({ event }: { event: WeddingEvent }) {
   return (
     <Section id="lugares" title="Dónde" tone="tinted" aside={`${event.city}, ${event.region}`}>
       {first && second ? <RouteMap from={first.name} to={second.name} /> : null}
-      <div className="mt-10 grid gap-10 sm:grid-cols-2">
+      {/* En el móvil los sitios se pasan de lado con el dedo; en pantallas anchas, en paralelo. */}
+      <div className="relative mt-10 flex snap-x snap-mandatory [scrollbar-width:none] gap-4 overflow-x-auto max-sm:-mx-6 max-sm:px-6 max-sm:pb-2 sm:grid sm:grid-cols-2 sm:gap-10 sm:overflow-visible">
         {event.venues.map((venue) => (
-          <article key={venue.id}>
+          <article
+            key={venue.id}
+            className={
+              event.venues.length > 1 ? "shrink-0 snap-center max-sm:w-[86%]" : "w-full shrink-0"
+            }
+          >
             {venue.photo ? (
               // La foto, grande y con el nombre encima; se desplaza despacio dentro de su marco.
               <div
                 data-view
-                className="reveal-photo relative -mx-6 mb-5 aspect-[4/5] overflow-hidden bg-cream sm:mx-0 sm:aspect-[3/2] sm:rounded-[2px]"
+                className="reveal-photo relative mb-5 aspect-[4/5] overflow-hidden rounded-[3px] bg-cream sm:aspect-[3/2] sm:rounded-[2px]"
               >
                 <div className="absolute inset-0">
                   <div className="photo-drift absolute inset-0">
@@ -144,9 +156,9 @@ export function VenuesSection({ event }: { event: WeddingEvent }) {
                     aria-hidden
                     className="absolute inset-0 bg-[linear-gradient(180deg,rgb(0_0_0/0)_45%,rgb(0_0_0/0.72)_100%)]"
                   />
-                  <div className="absolute inset-x-6 bottom-6 text-white sm:inset-x-5 sm:bottom-5">
+                  <div className="absolute inset-x-5 bottom-5 text-white">
                     <p className="caption text-white/85">{venue.kind}</p>
-                    <h3 className="mt-1 font-display text-[2.25rem] leading-[1.05] [text-shadow:0_2px_20px_rgb(0_0_0/0.4)] sm:text-[1.75rem]">
+                    <h3 className="mt-1 font-display text-[2rem] leading-[1.05] [text-shadow:0_2px_20px_rgb(0_0_0/0.4)] sm:text-[1.75rem]">
                       {venue.name}
                     </h3>
                   </div>
@@ -175,25 +187,30 @@ export function VenuesSection({ event }: { event: WeddingEvent }) {
             {venue.note ? (
               <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted">{venue.note}</p>
             ) : null}
-            <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-[0.9375rem]">
-              {[
-                ["Abrir en Google Maps", googleMaps(venue.mapsQuery)],
-                ["Abrir en Apple Maps", appleMaps(venue.mapsQuery)],
-              ].map(([label, href]) => (
-                <li key={label}>
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-ink underline decoration-gold decoration-1 underline-offset-[5px] transition-colors hover:decoration-ink"
-                  >
-                    {label}
-                    <ArrowUpRight aria-hidden className="size-3.5" />
-                    <span className="sr-only">(se abre en una pestaña nueva)</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3">
+              <a
+                href={directions(venue.mapsQuery)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={buttonClasses("primary", "md")}
+              >
+                <Navigation aria-hidden className="size-4" />
+                Cómo llegar
+                <span className="sr-only">
+                  a {venue.name} (se abre Google Maps en una pestaña nueva)
+                </span>
+              </a>
+              <a
+                href={appleMaps(venue.mapsQuery)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-[0.9375rem] text-ink underline decoration-gold decoration-1 underline-offset-[5px] transition-colors hover:decoration-ink"
+              >
+                Apple Maps
+                <ArrowUpRight aria-hidden className="size-3.5" />
+                <span className="sr-only">: {venue.name} (se abre en una pestaña nueva)</span>
+              </a>
+            </div>
           </article>
         ))}
       </div>
@@ -316,12 +333,27 @@ export function PracticalSection({ event }: { event: WeddingEvent }) {
         </div>
         <div>
           <h3 className="font-display text-[1.75rem] leading-tight text-ink">Dónde dormir</h3>
-          <ul className="mt-2">
+          {/* Cada alojamiento, una ficha con su enlace al mapa. */}
+          <ul className="mt-4 grid gap-3">
             {event.accommodation.map((a) => (
-              <li key={a.name} className="border-b border-line py-4 first:pt-2 last:border-0">
-                <p className="text-[1.0625rem] font-medium text-ink">{a.name}</p>
-                <p className="caption text-ink-soft">{a.distance}</p>
-                <p className="mt-1 text-[0.9375rem] leading-relaxed text-muted">{a.detail}</p>
+              <li
+                key={a.name}
+                data-view
+                className="tag-in paper-grain rounded-[3px] border border-line bg-paper p-5 shadow-[0_10px_24px_-18px_rgb(0_0_0/0.35)]"
+              >
+                <p className="font-display text-[1.375rem] leading-tight text-ink">{a.name}</p>
+                <p className="caption mt-1 text-ink-soft">{a.distance}</p>
+                <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted">{a.detail}</p>
+                <a
+                  href={googleMaps(`${a.name}, ${event.city}`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex items-center gap-1.5 text-[0.9375rem] text-ink underline decoration-gold decoration-1 underline-offset-[5px] transition-colors hover:decoration-ink"
+                >
+                  <MapPin aria-hidden className="size-4 text-gold" />
+                  Ver en el mapa
+                  <span className="sr-only">: {a.name} (se abre en una pestaña nueva)</span>
+                </a>
               </li>
             ))}
           </ul>
@@ -331,17 +363,19 @@ export function PracticalSection({ event }: { event: WeddingEvent }) {
       <h3 className="mt-16 font-display text-[1.75rem] leading-tight text-ink">
         Preguntas frecuentes
       </h3>
-      <div className="mt-4 border-t border-ink/30">
+      <div className="mt-5 grid max-w-2xl gap-2.5">
         {event.faqs.map((faq) => (
-          <details key={faq.question} className="group border-b border-line">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left text-[1.0625rem] text-ink transition-colors hover:text-ink-soft [&::-webkit-details-marker]:hidden">
+          <details
+            key={faq.question}
+            className="group rounded-[3px] border border-line bg-paper/70 px-5 transition-colors open:bg-paper open:shadow-[0_10px_24px_-18px_rgb(0_0_0/0.35)]"
+          >
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left font-display text-[1.25rem] leading-snug text-ink [&::-webkit-details-marker]:hidden">
               {faq.question}
-              <Plus
-                aria-hidden
-                className="size-4 shrink-0 text-ink-soft transition-transform duration-300 group-open:rotate-45"
-              />
+              <span className="grid size-8 shrink-0 place-items-center rounded-full border border-line text-ink-soft transition-[rotate,background-color,color] duration-300 group-open:rotate-45 group-open:bg-ink group-open:text-paper">
+                <Plus aria-hidden className="size-4" />
+              </span>
             </summary>
-            <p className="max-w-prose pr-8 pb-5 text-[0.9375rem] leading-relaxed text-muted">
+            <p className="faq-answer max-w-prose pr-6 pb-5 text-[0.9375rem] leading-relaxed text-ink-soft">
               {faq.answer}
             </p>
           </details>

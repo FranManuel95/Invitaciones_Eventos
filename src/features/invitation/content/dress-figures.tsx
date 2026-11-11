@@ -88,7 +88,7 @@ export function DressFigures({
     <ul
       tabIndex={0}
       aria-label="Ideas para vestir"
-      className="mt-8 flex snap-x snap-mandatory [scrollbar-width:none] gap-4 overflow-x-auto max-sm:-mx-6 max-sm:px-6 max-sm:pb-2 sm:grid sm:grid-cols-[repeat(auto-fit,minmax(6.5rem,1fr))] sm:gap-x-3 sm:gap-y-8 sm:overflow-visible"
+      className="relative mt-8 flex snap-x snap-mandatory [scrollbar-width:none] gap-4 overflow-x-auto max-sm:-mx-6 max-sm:px-6 max-sm:pb-2 sm:grid sm:grid-cols-[repeat(auto-fit,minmax(6.5rem,1fr))] sm:gap-x-3 sm:gap-y-8 sm:overflow-visible"
     >
       {examples.map((example, i) => (
         <li key={example.who} className="flex shrink-0 snap-center flex-col max-sm:w-[64%]">

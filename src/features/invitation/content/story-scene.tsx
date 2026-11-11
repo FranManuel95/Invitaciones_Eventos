@@ -4,6 +4,7 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 import type { WeddingEvent } from "@/lib/domain/types";
 import { useScrollProgress } from "../effects/scroll-progress";
+import { haptic, playTick } from "../effects/sound";
 
 /*
  * Nuestra historia en capítulos: la escena se queda fija y cada momento ocupa la pantalla con su
@@ -13,10 +14,16 @@ import { useScrollProgress } from "../effects/scroll-progress";
  * Solo se usa cuando todos los momentos tienen foto y no se pide reducir el movimiento; si no,
  * la línea de tiempo de siempre (`StorySection`).
  */
+const step = () => {
+  haptic(8);
+  playTick();
+};
+
 export function StoryScene({ event }: { event: WeddingEvent }) {
-  const scene = useScrollProgress<HTMLDivElement>("pin");
   const { story } = event;
   const count = Math.max(story.moments.length, 2);
+  // Cada capítulo se nota en el dedo (y se oye, si hay sonido) al llegar.
+  const scene = useScrollProgress<HTMLDivElement>("pin", true, count, step);
   return (
     <section id="historia" aria-labelledby="historia-title" className="bg-ink">
       <div
@@ -81,6 +88,8 @@ export function StoryScene({ event }: { event: WeddingEvent }) {
           </div>
         </div>
       </div>
+      {/* De la última foto al papel de la sección siguiente, sin corte. */}
+      <div aria-hidden className="story-out h-[22svh]" />
     </section>
   );
 }

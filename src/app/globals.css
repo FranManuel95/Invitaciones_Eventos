@@ -1102,6 +1102,56 @@ html.lenis body {
   }
 }
 
+/* Secciones con otro tono: el color entra y sale poco a poco, sin una raya de corte. */
+.tone-tinted {
+  --tint: color-mix(in oklab, var(--color-cream) 55%, transparent);
+  background: linear-gradient(
+    180deg,
+    transparent 0,
+    var(--tint) 7rem,
+    var(--tint) calc(100% - 7rem),
+    transparent 100%
+  );
+}
+/* La raya de cada titular se traza al llegar. */
+.title-rule {
+  width: calc(var(--v, 1) * 3.5rem);
+}
+/* Final de «Nuestra historia»: de la foto oscura al papel. */
+.story-out {
+  background: linear-gradient(in oklab 180deg, var(--color-ink), var(--color-ivory));
+}
+/* Papel de regalo de las tarjetas sin foto: rayas finas y la cinta en cruz. */
+.gift-wrap {
+  background:
+    linear-gradient(
+      90deg,
+      transparent calc(50% - 5px),
+      rgb(255 255 255 / 0.3) 0 calc(50% + 5px),
+      transparent 0
+    ),
+    linear-gradient(
+      0deg,
+      transparent calc(50% - 5px),
+      rgb(255 255 255 / 0.3) 0 calc(50% + 5px),
+      transparent 0
+    ),
+    repeating-linear-gradient(135deg, rgb(255 255 255 / 0.1) 0 2px, transparent 2px 12px),
+    color-mix(in oklab, var(--tone), var(--color-ink) 12%);
+}
+/* La respuesta de una pregunta aparece al abrirla. */
+@media (prefers-reduced-motion: no-preference) {
+  details[open] > .faq-answer {
+    animation: faq-answer 0.35s ease-out both;
+  }
+}
+@keyframes faq-answer {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -6px, 0);
+  }
+}
+
 /* «Reservado a vuestro nombre»: cae como un sello al reservar. */
 @media (prefers-reduced-motion: no-preference) {
   .stamp-in {

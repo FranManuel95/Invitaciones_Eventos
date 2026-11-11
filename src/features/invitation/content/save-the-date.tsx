@@ -2,7 +2,14 @@
 
 import { CalendarPlus } from "lucide-react";
 import { m, useInView, useReducedMotion } from "motion/react";
-import { useRef, useState, type CSSProperties, type MouseEvent, type RefObject } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type MouseEvent,
+  type RefObject,
+} from "react";
 import { buttonClasses } from "@/components/ui/button";
 import {
   buildIcs,
@@ -15,6 +22,7 @@ import {
 import type { WeddingEvent } from "@/lib/domain/types";
 import type { CalendarId } from "@/lib/theme";
 import { formatWeekdayDate, isoDay } from "@/lib/format";
+import { haptic, playPaper } from "../effects/sound";
 import { FlipCountdown } from "./countdown";
 import { Section } from "./sections";
 
@@ -66,6 +74,36 @@ export function SaveTheDate({
   const [pages] = useState(() =>
     reduce || !isPad ? [] : pagesUntil(new Date().toISOString(), day),
   );
+  // Cada hoja que cae (o vuelve) suena a papel y se nota en el dedo.
+  const pageCount = pages.length;
+  useEffect(() => {
+    const el = pad.current;
+    if (!el || !pageCount) return;
+    let fallen = -1;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const box = el.getBoundingClientRect();
+      const height = window.innerHeight;
+      // La misma cuenta que hace `.cal-page` en los estilos.
+      const c = Math.min(1, Math.max(0, (height - box.top) / (height + box.height)));
+      const now = Math.min(pageCount, Math.max(0, Math.floor(((c - 0.14) / 0.2) * pageCount)));
+      if (fallen !== -1 && now !== fallen) {
+        haptic(6);
+        playPaper(0.22);
+      }
+      fallen = now;
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+    };
+  }, [pageCount]);
   const dayRef = useRef<HTMLSpanElement>(null);
   const [flight, setFlight] = useState<{ x: number; y: number; dx: number; dy: number } | null>(
     null,

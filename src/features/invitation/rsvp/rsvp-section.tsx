@@ -3,7 +3,7 @@
 import { hostNames } from "@/lib/event-kind";
 import { Check, Lock } from "lucide-react";
 import { AnimatePresence, m } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
 import {
@@ -26,6 +26,9 @@ import { ResponseDetails } from "./rsvp-summary";
 import { useSavedResponse } from "./use-saved-response";
 
 type View = "intro" | "form" | "done";
+
+/** Lo lanza la píldora del móvil al responder «sí» o «no» desde ella. */
+export const RSVP_START_EVENT = "invitacion:rsvp";
 
 export function RsvpSection({
   event,
@@ -60,6 +63,19 @@ export function RsvpSection({
     setForm({ draft, step });
     setEditing(true);
   };
+
+  // La respuesta dada en la píldora del móvil abre el formulario en su segundo paso.
+  const startFromDock = useEffectEvent((status: "attending" | "declined") => {
+    if (!closed) start(status);
+  });
+  useEffect(() => {
+    const onStart = (e: Event) => {
+      const status = (e as CustomEvent<unknown>).detail;
+      if (status === "attending" || status === "declined") startFromDock(status);
+    };
+    window.addEventListener(RSVP_START_EVENT, onStart);
+    return () => window.removeEventListener(RSVP_START_EVENT, onStart);
+  }, []);
 
   return (
     <Section

@@ -10,16 +10,29 @@ import { useEffect, useRef } from "react";
  *   el tramo en que la escena está fijada.
  * - `leave`: `--p` va de 0 (el elemento arriba del todo) a 1 (ha salido por arriba).
  *
+ * Con `steps` y `onStep` avisa al cambiar de paso (para un toque de vibración o de sonido).
+ *
  * Con `enabled` en falso no hace nada (movimiento reducido): `--p` se queda sin definir y los
  * estilos usan su valor de reposo.
  */
-export function useScrollProgress<T extends HTMLElement>(mode: "pin" | "leave", enabled = true) {
+export function useScrollProgress<T extends HTMLElement>(
+  mode: "pin" | "leave",
+  enabled = true,
+  /** Número de pasos de la escena: al pasar de uno a otro se llama a `onStep`. */
+  steps = 0,
+  onStep?: (step: number) => void,
+) {
   const ref = useRef<T>(null);
+  const stepRef = useRef(onStep);
+  useEffect(() => {
+    stepRef.current = onStep;
+  });
   useEffect(() => {
     const el = ref.current;
     if (!el || !enabled) return;
     let frame = 0;
     let last = "";
+    let step = -1;
     const update = () => {
       frame = 0;
       const box = el.getBoundingClientRect();
@@ -27,6 +40,12 @@ export function useScrollProgress<T extends HTMLElement>(mode: "pin" | "leave", 
       const p = travel > 0 ? Math.min(1, Math.max(0, -box.top / travel)) : 0;
       const value = p.toFixed(4);
       if (value !== last) el.style.setProperty("--p", (last = value));
+      if (steps > 1) {
+        const now = Math.round(p * (steps - 1));
+        // El primero no cuenta: es donde estaba la página al cargar.
+        if (step !== -1 && now !== step) stepRef.current?.(now);
+        step = now;
+      }
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update);
@@ -40,7 +59,7 @@ export function useScrollProgress<T extends HTMLElement>(mode: "pin" | "leave", 
       window.removeEventListener("resize", schedule);
       el.style.removeProperty("--p");
     };
-  }, [mode, enabled]);
+  }, [mode, enabled, steps]);
   return ref;
 }
 

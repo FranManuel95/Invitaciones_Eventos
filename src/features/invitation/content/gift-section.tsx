@@ -1,9 +1,9 @@
 "use client";
 
 import { clsx } from "clsx";
-import { Check, Copy, ExternalLink } from "lucide-react";
+import { Check, Copy, ExternalLink, Gift } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState, useTransition, type CSSProperties } from "react";
 import { claimGift } from "@/app/actions/gifts";
 import { Button } from "@/components/ui/button";
 import type { GiftItem, WeddingEvent } from "@/lib/domain/types";
@@ -15,6 +15,14 @@ import {
   type GiftStatus,
 } from "@/lib/gifts";
 import { Section } from "./sections";
+
+/** Colores del papel de regalo de las tarjetas sin foto (salen del tema). */
+const WRAP_TONES = [
+  "var(--color-almond)",
+  "var(--color-wax)",
+  "var(--color-gold)",
+  "var(--color-dusk)",
+];
 
 /** En la demo y la vista previa las reservas propias se recuerdan en este navegador. */
 const demoKey = (token: string) => `invitacion:${token}:regalos`;
@@ -101,7 +109,12 @@ export function GiftSection({
         <p className="font-display text-[1.5rem] leading-snug text-ink">{event.gift.message}</p>
         {items.length ? (
           <>
-            <ul className="mt-8 grid gap-5 sm:grid-cols-2" aria-label="Lista de regalos">
+            {/* En el móvil, un escaparate que se pasa de lado; en pantallas anchas, dos columnas. */}
+            <ul
+              tabIndex={0}
+              className="relative mt-8 flex snap-x snap-mandatory [scrollbar-width:none] gap-4 overflow-x-auto max-sm:-mx-6 max-sm:px-6 max-sm:pt-5 max-sm:pb-3 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible"
+              aria-label="Lista de regalos"
+            >
               {items.map((item, i) => (
                 <GiftTag
                   key={item.id}
@@ -145,7 +158,7 @@ function GiftTag({
     <li
       data-view
       className={clsx(
-        "tag-in paper-grain relative flex flex-col rounded-[3px] border border-line bg-paper p-5 pt-8 shadow-[0_1px_2px_rgb(35_39_30/0.06)]",
+        "tag-in paper-grain relative flex shrink-0 snap-center flex-col rounded-[3px] border border-line bg-paper p-5 pt-8 shadow-[0_12px_26px_-18px_rgb(0_0_0/0.4)] max-sm:w-[78%]",
         // Las etiquetas caen ligeramente torcidas, como colgadas de su cordel.
         index % 2 ? "sm:rotate-[0.6deg]" : "sm:-rotate-[0.5deg]",
         taken && "[--dim:0.8]",
@@ -170,7 +183,16 @@ function GiftTag({
             className="object-cover"
           />
         </div>
-      ) : null}
+      ) : (
+        // Sin foto: el papel de regalo, con su lazo.
+        <div
+          aria-hidden
+          className="gift-wrap relative mb-4 grid aspect-[3/2] place-items-center overflow-hidden rounded-[2px] sm:hidden"
+          style={{ "--tone": WRAP_TONES[index % WRAP_TONES.length] } as CSSProperties}
+        >
+          <Gift className="size-9 text-paper" strokeWidth={1.1} />
+        </div>
+      )}
       <h3 className="font-display text-[1.375rem] leading-tight text-ink">{item.title}</h3>
       {item.detail ? (
         <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-ink-soft">{item.detail}</p>
