@@ -541,6 +541,16 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
 - **Vibración y sonido al bajar**: cada hoja del calendario suena a papel, y cada acto de «El día»
   y cada capítulo de la historia dan un toque (`playTick`). Solo suena si el invitado no ha
   silenciado; la vibración no existe en iPhone (Safari no la ofrece).
+- **Bienvenida como título de película**: con foto de portada, la bienvenida sigue sobre negro
+  (la foto se ha oscurecido al bajar), se enciende palabra a palabra en grande y después amanece
+  hacia el papel (`.scene-out`). El aviso «Tu respuesta» va detrás, ya sobre papel.
+- **«Dónde», escena** (`content/venue-scene.tsx`): con dos o más sitios, todos con foto, cada uno
+  ocupa la pantalla y su foto se funde con la del siguiente (estilos `.story-*`); abajo, un punto
+  viaja de un sitio a otro. Solo el sitio que se ve recibe toques (`inert` en los demás). Sin
+  fotos o con movimiento reducido, las tarjetas de `VenuesSection`. Si va justo después de «El
+  día», la noche enlaza con ella sin amanecer.
+- **«¿Venís?» sobre la foto del banquete**: la pregunta, en grande y a toda pantalla, con los dos
+  botones encima. Sin foto, la tarjeta de papel de antes.
 - **Prioridad**: el móvil. El escritorio se mantiene correcto, pero las mejoras se piensan y se
   revisan primero a 390 px de ancho.
 - Pendiente del plan (`docs/PLAN-CINE.md`): la parte B (resto de aperturas).

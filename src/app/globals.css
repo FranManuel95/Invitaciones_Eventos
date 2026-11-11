@@ -1121,6 +1121,18 @@ html.lenis body {
 .story-out {
   background: linear-gradient(in oklab 180deg, var(--color-ink), var(--color-ivory));
 }
+/* Lo mismo para las escenas sobre negro («Dónde» y la bienvenida). */
+.scene-out {
+  background: linear-gradient(in oklab 180deg, #10110d, var(--color-ivory));
+}
+/* El punto que viaja de un sitio a otro en «Dónde». */
+.venue-car {
+  left: calc(var(--p, 0) * (100% - 0.75rem));
+}
+/* «¿Venís?» sobre la foto del banquete: la foto se acerca despacio al cruzar la pantalla. */
+.ask-photo {
+  transform: scale(calc(1.06 + var(--c, 0.5) * 0.12));
+}
 /* Papel de regalo de las tarjetas sin foto: rayas finas y la cinta en cruz. */
 .gift-wrap {
   background:

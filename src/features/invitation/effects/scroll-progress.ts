@@ -20,7 +20,7 @@ export function useScrollProgress<T extends HTMLElement>(
   enabled = true,
   /** Número de pasos de la escena: al pasar de uno a otro se llama a `onStep`. */
   steps = 0,
-  onStep?: (step: number) => void,
+  onStep?: (step: number, first: boolean) => void,
 ) {
   const ref = useRef<T>(null);
   const stepRef = useRef(onStep);
@@ -42,8 +42,8 @@ export function useScrollProgress<T extends HTMLElement>(
       if (value !== last) el.style.setProperty("--p", (last = value));
       if (steps > 1) {
         const now = Math.round(p * (steps - 1));
-        // El primero no cuenta: es donde estaba la página al cargar.
-        if (step !== -1 && now !== step) stepRef.current?.(now);
+        // El primer aviso solo dice dónde estaba la página al cargar (`first`).
+        if (now !== step) stepRef.current?.(now, step === -1);
         step = now;
       }
     };

@@ -41,6 +41,7 @@ import {
 } from "@/lib/theme";
 import { ProgramScene } from "./program-scene";
 import { StoryScene } from "./story-scene";
+import { VenueScene } from "./venue-scene";
 import { StorySection } from "./story-section";
 import { PracticalSection, ProgramSection, TransportSection, VenuesSection } from "./sections";
 
@@ -192,8 +193,17 @@ export function InvitationContent({
   const programScene = !reduce && !clock.active;
   const storyScene = !reduce && event.story.moments.every((moment) => moment.photo);
   // Dentro de una escena la barra de secciones se retira: la pantalla es toda suya.
+  const venueScene =
+    !reduce && event.venues.length >= 2 && event.venues.every((venue) => venue.photo);
+  // Lo que sigue a «El día»: si es otra escena oscura, la noche enlaza con ella sin amanecer.
+  const visible = order.filter(shows);
+  const afterProgram = visible[visible.indexOf("programa") + 1];
+  const darkAfterProgram =
+    (afterProgram === "lugares" && venueScene) || (afterProgram === "historia" && storyScene);
   const immersive =
-    (active === "programa" && programScene) || (active === "historia" && storyScene);
+    (active === "programa" && programScene) ||
+    (active === "historia" && storyScene) ||
+    (active === "lugares" && venueScene);
   // Lo que ofrece la píldora del móvil: confirmar, o el pase si ya se ha confirmado.
   const closed = isDeadlinePassed(event, group);
   const dockCta: DockLink | null = after
@@ -394,14 +404,6 @@ export function InvitationContent({
         <SaveTheDateOnly event={event} calendar={calendar} />
       ) : (
         <>
-          {after ? null : (
-            <aside aria-label="Tu respuesta" className="border-t border-line bg-paper">
-              <div className="mx-auto max-w-5xl px-6 py-4 sm:px-10">
-                <ResponseStatus event={event} group={group} />
-              </div>
-            </aside>
-          )}
-
           <nav
             aria-label="Secciones de la invitación"
             inert={immersive}
@@ -452,28 +454,59 @@ export function InvitationContent({
           />
 
           <main>
+            {/* Bienvenida: con foto de portada sigue sobre negro, como el título de una película,
+                y se enciende palabra a palabra; después amanece hacia el papel. */}
             <section
               aria-label="Bienvenida"
-              className="mx-auto max-w-5xl px-6 py-16 sm:px-10 sm:py-24"
+              className={
+                heroPhoto
+                  ? "bg-[linear-gradient(180deg,#060605,#10110d_45%)] text-white"
+                  : undefined
+              }
             >
-              {/* La bienvenida se enciende palabra a palabra al pasar por el centro. */}
-              <p className="mb-5 font-display text-[1.25rem] text-ink-soft italic md:ml-[15.5rem]">
-                {group.displayName}:
-              </p>
-              <p
-                data-view
-                style={{ "--n": welcome.length } as CSSProperties}
-                className="max-w-[34ch] font-display text-[1.625rem] leading-[1.45] text-ink sm:text-[2rem] md:ml-[15.5rem]"
+              <div
+                className={clsx(
+                  "mx-auto max-w-5xl px-6 sm:px-10",
+                  heroPhoto ? "flex min-h-[78svh] flex-col justify-center py-20" : "py-16 sm:py-24",
+                )}
               >
-                {welcome.map((word, i) => (
-                  <Fragment key={i}>
-                    <span className="lit-word" style={{ "--i": i } as CSSProperties}>
-                      {word}
-                    </span>{" "}
-                  </Fragment>
-                ))}
-              </p>
+                <p
+                  className={clsx(
+                    "mb-6 font-display text-[1.375rem] italic md:ml-[15.5rem]",
+                    heroPhoto ? "text-white/80" : "text-ink-soft",
+                  )}
+                >
+                  {group.displayName}:
+                </p>
+                <p
+                  data-view
+                  style={{ "--n": welcome.length } as CSSProperties}
+                  className={clsx(
+                    "max-w-[30ch] font-display leading-[1.4] md:ml-[15.5rem]",
+                    heroPhoto
+                      ? "text-[clamp(1.875rem,8vw,2.5rem)] text-white"
+                      : "text-[1.625rem] text-ink sm:text-[2rem]",
+                  )}
+                >
+                  {welcome.map((word, i) => (
+                    <Fragment key={i}>
+                      <span className="lit-word" style={{ "--i": i } as CSSProperties}>
+                        {word}
+                      </span>{" "}
+                    </Fragment>
+                  ))}
+                </p>
+              </div>
+              {heroPhoto ? <div aria-hidden className="scene-out h-[24svh]" /> : null}
             </section>
+
+            {after ? null : (
+              <aside aria-label="Tu respuesta" className="border-t border-line bg-paper">
+                <div className="mx-auto max-w-5xl px-6 py-4 sm:px-10">
+                  <ResponseStatus event={event} group={group} />
+                </div>
+              </aside>
+            )}
 
             {order.filter(shows).map((id) => (
               <Fragment key={id}>
@@ -482,11 +515,15 @@ export function InvitationContent({
                     fecha: clock.active ? null : <SaveTheDate event={event} variant={calendar} />,
                     // El día de la boda manda lo práctico: la lista, con el acto de ahora.
                     programa: programScene ? (
-                      <ProgramScene event={event} />
+                      <ProgramScene event={event} dawn={!darkAfterProgram} />
                     ) : (
                       <ProgramSection event={event} currentId={live?.current?.id ?? null} />
                     ),
-                    lugares: <VenuesSection event={event} />,
+                    lugares: venueScene ? (
+                      <VenueScene event={event} />
+                    ) : (
+                      <VenuesSection event={event} />
+                    ),
                     transporte: <TransportSection event={event} response={saved} />,
                     info: <PracticalSection event={event} />,
                     historia: storyScene ? (

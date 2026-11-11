@@ -14,7 +14,8 @@ import { haptic, playTick } from "../effects/sound";
  * Solo se usa cuando todos los momentos tienen foto y no se pide reducir el movimiento; si no,
  * la línea de tiempo de siempre (`StorySection`).
  */
-const step = () => {
+const step = (_step: number, first: boolean) => {
+  if (first) return;
   haptic(8);
   playTick();
 };
