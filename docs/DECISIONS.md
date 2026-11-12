@@ -107,6 +107,16 @@ para promoción, ver «Para más adelante»).
   (0,7 a 1,6 MB). Los vídeos de la versión 2 se borraron con el permiso del usuario. Se ofrece como
   apertura «Premium» (marca `premium` en `OPENINGS`, visible en el editor y en los ejemplos); las
   demás aperturas siguen disponibles.
+- **Sobre de película, versión 4** (solo el encuadre vertical, de momento): el vídeo de la
+  versión 3 tenía una imagen doble al pasar al primer plano del lacre (2,7 s), el lacre saltaba
+  entero y flotaba, y a los 4,6 s cortaba a otra escena con el sobre ya abierto. Se regeneró en
+  una sola toma continua de 10 s con Seedance 2.5 a 720p, partiendo del primer fotograma del vídeo
+  anterior (mismo sobre, lacre y luz), con la prueba ilimitada de Higgsfield (0 créditos; solo
+  funciona desde el chat de Claude, no desde Claude Code, y cubre hasta 720p). El lacre se parte
+  y sus trozos se quedan en el sobre, la solapa se levanta entera y se ve el forro de olivo. Fallo
+  menor: un trozo pequeño de lacre sube pegado a la solapa. Ampliado aquí a 900 × 1600 con
+  ffmpeg. Los tiempos de la vibración y del destello van ahora por encuadre (`TIMING`): vertical
+  2,2 s y 8,9 s; el horizontal sigue con el vídeo de la versión 3 (2,5 s y 7,1 s).
 - **Del sobre sale la carta completa** (petición del usuario): en las aperturas mesa y pantalla,
   la tarjeta del sobre ya no es una tarjetita con nombres y fecha. Es la misma carta de la
   invitación (saludo, mensaje, nombres, fecha y botón, con la composición y el borde del tema)
