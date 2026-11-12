@@ -565,8 +565,8 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
   modera en el panel (`/panel/<evento>/mensajes`) ocultando mensajes; no se borra nada.
   - Base de datos: migración `20261112100000_libro_de_firmas.sql` (tabla `guestbook_messages`
     con RLS, `guestbook_sign` con token y `get_invitation` ampliada). Los miembros solo pueden
-    cambiar `hidden_at`. **Pendiente de que el usuario la revise y la aplique**; hasta entonces
-    la app funciona igual: libro vacío y, al firmar en un evento real, aviso de que no se pudo.
+    cambiar `hidden_at`. Aplicada el 12/11/2026 y probada con transacciones que se deshacen:
+    `anon` y los usuarios sin ser miembros no pueden leer ni escribir en la tabla.
   - **Canciones pedidas a la vista de todos**: salen en la banda de música, sin decir quién las
     pidió. Van en la misma migración.
 - **Calendario**: se probó a ligar las hojas al dedo y se descartó (caían de golpe al deslizar

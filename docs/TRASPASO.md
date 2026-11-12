@@ -32,9 +32,12 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   abierto: producción no tiene aún ni el 3D nuevo ni las escenas de después de la carta). El
   usuario pide centrarse en el móvil y seguir puliendo todo lo de después de la carta.
 
-- **Migración sin aplicar (12/11/2026)**: `supabase/migrations/20261112100000_libro_de_firmas.sql`
-  (libro de firmas y canciones pedidas). La revisa y la acepta el usuario; después, pasar los
-  avisos de seguridad de Supabase. En esta sesión no había herramientas de Supabase.
+- **Libro de firmas aplicado (12/11/2026)**: migración `libro_de_firmas` en Supabase, con la RLS
+  comprobada (los invitados y los usuarios que no son miembros no pueden leer ni escribir en la
+  tabla; solo se firma con `guestbook_sign` y el token). Los avisos de seguridad no han cambiado:
+  salvo los de siempre (funciones con token abiertas por diseño, `contact_requests` sin políticas a
+  propósito y la contraseña filtrada, que es del plan Pro), no hay nada nuevo. Para verlo en un
+  evento real: editor → Textos → «Mostrar el libro de firmas» y publicar.
 - **Higgsfield**: la cuenta conectada el 11/11/2026 era nueva, en plan gratuito y con 10
   créditos; la prueba de 3 días no llegó a activarse (el usuario escribió a soporte). No se ha
   generado nada. Plan de aperturas en vídeo, a la espera.
@@ -82,6 +85,9 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   el propio conector: `get_workflow_instructions` (por ejemplo `product-photoshoot`). Subir
   imágenes: `media_upload`, `curl -X PUT` y `media_confirm`.
 
+- **Supabase pausado**: en el plan gratuito el proyecto se pausa solo. Con el conector de Supabase,
+  `restore_project` lo reactiva; tarda unos minutos y mientras tanto las consultas dan «connection
+  timeout» (el historial de migraciones sale vacío hasta que arranca del todo).
 - **Supabase desde el sandbox**: el proxy bloquea `*.supabase.co`; la app real solo se prueba en
   Vercel. La base de datos se toca con las herramientas MCP (`apply_migration`, `execute_sql`,
   `get_advisors`).
