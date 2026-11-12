@@ -186,6 +186,7 @@ export const demoEvent: WeddingEvent = {
   coverDepthMap: "/fotos/portada-profundidad.png",
   banquetPhoto: "/fotos/banquete.jpg",
   contactPhone: "+34 600 000 000",
+  guestbook: true,
   // Enlace de ejemplo: no lleva a ninguna lista real.
   playlistUrl: "https://open.spotify.com/",
   gift: {

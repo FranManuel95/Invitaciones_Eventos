@@ -512,9 +512,8 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
 - **Dónde** (A4): el camino del plano se dibuja al cruzar la pantalla; las fotos de los sitios van
   grandes, con el nombre encima, y se desplazan dentro de su marco.
 - **Regalos** (A7): las tarjetas llegan una a una y «Reservado a vuestro nombre» cae como un sello.
-- **Guarda la fecha** (A6): las hojas del taco caen con el dedo (`.cal-page`, con `--c`) y, al
-  caer la última, el día se rodea a mano; si se vuelve a subir, las hojas regresan. La cuenta
-  atrás pone los días en grande y las horas y los minutos, al lado, en pequeño.
+- **Guarda la fecha** (A6): la cuenta atrás pone los días en grande y las horas y los minutos,
+  al lado, en pequeño (el calendario, ver más abajo).
 - **Cómo llegar**: cada autobús es un billete (la hora de salida en el resguardo, con su línea de
   corte). Sustituye a la tabla, que en el móvil obligaba a desplazarse de lado para ver la vuelta.
 - **Antes de venir**: los colores del código de vestimenta son muestras de tela, algo torcidas.
@@ -559,9 +558,20 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
     colaborativa de la pareja. Solo se aceptan enlaces https.
   - **Waze** junto a Google Maps y Apple Maps en cada sitio.
   - Los dos campos nuevos van dentro de `events.content` (JSON): no hacen falta migraciones.
-  - Pendiente, porque necesita tabla nueva y migración: **libro de firmas** (mensajes de los
-    invitados visibles para todos, con moderación de la pareja) y la lista de canciones pedidas a
-    la vista de todos. También la reconfirmación de asistencia, que depende del correo.
+- **Libro de firmas** (12/11/2026; `content/guestbook-section.tsx`, `src/lib/guestbook.ts`): los
+  invitados dejan hasta tres mensajes por invitación (400 caracteres), firmados con el nombre de
+  la invitación, que ven los demás invitados. Solo aparece si la pareja lo activa en el editor
+  (`guestbook`, apagado por defecto: enseña nombres de invitados a otros invitados). La pareja
+  modera en el panel (`/panel/<evento>/mensajes`) ocultando mensajes; no se borra nada.
+  - Base de datos: migración `20261112100000_libro_de_firmas.sql` (tabla `guestbook_messages`
+    con RLS, `guestbook_sign` con token y `get_invitation` ampliada). Los miembros solo pueden
+    cambiar `hidden_at`. **Pendiente de que el usuario la revise y la aplique**; hasta entonces
+    la app funciona igual: libro vacío y, al firmar en un evento real, aviso de que no se pudo.
+  - **Canciones pedidas a la vista de todos**: salen en la banda de música, sin decir quién las
+    pidió. Van en la misma migración.
+- **Calendario**: se probó a ligar las hojas al dedo y se descartó (caían de golpe al deslizar
+  rápido). Vuelven a caer solas al llegar, una tras otra y con más calma que al principio.
+- Pendiente: la reconfirmación de asistencia, que depende del correo.
 - **Prioridad**: el móvil. El escritorio se mantiene correcto, pero las mejoras se piensan y se
   revisan primero a 390 px de ancho.
 - Pendiente del plan (`docs/PLAN-CINE.md`): la parte B (resto de aperturas).

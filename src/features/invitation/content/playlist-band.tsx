@@ -4,18 +4,25 @@ import { ArrowUpRight } from "lucide-react";
 import { buttonClasses } from "@/components/ui/button";
 import type { RsvpResponse } from "@/lib/domain/types";
 
+const NO_SONGS: string[] = [];
+/** Cuántas canciones pedidas se enseñan antes de resumir el resto. */
+const SHOWN = 8;
+
 /**
  * «La música la ponéis vosotros»: la lista de la fiesta, con un vinilo que gira. Enseña la
- * canción que pidió el invitado al confirmar y, si la pareja ha puesto el enlace de su lista
+ * canción que pidió el invitado al confirmar, las que han pedido los demás (sin autor) y, si la pareja ha puesto el enlace de su lista
  * (Spotify, Apple Music, YouTube…), el botón para abrirla y añadir más.
  */
 export function PlaylistBand({
   url,
   response,
+  songs = NO_SONGS,
 }: {
   /** Enlace https a la lista colaborativa, o vacío. */
   url: string;
   response: RsvpResponse | null;
+  /** Canciones que ya han pedido los invitados, sin decir quién. */
+  songs?: string[];
 }) {
   const song = response?.status === "attending" ? response.song.trim() : "";
   return (
@@ -47,6 +54,26 @@ export function PlaylistBand({
                 : "Al confirmar, dinos qué canción no puede faltar: sonará en la fiesta."}
             </p>
           )}
+          {songs.length ? (
+            <div className="mt-6">
+              <p className="text-[0.8125rem] text-white/70">Ya han pedido</p>
+              <ul className="mt-2 flex flex-wrap gap-2">
+                {songs.slice(0, SHOWN).map((item) => (
+                  <li
+                    key={item}
+                    className="rounded-full border border-white/25 px-3.5 py-1.5 font-display text-[1.0625rem] leading-tight text-white italic"
+                  >
+                    {item}
+                  </li>
+                ))}
+                {songs.length > SHOWN ? (
+                  <li className="px-1 py-1.5 text-[0.9375rem] text-white/75">
+                    y {songs.length - SHOWN} más
+                  </li>
+                ) : null}
+              </ul>
+            </div>
+          ) : null}
           {url ? (
             <a
               href={url}

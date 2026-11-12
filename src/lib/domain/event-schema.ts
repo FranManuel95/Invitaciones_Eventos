@@ -155,6 +155,8 @@ export const eventContentSchema = z
     song: photo.optional(),
     banquetPhoto: photo,
     contactPhone: text(30),
+    // Libro de firmas a la vista de los invitados; apagado en el contenido guardado antes.
+    guestbook: z.boolean().optional(),
     // Lista de música colaborativa: solo enlaces https.
     playlistUrl: z
       .union([

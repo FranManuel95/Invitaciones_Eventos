@@ -125,6 +125,8 @@ export interface WeddingEvent {
     bizum?: string;
     items?: GiftItem[];
   };
+  /** Libro de firmas: los invitados dejan mensajes que ven los demás (lo activa la pareja). */
+  guestbook?: boolean;
   /** Enlace https a la lista de música colaborativa de la fiesta (Spotify, Apple Music…). */
   playlistUrl?: string;
   story: { intro: string; couplePhoto: string | null; moments: StoryMoment[] };

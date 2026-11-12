@@ -24,6 +24,8 @@ import { RSVP_START_EVENT, RsvpSection } from "../rsvp/rsvp-section";
 import { DaysLeft } from "./countdown";
 import { useSavedResponse } from "../rsvp/use-saved-response";
 import { GiftSection } from "./gift-section";
+import { GuestbookSection } from "./guestbook-section";
+import { EMPTY_GUESTBOOK, type GuestbookState } from "@/lib/guestbook";
 import { EMPTY_GIFT_STATUS, type GiftStatus } from "@/lib/gifts";
 import { ResponseStatus } from "./response-status";
 import { dayClock, isAfterEvent, liveProgram } from "@/lib/day-mode";
@@ -117,6 +119,8 @@ export interface InvitationContentProps {
   albumToken?: string | null;
   /** Reservas de la lista de regalos. */
   gifts?: GiftStatus;
+  /** Libro de firmas y canciones pedidas. */
+  guestbook?: GuestbookState;
   /** Scroll suave «de película» (Lenis), en la plantilla Cine. */
   smooth?: boolean;
   /** El lacre del tema: sella la respuesta al confirmar. */
@@ -136,6 +140,7 @@ export function InvitationContent({
   phase = "invitacion",
   albumToken = null,
   gifts = EMPTY_GIFT_STATUS,
+  guestbook = EMPTY_GUESTBOOK,
   smooth = false,
   seal,
 }: InvitationContentProps) {
@@ -545,7 +550,21 @@ export function InvitationContent({
               </Fragment>
             ))}
             {after ? null : <RsvpSection event={event} group={group} seal={seal} />}
-            {after ? null : <PlaylistBand url={event.playlistUrl ?? ""} response={saved} />}
+            {after ? null : (
+              <PlaylistBand
+                url={event.playlistUrl ?? ""}
+                response={saved}
+                songs={guestbook.songs}
+              />
+            )}
+            {event.guestbook ? (
+              <GuestbookSection
+                event={event}
+                group={group}
+                live={Boolean(group.persisted)}
+                initial={guestbook}
+              />
+            ) : null}
             {albumToken ? (
               <section
                 aria-labelledby="album-title"

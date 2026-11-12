@@ -106,6 +106,18 @@ export function TextsTab() {
         />
       </Group>
       <Group
+        title="Libro de firmas"
+        description="Los invitados dejan un mensaje que ven los demás. Podéis ocultar cualquiera desde el panel."
+      >
+        <ChoiceCard
+          type="checkbox"
+          label="Mostrar el libro de firmas"
+          description="Cada invitación puede dejar hasta tres mensajes, firmados con su nombre."
+          checked={draft.content.guestbook === true}
+          onChange={(e) => set(["guestbook"], e.target.checked)}
+        />
+      </Group>
+      <Group
         title="Música de la fiesta"
         description="Si tenéis una lista colaborativa (Spotify, Apple Music, YouTube…), los invitados podrán abrirla y añadir canciones."
       >

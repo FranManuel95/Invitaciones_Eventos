@@ -3,6 +3,7 @@
 import { markOpened } from "@/app/actions/opened";
 import { eventNoun } from "@/lib/event-kind";
 import type { GiftStatus } from "@/lib/gifts";
+import type { GuestbookState } from "@/lib/guestbook";
 import { Volume2, VolumeX } from "lucide-react";
 import { domAnimation, LazyMotion, MotionConfig, useReducedMotion } from "motion/react";
 import {
@@ -82,6 +83,7 @@ export function InvitationExperience({
   phase = "invitacion",
   albumToken = null,
   gifts,
+  guestbook,
 }: {
   event: WeddingEvent;
   group: GuestGroup;
@@ -97,6 +99,7 @@ export function InvitationExperience({
   albumToken?: string | null;
   /** Reservas de la lista de regalos (sin ellas, la lista empieza sin reservas). */
   gifts?: GiftStatus;
+  guestbook?: GuestbookState;
   /** Respuesta guardada en el servidor (invitaciones reales); undefined en la demo. */
   initialResponse?: RsvpResponse | null;
 }) {
@@ -288,6 +291,7 @@ export function InvitationExperience({
                     phase={phase}
                     albumToken={albumToken}
                     gifts={gifts}
+                    guestbook={guestbook}
                     smooth={theme.cover === "cine"}
                     seal={{ shape: theme.sealShape, mark: theme.sealMark }}
                     badge={badge}

@@ -64,6 +64,7 @@ export default async function InvitationPage(props: PageProps<"/i/[token]">) {
       phase={phase}
       albumToken={invitation.albumToken}
       gifts={invitation.gifts}
+      guestbook={invitation.guestbook}
     />
   );
 }

@@ -1057,23 +1057,6 @@ html.lenis body {
   stroke-dashoffset: clamp(0, calc(1 - (var(--c, 1) - 0.16) / 0.28), 1);
 }
 
-/*
- * «Guarda la fecha»: las hojas del taco caen con el dedo. --n es el número de hojas e --i el
- * turno de cada una; al caer la última, el día se rodea a mano.
- */
-.cal-page {
-  --t: clamp(0, calc((var(--c, 1) - 0.14) / 0.2 * var(--n) - var(--i)), 1);
-  transform-origin: 50% 0%;
-  transform: translate3d(0, calc(var(--t) * -12px), 0) rotateX(calc(var(--t) * -110deg))
-    rotateZ(calc(var(--t) * var(--tilt, 0deg)));
-  /* La hoja se levanta entera por encima de la espiral y solo se desvanece al final. */
-  opacity: clamp(0, calc((1 - var(--t)) * 3.4), 1);
-}
-.cal-ring {
-  stroke-dasharray: 1;
-  stroke-dashoffset: clamp(0, calc(1 - (var(--c, 1) - 0.34) / 0.1), 1);
-}
-
 /* Fotos del álbum: llegan apiladas y se abren en abanico (--k: -1, 0 y 1). */
 .fan-card {
   transform: translate3d(
@@ -1192,6 +1175,20 @@ html.lenis body {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Notas del libro de firmas: papel pautado, con el texto apoyado en las rayas. */
+.note-lines {
+  background-image: repeating-linear-gradient(
+    180deg,
+    transparent 0 calc(1.75rem - 1px),
+    color-mix(in srgb, var(--color-gold) 26%, transparent) calc(1.75rem - 1px) 1.75rem
+  );
+  background-position: 0 1.5rem;
+  background-attachment: local;
+}
+textarea.note-lines {
+  background-position: 0 0.4375rem;
 }
 
 /* «Reservado a vuestro nombre»: cae como un sello al reservar. */

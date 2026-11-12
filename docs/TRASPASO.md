@@ -19,7 +19,7 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   cuidado, plantillas Cine y Herbario, XV años, dress code de revista, programa que se enciende y
   pase de fotos). Resumen de cada una en
   `docs/DECISIONS.md`.
-- **Pruebas (11/11/2026)**: 293 unitarias y 229 E2E en verde (3 se saltan: las 2 de Supabase real, que
+- **Pruebas (12/11/2026)**: 299 unitarias y 235 E2E en verde (3 se saltan: las 2 de Supabase real, que
   necesitan red, y la de la píldora en el proyecto de escritorio).
 - **Evento real del usuario**: `fm-y-lucia-2030-915f24` (lo creó probando en su iPhone). No tocar.
 
@@ -31,6 +31,13 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   `claude/exciting-franklin-43k083` (continúa `claude/loving-faraday-2aw3om-grogl2`; sin PR
   abierto: producción no tiene aún ni el 3D nuevo ni las escenas de después de la carta). El
   usuario pide centrarse en el móvil y seguir puliendo todo lo de después de la carta.
+
+- **Migración sin aplicar (12/11/2026)**: `supabase/migrations/20261112100000_libro_de_firmas.sql`
+  (libro de firmas y canciones pedidas). La revisa y la acepta el usuario; después, pasar los
+  avisos de seguridad de Supabase. En esta sesión no había herramientas de Supabase.
+- **Higgsfield**: la cuenta conectada el 11/11/2026 era nueva, en plan gratuito y con 10
+  créditos; la prueba de 3 días no llegó a activarse (el usuario escribió a soporte). No se ha
+  generado nada. Plan de aperturas en vídeo, a la espera.
 
 - **Supabase (hecho el 22/10/2026)**: contraseña mínima de 8 caracteres y direcciones de la web
   en URL Configuration. «Leaked password protection» solo existe en el plan Pro: activarla al
