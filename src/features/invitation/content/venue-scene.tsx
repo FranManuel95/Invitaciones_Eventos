@@ -34,7 +34,7 @@ export function VenueScene({ event }: { event: WeddingEvent }) {
     playTick();
   });
   return (
-    <section id="lugares" aria-labelledby="lugares-title" className="bg-[#10110d]">
+    <section id="lugares" aria-labelledby="lugares-title" className="bg-night">
       <div
         ref={scene}
         className="scroll-scene"
@@ -136,7 +136,7 @@ export function VenueScene({ event }: { event: WeddingEvent }) {
               {venues.map((venue, i) => (
                 <span
                   key={venue.id}
-                  className="absolute top-1/2 size-2 -translate-y-1/2 rounded-full border border-white bg-[#10110d]"
+                  className="absolute top-1/2 size-2 -translate-y-1/2 rounded-full border border-white bg-night"
                   style={{ left: `calc(${count > 1 ? i / (count - 1) : 0} * (100% - 0.5rem))` }}
                 />
               ))}

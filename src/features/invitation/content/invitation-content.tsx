@@ -466,7 +466,7 @@ export function InvitationContent({
               aria-label="Bienvenida"
               className={
                 heroPhoto
-                  ? "bg-[linear-gradient(180deg,#060605,#10110d_45%)] text-white"
+                  ? "bg-[linear-gradient(180deg,color-mix(in_oklab,var(--color-night),black_55%),var(--color-night)_45%)] text-white"
                   : undefined
               }
             >

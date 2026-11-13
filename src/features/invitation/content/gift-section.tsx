@@ -20,8 +20,8 @@ import { Section } from "./sections";
 // Tonos del tema (acento, oro y neutros): así el papel de regalo acompaña a cada plantilla.
 const WRAP_TONES = [
   "var(--color-wax)",
-  "var(--color-gold)",
   "var(--color-stone)",
+  "var(--color-gold)",
   "var(--color-ink-soft)",
 ];
 

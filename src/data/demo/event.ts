@@ -192,7 +192,7 @@ export const demoEvent: WeddingEvent = {
   gift: {
     message:
       "Vuestra presencia es nuestro mejor regalo. Si aun así queréis tener un detalle, os dejamos algunas ideas y nuestra cuenta.",
-    holder: "María y Daniel (cuenta de demostración)",
+    holder: "María y Daniel",
     // IBAN ficticio con formato válido de longitud, pero sin banco real: solo para la demo.
     iban: "ES00 0000 0000 0000 0000 0000",
     // Teléfono ficticio (los 600 000 000 no se asignan): solo para la demo.

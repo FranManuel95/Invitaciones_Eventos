@@ -605,6 +605,8 @@ export function themeVars(theme: Theme): CSSProperties {
     "--color-danger": p.danger,
     "--color-warning": p.warning,
     "--color-wax": accentFor(theme),
+    // El «negro» de las escenas de cine, teñido con el lacre y la tinta de la plantilla.
+    "--color-night": mix(mix(wax, p.ink, 0.5), "#000000", 0.68),
     "--color-wax-dark": mix(wax, "#000000", 0.38),
     "--seal": wax,
     "--scene-1": style.scene[0],

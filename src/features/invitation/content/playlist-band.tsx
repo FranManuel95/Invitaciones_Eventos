@@ -26,13 +26,13 @@ export function PlaylistBand({
 }) {
   const song = response?.status === "attending" ? response.song.trim() : "";
   return (
-    <section aria-labelledby="musica-title" className="overflow-hidden bg-[#10110d] text-white">
+    <section aria-labelledby="musica-title" className="overflow-hidden bg-night text-white">
       <div className="mx-auto grid max-w-5xl items-center gap-10 px-6 py-20 sm:grid-cols-[auto_minmax(0,1fr)] sm:gap-14 sm:px-10">
         {/* El vinilo: gira despacio; la galleta lleva el color del lacre. */}
         <div data-view aria-hidden className="vinyl-in mx-auto size-56 sm:size-64">
           <div className="vinyl relative size-full rounded-full">
             <span className="absolute inset-[33%] rounded-full bg-wax" />
-            <span className="absolute inset-[48.5%] rounded-full bg-[#10110d]" />
+            <span className="absolute inset-[48.5%] rounded-full bg-night" />
           </div>
         </div>
         <div>

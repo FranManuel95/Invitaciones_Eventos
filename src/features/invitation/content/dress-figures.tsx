@@ -98,12 +98,7 @@ export function DressFigures({
               tint={palette[i % palette.length]?.hex ?? "var(--color-gold-soft)"}
             />
           </div>
-          <p className="mt-3 flex items-baseline gap-2 text-ink-soft">
-            <span aria-hidden className="font-display text-[0.9375rem] italic tabular-nums">
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <span className="text-[0.75rem] tracking-[0.2em] uppercase">{example.who}</span>
-          </p>
+          <p className="mt-3 text-[0.875rem] font-medium text-ink-soft">{example.who}</p>
           <p className="mt-1 font-display text-[1rem] leading-snug text-ink italic">
             {example.text}
           </p>

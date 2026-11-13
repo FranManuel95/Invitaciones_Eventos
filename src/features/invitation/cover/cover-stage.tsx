@@ -188,6 +188,15 @@ export function CoverStage({
           key={effect}
           data-cover-effect={effect}
           className="pointer-events-none absolute inset-0 size-full object-cover mix-blend-screen"
+          // Los pétalos son grandes: se apagan en la franja de los nombres para no taparlos.
+          style={
+            effect === "petalos"
+              ? {
+                  maskImage:
+                    "linear-gradient(180deg, #000 0%, #000 7%, rgb(0 0 0 / 0.12) 15%, rgb(0 0 0 / 0.12) 46%, #000 62%)",
+                }
+              : undefined
+          }
           muted
           playsInline
           loop

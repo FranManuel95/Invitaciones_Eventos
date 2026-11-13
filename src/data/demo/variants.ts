@@ -240,7 +240,7 @@ const buganvilla: DemoVariant = {
     banquetPhoto: PHOTOS.buganvilla.banquet,
     gift: {
       ...demoEvent.gift,
-      holder: "Carmen y Álvaro (cuenta de demostración)",
+      holder: "Carmen y Álvaro",
       items: [
         {
           id: "viaje",
@@ -500,7 +500,7 @@ const olivar: DemoVariant = {
     banquetPhoto: PHOTOS.olivar.banquet,
     gift: {
       ...demoEvent.gift,
-      holder: "Elena y Hugo (cuenta de demostración)",
+      holder: "Elena y Hugo",
       items: [
         {
           id: "viaje",

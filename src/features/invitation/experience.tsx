@@ -196,6 +196,19 @@ export function InvitationExperience({
   // Las portadas pintadas en claro piden los botones de arriba en tinta.
   const lightCover = isPaintedCover(theme.cover) && PAINTED_COVERS[theme.cover].tone === "claro";
   const onDark = (stage === "cover" && !lightCover) || stage === "brief";
+  // La barra del navegador (Safari en el iPhone) acompaña a la pantalla: oscura en las portadas
+  // oscuras y del color del papel de la plantilla en el resto.
+  const night = (themeVars(theme) as Record<string, string>)["--color-night"] ?? "#10110d";
+  const barColor = onDark ? night : STYLES[theme.style].palette.ivory;
+  useEffect(() => {
+    const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (!meta) return;
+    const previous = meta.content;
+    meta.content = barColor;
+    return () => {
+      meta.content = previous;
+    };
+  }, [barColor]);
 
   return (
     <LazyMotion features={domAnimation} strict>

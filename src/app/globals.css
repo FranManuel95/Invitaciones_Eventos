@@ -14,6 +14,7 @@
   --color-taupe: #b3a68c;
   --color-stone: #8a8371;
   --color-ink: #23271e;
+  --color-night: #10110d;
   --color-ink-soft: #42463b;
   --color-muted: #5c5e53;
   --color-line: #d9d2c2;
@@ -1106,7 +1107,7 @@ html.lenis body {
 }
 /* Lo mismo para las escenas sobre negro («Dónde» y la bienvenida). */
 .scene-out {
-  background: linear-gradient(in oklab 180deg, #10110d, var(--color-ivory));
+  background: linear-gradient(in oklab 180deg, var(--color-night), var(--color-ivory));
 }
 /* El punto que viaja de un sitio a otro en «Dónde». */
 .venue-car {
