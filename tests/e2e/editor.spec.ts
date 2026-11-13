@@ -136,6 +136,8 @@ test.describe("editor de la invitación", () => {
   test("se elige el estilo de música y se escucha una muestra", async ({ page }) => {
     await page.goto("/editor/demo");
     await page.getByRole("tab", { name: "Secciones y música" }).click();
+    // La música empieza apagada: los estilos aparecen al activarla.
+    await page.getByRole("checkbox", { name: /Música al abrir/ }).check({ force: true });
     await page.getByRole("radio", { name: /Caja de música/ }).check({ force: true });
     const sample = page.getByRole("button", { name: "Escuchar una muestra" });
     await sample.click();
