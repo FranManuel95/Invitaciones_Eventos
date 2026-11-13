@@ -43,6 +43,23 @@ test.describe("aperturas", () => {
     });
   }
 
+  for (const [plantilla, color] of [
+    ["arcilla", "burdeos"],
+    ["olivar", "salvia"],
+  ]) {
+    test(`plantilla ${plantilla}: el sobre de película es el ${color}`, async ({ page }) => {
+      await page.goto(`/i/familia-garcia?plantilla=${plantilla}`);
+      await page.getByRole("button", { name: /toca para abrir/i }).click();
+      await expect(page.getByRole("button", { name: "Abrir el sobre" })).toBeVisible();
+      const video = page.locator("[data-opening='pelicula'] video");
+      await expect(video).toHaveAttribute("poster", `/aperturas/sobre-dorado/${color}.webp`);
+      await page.getByRole("button", { name: "Abrir el sobre" }).click();
+      await expect
+        .poll(() => video.evaluate((el: HTMLVideoElement) => el.currentSrc))
+        .toContain(`/sobre-dorado/${color}.`);
+    });
+  }
+
   test("película: si el vídeo no se puede reproducir, sale igualmente la carta", async ({
     page,
   }) => {

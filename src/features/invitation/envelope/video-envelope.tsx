@@ -22,9 +22,12 @@ import { useOpening } from "./use-opening";
 const DIR = "/aperturas/sobre-dorado";
 // Segundos en que el lacre se rompe (vibración) y en que empieza el destello final. Cada
 // encuadre es un vídeo distinto: el vertical es una sola toma de 10 s; el horizontal, de 8 s.
+// Los sobres de color solo tienen encuadre vertical: en pantallas anchas se recorta.
 const TIMING = {
   vertical: { crack: 2.2, glow: 8.9 },
   horizontal: { crack: 2.5, glow: 7.1 },
+  salvia: { crack: 2.6, glow: 8.9 },
+  burdeos: { crack: 2.2, glow: 8.9 },
 } as const;
 
 const WIDE = "(min-aspect-ratio: 1/1)";
@@ -55,7 +58,7 @@ export function VideoEnvelope({
   const finished = useRef(false);
   const shaken = useRef(false);
   const wide = useSyncExternalStore(subscribeWide, isWide, () => false);
-  const cut = wide ? "horizontal" : "vertical";
+  const cut = theme.film !== "blanco" ? theme.film : wide ? "horizontal" : "vertical";
 
   // El botón de silencio de la invitación también calla el vídeo.
   useEffect(() => {

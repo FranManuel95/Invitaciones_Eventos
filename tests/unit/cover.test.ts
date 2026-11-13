@@ -25,6 +25,12 @@ describe("portadas", () => {
     expect(parseTheme({ cover: "medianoche" }).cover).toBe("medianoche");
   });
 
+  it("sin color elegido, el sobre de película es el blanco", () => {
+    expect(parseTheme({}).film).toBe("blanco");
+    expect(parseTheme({ film: "fucsia" }).film).toBe("blanco");
+    expect(parseTheme({ film: "burdeos" }).film).toBe("burdeos");
+  });
+
   it("sin efecto elegido la portada no lleva ninguno", () => {
     expect(parseTheme({}).coverEffect).toBe("ninguno");
     expect(parseTheme({ coverEffect: "confeti" }).coverEffect).toBe("ninguno");

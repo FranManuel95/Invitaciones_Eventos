@@ -45,6 +45,7 @@ export default async function InvitationPage(props: PageProps<"/i/[token]">) {
             wax: pick("lacre"),
             calendar: pick("calendario"),
             opening: pick("apertura"),
+            film: pick("pelicula"),
             cover: pick("portada"),
             coverEffect: pick("efecto"),
           }).filter(([, v]) => v !== undefined),

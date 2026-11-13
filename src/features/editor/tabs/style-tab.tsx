@@ -33,6 +33,8 @@ import {
   EDGE_IDS,
   EDGES,
   ENVELOPES,
+  FILM_IDS,
+  FILMS,
   FLAP_IDS,
   flapGeometry,
   FLAPS,
@@ -99,6 +101,7 @@ type ChoiceKey =
   | "sealShape"
   | "sealMark"
   | "opening"
+  | "film"
   | "cover"
   | "coverEffect"
   | "musicStyle"
@@ -579,25 +582,50 @@ function CoverPart() {
 }
 
 function OpeningPart() {
+  const { draft } = useEditor();
   return (
-    <Group
-      title="Apertura"
-      description="Lo primero que hace el invitado al levantar la portada. Usa el papel, el forro y el lacre del apartado Sobre."
-    >
-      <div role="radiogroup" aria-label="Apertura" className="grid gap-3 sm:grid-cols-2">
-        {OPENING_IDS.map((id) => (
-          <Choice
-            key={id}
-            name="opening"
-            value={id}
-            label={OPENINGS[id].label}
-            description={OPENINGS[id].description}
-            badge={OPENINGS[id].premium ? "Premium" : undefined}
-            swatch={<OpeningSample opening={id} />}
-          />
-        ))}
-      </div>
-    </Group>
+    <>
+      <Group
+        title="Apertura"
+        description="Lo primero que hace el invitado al levantar la portada. Usa el papel, el forro y el lacre del apartado Sobre."
+      >
+        <div role="radiogroup" aria-label="Apertura" className="grid gap-3 sm:grid-cols-2">
+          {OPENING_IDS.map((id) => (
+            <Choice
+              key={id}
+              name="opening"
+              value={id}
+              label={OPENINGS[id].label}
+              description={OPENINGS[id].description}
+              badge={OPENINGS[id].premium ? "Premium" : undefined}
+              swatch={<OpeningSample opening={id} />}
+            />
+          ))}
+        </div>
+      </Group>
+      {draft.theme.opening === "pelicula" ? (
+        <Group
+          title="Color del sobre de película"
+          description="El sobre va grabado en vídeo: se elige entre estos colores."
+        >
+          <div
+            role="radiogroup"
+            aria-label="Color del sobre de película"
+            className="grid gap-3 sm:grid-cols-3"
+          >
+            {FILM_IDS.map((id) => (
+              <Choice
+                key={id}
+                name="film"
+                value={id}
+                label={FILMS[id].label}
+                swatch={<Tile background={FILMS[id].hex} />}
+              />
+            ))}
+          </div>
+        </Group>
+      ) : null}
+    </>
   );
 }
 

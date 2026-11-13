@@ -33,6 +33,9 @@ const TEMPLATES = [
   "gala",
   "herbario",
   "cine",
+  "arcilla",
+  "olivar",
+  "dorada",
 ];
 const COVERS = [
   "foto",

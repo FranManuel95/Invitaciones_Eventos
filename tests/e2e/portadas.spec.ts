@@ -46,6 +46,19 @@ test.describe("portadas", () => {
     });
   }
 
+  test("en una portada clara los botones de arriba van en tinta", async ({ page }) => {
+    await page.goto("/i/familia-garcia?portada=ramas");
+    const skip = page.getByRole("button", { name: "Saltar intro" });
+    await expect(skip).toBeVisible();
+    const sum = await skip.evaluate((el) =>
+      (getComputedStyle(el).color.match(/[\d.]+/g) ?? [])
+        .slice(0, 3)
+        .reduce((total, value) => total + Number(value), 0),
+    );
+    // Tinta oscura, no blanco.
+    expect(sum).toBeLessThan(300);
+  });
+
   test("efecto de portada: el bucle se reproduce y con movimiento reducido no se pinta", async ({
     browser,
     page,
