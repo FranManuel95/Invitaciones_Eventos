@@ -133,7 +133,8 @@ para promoción, ver «Para más adelante»).
   con la prueba). Solo tienen encuadre vertical; en pantallas anchas se recorta. El azul con
   lacre plateado se descartó: el lacre no se parte, se desliza bajo la solapa. Plantillas nuevas
   que juntan portada, efecto y sobre: «Arcilla» (portada arcilla, pétalos, sobre burdeos),
-  «Olivar» (ramas de olivo, sobre salvia) y «Noche dorada» (medianoche, polvo de oro, sobre 3D).
+  «Olivar» (ramas de olivo, sobre salvia), «Noche dorada» (medianoche, polvo de oro, sobre 3D)
+  y «Buganvilla» (pared encalada y el sobre blanco de una sola toma).
   En las portadas pintadas en claro, los botones de arriba («Saltar intro», sonido) van en tinta.
 - **Del sobre sale la carta completa** (petición del usuario): en las aperturas mesa y pantalla,
   la tarjeta del sobre ya no es una tarjetita con nombres y fecha. Es la misma carta de la

@@ -650,6 +650,7 @@ export const TEMPLATE_IDS = [
   "arcilla",
   "olivar",
   "dorada",
+  "buganvilla",
 ] as const;
 export type TemplateId = (typeof TEMPLATE_IDS)[number];
 
@@ -928,6 +929,24 @@ export const TEMPLATES: Record<
       layout: "foto",
       ornament: "olivo",
       musicStyle: "piano",
+    },
+  },
+  buganvilla: {
+    label: "Buganvilla",
+    description: "Pared encalada con buganvilla y un sobre blanco con lacre dorado, en vídeo.",
+    look: {
+      style: "mediterraneo",
+      envelope: "algodon",
+      wax: "oro",
+      calendar: "mano",
+      font: "editorial",
+      opening: "pelicula",
+      film: "blanco",
+      cover: "buganvilla",
+      sealMark: "almendro",
+      layout: "foto",
+      ornament: "almendro",
+      musicStyle: "guitarra",
     },
   },
   dorada: {

@@ -36,6 +36,7 @@ const TEMPLATES = [
   "arcilla",
   "olivar",
   "dorada",
+  "buganvilla",
 ];
 const COVERS = [
   "foto",
