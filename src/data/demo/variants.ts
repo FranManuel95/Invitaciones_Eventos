@@ -33,17 +33,18 @@ const PHOTOS = {
     ],
   },
   olivar: {
-    cover: "/fotos/portada.jpg",
-    depth: "/fotos/portada-profundidad.png",
-    couple: "/fotos/pareja.jpg",
-    ceremony: "/fotos/iglesia.jpg",
-    venue: "/fotos/finca.jpg",
-    banquet: "/fotos/banquete.jpg",
+    cover: "/fotos/olivar/portada.jpg",
+    depth: "/fotos/olivar/portada-profundidad.png",
+    couple: "/fotos/olivar/pareja.jpg",
+    ceremony: "/fotos/olivar/ceremonia.jpg",
+    venue: "/fotos/olivar/finca.jpg",
+    banquet: "/fotos/olivar/banquete.jpg",
     story: [
-      "/fotos/historia-amalfi.jpg",
-      "/fotos/historia-florencia.jpg",
+      "/fotos/olivar/historia-1.jpg",
+      "/fotos/olivar/historia-2.jpg",
+      // Falta la del anillo: de momento, la de la demo principal (no sale nadie).
       "/fotos/historia-pedida.jpg",
-      "/fotos/historia-hoy.jpg",
+      "/fotos/olivar/historia-4.jpg",
     ],
   },
 } as const;
@@ -346,7 +347,7 @@ const olivar: DemoVariant = {
         mapsQuery: "Baeza Jaén",
         note: "Hay aparcamiento junto a la ermita. Recomendamos llegar 20 minutos antes.",
         photo: PHOTOS.olivar.ceremony,
-        photoAlt: "Ermita de piedra dorada entre olivos",
+        photoAlt: "Ermita de piedra dorada con espadaña y campana, entre olivos",
       },
       {
         id: "finca",
@@ -481,7 +482,7 @@ const olivar: DemoVariant = {
           title: "La pedida",
           text: "Bajo el olivo más viejo de la finca, con el anillo escondido en una cesta de aceitunas.",
           photo: PHOTOS.olivar.story[2],
-          photoAlt: "Anillo de compromiso sobre un paño de lino, entre ramas de olivo",
+          photoAlt: "Anillo de compromiso en un estuche, entre flores blancas",
         },
         {
           year: "Hoy",
