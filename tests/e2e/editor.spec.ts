@@ -229,6 +229,8 @@ test.describe("editor de la invitación", () => {
       if (["Colores", "Sobre"].includes(tab))
         await page.getByRole("tab", { name: "Estilo" }).click();
       await page.getByRole("tab", { name: tab, exact: true }).click();
+      // Las pestañas cambian de color con una transición: se mide con el color ya asentado.
+      await page.waitForTimeout(350);
       const { violations } = await new AxeBuilder({ page }).exclude("iframe").analyze();
       const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
       expect(
