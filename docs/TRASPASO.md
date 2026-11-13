@@ -64,8 +64,9 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   dorada queda fuera (no tiene vídeo).
   - Cada una enseña una boda ficticia distinta (`src/data/demo/variants.ts`, se elige con
     `?plantilla=`): Arcilla, María y Daniel (Chinchón); Buganvilla, Carmen y Álvaro (Altea); Olivar,
-    Elena y Hugo (Baeza). **Fotos**: las de Olivar ya están (`public/fotos/olivar/`, hechas por
-    el usuario en ChatGPT), las nueve. Las de Buganvilla aún son las de María y Daniel. Se cambian en el mapa `PHOTOS`.
+    Elena y Hugo (Baeza). **Fotos** propias de las dos nuevas en `public/fotos/olivar/` y
+    `public/fotos/buganvilla/` (las hizo el usuario en ChatGPT). Buganvilla solo tiene un retrato
+    de la pareja, que sirve de portada y de foto de la historia. Rutas en el mapa `PHOTOS`.
   - Revisadas en móvil el 13/11: las escenas de después de la carta se ven bien; el fallo está en
     los pétalos de la portada de Arcilla (manchas grandes que tapan los nombres).
   - Textos para generar lo que falta (pétalos, fotos de las parejas, tarjeta que sale del sobre),

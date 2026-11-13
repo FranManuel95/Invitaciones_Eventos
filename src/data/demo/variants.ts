@@ -14,22 +14,23 @@ interface DemoVariant {
 }
 
 /**
- * Fotos de cada variante. Mientras no existan las suyas (ver `docs/higgsfield/TANDA-INSTAGRAM.md`)
- * apuntan a las de la demo principal: al generarlas, solo se cambia este mapa.
+ * Fotos de cada variante (generadas con IA; no son personas reales). Para cambiarlas basta
+ * este mapa.
  */
 const PHOTOS = {
   buganvilla: {
-    cover: "/fotos/portada.jpg",
-    depth: "/fotos/portada-profundidad.png",
-    couple: "/fotos/pareja.jpg",
-    ceremony: "/fotos/iglesia.jpg",
-    venue: "/fotos/finca.jpg",
-    banquet: "/fotos/banquete.jpg",
+    cover: "/fotos/buganvilla/portada.jpg",
+    depth: "/fotos/buganvilla/portada-profundidad.png",
+    // Solo hay un retrato de la pareja: sirve también para la historia.
+    couple: "/fotos/buganvilla/portada.jpg",
+    ceremony: "/fotos/buganvilla/ceremonia.jpg",
+    venue: "/fotos/buganvilla/finca.jpg",
+    banquet: "/fotos/buganvilla/banquete.jpg",
     story: [
-      "/fotos/historia-amalfi.jpg",
-      "/fotos/historia-florencia.jpg",
-      "/fotos/historia-pedida.jpg",
-      "/fotos/historia-hoy.jpg",
+      "/fotos/buganvilla/historia-1.jpg",
+      "/fotos/buganvilla/historia-2.jpg",
+      "/fotos/buganvilla/historia-3.jpg",
+      "/fotos/buganvilla/historia-4.jpg",
     ],
   },
   olivar: {
@@ -215,14 +216,15 @@ const buganvilla: DemoVariant = {
           title: "La furgoneta",
           text: "Tres semanas por la costa de Portugal, durmiendo con el ruido de las olas. Volvimos sin un euro y sin dudas.",
           photo: PHOTOS.buganvilla.story[1],
-          photoAlt: "Carmen y Álvaro mirando el mar desde un acantilado",
+          photoAlt:
+            "Carmen y Álvaro de espaldas junto a una furgoneta, mirando el mar desde un acantilado",
         },
         {
           year: "2026",
           title: "La pedida",
           text: "En la barca de su abuelo, al amanecer. El anillo casi acaba en el agua, pero dijo que sí.",
           photo: PHOTOS.buganvilla.story[2],
-          photoAlt: "Anillo de compromiso en un estuche sobre una mesa de madera clara",
+          photoAlt: "Anillo de compromiso en un estuche, sobre el banco de una barca frente al mar",
         },
         {
           year: "Hoy",
