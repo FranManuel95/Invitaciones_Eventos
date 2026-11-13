@@ -64,6 +64,7 @@ export default async function InvitationPage(props: PageProps<"/i/[token]">) {
       initialResponse={invitation.response}
       theme={theme}
       phase={phase}
+      recording={!invitation.group.persisted && pick("grabar") === "1"}
       albumToken={invitation.albumToken}
       gifts={invitation.gifts}
       guestbook={invitation.guestbook}

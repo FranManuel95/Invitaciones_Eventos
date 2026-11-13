@@ -86,6 +86,7 @@ export function InvitationExperience({
   theme = DEFAULT_THEME,
   initialStage,
   preview = false,
+  recording = false,
   phase = "invitacion",
   albumToken = null,
   gifts,
@@ -99,6 +100,8 @@ export function InvitationExperience({
   initialStage?: Stage;
   /** Vista previa del editor: el distintivo dice «Vista previa». */
   preview?: boolean;
+  /** Modo de grabación (solo demo, `?grabar=1`): sin distintivo ni «Saltar intro», para capturas limpias. */
+  recording?: boolean;
   /** «save_the_date»: aviso corto (fecha y calendario) antes de la invitación completa. */
   phase?: "save_the_date" | "invitacion";
   /** Token del álbum de fotos de los invitados (enlace al final de la invitación). */
@@ -128,7 +131,7 @@ export function InvitationExperience({
   const stage: Stage =
     chosenStage ?? initialStage ?? (openedBefore ? (reduce ? "content" : "brief") : "cover");
   // Datos reales: sin distintivo. Demo o vista previa: se avisa de que no es una invitación real.
-  const badge = group.persisted ? null : preview ? "Vista previa" : undefined;
+  const badge = group.persisted || recording ? null : preview ? "Vista previa" : undefined;
 
   const preload = useCallback(() => {
     void loadContent().then((component) => setContent(() => component));
@@ -231,17 +234,19 @@ export function InvitationExperience({
                     <Volume2 aria-hidden className="size-4" />
                   )}
                 </button>
-                <button
-                  type="button"
-                  onClick={() => go("content")}
-                  className={
-                    onDark
-                      ? "rounded-full border border-white/40 bg-black/15 px-4 py-2 text-[0.8125rem] text-white backdrop-blur-sm transition-colors hover:bg-black/30"
-                      : "rounded-full border border-ink/20 bg-paper/60 px-4 py-2 text-[0.8125rem] text-ink backdrop-blur-sm transition-colors hover:bg-paper"
-                  }
-                >
-                  Saltar intro
-                </button>
+                {recording ? null : (
+                  <button
+                    type="button"
+                    onClick={() => go("content")}
+                    className={
+                      onDark
+                        ? "rounded-full border border-white/40 bg-black/15 px-4 py-2 text-[0.8125rem] text-white backdrop-blur-sm transition-colors hover:bg-black/30"
+                        : "rounded-full border border-ink/20 bg-paper/60 px-4 py-2 text-[0.8125rem] text-ink backdrop-blur-sm transition-colors hover:bg-paper"
+                    }
+                  >
+                    Saltar intro
+                  </button>
+                )}
               </div>
             ) : null}
 

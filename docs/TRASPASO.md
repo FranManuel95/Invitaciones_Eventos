@@ -59,6 +59,9 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
     pétalos, sobre burdeos), «Olivar» (ramas, sobre salvia), «Noche dorada» (medianoche, polvo de
     oro, sobre 3D) y «Buganvilla» (el sobre blanco). Pensadas para grabarlas y subirlas a Instagram.
   - Detalle y modelos usados: `docs/HIGGSFIELD.md`; el porqué, en `docs/DECISIONS.md` (ronda 11).
+- **Plantillas para Instagram (decidido 13/11)**: se quedan **Arcilla, Buganvilla y Noche dorada** (Olivar
+  queda fuera por parecerse a Buganvilla). Aperturas con vídeos de Higgsfield en las tres, y pulir las
+  escenas de después de la carta con datos de ejemplo cuidados.
 - **Lo que falta de la ronda 11**:
   1. **Recuperar la tarjeta que sale del sobre** (petición del usuario, 13/11): la versión del
      23/10 del sobre blanco terminaba con la tarjeta saliendo y flotando, y sobre ella se escribía
@@ -74,7 +77,8 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   2. Vídeo **horizontal (16:9)** del sobre blanco de una sola toma; hoy sigue el antiguo.
   3. Repetir los **pétalos** (salen grandes y casi quietos) y las **luciérnagas** (salían insectos);
      generar la portada **esmeralda**; tandas sin hacer: fotos de ejemplo, forros, lacres, audio.
-  4. **Modo de grabación** para Instagram que oculte «Demo con datos ficticios» y «Saltar intro».
+  4. ~~Modo de grabación~~ **hecho (13/11)**: `?grabar=1` en la demo oculta «Demo con datos
+     ficticios» y «Saltar intro» (el botón de sonido se queda). Ej.: `/i/familia-garcia?plantilla=buganvilla&grabar=1`.
   5. Ver **Noche dorada** (sobre 3D) en un iPhone real: aquí no hay WebGL.
   6. Abrir el PR de la rama de trabajo a `main`, enseñando antes la vista previa al usuario. La
      unión con `grogl2` es grande (unos 50 archivos y la migración del libro de firmas, ya
