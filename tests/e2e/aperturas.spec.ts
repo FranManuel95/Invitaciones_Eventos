@@ -16,7 +16,8 @@ test.describe("aperturas", () => {
     test(`${opening}: se abre una vez y llega a la carta`, async ({ page }) => {
       // El sobre 3D se dibuja aquí sin tarjeta gráfica (por software): va mucho más lento que en
       // un móvil, sobre todo con varias pruebas a la vez.
-      const slow = opening === "sobre3d";
+      // El díptico va en el mismo plató 3D que el sobre.
+      const slow = opening === "sobre3d" || opening === "diptico";
       if (slow) test.setTimeout(180_000);
       const errors: string[] = [];
       page.on("pageerror", (e) => errors.push(e.message));

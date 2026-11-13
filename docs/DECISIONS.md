@@ -511,6 +511,13 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
   (lo más caro). Sin WebGL o con movimiento reducido se usa el sobre en la mesa, como antes.
 - Para revisar la película plano a plano: `window.__cine = { t: 1.2, alta: true }` fija el
   instante y fuerza la calidad alta (así se sacan las capturas y el vídeo de la venta).
+- **El díptico, en el mismo plató** (`object: "diptico"` en la escena y `Diptych3D`): cartón
+  con la carta encima y dos hojas sujetas por su borde exterior, cerradas con el lacre. Cada
+  mitad del lacre se queda pegada a su hoja y se va con ella, como en un díptico de verdad; las
+  hojas se abren cuando la cámara ya ha retrocedido (si no, se le echan encima) y la luz es más
+  suave para no borrar el texto. Sin 3D o con movimiento reducido, el díptico dibujado.
+- **El sobre de película** termina igual que el 3D: el destello se funde con la pantalla de la
+  carta (fondo, foco y carta en su sitio e inclinación) y el relevo no cambia nada a la vista.
 - **Capa común para las aperturas dibujadas** (`envelope/cinema.tsx`, con GSAP): cámara que se
   acerca y acusa el golpe, foco, luz de dentro y polvo. De momento la usa el sobre en la mesa.
 - Pendiente: llevar la escena de cine al díptico y a la caja (mismo plató, otro objeto) y decidir

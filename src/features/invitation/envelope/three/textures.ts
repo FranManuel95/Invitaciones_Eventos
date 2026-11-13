@@ -444,3 +444,46 @@ export function glowCanvas(core = 0.12) {
   ctx.fillRect(0, 0, size, size);
   return el;
 }
+
+/**
+ * Cara exterior de una hoja del díptico: el papel con un filete dorado a un dedo del borde,
+ * abierto por el lado de la otra hoja. Se dibuja en blanco y oro: el color del papel lo pone el
+ * material. `side` es el lado que ocupa la hoja (la izquierda deja abierto su borde derecho).
+ */
+export function leafCanvas(aspect: number, gold: string, side: "left" | "right") {
+  const width = 512;
+  const height = Math.round(width * aspect);
+  const [el, ctx] = canvas(width, height);
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, width, height);
+  ctx.strokeStyle = gold;
+  const inset = width * 0.12;
+  for (const [offset, line] of [
+    [0, 3],
+    [14, 1.2],
+  ] as const) {
+    const m = inset + offset;
+    ctx.lineWidth = line;
+    ctx.beginPath();
+    if (side === "left") {
+      ctx.moveTo(width, m);
+      ctx.lineTo(m, m);
+      ctx.lineTo(m, height - m);
+      ctx.lineTo(width, height - m);
+    } else {
+      ctx.moveTo(0, m);
+      ctx.lineTo(width - m, m);
+      ctx.lineTo(width - m, height - m);
+      ctx.lineTo(0, height - m);
+    }
+    ctx.stroke();
+  }
+  // Una sombra muy suave en el borde que se junta con la otra hoja: se lee la abertura.
+  const edge = side === "left" ? width : 0;
+  const shade = ctx.createLinearGradient(edge, 0, side === "left" ? width - 26 : 26, 0);
+  shade.addColorStop(0, "rgb(0 0 0 / 0.16)");
+  shade.addColorStop(1, "rgb(0 0 0 / 0)");
+  ctx.fillStyle = shade;
+  ctx.fillRect(0, 0, width, height);
+  return el;
+}

@@ -34,11 +34,10 @@ import { CoverStage } from "./cover/cover-stage";
 import { startAmbient, stopAmbient } from "./effects/ambient";
 import { isMuted, setMuted, subscribeMuted, unlockAudio } from "./effects/sound";
 import { TiltProvider } from "./effects/tilt";
-import { Diptych } from "./envelope/diptych";
 import { EnvelopeStage } from "./envelope/envelope-stage";
 import { FullEnvelope } from "./envelope/full-envelope";
 import { RibbonBox } from "./envelope/ribbon-box";
-import { Envelope3D } from "./envelope/envelope-3d";
+import { Diptych3D, Envelope3D } from "./envelope/envelope-3d";
 import { VideoEnvelope } from "./envelope/video-envelope";
 import { WindowEnvelope } from "./envelope/window-envelope";
 import { LetterStage } from "./letter/letter-stage";
@@ -60,7 +59,7 @@ const noopSubscribe = () => () => {};
 const OPENINGS = {
   mesa: EnvelopeStage,
   pantalla: FullEnvelope,
-  diptico: Diptych,
+  diptico: Diptych3D,
   caja: RibbonBox,
   pelicula: VideoEnvelope,
   sobre3d: Envelope3D,
