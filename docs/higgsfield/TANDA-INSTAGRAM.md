@@ -1,14 +1,14 @@
 # Tanda de Higgsfield para las tres plantillas de Instagram
 
-Plantillas: **Arcilla** (sobre burdeos), **Buganvilla** (sobre blanco) y **Noche dorada** (hoy con
-sobre 3D; pasa a un sobre azul medianoche en vídeo). Reglas, modelos y optimización:
-`docs/HIGGSFIELD.md`.
+Plantillas (decidido el 13/11): **Arcilla** (sobre burdeos), **Buganvilla** (sobre blanco) y
+**Olivar** (sobre verde salvia). Los tres sobres ya existen: no hay que generar ninguno. Reglas,
+modelos y optimización: `docs/HIGGSFIELD.md`.
 
 Se genera **desde un chat de claude.ai** con el conector de Higgsfield, nunca desde Claude Code.
 Cada bloque de abajo se pega tal cual en ese chat, adjuntando la imagen que indica (están en esta
 carpeta). Un bloque cada vez, y se revisa el resultado antes de pasar al siguiente.
 
-Orden recomendado: 1 → 2 → 3 → 4. Los pasos 1 y 2 son los que más cambian lo que se graba.
+Orden recomendado: 1 → 2 → 3. Los pasos 1 y 2 son los que más cambian lo que se graba.
 
 ## 1. Pétalos nuevos (portada de Arcilla)
 
@@ -28,60 +28,80 @@ hovers in place. No large petals, no blurred foreground petals, no bokeh, no glo
 logos, no watermarks, no people.
 ```
 
-## 2. Sobre azul medianoche (Noche dorada)
+## 2. Fotos de las dos parejas nuevas
 
-Dos pasos. Adjuntar `inicio-blanco.jpg`.
+Cada plantilla enseña una boda ficticia distinta (`src/data/demo/variants.ts`): Arcilla sigue con
+María y Daniel (Chinchón); **Buganvilla** es Carmen y Álvaro (Altea) y **Olivar** es Elena y Hugo
+(Baeza). Hasta que existan sus fotos, las dos nuevas usan las de María y Daniel.
 
-**2a. Imagen de partida**
+Son 9 fotos por pareja. Primero la portada (2a), y con ella como referencia, el resto (2b), para
+que la pareja sea la misma en todas.
 
-```
-Usa Higgsfield con use_unlim: true y count: 1. Con gpt_image_2_5 (2K, 9:16) y la foto adjunta como
-referencia, genera:
-
-Edit the reference photo. Keep it the exact same photograph: identical top-down vertical 9:16
-framing and crop, same landscape closed envelope in the same position and size, same paper texture,
-same round wax seal in the center with the same engraved little tree design, same white gypsophila
-sprigs and eucalyptus leaves in exactly the same positions. Two changes only: the envelope paper is
-now deep midnight blue (dark navy, matte) instead of white, and the table is now dark charcoal-blue
-linen lit by warm candlelight from the left, with the same soft diagonal leaf shadows. The wax seal
-stays gold. Do not move, add or remove anything. No text, no letters, no logos, no watermarks, no
-people, no hands.
-```
-
-**2b. Vídeo** (con la imagen de 2a como `start_image`)
+**2a. Portada** (una por pareja; cambia lo que va entre llaves)
 
 ```
-Usa Higgsfield con use_unlim: true y count: 1. Genera un vídeo con seedance_2_5, modo
-omni_reference, 10 s, 720p, 9:16, con audio, usando la imagen anterior como start_image:
+Usa Higgsfield con use_unlim: true y count: 1. Con seedream_v5_pro, 2K, 2:3 vertical, genera:
 
-One single continuous take, no cuts, no scene changes. Top-down view, locked camera with a very
-slow, gentle push-in toward the envelope. A deep midnight-blue paper envelope with a gold wax seal
-embossed with a small tree lies on a dark linen table, surrounded by baby's breath and eucalyptus,
-warm candlelight from the left with soft moving leaf shadows.
-0-2s: a thin trail of golden light glides once around the envelope and settles on the seal.
-2-4s: the wax seal cracks cleanly into exactly two halves along a single line; both halves stay on
-the lower body of the envelope, below the flap, and slide slightly apart, and a few tiny gold
-crumbs jump and land on the envelope. The seal stays the same size, never floats and never slides
-under the flap.
-4-8s: the top flap slowly lifts open in one smooth piece, hinged along the top edge, revealing an
-inner lining of midnight blue with fine gold stars. The broken seal halves remain where they fell.
-8-10s: a warm golden glow rises from inside the envelope, growing until it softly fills the centre
-of the frame. The final frame is steady.
-The envelope stays in the same place and the flowers never move or change. The envelope paper stays
-perfectly intact and never tears or splits. Only the wax seal cracks. The seal is never duplicated.
-Realistic paper physics, temporal consistency, no morphing. No card, no text, no letters, no logos,
-no captions, no watermarks, no people, no hands.
-Audio: quiet room ambience, a soft crack when the seal breaks, gentle paper rustle as the flap
-lifts, a warm shimmer at the end. No music, no voice.
+Candid editorial wedding-engagement photograph, vertical. A couple in their early thirties,
+{pareja}, close together and laughing, {escena}. Shot on a 50 mm lens, shallow depth of field,
+natural light, soft film grain, warm and true-to-life skin tones. Their heads are in the upper
+half of the frame; the lower third is calmer, with room for text. Not posed, not retouched-looking.
+No text, no letters, no logos, no watermark.
 ```
 
-Aviso: un azul empolvado anterior se descartó porque el lacre se deslizaba bajo la solapa. Si
-vuelve a pasar, repetir 2b una vez antes de cambiar el texto.
+- Buganvilla — `{pareja}`: «a woman with long dark wavy hair in a white linen dress and a man with
+  short brown hair and light stubble in a pale blue linen shirt»; `{escena}`: «in a whitewashed
+  Mediterranean village street with fuchsia bougainvillea, late afternoon sun».
+- Olivar — `{pareja}`: «a woman with shoulder-length auburn hair in a sage-green dress and a tall
+  man with dark curly hair and glasses in a cream shirt»; `{escena}`: «in an olive grove at golden
+  hour, silvery leaves around them».
+
+**2b. El resto** (adjuntando la portada de esa pareja como referencia; un mensaje por pareja)
+
+```
+Usa Higgsfield con use_unlim: true. Con nano_banana_pro, 2K, y la foto adjunta como referencia de
+la pareja (mismas caras, mismo pelo, misma complexión), genera estas 8 fotos, una por una
+(count: 1 cada una). Todas con luz natural, grano suave de película, sin texto, sin logos y sin
+marcas de agua:
+
+1. pareja (4:5 vertical): the same couple, half-length portrait, looking at each other, {sitio}.
+2. ceremonia (3:2 horizontal): {ceremonia}. No people.
+3. finca (3:2 horizontal): {finca}. No people.
+4. banquete (3:2 horizontal): {banquete}. No people.
+5. historia 1 (4:5 vertical): the same couple seen from behind, {historia1}.
+6. historia 2 (4:5 vertical): the same couple seen from behind, {historia2}.
+7. historia 3 (4:5 vertical): close-up of an engagement ring, {historia3}. No people.
+8. historia 4 (4:5 vertical): the same couple seen from behind, {historia4}.
+```
+
+Buganvilla (Carmen y Álvaro, Altea):
+
+- `{sitio}`: against a whitewashed wall with bougainvillea
+- `{ceremonia}`: a small whitewashed hermitage with a blue-tiled dome above the Mediterranean sea,
+  late afternoon light
+- `{finca}`: a seaside finca terrace at sunset with long tables, string lights and the sea behind
+- `{banquete}`: a long outdoor dinner table under bougainvillea, linen, candles, ceramic plates
+- `{historia1}`: sitting on rocks facing a small turquoise cove in summer
+- `{historia2}`: standing on a cliff looking at the Atlantic, an old camper van beside them
+- `{historia3}`: in an open box on a weathered wooden boat bench, at sunrise
+- `{historia4}`: walking barefoot along the shoreline at sunset
+
+Olivar (Elena y Hugo, Baeza):
+
+- `{sitio}`: among olive trees, soft overcast light
+- `{ceremonia}`: a small golden-stone Andalusian hermitage surrounded by olive trees, midday light
+- `{finca}`: the courtyard of a whitewashed Andalusian cortijo with long tables under old olive trees
+- `{banquete}`: a long lunch table inside an old stone olive mill, linen, olive branches, bottles of
+  olive oil
+- `{historia1}`: walking between rows of olive trees during harvest, nets on the ground
+- `{historia2}`: on a small city terrace full of tomato plants, looking at rooftops
+- `{historia3}`: on a linen cloth among olive branches and a wicker basket of olives
+- `{historia4}`: watching the sun go down over rolling hills of olive groves
 
 ## 3. La tarjeta sale del sobre (tramo 2)
 
-Uno por sobre. Adjuntar `final-blanco.jpg` (Buganvilla) o `final-burdeos.jpg` (Arcilla); para
-Noche dorada, el último fotograma del vídeo de 2b.
+Uno por sobre. Adjuntar `final-blanco.jpg` (Buganvilla), `final-burdeos.jpg` (Arcilla) o
+`final-salvia.jpg` (Olivar).
 
 ```
 Usa Higgsfield con use_unlim: true y count: 1. Genera un vídeo con seedance_2_5, modo
@@ -106,7 +126,6 @@ Audio: quiet room ambience and a soft paper slide. No music, no voice.
 
 - **Vídeo horizontal (16:9)** del sobre blanco: el texto de `docs/HIGGSFIELD.md` con 16:9 y «exactly
   two halves, both on the lower part of the envelope». Para Instagram (vertical) no hace falta.
-- **Polvo de oro** de Noche dorada: el actual funciona; no repetir.
 
 ## Después, en Claude Code
 
@@ -114,6 +133,7 @@ Decir «ya están generados» y la sesión los descarga (`show_generations` → 
 fotograma a fotograma, los optimiza y los monta:
 
 - pétalos → `public/portadas/efectos/petalos.*`;
-- sobre medianoche → color nuevo en `FILM_IDS` (`src/lib/theme/schema.ts`), sus tiempos en `TIMING`
-  (`envelope/video-envelope.tsx`) y `opening: "pelicula"` en la plantilla Noche dorada;
+- fotos → `public/fotos/buganvilla/` y `public/fotos/olivar/` (reducidas a ~540 px de ancho, como
+  las actuales), el mapa de profundidad de cada portada con `scripts/depth-map.py`, y las rutas en
+  el mapa `PHOTOS` de `src/data/demo/variants.ts`;
 - tarjeta → se une al vídeo de cada sobre y se pega el saludo con `src/lib/quad.ts`.

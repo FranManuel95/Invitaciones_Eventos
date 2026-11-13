@@ -59,13 +59,17 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
     pétalos, sobre burdeos), «Olivar» (ramas, sobre salvia), «Noche dorada» (medianoche, polvo de
     oro, sobre 3D) y «Buganvilla» (el sobre blanco). Pensadas para grabarlas y subirlas a Instagram.
   - Detalle y modelos usados: `docs/HIGGSFIELD.md`; el porqué, en `docs/DECISIONS.md` (ronda 11).
-- **Plantillas para Instagram (decidido 13/11)**: se quedan **Arcilla, Buganvilla y Noche dorada** (Olivar
-  queda fuera por parecerse a Buganvilla). Aperturas con vídeos de Higgsfield en las tres, y pulir las
-  escenas de después de la carta con datos de ejemplo cuidados.
-  Revisadas en móvil el 13/11: las escenas de después de la carta se ven bien en las tres; el fallo
-  está en los pétalos de la portada de Arcilla (manchas grandes que tapan los nombres). Los textos
-  para generar lo que falta, listos para pegar en un chat de claude.ai, están en
-  `docs/higgsfield/TANDA-INSTAGRAM.md`, con los fotogramas de partida en la misma carpeta.
+- **Plantillas para Instagram (decidido 13/11)**: **Arcilla** (sobre burdeos), **Buganvilla** (sobre
+  blanco) y **Olivar** (sobre salvia): las tres con los vídeos de Higgsfield que ya existen. Noche
+  dorada queda fuera (no tiene vídeo).
+  - Cada una enseña una boda ficticia distinta (`src/data/demo/variants.ts`, se elige con
+    `?plantilla=`): Arcilla, María y Daniel (Chinchón); Buganvilla, Carmen y Álvaro (Altea); Olivar,
+    Elena y Hugo (Baeza). **Las fotos de las dos nuevas aún son las de María y Daniel**: se cambian
+    en el mapa `PHOTOS` de ese archivo cuando se generen.
+  - Revisadas en móvil el 13/11: las escenas de después de la carta se ven bien; el fallo está en
+    los pétalos de la portada de Arcilla (manchas grandes que tapan los nombres).
+  - Textos para generar lo que falta (pétalos, fotos de las parejas, tarjeta que sale del sobre),
+    listos para pegar en un chat de claude.ai: `docs/higgsfield/TANDA-INSTAGRAM.md`.
 - **Lo que falta de la ronda 11**:
   1. **Recuperar la tarjeta que sale del sobre** (petición del usuario, 13/11): la versión del
      23/10 del sobre blanco terminaba con la tarjeta saliendo y flotando, y sobre ella se escribía
