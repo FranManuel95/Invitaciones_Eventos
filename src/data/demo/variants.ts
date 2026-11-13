@@ -42,8 +42,7 @@ const PHOTOS = {
     story: [
       "/fotos/olivar/historia-1.jpg",
       "/fotos/olivar/historia-2.jpg",
-      // Falta la del anillo: de momento, la de la demo principal (no sale nadie).
-      "/fotos/historia-pedida.jpg",
+      "/fotos/olivar/historia-3.jpg",
       "/fotos/olivar/historia-4.jpg",
     ],
   },
@@ -482,7 +481,8 @@ const olivar: DemoVariant = {
           title: "La pedida",
           text: "Bajo el olivo más viejo de la finca, con el anillo escondido en una cesta de aceitunas.",
           photo: PHOTOS.olivar.story[2],
-          photoAlt: "Anillo de compromiso en un estuche, entre flores blancas",
+          photoAlt:
+            "Anillo de compromiso en un estuche, sobre un muro de piedra bajo un olivo al atardecer",
         },
         {
           year: "Hoy",
