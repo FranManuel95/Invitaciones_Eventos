@@ -11,6 +11,7 @@ Supabase).
 - Lógica sin React (temas, CSV, mesas, presupuesto…) en `src/lib/`, con pruebas unitarias.
 
 - Especificación del producto: `PROJECT_SPEC.md`. Decisiones de diseño y técnicas: `docs/DECISIONS.md`.
+- Recursos con IA (vídeos de sobres, portadas, efectos con Higgsfield): `docs/HIGGSFIELD.md`.
 - Al empezar una sesión, lee `docs/TRASPASO.md`: estado del trabajo, pendientes y trucos del entorno.
 - Antes de cambiar la interfaz, aplica las skills de `.claude/skills/`:
   - `frontend-design` para la dirección visual;
