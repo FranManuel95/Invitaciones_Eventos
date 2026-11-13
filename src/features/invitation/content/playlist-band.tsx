@@ -3,6 +3,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { buttonClasses } from "@/components/ui/button";
 import type { RsvpResponse } from "@/lib/domain/types";
+import type { CSSProperties } from "react";
 
 const NO_SONGS: string[] = [];
 /** Cuántas canciones pedidas se enseñan antes de resumir el resto. */
@@ -17,12 +18,15 @@ export function PlaylistBand({
   url,
   response,
   songs = NO_SONGS,
+  fadeTo = "var(--color-ivory)",
 }: {
   /** Enlace https a la lista colaborativa, o vacío. */
   url: string;
   response: RsvpResponse | null;
   /** Canciones que ya han pedido los invitados, sin decir quién. */
   songs?: string[];
+  /** Color de fondo de la sección siguiente, para fundir la salida. */
+  fadeTo?: string;
 }) {
   const song = response?.status === "attending" ? response.song.trim() : "";
   return (
@@ -88,6 +92,11 @@ export function PlaylistBand({
           ) : null}
         </div>
       </div>
+      <div
+        aria-hidden
+        className="scene-out h-[12svh]"
+        style={{ "--fade-to": fadeTo } as CSSProperties}
+      />
     </section>
   );
 }

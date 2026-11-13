@@ -7,6 +7,7 @@ import { signGuestbook } from "@/app/actions/guestbook";
 import { Button } from "@/components/ui/button";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
 import { hostNames } from "@/lib/event-kind";
+import { RailControls } from "./rail-controls";
 import {
   addOwnMessage,
   cleanMessage,
@@ -129,35 +130,39 @@ export function GuestbookSection({
         </p>
 
         {state.messages.length ? (
-          <ul
-            tabIndex={0}
-            aria-label="Mensajes del libro de firmas"
-            className="relative mt-8 flex snap-x snap-mandatory [scrollbar-width:none] gap-4 overflow-x-auto pt-3 pb-5 max-sm:-mx-6 max-sm:px-6 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible lg:grid-cols-3"
-          >
-            {state.messages.map((message, i) => (
-              <li
-                key={message.id}
-                data-view
-                className={clsx(
-                  "tag-in note-lines relative flex shrink-0 snap-center flex-col border border-line bg-ivory px-5 pt-6 pb-5 shadow-[0_14px_28px_-18px_rgb(0_0_0/0.45)] max-sm:w-[80%]",
-                  message.mine && "ring-1 ring-gold",
-                )}
-                style={{ rotate: `${[-1.2, 0.8, -0.5, 1.4, -0.9][i % 5]}deg` }}
-              >
-                <p className="font-display text-[1.25rem] leading-[1.75rem] text-ink italic">
-                  {message.body}
-                </p>
-                <p className="mt-auto pt-5 text-right text-[0.9375rem] text-ink-soft">
-                  <span className="font-medium text-ink">{message.name}</span>
-                  <br />
-                  <time dateTime={message.createdAt} className="text-[0.8125rem] text-muted">
-                    {message.mine ? "Vuestro mensaje, " : ""}
-                    {dayFormat.format(new Date(message.createdAt))}
-                  </time>
-                </p>
-              </li>
-            ))}
-          </ul>
+          <>
+            <ul
+              id="firmas-pase"
+              tabIndex={0}
+              aria-label="Mensajes del libro de firmas"
+              className="relative mt-8 flex snap-x snap-mandatory [scrollbar-width:none] gap-4 overflow-x-auto pt-3 pb-5 max-sm:-mx-6 max-sm:px-6 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible lg:grid-cols-3"
+            >
+              {state.messages.map((message, i) => (
+                <li
+                  key={message.id}
+                  data-view
+                  className={clsx(
+                    "tag-in note-lines relative flex shrink-0 snap-center flex-col border border-line bg-ivory px-5 pt-6 pb-5 shadow-[0_14px_28px_-18px_rgb(0_0_0/0.45)] max-sm:w-[80%]",
+                    message.mine && "ring-1 ring-gold",
+                  )}
+                  style={{ rotate: `${[-1.2, 0.8, -0.5, 1.4, -0.9][i % 5]}deg` }}
+                >
+                  <p className="font-display text-[1.25rem] leading-[1.75rem] text-ink italic">
+                    {message.body}
+                  </p>
+                  <p className="mt-auto pt-5 text-right text-[0.9375rem] text-ink-soft">
+                    <span className="font-medium text-ink">{message.name}</span>
+                    <br />
+                    <time dateTime={message.createdAt} className="text-[0.8125rem] text-muted">
+                      {message.mine ? "Vuestro mensaje, " : ""}
+                      {dayFormat.format(new Date(message.createdAt))}
+                    </time>
+                  </p>
+                </li>
+              ))}
+            </ul>
+            <RailControls railId="firmas-pase" count={state.messages.length} itemName="Mensaje" />
+          </>
         ) : (
           <p className="mt-8 font-display text-[1.375rem] text-ink-soft italic">
             Nadie ha firmado todavía. Estrenad el libro.

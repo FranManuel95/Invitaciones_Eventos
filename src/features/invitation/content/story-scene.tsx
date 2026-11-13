@@ -27,6 +27,7 @@ export function StoryScene({ event }: { event: WeddingEvent }) {
   const scene = useScrollProgress<HTMLDivElement>("pin", true, count, step);
   return (
     <section id="historia" aria-labelledby="historia-title" className="bg-ink">
+      <div aria-hidden className="story-in h-[14svh]" />
       <div
         ref={scene}
         className="scroll-scene"

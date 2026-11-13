@@ -102,7 +102,7 @@ export function RsvpSection({
           // La pregunta, sobre la foto del banquete a toda pantalla: el momento de decidir.
           <div
             data-view
-            className="relative -mx-6 flex min-h-[86svh] flex-col justify-end overflow-hidden bg-night px-6 pt-40 pb-10 text-white sm:mx-0 sm:min-h-[34rem] sm:rounded-[3px] sm:px-10"
+            className="relative -mx-6 flex min-h-[86svh] flex-col justify-end overflow-hidden bg-night px-6 pt-40 pb-10 text-white max-sm:-mb-16 sm:mx-0 sm:min-h-[34rem] sm:rounded-[3px] sm:px-10"
           >
             <Image
               src={event.banquetPhoto!}

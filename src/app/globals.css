@@ -1107,7 +1107,11 @@ html.lenis body {
 }
 /* Lo mismo para las escenas sobre negro («Dónde» y la bienvenida). */
 .scene-out {
-  background: linear-gradient(in oklab 180deg, var(--color-night), var(--color-ivory));
+  background: linear-gradient(in oklab 180deg, var(--color-night), var(--fade-to, var(--color-ivory)));
+}
+/* Entrada a «Nuestra historia»: del papel a la tinta, antes de la primera foto. */
+.story-in {
+  background: linear-gradient(in oklab 180deg, var(--color-ivory), var(--color-ink));
 }
 /* El punto que viaja de un sitio a otro en «Dónde». */
 .venue-car {

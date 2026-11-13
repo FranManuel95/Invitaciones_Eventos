@@ -555,6 +555,7 @@ export function InvitationContent({
                 url={event.playlistUrl ?? ""}
                 response={saved}
                 songs={guestbook.songs}
+                fadeTo={event.guestbook ? "var(--color-paper)" : undefined}
               />
             )}
             {event.guestbook ? (

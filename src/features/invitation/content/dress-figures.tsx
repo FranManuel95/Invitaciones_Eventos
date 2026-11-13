@@ -1,4 +1,5 @@
 import { dressKind } from "@/lib/dress";
+import { RailControls } from "./rail-controls";
 
 /*
  * Dress code de revista: cada sugerencia («Ellas», «Ellos», «Niños»…) con un figurín dibujado a
@@ -83,27 +84,31 @@ export function DressFigures({
   palette: { hex: string }[];
 }) {
   return (
-    // En el móvil, un pase que se desliza con el dedo (cada figura, casi a pantalla completa); en
-    // pantallas anchas, una al lado de otra.
-    <ul
-      tabIndex={0}
-      aria-label="Ideas para vestir"
-      className="relative mt-8 flex snap-x snap-mandatory [scrollbar-width:none] gap-4 overflow-x-auto max-sm:-mx-6 max-sm:px-6 max-sm:pb-2 sm:grid sm:grid-cols-[repeat(auto-fit,minmax(6.5rem,1fr))] sm:gap-x-3 sm:gap-y-8 sm:overflow-visible"
-    >
-      {examples.map((example, i) => (
-        <li key={example.who} className="flex shrink-0 snap-center flex-col max-sm:w-[64%]">
-          <div className="flex h-64 items-end justify-center rounded-[3px] border border-line bg-paper pt-6 pb-3 sm:h-44 sm:pt-4 sm:pb-2 [&>svg]:h-full [&>svg]:w-auto">
-            <Figure
-              who={example.who}
-              tint={palette[i % palette.length]?.hex ?? "var(--color-gold-soft)"}
-            />
-          </div>
-          <p className="mt-3 text-[0.875rem] font-medium text-ink-soft">{example.who}</p>
-          <p className="mt-1 font-display text-[1rem] leading-snug text-ink italic">
-            {example.text}
-          </p>
-        </li>
-      ))}
-    </ul>
+    <>
+      {/* En el móvil, un pase que se desliza con el dedo (cada figura, casi a pantalla completa); en
+    pantallas anchas, una al lado de otra. */}
+      <ul
+        id="vestir-pase"
+        tabIndex={0}
+        aria-label="Ideas para vestir"
+        className="relative mt-8 flex snap-x snap-mandatory [scrollbar-width:none] gap-4 overflow-x-auto max-sm:-mx-6 max-sm:px-6 max-sm:pb-2 sm:grid sm:grid-cols-[repeat(auto-fit,minmax(6.5rem,1fr))] sm:gap-x-3 sm:gap-y-8 sm:overflow-visible"
+      >
+        {examples.map((example, i) => (
+          <li key={example.who} className="flex shrink-0 snap-center flex-col max-sm:w-[64%]">
+            <div className="flex h-64 items-end justify-center rounded-[3px] border border-line bg-paper pt-6 pb-3 sm:h-44 sm:pt-4 sm:pb-2 [&>svg]:h-full [&>svg]:w-auto">
+              <Figure
+                who={example.who}
+                tint={palette[i % palette.length]?.hex ?? "var(--color-gold-soft)"}
+              />
+            </div>
+            <p className="mt-3 text-[0.875rem] font-medium text-ink-soft">{example.who}</p>
+            <p className="mt-1 font-display text-[1rem] leading-snug text-ink italic">
+              {example.text}
+            </p>
+          </li>
+        ))}
+      </ul>
+      <RailControls railId="vestir-pase" count={examples.length} itemName="Idea" />
+    </>
   );
 }

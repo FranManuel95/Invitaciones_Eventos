@@ -428,7 +428,8 @@ function PhotoLetter({
           alt=""
           fill
           sizes="(min-width: 640px) 28rem, 22rem"
-          className="object-cover"
+          // Los retratos son verticales: se encuadra arriba, donde están las caras.
+          className="object-cover object-[50%_10%]"
         />
         <div
           aria-hidden
