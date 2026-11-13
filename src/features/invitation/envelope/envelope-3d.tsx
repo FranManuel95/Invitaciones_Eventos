@@ -20,6 +20,7 @@ import { DEFAULT_THEME, WEIGHTS, type Theme } from "@/lib/theme";
 import { unlockAudio } from "../effects/sound";
 import { useTilt } from "../effects/tilt";
 import { LetterMiniature } from "../letter/letter-miniature";
+import { LETTER_SET, LETTER_SPOTLIGHT, letterFrame } from "../letter/letter-stage";
 import { EnvelopeStage } from "./envelope-stage";
 import type { SceneHandle } from "./three/envelope-scene";
 import { useOpening } from "./use-opening";
@@ -88,7 +89,6 @@ function Envelope3DStage({
   const { opening, begin, alive } = useOpening(interactive);
   const handle = useRef<SceneHandle | null>(null);
   const pending = useRef(false);
-  const proxy = useRef<HTMLDivElement>(null);
   const displayProbe = useRef<HTMLHeadingElement>(null);
   const namesProbe = useRef<HTMLSpanElement>(null);
   const [fonts, setFonts] = useState<{ display: string; names: string } | null>(null);
@@ -98,7 +98,9 @@ function Envelope3DStage({
     setAspect((current) => current ?? value);
   }, []);
   const [ready, setReady] = useState(false);
-  const [presented, setPresented] = useState(false);
+  // La carta está llegando: la pantalla de la carta se funde encima de la escena.
+  const [arriving, setArriving] = useState(false);
+  const frame = letterFrame(event, theme);
 
   // Las letras de la carta y del lacre se dibujan con las fuentes del tema: se esperan.
   useEffect(() => {
@@ -124,12 +126,14 @@ function Envelope3DStage({
     if (pending.current) handle.current?.open();
   }, []);
 
+  const onArriving = useCallback(() => setArriving(true), []);
+
   const onPresented = useCallback(() => {
-    // La carta 3D ya está de frente: el papel de la página la sustituye y se transforma.
-    setPresented(true);
+    // La carta 3D ya está en su sitio y la pantalla de la carta, fundida encima: el relevo no
+    // cambia nada a la vista.
     window.setTimeout(() => {
       if (alive.current) onOpened();
-    }, 200);
+    }, 60);
   }, [alive, onOpened]);
 
   function open() {
@@ -162,6 +166,7 @@ function Envelope3DStage({
               names={hostNames(event.couple)}
               date={formatWeekdayDate(event.date)}
               letter={{
+                tilt: frame.tilt,
                 aspect,
                 greeting: `Hola, ${group.displayName}:`,
                 message: event.cardMessage,
@@ -170,7 +175,7 @@ function Envelope3DStage({
               tilt={tilt}
               pace={WEIGHTS[theme.weight].pace}
               handleRef={handle}
-              proxyRef={proxy}
+              onArriving={onArriving}
               onReady={onReady}
               onPresented={onPresented}
             />
@@ -221,17 +226,23 @@ function Envelope3DStage({
         )}
       </p>
 
-      {/* La carta de papel que releva a la 3D y se transforma en la carta grande. */}
-      <ViewTransition name="carta" share="paper-morph" default="none">
-        <div
-          ref={proxy}
-          aria-hidden
-          className={`pointer-events-none absolute z-20 transition-opacity duration-200 ${presented ? "opacity-100" : "opacity-0"}`}
-        >
-          {/* La misma carta de la invitación; su forma da la de la carta 3D. */}
-          <LetterMiniature event={event} group={group} theme={theme} onMeasure={onMeasure} />
+      {/* La pantalla de la carta (su fondo, su foco y la carta en su sitio), que se funde encima
+          de la escena mientras la carta 3D llega: al pasar a ella no cambia nada a la vista. La
+          forma de esta carta da también la de la carta 3D. */}
+      <div
+        aria-hidden
+        className={`pointer-events-none absolute inset-0 z-20 transition-opacity duration-[600ms] ease-in-out ${LETTER_SET} ${arriving ? "opacity-100" : "opacity-0"}`}
+      >
+        <div className="paper-grain absolute inset-0" />
+        <div className={`absolute inset-0 ${LETTER_SPOTLIGHT}`} />
+        <div className={frame.className}>
+          <ViewTransition name="carta" share="paper-morph" default="none">
+            <div>
+              <LetterMiniature event={event} group={group} theme={theme} onMeasure={onMeasure} />
+            </div>
+          </ViewTransition>
         </div>
-      </ViewTransition>
+      </div>
     </section>
   );
 }

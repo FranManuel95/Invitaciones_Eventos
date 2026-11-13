@@ -17,7 +17,7 @@ test.describe("aperturas", () => {
       // El sobre 3D se dibuja aquí sin tarjeta gráfica (por software): va mucho más lento que en
       // un móvil, sobre todo con varias pruebas a la vez.
       const slow = opening === "sobre3d";
-      if (slow) test.setTimeout(90_000);
+      if (slow) test.setTimeout(180_000);
       const errors: string[] = [];
       page.on("pageerror", (e) => errors.push(e.message));
       await page.goto(`/i/familia-garcia?apertura=${opening}`);
@@ -37,7 +37,7 @@ test.describe("aperturas", () => {
       await page.waitForTimeout(300);
       await trigger.click({ force: true }).catch(() => {});
       const letter = page.getByRole("heading", { name: "Hola, Familia García:" });
-      await expect(letter).toBeVisible({ timeout: slow ? 60_000 : 20_000 });
+      await expect(letter).toBeVisible({ timeout: slow ? 120_000 : 20_000 });
       await expect(letter).toBeFocused();
       expect(errors).toEqual([]);
     });

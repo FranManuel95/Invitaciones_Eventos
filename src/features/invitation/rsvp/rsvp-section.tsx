@@ -18,13 +18,25 @@ import { Section } from "../content/sections";
 import { RsvpForm } from "./rsvp-form";
 import { PhotoSlot } from "../content/photo-slot";
 import { Petals } from "../effects/petals";
+import { haptic, playPaper } from "../effects/sound";
+import { WaxSealArt } from "../ornaments";
+import type { SealMarkId, SealShapeId } from "@/lib/theme";
 import { GuestPass } from "./guest-pass";
 import { ResponseDetails } from "./rsvp-summary";
 import { useSavedResponse } from "./use-saved-response";
 
 type View = "intro" | "form" | "done";
 
-export function RsvpSection({ event, group }: { event: WeddingEvent; group: GuestGroup }) {
+export function RsvpSection({
+  event,
+  group,
+  seal,
+}: {
+  event: WeddingEvent;
+  group: GuestGroup;
+  /** El lacre del sobre: al confirmar, sella la respuesta. */
+  seal?: { shape: SealShapeId; mark: SealMarkId };
+}) {
   // La respuesta guardada es compartida con la cabecera y el pase (misma fuente de datos).
   const saved = useSavedResponse(group.token);
   const [editing, setEditing] = useState(false);
@@ -128,7 +140,12 @@ export function RsvpSection({ event, group }: { event: WeddingEvent; group: Gues
                   onCancel={() => setEditing(false)}
                   onSaved={(response) => {
                     setJustSaved(true);
-                    if (response.status === "attending") setCelebration((n) => n + 1);
+                    if (response.status === "attending") {
+                      setCelebration((n) => n + 1);
+                      // El golpe del lacre al sellar.
+                      haptic([18, 40, 10]);
+                      playPaper(0.25, 0.12);
+                    }
                     setEditing(false);
                   }}
                 />
@@ -137,14 +154,44 @@ export function RsvpSection({ event, group }: { event: WeddingEvent; group: Gues
               {view === "done" && saved ? (
                 <div>
                   <div className="text-center">
-                    <m.span
-                      initial={justSaved ? { scale: 0.4, opacity: 0 } : false}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ type: "spring", stiffness: 260, damping: 18, delay: 0.1 }}
-                      className="mx-auto grid size-14 place-items-center rounded-full bg-ink text-paper"
-                    >
-                      <Check aria-hidden className="size-6" strokeWidth={2} />
-                    </m.span>
+                    {saved.status === "attending" ? (
+                      // El lacre cae sobre la tarjeta y sella la respuesta; una onda marca el golpe.
+                      <span className="relative mx-auto block size-20">
+                        {justSaved ? (
+                          <m.span
+                            aria-hidden
+                            className="absolute inset-0 rounded-full border border-[var(--seal)]"
+                            initial={{ scale: 0.7, opacity: 0 }}
+                            animate={{ scale: [0.7, 2.1], opacity: [0.7, 0] }}
+                            transition={{ duration: 0.9, delay: 0.32, ease: "easeOut" }}
+                          />
+                        ) : null}
+                        <m.span
+                          initial={
+                            justSaved ? { scale: 2.6, rotate: -22, opacity: 0, y: -40 } : false
+                          }
+                          animate={{ scale: 1, rotate: -7, opacity: 1, y: 0 }}
+                          transition={{ type: "spring", stiffness: 420, damping: 19, delay: 0.12 }}
+                          className="absolute inset-0 block drop-shadow-[0_4px_6px_rgb(60_20_10/0.35)]"
+                        >
+                          <WaxSealArt
+                            monogram={event.couple.monogram}
+                            shape={seal?.shape}
+                            mark={seal?.mark}
+                            className="size-full"
+                          />
+                        </m.span>
+                      </span>
+                    ) : (
+                      <m.span
+                        initial={justSaved ? { scale: 0.4, opacity: 0 } : false}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ type: "spring", stiffness: 260, damping: 18, delay: 0.1 }}
+                        className="mx-auto grid size-14 place-items-center rounded-full bg-ink text-paper"
+                      >
+                        <Check aria-hidden className="size-6" strokeWidth={2} />
+                      </m.span>
+                    )}
                     <h3
                       ref={doneRef}
                       tabIndex={-1}

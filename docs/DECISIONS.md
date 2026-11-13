@@ -492,6 +492,58 @@ composition-patterns y writing-guidelines (Vercel, MIT), y webapp-testing (Anthr
 Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mismo formato
 (`PhotoSlot`), así que la maquetación no cambiará al ponerlas.
 
+## Aperturas rodadas como una película
+
+- **Sobre en 3D, rehecho como una escena de cine** (`envelope/three/envelope-scene.tsx`): el
+  sobre descansa en una mesa a contraluz, con la sombra de unas ramas que se mecen (una lámina
+  de hojas invisible delante del sol). Al tocarlo, la cámara baja en grúa hasta el lacre; se
+  parte a cámara lenta, las mitades saltan y resbalan por la mesa y las migas botan; la solapa
+  se curva al abrirse y del sobre sale luz y chispas; la carta sale entera por la boca del sobre
+  y sube hacia la cámara, que acaba mirando desde arriba con la mesa desenfocada.
+- La cámara se describe con planos (a qué mira, distancia, altura y lado) y los recorre en un
+  solo movimiento continuo (curva de Hermite: no frena al pasar por cada plano). Dura unos 7 s. La imagen pasa por un «objetivo» (`postprocessing`): profundidad de campo con el foco en
+  lo que importa en cada plano, brillo, viñeta, curva de color y grano.
+- El final no es un corte: la carta sube plana hasta el sitio, el tamaño y el giro exactos de la
+  carta de la pantalla siguiente y, en el último tramo, esa pantalla (su fondo, su foco y su
+  carta: `LETTER_SET`, `LETTER_SPOTLIGHT` y `letterFrame` de `letter-stage.tsx`) se funde encima
+  de la escena. Al cambiar de pantalla ya no cambia nada a la vista.
+- Todo va por tiempo, no por fotogramas. Si el equipo va justo en reposo se quita el desenfoque
+  (lo más caro). Sin WebGL o con movimiento reducido se usa el sobre en la mesa, como antes.
+- Para revisar la película plano a plano: `window.__cine = { t: 1.2, alta: true }` fija el
+  instante y fuerza la calidad alta (así se sacan las capturas y el vídeo de la venta).
+- **Capa común para las aperturas dibujadas** (`envelope/cinema.tsx`, con GSAP): cámara que se
+  acerca y acusa el golpe, foco, luz de dentro y polvo. De momento la usa el sobre en la mesa.
+- Pendiente: llevar la escena de cine al díptico y a la caja (mismo plató, otro objeto) y decidir
+  si el sobre en la mesa y el de pantalla completa pasan a ser dos planos de esta misma escena.
+
+## Después de la carta: escenas que avanzan con el dedo
+
+- **Cómo se mueven**: `effects/scroll-progress.ts` escribe en una variable CSS (`--p`, de 0 a 1)
+  cuánto se ha bajado por un elemento; los estilos (`globals.css`: `.hero-*`, `.day-*`,
+  `.story-*`) calculan lo demás. No hay renders de React al bajar y funciona en cualquier
+  navegador (no depende de las animaciones de scroll nativas, que Safari solo tiene desde la 26).
+- **Portada con foto** (A1): la foto de la pareja a pantalla completa con los nombres; al bajar se
+  queda atrás y se oscurece. Sin foto, la cabecera de papel de antes.
+- **El día** (A2, `content/program-scene.tsx`): escena fija, un acto por pantalla; el cielo pasa
+  de la tarde a la noche, el sol se pone, sale la luna y se encienden las luces. Al acabar,
+  amanece hacia la sección siguiente.
+- **Nuestra historia** (A3, `content/story-scene.tsx`): un capítulo por pantalla con la foto a
+  sangre. Solo si todos los momentos tienen foto.
+- **Confirmar** (A5): al decir que sí, el lacre del tema cae y sella la respuesta (con vibración,
+  sonido y pétalos).
+- **Cierre** (A8): termina con la foto de portada, los nombres y la fecha.
+- **Barra de secciones** (A9): se retira dentro de las escenas a pantalla completa.
+- Con movimiento reducido, y el día de la boda para el programa, se usan las listas de siempre.
+- **Lo que se descubre al llegar** (`useViewProgress`): un solo escuchador escribe `--v` y `--c`
+  en fotos, titulares y tarjetas. Sustituye a las animaciones de scroll nativas de esas piezas,
+  que en iPhones sin Safari 26 no se movían.
+- **Bienvenida**: se enciende palabra a palabra (sin bajar del contraste mínimo de texto grande).
+- **Dónde** (A4): el camino del plano se dibuja al cruzar la pantalla; las fotos de los sitios van
+  grandes, con el nombre encima, y se desplazan dentro de su marco.
+- **Regalos** (A7): las tarjetas llegan una a una y «Reservado a vuestro nombre» cae como un sello.
+- Pendiente del plan (`docs/PLAN-CINE.md`): A6 (el calendario ya se anima al llegar; falta
+  ligarlo al dedo) y la parte B (resto de aperturas).
+
 ## Página de venta y ejemplos con imágenes reales
 
 - La venta y `/ejemplos` enseñan el producto en vez de describirlo: cada apertura se ve en marcha

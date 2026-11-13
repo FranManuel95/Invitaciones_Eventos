@@ -26,6 +26,10 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 
 ## Pendiente
 
+- **Plan en curso (10/11/2026)**: llevar toda la invitación al nivel de la apertura del sobre en
+  3D. Qué falta, en qué orden y con qué riesgos: `docs/PLAN-CINE.md`. Rama de trabajo actual:
+  `claude/loving-faraday-2aw3om-grogl2` (sin PR abierto; producción no tiene aún el 3D nuevo).
+
 - **Supabase (hecho el 22/10/2026)**: contraseña mínima de 8 caracteres y direcciones de la web
   en URL Configuration. «Leaked password protection» solo existe en el plan Pro: activarla al
   pasar a un plan de pago (el aviso de seguridad seguirá saliendo hasta entonces).
