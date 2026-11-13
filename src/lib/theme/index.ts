@@ -124,7 +124,8 @@ export const DEFAULT_THEME: Theme = {
   calendar: "taco",
   hidden: [],
   order: [...SECTION_IDS],
-  music: true,
+  // La música de fondo empieza apagada: quien la quiera la activa en el editor.
+  music: false,
   musicStyle: "piano",
 };
 

@@ -26,7 +26,9 @@ describe("tema", () => {
   });
 
   it("los temas guardados antes de las secciones y la música siguen valiendo", () => {
-    expect(parseTheme({ style: "clasico" })).toMatchObject({ hidden: [], music: true });
+    // Sin el dato, la música de fondo queda apagada (el valor por defecto desde la ronda 11).
+    expect(parseTheme({ style: "clasico" })).toMatchObject({ hidden: [], music: false });
+    expect(parseTheme({ music: true }).music).toBe(true);
     expect(parseTheme({ hidden: ["historia", "regalo"], music: false })).toMatchObject({
       hidden: ["historia", "regalo"],
       music: false,

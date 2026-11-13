@@ -87,7 +87,7 @@ export const themeSchema = z.object({
   calendar: z.enum(CALENDAR_IDS).catch("taco"),
   hidden: z.array(z.enum(SECTION_IDS)).max(SECTION_IDS.length).catch([]),
   order: z.array(z.string()).catch([]).transform(normalizeOrder),
-  music: z.boolean().catch(true),
+  music: z.boolean().catch(false),
   musicStyle: z.enum(MUSIC_IDS).catch("piano"),
 });
 
