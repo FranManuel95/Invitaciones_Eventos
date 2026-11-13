@@ -17,11 +17,12 @@ import {
 import { Section } from "./sections";
 
 /** Colores del papel de regalo de las tarjetas sin foto (salen del tema). */
+// Tonos del tema (acento, oro y neutros): así el papel de regalo acompaña a cada plantilla.
 const WRAP_TONES = [
-  "var(--color-almond)",
   "var(--color-wax)",
   "var(--color-gold)",
-  "var(--color-dusk)",
+  "var(--color-stone)",
+  "var(--color-ink-soft)",
 ];
 
 /** En la demo y la vista previa las reservas propias se recuerdan en este navegador. */

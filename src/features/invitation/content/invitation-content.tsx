@@ -688,15 +688,18 @@ export function InvitationContent({
           >
             <RotateCcw aria-hidden className="size-4" /> Volver a abrir el sobre
           </button>
-          <p
-            className={clsx(
-              "max-w-prose text-[0.8125rem] leading-relaxed",
-              event.coverPhoto ? "text-white/70" : "text-muted",
-            )}
-          >
-            Prototipo de demostración. Los nombres, lugares y respuestas son ficticios, y las
-            respuestas solo se guardan en este navegador.
-          </p>
+          {/* Solo en la demo y la vista previa (ni en invitaciones reales ni al grabar). */}
+          {badge === null ? null : (
+            <p
+              className={clsx(
+                "max-w-prose text-[0.8125rem] leading-relaxed",
+                event.coverPhoto ? "text-white/70" : "text-muted",
+              )}
+            >
+              Prototipo de demostración. Los nombres, lugares y respuestas son ficticios, y las
+              respuestas solo se guardan en este navegador.
+            </p>
+          )}
         </div>
       </footer>
     </div>
