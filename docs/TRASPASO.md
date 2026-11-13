@@ -82,8 +82,8 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 
 - **Plan en curso (10/11/2026)**: llevar toda la invitación al nivel de la apertura del sobre en
   3D (`docs/PLAN-CINE.md`, que está en la rama `claude/loving-faraday-2aw3om-grogl2`, no en `main`). La parte A (después de la carta) está hecha entera; queda la parte B
-  (resto de aperturas) y la limpieza de la parte C. Rama de trabajo actual:
-  `claude/exciting-franklin-43k083` (continúa `claude/loving-faraday-2aw3om-grogl2`; sin PR
+  (resto de aperturas) y la limpieza de la parte C. Esa línea de trabajo vive en
+  `claude/loving-faraday-2aw3om-grogl2` (incluye lo de `claude/exciting-franklin-43k083`; sin PR
   abierto: producción no tiene aún ni el 3D nuevo ni las escenas de después de la carta). El
   usuario pide centrarse en el móvil y seguir puliendo todo lo de después de la carta.
 
@@ -145,8 +145,8 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 - **Dependencias tras cambiar de rama**: `npm ci`, luego `npx next typegen` (sin él, `tsc` falla con
   «Cannot find name 'PageProps'») y `npm run check`. Las E2E necesitan el build.
 - **Pruebas largas**: `npx playwright test --trace off` tarda unos 7–8 minutos; se lanza en segundo
-  plano y no se sube hasta que acaba. Una prueba del editor (`sin desbordes ni infracciones
-graves`) era intermitente por medir el contraste en mitad de una transición; ya espera 350 ms.
+  plano y no se sube hasta que acaba. Una prueba del editor («sin desbordes ni infracciones
+  graves») era intermitente por medir el contraste en mitad de una transición; ya espera 350 ms.
 - **Capturas de la invitación**: llegar a la carta (`toca para abrir` → `Abrir el sobre`) y a
   «Descubrir la invitación», y bajar con `window.scrollTo`; las escenas necesitan ~900 ms por
   paso. El sobre 3D no se ve en Chromium de pruebas (sin WebGL).
