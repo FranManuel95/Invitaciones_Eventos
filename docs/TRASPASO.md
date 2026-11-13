@@ -5,10 +5,26 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 
 ## Dónde estamos
 
-- **Rama de trabajo**: `claude/loving-faraday-2aw3om`. PR:
-  https://github.com/FranManuel95/Invitaciones_Eventos/pull/1
-- **Vista previa** (Vercel, se despliega con cada push):
-  https://invitaciones-eventos-git-claude-l-2820ea-franmanuel95s-projects.vercel.app
+- **Ramas** (13/11/2026). Ojo: hay varias líneas de trabajo y **lo que no está en `main` no está
+  en producción**. Antes de empezar, `git fetch` y `git branch -r`, y para cada rama
+  `git log origin/main..origin/<rama>`.
+  - `main`: producción. Llega hasta el PR #4 (sobre de película en una sola toma, encuadre
+    vertical).
+  - `claude/tender-franklin-isgz7b`: **rama de trabajo de esta línea**, sin PR abierto. Parte de
+    `main` y ya incluye (por unión) todo lo de `claude/loving-faraday-2aw3om-grogl2`. Trae: las
+    portadas pintadas y los efectos, el color del sobre de película, las plantillas Arcilla,
+    Olivar, Noche dorada y Buganvilla, y todo lo de después de la carta.
+  - `claude/loving-faraday-2aw3om-grogl2`: la sesión «Proyecto de invitaciones» (móvil), que sigue
+    añadiendo cosas (sobre en 3D de cine, escenas de después de la carta, libro de firmas, díptico
+    3D). Incluye el trabajo de `claude/exciting-franklin-43k083`. Cuando avance, repetir la unión
+    en la rama de trabajo (`git merge-tree --write-tree HEAD origin/<rama>` prueba la unión sin
+    tocar nada). Con `git merge` el mensaje va con `-m`: `-F -` no funciona.
+  - `claude/loving-faraday-2aw3om` y `codex/premium-envelope-polish`: antiguas, no usar.
+- **Vista previa** (Vercel, proyecto `invitaciones-eventos`, equipo `franmanuel95s-projects`): cada
+  push crea una dirección nueva del tipo `invitaciones-eventos-<código>-franmanuel95s-projects.vercel.app`.
+  Se obtiene con `list_deployments` del conector de Vercel (filtrando por rama) y está lista
+  cuando el estado es `READY`. La demo se prueba por la URL:
+  `/i/familia-garcia?plantilla=…&portada=…&efecto=…&apertura=…&pelicula=…`.
 - **Supabase**: proyecto `uzmrvclmjtxhcglyqadm` (París, plan gratuito). Todas las migraciones de
   `supabase/migrations/` están aplicadas (comprobar la última, `aperturas_invitacion`, con
   `list_migrations`: el usuario pidió dejar el SQL para el final y aceptarlo él).
@@ -20,11 +36,69 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   cuidado, plantillas Cine y Herbario, XV años, dress code de revista, programa que se enciende y
   pase de fotos). Resumen de cada una en
   `docs/DECISIONS.md`.
-- **Pruebas tras rediseñar la venta y los ejemplos**: 293 unitarias y 228 E2E en verde (2 se saltan: las de Supabase
-  real, que necesitan red).
+- **Pruebas (13/11/2026, rama de trabajo con todo unido)**: 301 unitarias y 255 E2E en verde (3
+  se saltan: las 2 de Supabase real, que necesitan red, y la de la píldora en el proyecto de
+  escritorio).
 - **Evento real del usuario**: `fm-y-lucia-2030-915f24` (lo creó probando en su iPhone). No tocar.
 
 ## Pendiente
+
+- **Ronda 11 · recursos con Higgsfield (11–13/11/2026)**. Hecho, en la rama de trabajo:
+  - **Sobre de película en una sola toma** (vertical, 10 s): sin la imagen doble ni el corte a otra
+    escena del vídeo anterior. Está en `main` (PR #4). Tiempos de la vibración y del destello por
+    encuadre en `TIMING` (`envelope/video-envelope.tsx`).
+  - **Color del sobre de película** (`theme.film`: blanco, salvia, burdeos), con su opción en el
+    editor. Cada color es un vídeo propio en `public/aperturas/sobre-dorado/`.
+  - **Portadas pintadas** (`ramas`, `buganvilla`, `medianoche`, `arcilla`, `orilla`) en
+    `public/portadas/`, definidas en `src/lib/theme/cover.ts` (`PAINTED_COVERS`: los claros llevan
+    los nombres en tinta y un halo del color del papel). En los claros, los botones de arriba de la
+    invitación («Saltar intro», sonido) también van en tinta.
+  - **Efectos sobre la portada** (`theme.coverEffect`: `ninguno`, `petalos`, `oro`): bucles de 4 s en
+    `public/portadas/efectos/` con `mix-blend-mode: screen`; no se pintan con movimiento reducido.
+  - **Plantillas nuevas** (`TEMPLATES` en `src/lib/theme/index.ts`): «Arcilla» (portada arcilla,
+    pétalos, sobre burdeos), «Olivar» (ramas, sobre salvia), «Noche dorada» (medianoche, polvo de
+    oro, sobre 3D) y «Buganvilla» (el sobre blanco). Pensadas para grabarlas y subirlas a Instagram.
+  - Detalle y modelos usados: `docs/HIGGSFIELD.md`; el porqué, en `docs/DECISIONS.md` de la rama de trabajo (ronda 11; aún no está en `main`).
+- **Lo que falta de la ronda 11**:
+  1. **Recuperar la tarjeta que sale del sobre** (petición del usuario, 13/11): la versión del
+     23/10 del sobre blanco terminaba con la tarjeta saliendo y flotando, y sobre ella se escribía
+     el saludo (`src/lib/quad.ts` sigue en el proyecto; el vídeo antiguo está en el historial:
+     `git show e9ffb46:public/aperturas/sobre-video/sobre.mp4`). Plan: un segundo tramo de 6 s que
+     empiece en el último fotograma del vídeo actual (el sobre abierto con el destello) y termine
+     con la tarjeta en blanco de frente; unirlo sin corte, medir las cuatro esquinas de la tarjeta
+     y volver a pegar el texto. El texto para Higgsfield está en el historial de la sesión; se
+     redacta como los de `docs/HIGGSFIELD.md`.
+     **Aclaración pendiente**: el usuario también quería recuperar «todo lo que se hizo por
+     última vez» en la sesión «Proyecto de invitaciones», y eso ya se trajo por unión (escenas de
+     después de la carta); no es lo mismo que la tarjeta. Preguntar si falta algo más.
+  2. Vídeo **horizontal (16:9)** del sobre blanco de una sola toma; hoy sigue el antiguo.
+  3. Repetir los **pétalos** (salen grandes y casi quietos) y las **luciérnagas** (salían insectos);
+     generar la portada **esmeralda**; tandas sin hacer: fotos de ejemplo, forros, lacres, audio.
+  4. **Modo de grabación** para Instagram que oculte «Demo con datos ficticios» y «Saltar intro».
+  5. Ver **Noche dorada** (sobre 3D) en un iPhone real: aquí no hay WebGL.
+  6. Abrir el PR de la rama de trabajo a `main`, enseñando antes la vista previa al usuario. La
+     unión con `grogl2` es grande (unos 50 archivos y la migración del libro de firmas, ya
+     aplicada): conviene decidir con el usuario si va en uno o en varios PR.
+
+- **Plan en curso (10/11/2026)**: llevar toda la invitación al nivel de la apertura del sobre en
+  3D (`docs/PLAN-CINE.md`, que está en la rama `claude/loving-faraday-2aw3om-grogl2`, no en `main`). La parte A (después de la carta) está hecha entera; queda la parte B
+  (resto de aperturas) y la limpieza de la parte C. Esa línea de trabajo vive en
+  `claude/loving-faraday-2aw3om-grogl2` (incluye lo de `claude/exciting-franklin-43k083`; sin PR
+  abierto: producción no tiene aún ni el 3D nuevo ni las escenas de después de la carta). El
+  usuario pide centrarse en el móvil y seguir puliendo todo lo de después de la carta.
+
+- **Libro de firmas aplicado (12/11/2026)**: migración `libro_de_firmas` en Supabase, con la RLS
+  comprobada (los invitados y los usuarios que no son miembros no pueden leer ni escribir en la
+  tabla; solo se firma con `guestbook_sign` y el token). Los avisos de seguridad no han cambiado:
+  salvo los de siempre (funciones con token abiertas por diseño, `contact_requests` sin políticas a
+  propósito y la contraseña filtrada, que es del plan Pro), no hay nada nuevo. Para verlo en un
+  evento real: editor → Textos → «Mostrar el libro de firmas» y publicar.
+- **Higgsfield (13/11/2026)**: la cuenta que se usa ahora tiene la prueba de 3 días con
+  generaciones ilimitadas (acaba el 15/11; la renovación automática está cancelada) y unos 50
+  créditos. La prueba **solo sirve desde un chat de claude.ai, no desde Claude Code**. Las reglas,
+  los modelos y los textos están en `docs/HIGGSFIELD.md`. Otras cuentas del usuario (la del plan
+  Lite y otra gratuita) ya no pueden tener la prueba: el soporte la limita a cuentas que nunca
+  tuvieron suscripción ni otra prueba, una sola vez.
 
 - **Supabase (hecho el 22/10/2026)**: contraseña mínima de 8 caracteres y direcciones de la web
   en URL Configuration. «Leaked password protection» solo existe en el plan Pro: activarla al
@@ -63,12 +137,26 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 
 ## Trucos del entorno (ahorran tiempo)
 
-- **Higgsfield** (vídeo e imagen con IA, cuenta del usuario, plan Lite): conector personalizado
-  `https://mcp.higgsfield.ai/mcp` (el del catálogo de Claude solo lee). Antes de generar,
-  `get_cost: true` y gastar lo mínimo (prueba a 720p o en Hailuo). Las guías de trabajo vienen en
-  el propio conector: `get_workflow_instructions` (por ejemplo `product-photoshoot`). Subir
-  imágenes: `media_upload`, `curl -X PUT` y `media_confirm`.
+- **Higgsfield** (vídeo e imagen con IA): conector personalizado
+  `https://mcp.higgsfield.ai/mcp` (el del catálogo de Claude solo lee). Lo ilimitado de la prueba
+  solo va desde un chat de claude.ai: aquí se descargan (`show_generations` → `rawUrl` → `curl`),
+  se revisan y se montan. Antes de gastar créditos, `get_cost: true`. Guía completa y textos:
+  `docs/HIGGSFIELD.md`. Subir imágenes: `media_upload`, `curl -X PUT` y `media_confirm`.
+- **Dependencias tras cambiar de rama**: `npm ci`, luego `npx next typegen` (sin él, `tsc` falla con
+  «Cannot find name 'PageProps'») y `npm run check`. Las E2E necesitan el build.
+- **Pruebas largas**: `npx playwright test --trace off` tarda unos 7–8 minutos; se lanza en segundo
+  plano y no se sube hasta que acaba. Una prueba del editor («sin desbordes ni infracciones
+  graves») era intermitente por medir el contraste en mitad de una transición; ya espera 350 ms.
+- **Capturas de la invitación**: llegar a la carta (`toca para abrir` → `Abrir el sobre`) y a
+  «Descubrir la invitación», y bajar con `window.scrollTo`; las escenas necesitan ~900 ms por
+  paso. El sobre 3D no se ve en Chromium de pruebas (sin WebGL).
+- **Hooks de Stop**: avisan si hay commits sin subir; se sube al final de cada bloque, con las
+  pruebas ya pasadas. Si Git rechaza un `push --force` por la clasificación de seguridad, se une la
+  rama con su historia (`git merge -s ours origin/<rama> -m "…"`) en vez de reescribirla.
 
+- **Supabase pausado**: en el plan gratuito el proyecto se pausa solo. Con el conector de Supabase,
+  `restore_project` lo reactiva; tarda unos minutos y mientras tanto las consultas dan «connection
+  timeout» (el historial de migraciones sale vacío hasta que arranca del todo).
 - **Supabase desde el sandbox**: el proxy bloquea `*.supabase.co`; la app real solo se prueba en
   Vercel. La base de datos se toca con las herramientas MCP (`apply_migration`, `execute_sql`,
   `get_advisors`).
