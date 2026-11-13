@@ -57,6 +57,9 @@ las figuras del código de vestimenta y la línea de tiempo de la historia.
 
 Orden propuesto: A1 y A2 primero (marcan el tono), después A3, A5, A4, A6, A7, A8 y A9.
 
+**Estado (10/11/2026)**: de A1 a A9, hechos. Además, «Cómo llegar» (billetes), las muestras de
+color de «Antes de venir» y el bloque del álbum. Falta el visto bueno en el iPhone.
+
 ### Con qué se hace
 
 - **Movimiento ligado al desplazamiento**: GSAP con ScrollTrigger (GSAP ya está instalado) y
@@ -93,6 +96,13 @@ Orden propuesto: A1 y A2 primero (marcan el tono), después A3, A5, A4, A6, A7, 
 | B7  | Temas oscuros                        | Revisar la escena 3D con Medianoche, Esmeralda y Cine (solo se ha visto con el tema claro).                                                                          |
 | B8  | Colores y composiciones              | La carta 3D solo dibuja la composición clásica; faltan las demás composiciones del editor.                                                                           |
 | B9  | Vídeos de la venta                   | Regenerar todos con `scripts/capturas-venta.mjs` cuando las aperturas estén cerradas. Para el 3D, grabar fotograma a fotograma con `window.__cine`.                  |
+
+**Estado (13/11/2026)**: B2 hecho (el díptico va en el mismo plató 3D: dos hojas con filete
+dorado cerradas con el lacre, que se abren como puertas llevándose cada una su mitad del lacre;
+sin 3D, el díptico dibujado de siempre). B6 hecho (el vídeo termina fundiéndose con la pantalla
+de la carta, como el 3D). B7 revisado: Medianoche, Esmeralda y Cine se ven bien sin cambios.
+Quedan B1 (visto bueno en el iPhone), B3, B4, B5, B8 y B9 (los vídeos de la venta del díptico y
+del 3D están desactualizados).
 
 ## Parte C · Limpieza técnica pendiente
 

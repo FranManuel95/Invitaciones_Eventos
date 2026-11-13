@@ -5,10 +5,9 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 
 ## Dónde estamos
 
-- **Rama de trabajo**: `claude/loving-faraday-2aw3om`. PR:
-  https://github.com/FranManuel95/Invitaciones_Eventos/pull/1
-- **Vista previa** (Vercel, se despliega con cada push):
-  https://invitaciones-eventos-git-claude-l-2820ea-franmanuel95s-projects.vercel.app
+- **Rama de trabajo**: `claude/exciting-franklin-43k083` (sin PR abierto todavía).
+- **Vista previa** (Vercel, se despliega con cada push): la dirección depende de la rama; la de
+  esta se ve en Vercel → Deployments (la anterior era `…git-claude-l-2820ea…vercel.app`).
 - **Supabase**: proyecto `uzmrvclmjtxhcglyqadm` (París, plan gratuito). Todas las migraciones de
   `supabase/migrations/` están aplicadas (comprobar la última, `aperturas_invitacion`, con
   `list_migrations`: el usuario pidió dejar el SQL para el final y aceptarlo él).
@@ -20,15 +19,28 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   cuidado, plantillas Cine y Herbario, XV años, dress code de revista, programa que se enciende y
   pase de fotos). Resumen de cada una en
   `docs/DECISIONS.md`.
-- **Pruebas tras rediseñar la venta y los ejemplos**: 293 unitarias y 228 E2E en verde (2 se saltan: las de Supabase
-  real, que necesitan red).
+- **Pruebas (12/11/2026)**: 299 unitarias y 235 E2E en verde (3 se saltan: las 2 de Supabase real, que
+  necesitan red, y la de la píldora en el proyecto de escritorio).
 - **Evento real del usuario**: `fm-y-lucia-2030-915f24` (lo creó probando en su iPhone). No tocar.
 
 ## Pendiente
 
 - **Plan en curso (10/11/2026)**: llevar toda la invitación al nivel de la apertura del sobre en
-  3D. Qué falta, en qué orden y con qué riesgos: `docs/PLAN-CINE.md`. Rama de trabajo actual:
-  `claude/loving-faraday-2aw3om-grogl2` (sin PR abierto; producción no tiene aún el 3D nuevo).
+  3D (`docs/PLAN-CINE.md`). La parte A (después de la carta) está hecha entera; queda la parte B
+  (resto de aperturas) y la limpieza de la parte C. Rama de trabajo actual:
+  `claude/exciting-franklin-43k083` (continúa `claude/loving-faraday-2aw3om-grogl2`; sin PR
+  abierto: producción no tiene aún ni el 3D nuevo ni las escenas de después de la carta). El
+  usuario pide centrarse en el móvil y seguir puliendo todo lo de después de la carta.
+
+- **Libro de firmas aplicado (12/11/2026)**: migración `libro_de_firmas` en Supabase, con la RLS
+  comprobada (los invitados y los usuarios que no son miembros no pueden leer ni escribir en la
+  tabla; solo se firma con `guestbook_sign` y el token). Los avisos de seguridad no han cambiado:
+  salvo los de siempre (funciones con token abiertas por diseño, `contact_requests` sin políticas a
+  propósito y la contraseña filtrada, que es del plan Pro), no hay nada nuevo. Para verlo en un
+  evento real: editor → Textos → «Mostrar el libro de firmas» y publicar.
+- **Higgsfield**: la cuenta conectada el 11/11/2026 era nueva, en plan gratuito y con 10
+  créditos; la prueba de 3 días no llegó a activarse (el usuario escribió a soporte). No se ha
+  generado nada. Plan de aperturas en vídeo, a la espera.
 
 - **Supabase (hecho el 22/10/2026)**: contraseña mínima de 8 caracteres y direcciones de la web
   en URL Configuration. «Leaked password protection» solo existe en el plan Pro: activarla al
@@ -73,6 +85,9 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   el propio conector: `get_workflow_instructions` (por ejemplo `product-photoshoot`). Subir
   imágenes: `media_upload`, `curl -X PUT` y `media_confirm`.
 
+- **Supabase pausado**: en el plan gratuito el proyecto se pausa solo. Con el conector de Supabase,
+  `restore_project` lo reactiva; tarda unos minutos y mientras tanto las consultas dan «connection
+  timeout» (el historial de migraciones sale vacío hasta que arranca del todo).
 - **Supabase desde el sandbox**: el proxy bloquea `*.supabase.co`; la app real solo se prueba en
   Vercel. La base de datos se toca con las herramientas MCP (`apply_migration`, `execute_sql`,
   `get_advisors`).

@@ -164,6 +164,24 @@ export function playSealCrack() {
   thump.stop(t + 0.15);
 }
 
+/** Toque muy corto y suave, para marcar un paso al bajar (un capítulo, un acto). */
+export function playTick() {
+  if (!context || isMuted()) return;
+  const ctx = context;
+  const t = ctx.currentTime;
+  const tone = ctx.createOscillator();
+  tone.type = "sine";
+  tone.frequency.setValueAtTime(880, t);
+  tone.frequency.exponentialRampToValueAtTime(520, t + 0.09);
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(0.0001, t);
+  gain.gain.exponentialRampToValueAtTime(0.035, t + 0.012);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.14);
+  tone.connect(gain).connect(ctx.destination);
+  tone.start(t);
+  tone.stop(t + 0.16);
+}
+
 /** Vibración breve donde exista (Android). iOS no expone la API. */
 export function haptic(pattern: number | number[] = 12) {
   try {

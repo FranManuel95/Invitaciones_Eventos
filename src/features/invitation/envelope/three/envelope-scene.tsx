@@ -68,6 +68,7 @@ import { ENVELOPES, flapGeometry, mix, sealOutline, STYLES, type Theme, waxHex }
 import { haptic, playPaper, playSealCrack } from "../../effects/sound";
 import {
   flapMaskCanvas,
+  leafCanvas,
   foliageCanvas,
   glowCanvas,
   letterCanvas,
@@ -99,13 +100,16 @@ const FLAP_COLS = 24;
 const LETTER_W = W - 0.24;
 const FOV = 32;
 const FLAP_SHADOW_PAD = 0.04;
+/** Díptico: margen del cartón alrededor de la carta y altura de las hojas sobre ella. */
+const CARD_PAD = 0.09;
+const LEAF_Z = 0.03;
 
 const TABLE_Z = -0.02;
 /** De dónde viene el sol: alto, desde detrás y a la izquierda (a contraluz). */
 const SUN = new Vector3(-5.5, 8, 6.5);
 
 /** Coreografía en segundos (a ritmo normal). */
-const T = {
+const T_SOBRE = {
   dolly: [0, 1.5],
   press: [1.05, 1.6],
   crack: 1.6,
@@ -115,6 +119,22 @@ const T = {
   letter: [3.9, 5.8],
   rise: [5.4, 7.2],
 } as const;
+
+/** Los tramos de la película: segundos de inicio y fin (o el instante, para la rotura). */
+type Timeline = {
+  [K in keyof typeof T_SOBRE]: (typeof T_SOBRE)[K] extends number ? number : [number, number];
+};
+
+/**
+ * El díptico: las hojas se abren cuando la cámara ya ha retrocedido algo (si no, se le echan
+ * encima) y la luz llega con ellas abiertas.
+ */
+const T_DIP: Timeline = {
+  ...(T_SOBRE as Timeline),
+  pullBack: [2.2, 4.4],
+  flap: [2.95, 4.55],
+  glow: [3.5, 4.7],
+};
 
 /**
  * Un plano de cámara: a qué mira, desde qué distancia, a qué altura sobre la mesa (90° es desde
@@ -191,7 +211,7 @@ function slowMotion(k: number) {
 }
 
 /** Tiempo desde la rotura del lacre. */
-const tc0 = (t: number) => t - T.crack;
+const tc0 = (t: number) => t - T_SOBRE.crack;
 
 /** Segundos antes del final en los que la mesa se funde con la pantalla de la carta. */
 export const ARRIVAL = 0.7;
@@ -204,6 +224,8 @@ export interface SceneHandle {
 }
 
 export interface SceneProps {
+  /** Qué se abre en la mesa: el sobre o el díptico (tarjeta de dos hojas que abren como puertas). */
+  object?: "sobre" | "diptico";
   theme: Theme;
   monogram: string;
   initials: [string, string];
@@ -266,10 +288,16 @@ function canvasTexture(el: HTMLCanvasElement, color = true) {
 
 function Envelope(props: SceneProps) {
   const { theme, handleRef, tilt, pace, onReady, onArriving, onPresented } = props;
+  const dip = props.object === "diptico";
+  const T: Timeline = dip ? T_DIP : (T_SOBRE as Timeline);
   // La carta es la de la invitación: vertical y más alta que el sobre.
   const letterH = LETTER_W * props.letter.aspect;
+  // El díptico: un cartón algo mayor que la carta, con dos hojas que la tapan.
+  const cardW = LETTER_W + CARD_PAD * 2;
+  const cardH = letterH + CARD_PAD * 2;
   // Plano que recorta la carta por debajo del sobre mientras está dentro (sigue al sobre).
-  const clip = useMemo(() => new Plane(new Vector3(0, 1, 0), H / 2), []);
+  // (En el díptico la carta está a la vista entera: el plano queda muy lejos.)
+  const clip = useMemo(() => new Plane(new Vector3(0, 1, 0), dip ? 100 : H / 2), [dip]);
   const { camera, size, gl, scene } = useThree();
 
   const [detail, relief] = useLoader(TextureLoader, [
@@ -283,6 +311,7 @@ function Envelope(props: SceneProps) {
   const letter = useRef<Group>(null);
   const seal = useRef<Group>(null);
   const halves = useRef<(Group | null)[]>([]);
+  const leaves = useRef<(Group | null)[]>([]);
   const crumbs = useRef<(Mesh | null)[]>([]);
   const flash = useRef<PointLight>(null);
   const flapShadow = useRef<Mesh>(null);
@@ -366,6 +395,20 @@ function Envelope(props: SceneProps) {
         return t;
       })(),
       foliage: canvasTexture(foliageCanvas(), false),
+      leafLeft: canvasTexture(
+        leafCanvas(
+          (LETTER_W * props.letter.aspect + CARD_PAD * 2) / ((LETTER_W + CARD_PAD * 2) / 2),
+          look.palette.gold,
+          "left",
+        ),
+      ),
+      leafRight: canvasTexture(
+        leafCanvas(
+          (LETTER_W * props.letter.aspect + CARD_PAD * 2) / ((LETTER_W + CARD_PAD * 2) / 2),
+          look.palette.gold,
+          "right",
+        ),
+      ),
       glow: canvasTexture(glowCanvas(), false),
       // Sombra suave pintada del borde de la solapa sobre el bolsillo.
       flapShadow: canvasTexture(
@@ -429,6 +472,9 @@ function Envelope(props: SceneProps) {
       seal: new ExtrudeGeometry(shapeFrom(outline), WAX_EXTRUDE),
       halves: [left, right].map((half) => new ExtrudeGeometry(shapeFrom(half), WAX_EXTRUDE)),
       letter: new PlaneGeometry(LETTER_W, letterH, 16, 2),
+      card: new PlaneGeometry(cardW, cardH),
+      // Una rendija mínima entre las dos hojas: cerradas, se ve por dónde se abren.
+      leaf: new PlaneGeometry(cardW / 2 - 0.008, cardH),
       dust: new BufferGeometry().setAttribute(
         "position",
         new BufferAttribute(new Float32Array(DUST * 3), 3),
@@ -438,7 +484,7 @@ function Envelope(props: SceneProps) {
         new BufferAttribute(new Float32Array(SPARKS * 3), 3),
       ),
     };
-  }, [look, theme.sealShape, letterH]);
+  }, [look, theme.sealShape, letterH, cardW, cardH]);
 
   // Reflejos suaves de una habitación: dan brillo de cera al lacre y de oro a la marca.
   const environment = useMemo(() => {
@@ -488,6 +534,23 @@ function Envelope(props: SceneProps) {
         roughness: 0.9,
       }),
       inside: new MeshStandardMaterial({ map: textures.liner, roughness: 0.92 }),
+      // Díptico: por fuera, el papel del sobre; por dentro, su forro.
+      leafOuter: [textures.leafLeft, textures.leafRight].map(
+        (map) =>
+          new MeshStandardMaterial({
+            color: new Color(look.paper[0]),
+            map,
+            normalMap: textures.bumps,
+            normalScale: new Vector2(0.9, 0.9),
+            roughness: 0.88,
+            side: FrontSide,
+          }),
+      ),
+      leafInner: new MeshStandardMaterial({
+        map: textures.liner,
+        side: BackSide,
+        roughness: 0.9,
+      }),
       letter: new MeshStandardMaterial({
         map: textures.letter,
         clippingPlanes: [clip],
@@ -580,21 +643,28 @@ function Envelope(props: SceneProps) {
   // la carta grande de papel (ancho de pantalla menos márgenes).
   const fit = useMemo(() => {
     const aspect = size.width / Math.max(1, size.height);
-    const byWidth = distanceToFill(W, FOV, aspect, 0.84);
-    const byHeight = distanceToFill(H * 2.5, FOV, 1, 0.95);
+    const byWidth = dip
+      ? distanceToFill(cardW, FOV, aspect, 0.78)
+      : distanceToFill(W, FOV, aspect, 0.84);
+    const byHeight = dip
+      ? distanceToFill(cardH * 1.25, FOV, 1, 0.95)
+      : distanceToFill(H * 2.5, FOV, 1, 0.95);
     const paperWidth = size.width >= 640 ? 448 : Math.min(352, size.width - 40);
     const letterAt = Math.max(
       distanceToFill(LETTER_W, FOV, aspect, paperWidth / Math.max(1, size.width)),
       distanceToFill(letterH, FOV, 1, 0.85),
     );
     return { distance: Math.max(byWidth, byHeight), letterAt };
-  }, [size, letterH]);
+  }, [size, letterH, dip, cardW, cardH]);
 
-  const sealY = H / 2 - look.flapDepth;
+  // En el díptico el lacre cierra las hojas en el centro y la carta no se mueve de su sitio.
+  const sealY = dip ? 0 : H / 2 - look.flapDepth;
   // La carta empieza dentro, con el borde de arriba bajo la bisagra, y sale entera por la boca
   // del sobre hasta quedar sobre la mesa, justo encima de él.
-  const letterIn = H / 2 - 0.1 - letterH / 2;
-  const letterOut = H / 2 + 0.06 + letterH / 2;
+  const letterIn = dip ? 0 : H / 2 - 0.1 - letterH / 2;
+  const letterOut = dip ? 0 : H / 2 + 0.06 + letterH / 2;
+  // Dónde sale la luz: la boca del sobre o el centro del díptico.
+  const mouthY = dip ? 0 : H / 2 - 0.2;
 
   // Los planos de la película, en orden.
   const path = useMemo(() => {
@@ -607,7 +677,9 @@ function Envelope(props: SceneProps) {
       { at: T.pullBack[0], shot: { target: seal, dist: d * 0.38, elev: 33, azim: 13, roll: -3 } },
       {
         at: T.pullBack[1],
-        shot: { target: [0, 0.7, 0.2], dist: d * 0.9, elev: 60, azim: -5, roll: 0 },
+        shot: dip
+          ? { target: [0, 0, 0.15], dist: d * 0.92, elev: 62, azim: -6, roll: 0 }
+          : { target: [0, 0.7, 0.2], dist: d * 0.9, elev: 60, azim: -5, roll: 0 },
       },
       {
         at: T.rise[0] + 0.2,
@@ -618,7 +690,7 @@ function Envelope(props: SceneProps) {
         shot: { target: [0, letterOut, 0], dist: d, elev: 90, azim: 0, roll: 0 },
       },
     ] satisfies { at: number; shot: Shot }[];
-  }, [fit, sealY, letterOut]);
+  }, [fit, sealY, letterOut, dip, T]);
 
   // Reparto fijo del polvo y de las chispas (posición de partida y carácter de cada una).
   const seeds = useMemo(() => {
@@ -816,6 +888,11 @@ function Envelope(props: SceneProps) {
       const dir = i === 0 ? -1 : 1;
       half.scale.setScalar(broken ? 1 : 0);
       const wobble = Math.sin(Math.min(physics / 0.6, 1) * Math.PI);
+      if (dip) {
+        // En el díptico cada mitad se queda pegada a su hoja: solo se separan un poco.
+        half.position.set(dir * 0.012 * Math.min(physics * 8, 1), 0, 0);
+        return;
+      }
       half.position.set(
         dir * (0.02 + slide(0.95 + i * 0.25, physics)),
         -slide(0.5 + i * 0.3, physics),
@@ -830,10 +907,14 @@ function Envelope(props: SceneProps) {
     crumbs.current.forEach((crumb, i) => {
       const c = CRUMBS[i]!;
       if (!crumb) return;
-      crumb.scale.setScalar(broken ? 1 : 0);
+      // En el díptico, al abrirse las hojas las migas se van con ellas: la carta queda limpia.
+      const swept = dip ? 1 - segment(t, T.flap[0] + 0.25, T.flap[0] + 0.85) : 1;
+      crumb.scale.setScalar(broken ? swept : 0);
+      // En el díptico saltan más lejos: no deben quedarse sobre la carta.
+      const reach = dip ? 2.2 : 1;
       crumb.position.set(
-        slide(c.v[0]!, physics),
-        slide(c.v[1]!, physics),
+        slide(c.v[0]! * reach, physics),
+        slide(c.v[1]! * reach, physics),
         bounce(c.v[2]!, physics) + c.size * 0.6 - 0.06,
       );
       const spin = slide(c.spin, physics, 1.6);
@@ -865,12 +946,22 @@ function Envelope(props: SceneProps) {
     }
     if (flapGroup.current)
       flapGroup.current.position.z = angle > Math.PI / 2 ? 0.004 : POCKET_Z + 0.022;
+    // Díptico: las hojas giran desde los bordes como puertas; la mano tira antes de la derecha.
+    leaves.current.forEach((leaf, i) => {
+      if (!leaf) return;
+      const k = easeInOut(
+        i === 0 ? segment(t, T.flap[0] + 0.14, T.flap[1]) : segment(t, T.flap[0], T.flap[1] - 0.12),
+      );
+      // Se abren casi del todo y quedan apoyadas sobre la mesa, algo levantadas.
+      leaf.rotation.y = (i === 0 ? -1 : 1) * Math.PI * 0.94 * k;
+    });
 
     // La luz de dentro: se enciende al abrirse el sobre y baja cuando la carta ya está fuera.
     const rise = easeInOut(segment(t, ...T.rise));
     const glow = easeOut(segment(t, ...T.glow)) * (1 - 0.7 * segment(t, T.letter[1], T.rise[1]));
     if (innerGlow.current) {
-      (innerGlow.current.material as MeshBasicMaterial).opacity = glow * 0.9;
+      // Sobre la carta del díptico, la luz es más suave: no debe borrar el texto.
+      (innerGlow.current.material as MeshBasicMaterial).opacity = glow * (dip ? 0.35 : 0.9);
       innerGlow.current.scale.setScalar(3.2 * (0.6 + glow * 0.5));
     }
     if (innerLight.current) innerLight.current.intensity = glow * 0.8 * (1 - rise);
@@ -886,7 +977,7 @@ function Envelope(props: SceneProps) {
         pos.setXYZ(
           i,
           s.x + s.vx * k + Math.sin(age * 5 + i) * 0.04,
-          H / 2 - 0.3 + s.vy * k,
+          mouthY - (dip ? 0 : 0.1) + s.vy * k,
           0.05 + s.vz * k,
         );
       });
@@ -936,7 +1027,7 @@ function Envelope(props: SceneProps) {
     // ── Objetivo: el foco sigue a lo que importa en cada plano ─────────────────────────────
     if (post) {
       const toMouth = easeInOut(segment(t, ...T.pullBack));
-      post.focus.set(0, lerp(sealY, H / 2 - 0.2, toMouth), 0.05);
+      post.focus.set(0, lerp(sealY, mouthY, toMouth), 0.05);
       if (letter.current) post.focus.lerp(letter.current.position, segment(pull, 0.3, 0.9));
       if (post.dof) {
         const macro = Math.sin(easeInOut(segment(t, 0.3, T.pullBack[1])) * Math.PI);
@@ -1004,73 +1095,123 @@ function Envelope(props: SceneProps) {
       />
 
       <group ref={body}>
-        {/* Interior con el forro, visible al levantar la solapa. */}
-        <mesh material={materials.inside} receiveShadow castShadow>
-          <planeGeometry args={[W, H]} />
-        </mesh>
         {/* La luz que sale de dentro: un resplandor en la boca del sobre y una luz que baña el
             forro y la carta. */}
         <mesh
           ref={innerGlow}
           material={materials.innerGlow}
-          position={[0, H / 2 - 0.15, 0.02]}
+          position={[0, dip ? 0 : H / 2 - 0.15, dip ? LETTER_Z + 0.004 : 0.02]}
           scale={3.2}
         >
           <planeGeometry />
         </mesh>
         <pointLight
           ref={innerLight}
-          position={[0, H / 2 - 0.2, 1.5]}
+          position={[0, mouthY, 1.5]}
           color="#ffe2b0"
           intensity={0}
           distance={7}
         />
-        {/* Bolsillo: tres pliegues de papel con un poco de altura entre ellos. */}
-        <mesh
-          geometry={geometry.left}
-          material={materials.pocketSide}
-          position-z={POCKET_Z}
-          castShadow
-          receiveShadow
-        />
-        <mesh
-          geometry={geometry.right}
-          material={materials.pocketSide}
-          position-z={POCKET_Z}
-          castShadow
-          receiveShadow
-        />
-        <mesh
-          geometry={geometry.bottom}
-          material={materials.pocketBottom}
-          position-z={POCKET_Z + 0.006}
-          castShadow
-          receiveShadow
-        />
+        {dip ? (
+          <>
+            {/* Díptico: el cartón de la tarjeta, con la carta encima y dos hojas que la tapan,
+                cada una sujeta por su borde exterior. */}
+            <mesh
+              geometry={geometry.card}
+              material={materials.pocketSide}
+              castShadow
+              receiveShadow
+            />
+            {[-1, 1].map((side, i) => (
+              <group
+                key={side}
+                ref={(el) => {
+                  leaves.current[i] = el;
+                }}
+                position={[(side * cardW) / 2, 0, LEAF_Z]}
+              >
+                <group position-x={-side * (cardW / 4 - 0.002)}>
+                  <mesh
+                    geometry={geometry.leaf}
+                    material={materials.leafOuter[i]}
+                    castShadow
+                    receiveShadow
+                  />
+                  <mesh geometry={geometry.leaf} material={materials.leafInner} receiveShadow />
+                </group>
+                {/* Su mitad del lacre, en el borde que toca a la otra hoja. */}
+                <group position={[(-side * cardW) / 2, 0, 0.03]}>
+                  <group
+                    ref={(el) => {
+                      halves.current[i] = el;
+                    }}
+                    scale={0}
+                  >
+                    <mesh
+                      geometry={geometry.halves[i]}
+                      material={materials.seal}
+                      scale={SEAL_R}
+                      castShadow
+                    />
+                  </group>
+                </group>
+              </group>
+            ))}
+          </>
+        ) : (
+          <>
+            {/* Interior con el forro, visible al levantar la solapa. */}
+            <mesh material={materials.inside} receiveShadow castShadow>
+              <planeGeometry args={[W, H]} />
+            </mesh>
+            {/* Bolsillo: tres pliegues de papel con un poco de altura entre ellos. */}
+            <mesh
+              geometry={geometry.left}
+              material={materials.pocketSide}
+              position-z={POCKET_Z}
+              castShadow
+              receiveShadow
+            />
+            <mesh
+              geometry={geometry.right}
+              material={materials.pocketSide}
+              position-z={POCKET_Z}
+              castShadow
+              receiveShadow
+            />
+            <mesh
+              geometry={geometry.bottom}
+              material={materials.pocketBottom}
+              position-z={POCKET_Z + 0.006}
+              castShadow
+              receiveShadow
+            />
 
-        {/* Sombra del borde de la solapa sobre el bolsillo: se va al levantarla. */}
-        <mesh
-          ref={flapShadow}
-          material={materials.flapShadow}
-          position={[0.025, H / 2 - look.flapDepth / 2 - 0.035, POCKET_Z + 0.014]}
-          scale={[W * (1 + 2 * FLAP_SHADOW_PAD), look.flapDepth * (1 + 2 * FLAP_SHADOW_PAD), 1]}
-        >
-          <planeGeometry />
-        </mesh>
-        {/* Solapa: malla que se deforma fotograma a fotograma; el recorte viene del tema. */}
-        <group ref={flapGroup} position={[0, H / 2, POCKET_Z + 0.022]}>
-          <mesh
-            ref={flapMesh}
-            geometry={geometry.flap}
-            material={materials.flapOuter}
-            castShadow
-            receiveShadow
-          />
-          <mesh geometry={geometry.flap} material={materials.flapInner} receiveShadow />
-        </group>
+            {/* Sombra del borde de la solapa sobre el bolsillo: se va al levantarla. */}
+            <mesh
+              ref={flapShadow}
+              material={materials.flapShadow}
+              position={[0.025, H / 2 - look.flapDepth / 2 - 0.035, POCKET_Z + 0.014]}
+              scale={[W * (1 + 2 * FLAP_SHADOW_PAD), look.flapDepth * (1 + 2 * FLAP_SHADOW_PAD), 1]}
+            >
+              <planeGeometry />
+            </mesh>
+            {/* Solapa: malla que se deforma fotograma a fotograma; el recorte viene del tema. */}
+            <group ref={flapGroup} position={[0, H / 2, POCKET_Z + 0.022]}>
+              <mesh
+                ref={flapMesh}
+                geometry={geometry.flap}
+                material={materials.flapOuter}
+                castShadow
+                receiveShadow
+              />
+              <mesh geometry={geometry.flap} material={materials.flapInner} receiveShadow />
+            </group>
+          </>
+        )}
 
-        {/* Lacre entero, en la punta de la solapa. */}
-        <group position={[0, sealY, POCKET_Z + 0.05]}>
+        {/* Lacre entero, en la punta de la solapa (o en el centro del díptico). */}
+        <group position={[0, sealY, dip ? LEAF_Z + 0.03 : POCKET_Z + 0.05]}>
           <group ref={seal} scale={SEAL_R}>
             <mesh geometry={geometry.seal} material={materials.seal} castShadow />
           </group>
@@ -1082,17 +1223,19 @@ function Envelope(props: SceneProps) {
             intensity={0}
             distance={2.5}
           />
-          {geometry.halves.map((g, i) => (
-            <group
-              key={i}
-              ref={(el) => {
-                halves.current[i] = el;
-              }}
-              scale={0}
-            >
-              <mesh geometry={g} material={materials.seal} scale={SEAL_R} castShadow />
-            </group>
-          ))}
+          {dip
+            ? null
+            : geometry.halves.map((g, i) => (
+                <group
+                  key={i}
+                  ref={(el) => {
+                    halves.current[i] = el;
+                  }}
+                  scale={0}
+                >
+                  <mesh geometry={g} material={materials.seal} scale={SEAL_R} castShadow />
+                </group>
+              ))}
           {CRUMBS.map((c, i) => (
             <mesh
               key={i}

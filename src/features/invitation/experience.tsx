@@ -3,6 +3,7 @@
 import { markOpened } from "@/app/actions/opened";
 import { eventNoun } from "@/lib/event-kind";
 import type { GiftStatus } from "@/lib/gifts";
+import type { GuestbookState } from "@/lib/guestbook";
 import { Volume2, VolumeX } from "lucide-react";
 import { domAnimation, LazyMotion, MotionConfig, useReducedMotion } from "motion/react";
 import {
@@ -33,11 +34,10 @@ import { CoverStage } from "./cover/cover-stage";
 import { startAmbient, stopAmbient } from "./effects/ambient";
 import { isMuted, setMuted, subscribeMuted, unlockAudio } from "./effects/sound";
 import { TiltProvider } from "./effects/tilt";
-import { Diptych } from "./envelope/diptych";
 import { EnvelopeStage } from "./envelope/envelope-stage";
 import { FullEnvelope } from "./envelope/full-envelope";
 import { RibbonBox } from "./envelope/ribbon-box";
-import { Envelope3D } from "./envelope/envelope-3d";
+import { Diptych3D, Envelope3D } from "./envelope/envelope-3d";
 import { VideoEnvelope } from "./envelope/video-envelope";
 import { WindowEnvelope } from "./envelope/window-envelope";
 import { LetterStage } from "./letter/letter-stage";
@@ -59,7 +59,7 @@ const noopSubscribe = () => () => {};
 const OPENINGS = {
   mesa: EnvelopeStage,
   pantalla: FullEnvelope,
-  diptico: Diptych,
+  diptico: Diptych3D,
   caja: RibbonBox,
   pelicula: VideoEnvelope,
   sobre3d: Envelope3D,
@@ -89,6 +89,7 @@ export function InvitationExperience({
   phase = "invitacion",
   albumToken = null,
   gifts,
+  guestbook,
 }: {
   event: WeddingEvent;
   group: GuestGroup;
@@ -104,6 +105,7 @@ export function InvitationExperience({
   albumToken?: string | null;
   /** Reservas de la lista de regalos (sin ellas, la lista empieza sin reservas). */
   gifts?: GiftStatus;
+  guestbook?: GuestbookState;
   /** Respuesta guardada en el servidor (invitaciones reales); undefined en la demo. */
   initialResponse?: RsvpResponse | null;
 }) {
@@ -302,6 +304,7 @@ export function InvitationExperience({
                     phase={phase}
                     albumToken={albumToken}
                     gifts={gifts}
+                    guestbook={guestbook}
                     smooth={theme.cover === "cine"}
                     seal={{ shape: theme.sealShape, mark: theme.sealMark }}
                     badge={badge}

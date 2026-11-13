@@ -104,6 +104,12 @@ export const eventContentSchema = z
       message: text(600),
       holder: text(120),
       iban: text(40),
+      // Teléfono para Bizum; opcional en el contenido guardado antes.
+      bizum: z
+        .string()
+        .max(20)
+        .regex(/^[+\d ]*$/, "Solo números, espacios y +")
+        .optional(),
       // Lista de regalos; opcional en el contenido guardado antes.
       items: z
         .array(
@@ -149,6 +155,18 @@ export const eventContentSchema = z
     song: photo.optional(),
     banquetPhoto: photo,
     contactPhone: text(30),
+    // Libro de firmas a la vista de los invitados; apagado en el contenido guardado antes.
+    guestbook: z.boolean().optional(),
+    // Lista de música colaborativa: solo enlaces https.
+    playlistUrl: z
+      .union([
+        z.literal(""),
+        z
+          .string()
+          .max(500)
+          .regex(/^https:\/\/\S+$/, "Empieza por https://"),
+      ])
+      .optional(),
     climate: climateSchema.nullable().optional(),
   })
   // Bodas y aniversarios necesitan los dos nombres; el resto puede ser de una sola persona.

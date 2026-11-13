@@ -20,16 +20,20 @@ import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
 import { formatWeekdayDate, isoDay } from "@/lib/format";
 import { useScrollProgress, useViewProgress } from "../effects/scroll-progress";
 import { AlmondBranch, Monogram } from "../ornaments";
-import { RsvpSection } from "../rsvp/rsvp-section";
+import { RSVP_START_EVENT, RsvpSection } from "../rsvp/rsvp-section";
 import { DaysLeft } from "./countdown";
 import { useSavedResponse } from "../rsvp/use-saved-response";
 import { GiftSection } from "./gift-section";
+import { GuestbookSection } from "./guestbook-section";
+import { EMPTY_GUESTBOOK, type GuestbookState } from "@/lib/guestbook";
 import { EMPTY_GIFT_STATUS, type GiftStatus } from "@/lib/gifts";
 import { ResponseStatus } from "./response-status";
 import { dayClock, isAfterEvent, liveProgram } from "@/lib/day-mode";
 import { ThankYou } from "./thank-you";
 import { LiveDay } from "./live-day";
 import { SaveTheDate, SaveTheDateOnly } from "./save-the-date";
+import { SectionDock, type DockLink } from "./section-dock";
+import { isDeadlinePassed } from "@/lib/rsvp/draft";
 import {
   SECTION_IDS,
   type CalendarId,
@@ -37,8 +41,10 @@ import {
   type SealShapeId,
   type SectionId,
 } from "@/lib/theme";
+import { PlaylistBand } from "./playlist-band";
 import { ProgramScene } from "./program-scene";
 import { StoryScene } from "./story-scene";
+import { VenueScene } from "./venue-scene";
 import { StorySection } from "./story-section";
 import { PracticalSection, ProgramSection, TransportSection, VenuesSection } from "./sections";
 
@@ -113,6 +119,8 @@ export interface InvitationContentProps {
   albumToken?: string | null;
   /** Reservas de la lista de regalos. */
   gifts?: GiftStatus;
+  /** Libro de firmas y canciones pedidas. */
+  guestbook?: GuestbookState;
   /** Scroll suave «de película» (Lenis), en la plantilla Cine. */
   smooth?: boolean;
   /** El lacre del tema: sella la respuesta al confirmar. */
@@ -132,6 +140,7 @@ export function InvitationContent({
   phase = "invitacion",
   albumToken = null,
   gifts = EMPTY_GIFT_STATUS,
+  guestbook = EMPTY_GUESTBOOK,
   smooth = false,
   seal,
 }: InvitationContentProps) {
@@ -169,6 +178,14 @@ export function InvitationContent({
   const heroPhoto = event.story.couplePhoto ?? event.coverPhoto;
   const hero = useScrollProgress<HTMLElement>("leave", Boolean(heroPhoto) && !reduce);
   const page = useViewProgress<HTMLDivElement>(!reduce);
+  // Para el abanico del álbum: hasta tres fotos del evento, las que haya.
+  const albumPhotos = useMemo(
+    () =>
+      [event.venues[1]?.photo, heroPhoto, event.venues[0]?.photo, event.coverPhoto]
+        .filter((src, i, all): src is string => Boolean(src) && all.indexOf(src) === i)
+        .slice(0, 3),
+    [event.venues, event.coverPhoto, heroPhoto],
+  );
   const welcome = useMemo(() => event.welcomeMessage.split(/\s+/), [event.welcomeMessage]);
 
   useEffect(() => {
@@ -182,8 +199,33 @@ export function InvitationContent({
   const programScene = !reduce && !clock.active;
   const storyScene = !reduce && event.story.moments.every((moment) => moment.photo);
   // Dentro de una escena la barra de secciones se retira: la pantalla es toda suya.
+  const venueScene =
+    !reduce && event.venues.length >= 2 && event.venues.every((venue) => venue.photo);
+  // Lo que sigue a «El día»: si es otra escena oscura, la noche enlaza con ella sin amanecer.
+  const visible = order.filter(shows);
+  const afterProgram = visible[visible.indexOf("programa") + 1];
+  const darkAfterProgram =
+    (afterProgram === "lugares" && venueScene) || (afterProgram === "historia" && storyScene);
   const immersive =
-    (active === "programa" && programScene) || (active === "historia" && storyScene);
+    (active === "programa" && programScene) ||
+    (active === "historia" && storyScene) ||
+    (active === "lugares" && venueScene);
+  // Lo que ofrece la píldora del móvil: confirmar, o el pase si ya se ha confirmado.
+  const closed = isDeadlinePassed(event, group);
+  const dockCta: DockLink | null = after
+    ? null
+    : saved?.status === "attending"
+      ? { href: "#pase", label: "Tu pase" }
+      : closed
+        ? null
+        : saved
+          ? { href: "#confirmar", label: "Cambiar respuesta" }
+          : { href: "#confirmar", label: "Confirmar" };
+  // Responder desde la píldora: el formulario se abre ya en el paso siguiente.
+  const answerFromDock = (status: "attending" | "declined") => {
+    window.dispatchEvent(new CustomEvent(RSVP_START_EVENT, { detail: status }));
+    document.getElementById("confirmar")?.scrollIntoView({ block: "start" });
+  };
   const cta = heroPhoto
     ? buttonClasses("secondary", "lg", "border-transparent")
     : buttonClasses("primary", "lg");
@@ -368,19 +410,11 @@ export function InvitationContent({
         <SaveTheDateOnly event={event} calendar={calendar} />
       ) : (
         <>
-          {after ? null : (
-            <aside aria-label="Tu respuesta" className="border-t border-line bg-paper">
-              <div className="mx-auto max-w-5xl px-6 py-4 sm:px-10">
-                <ResponseStatus event={event} group={group} />
-              </div>
-            </aside>
-          )}
-
           <nav
             aria-label="Secciones de la invitación"
             inert={immersive}
             className={clsx(
-              "sticky top-0 z-30 border-y border-line bg-ivory/92 backdrop-blur-md transition-[translate,opacity] duration-500",
+              "sticky top-0 z-30 border-y border-line bg-ivory/92 backdrop-blur-md transition-[translate,opacity] duration-500 max-sm:hidden",
               immersive && "-translate-y-full opacity-0",
             )}
           >
@@ -409,26 +443,76 @@ export function InvitationContent({
             </ul>
           </nav>
 
+          {/* En el móvil, la barra de secciones es una píldora flotante abajo, junto al pulgar. */}
+          <SectionDock
+            nav={after ? nav.filter((item) => item.id !== "confirmar") : nav}
+            active={active}
+            hidden={immersive || active === "confirmar"}
+            cta={dockCta}
+            ask={
+              !saved && !closed && !after
+                ? {
+                    question: group.members.length > 1 ? "¿Venís?" : "¿Vienes?",
+                    onAnswer: answerFromDock,
+                  }
+                : null
+            }
+          />
+
           <main>
+            {/* Bienvenida: con foto de portada sigue sobre negro, como el título de una película,
+                y se enciende palabra a palabra; después amanece hacia el papel. */}
             <section
               aria-label="Bienvenida"
-              className="mx-auto max-w-5xl px-6 py-16 sm:px-10 sm:py-24"
+              className={
+                heroPhoto
+                  ? "bg-[linear-gradient(180deg,#060605,#10110d_45%)] text-white"
+                  : undefined
+              }
             >
-              {/* La bienvenida se enciende palabra a palabra al pasar por el centro. */}
-              <p
-                data-view
-                style={{ "--n": welcome.length } as CSSProperties}
-                className="max-w-[34ch] font-display text-[1.625rem] leading-[1.45] text-ink sm:text-[2rem] md:ml-[15.5rem]"
+              <div
+                className={clsx(
+                  "mx-auto max-w-5xl px-6 sm:px-10",
+                  heroPhoto ? "flex min-h-[78svh] flex-col justify-center py-20" : "py-16 sm:py-24",
+                )}
               >
-                {welcome.map((word, i) => (
-                  <Fragment key={i}>
-                    <span className="lit-word" style={{ "--i": i } as CSSProperties}>
-                      {word}
-                    </span>{" "}
-                  </Fragment>
-                ))}
-              </p>
+                <p
+                  className={clsx(
+                    "mb-6 font-display text-[1.375rem] italic md:ml-[15.5rem]",
+                    heroPhoto ? "text-white/80" : "text-ink-soft",
+                  )}
+                >
+                  {group.displayName}:
+                </p>
+                <p
+                  data-view
+                  style={{ "--n": welcome.length } as CSSProperties}
+                  className={clsx(
+                    "max-w-[30ch] font-display leading-[1.4] md:ml-[15.5rem]",
+                    heroPhoto
+                      ? "text-[clamp(1.875rem,8vw,2.5rem)] text-white"
+                      : "text-[1.625rem] text-ink sm:text-[2rem]",
+                  )}
+                >
+                  {welcome.map((word, i) => (
+                    <Fragment key={i}>
+                      <span className="lit-word" style={{ "--i": i } as CSSProperties}>
+                        {word}
+                      </span>{" "}
+                    </Fragment>
+                  ))}
+                </p>
+              </div>
+              {heroPhoto ? <div aria-hidden className="scene-out h-[24svh]" /> : null}
             </section>
+
+            {after ? null : (
+              <aside aria-label="Tu respuesta" className="border-t border-line bg-paper">
+                <div className="mx-auto max-w-5xl px-6 py-4 sm:px-10">
+                  <ResponseStatus event={event} group={group} />
+                </div>
+              </aside>
+            )}
 
             {order.filter(shows).map((id) => (
               <Fragment key={id}>
@@ -437,11 +521,15 @@ export function InvitationContent({
                     fecha: clock.active ? null : <SaveTheDate event={event} variant={calendar} />,
                     // El día de la boda manda lo práctico: la lista, con el acto de ahora.
                     programa: programScene ? (
-                      <ProgramScene event={event} />
+                      <ProgramScene event={event} dawn={!darkAfterProgram} />
                     ) : (
                       <ProgramSection event={event} currentId={live?.current?.id ?? null} />
                     ),
-                    lugares: <VenuesSection event={event} />,
+                    lugares: venueScene ? (
+                      <VenueScene event={event} />
+                    ) : (
+                      <VenuesSection event={event} />
+                    ),
                     transporte: <TransportSection event={event} response={saved} />,
                     info: <PracticalSection event={event} />,
                     historia: storyScene ? (
@@ -462,25 +550,66 @@ export function InvitationContent({
               </Fragment>
             ))}
             {after ? null : <RsvpSection event={event} group={group} seal={seal} />}
+            {after ? null : (
+              <PlaylistBand
+                url={event.playlistUrl ?? ""}
+                response={saved}
+                songs={guestbook.songs}
+              />
+            )}
+            {event.guestbook ? (
+              <GuestbookSection
+                event={event}
+                group={group}
+                live={Boolean(group.persisted)}
+                initial={guestbook}
+              />
+            ) : null}
             {albumToken ? (
-              <section aria-labelledby="album-title" className="border-t border-line bg-paper">
-                <div className="mx-auto flex max-w-5xl flex-col gap-4 px-6 py-14 sm:flex-row sm:items-center sm:justify-between sm:px-10">
+              <section
+                aria-labelledby="album-title"
+                className="overflow-hidden border-t border-line bg-paper"
+              >
+                <div className="mx-auto grid max-w-5xl gap-10 px-6 py-16 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:px-10 sm:py-20">
+                  {/* Tres fotos reveladas que se abren en abanico al llegar. */}
+                  {albumPhotos.length >= 2 ? (
+                    <div
+                      data-view
+                      aria-hidden
+                      className="flex justify-center py-4 sm:order-2 sm:px-8"
+                    >
+                      {albumPhotos.map((src, i) => (
+                        <span
+                          key={src}
+                          className="fan-card relative -mx-4 block w-32 bg-white p-1.5 pb-6 shadow-[0_14px_28px_-14px_rgb(0_0_0/0.55)]"
+                          style={{ "--k": i - (albumPhotos.length - 1) / 2 } as CSSProperties}
+                        >
+                          <span className="relative block aspect-square overflow-hidden bg-cream">
+                            <Image src={src} alt="" fill sizes="128px" className="object-cover" />
+                          </span>
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
                   <div>
                     <h2
                       id="album-title"
-                      className="font-display text-[1.75rem] leading-tight text-ink"
+                      className="reveal-title font-display text-[2.5rem] leading-[1.05] text-ink sm:text-[3rem]"
                     >
                       El álbum {ofEvent(event)}
                     </h2>
-                    <p className="mt-1 max-w-[46ch] text-[0.9375rem] leading-relaxed text-muted">
+                    <p className="mt-4 max-w-[46ch] text-[1.0625rem] leading-relaxed text-ink-soft">
                       {after
                         ? "Las fotos que hicisteis ese día. Si te queda alguna en el móvil, aún puedes subirla."
                         : "Ese día, sube aquí las fotos que hagas. Las mesas tendrán también un código QR."}
                     </p>
+                    <a
+                      href={`/album/${albumToken}`}
+                      className={clsx(buttonClasses("primary", "lg"), "mt-7")}
+                    >
+                      Abrir el álbum
+                    </a>
                   </div>
-                  <a href={`/album/${albumToken}`} className={buttonClasses("secondary", "lg")}>
-                    Abrir el álbum
-                  </a>
                 </div>
               </section>
             ) : null}

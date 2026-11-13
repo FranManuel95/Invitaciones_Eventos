@@ -511,6 +511,13 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
   (lo más caro). Sin WebGL o con movimiento reducido se usa el sobre en la mesa, como antes.
 - Para revisar la película plano a plano: `window.__cine = { t: 1.2, alta: true }` fija el
   instante y fuerza la calidad alta (así se sacan las capturas y el vídeo de la venta).
+- **El díptico, en el mismo plató** (`object: "diptico"` en la escena y `Diptych3D`): cartón
+  con la carta encima y dos hojas sujetas por su borde exterior, cerradas con el lacre. Cada
+  mitad del lacre se queda pegada a su hoja y se va con ella, como en un díptico de verdad; las
+  hojas se abren cuando la cámara ya ha retrocedido (si no, se le echan encima) y la luz es más
+  suave para no borrar el texto. Sin 3D o con movimiento reducido, el díptico dibujado.
+- **El sobre de película** termina igual que el 3D: el destello se funde con la pantalla de la
+  carta (fondo, foco y carta en su sitio e inclinación) y el relevo no cambia nada a la vista.
 - **Capa común para las aperturas dibujadas** (`envelope/cinema.tsx`, con GSAP): cámara que se
   acerca y acusa el golpe, foco, luz de dentro y polvo. De momento la usa el sobre en la mesa.
 - Pendiente: llevar la escena de cine al díptico y a la caja (mismo plató, otro objeto) y decidir
@@ -541,8 +548,69 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
 - **Dónde** (A4): el camino del plano se dibuja al cruzar la pantalla; las fotos de los sitios van
   grandes, con el nombre encima, y se desplazan dentro de su marco.
 - **Regalos** (A7): las tarjetas llegan una a una y «Reservado a vuestro nombre» cae como un sello.
-- Pendiente del plan (`docs/PLAN-CINE.md`): A6 (el calendario ya se anima al llegar; falta
-  ligarlo al dedo) y la parte B (resto de aperturas).
+- **Guarda la fecha** (A6): la cuenta atrás pone los días en grande y las horas y los minutos,
+  al lado, en pequeño (el calendario, ver más abajo).
+- **Cómo llegar**: cada autobús es un billete (la hora de salida en el resguardo, con su línea de
+  corte). Sustituye a la tabla, que en el móvil obligaba a desplazarse de lado para ver la vuelta.
+- **Antes de venir**: los colores del código de vestimenta son muestras de tela, algo torcidas.
+- **El álbum**: tres fotos del evento (las que haya) llegan apiladas y se abren en abanico.
+- **Barra de secciones en el móvil** (`content/section-dock.tsx`): una píldora flotante abajo, al
+  alcance del pulgar, en lugar de la barra de arriba (que sigue en pantallas anchas). Muestra por
+  dónde vas con un anillo que se completa al bajar, despliega el índice al tocarla y lleva
+  siempre lo importante: «Confirmar» o, si ya se ha confirmado, «Tu pase». Aparece al dejar la
+  portada y se retira en las escenas, en el formulario y en el cierre.
+- **Bienvenida**: empieza con el nombre del invitado («Familia García:»).
+- **Código de vestimenta en el móvil**: las figuras son un pase que se desliza con el dedo.
+- **Responder desde la píldora**: si aún no se ha contestado, «Confirmar» pregunta ahí mismo
+  («¿Venís?», «Sí» o «No puedo») y abre el formulario ya en el paso siguiente (evento
+  `RSVP_START_EVENT`). No se salta ningún dato: menús y autobús se siguen pidiendo.
+- **Transiciones entre secciones**: las secciones con otro tono entran y salen en degradado
+  (`.tone-tinted`), «Nuestra historia» se funde con el papel al terminar (`.story-out`) y una raya
+  dorada se traza antes de cada titular (`.title-rule`).
+- **Dónde y regalos en el móvil**: se pasan de lado con el dedo. Cada sitio lleva «Cómo llegar»
+  (ruta en Google Maps) y Apple Maps al lado; los regalos sin foto llevan su papel de regalo.
+- **Carruseles**: el contenedor que se desliza lleva `relative`. Sin él, los textos solo para
+  lectores de pantalla (`sr-only`, en posición absoluta) de las tarjetas que quedan fuera
+  ensanchaban la página entera en el móvil.
+- **Alojamiento y preguntas**: fichas de papel; cada alojamiento, con su enlace al mapa.
+- **Vibración y sonido al bajar**: cada hoja del calendario suena a papel, y cada acto de «El día»
+  y cada capítulo de la historia dan un toque (`playTick`). Solo suena si el invitado no ha
+  silenciado; la vibración no existe en iPhone (Safari no la ofrece).
+- **Bienvenida como título de película**: con foto de portada, la bienvenida sigue sobre negro
+  (la foto se ha oscurecido al bajar), se enciende palabra a palabra en grande y después amanece
+  hacia el papel (`.scene-out`). El aviso «Tu respuesta» va detrás, ya sobre papel.
+- **«Dónde», escena** (`content/venue-scene.tsx`): con dos o más sitios, todos con foto, cada uno
+  ocupa la pantalla y su foto se funde con la del siguiente (estilos `.story-*`); abajo, un punto
+  viaja de un sitio a otro. Solo el sitio que se ve recibe toques (`inert` en los demás). Sin
+  fotos o con movimiento reducido, las tarjetas de `VenuesSection`. Si va justo después de «El
+  día», la noche enlaza con ella sin amanecer.
+- **«¿Venís?» sobre la foto del banquete**: la pregunta, en grande y a toda pantalla, con los dos
+  botones encima. Sin foto, la tarjeta de papel de antes.
+- **Lo que tiene la competencia y faltaba** (repaso del 11/11/2026 a proveedores españoles de
+  Bodas.net y a Joy, Greenvelope y similares; son fichas comerciales, no comparativas neutrales):
+  - **Bizum** en los regalos (`gift.bizum`, opcional): el teléfono en grande y «Copiar teléfono».
+  - **La lista de la fiesta** (`playlistUrl`, opcional; `content/playlist-band.tsx`): banda oscura
+    con un vinilo que gira, la canción que pidió el invitado al confirmar y el botón a la lista
+    colaborativa de la pareja. Solo se aceptan enlaces https.
+  - **Waze** junto a Google Maps y Apple Maps en cada sitio.
+  - Los dos campos nuevos van dentro de `events.content` (JSON): no hacen falta migraciones.
+- **Libro de firmas** (12/11/2026; `content/guestbook-section.tsx`, `src/lib/guestbook.ts`): los
+  invitados dejan hasta tres mensajes por invitación (400 caracteres), firmados con el nombre de
+  la invitación, que ven los demás invitados. Solo aparece si la pareja lo activa en el editor
+  (`guestbook`, apagado por defecto: enseña nombres de invitados a otros invitados). La pareja
+  modera en el panel (`/panel/<evento>/mensajes`) ocultando mensajes; no se borra nada.
+  - Base de datos: migración `20261112100000_libro_de_firmas.sql` (tabla `guestbook_messages`
+    con RLS, `guestbook_sign` con token y `get_invitation` ampliada). Los miembros solo pueden
+    cambiar `hidden_at`. Aplicada el 12/11/2026 y probada con transacciones que se deshacen:
+    `anon` y los usuarios sin ser miembros no pueden leer ni escribir en la tabla.
+  - **Canciones pedidas a la vista de todos**: salen en la banda de música, sin decir quién las
+    pidió. Van en la misma migración.
+- **Calendario**: se probó a ligar las hojas al dedo y se descartó (caían de golpe al deslizar
+  rápido). Vuelven a caer solas al llegar, una tras otra y con más calma que al principio.
+- Pendiente: la reconfirmación de asistencia, que depende del correo.
+- **Prioridad**: el móvil. El escritorio se mantiene correcto, pero las mejoras se piensan y se
+  revisan primero a 390 px de ancho.
+- Pendiente del plan (`docs/PLAN-CINE.md`): la parte B (resto de aperturas).
 
 ## Página de venta y ejemplos con imágenes reales
 

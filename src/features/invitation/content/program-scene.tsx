@@ -4,6 +4,7 @@ import type { CSSProperties } from "react";
 import type { WeddingEvent } from "@/lib/domain/types";
 import { formatLongDate } from "@/lib/format";
 import { useScrollProgress } from "../effects/scroll-progress";
+import { haptic, playTick } from "../effects/sound";
 import { ProgramIcon } from "./program-icons";
 
 /*
@@ -16,10 +17,24 @@ import { ProgramIcon } from "./program-icons";
  * globals.css (.day-*). Con movimiento reducido o el día de la boda se usa la lista de siempre
  * (`ProgramSection`).
  */
-export function ProgramScene({ event }: { event: WeddingEvent }) {
-  const scene = useScrollProgress<HTMLDivElement>("pin");
+const step = (_step: number, first: boolean) => {
+  if (first) return;
+  haptic(8);
+  playTick();
+};
+
+export function ProgramScene({
+  event,
+  dawn = true,
+}: {
+  event: WeddingEvent;
+  /** Falso si lo que sigue es otra escena oscura: de la noche se pasa a ella sin amanecer. */
+  dawn?: boolean;
+}) {
   const acts = event.program;
   const count = Math.max(acts.length, 2);
+  // Cada acto se nota en el dedo (y se oye, si hay sonido) al llegar.
+  const scene = useScrollProgress<HTMLDivElement>("pin", true, count, step);
   return (
     <section id="programa" aria-labelledby="programa-title" className="day">
       <div
@@ -106,7 +121,7 @@ export function ProgramScene({ event }: { event: WeddingEvent }) {
         </div>
       </div>
       {/* Amanece: de la noche al color de la sección siguiente. */}
-      <div aria-hidden className="day-dawn h-[34svh]" />
+      {dawn ? <div aria-hidden className="day-dawn h-[34svh]" /> : null}
     </section>
   );
 }
