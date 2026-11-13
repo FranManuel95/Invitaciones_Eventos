@@ -62,6 +62,10 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 - **Plantillas para Instagram (decidido 13/11)**: se quedan **Arcilla, Buganvilla y Noche dorada** (Olivar
   queda fuera por parecerse a Buganvilla). Aperturas con vídeos de Higgsfield en las tres, y pulir las
   escenas de después de la carta con datos de ejemplo cuidados.
+  Revisadas en móvil el 13/11: las escenas de después de la carta se ven bien en las tres; el fallo
+  está en los pétalos de la portada de Arcilla (manchas grandes que tapan los nombres). Los textos
+  para generar lo que falta, listos para pegar en un chat de claude.ai, están en
+  `docs/higgsfield/TANDA-INSTAGRAM.md`, con los fotogramas de partida en la misma carpeta.
 - **Lo que falta de la ronda 11**:
   1. **Recuperar la tarjeta que sale del sobre** (petición del usuario, 13/11): la versión del
      23/10 del sobre blanco terminaba con la tarjeta saliendo y flotando, y sobre ella se escribía
