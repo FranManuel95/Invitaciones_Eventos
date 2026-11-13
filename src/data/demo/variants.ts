@@ -21,8 +21,8 @@ const PHOTOS = {
   buganvilla: {
     cover: "/fotos/buganvilla/portada.jpg",
     depth: "/fotos/buganvilla/portada-profundidad.png",
-    // Solo hay un retrato de la pareja: sirve también para la historia.
-    couple: "/fotos/buganvilla/portada.jpg",
+    // El mismo retrato que la portada, recortado para que los dos queden centrados en el móvil.
+    couple: "/fotos/buganvilla/pareja.jpg",
     ceremony: "/fotos/buganvilla/ceremonia.jpg",
     venue: "/fotos/buganvilla/finca.jpg",
     banquet: "/fotos/buganvilla/banquete.jpg",
