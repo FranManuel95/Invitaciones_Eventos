@@ -22,6 +22,48 @@ test.describe("portadas", () => {
     });
   }
 
+  for (const [scene, tone] of [
+    ["ramas", "claro"],
+    ["buganvilla", "claro"],
+    ["orilla", "claro"],
+    ["medianoche", "oscuro"],
+    ["arcilla", "oscuro"],
+  ]) {
+    test(`${scene}: fondo pintado con los nombres legibles y accesible`, async ({ page }) => {
+      await page.goto(`/i/familia-garcia?portada=${scene}`);
+      const cover = page.locator(`[data-cover='${scene}'][data-tone='${tone}']`);
+      await expect(cover).toBeAttached();
+      await expect(cover.locator("img")).toHaveJSProperty("complete", true);
+      await expect(page.getByRole("heading", { level: 1, name: /María/ })).toBeVisible();
+      await page.waitForTimeout(3200);
+      const { violations } = await new AxeBuilder({ page }).include("[data-cover]").analyze();
+      const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
+      expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual(
+        [],
+      );
+      await page.getByRole("button", { name: /toca para abrir/i }).click();
+      await expect(page.getByRole("button", { name: "Abrir el sobre" })).toBeVisible();
+    });
+  }
+
+  test("efecto de portada: el bucle se reproduce y con movimiento reducido no se pinta", async ({
+    browser,
+    page,
+  }) => {
+    await page.goto("/i/familia-garcia?portada=medianoche&efecto=oro");
+    const effect = page.locator("[data-cover-effect='oro']");
+    await expect(effect).toBeAttached();
+    await expect
+      .poll(() => effect.evaluate((el: HTMLVideoElement) => el.currentTime))
+      .toBeGreaterThan(0);
+    const context = await browser.newContext({ reducedMotion: "reduce" });
+    const still = await context.newPage();
+    await still.goto("/i/familia-garcia?portada=medianoche&efecto=oro");
+    await expect(still.locator("[data-cover='medianoche']")).toBeAttached();
+    await expect(still.locator("[data-cover-effect]")).toHaveCount(0);
+    await context.close();
+  });
+
   test("con movimiento reducido las escenas quedan quietas", async ({ browser }) => {
     const context = await browser.newContext({ reducedMotion: "reduce" });
     const page = await context.newPage();

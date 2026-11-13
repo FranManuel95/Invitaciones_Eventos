@@ -117,6 +117,16 @@ para promoción, ver «Para más adelante»).
   menor: un trozo pequeño de lacre sube pegado a la solapa. Ampliado aquí a 900 × 1600 con
   ffmpeg. Los tiempos de la vibración y del destello van ahora por encuadre (`TIMING`): vertical
   2,2 s y 8,9 s; el horizontal sigue con el vídeo de la versión 3 (2,5 s y 7,1 s).
+- **Portadas pintadas y efectos** (ronda 11): cinco fondos nuevos (`ramas`, `buganvilla`,
+  `medianoche`, `arcilla`, `orilla`) generados con Seedream 5.0 Pro a 2K con la prueba ilimitada
+  de Higgsfield (0 créditos), con el centro despejado para los nombres; van en
+  `public/portadas/` a 1080 px. Los claros llevan los nombres en tinta y un halo del color del
+  papel, sin el velo oscuro (`PAINTED_COVERS` en `src/lib/theme/cover.ts`). Campo nuevo del tema,
+  `coverEffect` (`ninguno`, `petalos`, `oro`): un bucle de 4 s (Seedance 2.5, 720p) sobre negro
+  que se suma con `mix-blend-mode: screen`; solo luce en fondos oscuros y no se pinta con
+  movimiento reducido. Para que repita sin salto, el último segundo se funde con el primero
+  (ffmpeg `xfade`) y los negros se aplastan con `curves`. Un tercer bucle, de luciérnagas, se
+  descartó: salían insectos. En la demo: `?portada=medianoche&efecto=oro`.
 - **Del sobre sale la carta completa** (petición del usuario): en las aperturas mesa y pantalla,
   la tarjeta del sobre ya no es una tarjetita con nombres y fecha. Es la misma carta de la
   invitación (saludo, mensaje, nombres, fecha y botón, con la composición y el borde del tema)

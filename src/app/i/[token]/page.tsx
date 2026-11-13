@@ -46,6 +46,7 @@ export default async function InvitationPage(props: PageProps<"/i/[token]">) {
             calendar: pick("calendario"),
             opening: pick("apertura"),
             cover: pick("portada"),
+            coverEffect: pick("efecto"),
           }).filter(([, v]) => v !== undefined),
         ),
       });

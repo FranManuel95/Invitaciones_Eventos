@@ -116,6 +116,7 @@ export const DEFAULT_THEME: Theme = {
   sealMark: "monograma",
   opening: "mesa",
   cover: "foto",
+  coverEffect: "ninguno",
   layout: "clasica",
   edge: "barba",
   ornament: "almendro",

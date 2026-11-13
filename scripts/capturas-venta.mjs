@@ -34,7 +34,19 @@ const TEMPLATES = [
   "herbario",
   "cine",
 ];
-const COVERS = ["foto", "luces", "acuarela", "estrellas", "herbario", "cine"];
+const COVERS = [
+  "foto",
+  "luces",
+  "acuarela",
+  "estrellas",
+  "herbario",
+  "cine",
+  "ramas",
+  "buganvilla",
+  "medianoche",
+  "arcilla",
+  "orilla",
+];
 const OPENINGS = ["mesa", "pantalla", "diptico", "caja", "pelicula", "sobre3d", "ventana"];
 
 const TRIGGER = /^Abrir (el sobre|la invitación|la caja)$/;

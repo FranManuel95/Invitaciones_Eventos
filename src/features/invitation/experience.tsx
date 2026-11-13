@@ -259,7 +259,12 @@ export function InvitationExperience({
               </ViewTransition>
             ) : null}
             {stage === "cover" ? (
-              <CoverStage event={event} scene={theme.cover} onOpen={() => go("envelope")} />
+              <CoverStage
+                event={event}
+                scene={theme.cover}
+                effect={theme.coverEffect}
+                onOpen={() => go("envelope")}
+              />
             ) : null}
             {stage === "letter" ? (
               <ViewTransition exit="fade-out" default="none">

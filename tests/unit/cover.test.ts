@@ -22,6 +22,13 @@ describe("portadas", () => {
     expect(parseTheme({}).cover).toBe("foto");
     expect(parseTheme({ cover: "fuegos" }).cover).toBe("foto");
     expect(parseTheme({ cover: "luces" }).cover).toBe("luces");
+    expect(parseTheme({ cover: "medianoche" }).cover).toBe("medianoche");
+  });
+
+  it("sin efecto elegido la portada no lleva ninguno", () => {
+    expect(parseTheme({}).coverEffect).toBe("ninguno");
+    expect(parseTheme({ coverEffect: "confeti" }).coverEffect).toBe("ninguno");
+    expect(parseTheme({ coverEffect: "oro" }).coverEffect).toBe("oro");
   });
 
   it("el contenido guardado antes sin vídeo sigue siendo válido", () => {

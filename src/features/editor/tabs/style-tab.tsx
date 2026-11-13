@@ -24,6 +24,8 @@ import {
   accentFor,
   applyTemplate,
   CALENDAR_IDS,
+  COVER_EFFECT_IDS,
+  COVER_EFFECTS,
   COVER_IDS,
   COVERS,
   CALENDARS,
@@ -98,6 +100,7 @@ type ChoiceKey =
   | "sealMark"
   | "opening"
   | "cover"
+  | "coverEffect"
   | "musicStyle"
   | "layout"
   | "edge"
@@ -495,6 +498,19 @@ const COVER_SAMPLES: Record<Theme["cover"], string> = {
     "linear-gradient(135deg, transparent 0 18%, #d8bd80 18% 19.5%, transparent 19.5%), linear-gradient(315deg, transparent 0 18%, #d8bd80 18% 19.5%, transparent 19.5%), radial-gradient(110% 80% at 50% 42%, #25392e, #0b130f)",
   cine: "linear-gradient(180deg, #000 0 14%, #6b4f37 14% 86%, #000 86%)",
   video: "linear-gradient(135deg, #2b2b2b, #555)",
+  ramas: "url(/portadas/ramas.webp) center / cover",
+  buganvilla: "url(/portadas/buganvilla.webp) center / cover",
+  medianoche: "url(/portadas/medianoche.webp) center / cover",
+  arcilla: "url(/portadas/arcilla.webp) center / cover",
+  orilla: "url(/portadas/orilla.webp) center / cover",
+};
+
+/** Miniatura de cada efecto de portada. */
+const EFFECT_SAMPLES: Record<Theme["coverEffect"], string> = {
+  ninguno: "linear-gradient(135deg, #e9e4d8, #cfc8b8)",
+  petalos:
+    "radial-gradient(ellipse at 30% 30%, #fff 0 3px, transparent 4px), radial-gradient(ellipse at 68% 55%, #f3ece2 0 4px, transparent 5px), radial-gradient(ellipse at 40% 80%, #fff 0 2px, transparent 3px), #1c1a1a",
+  oro: "radial-gradient(circle at 25% 35%, #f6d98a 0 1px, transparent 2px), radial-gradient(circle at 60% 25%, #f6d98a 0 1.4px, transparent 2.4px), radial-gradient(circle at 70% 70%, #f6d98a 0 1px, transparent 2px), radial-gradient(circle at 35% 75%, #f6d98a 0 1.2px, transparent 2.2px), radial-gradient(120% 90% at 50% 50%, #4a2c12, #120b06)",
 };
 
 function CoverPart() {
@@ -514,6 +530,27 @@ function CoverPart() {
               label={COVERS[id].label}
               description={COVERS[id].description}
               swatch={<Tile background={COVER_SAMPLES[id]} />}
+            />
+          ))}
+        </div>
+      </Group>
+      <Group
+        title="Efecto"
+        description="Algo que se mueve por encima de la portada. Luce en los fondos oscuros; en los claros casi no se nota."
+      >
+        <div
+          role="radiogroup"
+          aria-label="Efecto de la portada"
+          className="grid gap-3 sm:grid-cols-3"
+        >
+          {COVER_EFFECT_IDS.map((id) => (
+            <Choice
+              key={id}
+              name="coverEffect"
+              value={id}
+              label={COVER_EFFECTS[id].label}
+              description={COVER_EFFECTS[id].description}
+              swatch={<Tile background={EFFECT_SAMPLES[id]} />}
             />
           ))}
         </div>

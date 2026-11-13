@@ -1,6 +1,7 @@
 import { z } from "zod";
 import {
   CALENDAR_IDS,
+  COVER_EFFECT_IDS,
   COVER_IDS,
   DEFAULT_THEME,
   EDGE_IDS,
@@ -47,6 +48,7 @@ export const themeInputSchema = z.strictObject({
   sealMark: z.enum(SEAL_MARK_IDS),
   opening: z.enum(OPENING_IDS),
   cover: z.enum(COVER_IDS),
+  coverEffect: z.enum(COVER_EFFECT_IDS),
   layout: z.enum(LAYOUT_IDS),
   edge: z.enum(EDGE_IDS),
   ornament: z.enum(ORNAMENT_IDS),
@@ -75,6 +77,7 @@ export const themeSchema = z.object({
   sealMark: z.enum(SEAL_MARK_IDS).catch("monograma"),
   opening: z.enum(OPENING_IDS).catch("mesa"),
   cover: z.enum(COVER_IDS).catch("foto"),
+  coverEffect: z.enum(COVER_EFFECT_IDS).catch("ninguno"),
   layout: z.enum(LAYOUT_IDS).catch("clasica"),
   edge: z.enum(EDGE_IDS).catch("barba"),
   ornament: z.enum(ORNAMENT_IDS).catch("almendro"),
