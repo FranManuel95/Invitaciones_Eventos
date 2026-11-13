@@ -107,6 +107,35 @@ para promoción, ver «Para más adelante»).
   (0,7 a 1,6 MB). Los vídeos de la versión 2 se borraron con el permiso del usuario. Se ofrece como
   apertura «Premium» (marca `premium` en `OPENINGS`, visible en el editor y en los ejemplos); las
   demás aperturas siguen disponibles.
+- **Sobre de película, versión 4** (solo el encuadre vertical, de momento): el vídeo de la
+  versión 3 tenía una imagen doble al pasar al primer plano del lacre (2,7 s), el lacre saltaba
+  entero y flotaba, y a los 4,6 s cortaba a otra escena con el sobre ya abierto. Se regeneró en
+  una sola toma continua de 10 s con Seedance 2.5 a 720p, partiendo del primer fotograma del vídeo
+  anterior (mismo sobre, lacre y luz), con la prueba ilimitada de Higgsfield (0 créditos; solo
+  funciona desde el chat de Claude, no desde Claude Code, y cubre hasta 720p). El lacre se parte
+  y sus trozos se quedan en el sobre, la solapa se levanta entera y se ve el forro de olivo. Fallo
+  menor: un trozo pequeño de lacre sube pegado a la solapa. Ampliado aquí a 900 × 1600 con
+  ffmpeg. Los tiempos de la vibración y del destello van ahora por encuadre (`TIMING`): vertical
+  2,2 s y 8,9 s; el horizontal sigue con el vídeo de la versión 3 (2,5 s y 7,1 s).
+- **Portadas pintadas y efectos** (ronda 11): cinco fondos nuevos (`ramas`, `buganvilla`,
+  `medianoche`, `arcilla`, `orilla`) generados con Seedream 5.0 Pro a 2K con la prueba ilimitada
+  de Higgsfield (0 créditos), con el centro despejado para los nombres; van en
+  `public/portadas/` a 1080 px. Los claros llevan los nombres en tinta y un halo del color del
+  papel, sin el velo oscuro (`PAINTED_COVERS` en `src/lib/theme/cover.ts`). Campo nuevo del tema,
+  `coverEffect` (`ninguno`, `petalos`, `oro`): un bucle de 4 s (Seedance 2.5, 720p) sobre negro
+  que se suma con `mix-blend-mode: screen`; solo luce en fondos oscuros y no se pinta con
+  movimiento reducido. Para que repita sin salto, el último segundo se funde con el primero
+  (ffmpeg `xfade`) y los negros se aplastan con `curves`. Un tercer bucle, de luciérnagas, se
+  descartó: salían insectos. En la demo: `?portada=medianoche&efecto=oro`.
+- **Sobre de película en colores y tres plantillas para enseñar** (ronda 11): campo nuevo del
+  tema, `film` (`blanco`, `salvia`, `burdeos`): cada color es un vídeo propio, generado como el
+  blanco a partir de su primer fotograma recoloreado (GPT Image 2.5 + Seedance 2.5, 0 créditos
+  con la prueba). Solo tienen encuadre vertical; en pantallas anchas se recorta. El azul con
+  lacre plateado se descartó: el lacre no se parte, se desliza bajo la solapa. Plantillas nuevas
+  que juntan portada, efecto y sobre: «Arcilla» (portada arcilla, pétalos, sobre burdeos),
+  «Olivar» (ramas de olivo, sobre salvia), «Noche dorada» (medianoche, polvo de oro, sobre 3D)
+  y «Buganvilla» (pared encalada y el sobre blanco de una sola toma).
+  En las portadas pintadas en claro, los botones de arriba («Saltar intro», sonido) van en tinta.
 - **Del sobre sale la carta completa** (petición del usuario): en las aperturas mesa y pantalla,
   la tarjeta del sobre ya no es una tarjetita con nombres y fecha. Es la misma carta de la
   invitación (saludo, mensaje, nombres, fecha y botón, con la composición y el borde del tema)

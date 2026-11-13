@@ -20,7 +20,14 @@ import { DemoBadge } from "@/components/demo-badge";
 import { hasOpenedEnvelope, markEnvelopeOpened } from "@/lib/data/session";
 import { primeResponse } from "@/lib/data/rsvp-cache";
 import type { GuestGroup, RsvpResponse, WeddingEvent } from "@/lib/domain/types";
-import { DEFAULT_THEME, STYLES, themeVars, type Theme } from "@/lib/theme";
+import {
+  DEFAULT_THEME,
+  isPaintedCover,
+  PAINTED_COVERS,
+  STYLES,
+  themeVars,
+  type Theme,
+} from "@/lib/theme";
 import type { InvitationContentProps } from "./content/invitation-content";
 import { BriefStage } from "./brief/brief-stage";
 import { CoverStage } from "./cover/cover-stage";
@@ -184,7 +191,9 @@ export function InvitationExperience({
         cardMessage: `¡Guarda la fecha! ${(event.kind ?? "boda") === "boda" ? "Nos casamos" : `Celebramos ${eventNoun(event)}`} y queremos que estés. Muy pronto te llegará la invitación con todos los detalles, en este mismo enlace.`,
       }
     : event;
-  const onDark = stage === "cover" || stage === "brief";
+  // Las portadas pintadas en claro piden los botones de arriba en tinta.
+  const lightCover = isPaintedCover(theme.cover) && PAINTED_COVERS[theme.cover].tone === "claro";
+  const onDark = (stage === "cover" && !lightCover) || stage === "brief";
 
   return (
     <LazyMotion features={domAnimation} strict>
@@ -262,7 +271,12 @@ export function InvitationExperience({
               </ViewTransition>
             ) : null}
             {stage === "cover" ? (
-              <CoverStage event={event} scene={theme.cover} onOpen={() => go("envelope")} />
+              <CoverStage
+                event={event}
+                scene={theme.cover}
+                effect={theme.coverEffect}
+                onOpen={() => go("envelope")}
+              />
             ) : null}
             {stage === "letter" ? (
               <ViewTransition exit="fade-out" default="none">

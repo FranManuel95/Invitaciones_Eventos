@@ -64,7 +64,7 @@ test.describe("página de venta", () => {
     await expect(openings.getByRole("link")).toHaveCount(7);
     // La película se ofrece como apertura premium.
     await expect(openings.getByRole("link", { name: /Sobre de película.*Premium/ })).toBeVisible();
-    await expect(page.getByRole("region", { name: "Portadas" }).getByRole("link")).toHaveCount(6);
+    await expect(page.getByRole("region", { name: "Portadas" }).getByRole("link")).toHaveCount(11);
     await openings.getByRole("link", { name: /Caja con lazo/ }).click();
     await expect(page).toHaveURL(/apertura=caja/);
     await expect(page.getByRole("heading", { level: 1, name: /María/ })).toBeAttached();

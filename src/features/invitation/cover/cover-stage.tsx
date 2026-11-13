@@ -4,9 +4,10 @@ import { coverVerb, hostsOf } from "@/lib/event-kind";
 import { ChevronDown } from "lucide-react";
 import { animate, m, useMotionValue, useReducedMotion, useTransform } from "motion/react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { useRef, type PointerEvent } from "react";
 import type { WeddingEvent } from "@/lib/domain/types";
-import type { CoverId } from "@/lib/theme";
+import { isPaintedCover, PAINTED_COVERS, type CoverEffectId, type CoverId } from "@/lib/theme";
 import { formatLongDate, isoDay } from "@/lib/format";
 import { playPaper, unlockAudio } from "../effects/sound";
 import { SplitText } from "../effects/split-text";
@@ -36,13 +37,19 @@ export function CoverStage({
   event,
   onOpen,
   scene = "foto",
+  effect = "ninguno",
 }: {
   event: WeddingEvent;
   onOpen: () => void;
   /** Fondo de la portada: foto en 3D, escena animada o vídeo de la pareja. */
   scene?: CoverId;
+  /** Pétalos o polvo de oro que se mueven por encima del fondo. */
+  effect?: CoverEffectId;
 }) {
   const reduce = useReducedMotion();
+  // Fondos pintados: los claros llevan el texto en tinta, sin velo oscuro.
+  const painted = isPaintedCover(scene) ? PAINTED_COVERS[scene] : null;
+  const light = painted?.tone === "claro";
   const tilt = useTilt();
   const lift = useMotionValue(0);
   const opacity = useMotionValue(1);
@@ -111,8 +118,15 @@ export function CoverStage({
     <m.section
       aria-labelledby="cover-title"
       data-cover={scene}
-      className="fixed inset-0 z-20 overflow-hidden bg-[#2f3547] text-white shadow-[0_30px_60px_rgb(0_0_0/0.45)] select-none"
-      style={{ y: lift, opacity, touchAction: "none" }}
+      data-tone={light ? "claro" : "oscuro"}
+      className="fixed inset-0 z-20 overflow-hidden bg-[#2f3547] shadow-[0_30px_60px_rgb(0_0_0/0.45)] select-none"
+      style={{
+        y: lift,
+        opacity,
+        touchAction: "none",
+        color: painted?.ink ?? "#fff",
+        backgroundColor: painted?.paper,
+      }}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
@@ -132,6 +146,15 @@ export function CoverStage({
             const Scene = SCENES[scene];
             return <Scene />;
           })()
+        ) : isPaintedCover(scene) ? (
+          <Image
+            src={`/portadas/${scene}.webp`}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
         ) : scene === "cine" ? (
           <CineScene photo={event.coverPhoto} />
         ) : scene === "video" && event.coverVideo ? (
@@ -159,17 +182,50 @@ export function CoverStage({
           <Landscape lift={lift} tiltX={tilt.x} tiltY={tilt.y} />
         )}
       </m.div>
+      {/* Efecto: un bucle corto sobre negro que solo suma luz. Con movimiento reducido no se pinta. */}
+      {effect !== "ninguno" && !reduce ? (
+        <video
+          key={effect}
+          data-cover-effect={effect}
+          className="pointer-events-none absolute inset-0 size-full object-cover mix-blend-screen"
+          muted
+          playsInline
+          loop
+          autoPlay
+          preload="auto"
+          aria-hidden
+        >
+          <source src={`/portadas/efectos/${effect}.mp4`} type="video/mp4" />
+          <source src={`/portadas/efectos/${effect}.webm`} type="video/webm" />
+        </video>
+      ) : null}
       {/* Velo para garantizar el contraste del texto sobre la ilustración. */}
       <div
         aria-hidden
         className="absolute inset-0 bg-[linear-gradient(180deg,rgb(20_22_32/0.55)_0%,rgb(20_22_32/0.05)_38%,rgb(20_16_22/0.15)_62%,rgb(14_11_16/0.8)_100%)]"
         // Las escenas ya son oscuras y están pensadas para el texto blanco: les basta menos velo.
         style={{
-          opacity: scene === "foto" || scene === "video" ? 1 : scene === "cine" ? 0.6 : 0.45,
+          opacity: light
+            ? 0
+            : scene === "foto" || scene === "video"
+              ? 1
+              : scene === "cine"
+                ? 0.6
+                : 0.45,
         }}
       />
+      {/* En los fondos claros, un halo del color del papel despeja el sitio de los nombres. */}
+      {light && painted ? (
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background: `radial-gradient(95% 34% at 50% 37%, ${painted.paper} 35%, color-mix(in srgb, ${painted.paper} 0%, transparent) 100%)`,
+          }}
+        />
+      ) : null}
       {/* Una foto real tiene cielos más claros que la ilustración: algo más de velo tras el título. */}
-      {event.coverPhoto ? (
+      {event.coverPhoto && !painted ? (
         <div
           aria-hidden
           className="absolute inset-0 bg-[radial-gradient(90%_45%_at_50%_38%,rgb(20_16_22/0.35),transparent)]"
@@ -180,6 +236,8 @@ export function CoverStage({
         <m.div
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-black"
+          // Un papel claro no sale de negro: aparece desde su propio color.
+          style={light && painted ? { backgroundColor: painted.paper } : undefined}
           initial={{ opacity: 1 }}
           animate={{ opacity: 0 }}
           // En «película», el fundido desde negro es más largo: es el primer plano de la película.
@@ -188,7 +246,10 @@ export function CoverStage({
       )}
       {/* Al levantarla, la hoja se oscurece un poco: deja de recibir la luz de frente. */}
       <m.div aria-hidden className="absolute inset-0 bg-black" style={{ opacity: shade }} />
-      <div aria-hidden className="paper-grain absolute inset-0 opacity-60" />
+      <div
+        aria-hidden
+        className={`paper-grain absolute inset-0 ${light ? "opacity-20" : "opacity-60"}`}
+      />
 
       <m.div
         className="relative flex h-full flex-col items-center px-6 pt-[max(5rem,env(safe-area-inset-top))] pb-[max(2rem,env(safe-area-inset-bottom))] text-center"
@@ -198,7 +259,7 @@ export function CoverStage({
           id="cover-title"
           tabIndex={-1}
           translate="no"
-          className="mt-[14svh] font-names text-[clamp(3.5rem,17vw,8rem)] leading-[0.9] tracking-[-0.01em] outline-none [text-shadow:0_2px_30px_rgb(0_0_0/0.25)]"
+          className={`mt-[14svh] font-names text-[clamp(3.5rem,17vw,8rem)] leading-[0.9] tracking-[-0.01em] outline-none ${light ? "" : "[text-shadow:0_2px_30px_rgb(0_0_0/0.25)]"}`}
         >
           {scene === "cine" ? (
             <CineTitle first={event.couple.first} second={event.couple.second} animate={!reduce} />
@@ -226,7 +287,7 @@ export function CoverStage({
           initial={reduce ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2, delay: 2.4 }}
-          className="mt-8 max-w-[19rem] font-display text-[1.375rem] leading-snug text-white/90 italic"
+          className="mt-8 max-w-[19rem] font-display text-[1.375rem] leading-snug italic opacity-90"
         >
           {coverVerb(hostsOf(event))}{" "}
           <time dateTime={isoDay(event.date)} className="whitespace-nowrap">
@@ -242,7 +303,7 @@ export function CoverStage({
             prime();
             finish();
           }}
-          className="group mt-auto flex flex-col items-center gap-1.5 rounded-full px-6 py-3 text-white/85 transition-colors hover:text-white"
+          className="group mt-auto flex flex-col items-center gap-1.5 rounded-full px-6 py-3 opacity-85 transition-opacity hover:opacity-100"
           initial={reduce ? false : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 3.1, ease }}

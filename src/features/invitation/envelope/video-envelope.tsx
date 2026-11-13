@@ -11,7 +11,7 @@ import { useOpening } from "./use-opening";
 
 /*
  * Apertura «sobre de película»: un vídeo real (Higgsfield) de un sobre blanco con lacre dorado
- * sobre lino, con paniculata y luz de ventana. El lacre salta con migas de oro, la solapa se abre
+ * sobre lino, con paniculata y luz de ventana. El lacre se parte con migas de oro, la solapa se abre
  * y del interior sale un destello dorado. En ese destello el papel llena la pantalla y entra la
  * carta de la invitación, con el saludo al invitado.
  * Hay dos encuadres del mismo vídeo: vertical para el móvil y horizontal para pantallas anchas.
@@ -20,9 +20,15 @@ import { useOpening } from "./use-opening";
  */
 
 const DIR = "/aperturas/sobre-dorado";
-// Segundos en que el lacre se rompe (vibración) y en que empieza el destello final.
-const CRACK_AT = 2.5;
-const GLOW_AT = 7.1;
+// Segundos en que el lacre se rompe (vibración) y en que empieza el destello final. Cada
+// encuadre es un vídeo distinto: el vertical es una sola toma de 10 s; el horizontal, de 8 s.
+// Los sobres de color solo tienen encuadre vertical: en pantallas anchas se recorta.
+const TIMING = {
+  vertical: { crack: 2.2, glow: 8.9 },
+  horizontal: { crack: 2.5, glow: 7.1 },
+  salvia: { crack: 2.6, glow: 8.9 },
+  burdeos: { crack: 2.2, glow: 8.9 },
+} as const;
 
 const WIDE = "(min-aspect-ratio: 1/1)";
 function subscribeWide(callback: () => void) {
@@ -52,7 +58,7 @@ export function VideoEnvelope({
   const finished = useRef(false);
   const shaken = useRef(false);
   const wide = useSyncExternalStore(subscribeWide, isWide, () => false);
-  const cut = wide ? "horizontal" : "vertical";
+  const cut = theme.film !== "blanco" ? theme.film : wide ? "horizontal" : "vertical";
 
   // El botón de silencio de la invitación también calla el vídeo.
   useEffect(() => {
@@ -115,11 +121,12 @@ export function VideoEnvelope({
   function onTimeUpdate() {
     const el = video.current;
     if (!el) return;
-    if (!shaken.current && el.currentTime >= CRACK_AT) {
+    const { crack, glow } = TIMING[cut];
+    if (!shaken.current && el.currentTime >= crack) {
       shaken.current = true;
       haptic([10, 30, 18]);
     }
-    if (el.currentTime >= GLOW_AT) void finish();
+    if (el.currentTime >= glow) void finish();
   }
 
   return (

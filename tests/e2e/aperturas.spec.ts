@@ -43,6 +43,28 @@ test.describe("aperturas", () => {
     });
   }
 
+  // El blanco tiene dos encuadres (vertical en el móvil, horizontal en pantallas anchas).
+  for (const [plantilla, color, file] of [
+    ["arcilla", "burdeos", "burdeos"],
+    ["olivar", "salvia", "salvia"],
+    ["buganvilla", "blanco", "(vertical|horizontal)"],
+  ] as const) {
+    test(`plantilla ${plantilla}: el sobre de película es el ${color}`, async ({ page }) => {
+      await page.goto(`/i/familia-garcia?plantilla=${plantilla}`);
+      await page.getByRole("button", { name: /toca para abrir/i }).click();
+      await expect(page.getByRole("button", { name: "Abrir el sobre" })).toBeVisible();
+      const video = page.locator("[data-opening='pelicula'] video");
+      await expect(video).toHaveAttribute(
+        "poster",
+        new RegExp(`/aperturas/sobre-dorado/${file}\\.webp$`),
+      );
+      await page.getByRole("button", { name: "Abrir el sobre" }).click();
+      await expect
+        .poll(() => video.evaluate((el: HTMLVideoElement) => el.currentSrc))
+        .toMatch(new RegExp(`/sobre-dorado/${file}\\.`));
+    });
+  }
+
   test("película: si el vídeo no se puede reproducir, sale igualmente la carta", async ({
     page,
   }) => {
