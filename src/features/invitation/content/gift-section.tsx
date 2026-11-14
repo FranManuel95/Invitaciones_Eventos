@@ -1,9 +1,9 @@
 "use client";
 
 import { clsx } from "clsx";
-import { Check, Copy, ExternalLink } from "lucide-react";
+import { Check, Copy, ExternalLink, Gift } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState, useTransition, type CSSProperties } from "react";
 import { claimGift } from "@/app/actions/gifts";
 import { Button } from "@/components/ui/button";
 import type { GiftItem, WeddingEvent } from "@/lib/domain/types";
@@ -15,6 +15,15 @@ import {
   type GiftStatus,
 } from "@/lib/gifts";
 import { Section } from "./sections";
+
+/** Colores del papel de regalo de las tarjetas sin foto (salen del tema). */
+// Tonos del tema (acento, oro y neutros): así el papel de regalo acompaña a cada plantilla.
+const WRAP_TONES = [
+  "var(--color-wax)",
+  "var(--color-stone)",
+  "var(--color-gold)",
+  "var(--color-ink-soft)",
+];
 
 /** En la demo y la vista previa las reservas propias se recuerdan en este navegador. */
 const demoKey = (token: string) => `invitacion:${token}:regalos`;
@@ -101,7 +110,12 @@ export function GiftSection({
         <p className="font-display text-[1.5rem] leading-snug text-ink">{event.gift.message}</p>
         {items.length ? (
           <>
-            <ul className="mt-8 grid gap-5 sm:grid-cols-2" aria-label="Lista de regalos">
+            {/* En el móvil, un escaparate que se pasa de lado; en pantallas anchas, dos columnas. */}
+            <ul
+              tabIndex={0}
+              className="relative mt-8 flex snap-x snap-mandatory [scrollbar-width:none] gap-4 overflow-x-auto max-sm:-mx-6 max-sm:px-6 max-sm:pt-5 max-sm:pb-3 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible"
+              aria-label="Lista de regalos"
+            >
               {items.map((item, i) => (
                 <GiftTag
                   key={item.id}
@@ -119,6 +133,7 @@ export function GiftSection({
             </p>
           </>
         ) : null}
+        {event.gift.bizum?.trim() ? <Bizum phone={event.gift.bizum.trim()} /> : null}
         {event.gift.iban.trim() ? <BankAccount event={event} titled={items.length > 0} /> : null}
       </div>
     </Section>
@@ -143,11 +158,12 @@ function GiftTag({
   const taken = state === "taken";
   return (
     <li
+      data-view
       className={clsx(
-        "paper-grain relative flex flex-col rounded-[3px] border border-line bg-paper p-5 pt-8 shadow-[0_1px_2px_rgb(35_39_30/0.06)]",
+        "tag-in paper-grain relative flex shrink-0 snap-center flex-col rounded-[3px] border border-line bg-paper p-5 pt-8 shadow-[0_12px_26px_-18px_rgb(0_0_0/0.4)] max-sm:w-[78%]",
         // Las etiquetas caen ligeramente torcidas, como colgadas de su cordel.
         index % 2 ? "sm:rotate-[0.6deg]" : "sm:-rotate-[0.5deg]",
-        taken && "opacity-80",
+        taken && "[--dim:0.8]",
       )}
     >
       {/* Ojal y cordel de la etiqueta. */}
@@ -169,7 +185,16 @@ function GiftTag({
             className="object-cover"
           />
         </div>
-      ) : null}
+      ) : (
+        // Sin foto: el papel de regalo, con su lazo.
+        <div
+          aria-hidden
+          className="gift-wrap relative mb-4 grid aspect-[3/2] place-items-center overflow-hidden rounded-[2px] sm:hidden"
+          style={{ "--tone": WRAP_TONES[index % WRAP_TONES.length] } as CSSProperties}
+        >
+          <Gift className="size-9 text-paper" strokeWidth={1.1} />
+        </div>
+      )}
       <h3 className="font-display text-[1.375rem] leading-tight text-ink">{item.title}</h3>
       {item.detail ? (
         <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-ink-soft">{item.detail}</p>
@@ -190,7 +215,7 @@ function GiftTag({
             </span>
           ) : state === "mine" ? (
             <>
-              <span className="inline-flex items-center gap-1.5 text-[0.9375rem] font-medium text-success">
+              <span className="stamp-in inline-flex items-center gap-1.5 text-[0.9375rem] font-medium text-success">
                 <Check aria-hidden className="size-4" />
                 {item.shared ? "Apuntado a vuestro nombre" : "Reservado a vuestro nombre"}
               </span>
@@ -219,6 +244,51 @@ function GiftTag({
         </div>
       </div>
     </li>
+  );
+}
+
+/** Bizum: el teléfono en grande y un toque para copiarlo. */
+function Bizum({ phone }: { phone: string }) {
+  const [status, setStatus] = useState<"idle" | "copied" | "error">("idle");
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(phone.replaceAll(" ", ""));
+      setStatus("copied");
+      window.setTimeout(() => setStatus("idle"), 2500);
+    } catch {
+      setStatus("error");
+    }
+  };
+  return (
+    <div className="paper-grain mt-6 flex max-w-xl flex-wrap items-center justify-between gap-x-6 gap-y-4 rounded-[3px] border border-line bg-paper p-5">
+      <div>
+        <p className="text-[0.8125rem] text-muted">Por Bizum</p>
+        <p
+          translate="no"
+          className="font-display text-[1.75rem] leading-tight text-ink tabular-nums"
+        >
+          {phone}
+        </p>
+      </div>
+      <Button variant="secondary" onClick={copy}>
+        {status === "copied" ? (
+          <>
+            <Check aria-hidden className="size-4" /> Copiado
+          </>
+        ) : (
+          <>
+            <Copy aria-hidden className="size-4" /> Copiar teléfono
+          </>
+        )}
+      </Button>
+      <p aria-live="polite" className="sr-only">
+        {status === "copied"
+          ? "Teléfono copiado."
+          : status === "error"
+            ? "No se ha podido copiar. Selecciona el teléfono y cópialo a mano."
+            : ""}
+      </p>
+    </div>
   );
 }
 

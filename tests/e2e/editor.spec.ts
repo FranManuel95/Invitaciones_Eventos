@@ -136,6 +136,8 @@ test.describe("editor de la invitación", () => {
   test("se elige el estilo de música y se escucha una muestra", async ({ page }) => {
     await page.goto("/editor/demo");
     await page.getByRole("tab", { name: "Secciones y música" }).click();
+    // La música empieza apagada: los estilos aparecen al activarla.
+    await page.getByRole("checkbox", { name: /Música al abrir/ }).check({ force: true });
     await page.getByRole("radio", { name: /Caja de música/ }).check({ force: true });
     const sample = page.getByRole("button", { name: "Escuchar una muestra" });
     await sample.click();
@@ -229,6 +231,8 @@ test.describe("editor de la invitación", () => {
       if (["Colores", "Sobre"].includes(tab))
         await page.getByRole("tab", { name: "Estilo" }).click();
       await page.getByRole("tab", { name: tab, exact: true }).click();
+      // Las pestañas cambian de color con una transición: se mide cuando ha terminado.
+      await page.waitForTimeout(400);
       const { violations } = await new AxeBuilder({ page }).exclude("iframe").analyze();
       const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
       expect(

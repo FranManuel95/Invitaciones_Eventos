@@ -3,6 +3,7 @@
 import { markOpened } from "@/app/actions/opened";
 import { eventNoun } from "@/lib/event-kind";
 import type { GiftStatus } from "@/lib/gifts";
+import type { GuestbookState } from "@/lib/guestbook";
 import { Volume2, VolumeX } from "lucide-react";
 import { domAnimation, LazyMotion, MotionConfig, useReducedMotion } from "motion/react";
 import {
@@ -19,18 +20,24 @@ import { DemoBadge } from "@/components/demo-badge";
 import { hasOpenedEnvelope, markEnvelopeOpened } from "@/lib/data/session";
 import { primeResponse } from "@/lib/data/rsvp-cache";
 import type { GuestGroup, RsvpResponse, WeddingEvent } from "@/lib/domain/types";
-import { DEFAULT_THEME, STYLES, themeVars, type Theme } from "@/lib/theme";
+import {
+  DEFAULT_THEME,
+  isPaintedCover,
+  PAINTED_COVERS,
+  STYLES,
+  themeVars,
+  type Theme,
+} from "@/lib/theme";
 import type { InvitationContentProps } from "./content/invitation-content";
 import { BriefStage } from "./brief/brief-stage";
 import { CoverStage } from "./cover/cover-stage";
 import { startAmbient, stopAmbient } from "./effects/ambient";
 import { isMuted, setMuted, subscribeMuted, unlockAudio } from "./effects/sound";
 import { TiltProvider } from "./effects/tilt";
-import { Diptych } from "./envelope/diptych";
 import { EnvelopeStage } from "./envelope/envelope-stage";
 import { FullEnvelope } from "./envelope/full-envelope";
 import { RibbonBox } from "./envelope/ribbon-box";
-import { Envelope3D } from "./envelope/envelope-3d";
+import { Diptych3D, Envelope3D } from "./envelope/envelope-3d";
 import { VideoEnvelope } from "./envelope/video-envelope";
 import { WindowEnvelope } from "./envelope/window-envelope";
 import { LetterStage } from "./letter/letter-stage";
@@ -52,7 +59,7 @@ const noopSubscribe = () => () => {};
 const OPENINGS = {
   mesa: EnvelopeStage,
   pantalla: FullEnvelope,
-  diptico: Diptych,
+  diptico: Diptych3D,
   caja: RibbonBox,
   pelicula: VideoEnvelope,
   sobre3d: Envelope3D,
@@ -79,9 +86,11 @@ export function InvitationExperience({
   theme = DEFAULT_THEME,
   initialStage,
   preview = false,
+  recording = false,
   phase = "invitacion",
   albumToken = null,
   gifts,
+  guestbook,
 }: {
   event: WeddingEvent;
   group: GuestGroup;
@@ -91,12 +100,15 @@ export function InvitationExperience({
   initialStage?: Stage;
   /** Vista previa del editor: el distintivo dice «Vista previa». */
   preview?: boolean;
+  /** Modo de grabación (solo demo, `?grabar=1`): sin distintivo ni «Saltar intro», para capturas limpias. */
+  recording?: boolean;
   /** «save_the_date»: aviso corto (fecha y calendario) antes de la invitación completa. */
   phase?: "save_the_date" | "invitacion";
   /** Token del álbum de fotos de los invitados (enlace al final de la invitación). */
   albumToken?: string | null;
   /** Reservas de la lista de regalos (sin ellas, la lista empieza sin reservas). */
   gifts?: GiftStatus;
+  guestbook?: GuestbookState;
   /** Respuesta guardada en el servidor (invitaciones reales); undefined en la demo. */
   initialResponse?: RsvpResponse | null;
 }) {
@@ -119,7 +131,7 @@ export function InvitationExperience({
   const stage: Stage =
     chosenStage ?? initialStage ?? (openedBefore ? (reduce ? "content" : "brief") : "cover");
   // Datos reales: sin distintivo. Demo o vista previa: se avisa de que no es una invitación real.
-  const badge = group.persisted ? null : preview ? "Vista previa" : undefined;
+  const badge = group.persisted || recording ? null : preview ? "Vista previa" : undefined;
 
   const preload = useCallback(() => {
     void loadContent().then((component) => setContent(() => component));
@@ -181,7 +193,22 @@ export function InvitationExperience({
         cardMessage: `¡Guarda la fecha! ${(event.kind ?? "boda") === "boda" ? "Nos casamos" : `Celebramos ${eventNoun(event)}`} y queremos que estés. Muy pronto te llegará la invitación con todos los detalles, en este mismo enlace.`,
       }
     : event;
-  const onDark = stage === "cover" || stage === "brief";
+  // Las portadas pintadas en claro piden los botones de arriba en tinta.
+  const lightCover = isPaintedCover(theme.cover) && PAINTED_COVERS[theme.cover].tone === "claro";
+  const onDark = (stage === "cover" && !lightCover) || stage === "brief";
+  // La barra del navegador (Safari en el iPhone) acompaña a la pantalla: oscura en las portadas
+  // oscuras y del color del papel de la plantilla en el resto.
+  const night = (themeVars(theme) as Record<string, string>)["--color-night"] ?? "#10110d";
+  const barColor = onDark ? night : STYLES[theme.style].palette.ivory;
+  useEffect(() => {
+    const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (!meta) return;
+    const previous = meta.content;
+    meta.content = barColor;
+    return () => {
+      meta.content = previous;
+    };
+  }, [barColor]);
 
   return (
     <LazyMotion features={domAnimation} strict>
@@ -220,17 +247,19 @@ export function InvitationExperience({
                     <Volume2 aria-hidden className="size-4" />
                   )}
                 </button>
-                <button
-                  type="button"
-                  onClick={() => go("content")}
-                  className={
-                    onDark
-                      ? "rounded-full border border-white/40 bg-black/15 px-4 py-2 text-[0.8125rem] text-white backdrop-blur-sm transition-colors hover:bg-black/30"
-                      : "rounded-full border border-ink/20 bg-paper/60 px-4 py-2 text-[0.8125rem] text-ink backdrop-blur-sm transition-colors hover:bg-paper"
-                  }
-                >
-                  Saltar intro
-                </button>
+                {recording ? null : (
+                  <button
+                    type="button"
+                    onClick={() => go("content")}
+                    className={
+                      onDark
+                        ? "rounded-full border border-white/40 bg-black/15 px-4 py-2 text-[0.8125rem] text-white backdrop-blur-sm transition-colors hover:bg-black/30"
+                        : "rounded-full border border-ink/20 bg-paper/60 px-4 py-2 text-[0.8125rem] text-ink backdrop-blur-sm transition-colors hover:bg-paper"
+                    }
+                  >
+                    Saltar intro
+                  </button>
+                )}
               </div>
             ) : null}
 
@@ -259,7 +288,12 @@ export function InvitationExperience({
               </ViewTransition>
             ) : null}
             {stage === "cover" ? (
-              <CoverStage event={event} scene={theme.cover} onOpen={() => go("envelope")} />
+              <CoverStage
+                event={event}
+                scene={theme.cover}
+                effect={theme.coverEffect}
+                onOpen={() => go("envelope")}
+              />
             ) : null}
             {stage === "letter" ? (
               <ViewTransition exit="fade-out" default="none">
@@ -288,7 +322,9 @@ export function InvitationExperience({
                     phase={phase}
                     albumToken={albumToken}
                     gifts={gifts}
+                    guestbook={guestbook}
                     smooth={theme.cover === "cine"}
+                    seal={{ shape: theme.sealShape, mark: theme.sealMark }}
                     badge={badge}
                   />
                 </ViewTransition>

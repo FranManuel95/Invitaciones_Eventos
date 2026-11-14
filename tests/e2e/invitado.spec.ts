@@ -127,6 +127,30 @@ test.describe("experiencia del invitado", () => {
     );
   });
 
+  test("en el móvil se responde desde la píldora y el formulario se abre en el paso siguiente", async ({
+    page,
+    isMobile,
+  }) => {
+    test.skip(!isMobile, "La píldora de secciones solo existe en el móvil.");
+    await page.goto("/i/familia-garcia");
+    await page.getByRole("button", { name: "Saltar intro" }).click();
+    await page.locator("#fecha").scrollIntoViewIfNeeded();
+    const dock = page.getByRole("navigation", { name: "Secciones de la invitación" });
+    await dock.getByRole("button", { name: "Confirmar", exact: true }).click();
+    await expect(dock.getByText("¿Venís?")).toBeVisible();
+    await dock.getByRole("button", { name: "Sí", exact: true }).click();
+    await expect(page.getByText("Paso 2 de 6")).toBeVisible();
+    await expect(page.locator("#confirmar")).toBeInViewport();
+    // Dentro del formulario la píldora se retira.
+    await expect(dock).toHaveAttribute("inert", "");
+
+    // El índice lleva a cualquier sección.
+    await page.locator("#regalo").scrollIntoViewIfNeeded();
+    await dock.getByRole("button", { name: /Índice/ }).click();
+    await dock.getByRole("link", { name: "Cómo llegar" }).click();
+    await expect(page.locator("#transporte")).toBeInViewport();
+  });
+
   test("RSVP sin autobús: queda claro el «no»", async ({ page }) => {
     await page.goto("/i/elena-y-pablo");
     await page.getByRole("button", { name: "Saltar intro" }).click();

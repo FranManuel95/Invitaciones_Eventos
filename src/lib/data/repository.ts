@@ -14,6 +14,8 @@ import { DEFAULT_THEME, type Theme } from "@/lib/theme";
 import { parseTheme } from "@/lib/theme/schema";
 import { createAnonClient, createSessionClient } from "@/lib/supabase/server";
 import { demoGiftClaims, demoGiftStatus } from "@/data/demo/gifts";
+import { demoGuestbook, demoGuestbookEntries } from "@/data/demo/guestbook";
+import { parseGuestbook, type GuestbookEntry, type GuestbookState } from "@/lib/guestbook";
 import { parseGiftStatus, type GiftClaim, type GiftStatus } from "@/lib/gifts";
 
 /**
@@ -37,6 +39,8 @@ export interface Invitation {
   albumToken: string | null;
   /** Reservas de la lista de regalos (en la demo, las de ejemplo). */
   gifts: GiftStatus;
+  /** Libro de firmas y canciones pedidas (vacío si la base de datos aún no lo tiene). */
+  guestbook: GuestbookState;
   /** Respuesta ya guardada en el servidor (null si aún no ha respondido; undefined en la demo). */
   response?: RsvpResponse | null;
 }
@@ -56,6 +60,7 @@ export const getInvitation = cache(async (token: string): Promise<Invitation | n
       phase: "invitacion",
       albumToken: "demo",
       gifts: demoGiftStatus(),
+      guestbook: demoGuestbook(),
     };
   }
   return getLiveInvitation(token);
@@ -84,6 +89,7 @@ async function getLiveInvitation(token: string): Promise<Invitation | null> {
     phase?: string;
     albumToken?: string;
     gifts?: unknown;
+    guestbook?: unknown;
     response: unknown;
   };
   const content = eventContentSchema.safeParse(raw.event);
@@ -108,6 +114,7 @@ async function getLiveInvitation(token: string): Promise<Invitation | null> {
     phase: raw.phase === "save_the_date" ? "save_the_date" : "invitacion",
     albumToken: raw.albumToken ?? null,
     gifts: parseGiftStatus(raw.gifts),
+    guestbook: parseGuestbook(raw.guestbook),
     response: response?.success ? response.data : null,
   };
 }
@@ -438,6 +445,32 @@ export async function listMyEvents(): Promise<EventSummary[]> {
         role: row.role,
       },
     ];
+  });
+}
+
+/** Mensajes del libro de firmas para el panel, ocultos incluidos (el más reciente primero). */
+export async function getGuestbookEntries(eventKey: string): Promise<GuestbookEntry[] | null> {
+  if (eventKey === DEMO_EVENT_KEY) return demoGuestbookEntries;
+  if (!/^[0-9a-f-]{36}$/.test(eventKey)) return null;
+  const supabase = await createSessionClient();
+  if (!supabase) return null;
+  const { data, error } = await supabase
+    .from("guestbook_messages")
+    .select("id, body, created_at, hidden_at, guest_groups (display_name)")
+    .eq("event_id", eventKey)
+    .order("created_at", { ascending: false });
+  // Si la tabla aún no existe (migración sin aplicar), el panel enseña el libro vacío.
+  if (error) return [];
+  return (data ?? []).map((m) => {
+    const group = m.guest_groups as { display_name: string } | { display_name: string }[] | null;
+    const name = Array.isArray(group) ? group[0]?.display_name : group?.display_name;
+    return {
+      id: m.id,
+      groupName: name ?? "Invitación borrada",
+      body: m.body,
+      createdAt: m.created_at,
+      hidden: m.hidden_at !== null,
+    };
   });
 }
 

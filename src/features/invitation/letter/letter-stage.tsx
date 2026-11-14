@@ -57,12 +57,11 @@ export function LetterStage({
   }, []);
 
   const swipe = useSwipeUp(onContinue);
-  const layout = letterLayout(event, theme);
 
   return (
     <section
       aria-labelledby="letter-title"
-      className="fixed inset-0 z-10 flex items-center justify-center overflow-hidden bg-[radial-gradient(110%_70%_at_50%_40%,var(--scene-1)_0%,var(--scene-2)_60%,var(--scene-3)_100%)] px-5 py-16"
+      className={`fixed inset-0 z-10 overflow-hidden ${LETTER_SET}`}
       style={{ touchAction: "none" }}
       {...swipe}
     >
@@ -70,7 +69,7 @@ export function LetterStage({
       {/* El foco de la apertura del sobre se abre poco a poco: la luz vuelve a la escena. */}
       <m.div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_55%_at_50%_48%,transparent_35%,rgb(28_20_12/0.55)_100%)]"
+        className={`pointer-events-none absolute inset-0 ${LETTER_SPOTLIGHT}`}
         initial={{ opacity: 1 }}
         animate={{ opacity: 0 }}
         transition={{ duration: 1.6, delay: 0.3, ease: "easeOut" }}
@@ -79,12 +78,7 @@ export function LetterStage({
       {theme.ornament === "almendro" ? <Petals /> : null}
 
       {/* La sombra va en un contenedor aparte: la máscara del borde de papel la recortaría. */}
-      <div
-        className={clsx(
-          "relative w-full max-w-[22rem] drop-shadow-[0_24px_30px_rgb(35_30_15/0.28)] sm:max-w-md",
-          layout === "minimal" || layout === "editorial" ? "rotate-[-0.6deg]" : "rotate-[-1.2deg]",
-        )}
-      >
+      <div className={letterFrame(event, theme).className}>
         <ViewTransition name="carta" share="paper-morph" default="none">
           <LetterPaper
             event={event}
@@ -106,6 +100,30 @@ export function LetterStage({
       </p>
     </section>
   );
+}
+
+/*
+ * El decorado de la pantalla de la carta. Las aperturas que terminan fundiéndose con ella (el
+ * sobre en 3D) pintan estas mismas piezas encima de su escena: así el paso no se nota.
+ */
+/** Fondo y colocación de la carta en la pantalla. */
+export const LETTER_SET =
+  "flex items-center justify-center bg-[radial-gradient(110%_70%_at_50%_40%,var(--scene-1)_0%,var(--scene-2)_60%,var(--scene-3)_100%)] px-5 py-16";
+/** Foco con el que empieza la pantalla de la carta (luego se abre). */
+export const LETTER_SPOTLIGHT =
+  "bg-[radial-gradient(70%_55%_at_50%_48%,transparent_35%,rgb(28_20_12/0.55)_100%)]";
+
+/** El hueco de la carta: su ancho, su sombra y lo que va girada (en grados, hacia la izquierda). */
+export function letterFrame(event: WeddingEvent, theme: Theme) {
+  const layout = letterLayout(event, theme);
+  const tilt = layout === "minimal" || layout === "editorial" ? 0.6 : 1.2;
+  return {
+    tilt,
+    className: clsx(
+      "relative w-full max-w-[22rem] drop-shadow-[0_24px_30px_rgb(35_30_15/0.28)] sm:max-w-md",
+      tilt === 0.6 ? "rotate-[-0.6deg]" : "rotate-[-1.2deg]",
+    ),
+  };
 }
 
 /** Composición efectiva: sin foto, la carta «con foto» se queda en la clásica. */
@@ -410,7 +428,8 @@ function PhotoLetter({
           alt=""
           fill
           sizes="(min-width: 640px) 28rem, 22rem"
-          className="object-cover"
+          // Los retratos son verticales: se encuadra arriba, donde están las caras.
+          className="object-cover object-[50%_10%]"
         />
         <div
           aria-hidden

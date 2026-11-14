@@ -58,8 +58,25 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   - **Plantillas nuevas** (`TEMPLATES` en `src/lib/theme/index.ts`): «Arcilla» (portada arcilla,
     pétalos, sobre burdeos), «Olivar» (ramas, sobre salvia), «Noche dorada» (medianoche, polvo de
     oro, sobre 3D) y «Buganvilla» (el sobre blanco). Pensadas para grabarlas y subirlas a Instagram.
-  - Detalle y modelos usados: `docs/HIGGSFIELD.md`; el porqué, en `docs/DECISIONS.md` de la rama de trabajo (ronda 11; aún no está en `main`).
-- **Lo que falta de la ronda 11**:
+  - Detalle y modelos usados: `docs/HIGGSFIELD.md`; el porqué, en `docs/DECISIONS.md` (ronda 11).
+- **Plantillas para Instagram (decidido 13/11)**: **Arcilla** (sobre burdeos), **Buganvilla** (sobre
+  blanco) y **Olivar** (sobre salvia): las tres con los vídeos de Higgsfield que ya existen. Noche
+  dorada queda fuera (no tiene vídeo).
+  - Cada una enseña una boda ficticia distinta (`src/data/demo/variants.ts`, se elige con
+    `?plantilla=`): Arcilla, María y Daniel (Chinchón); Buganvilla, Carmen y Álvaro (Altea); Olivar,
+    Elena y Hugo (Baeza). **Fotos** propias de las dos nuevas en `public/fotos/olivar/` y
+    `public/fotos/buganvilla/` (las hizo el usuario en ChatGPT). Buganvilla solo tiene un retrato
+    de la pareja, que sirve de portada y de foto de la historia. Rutas en el mapa `PHOTOS`.
+  - Revisadas en móvil el 13/11: las escenas de después de la carta se ven bien; el fallo está en
+    los pétalos de la portada de Arcilla (manchas grandes que tapan los nombres).
+  - Textos para generar lo que falta (pétalos, fotos de las parejas, tarjeta que sale del sobre),
+    listos para pegar en un chat de claude.ai: `docs/higgsfield/TANDA-INSTAGRAM.md`.
+- **Lo que falta de la ronda 11**: 0. **Vídeos de las otras formas de apertura y más recursos** (petición del usuario, 14/11): caja con
+  lazo, díptico, sobre a pantalla completa, sobre en la mesa, sobre junto a la ventana y sobre
+  kraft con cordel, más ornamentos, lacres, forros, audio y material de Instagram. Textos listos
+  para pegar en tres chats de claude.ai: `docs/higgsfield/TANDA-APERTURAS.md`. **La prueba
+  gratuita de Higgsfield acaba el 15/11/2026.** Cuando estén generados, montarlos: `theme.film`
+  pasaría a «forma y color».
   1. **Recuperar la tarjeta que sale del sobre** (petición del usuario, 13/11): la versión del
      23/10 del sobre blanco terminaba con la tarjeta saliendo y flotando, y sobre ella se escribía
      el saludo (`src/lib/quad.ts` sigue en el proyecto; el vídeo antiguo está en el historial:
@@ -74,14 +91,15 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   2. Vídeo **horizontal (16:9)** del sobre blanco de una sola toma; hoy sigue el antiguo.
   3. Repetir los **pétalos** (salen grandes y casi quietos) y las **luciérnagas** (salían insectos);
      generar la portada **esmeralda**; tandas sin hacer: fotos de ejemplo, forros, lacres, audio.
-  4. **Modo de grabación** para Instagram que oculte «Demo con datos ficticios» y «Saltar intro».
+  4. ~~Modo de grabación~~ **hecho (13/11)**: `?grabar=1` en la demo oculta «Demo con datos
+     ficticios» y «Saltar intro» (el botón de sonido se queda). Ej.: `/i/familia-garcia?plantilla=buganvilla&grabar=1`.
   5. Ver **Noche dorada** (sobre 3D) en un iPhone real: aquí no hay WebGL.
   6. Abrir el PR de la rama de trabajo a `main`, enseñando antes la vista previa al usuario. La
      unión con `grogl2` es grande (unos 50 archivos y la migración del libro de firmas, ya
      aplicada): conviene decidir con el usuario si va en uno o en varios PR.
 
 - **Plan en curso (10/11/2026)**: llevar toda la invitación al nivel de la apertura del sobre en
-  3D (`docs/PLAN-CINE.md`, que está en la rama `claude/loving-faraday-2aw3om-grogl2`, no en `main`). La parte A (después de la carta) está hecha entera; queda la parte B
+  3D (`docs/PLAN-CINE.md`). La parte A (después de la carta) está hecha entera; queda la parte B
   (resto de aperturas) y la limpieza de la parte C. Esa línea de trabajo vive en
   `claude/loving-faraday-2aw3om-grogl2` (incluye lo de `claude/exciting-franklin-43k083`; sin PR
   abierto: producción no tiene aún ni el 3D nuevo ni las escenas de después de la carta). El

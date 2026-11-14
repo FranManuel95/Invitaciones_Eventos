@@ -5,6 +5,7 @@ import { InvitationExperience } from "@/features/invitation/experience";
 import { getInvitation } from "@/lib/data/repository";
 import { applyTemplate, TEMPLATE_IDS, type TemplateId } from "@/lib/theme";
 import { parseTheme } from "@/lib/theme/schema";
+import { demoVariant } from "@/data/demo/variants";
 
 // Las invitaciones reales viven en la base de datos (y su respuesta puede cambiar), así que se
 // pintan en cada petición. Los tokens desconocidos devuelven 404.
@@ -45,7 +46,9 @@ export default async function InvitationPage(props: PageProps<"/i/[token]">) {
             wax: pick("lacre"),
             calendar: pick("calendario"),
             opening: pick("apertura"),
+            film: pick("pelicula"),
             cover: pick("portada"),
+            coverEffect: pick("efecto"),
           }).filter(([, v]) => v !== undefined),
         ),
       });
@@ -55,15 +58,19 @@ export default async function InvitationPage(props: PageProps<"/i/[token]">) {
     : pick("fase") === "save-the-date"
       ? "save_the_date"
       : invitation.phase;
+  // Algunas plantillas de la demo traen su propia boda ficticia (otra pareja, otro sitio).
+  const variant = invitation.group.persisted ? null : demoVariant(template);
   return (
     <InvitationExperience
-      event={invitation.event}
+      event={variant?.event ?? invitation.event}
       group={invitation.group}
       initialResponse={invitation.response}
       theme={theme}
       phase={phase}
+      recording={!invitation.group.persisted && pick("grabar") === "1"}
       albumToken={invitation.albumToken}
       gifts={invitation.gifts}
+      guestbook={variant?.guestbook ?? invitation.guestbook}
     />
   );
 }

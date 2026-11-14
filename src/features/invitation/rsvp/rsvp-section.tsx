@@ -3,7 +3,7 @@
 import { hostNames } from "@/lib/event-kind";
 import { Check, Lock } from "lucide-react";
 import { AnimatePresence, m } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
 import {
@@ -16,15 +16,30 @@ import {
 import { formatLongDate } from "@/lib/format";
 import { Section } from "../content/sections";
 import { RsvpForm } from "./rsvp-form";
-import { PhotoSlot } from "../content/photo-slot";
+import Image from "next/image";
 import { Petals } from "../effects/petals";
+import { haptic, playPaper } from "../effects/sound";
+import { WaxSealArt } from "../ornaments";
+import type { SealMarkId, SealShapeId } from "@/lib/theme";
 import { GuestPass } from "./guest-pass";
 import { ResponseDetails } from "./rsvp-summary";
 import { useSavedResponse } from "./use-saved-response";
 
 type View = "intro" | "form" | "done";
 
-export function RsvpSection({ event, group }: { event: WeddingEvent; group: GuestGroup }) {
+/** Lo lanza la píldora del móvil al responder «sí» o «no» desde ella. */
+export const RSVP_START_EVENT = "invitacion:rsvp";
+
+export function RsvpSection({
+  event,
+  group,
+  seal,
+}: {
+  event: WeddingEvent;
+  group: GuestGroup;
+  /** El lacre del sobre: al confirmar, sella la respuesta. */
+  seal?: { shape: SealShapeId; mark: SealMarkId };
+}) {
   // La respuesta guardada es compartida con la cabecera y el pase (misma fuente de datos).
   const saved = useSavedResponse(group.token);
   const [editing, setEditing] = useState(false);
@@ -35,6 +50,7 @@ export function RsvpSection({ event, group }: { event: WeddingEvent; group: Gues
   const [celebration, setCelebration] = useState(0);
   const doneRef = useRef<HTMLHeadingElement>(null);
   const closed = isDeadlinePassed(event, group);
+  const askOnPhoto = view === "intro" && !closed && Boolean(event.banquetPhoto);
 
   useEffect(() => {
     if (view === "done" && justSaved) doneRef.current?.focus();
@@ -48,6 +64,19 @@ export function RsvpSection({ event, group }: { event: WeddingEvent; group: Gues
     setForm({ draft, step });
     setEditing(true);
   };
+
+  // La respuesta dada en la píldora del móvil abre el formulario en su segundo paso.
+  const startFromDock = useEffectEvent((status: "attending" | "declined") => {
+    if (!closed) start(status);
+  });
+  useEffect(() => {
+    const onStart = (e: Event) => {
+      const status = (e as CustomEvent<unknown>).detail;
+      if (status === "attending" || status === "declined") startFromDock(status);
+    };
+    window.addEventListener(RSVP_START_EVENT, onStart);
+    return () => window.removeEventListener(RSVP_START_EVENT, onStart);
+  }, []);
 
   return (
     <Section
@@ -69,135 +98,209 @@ export function RsvpSection({ event, group }: { event: WeddingEvent; group: Gues
             <GuestPass event={event} group={group} response={saved} />
           </div>
         ) : null}
-        <div className="paper-grain overflow-hidden rounded-[3px] border border-line bg-paper px-5 py-8 shadow-[var(--shadow-paper)] sm:px-10 sm:py-10">
-          {view === "intro" && !closed && event.banquetPhoto ? (
-            <PhotoSlot
-              src={event.banquetPhoto}
+        {askOnPhoto ? (
+          // La pregunta, sobre la foto del banquete a toda pantalla: el momento de decidir.
+          <div
+            data-view
+            className="relative -mx-6 flex min-h-[86svh] flex-col justify-end overflow-hidden bg-night px-6 pt-40 pb-10 text-white max-sm:-mb-16 sm:mx-0 sm:min-h-[34rem] sm:rounded-[3px] sm:px-10"
+          >
+            <Image
+              src={event.banquetPhoto!}
               alt=""
-              ratio="3/2"
+              fill
               sizes="(min-width: 640px) 576px, 100vw"
-              className="-mx-5 -mt-8 mb-8 rounded-none sm:-mx-10 sm:-mt-10"
+              className="ask-photo object-cover"
             />
-          ) : null}
-          <AnimatePresence mode="wait" initial={false}>
-            <m.div
-              key={view}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.3 }}
-            >
-              {view === "intro" && closed ? (
-                <div className="text-center">
-                  <Lock aria-hidden className="mx-auto size-6 text-ink-soft" strokeWidth={1.5} />
-                  <h3 className="mt-4 font-display text-3xl text-ink">El plazo ha terminado</h3>
-                  <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">
-                    La confirmación se cerró el {formatLongDate(event.rsvpDeadline)}. Si necesitas
-                    cambiar algo, escribe directamente a {hostNames(event.couple, " o ")}.
-                  </p>
-                </div>
-              ) : null}
-
-              {view === "intro" && !closed ? (
-                <div className="text-center">
-                  <p className="font-display text-[1.75rem] text-ink">
-                    {group.members.length > 1 ? "¿Venís?" : "¿Vienes?"}
-                  </p>
-                  <p className="mt-2 text-sm text-muted">
-                    {group.maxAttendees === 1
-                      ? "Tu invitación es individual."
-                      : `Tu invitación incluye ${group.maxAttendees} plazas.`}
-                  </p>
-                  <div className="mt-7 grid gap-3">
-                    <Button size="lg" onClick={() => start("attending")}>
-                      Sí, asistiré
-                    </Button>
-                    <Button size="lg" variant="secondary" onClick={() => start("declined")}>
-                      No podré asistir
-                    </Button>
-                  </div>
-                </div>
-              ) : null}
-
-              {view === "form" && form ? (
-                <RsvpForm
-                  event={event}
-                  group={group}
-                  initialDraft={form.draft}
-                  initialStep={form.step}
-                  onCancel={() => setEditing(false)}
-                  onSaved={(response) => {
-                    setJustSaved(true);
-                    if (response.status === "attending") setCelebration((n) => n + 1);
-                    setEditing(false);
-                  }}
-                />
-              ) : null}
-
-              {view === "done" && saved ? (
-                <div>
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-[linear-gradient(180deg,rgb(0_0_0/0.1)_0%,rgb(0_0_0/0.15)_35%,rgb(0_0_0/0.82)_78%,rgb(0_0_0/0.92)_100%)]"
+            />
+            <div className="relative">
+              <p className="font-display text-[clamp(4rem,21vw,6rem)] leading-[0.9] [text-shadow:0_2px_30px_rgb(0_0_0/0.45)]">
+                {group.members.length > 1 ? "¿Venís?" : "¿Vienes?"}
+              </p>
+              <p className="mt-4 text-[1rem] text-white/85">
+                {group.maxAttendees === 1
+                  ? "Tu invitación es individual."
+                  : `Tu invitación incluye ${group.maxAttendees} plazas.`}
+              </p>
+              <div className="mt-7 grid gap-3">
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="border-transparent"
+                  onClick={() => start("attending")}
+                >
+                  Sí, asistiré
+                </Button>
+                <Button size="lg" variant="light" onClick={() => start("declined")}>
+                  No podré asistir
+                </Button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="paper-grain overflow-hidden rounded-[3px] border border-line bg-paper px-5 py-8 shadow-[var(--shadow-paper)] sm:px-10 sm:py-10">
+            <AnimatePresence mode="wait" initial={false}>
+              <m.div
+                key={view}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.3 }}
+              >
+                {view === "intro" && closed ? (
                   <div className="text-center">
-                    <m.span
-                      initial={justSaved ? { scale: 0.4, opacity: 0 } : false}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ type: "spring", stiffness: 260, damping: 18, delay: 0.1 }}
-                      className="mx-auto grid size-14 place-items-center rounded-full bg-ink text-paper"
-                    >
-                      <Check aria-hidden className="size-6" strokeWidth={2} />
-                    </m.span>
-                    <h3
-                      ref={doneRef}
-                      tabIndex={-1}
-                      className="mt-5 font-display text-[2rem] leading-tight text-ink outline-none"
-                    >
-                      {saved.status === "attending"
-                        ? "¡Qué ilusión! Gracias por confirmar"
-                        : "Gracias por avisarnos"}
-                    </h3>
-                    <p className="mt-2 text-sm text-muted">
-                      Respuesta guardada el{" "}
-                      {new Intl.DateTimeFormat("es-ES", {
-                        dateStyle: "long",
-                        timeStyle: "short",
-                      }).format(new Date(saved.updatedAt))}
-                      <span className="sr-only"> (demo: solo en este navegador)</span>
+                    <Lock aria-hidden className="mx-auto size-6 text-ink-soft" strokeWidth={1.5} />
+                    <h3 className="mt-4 font-display text-3xl text-ink">El plazo ha terminado</h3>
+                    <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">
+                      La confirmación se cerró el {formatLongDate(event.rsvpDeadline)}. Si necesitas
+                      cambiar algo, escribe directamente a {hostNames(event.couple, " o ")}.
                     </p>
                   </div>
-                  {saved.status === "attending" ? (
-                    <details className="group mt-6 border-t border-line pt-4">
-                      <summary className="cursor-pointer list-none text-[0.9375rem] text-ink underline decoration-gold underline-offset-4 [&::-webkit-details-marker]:hidden">
-                        Ver la respuesta completa
-                      </summary>
-                      <div className="mt-2">
+                ) : null}
+
+                {view === "intro" && !closed ? (
+                  <div className="text-center">
+                    <p className="font-display text-[1.75rem] text-ink">
+                      {group.members.length > 1 ? "¿Venís?" : "¿Vienes?"}
+                    </p>
+                    <p className="mt-2 text-sm text-muted">
+                      {group.maxAttendees === 1
+                        ? "Tu invitación es individual."
+                        : `Tu invitación incluye ${group.maxAttendees} plazas.`}
+                    </p>
+                    <div className="mt-7 grid gap-3">
+                      <Button size="lg" onClick={() => start("attending")}>
+                        Sí, asistiré
+                      </Button>
+                      <Button size="lg" variant="secondary" onClick={() => start("declined")}>
+                        No podré asistir
+                      </Button>
+                    </div>
+                  </div>
+                ) : null}
+
+                {view === "form" && form ? (
+                  <RsvpForm
+                    event={event}
+                    group={group}
+                    initialDraft={form.draft}
+                    initialStep={form.step}
+                    onCancel={() => setEditing(false)}
+                    onSaved={(response) => {
+                      setJustSaved(true);
+                      if (response.status === "attending") {
+                        setCelebration((n) => n + 1);
+                        // El golpe del lacre al sellar.
+                        haptic([18, 40, 10]);
+                        playPaper(0.25, 0.12);
+                      }
+                      setEditing(false);
+                    }}
+                  />
+                ) : null}
+
+                {view === "done" && saved ? (
+                  <div>
+                    <div className="text-center">
+                      {saved.status === "attending" ? (
+                        // El lacre cae sobre la tarjeta y sella la respuesta; una onda marca el golpe.
+                        <span className="relative mx-auto block size-20">
+                          {justSaved ? (
+                            <m.span
+                              aria-hidden
+                              className="absolute inset-0 rounded-full border border-[var(--seal)]"
+                              initial={{ scale: 0.7, opacity: 0 }}
+                              animate={{ scale: [0.7, 2.1], opacity: [0.7, 0] }}
+                              transition={{ duration: 0.9, delay: 0.32, ease: "easeOut" }}
+                            />
+                          ) : null}
+                          <m.span
+                            initial={
+                              justSaved ? { scale: 2.6, rotate: -22, opacity: 0, y: -40 } : false
+                            }
+                            animate={{ scale: 1, rotate: -7, opacity: 1, y: 0 }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 420,
+                              damping: 19,
+                              delay: 0.12,
+                            }}
+                            className="absolute inset-0 block drop-shadow-[0_4px_6px_rgb(60_20_10/0.35)]"
+                          >
+                            <WaxSealArt
+                              monogram={event.couple.monogram}
+                              shape={seal?.shape}
+                              mark={seal?.mark}
+                              className="size-full"
+                            />
+                          </m.span>
+                        </span>
+                      ) : (
+                        <m.span
+                          initial={justSaved ? { scale: 0.4, opacity: 0 } : false}
+                          animate={{ scale: 1, opacity: 1 }}
+                          transition={{ type: "spring", stiffness: 260, damping: 18, delay: 0.1 }}
+                          className="mx-auto grid size-14 place-items-center rounded-full bg-ink text-paper"
+                        >
+                          <Check aria-hidden className="size-6" strokeWidth={2} />
+                        </m.span>
+                      )}
+                      <h3
+                        ref={doneRef}
+                        tabIndex={-1}
+                        className="mt-5 font-display text-[2rem] leading-tight text-ink outline-none"
+                      >
+                        {saved.status === "attending"
+                          ? "¡Qué ilusión! Gracias por confirmar"
+                          : "Gracias por avisarnos"}
+                      </h3>
+                      <p className="mt-2 text-sm text-muted">
+                        Respuesta guardada el{" "}
+                        {new Intl.DateTimeFormat("es-ES", {
+                          dateStyle: "long",
+                          timeStyle: "short",
+                        }).format(new Date(saved.updatedAt))}
+                        <span className="sr-only"> (demo: solo en este navegador)</span>
+                      </p>
+                    </div>
+                    {saved.status === "attending" ? (
+                      <details className="group mt-6 border-t border-line pt-4">
+                        <summary className="cursor-pointer list-none text-[0.9375rem] text-ink underline decoration-gold underline-offset-4 [&::-webkit-details-marker]:hidden">
+                          Ver la respuesta completa
+                        </summary>
+                        <div className="mt-2">
+                          <ResponseDetails event={event} response={saved} />
+                        </div>
+                      </details>
+                    ) : (
+                      <div className="mt-4">
                         <ResponseDetails event={event} response={saved} />
                       </div>
-                    </details>
-                  ) : (
-                    <div className="mt-4">
-                      <ResponseDetails event={event} response={saved} />
-                    </div>
-                  )}
-                  <div className="mt-6">
-                    {closed ? (
-                      <p className="text-center text-sm text-muted">
-                        El plazo para cambiar la respuesta ha terminado.
-                      </p>
-                    ) : (
-                      <Button
-                        variant="secondary"
-                        size="lg"
-                        className="w-full"
-                        onClick={() => start()}
-                      >
-                        Editar respuesta
-                      </Button>
                     )}
+                    <div className="mt-6">
+                      {closed ? (
+                        <p className="text-center text-sm text-muted">
+                          El plazo para cambiar la respuesta ha terminado.
+                        </p>
+                      ) : (
+                        <Button
+                          variant="secondary"
+                          size="lg"
+                          className="w-full"
+                          onClick={() => start()}
+                        >
+                          Editar respuesta
+                        </Button>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ) : null}
-            </m.div>
-          </AnimatePresence>
-        </div>
+                ) : null}
+              </m.div>
+            </AnimatePresence>
+          </div>
+        )}
       </div>
     </Section>
   );

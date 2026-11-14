@@ -10,6 +10,7 @@ import {
   Images,
   LayoutGrid,
   Mail,
+  MessageSquareHeart,
   Printer,
   Send,
   Settings,
@@ -33,6 +34,7 @@ const GUESTS: Item[] = [
   { path: "/comunicaciones", label: "Recordatorios", icon: Send },
   { path: "/album", label: "Álbum", icon: Images },
   { path: "/regalos", label: "Regalos", icon: Gift },
+  { path: "/mensajes", label: "Libro de firmas", icon: MessageSquareHeart },
   { path: "/imprimir", label: "Imprimir", icon: Printer },
 ];
 

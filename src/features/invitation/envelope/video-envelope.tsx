@@ -7,6 +7,7 @@ import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
 import { DEFAULT_THEME, type Theme } from "@/lib/theme";
 import { haptic, isMuted, subscribeMuted, unlockAudio } from "../effects/sound";
 import { LetterMiniature } from "../letter/letter-miniature";
+import { LETTER_SET, LETTER_SPOTLIGHT, letterFrame } from "../letter/letter-stage";
 import { useOpening } from "./use-opening";
 
 /*
@@ -22,9 +23,12 @@ import { useOpening } from "./use-opening";
 const DIR = "/aperturas/sobre-dorado";
 // Segundos en que el lacre se rompe (vibración) y en que empieza el destello final. Cada
 // encuadre es un vídeo distinto: el vertical es una sola toma de 10 s; el horizontal, de 8 s.
+// Los sobres de color solo tienen encuadre vertical: en pantallas anchas se recorta.
 const TIMING = {
   vertical: { crack: 2.2, glow: 8.9 },
   horizontal: { crack: 2.5, glow: 7.1 },
+  salvia: { crack: 2.6, glow: 8.9 },
+  burdeos: { crack: 2.2, glow: 8.9 },
 } as const;
 
 const WIDE = "(min-aspect-ratio: 1/1)";
@@ -55,7 +59,8 @@ export function VideoEnvelope({
   const finished = useRef(false);
   const shaken = useRef(false);
   const wide = useSyncExternalStore(subscribeWide, isWide, () => false);
-  const cut = wide ? "horizontal" : "vertical";
+  const frame = letterFrame(event, theme);
+  const cut = theme.film !== "blanco" ? theme.film : wide ? "horizontal" : "vertical";
 
   // El botón de silencio de la invitación también calla el vídeo.
   useEffect(() => {
@@ -77,8 +82,9 @@ export function VideoEnvelope({
       onOpened();
       return;
     }
-    // La luz del sobre se vuelve papel y de ella sale la carta, ya escrita, hasta su sitio.
-    animate("[data-paper]", { opacity: 0.94 }, { duration: 0.7, ease: "easeIn" });
+    // La luz del sobre se funde con la pantalla de la carta (su fondo y su foco) y de ella sale
+    // la carta, ya escrita, hasta su sitio exacto: al pasar a esa pantalla no cambia nada.
+    animate("[data-paper]", { opacity: 1 }, { duration: 0.8, ease: "easeIn" });
     await animate(
       "[data-letter]",
       { opacity: [0, 1], scale: [0.5, 1], y: ["22%", "0%"] },
@@ -192,24 +198,23 @@ export function VideoEnvelope({
           )}
         </p>
 
-        {/* El papel que llena la pantalla en el destello, justo antes de la carta. */}
+        {/* La pantalla de la carta, que llega con el destello: fondo, foco y la carta en el sitio
+            y con la inclinación que tendrá después. */}
         <m.div
           data-paper
           aria-hidden
-          className="pointer-events-none absolute inset-0 z-30 bg-[radial-gradient(circle_at_50%_45%,#fffaf0,var(--color-ivory)_70%)] opacity-0"
-        />
-        {/* La carta de la invitación, que sale del destello y se transforma en la carta grande. */}
-        <div className="pointer-events-none absolute inset-0 z-40 flex items-center justify-center px-5">
-          <ViewTransition name="carta" share="paper-morph" default="none">
-            <m.div
-              data-letter
-              aria-hidden
-              className="w-full max-w-[22rem] opacity-0 drop-shadow-[0_24px_30px_rgb(35_30_15/0.28)] sm:max-w-md"
-            >
-              <LetterMiniature event={event} group={group} theme={theme} />
-            </m.div>
-          </ViewTransition>
-        </div>
+          className={`pointer-events-none absolute inset-0 z-30 opacity-0 ${LETTER_SET}`}
+        >
+          <div className="paper-grain absolute inset-0" />
+          <div className={`absolute inset-0 ${LETTER_SPOTLIGHT}`} />
+          <div className={frame.className}>
+            <ViewTransition name="carta" share="paper-morph" default="none">
+              <m.div data-letter className="opacity-0">
+                <LetterMiniature event={event} group={group} theme={theme} />
+              </m.div>
+            </ViewTransition>
+          </div>
+        </m.div>
       </div>
     </section>
   );

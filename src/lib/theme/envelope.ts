@@ -27,6 +27,15 @@ export type SealShapeId = (typeof SEAL_SHAPE_IDS)[number];
 export type SealMarkId = (typeof SEAL_MARK_IDS)[number];
 export type OpeningId = (typeof OPENING_IDS)[number];
 
+/** Color del sobre en la apertura «película»: cada uno es un vídeo distinto. */
+export const FILM_IDS = ["blanco", "salvia", "burdeos"] as const;
+export type FilmId = (typeof FILM_IDS)[number];
+export const FILMS: Record<FilmId, { label: string; hex: string }> = {
+  blanco: { label: "Blanco con lacre dorado", hex: "#efe9df" },
+  salvia: { label: "Verde salvia", hex: "#a9b79c" },
+  burdeos: { label: "Burdeos", hex: "#7a2230" },
+};
+
 /** Cómo se abre la invitación antes de la carta. `premium`: se ofrece como opción de pago superior. */
 export const OPENINGS: Record<
   OpeningId,
