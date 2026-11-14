@@ -139,6 +139,61 @@ FORMA 6 · Sobre kraft con cordel (forma nueva, rústica)
 
 Al terminar, apuntar los `job_id` de cada vídeo para pedirlos en Claude Code.
 
+### Colores de cada forma (petición del usuario, 14/11)
+
+El usuario quiere **varios colores de cada apertura** (sobres, lazos, lacres), no solo del sobre de
+película. Se pega en el mismo chat 1, cuando acaben las seis formas base. Son 16 vídeos más (22 en
+total), así que van por rondas: primero un color nuevo de cada forma, luego el siguiente; si la
+prueba se acaba a medias, todas las formas tendrán al menos algún color.
+
+```
+Ahora quiero variantes de color de las seis formas. Mismas reglas: use_unlim: true, count: 1, sin
+gastar créditos, sin texto ni letras, sin personas ni manos.
+
+Para cada variante:
+1. Recolorea con gpt_image_2_5 (2K, 9:16) la imagen de partida de esa forma que ya generaste, con
+   este texto: "Edit the reference photo. Keep it the exact same photograph: identical framing,
+   same table, same flowers in the same positions, same light and shadows, same object in the same
+   position and size. The ONLY change: {cambio}. Do not move, add or remove anything. No text, no
+   letters, no logos, no watermarks, no people, no hands."
+2. Genera el mismo vídeo de esa forma (mismo texto, misma duración, 720p, 9:16, con audio) con la
+   imagen recoloreada como start_image, cambiando en el texto solo los colores.
+
+Hazlo por rondas y en este orden. Lanza los vídeos de una ronda a la vez y no esperes mi visto
+bueno. Si recibes un 429, espera 3 minutos y reintenta una vez; si vuelve a fallar, sigue.
+
+RONDA 1
+- Caja con lazo: caja verde esmeralda oscuro con lazo de seda dorado.
+- Díptico: papel verde salvia con lacre dorado.
+- Sobre a pantalla completa: papel burdeos con lacre dorado.
+- Sobre en la mesa: papel verde salvia con lacre dorado.
+- Sobre junto a la ventana: papel azul empolvado con lacre plateado.
+- Sobre kraft: el mismo kraft atado con una cinta de seda burdeos en vez de cordel.
+
+RONDA 2
+- Caja con lazo: caja azul noche con lazo de seda dorado.
+- Díptico: papel burdeos con lacre dorado.
+- Sobre a pantalla completa: papel verde salvia con lacre dorado.
+- Sobre en la mesa: papel rosa empolvado con lacre dorado.
+- Sobre junto a la ventana: papel verde salvia con lacre dorado.
+- Sobre kraft: el mismo kraft atado con una cinta de seda verde salvia.
+
+RONDA 3
+- Caja con lazo: caja rosa empolvado con lazo de seda marfil.
+- Díptico: papel azul empolvado con lacre plateado.
+- Sobre a pantalla completa: papel azul noche con lacre dorado.
+- Sobre en la mesa: papel azul empolvado con lacre plateado.
+
+En todos los sobres con lacre añade al texto del vídeo: "the wax seal breaks into exactly two
+halves before the flap moves; both halves stay on the lower part of the envelope and no wax
+remains on the flap".
+
+Al final, enséñame una tabla con forma, color y job_id de cada vídeo.
+```
+
+Al montarlos, la opción del editor pasaría a ser «forma» y, dentro de cada una, «color». Cada vídeo
+pesa unos 2,7 MB y solo se descarga el elegido.
+
 ## Chat 2. La tarjeta que sale del sobre, y el 16:9
 
 No hace falta redactar nada nuevo: ya está en `docs/higgsfield/TANDA-INSTAGRAM.md`.
