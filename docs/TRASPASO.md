@@ -71,7 +71,12 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
     los pétalos de la portada de Arcilla (manchas grandes que tapan los nombres).
   - Textos para generar lo que falta (pétalos, fotos de las parejas, tarjeta que sale del sobre),
     listos para pegar en un chat de claude.ai: `docs/higgsfield/TANDA-INSTAGRAM.md`.
-- **Lo que falta de la ronda 11**:
+- **Lo que falta de la ronda 11**: 0. **Vídeos de las otras formas de apertura y más recursos** (petición del usuario, 14/11): caja con
+  lazo, díptico, sobre a pantalla completa, sobre en la mesa, sobre junto a la ventana y sobre
+  kraft con cordel, más ornamentos, lacres, forros, audio y material de Instagram. Textos listos
+  para pegar en tres chats de claude.ai: `docs/higgsfield/TANDA-APERTURAS.md`. **La prueba
+  gratuita de Higgsfield acaba el 15/11/2026.** Cuando estén generados, montarlos: `theme.film`
+  pasaría a «forma y color».
   1. **Recuperar la tarjeta que sale del sobre** (petición del usuario, 13/11): la versión del
      23/10 del sobre blanco terminaba con la tarjeta saliendo y flotando, y sobre ella se escribía
      el saludo (`src/lib/quad.ts` sigue en el proyecto; el vídeo antiguo está en el historial:
