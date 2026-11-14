@@ -23,6 +23,59 @@ ser sencilla y reversible.
 - Librerías de gráficos: son dos gráficos SVG pequeños hechos a mano.
 - Supabase y la autenticación: quedan fuera de este hito.
 
+## Ronda 12 · Tres plantillas para grabar y subir a Instagram (13–14/11/2026)
+
+Objetivo del usuario: grabar 2–3 plantillas con todas las mejoras y subirlas a su Instagram.
+Se eligen las que más se distinguen entre sí: **Arcilla** (cálida, sobre burdeos), **Buganvilla**
+(clara, sobre blanco) y **Olivar** (clara, sobre salvia). **Noche dorada** queda fuera porque su
+sobre es 3D y no un vídeo de Higgsfield.
+
+- **Una boda de ejemplo distinta por plantilla** (`src/data/demo/variants.ts`, elegida con
+  `?plantilla=`): Arcilla enseña a María y Daniel (Chinchón), Buganvilla a Carmen y Álvaro (Altea)
+  y Olivar a Elena y Hugo (Baeza). Cambian nombres, fecha, sitios, programa, autobuses, menú,
+  dress code, alojamiento, historia, regalos, preguntas, libro de firmas y canciones. Solo en la
+  demo: las invitaciones reales no usan variantes. Las fotos (generadas con IA, no personas
+  reales) están en `public/fotos/buganvilla/` y `public/fotos/olivar/`; las rutas, en el mapa
+  `PHOTOS` del mismo archivo.
+- **Modo de grabación** (`?grabar=1`, solo en la demo): oculta «Demo con datos ficticios»,
+  «Saltar intro» y el aviso «Prototipo de demostración» del cierre; el botón de sonido se queda.
+- **Revisión de diseño** con las skills `web-design-guidelines` (Vercel) y `frontend-design`:
+  - Los pétalos de la portada se apagan en la franja de los nombres (máscara CSS) en vez de
+    repetir el vídeo.
+  - El «negro» de las escenas de cine (`--color-night`, calculado en `themeVars`) se tiñe con el
+    lacre y la tinta de la plantilla; la barra del navegador (`theme-color`) sigue a la pantalla.
+  - El papel de regalo sin foto usa colores del tema, no un verde y un azul fijos.
+  - Las etiquetas del dress code van sin numeración «01» ni mayúsculas (no son una secuencia).
+  - El titular de la cuenta de la demo ya no dice «(cuenta de demostración)».
+- **Tras ver la vista previa en el móvil**:
+  - La foto de la carta se encuadra arriba (`object-[50%_10%]`): los retratos son verticales y se
+    cortaba la cara.
+  - El pase del dress code y el del libro de firmas llevan botones «anterior / siguiente» y un
+    contador (`content/rail-controls.tsx`), solo en el móvil; deslizar con el dedo sigue valiendo.
+  - Transiciones oscuro ↔ claro: «¿Venís?» enlaza con la música sin franja clara, la música se
+    funde con la sección siguiente (`fadeTo`) y «Nuestra historia» entra con degradado
+    (`.story-in`).
+- **Música de fondo apagada por defecto** (`theme.music` pasa a `false`, también en `parseTheme`):
+  el usuario no quedó convencido. Se activa en el editor («Música al abrir»); los efectos
+  sonoros del vídeo del sobre siguen y el botón del altavoz se queda. Los temas ya guardados
+  conservan su valor.
+- **Un solo PR** ([#6](https://github.com/FranManuel95/Invitaciones_Eventos/pull/6)): la rama
+  lleva 85+ archivos y las uniones entre ramas entrelazan el historial; partirla exigiría
+  reescribirlo. Sigue abierto y sin fusionar a la espera de que el usuario vea la vista previa.
+
+## Ronda 11 · Recursos con Higgsfield (11–13/11/2026)
+
+- **Sobre de película en una sola toma** (vertical, 10 s, sin imagen doble ni corte) y **color
+  del sobre** (`theme.film`: blanco, salvia, burdeos), cada uno un vídeo en
+  `public/aperturas/sobre-dorado/`. Un sobre azul empolvado se descartó: el lacre se deslizaba
+  bajo la solapa en vez de partirse.
+- **Cinco portadas pintadas** (`PAINTED_COVERS` en `src/lib/theme/cover.ts`): las claras llevan
+  los nombres en tinta y un halo del color del papel.
+- **Efectos sobre la portada** (`theme.coverEffect`: pétalos y polvo de oro): bucles de 4 s con
+  `mix-blend-mode: screen`; no se pintan con movimiento reducido.
+- **Plantillas Arcilla, Olivar, Noche dorada y Buganvilla**.
+- Modelos, textos y trucos: `docs/HIGGSFIELD.md`.
+
 ## Ronda 10 · Más cine y más papelería de lujo
 
 Plan visual a partir del análisis de reels de invitaciones premium (fuera quedan las ideas solo

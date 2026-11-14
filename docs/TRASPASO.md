@@ -38,7 +38,7 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   `docs/DECISIONS.md`.
 - **Pruebas (13/11/2026, rama de trabajo con todo unido)**: 301 unitarias y 255 E2E en verde (3
   se saltan: las 2 de Supabase real, que necesitan red, y la de la píldora en el proyecto de
-  escritorio).
+  escritorio). Ver también la ronda 12.
 - **Evento real del usuario**: `fm-y-lucia-2030-915f24` (lo creó probando en su iPhone). No tocar.
 
 ## Pendiente
@@ -59,18 +59,25 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
     pétalos, sobre burdeos), «Olivar» (ramas, sobre salvia), «Noche dorada» (medianoche, polvo de
     oro, sobre 3D) y «Buganvilla» (el sobre blanco). Pensadas para grabarlas y subirlas a Instagram.
   - Detalle y modelos usados: `docs/HIGGSFIELD.md`; el porqué, en `docs/DECISIONS.md` (ronda 11).
-- **Plantillas para Instagram (decidido 13/11)**: **Arcilla** (sobre burdeos), **Buganvilla** (sobre
-  blanco) y **Olivar** (sobre salvia): las tres con los vídeos de Higgsfield que ya existen. Noche
-  dorada queda fuera (no tiene vídeo).
-  - Cada una enseña una boda ficticia distinta (`src/data/demo/variants.ts`, se elige con
-    `?plantilla=`): Arcilla, María y Daniel (Chinchón); Buganvilla, Carmen y Álvaro (Altea); Olivar,
-    Elena y Hugo (Baeza). **Fotos** propias de las dos nuevas en `public/fotos/olivar/` y
-    `public/fotos/buganvilla/` (las hizo el usuario en ChatGPT). Buganvilla solo tiene un retrato
-    de la pareja, que sirve de portada y de foto de la historia. Rutas en el mapa `PHOTOS`.
-  - Revisadas en móvil el 13/11: las escenas de después de la carta se ven bien; el fallo está en
-    los pétalos de la portada de Arcilla (manchas grandes que tapan los nombres).
-  - Textos para generar lo que falta (pétalos, fotos de las parejas, tarjeta que sale del sobre),
-    listos para pegar en un chat de claude.ai: `docs/higgsfield/TANDA-INSTAGRAM.md`.
+- **Ronda 12 · plantillas para Instagram (13–14/11/2026)**. Detalle y porqués en
+  `docs/DECISIONS.md` (ronda 12). Estado:
+  - **Elegidas**: Arcilla (sobre burdeos), Buganvilla (sobre blanco) y Olivar (sobre salvia), con
+    los vídeos de Higgsfield que ya existen. Noche dorada queda fuera.
+  - **Una boda de ejemplo por plantilla** (`src/data/demo/variants.ts`): Arcilla, María y Daniel;
+    Buganvilla, Carmen y Álvaro; Olivar, Elena y Hugo. Fotos propias de las dos nuevas hechas por
+    el usuario en ChatGPT (`public/fotos/buganvilla/` y `olivar/`).
+  - **Para grabar** (usar la vista previa de Vercel de la rama, en pestaña privada o con `&v=N`
+    para saltarse la copia guardada): `/i/familia-garcia?plantilla=arcilla&grabar=1`, igual con
+    `buganvilla` y `olivar`.
+  - **Hecho**: modo de grabación, revisión de diseño, botones para pasar el dress code y las
+    firmas, foto de la carta encuadrada arriba, fundidos entre fondos oscuros y claros, pétalos
+    de Arcilla apagados bajo los nombres y música de fondo apagada por defecto.
+  - **Pruebas**: `npm run check` en verde (301 unitarias) y la batería E2E completa en verde salvo
+    una intermitente («con movimiento reducido las escenas quedan quietas», pasa al repetirla) y
+    la del estilo de música, ya corregida (activa la música antes de elegir estilo). La pasada de
+    258 completa se hizo antes de los últimos cambios; después se repitieron editor y portadas.
+  - **No comprobado**: nada se ha visto en un iPhone real; la vista previa de Vercel no se puede
+    abrir desde el entorno de Claude Code (bloquea Vercel), solo se ve en navegador local.
 - **Lo que falta de la ronda 11**:
   1. **Recuperar la tarjeta que sale del sobre** (petición del usuario, 13/11): la versión del
      23/10 del sobre blanco terminaba con la tarjeta saliendo y flotando, y sobre ella se escribía
@@ -84,14 +91,17 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
      última vez» en la sesión «Proyecto de invitaciones», y eso ya se trajo por unión (escenas de
      después de la carta); no es lo mismo que la tarjeta. Preguntar si falta algo más.
   2. Vídeo **horizontal (16:9)** del sobre blanco de una sola toma; hoy sigue el antiguo.
-  3. Repetir los **pétalos** (salen grandes y casi quietos) y las **luciérnagas** (salían insectos);
+  3. Repetir los **pétalos** (salen grandes y casi quietos; de momento se apagan bajo los nombres
+     en la portada) y las **luciérnagas** (salían insectos);
      generar la portada **esmeralda**; tandas sin hacer: fotos de ejemplo, forros, lacres, audio.
   4. ~~Modo de grabación~~ **hecho (13/11)**: `?grabar=1` en la demo oculta «Demo con datos
      ficticios» y «Saltar intro» (el botón de sonido se queda). Ej.: `/i/familia-garcia?plantilla=buganvilla&grabar=1`.
   5. Ver **Noche dorada** (sobre 3D) en un iPhone real: aquí no hay WebGL.
-  6. Abrir el PR de la rama de trabajo a `main`, enseñando antes la vista previa al usuario. La
-     unión con `grogl2` es grande (unos 50 archivos y la migración del libro de firmas, ya
-     aplicada): conviene decidir con el usuario si va en uno o en varios PR.
+  6. **PR abierto**: [#6](https://github.com/FranManuel95/Invitaciones_Eventos/pull/6), a `main`,
+     un solo PR (la historia está entrelazada por las uniones). Sin fusionar: lo decide el usuario
+     tras ver la vista previa. Incluye la migración del libro de firmas, ya aplicada en Supabase.
+  7. Si el usuario quiere más fotos: la portada de Buganvilla hace también de foto de pareja (solo
+     hay un retrato). Tandas de Higgsfield para lo que falta: `docs/higgsfield/TANDA-INSTAGRAM.md`.
 
 - **Plan en curso (10/11/2026)**: llevar toda la invitación al nivel de la apertura del sobre en
   3D (`docs/PLAN-CINE.md`). La parte A (después de la carta) está hecha entera; queda la parte B
@@ -149,6 +159,18 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 - Antes de cambiar la interfaz, las skills de `.claude/skills/` (ver `CLAUDE.md`).
 
 ## Trucos del entorno (ahorran tiempo)
+
+- **Cuenta nueva o sesión vacía** (aprendido el 13/11): el repositorio no viene clonado; hay que
+  adjuntarlo con `add_repo` (con acceso de escritura) y clonarlo con `git clone --depth 1`.
+  El clon es superficial: para traer la rama de trabajo, `git fetch --depth=300 origin
++refs/heads/<rama>:refs/remotes/origin/<rama>`; y añadir esa referencia a
+  `remote.origin.fetch` para que el hook de «commits sin subir» no se queje. Subir con
+  `git -c push.negotiate=true push -u origin <rama>`; si da 503, repetir con espera.
+- **GitHub desde el entorno**: `gh pr …` falla (GraphQL bloqueado); usar `gh api repos/…` (REST).
+  Las direcciones `*.vercel.app` no se pueden abrir desde aquí.
+- **Mapa de profundidad de una portada nueva**: `python3 scripts/depth-map.py <modelo.onnx>
+<portada.jpg> <salida.png> 0.1` (el modelo MiDaS pequeño se descarga de
+  github.com/isl-org/MiDaS/releases/download/v2_1/model-small.onnx).
 
 - **Higgsfield** (vídeo e imagen con IA): conector personalizado
   `https://mcp.higgsfield.ai/mcp` (el del catálogo de Claude solo lee). Lo ilimitado de la prueba
