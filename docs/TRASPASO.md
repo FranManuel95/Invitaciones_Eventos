@@ -78,6 +78,12 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
     258 completa se hizo antes de los últimos cambios; después se repitieron editor y portadas.
   - **No comprobado**: nada se ha visto en un iPhone real; la vista previa de Vercel no se puede
     abrir desde el entorno de Claude Code (bloquea Vercel), solo se ve en navegador local.
+- **Siguiente · vídeos de las otras formas de apertura y más recursos** (petición del usuario, 14/11): caja con
+  lazo, díptico, sobre a pantalla completa, sobre en la mesa, sobre junto a la ventana y sobre
+  kraft con cordel, más ornamentos, lacres, forros, audio y material de Instagram. Textos listos
+  para pegar en tres chats de claude.ai: `docs/higgsfield/TANDA-APERTURAS.md`. **La prueba
+  gratuita de Higgsfield acaba el 15/11/2026.** Cuando estén generados, montarlos: `theme.film`
+  pasaría a «forma y color».
 - **Lo que falta de la ronda 11**:
   1. **Recuperar la tarjeta que sale del sobre** (petición del usuario, 13/11): la versión del
      23/10 del sobre blanco terminaba con la tarjeta saliendo y flotando, y sobre ella se escribía
