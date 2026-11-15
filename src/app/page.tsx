@@ -4,8 +4,8 @@ import Link from "next/link";
 import { buttonClasses } from "@/components/ui/button";
 import { ContactForm } from "@/features/sales/contact-form";
 import { PhoneDemo } from "@/features/sales/phone-demo";
-import { OpeningShowcase, PhoneFrame, TemplateShowcase } from "@/features/sales/showcase";
-import { BlossomCorner } from "@/features/invitation/ornaments";
+import { PhoneFrame, PhoneStrip, ScreenShot, TemplateShowcase } from "@/features/sales/showcase";
+import { OPENING_IDS, OPENINGS } from "@/lib/theme/envelope";
 import { PRICE_EUR } from "@/lib/sales/contact";
 import { siteUrl } from "@/lib/site";
 
@@ -19,24 +19,72 @@ export function generateMetadata(): Metadata {
   };
 }
 
-/** Lo que vive cada invitado, en orden: es una secuencia, por eso va numerada. */
-const GUEST_STEPS = [
+/** Lo que encuentra el invitado al bajar por la invitación (no es una secuencia obligada). */
+const INVITATION_SECTIONS = [
   {
-    title: "Una portada con vuestros nombres",
-    text: "Vuestra foto, un cielo de estrellas o una acuarela. Con música, si queréis.",
+    src: "/venta/seccion-fecha.webp",
+    title: "La fecha",
+    text: "Calendario, cuenta atrás y un toque para guardarla en su móvil.",
   },
   {
-    title: "Un sobre que se abre con un toque",
-    text: "Papel, forro y lacre a vuestro gusto. Dentro, una carta con su nombre.",
+    src: "/venta/seccion-programa.webp",
+    title: "El día, hora a hora",
+    text: "Ceremonia, cóctel, banquete y fiesta, con el cielo que cambia según la hora.",
   },
   {
-    title: "La invitación, con todo lo que necesita saber",
-    text: "El programa del día, cómo llegar, el autobús, el código de vestimenta y vuestra historia.",
+    src: "/venta/seccion-lugares.webp",
+    title: "Dónde es y cómo llegar",
+    text: "Cada lugar con su foto, su dirección y la ruta en Maps o Waze. También los autobuses.",
   },
   {
-    title: "Confirma en un minuto",
-    text: "Quién viene, menú, alergias y si necesita autobús. Puede cambiarlo hasta la fecha límite.",
+    src: "/venta/seccion-historia.webp",
+    title: "Vuestra historia",
+    text: "Vuestras fotos y vuestros momentos, año a año.",
   },
+  {
+    src: "/venta/seccion-regalos.webp",
+    title: "Lista de regalos",
+    text: "Cada invitado se apunta a un regalo y nadie repite. La cuenta, si preferís.",
+  },
+];
+
+/** Lo que pasa cuando el invitado toca «Sí, asistiré»: es una secuencia, por eso va numerada. */
+const RSVP_STEPS = [
+  {
+    src: "/venta/confirmar-pregunta.webp",
+    title: "¿Venís?",
+    text: "La pregunta, con las plazas de su invitación y el plazo para responder.",
+  },
+  {
+    src: "/venta/confirmar-quien.webp",
+    title: "Quién viene",
+    text: "Marca a cada persona y añade acompañante si le sobran plazas.",
+  },
+  {
+    src: "/venta/confirmar-transporte.webp",
+    title: "Autobús o coche",
+    text: "Elige parada y plazas, o dice si puede llevar a alguien en su coche.",
+  },
+  {
+    src: "/venta/confirmar-menu.webp",
+    title: "Menú y alergias",
+    text: "Un menú por persona y sus alergias, que llegan tal cual al catering.",
+  },
+  {
+    src: "/venta/confirmar-pase.webp",
+    title: "Su pase",
+    text: "Al enviar recibe un pase con sus menús, su autobús y su mesa. Puede cambiarlo hasta el plazo.",
+  },
+];
+
+/** Lo que se cambia en el editor. */
+const EDITOR_FEATURES = [
+  ["Plantilla, colores y letra", "Empezáis por una de las cinco y la lleváis a vuestro gusto."],
+  ["Portada", "Vuestra foto, un vídeo o una de las portadas pintadas, con o sin efecto."],
+  ["Textos y fotos", "La carta, vuestra historia, las preguntas frecuentes y cada foto."],
+  ["Programa, lugares y autobuses", "Horas, direcciones, rutas y paradas."],
+  ["Menús y regalos", "Lo que puede elegir cada invitado y vuestra lista de regalos."],
+  ["Qué secciones se ven", "Ocultáis lo que no uséis y ponéis música si queréis."],
 ];
 
 const PANEL_FEATURES = [
@@ -102,7 +150,6 @@ export default function SalesPage() {
       <main>
         {/* Portada: el titular y, al lado, una invitación de verdad que se puede abrir. */}
         <section className="paper-grain relative overflow-hidden">
-          <BlossomCorner className="pointer-events-none absolute -top-10 -left-14 hidden w-64 opacity-70 sm:block" />
           <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 pt-14 pb-20 sm:px-10 md:grid-cols-[minmax(0,1fr)_auto] md:pt-20">
             <div>
               <h1 className="max-w-[13ch] font-display text-[clamp(3rem,8vw,5.5rem)] leading-[0.95] tracking-[-0.01em] text-ink">
@@ -133,12 +180,22 @@ export default function SalesPage() {
               >
                 <div className="absolute top-6 -left-[26%] w-[70%] -rotate-[8deg]">
                   <PhoneFrame>
-                    <Image src="/venta/plantilla-terciopelo-portada.webp" alt="" fill sizes="240px" />
+                    <Image
+                      src="/venta/plantilla-terciopelo-portada.webp"
+                      alt=""
+                      fill
+                      sizes="240px"
+                    />
                   </PhoneFrame>
                 </div>
                 <div className="absolute top-0 -right-[26%] w-[70%] rotate-[8deg]">
                   <PhoneFrame>
-                    <Image src="/venta/plantilla-buganvilla-portada.webp" alt="" fill sizes="240px" />
+                    <Image
+                      src="/venta/plantilla-buganvilla-portada.webp"
+                      alt=""
+                      fill
+                      sizes="240px"
+                    />
                   </PhoneFrame>
                 </div>
               </div>
@@ -170,54 +227,74 @@ export default function SalesPage() {
           </div>
         </section>
 
-        {/* Las aperturas en marcha, sobre el color de la mesa en la que se abre el sobre. */}
-        <section
-          aria-labelledby="aperturas"
-          className="overflow-hidden bg-[linear-gradient(180deg,var(--scene-1),var(--scene-2))] pt-20"
-        >
-          <div className="mx-auto max-w-6xl px-6 sm:px-10 md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:gap-14">
-            <h2
-              id="aperturas"
-              className="font-display text-[2.25rem] leading-[1.05] text-ink sm:text-[2.75rem]"
-            >
-              Y elegid cómo se abre
-            </h2>
-            <p className="mt-4 max-w-[52ch] text-[1.0625rem] leading-relaxed text-ink-soft md:mt-2">
-              Cada plantilla trae su apertura, pero en el editor podéis cambiarla por cualquiera
-              de estas siete: del sobre que espera en la mesa a la caja con lazo o el sobre de
-              película, en blanco, verde salvia o burdeos. Tocad cualquiera para probarla.
-            </p>
-          </div>
-          <OpeningShowcase className="mx-auto mt-10 max-w-[90rem]" />
-        </section>
-
         <section aria-labelledby="invitado" className="bg-ivory">
           <div className="mx-auto max-w-6xl px-6 py-20 sm:px-10">
-            <div className="md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:gap-14">
+            <div className="md:flex md:items-end md:justify-between md:gap-14">
               <h2
                 id="invitado"
                 className="font-display text-[2.25rem] leading-[1.05] text-ink sm:text-[2.75rem]"
               >
-                Lo que vive cada invitado
+                Lo que recibe cada invitado
               </h2>
-              <ol className="mt-8 grid gap-x-10 gap-y-8 sm:grid-cols-2 md:mt-0">
-                {GUEST_STEPS.map((step, i) => (
-                  <li key={step.title} className="border-t border-ink/25 pt-4">
-                    <span
-                      aria-hidden
-                      className="font-display text-[1.75rem] leading-none text-gold"
-                    >
-                      {i + 1}
-                    </span>
-                    <h3 className="mt-2 font-display text-[1.5rem] leading-tight text-ink">
-                      {step.title}
-                    </h3>
-                    <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-ink-soft">
-                      {step.text}
-                    </p>
-                  </li>
+              <p className="mt-3 max-w-[48ch] text-[0.9375rem] leading-relaxed text-muted md:mt-0">
+                Después de la portada y el sobre llega la invitación, con todo lo que necesita
+                saber. Así se ve en tres de las plantillas.
+              </p>
+            </div>
+            <div className="mt-10">
+              <PhoneStrip label="Secciones de la invitación" items={INVITATION_SECTIONS} />
+            </div>
+          </div>
+        </section>
+
+        <section aria-labelledby="confirmar" className="mx-auto max-w-6xl px-6 py-20 sm:px-10">
+          <div className="md:flex md:items-end md:justify-between md:gap-14">
+            <h2
+              id="confirmar"
+              className="font-display text-[2.25rem] leading-[1.05] text-ink sm:text-[2.75rem]"
+            >
+              Confirma en un minuto
+            </h2>
+            <p className="mt-3 max-w-[48ch] text-[0.9375rem] leading-relaxed text-muted md:mt-0">
+              Sin instalar nada ni crear una cuenta. Cada respuesta os llega al momento, con sus
+              menús, sus alergias y su autobús.
+            </p>
+          </div>
+          <div className="mt-10">
+            <PhoneStrip label="Pasos para confirmar" items={RSVP_STEPS} numbered />
+          </div>
+        </section>
+
+        <section aria-labelledby="editor" className="bg-ivory">
+          <div className="mx-auto max-w-6xl px-6 py-20 sm:px-10">
+            <div className="md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:gap-14">
+              <div>
+                <h2
+                  id="editor"
+                  className="font-display text-[2.25rem] leading-[1.05] text-ink sm:text-[2.75rem]"
+                >
+                  La editáis vosotros
+                </h2>
+                <p className="mt-3 text-[0.9375rem] text-muted">
+                  Veis el cambio en el móvil de al lado mientras lo hacéis, también después de
+                  enviarla.
+                </p>
+              </div>
+              <dl className="mt-8 grid gap-x-10 sm:grid-cols-2 md:mt-0">
+                {EDITOR_FEATURES.map(([title, text]) => (
+                  <div key={title} className="border-b border-line py-4">
+                    <dt className="font-medium text-ink">{title}</dt>
+                    <dd className="mt-1 text-[0.9375rem] text-ink-soft">{text}</dd>
+                  </div>
                 ))}
-              </ol>
+              </dl>
+            </div>
+            <div className="mt-12">
+              <ScreenShot
+                src="/venta/editor.webp"
+                alt="El editor: a la izquierda, las cinco plantillas; a la derecha, la invitación en un móvil."
+                caption={`También elegís cómo se abre: ${OPENING_IDS.map((id) => OPENINGS[id].label.replace(/^\p{Lu}/u, (c) => c.toLowerCase())).join(", ")}.`}
+              />
             </div>
           </div>
         </section>
@@ -247,21 +324,33 @@ export default function SalesPage() {
               ))}
             </dl>
           </div>
-          <figure className="mx-auto max-w-6xl px-6 pb-20 sm:px-10">
-            <div className="overflow-hidden rounded-[10px] border border-line shadow-[var(--shadow-lift)]">
-              <Image
-                src="/venta/panel.webp"
-                width={1280}
-                height={800}
-                sizes="(min-width: 1152px) 1072px, 100vw"
-                alt="El panel de María y Daniel: 111 de 150 invitados confirmados, cómo han llegado las respuestas y los menús elegidos."
-                className="h-auto w-full"
+          <div className="mx-auto max-w-6xl px-6 pb-20 sm:px-10">
+            <ScreenShot
+              src="/venta/panel.webp"
+              alt="El inicio del panel de María y Daniel: 111 de 150 invitados confirmados, qué toca ahora, cómo han llegado las respuestas y los menús elegidos."
+              caption="El inicio: cuántos vienen, qué toca hacer ahora y cómo llegan las respuestas."
+            />
+            <div className="mt-10 grid gap-8 md:grid-cols-3">
+              <ScreenShot
+                src="/venta/panel-invitaciones.webp"
+                alt="La lista de invitaciones, con su estado y los botones para copiar el enlace, enviarlo por WhatsApp o ver su QR."
+                caption="Invitaciones: cada una con su enlace, lista para WhatsApp o QR, y si la han abierto."
+                sizes="(min-width: 768px) 340px, 100vw"
+              />
+              <ScreenShot
+                src="/venta/panel-mesas.webp"
+                alt="El plano del salón con las mesas y, al lado, las invitaciones que faltan por sentar."
+                caption="Mesas: buscáis a cada invitado y lo sentáis en el plano; avisa si una mesa se llena."
+                sizes="(min-width: 768px) 340px, 100vw"
+              />
+              <ScreenShot
+                src="/venta/panel-menus.webp"
+                alt="El reparto de menús y la lista de invitados con alergias."
+                caption="Menús y alergias: el detalle se descarga para el catering, mesa a mesa."
+                sizes="(min-width: 768px) 340px, 100vw"
               />
             </div>
-            <figcaption className="mt-3 text-[0.8125rem] text-muted">
-              El inicio del panel de la boda de ejemplo.
-            </figcaption>
-          </figure>
+          </div>
         </section>
 
         <section aria-labelledby="precio" className="bg-ivory">

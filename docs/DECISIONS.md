@@ -820,6 +820,25 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
 - **Invitaciones con filtro por estado** (todas, sin abrir, abiertas sin responder, confirmadas,
   no asisten), con el número de cada uno.
 
+## Ronda 15: la portada explica el producto con capturas; buscador de mesas y CSV del catering
+
+- **Página de venta**: fuera la rama de flores de la cabecera y la sección de aperturas en marcha
+  (sigue en `/ejemplos`; en la portada las aperturas solo se nombran, bajo la captura del editor).
+  Entran cuatro bloques con capturas reales: lo que recibe cada invitado (cinco secciones, en
+  Orilla, Olivar y Buganvilla), confirmar paso a paso (en Arcilla), el editor y el panel
+  (inicio, invitaciones, mesas y menús). Las capturas están en `public/venta/` (`seccion-*`,
+  `confirmar-*`, `editor`, `panel-*`), a 600 px las de móvil y 1280 px las de escritorio.
+- **El editor ofrece solo las cinco plantillas**; si un evento usa una anterior, se sigue viendo
+  la suya para no perderla.
+- **Mesas**: buscador por invitación o por persona; encuentra también a quien ya está sentado,
+  para cambiarlo de mesa desde la lista.
+- **Menús**: «Descargar para el catering» (`cateringCsv` en `src/lib/print.ts`: una fila por
+  comensal confirmado con mesa, menú y alergias) y enlace a la hoja imprimible por mesas.
+- **Carencias del panel detectadas y no hechas**: recordatorios por correo (falta proveedor),
+  control de llegada el día de la boda (el QR del pase no se valida), notas privadas por
+  invitado, sentar por persona y no solo por invitación, exportar presupuesto y tareas, historial
+  de cambios de respuesta y aviso a los novios cuando alguien responde.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

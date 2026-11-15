@@ -17,13 +17,22 @@ test.describe("página de venta", () => {
     await expect(page.getByRole("heading", { name: "Invitaciones de ejemplo" })).toBeVisible();
   });
 
-  test("enseña cada apertura en marcha y cada plantilla, con su enlace", async ({ page }) => {
+  test("enseña las cinco plantillas y explica el producto con capturas", async ({ page }) => {
     await page.goto("/");
-    const openings = page.getByRole("region", { name: "Y elegid cómo se abre" });
-    await expect(openings.getByRole("link")).toHaveCount(7);
-    // Los vídeos se pueden parar.
-    await openings.getByRole("button", { name: "Pausar «Caja con lazo»" }).click();
-    await expect(openings.getByRole("button", { name: "Ver «Caja con lazo»" })).toBeVisible();
+    // En la portada no se enseñan las aperturas en marcha: están en /ejemplos y en el editor.
+    await expect(page.getByRole("region", { name: /cómo se abre/ })).toHaveCount(0);
+    for (const name of [
+      "Lo que recibe cada invitado",
+      "Confirma en un minuto",
+      "La editáis vosotros",
+      "Lo que tenéis vosotros",
+    ]) {
+      await expect(page.getByRole("region", { name })).toBeVisible();
+    }
+    await expect(
+      page.getByRole("region", { name: "Confirma en un minuto" }).getByRole("listitem"),
+    ).toHaveCount(5);
+    await expect(page.getByText(/También elegís cómo se abre: sobre en la mesa,/)).toBeVisible();
     const templates = page.getByRole("region", { name: "Cinco plantillas para empezar" });
     // Solo se enseñan las cinco plantillas con portada pintada y apertura en vídeo.
     await expect(templates.getByRole("link")).toHaveCount(5);

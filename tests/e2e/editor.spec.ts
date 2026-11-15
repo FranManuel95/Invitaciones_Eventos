@@ -24,7 +24,7 @@ test.describe("editor de la invitación", () => {
     await expect(preview.locator("[data-style='mediterraneo']")).toBeAttached();
     await expect(page.getByRole("radio", { name: /Almendro/ })).toBeChecked();
 
-    await page.getByRole("radio", { name: /Esmeralda/ }).check({ force: true });
+    await page.getByRole("radio", { name: /Terciopelo/ }).check({ force: true });
     await expect(preview.locator("[data-style='esmeralda']")).toBeAttached();
 
     await page.getByRole("tab", { name: "Colores" }).click();

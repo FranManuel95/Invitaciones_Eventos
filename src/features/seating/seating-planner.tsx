@@ -1,7 +1,7 @@
 "use client";
 
 import { clsx } from "clsx";
-import { AlertTriangle, GripVertical, Pencil, Plus, Printer, Trash2 } from "lucide-react";
+import { AlertTriangle, GripVertical, Pencil, Plus, Printer, Search, Trash2 } from "lucide-react";
 import {
   useMemo,
   useRef,
@@ -50,6 +50,7 @@ export function SeatingPlanner({
     Object.fromEntries(groups.map((g) => [g.id, g.tableId ?? null])),
   );
   const [selected, setSelected] = useState<string | null>(null);
+  const [find, setFind] = useState("");
   const [editing, setEditing] = useState<SeatingTable | "new" | null>(null);
   const [removing, setRemoving] = useState<SeatingTable | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -62,6 +63,24 @@ export function SeatingPlanner({
     [tables, groups, responses, assignment],
   );
   const unseated = unseatedGroups(groups, responses, assignment);
+  // Buscador: por invitación o por persona, entre las que no tienen mesa y las ya sentadas
+  // (para cambiarlas de mesa sin buscarlas en el plano).
+  const fold = (text: string) =>
+    text
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+  const query = fold(find.trim());
+  const unseatedIds = new Set(unseated.map((g) => g.id));
+  const listed = query
+    ? groups.filter(
+        (g) =>
+          (unseatedIds.has(g.id) || assignment[g.id]) &&
+          fold(
+            [g.displayName, ...g.members.map((m) => `${m.firstName} ${m.lastName}`)].join(" "),
+          ).includes(query),
+      )
+    : unseated;
   const seatedPeople = summaries.reduce((n, s) => n + s.people, 0);
   const unseatedPeople = unseated.reduce(
     (n, g) => n + headcount(g, responseOf.get(g.id)).people,
@@ -236,8 +255,29 @@ export function SeatingPlanner({
           <p className="mt-1 text-[0.8125rem] text-muted">
             Arrástralas al plano o elige su mesa en la lista.
           </p>
+          <div className="relative mt-3">
+            <Search
+              aria-hidden
+              className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-stone"
+            />
+            <input
+              type="search"
+              aria-label="Buscar invitación o persona para sentarla"
+              placeholder="Buscar invitación o persona"
+              value={find}
+              onChange={(e) => setFind(e.target.value)}
+              className="h-10 w-full rounded-md border border-line bg-paper pr-3 pl-9 text-[0.875rem] text-ink placeholder:text-stone focus:border-ink focus:outline-none"
+            />
+          </div>
+          {query ? (
+            <p aria-live="polite" className="mt-2 text-[0.75rem] text-muted">
+              {listed.length
+                ? `${plural(listed.length, "resultado", "resultados")}, con mesa o sin ella.`
+                : "Nadie coincide con la búsqueda."}
+            </p>
+          ) : null}
           <ul className="mt-3 max-h-[32rem] space-y-2 overflow-y-auto pr-1">
-            {unseated.map((g) => {
+            {listed.map((g) => {
               const count = headcount(g, responseOf.get(g.id));
               return (
                 <li
@@ -265,8 +305,8 @@ export function SeatingPlanner({
                   </label>
                   <select
                     id={`mesa-${g.id}`}
-                    value=""
-                    onChange={(e) => e.target.value && seat(g.id, e.target.value)}
+                    value={assignment[g.id] ?? ""}
+                    onChange={(e) => seat(g.id, e.target.value || null)}
                     className="h-8 w-24 shrink-0 rounded border border-line bg-paper px-1 text-[0.75rem] text-ink"
                   >
                     {tableOptions}
@@ -274,7 +314,7 @@ export function SeatingPlanner({
                 </li>
               );
             })}
-            {unseated.length === 0 ? (
+            {unseated.length === 0 && !query ? (
               <li className="rounded-md border border-dashed border-line p-4 text-center text-[0.875rem] text-muted">
                 Todo el mundo tiene mesa.
               </li>

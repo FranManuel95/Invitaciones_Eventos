@@ -58,7 +58,8 @@ import {
   SECTIONS,
   STYLE_IDS,
   STYLES,
-  TEMPLATE_IDS,
+  FEATURED_TEMPLATE_IDS,
+  type TemplateId,
   TEMPLATES,
   templateOf,
   TEXTURE_IDS,
@@ -279,7 +280,11 @@ function TemplatesPart() {
       description="Empieza por una y después cambia lo que quieras en los demás apartados."
     >
       <div role="radiogroup" aria-label="Plantillas" className="grid gap-3 sm:grid-cols-2">
-        {TEMPLATE_IDS.map((id) => {
+        {/* Se ofrecen las cinco plantillas; si el evento usa una anterior, se sigue viendo. */}
+        {(active && !(FEATURED_TEMPLATE_IDS as readonly TemplateId[]).includes(active)
+          ? [active, ...FEATURED_TEMPLATE_IDS]
+          : FEATURED_TEMPLATE_IDS
+        ).map((id) => {
           const look = applyTemplate(draft.theme, id);
           return (
             <ChoiceCard

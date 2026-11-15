@@ -1,14 +1,17 @@
 import { ShieldAlert, UtensilsCrossed } from "lucide-react";
+import Link from "next/link";
 import { DonutChart } from "@/features/dashboard/charts";
+import { CsvButton } from "@/features/dashboard/csv-button";
 import { Card, MENU_COLORS, MENU_ORDER, MenuDot, PageHeader } from "@/features/dashboard/ui";
 import { ALLERGIES, MENU_LABELS, allergyLabel } from "@/lib/domain/catalog";
+import { cateringCsv } from "@/lib/print";
 import { buildGuestRows, countBy } from "@/lib/stats";
 import { loadOrganizer } from "../load";
 
 export const metadata = { title: "Menús y alergias" };
 
 export default async function MenusPage(props: PageProps<"/panel/[evento]/menus">) {
-  const { event, groups, responses } = await loadOrganizer(props.params);
+  const { event, groups, responses, tables, base } = await loadOrganizer(props.params);
   const rows = buildGuestRows(groups, responses);
   const menus = countBy(rows, (r) => r.menu);
   const allergies = countBy(rows, (r) => r.allergies);
@@ -19,6 +22,21 @@ export default async function MenusPage(props: PageProps<"/panel/[evento]/menus"
       <PageHeader
         title="Menús y necesidades especiales"
         description="Resumen para el catering. Solo cuentan los invitados confirmados."
+        actions={
+          <div className="flex flex-wrap gap-2">
+            <CsvButton
+              csv={cateringCsv(groups, responses, tables)}
+              filename="catering.csv"
+              label="Descargar para el catering"
+            />
+            <Link
+              href={`${base}/imprimir`}
+              className="inline-flex h-10 items-center rounded-md border border-ink/25 bg-paper px-4 text-[0.875rem] text-ink transition-colors hover:border-ink"
+            >
+              Imprimir la hoja por mesas
+            </Link>
+          </div>
+        }
       />
 
       <div className="grid gap-4 xl:grid-cols-5">
