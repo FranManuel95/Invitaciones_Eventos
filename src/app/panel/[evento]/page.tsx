@@ -23,6 +23,8 @@ import {
   transportStats,
 } from "@/lib/stats";
 
+import { nextSteps, songTally } from "@/lib/next-steps";
+
 import { loadOrganizer } from "./load";
 import { PublishBar } from "./publish-bar";
 
@@ -52,13 +54,15 @@ export default async function PanelHome(props: PageProps<"/panel/[evento]">) {
   const menus = countBy(rows, (r) => r.menu);
   const allergies = countBy(rows, (r) => r.allergies);
   const transport = transportStats(event, groups, responses);
-  const songs = songRequests(groups, responses);
+  const songs = songTally(songRequests(groups, responses));
+  const songCount = songs.reduce((sum, s) => sum + s.count, 0);
   const offers = carOffers(groups, responses);
   const messages = recentMessages(groups, responses, 4);
   const reference = isDemo ? `${DEMO_REFERENCE_DATE}T12:00:00Z` : new Date().toISOString();
   const daysLeft = Math.ceil((Date.parse(event.date) - Date.parse(reference)) / 86_400_000);
   const pendingGroups = summary.groups - summary.respondedGroups;
   const opened = openSummary(groups, new Set(responses.map((r) => r.groupId)));
+  const steps = nextSteps(groups, responses, event.rsvpDeadline, reference);
 
   return (
     <>
@@ -115,6 +119,30 @@ export default async function PanelHome(props: PageProps<"/panel/[evento]">) {
           },
         ]}
       />
+
+      <section aria-labelledby="que-toca" className="mt-8">
+        <h2 id="que-toca" className="text-[0.9375rem] font-medium text-ink">
+          Qué toca ahora
+        </h2>
+        <ul className="mt-3 grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] gap-3">
+          {steps.map((step) => (
+            <li
+              key={step.id}
+              className="flex flex-col rounded-[3px] border border-line bg-paper p-4 sm:p-5"
+            >
+              <p className="font-display text-[1.375rem] leading-tight text-ink">{step.title}</p>
+              <p className="mt-1.5 flex-1 text-[0.875rem] leading-relaxed text-ink-soft">
+                {step.detail}
+              </p>
+              {step.path && step.action ? (
+                <Link href={`${base}${step.path}`} className={`${linkClass} mt-3 self-start`}>
+                  {step.action}
+                </Link>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <div className="mt-8 grid gap-6 xl:grid-cols-3">
         <Card title="Confirmaciones acumuladas" className="xl:col-span-2">
@@ -214,16 +242,31 @@ export default async function PanelHome(props: PageProps<"/panel/[evento]">) {
       </div>
 
       <div className="mt-10">
-        <Card variant="ruled" title={`Canciones pedidas (${songs.length})`}>
+        <Card
+          variant="ruled"
+          title={`Canciones pedidas (${songCount})`}
+          action={
+            songs.length ? (
+              <Link href={`${base}/imprimir`} className={linkClass}>
+                Imprimir para el DJ
+              </Link>
+            ) : undefined
+          }
+        >
           {songs.length ? (
-            <ul className="columns-1 gap-8 text-[0.9375rem] sm:columns-2 xl:columns-3">
+            <ol className="columns-1 gap-10 text-[0.9375rem] sm:columns-2 xl:columns-3">
               {songs.map((s) => (
-                <li key={s.groupName + s.song} className="mb-2 break-inside-avoid">
-                  <span className="text-ink">{s.song}</span>
-                  <span className="block text-[0.8125rem] text-muted">{s.groupName}</span>
+                <li
+                  key={s.song}
+                  className="mb-2.5 flex break-inside-avoid items-baseline justify-between gap-4 border-b border-line pb-2.5"
+                >
+                  <span className="min-w-0 text-ink">{s.song}</span>
+                  <span className="shrink-0 text-[0.8125rem] text-muted tabular-nums">
+                    {s.count === 1 ? s.askedBy[0] : `${s.count} veces`}
+                  </span>
                 </li>
               ))}
-            </ul>
+            </ol>
           ) : (
             <p className="text-[0.9375rem] text-muted">
               Cuando los invitados pidan canciones al confirmar, aparecerán aquí para el DJ.

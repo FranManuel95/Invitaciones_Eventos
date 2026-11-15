@@ -17,6 +17,16 @@ const normalize = (text: string) => text.normalize("NFD").replace(/[̀-ͯ]/g, ""
 
 const noopSubscribe = () => () => {};
 
+type Filter = "todas" | "sin-abrir" | "abierta" | "attending" | "declined";
+
+const FILTERS: { id: Filter; label: string }[] = [
+  { id: "todas", label: "Todas" },
+  { id: "sin-abrir", label: "Sin abrir" },
+  { id: "abierta", label: "Abiertas sin responder" },
+  { id: "attending", label: "Confirmadas" },
+  { id: "declined", label: "No asisten" },
+];
+
 type Editing = { mode: "new" } | { mode: "edit"; group: GuestGroup } | null;
 
 /**
@@ -42,6 +52,7 @@ export function InvitationsManager({
   );
   const [query, setQuery] = useState("");
   const deferred = useDeferredValue(query);
+  const [filter, setFilter] = useState<Filter>("todas");
   const [editing, setEditing] = useState<Editing>(null);
   const [importing, setImporting] = useState(false);
   const [removing, setRemoving] = useState<GuestGroup | null>(null);
@@ -50,7 +61,21 @@ export function InvitationsManager({
   const readOnly = eventId === null;
 
   const categories = [...new Set(groups.map((g) => g.category))].sort();
+  /** En qué punto está cada invitación: sin abrir, abierta sin responder, confirmada o no asiste. */
+  const stateOf = (g: GuestGroup): Exclude<Filter, "todas"> => {
+    const status = statuses[g.id] ?? "pending";
+    if (status !== "pending") return status;
+    return g.openedAt ? "abierta" : "sin-abrir";
+  };
+  const counts = groups.reduce<Record<Filter, number>>(
+    (acc, g) => {
+      acc[stateOf(g)] += 1;
+      return acc;
+    },
+    { todas: groups.length, "sin-abrir": 0, abierta: 0, attending: 0, declined: 0 },
+  );
   const visible = groups.filter((g) => {
+    if (filter !== "todas" && stateOf(g) !== filter) return false;
     const q = normalize(deferred.trim());
     if (!q) return true;
     return normalize(
@@ -93,7 +118,28 @@ export function InvitationsManager({
         </p>
       ) : null}
 
-      <p aria-live="polite" className="mt-6 text-[0.875rem] text-muted">
+      {groups.length ? (
+        <div role="group" aria-label="Filtrar por estado" className="mt-5 flex flex-wrap gap-2">
+          {FILTERS.map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              aria-pressed={filter === f.id}
+              onClick={() => setFilter(f.id)}
+              className={
+                filter === f.id
+                  ? "inline-flex h-9 items-center gap-2 rounded-full bg-ink px-3.5 text-[0.875rem] text-paper"
+                  : "inline-flex h-9 items-center gap-2 rounded-full border border-line bg-paper px-3.5 text-[0.875rem] text-ink-soft transition-colors hover:border-ink hover:text-ink"
+              }
+            >
+              {f.label}
+              <span className="font-medium tabular-nums">{counts[f.id]}</span>
+            </button>
+          ))}
+        </div>
+      ) : null}
+
+      <p aria-live="polite" className="mt-4 text-[0.875rem] text-muted">
         {visible.length === groups.length
           ? `${plural(groups.length, "invitación", "invitaciones")} · ${plural(people, "persona", "personas")}`
           : `${visible.length} de ${groups.length} invitaciones`}
@@ -107,7 +153,13 @@ export function InvitationsManager({
           </p>
         </div>
       ) : (
-        <ul className="mt-3 divide-y divide-line rounded-md border border-line bg-paper">
+        <ul
+          className={
+            visible.length
+              ? "mt-3 divide-y divide-line rounded-md border border-line bg-paper"
+              : "hidden"
+          }
+        >
           {visible.map((g) => (
             <li
               key={g.id}
@@ -164,6 +216,23 @@ export function InvitationsManager({
           ) : null}
         </ul>
       )}
+      {groups.length > 0 && visible.length === 0 ? (
+        <div className="mt-3 rounded-md border border-dashed border-line px-6 py-8 text-center">
+          <p className="text-[0.9375rem] text-ink-soft">
+            Ninguna invitación coincide con el filtro o la búsqueda.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setFilter("todas");
+              setQuery("");
+            }}
+            className="mt-2 text-[0.875rem] text-ink underline decoration-gold underline-offset-4 hover:decoration-ink"
+          >
+            Ver todas
+          </button>
+        </div>
+      ) : null}
 
       {eventId && editing ? (
         <GroupDialog

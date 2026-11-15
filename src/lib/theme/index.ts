@@ -732,6 +732,18 @@ export const TEMPLATE_IDS = [
 ] as const;
 export type TemplateId = (typeof TEMPLATE_IDS)[number];
 
+/**
+ * Las plantillas que se enseñan al público (página de venta y ejemplos): las que tienen portada
+ * pintada y apertura en vídeo. El resto sigue disponible en el editor.
+ */
+export const FEATURED_TEMPLATE_IDS = [
+  "arcilla",
+  "olivar",
+  "buganvilla",
+  "terciopelo",
+  "orilla",
+] as const satisfies readonly TemplateId[];
+
 type Look = Omit<Theme, "hidden" | "order" | "music">;
 
 export const TEMPLATES: Record<

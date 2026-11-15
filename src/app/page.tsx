@@ -52,7 +52,7 @@ const PANEL_FEATURES = [
 
 const INCLUDED = [
   "Invitaciones para todos vuestros invitados, sin límite",
-  "Editor con plantillas, colores, tipografías, sobres y lacres",
+  "Editor con cinco plantillas, siete aperturas, colores, tipografías y lacres",
   "Panel de organización hasta el día de la boda",
   "Cambios ilimitados, también después de enviarla",
   "Ayuda por correo para dejarla a vuestro gusto",
@@ -116,7 +116,7 @@ export default function SalesPage() {
                 <a href="#pedir" className={buttonClasses("primary", "lg")}>
                   Pedir la nuestra
                 </a>
-                <Link href="/i/familia-garcia" className={linkClass}>
+                <Link href="/i/familia-garcia?plantilla=arcilla" className={linkClass}>
                   Abrir una de ejemplo a pantalla completa
                 </Link>
               </div>
@@ -131,12 +131,16 @@ export default function SalesPage() {
                 aria-hidden
                 className="absolute inset-x-0 top-0 hidden h-[calc(844px*var(--s))] md:block"
               >
-                <PhoneFrame className="absolute top-6 -left-[26%] w-[70%] -rotate-[8deg]">
-                  <Image src="/venta/plantilla-medianoche.webp" alt="" fill sizes="240px" />
-                </PhoneFrame>
-                <PhoneFrame className="absolute top-0 -right-[26%] w-[70%] rotate-[8deg]">
-                  <Image src="/venta/plantilla-jardin.webp" alt="" fill sizes="240px" />
-                </PhoneFrame>
+                <div className="absolute top-6 -left-[26%] w-[70%] -rotate-[8deg]">
+                  <PhoneFrame>
+                    <Image src="/venta/plantilla-terciopelo-portada.webp" alt="" fill sizes="240px" />
+                  </PhoneFrame>
+                </div>
+                <div className="absolute top-0 -right-[26%] w-[70%] rotate-[8deg]">
+                  <PhoneFrame>
+                    <Image src="/venta/plantilla-buganvilla-portada.webp" alt="" fill sizes="240px" />
+                  </PhoneFrame>
+                </div>
               </div>
               <div className="relative">
                 <PhoneDemo />
@@ -145,6 +149,24 @@ export default function SalesPage() {
                 Es una invitación de verdad: ábrela y prueba a confirmar.
               </figcaption>
             </figure>
+          </div>
+        </section>
+
+        <section aria-labelledby="plantillas" className="mx-auto max-w-6xl px-6 py-20 sm:px-10">
+          <div className="md:flex md:items-end md:justify-between md:gap-14">
+            <h2
+              id="plantillas"
+              className="font-display text-[2.25rem] leading-[1.05] text-ink sm:text-[2.75rem]"
+            >
+              Cinco plantillas para empezar
+            </h2>
+            <p className="mt-3 max-w-[48ch] text-[0.9375rem] leading-relaxed text-muted md:mt-0">
+              Cada una llega con su portada, sus colores, su letra y su forma de abrirse. Tocad
+              cualquiera para verla entera; luego cambiáis lo que queráis en el editor.
+            </p>
+          </div>
+          <div className="mt-10">
+            <TemplateShowcase />
           </div>
         </section>
 
@@ -158,37 +180,15 @@ export default function SalesPage() {
               id="aperturas"
               className="font-display text-[2.25rem] leading-[1.05] text-ink sm:text-[2.75rem]"
             >
-              Elegid cómo se abre
+              Y elegid cómo se abre
             </h2>
             <p className="mt-4 max-w-[52ch] text-[1.0625rem] leading-relaxed text-ink-soft md:mt-2">
-              Después de la portada llega el sobre. Puede esperar en la mesa, ocupar toda la
-              pantalla o venir en una caja con lazo. Tocad cualquiera para probarla.
+              Cada plantilla trae su apertura, pero en el editor podéis cambiarla por cualquiera
+              de estas siete: del sobre que espera en la mesa a la caja con lazo o el sobre de
+              película, en blanco, verde salvia o burdeos. Tocad cualquiera para probarla.
             </p>
           </div>
           <OpeningShowcase className="mx-auto mt-10 max-w-[90rem]" />
-        </section>
-
-        <section aria-labelledby="plantillas" className="mx-auto max-w-6xl px-6 py-20 sm:px-10">
-          <div className="md:grid md:grid-cols-[15rem_minmax(0,1fr)] md:gap-14">
-            <div>
-              <h2
-                id="plantillas"
-                className="font-display text-[2.25rem] leading-[1.05] text-ink sm:text-[2.75rem]"
-              >
-                Plantillas para empezar
-              </h2>
-              <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted">
-                Cada una trae su papel, su forro, su lacre y su letra. Luego cambiáis lo que queráis
-                en el editor.
-              </p>
-              <Link href="/ejemplos" className={`${linkClass} mt-4 inline-block`}>
-                Ver portadas y momentos
-              </Link>
-            </div>
-            <div className="mt-10 md:mt-0">
-              <TemplateShowcase />
-            </div>
-          </div>
         </section>
 
         <section aria-labelledby="invitado" className="bg-ivory">

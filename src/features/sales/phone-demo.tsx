@@ -13,7 +13,7 @@ export function PhoneDemo() {
     <div className="relative h-[calc(844px*var(--s))] w-[calc(390px*var(--s))] overflow-hidden rounded-[2.25rem] border-[6px] border-ink bg-ink shadow-[var(--shadow-lift)]">
       {open ? (
         <iframe
-          src="/i/familia-garcia"
+          src="/i/familia-garcia?plantilla=arcilla"
           title="Invitación de ejemplo de María y Daniel"
           className="absolute top-0 left-0 h-[844px] w-[390px] origin-top-left scale-[var(--s)] rounded-[1.75rem] bg-ivory"
         />

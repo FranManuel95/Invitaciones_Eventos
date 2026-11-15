@@ -3,6 +3,7 @@ import { expect, test } from "@playwright/test";
 
 const PAGES = [
   "/panel/demo",
+  "/panel/demo/invitaciones",
   "/panel/demo/invitados",
   "/panel/demo/transporte",
   "/panel/demo/menus",
@@ -17,6 +18,37 @@ test.describe("panel del organizador", () => {
     await expect(page.getByRole("heading", { level: 1, name: "Hola, María" })).toBeVisible();
     await expect(page.locator("dt", { hasText: /^Invitados$/ })).toBeVisible();
     await expect(page.getByText("150", { exact: true }).first()).toBeVisible();
+  });
+
+  test("el inicio dice qué toca ahora y agrupa las canciones repetidas", async ({ page }) => {
+    await page.goto("/panel/demo");
+    const steps = page.getByRole("region", { name: "Qué toca ahora" });
+    await expect(steps.getByText("8 invitaciones sin abrir")).toBeVisible();
+    await expect(steps.getByText(/invitaciones confirmadas sin mesa/)).toBeVisible();
+    await steps.getByRole("link", { name: "Sentar invitados" }).click();
+    await expect(page).toHaveURL(/\/panel\/demo\/mesas$/);
+
+    await page.goto("/panel/demo");
+    const songs = page.getByRole("region", { name: /Canciones pedidas/ });
+    // Cada canción sale una vez, con las veces que se ha pedido.
+    await expect(songs.getByText("Mi gran noche — Raphael")).toHaveCount(1);
+    await expect(songs.getByText(/\d+ veces/).first()).toBeVisible();
+  });
+
+  test("las invitaciones se filtran por estado", async ({ page }) => {
+    await page.goto("/panel/demo/invitaciones");
+    const filters = page.getByRole("group", { name: "Filtrar por estado" });
+    await expect(filters.getByRole("button", { name: /Todas 74/ })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    await filters.getByRole("button", { name: /Sin abrir 8/ }).click();
+    await expect(page.getByText("8 de 74 invitaciones")).toBeVisible();
+    await expect(page.getByRole("heading", { level: 3 })).toHaveCount(8);
+    // Con un filtro y una búsqueda que no casan, se ofrece volver a ver todas.
+    await page.getByLabel("Buscar invitación o persona").fill("zzzz");
+    await page.getByRole("button", { name: "Ver todas" }).click();
+    await expect(page.getByText(/74 invitaciones · /)).toBeVisible();
   });
 
   test("filtra y busca invitados", async ({ page, isMobile }) => {

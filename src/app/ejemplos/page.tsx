@@ -110,8 +110,8 @@ export default async function Examples() {
             Plantillas
           </h2>
           <p className={sectionNote}>
-            La misma invitación con cada plantilla del editor. Cada una trae su papel, su forro, su
-            lacre, su letra y su forma de abrirse.
+            Cinco plantillas para empezar. Cada una trae su portada, sus colores, su letra y su
+            forma de abrirse; en el editor se cambia lo que haga falta.
           </p>
           <div className="mt-8">
             <TemplateShowcase />

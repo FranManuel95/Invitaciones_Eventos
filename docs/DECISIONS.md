@@ -804,6 +804,22 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
   desarrollo de ESLint (`eslint-config-next` → `fast-glob` → `micromatch`) y no se incluyen en el
   bundle.
 
+## Ronda 14: venta con cinco plantillas y panel más accionable
+
+- **La página de venta y `/ejemplos` enseñan solo cinco plantillas** (`FEATURED_TEMPLATE_IDS` en
+  `src/lib/theme/index.ts`): Arcilla, Olivar, Buganvilla, Terciopelo y Orilla, las que tienen
+  portada pintada y apertura en vídeo. Cada una se ve con su portada real en un móvil y, delante,
+  lo que se abre después; debajo se nombra con qué se abre. El resto de plantillas sigue en el
+  editor. Las siete aperturas se siguen enseñando, como opciones que se cambian en el editor.
+- Las portadas del escaparate (`public/venta/plantilla-<id>-portada.webp`) son capturas de
+  `/i/familia-garcia?plantilla=<id>&grabar=1` a 390 × 844.
+- **Inicio del panel, «Qué toca ahora»** (`src/lib/next-steps.ts`, con pruebas): invitaciones sin
+  abrir, abiertas sin responder, confirmadas sin mesa y aviso del plazo cuando faltan 14 días o
+  menos. Cada aviso lleva a la sección donde se resuelve.
+- **Canciones agrupadas**: la misma canción sale una vez con las veces que se ha pedido.
+- **Invitaciones con filtro por estado** (todas, sin abrir, abiertas sin responder, confirmadas,
+  no asisten), con el número de cada uno.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

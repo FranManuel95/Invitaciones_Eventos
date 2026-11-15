@@ -2,9 +2,9 @@ import { clsx } from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { TEMPLATE_IDS, TEMPLATES } from "@/lib/theme";
+import { FEATURED_TEMPLATE_IDS, TEMPLATES } from "@/lib/theme";
 import { COVER_IDS, COVERS } from "@/lib/theme/cover";
-import { OPENING_IDS, OPENINGS } from "@/lib/theme/envelope";
+import { FILMS, OPENING_IDS, OPENINGS } from "@/lib/theme/envelope";
 import { OpeningReel } from "./opening-reel";
 
 /*
@@ -78,52 +78,54 @@ export function OpeningShowcase({ className }: { className?: string }) {
 }
 
 /**
- * Las plantillas, por el sobre con el que llegan (es lo que más cambia entre una y otra). La
- * primera va en grande: con las otras doce, la rejilla de dos o de cuatro columnas queda completa.
+ * Las cinco plantillas, cada una con su portada en el móvil y, asomando delante, lo que se abre
+ * después (un sobre, una caja o un díptico). En el móvil se deslizan de lado; en pantallas anchas
+ * caben las cinco en una fila.
  */
 export function TemplateShowcase() {
   return (
-    <ul className="grid grid-cols-2 gap-x-4 gap-y-7 sm:grid-cols-4 sm:gap-x-6">
-      {TEMPLATE_IDS.map((id, i) => {
+    <ul className="-mx-6 flex snap-x snap-mandatory scroll-px-6 gap-6 overflow-x-auto px-6 pt-2 pb-6 sm:-mx-10 sm:scroll-px-10 sm:px-10 lg:mx-0 lg:grid lg:grid-cols-5 lg:gap-7 lg:overflow-visible lg:px-0 lg:pb-0">
+      {FEATURED_TEMPLATE_IDS.map((id) => {
         const template = TEMPLATES[id];
-        const featured = i === 0;
+        const film = template.look.film ? FILMS[template.look.film] : null;
         return (
-          <li
-            key={id}
-            className={clsx("relative flex flex-col", featured && "col-span-2 sm:row-span-2")}
-          >
-            <span
-              className={clsx(
-                "relative block overflow-hidden rounded-[3px] bg-ivory shadow-[var(--shadow-paper)]",
-                featured ? "aspect-[4/5] sm:aspect-auto sm:min-h-0 sm:flex-1" : "aspect-[4/5]",
-              )}
-            >
-              <Image
-                src={`/venta/plantilla-${id}.webp`}
-                alt=""
-                fill
-                sizes={
-                  featured ? "(min-width: 640px) 50vw, 100vw" : "(min-width: 1024px) 25vw, 50vw"
-                }
-                className="object-cover object-[50%_38%]"
-              />
-            </span>
-            <h3
-              className={clsx(
-                "mt-3 font-display leading-tight text-ink",
-                featured ? "text-[1.75rem]" : "text-[1.3125rem]",
-              )}
-            >
+          <li key={id} className="relative w-[13.5rem] shrink-0 snap-start lg:w-auto">
+            <div className="relative pr-5 pb-7">
+              <PhoneFrame>
+                <Image
+                  src={`/venta/plantilla-${id}-portada.webp`}
+                  alt=""
+                  fill
+                  sizes="(min-width: 1024px) 18vw, 216px"
+                  className="object-cover"
+                />
+              </PhoneFrame>
+              <span className="absolute right-0 bottom-0 block aspect-[4/5] w-[46%] overflow-hidden rounded-[3px] border-[3px] border-paper shadow-[var(--shadow-lift)]">
+                <Image
+                  src={`/venta/plantilla-${id}.webp`}
+                  alt=""
+                  fill
+                  sizes="110px"
+                  className="object-cover object-[50%_42%]"
+                />
+              </span>
+            </div>
+            <h3 className="mt-4 font-display text-[1.625rem] leading-tight text-ink">
               <Link
                 href={`${DEMO}?plantilla=${id}`}
-                className={`${coverLink} decoration-gold underline-offset-4 hover:underline focus-visible:after:rounded-[3px]`}
+                className={`${coverLink} decoration-gold underline-offset-4 hover:underline`}
               >
                 {template.label}
               </Link>
             </h3>
-            <p className="mt-0.5 text-[0.875rem] leading-snug text-ink-soft">
+            <p className="mt-1 text-[0.875rem] leading-snug text-ink-soft">
               {template.description}
             </p>
+            {film ? (
+              <p className="mt-2 text-[0.8125rem] leading-snug text-muted">
+                Se abre con: {film.label.toLowerCase()}.
+              </p>
+            ) : null}
           </li>
         );
       })}
