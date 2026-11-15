@@ -27,13 +27,44 @@ export type SealShapeId = (typeof SEAL_SHAPE_IDS)[number];
 export type SealMarkId = (typeof SEAL_MARK_IDS)[number];
 export type OpeningId = (typeof OPENING_IDS)[number];
 
-/** Color del sobre en la apertura «película»: cada uno es un vídeo distinto. */
-export const FILM_IDS = ["blanco", "salvia", "burdeos"] as const;
+/**
+ * Qué se abre en la apertura «película»: cada opción es un vídeo distinto (un sobre de un color,
+ * una caja con lazo o un díptico). `action` es lo que se le pide al invitado y `name`, el nombre
+ * accesible del botón.
+ */
+export const FILM_IDS = ["blanco", "salvia", "burdeos", "caja", "diptico"] as const;
 export type FilmId = (typeof FILM_IDS)[number];
-export const FILMS: Record<FilmId, { label: string; hex: string }> = {
-  blanco: { label: "Blanco con lacre dorado", hex: "#efe9df" },
-  salvia: { label: "Verde salvia", hex: "#a9b79c" },
-  burdeos: { label: "Burdeos", hex: "#7a2230" },
+export const FILMS: Record<FilmId, { label: string; hex: string; action: string; name: string }> = {
+  blanco: {
+    label: "Sobre blanco con lacre dorado",
+    hex: "#efe9df",
+    action: "Toca el lacre para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  salvia: {
+    label: "Sobre verde salvia",
+    hex: "#a9b79c",
+    action: "Toca el lacre para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  burdeos: {
+    label: "Sobre burdeos",
+    hex: "#7a2230",
+    action: "Toca el lacre para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  caja: {
+    label: "Caja con lazo burdeos",
+    hex: "linear-gradient(90deg, #efe9df 0 40%, #6e1f2c 40% 60%, #efe9df 60%)",
+    action: "Toca el lazo para abrir la caja",
+    name: "Abrir la caja",
+  },
+  diptico: {
+    label: "Díptico con lacre dorado",
+    hex: "linear-gradient(90deg, #efe9df 0 48%, #b98a3c 48% 52%, #efe9df 52%)",
+    action: "Toca el lacre para abrir la invitación",
+    name: "Abrir la invitación",
+  },
 };
 
 /** Cómo se abre la invitación antes de la carta. `premium`: se ofrece como opción de pago superior. */

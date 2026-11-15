@@ -5,7 +5,8 @@ import { demoEvent } from "./event";
 
 /**
  * Bodas ficticias para enseñar plantillas distintas como si fueran de parejas distintas
- * (`?plantilla=buganvilla`, `?plantilla=olivar`). El resto de plantillas usa la de María y Daniel.
+ * (`?plantilla=buganvilla`, `?plantilla=olivar`, `?plantilla=orilla`, `?plantilla=terciopelo`). El
+ * resto de plantillas usa la de María y Daniel.
  * Nombres, lugares, teléfonos y cuentas son inventados.
  */
 interface DemoVariant {
@@ -45,6 +46,36 @@ const PHOTOS = {
       "/fotos/olivar/historia-2.jpg",
       "/fotos/olivar/historia-3.jpg",
       "/fotos/olivar/historia-4.jpg",
+    ],
+  },
+  // Orilla y Terciopelo no tienen retratos propios: reutilizan los de otra pareja de ejemplo
+  // (Orilla, los de Buganvilla, que son de costa; Terciopelo, los de María y Daniel) y solo
+  // cambian las fotos de los sitios.
+  orilla: {
+    cover: "/fotos/buganvilla/portada.jpg",
+    depth: "/fotos/buganvilla/portada-profundidad.png",
+    couple: "/fotos/buganvilla/pareja.jpg",
+    ceremony: "/fotos/orilla/ceremonia.jpg",
+    venue: "/fotos/buganvilla/finca.jpg",
+    banquet: "/fotos/orilla/banquete.jpg",
+    story: [
+      "/fotos/buganvilla/historia-1.jpg",
+      "/fotos/buganvilla/historia-2.jpg",
+      "/fotos/buganvilla/historia-3.jpg",
+      "/fotos/buganvilla/historia-4.jpg",
+    ],
+  },
+  terciopelo: {
+    cover: "/fotos/portada.jpg",
+    depth: "/fotos/portada-profundidad.png",
+    couple: "/fotos/pareja.jpg",
+    venue: "/fotos/terciopelo/finca.jpg",
+    banquet: "/fotos/orilla/finca.jpg",
+    story: [
+      "/fotos/historia-amalfi.jpg",
+      "/fotos/historia-florencia.jpg",
+      "/fotos/historia-pedida.jpg",
+      "/fotos/historia-hoy.jpg",
     ],
   },
 } as const;
@@ -579,7 +610,366 @@ const olivar: DemoVariant = {
   ),
 };
 
-const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = { buganvilla, olivar };
+const orilla: DemoVariant = {
+  event: {
+    ...demoEvent,
+    id: "evt-demo-paula-jaime",
+    couple: { first: "Paula", second: "Jaime", monogram: "P&J" },
+    date: "2027-06-26T19:00:00+02:00",
+    city: "Vejer de la Frontera",
+    region: "Cádiz",
+    rsvpDeadline: "2027-05-20T23:59:00+02:00",
+    hashtag: "#PaulaYJaime",
+    cardMessage:
+      "Nos casamos donde huele a sal y a jazmín, y queremos que estés. Ven a celebrarlo con nosotros.",
+    welcomeMessage:
+      "Diez años de levante, de atardeceres y de volver siempre al mismo pueblo blanco. Aquí tienes todo para acompañarnos.",
+    thankYouMessage:
+      "Gracias por venir hasta el sur, por la sobremesa y por bailar hasta que se fue el levante. Aquí están vuestras fotos.",
+    venues: [
+      {
+        id: "iglesia",
+        name: "Iglesia de San Telmo",
+        kind: "Ceremonia",
+        address: "Calle de la Judería, 4",
+        city: "Vejer de la Frontera, Cádiz",
+        mapsQuery: "Vejer de la Frontera",
+        note: "El casco antiguo es peatonal: hay aparcamiento abajo, a 10 minutos a pie.",
+        photo: PHOTOS.orilla.ceremony,
+        photoAlt: "Interior de una iglesia de piedra con el pasillo adornado con paniculata",
+      },
+      {
+        id: "finca",
+        name: "Cortijo La Almadraba",
+        kind: "Cóctel, cena y fiesta",
+        address: "Carretera de El Palmar, km 3",
+        city: "Vejer de la Frontera, Cádiz",
+        mapsQuery: "El Palmar Vejer de la Frontera",
+        note: "A 15 minutos del pueblo, camino del mar. Los autobuses salen de la plaza al terminar.",
+        photo: PHOTOS.orilla.venue,
+        photoAlt: "Terraza del cortijo al atardecer, con mesas largas y el mar al fondo",
+      },
+    ],
+    climate: { max: 29, min: 19, rainChance: 5, place: "Vejer de la Frontera, Cádiz" },
+    program: [
+      {
+        id: "ceremonia",
+        time: "19:00",
+        title: "Ceremonia",
+        venueId: "iglesia",
+        place: "Iglesia de San Telmo",
+        description: "A la caída de la tarde, con las puertas abiertas a la plaza.",
+        icon: "ceremony",
+      },
+      {
+        id: "coctel",
+        time: "20:30",
+        title: "Cóctel",
+        venueId: "finca",
+        place: "El patio de los olivos",
+        description: "Atún rojo, manzanilla bien fría y la puesta de sol sobre el mar.",
+        icon: "cocktail",
+      },
+      {
+        id: "banquete",
+        time: "22:00",
+        title: "Cena",
+        venueId: "finca",
+        place: "El jardín",
+        description: "Mesas largas bajo las luces, con el menú que elijas al confirmar.",
+        icon: "banquet",
+      },
+      {
+        id: "fiesta",
+        time: "01:00",
+        title: "Fiesta",
+        venueId: "finca",
+        place: "Hasta que amanezca",
+        description: "Barra libre, rumbas y churros con chocolate a las cinco.",
+        icon: "party",
+      },
+    ],
+    busRoutes: [
+      {
+        id: "cadiz",
+        label: "Cádiz → Vejer",
+        pickupPoint: "Plaza de España, Cádiz",
+        departure: "17:15",
+        returnTrips: ["03:00", "05:30"],
+        seats: 50,
+      },
+      {
+        id: "sevilla",
+        label: "Sevilla → Vejer",
+        pickupPoint: "Estación de Santa Justa, Sevilla",
+        departure: "16:00",
+        returnTrips: ["05:30"],
+        seats: 30,
+      },
+    ],
+    dressCode: {
+      title: "Elegante de verano",
+      detail: "Tejidos frescos y colores de mar. El levante avisa: mejor recogidos que pamelas.",
+      palette: [
+        { name: "Azul levante", hex: "#5f8fb0" },
+        { name: "Cal", hex: "#f5f1e8" },
+        { name: "Arena", hex: "#dcc9a3" },
+        { name: "Coral", hex: "#e08a72" },
+        { name: "Verde olivo", hex: "#7a8a5c" },
+      ],
+      examples: [
+        { who: "Ellas", text: "Vestido largo y ligero; cuña o sandalia, que hay jardín." },
+        { who: "Ellos", text: "Traje claro de lino o algodón; la corbata es opcional." },
+        { who: "Niños", text: "Ropa cómoda y fresca: habrá juegos hasta tarde." },
+      ],
+    },
+    accommodation: [
+      {
+        name: "Hotel Casa del Califa Blanca",
+        distance: "En el casco antiguo, a 3 min de la iglesia",
+        detail: "Habitaciones reservadas hasta el 15 de mayo. Menciona la boda.",
+      },
+      {
+        name: "Apartamentos El Palmar",
+        distance: "A 5 min del cortijo",
+        detail: "Frente a la playa, por si queréis alargar el fin de semana.",
+      },
+    ],
+    story: {
+      intro: "Diez veranos en la misma costa. Esta es la versión corta.",
+      couplePhoto: PHOTOS.orilla.couple,
+      moments: [
+        {
+          year: "2017",
+          title: "La cala",
+          text: "Coincidimos en la misma cala, cada uno con su toalla y el mismo libro. Acabamos compartiendo sombrilla.",
+          photo: PHOTOS.orilla.story[0],
+          photoAlt: "Paula y Jaime de espaldas, sentados frente a una cala",
+        },
+        {
+          year: "2020",
+          title: "De Tarifa a Sagres",
+          text: "Un mes de costa en una furgoneta prestada. Se nos acabó el dinero antes que las ganas.",
+          photo: PHOTOS.orilla.story[1],
+          photoAlt:
+            "Paula y Jaime de espaldas junto a una furgoneta, mirando el mar desde un acantilado",
+        },
+        {
+          year: "2026",
+          title: "La pedida",
+          text: "En la barca de un amigo, al amanecer y con levante. El viento se llevó el discurso, pero no la respuesta.",
+          photo: PHOTOS.orilla.story[2],
+          photoAlt: "Anillo de compromiso en un estuche, sobre el banco de una barca frente al mar",
+        },
+        {
+          year: "Hoy",
+          title: "Y ahora, la boda",
+          text: "Vivimos en Sevilla y bajamos al mar siempre que podemos. Solo faltáis vosotros.",
+          photo: PHOTOS.orilla.story[3],
+          photoAlt: "Paula y Jaime de espaldas, paseando por la orilla al atardecer",
+        },
+      ],
+    },
+    coverPhoto: PHOTOS.orilla.cover,
+    coverDepthMap: PHOTOS.orilla.depth,
+    banquetPhoto: PHOTOS.orilla.banquet,
+    gift: { ...demoEvent.gift, holder: "Paula y Jaime" },
+    faqs: [
+      {
+        question: "¿Puedo llevar a mis hijos?",
+        answer: "Sí, si aparecen en tu invitación. Habrá monitores y cena para ellos.",
+      },
+      {
+        question: "¿Hasta cuándo puedo cambiar mi respuesta?",
+        answer: "Puedes editarla desde este mismo enlace hasta el 20 de mayo de 2027.",
+      },
+      {
+        question: "¿Y si sopla levante?",
+        answer: "La cena es en un jardín resguardado y hay plan B bajo techo.",
+      },
+    ],
+  },
+  guestbook: guestbook(
+    [
+      ["Rocío y Curro", "Diez veranos esperando. Llevamos el abanico y las ganas."],
+      ["La abuela Lola", "Que os queráis siempre como hoy. Y que no falte el atún."],
+      ["Los de Sevilla", "Vamos en el autobús cantando desde Santa Justa. ¡Vivan los novios!"],
+    ],
+    ["Volando voy", "La flaca", "Como el agua", "Sarandonga", "Valerie", "September"],
+  ),
+};
+
+const terciopelo: DemoVariant = {
+  event: {
+    ...demoEvent,
+    id: "evt-demo-irene-tomas",
+    couple: { first: "Irene", second: "Tomás", monogram: "I&T" },
+    date: "2027-09-25T19:30:00+02:00",
+    city: "Aranjuez",
+    region: "Madrid",
+    rsvpDeadline: "2027-08-20T23:59:00+02:00",
+    hashtag: "#IreneYTomás",
+    cardMessage:
+      "Una noche, un jardín y la gente que queremos. Nos haría muy felices que estuvieras.",
+    welcomeMessage:
+      "Nos casamos de noche, con música en directo y sin prisa. Aquí tienes todo lo necesario para acompañarnos.",
+    thankYouMessage:
+      "Gracias por vestiros de gala, por la pista llena y por quedaros hasta el final. Aquí están vuestras fotos.",
+    venues: [
+      {
+        id: "finca",
+        name: "Palacete de los Tilos",
+        kind: "Ceremonia, cena y baile",
+        address: "Paseo de los Tilos, 12",
+        city: "Aranjuez, Madrid",
+        mapsQuery: "Aranjuez",
+        note: "Todo ocurre en el mismo jardín. Hay aparcacoches en la entrada.",
+        photo: PHOTOS.terciopelo.venue,
+        photoAlt:
+          "Pista de baile en un jardín al anochecer, bajo un arco de flores y guirnaldas de luces",
+      },
+    ],
+    climate: { max: 25, min: 14, rainChance: 15, place: "Aranjuez, Madrid" },
+    program: [
+      {
+        id: "ceremonia",
+        time: "19:30",
+        title: "Ceremonia",
+        venueId: "finca",
+        place: "El jardín de los tilos",
+        description: "Civil y al aire libre, justo cuando empieza a caer la luz.",
+        icon: "ceremony",
+      },
+      {
+        id: "coctel",
+        time: "20:30",
+        title: "Cóctel",
+        venueId: "finca",
+        place: "La galería",
+        description: "Champán, un cuarteto de jazz y tiempo para saludar a todo el mundo.",
+        icon: "cocktail",
+      },
+      {
+        id: "banquete",
+        time: "22:00",
+        title: "Cena",
+        venueId: "finca",
+        place: "El salón de los espejos",
+        description: "Cena sentados, con el menú que elijas al confirmar.",
+        icon: "banquet",
+      },
+      {
+        id: "fiesta",
+        time: "00:30",
+        title: "Baile",
+        venueId: "finca",
+        place: "La pista del jardín",
+        description: "Orquesta en directo, barra libre y recena a las tres.",
+        icon: "party",
+      },
+    ],
+    busRoutes: [
+      {
+        id: "centro",
+        label: "Madrid → Palacete",
+        pickupPoint: "Plaza de Colón, Madrid",
+        departure: "18:30",
+        returnTrips: ["02:30", "05:00"],
+        seats: 50,
+      },
+    ],
+    dressCode: {
+      title: "Etiqueta",
+      detail: "Noche de gala: largo para ellas y traje oscuro o esmoquin para ellos.",
+      palette: [
+        { name: "Verde botella", hex: "#12382c" },
+        { name: "Oro viejo", hex: "#b8963e" },
+        { name: "Negro", hex: "#1c1c1c" },
+        { name: "Marfil", hex: "#efe7d6" },
+        { name: "Burdeos", hex: "#6e1f2c" },
+      ],
+      examples: [
+        { who: "Ellas", text: "Vestido largo; los tonos joya quedan preciosos de noche." },
+        { who: "Ellos", text: "Esmoquin o traje oscuro con corbata." },
+        { who: "Niños", text: "Arreglados pero cómodos: habrá sala de juegos." },
+      ],
+    },
+    accommodation: [
+      {
+        name: "Hotel Los Tilos",
+        distance: "A 5 min a pie del palacete",
+        detail: "Habitaciones reservadas hasta el 1 de agosto. Menciona la boda.",
+      },
+    ],
+    story: {
+      intro: "Siete años, dos ciudades y un piano de segunda mano. Esta es la versión corta.",
+      couplePhoto: PHOTOS.terciopelo.couple,
+      moments: [
+        {
+          year: "2020",
+          title: "Un mirador",
+          text: "Un viaje de amigos y el último sitio libre en el muro del mirador. Nos quedamos hasta que se fue el sol.",
+          photo: PHOTOS.terciopelo.story[0],
+          photoAlt: "Irene y Tomás de espaldas, sentados frente a la costa",
+        },
+        {
+          year: "2022",
+          title: "Florencia",
+          text: "Fuimos por un concierto y volvimos con la idea de comprar un piano. Sigue desafinado y sigue siendo lo mejor de la casa.",
+          photo: PHOTOS.terciopelo.story[1],
+          photoAlt: "Irene y Tomás mirando la cúpula de Florencia desde un mirador",
+        },
+        {
+          year: "2026",
+          title: "La pedida",
+          text: "Una noche cualquiera, con la cena quemándose. Dijo que sí antes de apagar el fuego.",
+          photo: PHOTOS.terciopelo.story[2],
+          photoAlt: "Anillo de compromiso en un estuche de terciopelo entre flores blancas",
+        },
+        {
+          year: "Hoy",
+          title: "Y ahora, la boda",
+          text: "Seguimos en Madrid, con el piano y una gata. Solo faltáis vosotros.",
+          photo: PHOTOS.terciopelo.story[3],
+          photoAlt: "Irene y Tomás de espaldas, viendo el atardecer sobre el mar",
+        },
+      ],
+    },
+    coverPhoto: PHOTOS.terciopelo.cover,
+    coverDepthMap: PHOTOS.terciopelo.depth,
+    banquetPhoto: PHOTOS.terciopelo.banquet,
+    gift: { ...demoEvent.gift, holder: "Irene y Tomás" },
+    faqs: [
+      {
+        question: "¿Puedo llevar a mis hijos?",
+        answer: "Sí, si aparecen en tu invitación. Habrá sala de juegos y cena para ellos.",
+      },
+      {
+        question: "¿Hasta cuándo puedo cambiar mi respuesta?",
+        answer: "Puedes editarla desde este mismo enlace hasta el 20 de agosto de 2027.",
+      },
+      {
+        question: "¿Hay que ir de etiqueta?",
+        answer: "Nos hace ilusión una noche de gala, pero lo importante es que vengáis a gusto.",
+      },
+    ],
+  },
+  guestbook: guestbook(
+    [
+      ["Clara y Ander", "Ya tenemos el vestido y el esmoquin. Que suene la orquesta."],
+      ["El tío Julián", "Prometo no pedir pasodobles hasta la una. A partir de ahí, no respondo."],
+      ["Las del conservatorio", "Si el piano desafina, lo arreglamos nosotras. ¡Enhorabuena!"],
+    ],
+    ["Fly me to the moon", "Sway", "September", "Mi gran noche", "Valerie", "Dancing Queen"],
+  ),
+};
+
+const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
+  buganvilla,
+  olivar,
+  orilla,
+  terciopelo,
+};
 
 /** La boda ficticia propia de una plantilla, si la tiene. */
 export function demoVariant(template: string | undefined): DemoVariant | null {

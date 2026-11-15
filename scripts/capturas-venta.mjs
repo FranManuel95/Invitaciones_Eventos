@@ -37,6 +37,8 @@ const TEMPLATES = [
   "olivar",
   "dorada",
   "buganvilla",
+  "terciopelo",
+  "orilla",
 ];
 const COVERS = [
   "foto",
@@ -50,6 +52,7 @@ const COVERS = [
   "medianoche",
   "arcilla",
   "orilla",
+  "terciopelo",
 ];
 const OPENINGS = ["mesa", "pantalla", "diptico", "caja", "pelicula", "sobre3d", "ventana"];
 

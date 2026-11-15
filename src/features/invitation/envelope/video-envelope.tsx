@@ -4,7 +4,7 @@ import { Pointer } from "lucide-react";
 import { m, useAnimate, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useSyncExternalStore, ViewTransition } from "react";
 import type { GuestGroup, WeddingEvent } from "@/lib/domain/types";
-import { DEFAULT_THEME, type Theme } from "@/lib/theme";
+import { DEFAULT_THEME, FILMS, type Theme } from "@/lib/theme";
 import { haptic, isMuted, subscribeMuted, unlockAudio } from "../effects/sound";
 import { LetterMiniature } from "../letter/letter-miniature";
 import { LETTER_SET, LETTER_SPOTLIGHT, letterFrame } from "../letter/letter-stage";
@@ -29,6 +29,9 @@ const TIMING = {
   horizontal: { crack: 2.5, glow: 7.1 },
   salvia: { crack: 2.6, glow: 8.9 },
   burdeos: { crack: 2.2, glow: 8.9 },
+  // En la caja, la vibración va con el lazo que se suelta; en el díptico, con las hojas.
+  caja: { crack: 3, glow: 8.6 },
+  diptico: { crack: 3.5, glow: 8.6 },
 } as const;
 
 const WIDE = "(min-aspect-ratio: 1/1)";
@@ -178,7 +181,7 @@ export function VideoEnvelope({
         <button
           type="button"
           onClick={() => void open()}
-          aria-label="Abrir el sobre"
+          aria-label={FILMS[theme.film].name}
           aria-disabled={opening}
           className="absolute inset-0 z-10 cursor-pointer focus-visible:outline-offset-[-8px]"
         />
@@ -193,7 +196,7 @@ export function VideoEnvelope({
           ) : (
             <>
               <Pointer aria-hidden className="size-4" />
-              Toca el lacre para abrir el sobre
+              {FILMS[theme.film].action}
             </>
           )}
         </p>

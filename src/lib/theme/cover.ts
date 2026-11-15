@@ -17,6 +17,7 @@ export const COVER_IDS = [
   "medianoche",
   "arcilla",
   "orilla",
+  "terciopelo",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -66,6 +67,10 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Orilla",
     description: "Acuarela de mar en calma, arena clara y conchas.",
   },
+  terciopelo: {
+    label: "Terciopelo",
+    description: "Terciopelo verde con hojas en penumbra y un marco dorado art déco.",
+  },
 };
 
 /**
@@ -78,6 +83,7 @@ export const PAINTED_COVERS = {
   medianoche: { tone: "oscuro", ink: "#ffffff", paper: "#16224f" },
   arcilla: { tone: "oscuro", ink: "#ffffff", paper: "#b7705a" },
   orilla: { tone: "claro", ink: "#24465c", paper: "#f6fafb" },
+  terciopelo: { tone: "oscuro", ink: "#ffffff", paper: "#0e3327" },
 } as const satisfies Partial<
   Record<CoverId, { tone: "claro" | "oscuro"; ink: string; paper: string }>
 >;

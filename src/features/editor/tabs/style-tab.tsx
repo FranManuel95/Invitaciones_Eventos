@@ -506,6 +506,7 @@ const COVER_SAMPLES: Record<Theme["cover"], string> = {
   medianoche: "url(/portadas/medianoche.webp) center / cover",
   arcilla: "url(/portadas/arcilla.webp) center / cover",
   orilla: "url(/portadas/orilla.webp) center / cover",
+  terciopelo: "url(/portadas/terciopelo.webp) center / cover",
 };
 
 /** Miniatura de cada efecto de portada. */
@@ -605,12 +606,12 @@ function OpeningPart() {
       </Group>
       {draft.theme.opening === "pelicula" ? (
         <Group
-          title="Color del sobre de película"
-          description="El sobre va grabado en vídeo: se elige entre estos colores."
+          title="Qué se abre en el vídeo"
+          description="La apertura va grabada en vídeo: se elige entre estos sobres, una caja con lazo o un díptico."
         >
           <div
             role="radiogroup"
-            aria-label="Color del sobre de película"
+            aria-label="Qué se abre en el vídeo"
             className="grid gap-3 sm:grid-cols-3"
           >
             {FILM_IDS.map((id) => (

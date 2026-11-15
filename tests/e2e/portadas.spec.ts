@@ -26,6 +26,7 @@ test.describe("portadas", () => {
     ["ramas", "claro"],
     ["buganvilla", "claro"],
     ["orilla", "claro"],
+    ["terciopelo", "oscuro"],
     ["medianoche", "oscuro"],
     ["arcilla", "oscuro"],
   ]) {

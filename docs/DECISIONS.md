@@ -63,6 +63,29 @@ sobre es 3D y no un vídeo de Higgsfield.
   lleva 85+ archivos y las uniones entre ramas entrelazan el historial; partirla exigiría
   reescribirlo. Sigue abierto y sin fusionar a la espera de que el usuario vea la vista previa.
 
+## Ronda 13 · Dos plantillas más con las aperturas nuevas en vídeo (15/11/2026)
+
+El usuario pidió un par de plantillas más con los recursos ya generados, además de las tres de
+Instagram (Arcilla, Buganvilla y Olivar).
+
+- **La apertura «película» ya no es solo un sobre**: `theme.film` suma `caja` (caja marfil con lazo
+  burdeos que se desata) y `diptico` (tarjeta de dos hojas con lacre dorado que se abre como
+  puertas). Son vídeos de Seedance 2.5 hechos como los sobres (`docs/higgsfield/PEDIDO-COMPLETO.md`)
+  y acaban en el mismo destello, así que solo cambian sus tiempos (`TIMING`) y lo que se le pide al
+  invitado (`FILMS[…].action` y `.name`: «Toca el lazo para abrir la caja»).
+- **Portada «Terciopelo»** (`terciopelo`, oscura): terciopelo verde con marco dorado art déco. Es la
+  imagen «esmeralda» de la ronda 11; se llama distinto porque ya hay un estilo y una plantilla
+  «Esmeralda».
+- **Plantilla «Terciopelo»** (gala): portada Terciopelo, polvo de oro y la caja con lazo. Boda de
+  ejemplo: Irene y Tomás, Aranjuez.
+- **Plantilla «Orilla»** (mar): portada Orilla y el díptico. Boda de ejemplo: Paula y Jaime, Vejer
+  de la Frontera. Se descartó ponerle el sobre azul: su lacre no se parte bien.
+- **Fotos**: no hay retratos propios de estas dos parejas, así que se reutilizan los de otras
+  bodas de ejemplo (decisión del usuario): Orilla usa los de Buganvilla, que son de costa, y
+  Terciopelo los de María y Daniel. Las fotos de los sitios sí son distintas (iglesia, banquete,
+  cortijo y pista de baile de la ronda 11, en `public/fotos/orilla/` y `public/fotos/terciopelo/`).
+  Si se quieren parejas distintas, basta cambiar el mapa `PHOTOS` de `variants.ts`.
+
 ## Ronda 11 · Recursos con Higgsfield (11–13/11/2026)
 
 - **Sobre de película en una sola toma** (vertical, 10 s, sin imagen doble ni corte) y **color
