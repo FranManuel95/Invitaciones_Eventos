@@ -101,6 +101,23 @@ Instagram (Arcilla, Buganvilla y Olivar).
     en el editor, en la paleta. Las imágenes de `/ejemplos` de estas tres plantillas se volvieron a
     sacar.
 
+- **Ajustes pedidos tras ver las cinco plantillas** (15/11):
+  - **Modo de grabación sin vestimenta ni datos de pago**: con `?grabar=1`, `forRecording`
+    (`src/lib/recording.ts`) vacía el dress code (título, detalle, colores y figuras) y el Bizum y la
+    cuenta; las secciones vacías no se pintan (`PracticalSection` comprueba que haya vestimenta).
+    «Antes de venir» se queda con el tiempo y «Dónde dormir». Sin `grabar`, la demo los sigue
+    enseñando, porque son parte del producto. Las invitaciones reales nunca pasan por ahí.
+  - **Regalos y notas de una en una en el móvil**: las tarjetas ocupan todo el ancho del pase
+    (`max-sm:w-full`, separación de 1,5 rem para que no asome la siguiente) y los regalos llevan
+    las flechas «Regalo anterior/siguiente» y el contador de `RailControls`, como las notas.
+  - **Fotos de Arcilla y Terciopelo**: las de María y Daniel eran de 533 px y se veían granulosas
+    (y la «portada» ni era una pareja). Arcilla pasa a ser una variante de la demo (`arcilla` en
+    `variants.ts`, con los nombres de María y Daniel) y usa el juego de Olivar; Terciopelo usa el de
+    Buganvilla. Su historia se reescribió para casar con las fotos nuevas. Las cuatro fotos de
+    sitios (iglesia, cortijo, banquete y pista) están ahora en `public/fotos/lugares/` a 1280 px,
+    sacadas de originales de 2496 px; se borraron `public/fotos/orilla/` y `terciopelo/`. La demo
+    por defecto (las otras plantillas) sigue con las fotos antiguas de `public/fotos/`.
+
 ## Ronda 11 · Recursos con Higgsfield (11–13/11/2026)
 
 - **Sobre de película en una sola toma** (vertical, 10 s, sin imagen doble ni corte) y **color

@@ -6,6 +6,7 @@ import { getInvitation } from "@/lib/data/repository";
 import { applyTemplate, TEMPLATE_IDS, type TemplateId } from "@/lib/theme";
 import { parseTheme } from "@/lib/theme/schema";
 import { demoVariant } from "@/data/demo/variants";
+import { forRecording } from "@/lib/recording";
 
 // Las invitaciones reales viven en la base de datos (y su respuesta puede cambiar), así que se
 // pintan en cada petición. Los tokens desconocidos devuelven 404.
@@ -60,14 +61,16 @@ export default async function InvitationPage(props: PageProps<"/i/[token]">) {
       : invitation.phase;
   // Algunas plantillas de la demo traen su propia boda ficticia (otra pareja, otro sitio).
   const variant = invitation.group.persisted ? null : demoVariant(template);
+  const recording = !invitation.group.persisted && pick("grabar") === "1";
+  const shownEvent = variant?.event ?? invitation.event;
   return (
     <InvitationExperience
-      event={variant?.event ?? invitation.event}
+      event={recording ? forRecording(shownEvent) : shownEvent}
       group={invitation.group}
       initialResponse={invitation.response}
       theme={theme}
       phase={phase}
-      recording={!invitation.group.persisted && pick("grabar") === "1"}
+      recording={recording}
       albumToken={invitation.albumToken}
       gifts={invitation.gifts}
       guestbook={variant?.guestbook ?? invitation.guestbook}

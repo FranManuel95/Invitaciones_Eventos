@@ -14,6 +14,7 @@ import {
   type GiftState,
   type GiftStatus,
 } from "@/lib/gifts";
+import { RailControls } from "./rail-controls";
 import { Section } from "./sections";
 
 /** Colores del papel de regalo de las tarjetas sin foto (salen del tema). */
@@ -112,8 +113,9 @@ export function GiftSection({
           <>
             {/* En el móvil, un escaparate que se pasa de lado; en pantallas anchas, dos columnas. */}
             <ul
+              id="regalos-pase"
               tabIndex={0}
-              className="relative mt-8 flex snap-x snap-mandatory [scrollbar-width:none] gap-4 overflow-x-auto max-sm:-mx-6 max-sm:px-6 max-sm:pt-5 max-sm:pb-3 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible"
+              className="relative mt-8 flex snap-x snap-mandatory [scrollbar-width:none] gap-6 overflow-x-auto max-sm:-mx-6 max-sm:px-6 max-sm:pt-5 max-sm:pb-3 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible"
               aria-label="Lista de regalos"
             >
               {items.map((item, i) => (
@@ -128,6 +130,7 @@ export function GiftSection({
                 />
               ))}
             </ul>
+            <RailControls railId="regalos-pase" count={items.length} itemName="Regalo" />
             <p aria-live="polite" className="mt-3 min-h-5 text-[0.875rem] text-muted">
               {notice}
             </p>
@@ -160,7 +163,7 @@ function GiftTag({
     <li
       data-view
       className={clsx(
-        "tag-in paper-grain relative flex shrink-0 snap-center flex-col rounded-[3px] border border-line bg-paper p-5 pt-8 shadow-[0_12px_26px_-18px_rgb(0_0_0/0.4)] max-sm:w-[78%]",
+        "tag-in paper-grain relative flex shrink-0 snap-center flex-col rounded-[3px] border border-line bg-paper p-5 pt-8 shadow-[0_12px_26px_-18px_rgb(0_0_0/0.4)] max-sm:w-full",
         // Las etiquetas caen ligeramente torcidas, como colgadas de su cordel.
         index % 2 ? "sm:rotate-[0.6deg]" : "sm:-rotate-[0.5deg]",
         taken && "[--dim:0.8]",

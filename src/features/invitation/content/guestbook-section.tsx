@@ -135,14 +135,14 @@ export function GuestbookSection({
               id="firmas-pase"
               tabIndex={0}
               aria-label="Mensajes del libro de firmas"
-              className="relative mt-8 flex snap-x snap-mandatory [scrollbar-width:none] gap-4 overflow-x-auto pt-3 pb-5 max-sm:-mx-6 max-sm:px-6 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible lg:grid-cols-3"
+              className="relative mt-8 flex snap-x snap-mandatory [scrollbar-width:none] gap-6 overflow-x-auto pt-3 pb-5 max-sm:-mx-6 max-sm:px-6 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible lg:grid-cols-3"
             >
               {state.messages.map((message, i) => (
                 <li
                   key={message.id}
                   data-view
                   className={clsx(
-                    "tag-in note-lines relative flex shrink-0 snap-center flex-col border border-line bg-ivory px-5 pt-6 pb-5 shadow-[0_14px_28px_-18px_rgb(0_0_0/0.45)] max-sm:w-[80%]",
+                    "tag-in note-lines relative flex shrink-0 snap-center flex-col border border-line bg-ivory px-5 pt-6 pb-5 shadow-[0_14px_28px_-18px_rgb(0_0_0/0.45)] max-sm:w-full",
                     message.mine && "ring-1 ring-gold",
                   )}
                   style={{ rotate: `${[-1.2, 0.8, -0.5, 1.4, -0.9][i % 5]}deg` }}

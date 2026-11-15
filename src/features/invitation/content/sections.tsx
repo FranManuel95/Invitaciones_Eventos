@@ -283,18 +283,28 @@ export function TransportSection({
 }
 
 export function PracticalSection({ event }: { event: WeddingEvent }) {
+  const dress = event.dressCode;
+  // La vestimenta se puede dejar vacía (o esconder al grabar): entonces no se pinta.
+  const hasDress =
+    Boolean(dress.title.trim() || dress.detail.trim()) ||
+    dress.palette.length > 0 ||
+    Boolean(dress.examples?.length);
   return (
     <Section id="info" title="Antes de venir" tone="tinted">
       <div className="grid gap-12 sm:grid-cols-2">
         <div>
-          <h3 className="font-display text-[1.75rem] leading-tight text-ink">
-            {event.dressCode.title}
-          </h3>
-          <p className="mt-2 max-w-prose text-[0.9375rem] leading-relaxed text-muted">
-            {event.dressCode.detail}
-          </p>
+          {dress.title.trim() ? (
+            <h3 className="font-display text-[1.75rem] leading-tight text-ink">{dress.title}</h3>
+          ) : null}
+          {dress.detail.trim() ? (
+            <p className="mt-2 max-w-prose text-[0.9375rem] leading-relaxed text-muted">
+              {dress.detail}
+            </p>
+          ) : null}
           {event.climate ? (
-            <p className="mt-5 flex max-w-prose items-start gap-2.5 rounded-[3px] border border-line bg-paper p-3.5 text-[0.9375rem] leading-relaxed text-ink-soft">
+            <p
+              className={`flex max-w-prose items-start gap-2.5 rounded-[3px] border border-line bg-paper p-3.5 text-[0.9375rem] leading-relaxed text-ink-soft ${hasDress ? "mt-5" : ""}`}
+            >
               <CloudSun aria-hidden className="mt-0.5 size-5 shrink-0 text-gold" />
               <span>
                 <span className="font-medium text-ink">El tiempo en estas fechas. </span>
@@ -302,12 +312,12 @@ export function PracticalSection({ event }: { event: WeddingEvent }) {
               </span>
             </p>
           ) : null}
-          {event.dressCode.palette.length ? (
+          {dress.palette.length ? (
             <>
               <p className="mt-6 text-[0.875rem] text-ink-soft">Colores que nos gustan</p>
               {/* Muestras de tela: una carta de colores, cada una algo torcida. */}
               <ul className="mt-4 flex flex-wrap gap-x-3 gap-y-5">
-                {event.dressCode.palette.map((color, i) => (
+                {dress.palette.map((color, i) => (
                   <li
                     key={color.hex}
                     data-view
@@ -327,8 +337,8 @@ export function PracticalSection({ event }: { event: WeddingEvent }) {
               </ul>
             </>
           ) : null}
-          {event.dressCode.examples?.length ? (
-            <DressFigures examples={event.dressCode.examples} palette={event.dressCode.palette} />
+          {dress.examples?.length ? (
+            <DressFigures examples={dress.examples} palette={dress.palette} />
           ) : null}
         </div>
         <div>

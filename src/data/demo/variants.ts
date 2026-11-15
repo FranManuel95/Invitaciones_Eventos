@@ -11,7 +11,8 @@ import { demoEvent } from "./event";
  */
 interface DemoVariant {
   event: WeddingEvent;
-  guestbook: GuestbookState;
+  /** Si falta, la plantilla enseña el libro de firmas de la boda de María y Daniel. */
+  guestbook?: GuestbookState;
 }
 
 /**
@@ -48,16 +49,30 @@ const PHOTOS = {
       "/fotos/olivar/historia-4.jpg",
     ],
   },
-  // Orilla y Terciopelo no tienen retratos propios: reutilizan los de otra pareja de ejemplo
-  // (Orilla, los de Buganvilla, que son de costa; Terciopelo, los de María y Daniel) y solo
-  // cambian las fotos de los sitios.
+  // Arcilla, Orilla y Terciopelo no tienen retratos propios: reutilizan los de otra boda de ejemplo
+  // (los de Buganvilla y Olivar son los más nítidos que hay) y solo cambian algunos sitios.
+  // Las fotos de los sitios son de 1280 px, sacadas de originales de 2496 px.
+  arcilla: {
+    cover: "/fotos/olivar/portada.jpg",
+    depth: "/fotos/olivar/portada-profundidad.png",
+    couple: "/fotos/olivar/pareja.jpg",
+    ceremony: "/fotos/lugares/iglesia.jpg",
+    venue: "/fotos/lugares/cortijo.jpg",
+    banquet: "/fotos/lugares/banquete.jpg",
+    story: [
+      "/fotos/olivar/historia-1.jpg",
+      "/fotos/olivar/historia-2.jpg",
+      "/fotos/olivar/historia-3.jpg",
+      "/fotos/olivar/historia-4.jpg",
+    ],
+  },
   orilla: {
     cover: "/fotos/buganvilla/portada.jpg",
     depth: "/fotos/buganvilla/portada-profundidad.png",
     couple: "/fotos/buganvilla/pareja.jpg",
-    ceremony: "/fotos/orilla/ceremonia.jpg",
+    ceremony: "/fotos/lugares/iglesia.jpg",
     venue: "/fotos/buganvilla/finca.jpg",
-    banquet: "/fotos/orilla/banquete.jpg",
+    banquet: "/fotos/lugares/banquete.jpg",
     story: [
       "/fotos/buganvilla/historia-1.jpg",
       "/fotos/buganvilla/historia-2.jpg",
@@ -66,16 +81,16 @@ const PHOTOS = {
     ],
   },
   terciopelo: {
-    cover: "/fotos/portada.jpg",
-    depth: "/fotos/portada-profundidad.png",
-    couple: "/fotos/pareja.jpg",
-    venue: "/fotos/terciopelo/finca.jpg",
-    banquet: "/fotos/orilla/finca.jpg",
+    // La portada es el paseo al atardecer: casa con el dorado sobre el verde oscuro.
+    cover: "/fotos/buganvilla/historia-4.jpg",
+    couple: "/fotos/buganvilla/pareja.jpg",
+    venue: "/fotos/lugares/pista.jpg",
+    banquet: "/fotos/lugares/cortijo.jpg",
     story: [
-      "/fotos/historia-amalfi.jpg",
-      "/fotos/historia-florencia.jpg",
-      "/fotos/historia-pedida.jpg",
-      "/fotos/historia-hoy.jpg",
+      "/fotos/buganvilla/historia-1.jpg",
+      "/fotos/buganvilla/historia-2.jpg",
+      "/fotos/buganvilla/historia-3.jpg",
+      "/fotos/buganvilla/portada.jpg",
     ],
   },
 } as const;
@@ -907,36 +922,37 @@ const terciopelo: DemoVariant = {
       moments: [
         {
           year: "2020",
-          title: "Un mirador",
-          text: "Un viaje de amigos y el último sitio libre en el muro del mirador. Nos quedamos hasta que se fue el sol.",
+          title: "Una cala",
+          text: "Un fin de semana de verano, una cala sin nombre y un solo libro para los dos.",
           photo: PHOTOS.terciopelo.story[0],
-          photoAlt: "Irene y Tomás de espaldas, sentados frente a la costa",
+          photoAlt: "Irene y Tomás de espaldas, sentados frente a una cala",
         },
         {
           year: "2022",
-          title: "Florencia",
-          text: "Fuimos por un concierto y volvimos con la idea de comprar un piano. Sigue desafinado y sigue siendo lo mejor de la casa.",
+          title: "La furgoneta",
+          text: "Tres semanas por la costa con la música a todo volumen. Volvimos sin un euro y sin dudas.",
           photo: PHOTOS.terciopelo.story[1],
-          photoAlt: "Irene y Tomás mirando la cúpula de Florencia desde un mirador",
+          photoAlt:
+            "Irene y Tomás de espaldas junto a una furgoneta, mirando el mar desde un acantilado",
         },
         {
           year: "2026",
           title: "La pedida",
-          text: "Una noche cualquiera, con la cena quemándose. Dijo que sí antes de apagar el fuego.",
+          text: "En la proa de una barca, al amanecer. Dijo que sí antes de que saliera el sol.",
           photo: PHOTOS.terciopelo.story[2],
-          photoAlt: "Anillo de compromiso en un estuche de terciopelo entre flores blancas",
+          photoAlt: "Anillo de compromiso en un estuche, sobre el banco de una barca frente al mar",
         },
         {
           year: "Hoy",
           title: "Y ahora, la boda",
           text: "Seguimos en Madrid, con el piano y una gata. Solo faltáis vosotros.",
           photo: PHOTOS.terciopelo.story[3],
-          photoAlt: "Irene y Tomás de espaldas, viendo el atardecer sobre el mar",
+          photoAlt: "Irene y Tomás riendo, junto a una pared encalada con buganvilla",
         },
       ],
     },
     coverPhoto: PHOTOS.terciopelo.cover,
-    coverDepthMap: PHOTOS.terciopelo.depth,
+    coverDepthMap: null,
     banquetPhoto: PHOTOS.terciopelo.banquet,
     gift: { ...demoEvent.gift, holder: "Irene y Tomás" },
     faqs: [
@@ -964,7 +980,65 @@ const terciopelo: DemoVariant = {
   ),
 };
 
+const arcilla: DemoVariant = {
+  event: {
+    ...demoEvent,
+    venues: demoEvent.venues.map((venue) =>
+      venue.id === "iglesia"
+        ? {
+            ...venue,
+            photo: PHOTOS.arcilla.ceremony,
+            photoAlt: "Interior de una iglesia de piedra con el pasillo adornado con paniculata",
+          }
+        : {
+            ...venue,
+            photo: PHOTOS.arcilla.venue,
+            photoAlt: "Cortijo al atardecer, con olivos y un camino de farolillos",
+          },
+    ),
+    story: {
+      ...demoEvent.story,
+      couplePhoto: PHOTOS.arcilla.couple,
+      moments: [
+        {
+          year: "2015",
+          title: "El primer paseo",
+          text: "Una tarde de otoño entre olivos, sin móvil y sin prisa. Volvimos con las botas llenas de barro.",
+          photo: PHOTOS.arcilla.story[0],
+          photoAlt: "María y Daniel de espaldas, abrazados, caminando entre olivos",
+        },
+        {
+          year: "2018",
+          title: "La terraza",
+          text: "Nuestro primer piso tenía una terraza diminuta y tres tomateras. Nos pasamos el verano mirando los tejados.",
+          photo: PHOTOS.arcilla.story[1],
+          photoAlt:
+            "María y Daniel de espaldas, abrazados en una terraza con tomateras, mirando los tejados",
+        },
+        {
+          year: "2026",
+          title: "La pedida",
+          text: "En el mirador de Chinchón, al atardecer. Dijo que sí antes de que terminara la pregunta.",
+          photo: PHOTOS.arcilla.story[2],
+          photoAlt: "Anillo de compromiso en un estuche, sobre una piedra entre ramas de olivo",
+        },
+        {
+          year: "Hoy",
+          title: "Y ahora, la boda",
+          text: "Vivimos en Madrid con Higo, un perro de agua que eligió el sofá y, de paso, a nosotros. Solo faltáis vosotros.",
+          photo: PHOTOS.arcilla.story[3],
+          photoAlt: "María y Daniel de espaldas, viendo caer la tarde sobre un olivar",
+        },
+      ],
+    },
+    coverPhoto: PHOTOS.arcilla.cover,
+    coverDepthMap: PHOTOS.arcilla.depth,
+    banquetPhoto: PHOTOS.arcilla.banquet,
+  },
+};
+
 const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
+  arcilla,
   buganvilla,
   olivar,
   orilla,
