@@ -10,6 +10,9 @@
   --color-paper: #faf8f3;
   --color-ivory: #efebe1;
   --color-cream: #e6e0d2;
+  /* Superficie por encima del papel (tarjeta marcada, botón al pasar el ratón): blanca en los
+     estilos claros y del color crema del estilo en los oscuros. */
+  --color-raised: #ffffff;
   --color-sand: #d9cfbb;
   --color-taupe: #b3a68c;
   --color-stone: #8a8371;

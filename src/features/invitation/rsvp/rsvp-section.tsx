@@ -125,12 +125,7 @@ export function RsvpSection({
                   : `Tu invitación incluye ${group.maxAttendees} plazas.`}
               </p>
               <div className="mt-7 grid gap-3">
-                <Button
-                  size="lg"
-                  variant="secondary"
-                  className="border-transparent"
-                  onClick={() => start("attending")}
-                >
+                <Button size="lg" variant="onPhoto" onClick={() => start("attending")}>
                   Sí, asistiré
                 </Button>
                 <Button size="lg" variant="light" onClick={() => start("declined")}>

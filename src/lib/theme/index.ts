@@ -665,6 +665,7 @@ export function themeVars(theme: Theme): CSSProperties {
     "--color-paper": p.paper,
     "--color-ivory": p.ivory,
     "--color-cream": p.cream,
+    "--color-raised": style.dark ? p.cream : "#ffffff",
     "--color-sand": p.sand,
     "--color-taupe": p.taupe,
     "--color-stone": p.stone,

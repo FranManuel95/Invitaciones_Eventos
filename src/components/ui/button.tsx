@@ -1,16 +1,18 @@
 import { clsx } from "clsx";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-type Variant = "primary" | "secondary" | "ghost" | "light";
+type Variant = "primary" | "secondary" | "ghost" | "light" | "onPhoto";
 type Size = "md" | "lg" | "sm";
 
 const variants: Record<Variant, string> = {
   primary:
     "bg-ink text-paper hover:bg-ink-soft active:bg-ink disabled:bg-ink/40 shadow-[0_1px_0_rgb(255_255_255/0.08)_inset]",
   secondary:
-    "border border-ink/20 bg-paper text-ink hover:border-ink/40 hover:bg-white disabled:text-ink/40",
+    "border border-ink/20 bg-paper text-ink hover:border-ink/40 hover:bg-raised disabled:text-ink/40",
   ghost: "text-ink hover:bg-ink/5 disabled:text-ink/40",
   light: "border border-white/40 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20",
+  // Acción principal sobre una foto oscura: blanco fijo con tinta negra, sea cual sea el tema.
+  onPhoto: "border border-white bg-white text-[#1b1b1e] hover:bg-white/90",
 };
 
 const sizes: Record<Size, string> = {

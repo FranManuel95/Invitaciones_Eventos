@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus, X } from "lucide-react";
+import { ChevronDown, Plus, X } from "lucide-react";
 import {
   ChoiceCard,
   CheckChip,
@@ -207,21 +207,27 @@ export function TransportStep({ event, draft, errors, update }: StepProps) {
           <label htmlFor="routeId" className="block text-[0.9375rem] font-semibold text-ink">
             Punto de recogida
           </label>
-          <select
-            id="routeId"
-            name="recogida"
-            value={draft.routeId ?? ""}
-            onChange={(e) => update({ routeId: e.target.value || null })}
-            className="mt-3 h-11 w-full appearance-none rounded-md border border-line bg-paper bg-[url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2212%22%20height=%2212%22%20fill=%22none%22%20stroke=%22%231e2a28%22%20stroke-width=%221.5%22%3E%3Cpath%20d=%22m2%204%204%204%204-4%22/%3E%3C/svg%3E')] bg-[length:12px] bg-[right_1rem_center] bg-no-repeat px-3.5 pr-10 text-[0.9375rem] text-ink focus:border-ink focus:outline-none aria-[invalid=true]:border-danger"
-            {...invalid(errors, "routeId")}
-          >
-            <option value="">Elige una opción</option>
-            {event.busRoutes.map((r) => (
-              <option key={r.id} value={r.id}>
-                {r.pickupPoint} — salida {r.departure}
-              </option>
-            ))}
-          </select>
+          <div className="relative mt-3">
+            <select
+              id="routeId"
+              name="recogida"
+              value={draft.routeId ?? ""}
+              onChange={(e) => update({ routeId: e.target.value || null })}
+              className="h-11 w-full appearance-none rounded-md border border-line bg-paper px-3.5 pr-10 text-[0.9375rem] text-ink focus:border-ink focus:outline-none aria-[invalid=true]:border-danger"
+              {...invalid(errors, "routeId")}
+            >
+              <option value="">Elige una opción</option>
+              {event.busRoutes.map((r) => (
+                <option key={r.id} value={r.id}>
+                  {r.pickupPoint} — salida {r.departure}
+                </option>
+              ))}
+            </select>
+            <ChevronDown
+              aria-hidden
+              className="pointer-events-none absolute top-1/2 right-4 size-3.5 -translate-y-1/2 text-ink"
+            />
+          </div>
           <FieldError id={errId("routeId")} message={errors.routeId} />
           {route ? (
             <p className="mt-3 text-sm text-muted">
