@@ -86,6 +86,21 @@ Instagram (Arcilla, Buganvilla y Olivar).
   cortijo y pista de baile de la ronda 11, en `public/fotos/orilla/` y `public/fotos/terciopelo/`).
   Si se quieren parejas distintas, basta cambiar el mapa `PHOTOS` de `variants.ts`.
 
+- **Las tres de Instagram se distinguían poco después del sobre** (el usuario lo notó): Arcilla,
+  Buganvilla y Olivar usaban Terracota, Mediterráneo y Botánico, tres tintes casi iguales de crema, y
+  la composición de la carta (marco, borde, adorno) solo cambia la pantalla de la carta. Lo que se
+  ve al bajar por la invitación sale del estilo de color, la letra y el calendario. Ahora cada una
+  tiene el suyo, como Terciopelo y Orilla:
+  - **Arcilla** → estilo nuevo `arcilla` (oscuro: marrón de arcilla cocida, letras en cobre y
+    marfil), letra orgánica, calendario de taco.
+  - **Olivar** → estilo nuevo `olivar` (verde salvia con tinta verde oscuro), letra clásica
+    (garalda; antes romántica, igual que Orilla), calendario a mano.
+  - **Buganvilla** → estilo nuevo `cal` (blanco de cal, tinta de ciruela y fucsia), calendario
+    mínimo (antes a mano, igual que Olivar) y lacre rosa para el acento.
+    Los tres estilos nuevos pasan la misma prueba de contraste (AA) que los demás y aparecen también
+    en el editor, en la paleta. Las imágenes de `/ejemplos` de estas tres plantillas se volvieron a
+    sacar.
+
 ## Ronda 11 · Recursos con Higgsfield (11–13/11/2026)
 
 - **Sobre de película en una sola toma** (vertical, 10 s, sin imagen doble ni corte) y **color
