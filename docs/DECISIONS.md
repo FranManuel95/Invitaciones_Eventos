@@ -110,13 +110,16 @@ Instagram (Arcilla, Buganvilla y Olivar).
   - **Regalos y notas de una en una en el móvil**: las tarjetas ocupan todo el ancho del pase
     (`max-sm:w-full`, separación de 1,5 rem para que no asome la siguiente) y los regalos llevan
     las flechas «Regalo anterior/siguiente» y el contador de `RailControls`, como las notas.
-  - **Fotos de Arcilla y Terciopelo**: las de María y Daniel eran de 533 px y se veían granulosas
-    (y la «portada» ni era una pareja). Arcilla pasa a ser una variante de la demo (`arcilla` en
-    `variants.ts`, con los nombres de María y Daniel) y usa el juego de Olivar; Terciopelo usa el de
-    Buganvilla. Su historia se reescribió para casar con las fotos nuevas. Las cuatro fotos de
-    sitios (iglesia, cortijo, banquete y pista) están ahora en `public/fotos/lugares/` a 1280 px,
-    sacadas de originales de 2496 px; se borraron `public/fotos/orilla/` y `terciopelo/`. La demo
-    por defecto (las otras plantillas) sigue con las fotos antiguas de `public/fotos/`.
+  - **Fotos nuevas en toda la demo**: las de María y Daniel eran de 533 px y se veían granulosas
+    (y la «portada» ni era una pareja). La demo por defecto (`demoEvent`, que usan Arcilla y las
+    trece plantillas sin variante, y el móvil de la página de ventas) pasa a las del juego de Olivar,
+    con la historia reescrita para casar con ellas (el primer paseo entre olivos, la terraza, la
+    pedida, el atardecer). Terciopelo usa el de Buganvilla y Orilla ya usaba el suyo. Las cuatro
+    fotos de sitios (iglesia, cortijo, banquete y pista) están en `public/fotos/lugares/` a 1280 px,
+    sacadas de originales de 2496 px; se borraron `public/fotos/orilla/` y `terciopelo/`. Los
+    retratos nuevos son de 720 px: más nítidos que los antiguos, pero no para pantallas grandes. Las
+    fotos antiguas de `public/fotos/` (`pareja.jpg`, `historia-*.jpg`…) ya no se usan y se pueden
+    borrar; `scripts/depth-map.py` las cita solo como ejemplo.
 
 ## Ronda 11 · Recursos con Higgsfield (11–13/11/2026)
 

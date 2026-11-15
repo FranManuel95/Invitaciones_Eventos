@@ -24,7 +24,7 @@ export function PhoneDemo() {
           className="group absolute inset-0 overflow-hidden rounded-[1.75rem] text-center text-white focus-visible:ring-2 focus-visible:ring-gold focus-visible:outline-none"
         >
           <Image
-            src="/fotos/portada.jpg"
+            src="/fotos/olivar/portada.jpg"
             alt=""
             fill
             priority

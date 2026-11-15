@@ -49,23 +49,10 @@ const PHOTOS = {
       "/fotos/olivar/historia-4.jpg",
     ],
   },
-  // Arcilla, Orilla y Terciopelo no tienen retratos propios: reutilizan los de otra boda de ejemplo
-  // (los de Buganvilla y Olivar son los más nítidos que hay) y solo cambian algunos sitios.
+  // Orilla y Terciopelo no tienen retratos propios: reutilizan los de otra boda de ejemplo (los de
+  // Buganvilla y Olivar son los más nítidos que hay) y solo cambian algunos sitios. La demo por
+  // defecto (María y Daniel, con Arcilla y las demás plantillas) usa los de Olivar.
   // Las fotos de los sitios son de 1280 px, sacadas de originales de 2496 px.
-  arcilla: {
-    cover: "/fotos/olivar/portada.jpg",
-    depth: "/fotos/olivar/portada-profundidad.png",
-    couple: "/fotos/olivar/pareja.jpg",
-    ceremony: "/fotos/lugares/iglesia.jpg",
-    venue: "/fotos/lugares/cortijo.jpg",
-    banquet: "/fotos/lugares/banquete.jpg",
-    story: [
-      "/fotos/olivar/historia-1.jpg",
-      "/fotos/olivar/historia-2.jpg",
-      "/fotos/olivar/historia-3.jpg",
-      "/fotos/olivar/historia-4.jpg",
-    ],
-  },
   orilla: {
     cover: "/fotos/buganvilla/portada.jpg",
     depth: "/fotos/buganvilla/portada-profundidad.png",
@@ -980,65 +967,7 @@ const terciopelo: DemoVariant = {
   ),
 };
 
-const arcilla: DemoVariant = {
-  event: {
-    ...demoEvent,
-    venues: demoEvent.venues.map((venue) =>
-      venue.id === "iglesia"
-        ? {
-            ...venue,
-            photo: PHOTOS.arcilla.ceremony,
-            photoAlt: "Interior de una iglesia de piedra con el pasillo adornado con paniculata",
-          }
-        : {
-            ...venue,
-            photo: PHOTOS.arcilla.venue,
-            photoAlt: "Cortijo al atardecer, con olivos y un camino de farolillos",
-          },
-    ),
-    story: {
-      ...demoEvent.story,
-      couplePhoto: PHOTOS.arcilla.couple,
-      moments: [
-        {
-          year: "2015",
-          title: "El primer paseo",
-          text: "Una tarde de otoño entre olivos, sin móvil y sin prisa. Volvimos con las botas llenas de barro.",
-          photo: PHOTOS.arcilla.story[0],
-          photoAlt: "María y Daniel de espaldas, abrazados, caminando entre olivos",
-        },
-        {
-          year: "2018",
-          title: "La terraza",
-          text: "Nuestro primer piso tenía una terraza diminuta y tres tomateras. Nos pasamos el verano mirando los tejados.",
-          photo: PHOTOS.arcilla.story[1],
-          photoAlt:
-            "María y Daniel de espaldas, abrazados en una terraza con tomateras, mirando los tejados",
-        },
-        {
-          year: "2026",
-          title: "La pedida",
-          text: "En el mirador de Chinchón, al atardecer. Dijo que sí antes de que terminara la pregunta.",
-          photo: PHOTOS.arcilla.story[2],
-          photoAlt: "Anillo de compromiso en un estuche, sobre una piedra entre ramas de olivo",
-        },
-        {
-          year: "Hoy",
-          title: "Y ahora, la boda",
-          text: "Vivimos en Madrid con Higo, un perro de agua que eligió el sofá y, de paso, a nosotros. Solo faltáis vosotros.",
-          photo: PHOTOS.arcilla.story[3],
-          photoAlt: "María y Daniel de espaldas, viendo caer la tarde sobre un olivar",
-        },
-      ],
-    },
-    coverPhoto: PHOTOS.arcilla.cover,
-    coverDepthMap: PHOTOS.arcilla.depth,
-    banquetPhoto: PHOTOS.arcilla.banquet,
-  },
-};
-
 const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
-  arcilla,
   buganvilla,
   olivar,
   orilla,
