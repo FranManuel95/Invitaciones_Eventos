@@ -29,6 +29,10 @@ describe("portadas", () => {
     expect(parseTheme({}).film).toBe("blanco");
     expect(parseTheme({ film: "fucsia" }).film).toBe("blanco");
     expect(parseTheme({ film: "burdeos" }).film).toBe("burdeos");
+    // El motivo de acuarela: sin él por defecto y en los temas guardados antes de existir.
+    expect(parseTheme({}).motif).toBe("ninguno");
+    expect(parseTheme({ motif: "girasol" }).motif).toBe("ninguno");
+    expect(parseTheme({ motif: "lavanda" }).motif).toBe("lavanda");
   });
 
   it("sin efecto elegido la portada no lleva ninguno", () => {

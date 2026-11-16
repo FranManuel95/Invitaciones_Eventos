@@ -866,6 +866,23 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
 - **Next.js 16.4.2 → 16.4.6**: parche de seguridad; la versión anterior paraba una de cada dos
   compilaciones con un aviso.
 
+## Ronda 17: motivo de acuarela en toda la invitación y colinas del color de la plantilla
+
+- **Colinas de «El día»**: toman `--color-hill` (mezcla del neutro y el acento del estilo) en vez
+  de un verde oliva fijo.
+- **Motivo de acuarela** (`theme.motif`: lavanda, pampa u olivo; `MOTIF_IDS` en
+  `src/lib/theme/cover.ts`). Prueba en tres plantillas (Lavanda, Cortijo y Granada) para que la
+  portada pintada no se quede en la portada:
+  - la cabecera y el cierre del contenido van pintados (la pintura de la portada sin lacre,
+    `public/portadas/<portada>-fondo.webp`) en lugar de una foto; el cierre lleva dos ramas
+    enfrentadas y el lacre de la plantilla;
+  - cada sección se anuncia con su ramita en vez de la raya dorada;
+  - la carta lleva una rama en la esquina y un lacre fotografiado bajo el botón;
+  - los colores de vestimenta de la boda de ejemplo casan con la plantilla.
+  Casi todo es CSS sobre `[data-motif]` (final de `globals.css`); las imágenes, recortadas con
+  transparencia, están en `public/acuarelas/`. El lacre lila es el de hoja, virado de color.
+  Lino y Eucalipto no llevan motivo todavía: es fácil añadirlo si la prueba gusta.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

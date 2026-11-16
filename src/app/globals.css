@@ -946,14 +946,14 @@ html.lenis body {
 .day-hills-far {
   fill: color-mix(
     in oklab,
-    color-mix(in oklab, var(--color-ivory), var(--color-almond, #7d8a5f) 34%),
+    color-mix(in oklab, var(--color-ivory), var(--color-hill, #7d8a5f) 34%),
     #141a30 calc(clamp(0, calc((var(--p, 0) - 0.3) * 2.4), 1) * 100%)
   );
 }
 .day-hills {
   fill: color-mix(
     in oklab,
-    color-mix(in oklab, var(--color-ivory), var(--color-almond, #7d8a5f) 58%),
+    color-mix(in oklab, var(--color-ivory), var(--color-hill, #7d8a5f) 58%),
     #0a0e1c calc(clamp(0, calc((var(--p, 0) - 0.3) * 2.6), 1) * 100%)
   );
 }
@@ -1215,4 +1215,111 @@ textarea.note-lines {
     opacity: 0;
     transform: scale(1.7) rotate(-6deg);
   }
+}
+
+/*
+ * Motivo de acuarela (tema.motif): la portada pintada sigue dentro de la invitación. Las imágenes
+ * están recortadas con transparencia en public/acuarelas. --motif-ratio es ancho / alto de la rama.
+ */
+[data-motif="lavanda"] {
+  --motif-art: url("/acuarelas/lavanda.webp");
+  --motif-seal: url("/acuarelas/lavanda-lacre.webp");
+  --motif-ratio: 0.386;
+}
+[data-motif="pampa"] {
+  --motif-art: url("/acuarelas/pampa.webp");
+  --motif-seal: url("/acuarelas/pampa-lacre.webp");
+  --motif-ratio: 0.63;
+}
+[data-motif="olivo"] {
+  --motif-art: url("/acuarelas/olivo.webp");
+  --motif-seal: url("/acuarelas/olivo-lacre.webp");
+  --motif-ratio: 1.071;
+}
+.motif-sprig,
+.motif-letter,
+.motif-closing {
+  display: none;
+}
+/* Cada sección se anuncia con su ramita en lugar de la raya dorada. */
+[data-motif] .motif-sprig {
+  display: block;
+  height: 5rem;
+  width: calc(5rem * var(--motif-ratio));
+  margin-bottom: 0.5rem;
+  background: var(--motif-art) left bottom / contain no-repeat;
+  transform: rotate(-7deg);
+  transform-origin: 30% 100%;
+}
+[data-motif] .title-rule {
+  display: none;
+}
+/* La cabecera del contenido es la misma pintura de la portada, no una foto. */
+.motif-hero {
+  background: var(--motif-cover) center / cover no-repeat;
+}
+/* La carta: una rama en la esquina del papel y un lacre de verdad que pisa el borde. */
+[data-motif] .motif-letter {
+  display: block;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.motif-letter-art {
+  position: absolute;
+  top: -1.25rem;
+  right: -0.5rem;
+  height: 9.5rem;
+  width: calc(9.5rem * var(--motif-ratio));
+  background: var(--motif-art) center / contain no-repeat;
+  transform: rotate(158deg);
+  opacity: 0.85;
+}
+.motif-letter-clip {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+/* Sitio para el lacre bajo el botón de la carta. */
+[data-motif] article[data-layout]:has(> .motif-letter) {
+  padding-bottom: 6rem;
+}
+.motif-letter-seal {
+  position: absolute;
+  left: 50%;
+  bottom: 0.85rem;
+  width: 4.25rem;
+  height: 4.25rem;
+  margin-left: -2.125rem;
+  background: var(--motif-seal) center / contain no-repeat;
+  transform: rotate(-9deg);
+  filter: drop-shadow(0 6px 8px rgb(0 0 0 / 0.22));
+}
+/* El cierre: dos ramas enfrentadas y el lacre en medio. */
+[data-motif] .motif-closing {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.25rem;
+  padding-top: 3.5rem;
+}
+.motif-closing-art {
+  height: 11rem;
+  width: calc(11rem * var(--motif-ratio));
+  max-width: 34vw;
+  background: var(--motif-art) center bottom / contain no-repeat;
+  transform: rotate(-16deg);
+  transform-origin: 50% 100%;
+}
+.motif-closing-art:last-child {
+  transform: scaleX(-1) rotate(-16deg);
+}
+.motif-closing-seal {
+  width: 6.5rem;
+  height: 6.5rem;
+  flex: none;
+  margin-bottom: 0.5rem;
+  background: var(--motif-seal) center / contain no-repeat;
+  filter: drop-shadow(0 8px 12px rgb(0 0 0 / 0.25));
 }

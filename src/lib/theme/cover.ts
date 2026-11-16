@@ -143,3 +143,17 @@ export function seeded(seed: number) {
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
 }
+
+/**
+ * Motivo de acuarela que acompaña toda la invitación (no solo la portada): la cabecera y el
+ * cierre siguen pintados, cada sección lleva su ramita, y la carta, una esquina pintada y un
+ * lacre de verdad. Las imágenes están en `public/acuarelas/<id>.webp` y `<id>-lacre.webp`.
+ */
+export const MOTIF_IDS = ["ninguno", "lavanda", "pampa", "olivo"] as const;
+export type MotifId = (typeof MOTIF_IDS)[number];
+export const MOTIFS: Record<MotifId, { label: string }> = {
+  ninguno: { label: "Sin motivo" },
+  lavanda: { label: "Lavanda en acuarela" },
+  pampa: { label: "Plumeros de la pampa" },
+  olivo: { label: "Olivo en oro" },
+};

@@ -40,6 +40,8 @@ export function Section({
       <div className="mx-auto grid max-w-5xl gap-8 px-6 py-16 sm:px-10 sm:py-24 md:grid-cols-[13rem_minmax(0,1fr)] md:gap-14">
         <div>
           {/* Una raya dorada se traza antes de que suba el titular. */}
+          {/* Con motivo de acuarela (CSS), la ramita de la plantilla sustituye a la raya. */}
+          <span aria-hidden className="motif-sprig" />
           <span data-view aria-hidden className="title-rule mb-5 block h-px bg-gold" />
           <h2
             id={`${id}-title`}

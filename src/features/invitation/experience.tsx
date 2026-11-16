@@ -15,6 +15,7 @@ import {
   useSyncExternalStore,
   ViewTransition,
   type ComponentType,
+  type CSSProperties,
 } from "react";
 import { DemoBadge } from "@/components/demo-badge";
 import { hasOpenedEnvelope, markEnvelopeOpened } from "@/lib/data/session";
@@ -217,9 +218,17 @@ export function InvitationExperience({
           {/* El tema sobrescribe las variables de color y tipografía de toda la invitación. */}
           <div
             data-style={theme.style}
+            data-motif={theme.motif === "ninguno" ? undefined : theme.motif}
             data-dark={STYLES[theme.style].dark ? "" : undefined}
             className="min-h-dvh bg-ivory text-ink"
-            style={themeVars(theme)}
+            style={
+              theme.motif === "ninguno"
+                ? themeVars(theme)
+                : ({
+                    ...themeVars(theme),
+                    "--motif-cover": `url(/portadas/${theme.cover}-fondo.webp)`,
+                  } as CSSProperties)
+            }
           >
             {intro ? (
               <div className="fixed top-[max(1rem,env(safe-area-inset-top))] right-4 z-50 flex items-center gap-2">
@@ -317,6 +326,7 @@ export function InvitationExperience({
                     onReplay={() => go("cover")}
                     focusOnMount={chosenStage !== null}
                     calendar={theme.calendar}
+                    painted={theme.motif !== "ninguno"}
                     hidden={theme.hidden}
                     order={theme.order}
                     phase={phase}

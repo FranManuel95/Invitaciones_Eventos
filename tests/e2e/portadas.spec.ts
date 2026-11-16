@@ -124,4 +124,30 @@ test.describe("portadas", () => {
     await page.getByRole("radio", { name: /Vuestro vídeo/ }).check({ force: true });
     await expect(page.getByText(/En la demo no se suben vídeos/)).toBeVisible();
   });
+
+  test("con motivo de acuarela, la pintura de la portada sigue dentro de la invitación", async ({
+    page,
+  }) => {
+    await page.goto("/i/familia-garcia?plantilla=lavanda");
+    await page.getByRole("button", { name: "Saltar intro" }).click();
+    await expect(page.locator("[data-motif='lavanda']")).toBeAttached();
+    // La cabecera va pintada (sin foto) y cada sección se anuncia con su ramita.
+    const hero = page.locator("header.motif-hero");
+    await expect(hero).toBeVisible();
+    await expect(hero.locator("img")).toHaveCount(0);
+    await expect(hero).toHaveCSS("background-image", /lavanda-fondo\.webp/);
+    await expect(page.locator("#fecha .motif-sprig")).toHaveCSS(
+      "background-image",
+      /acuarelas\/lavanda\.webp/,
+    );
+    await expect(page.locator("footer .motif-closing-seal")).toHaveCSS(
+      "background-image",
+      /lavanda-lacre\.webp/,
+    );
+    // Las plantillas sin motivo siguen con su cabecera de foto y su raya dorada.
+    await page.goto("/i/familia-garcia?plantilla=olivar");
+    await page.getByRole("button", { name: "Saltar intro" }).click();
+    await expect(page.locator("header.motif-hero")).toHaveCount(0);
+    await expect(page.locator("#fecha .motif-sprig")).toBeHidden();
+  });
 });

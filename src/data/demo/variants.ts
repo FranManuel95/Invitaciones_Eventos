@@ -980,6 +980,8 @@ function retitle(
     date: string;
     rsvpDeadline: string;
     coverPhoto: string;
+    /** Colores de vestimenta a juego con la plantilla. */
+    palette?: { name: string; hex: string }[];
   },
 ): DemoVariant {
   const from = base.event.couple;
@@ -998,6 +1000,7 @@ function retitle(
       rsvpDeadline: change.rsvpDeadline,
       coverPhoto: change.coverPhoto,
       coverDepthMap: null,
+      dressCode: change.palette ? { ...event.dressCode, palette: change.palette } : event.dressCode,
     },
   };
 }
@@ -1009,6 +1012,13 @@ const lavanda = retitle(terciopelo, {
   date: "2027-11-06T19:00:00+01:00",
   rsvpDeadline: "2027-10-01T23:59:00+02:00",
   coverPhoto: "/fotos/buganvilla/historia-3.jpg",
+  palette: [
+    { name: "Lavanda", hex: "#b9a8dc" },
+    { name: "Malva", hex: "#8d78b8" },
+    { name: "Añil", hex: "#3d3560" },
+    { name: "Gris perla", hex: "#d9d6e0" },
+    { name: "Verde salvia", hex: "#a9b79c" },
+  ],
 });
 const cortijo = retitle(olivar, {
   id: "evt-demo-rocio-manuel",
@@ -1017,6 +1027,13 @@ const cortijo = retitle(olivar, {
   date: "2027-10-02T12:30:00+02:00",
   rsvpDeadline: "2027-08-25T23:59:00+02:00",
   coverPhoto: "/fotos/olivar/historia-4.jpg",
+  palette: [
+    { name: "Trigo", hex: "#e3d1b0" },
+    { name: "Teja", hex: "#c0623f" },
+    { name: "Burdeos", hex: "#8a2a35" },
+    { name: "Verde olivo", hex: "#7d8a5f" },
+    { name: "Nogal", hex: "#654a30" },
+  ],
 });
 const lino = retitle(buganvilla, {
   id: "evt-demo-alba-sergio",
@@ -1033,6 +1050,13 @@ const granada = retitle(orilla, {
   date: "2027-05-08T18:00:00+02:00",
   rsvpDeadline: "2027-04-01T23:59:00+02:00",
   coverPhoto: "/fotos/buganvilla/pareja.jpg",
+  palette: [
+    { name: "Granate", hex: "#6e1f2c" },
+    { name: "Oro viejo", hex: "#c9a14a" },
+    { name: "Marfil", hex: "#f1e6d6" },
+    { name: "Rosa palo", hex: "#d6a9a4" },
+    { name: "Negro", hex: "#26201f" },
+  ],
 });
 const eucalipto = retitle(olivar, {
   id: "evt-demo-marta-adrian",

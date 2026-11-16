@@ -107,6 +107,8 @@ export interface InvitationContentProps {
   /** Si llega desde la introducción, enfoca el título (se carga aparte, tras la carta). */
   focusOnMount: boolean;
   calendar?: CalendarId;
+  /** Con motivo de acuarela: la cabecera y el cierre van pintados, sin foto. */
+  painted?: boolean;
   /** Texto del distintivo (null: sin distintivo, en invitaciones reales). */
   badge?: string | null;
   /** Secciones que la pareja ha ocultado desde el editor. */
@@ -133,6 +135,7 @@ export function InvitationContent({
   group,
   onReplay,
   focusOnMount,
+  painted = false,
   calendar,
   badge,
   hidden = NO_HIDDEN,
@@ -175,7 +178,8 @@ export function InvitationContent({
   const titleRef = useRef<HTMLHeadingElement>(null);
   const reduce = useReducedMotion();
   // Portada con foto: la de la pareja y, si no la hay, la de la portada.
-  const heroPhoto = event.story.couplePhoto ?? event.coverPhoto;
+  const heroPhoto = painted ? null : (event.story.couplePhoto ?? event.coverPhoto);
+  const closingPhoto = painted ? null : event.coverPhoto;
   const hero = useScrollProgress<HTMLElement>("leave", Boolean(heroPhoto) && !reduce);
   const page = useViewProgress<HTMLDivElement>(!reduce);
   // Para el abanico del álbum: hasta tres fotos del evento, las que haya.
@@ -261,7 +265,9 @@ export function InvitationContent({
             "relative overflow-hidden",
             heroPhoto
               ? "hero flex min-h-[100svh] flex-col bg-ink text-white"
-              : "paper-grain bg-paper",
+              : painted
+                ? "motif-hero flex min-h-[100svh] flex-col justify-center bg-paper"
+                : "paper-grain bg-paper",
           )}
         >
           {heroPhoto ? (
@@ -397,7 +403,7 @@ export function InvitationContent({
               aria-hidden
               className="nudge absolute bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 size-5 -translate-x-1/2 text-white/80"
             />
-          ) : (
+          ) : painted ? null : (
             <AlmondBranch className="pointer-events-none absolute -right-6 bottom-6 w-40 rotate-[-12deg] opacity-80 sm:right-[6%] sm:w-56" />
           )}
         </header>
@@ -622,13 +628,13 @@ export function InvitationContent({
       <footer
         className={clsx(
           "relative overflow-hidden",
-          event.coverPhoto ? "bg-ink text-white" : "border-t border-line bg-paper",
+          closingPhoto ? "bg-ink text-white" : "border-t border-line bg-paper",
         )}
       >
-        {event.coverPhoto ? (
+        {closingPhoto ? (
           <>
             <Image
-              src={event.coverPhoto}
+              src={closingPhoto}
               alt=""
               fill
               sizes="100vw"
@@ -640,16 +646,22 @@ export function InvitationContent({
             />
           </>
         ) : null}
+        {/* Con motivo de acuarela (CSS): dos ramas enfrentadas y el lacre de la plantilla. */}
+        <div aria-hidden className="motif-closing">
+          <span className="motif-closing-art" />
+          <span className="motif-closing-seal" />
+          <span className="motif-closing-art" />
+        </div>
         <div
           className={clsx(
             "relative mx-auto flex max-w-5xl flex-col gap-6 px-6 pb-[max(3rem,env(safe-area-inset-bottom))] sm:px-10",
-            event.coverPhoto
+            closingPhoto
               ? "min-h-[82svh] justify-end pt-24"
               : "pt-14 sm:flex-row sm:items-end sm:justify-between",
           )}
         >
           <div>
-            {event.coverPhoto ? (
+            {closingPhoto ? (
               <p className="mb-4 font-display text-[1.5rem] leading-snug first-letter:uppercase">
                 {after ? "Gracias por estar" : "Os esperamos"}
               </p>
@@ -658,21 +670,21 @@ export function InvitationContent({
               translate="no"
               className={clsx(
                 "font-names",
-                event.coverPhoto
+                closingPhoto
                   ? "text-[clamp(3rem,15vw,6rem)] leading-[0.9] [text-shadow:0_2px_30px_rgb(0_0_0/0.45)]"
                   : "text-4xl text-ink",
               )}
             >
               {hostNames(event.couple)}
             </p>
-            {event.coverPhoto ? (
+            {closingPhoto ? (
               <p className="mt-4 font-display text-[1.25rem] first-letter:uppercase">
                 {formatWeekdayDate(event.date)}, en {event.city}
               </p>
             ) : null}
             <p
               translate="no"
-              className={clsx("caption mt-1", event.coverPhoto ? "text-white/80" : "text-ink-soft")}
+              className={clsx("caption mt-1", closingPhoto ? "text-white/80" : "text-ink-soft")}
             >
               {event.hashtag}
             </p>
@@ -682,7 +694,7 @@ export function InvitationContent({
             onClick={onReplay}
             className={clsx(
               "inline-flex items-center gap-2 self-start rounded-md px-3 py-2 text-[0.9375rem] transition-colors",
-              event.coverPhoto
+              closingPhoto
                 ? "-ml-3 text-white/90 hover:bg-white/10 hover:text-white"
                 : "text-ink-soft hover:bg-ink/5 hover:text-ink sm:self-auto",
             )}
@@ -694,7 +706,7 @@ export function InvitationContent({
             <p
               className={clsx(
                 "max-w-prose text-[0.8125rem] leading-relaxed",
-                event.coverPhoto ? "text-white/70" : "text-muted",
+                closingPhoto ? "text-white/70" : "text-muted",
               )}
             >
               Prototipo de demostración. Los nombres, lugares y respuestas son ficticios, y las

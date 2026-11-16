@@ -180,6 +180,15 @@ export function LetterPaper({
           layout === "editorial" ? "px-8 text-left sm:px-11" : "px-8 text-center sm:px-12",
         )}
       >
+        {/* Solo se ve con motivo de acuarela (CSS): rama en la esquina y lacre sobre el borde. */}
+        {bare ? null : (
+          <span aria-hidden className="motif-letter">
+            <span className="motif-letter-clip">
+              <span className="motif-letter-art" />
+            </span>
+            <span className="motif-letter-seal" />
+          </span>
+        )}
         {layout === "editorial" ? (
           <EditorialLetter {...props} />
         ) : layout === "minimal" ? (
