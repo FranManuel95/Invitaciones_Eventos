@@ -50,7 +50,12 @@ test.describe("aperturas", () => {
     ["arcilla", "sobre burdeos", "burdeos", "Abrir el sobre"],
     ["olivar", "sobre salvia", "salvia", "Abrir el sobre"],
     ["buganvilla", "sobre blanco", "(vertical|horizontal)", "Abrir el sobre"],
-    ["terciopelo", "caja con lazo", "caja", "Abrir la caja"],
+    ["terciopelo", "caja esmeralda", "esmeralda", "Abrir la caja"],
+    ["bruma", "sobre azul", "azul", "Abrir el sobre"],
+    ["cortijo", "sobre kraft", "kraft", "Abrir el sobre"],
+    ["lino", "sobre junto a la ventana", "ventana", "Abrir el sobre"],
+    ["granada", "sobre burdeos a pantalla completa", "granate", "Abrir el sobre"],
+    ["eucalipto", "díptico salvia", "eucalipto", "Abrir la invitación"],
     ["orilla", "díptico", "diptico", "Abrir la invitación"],
   ] as const) {
     test(`plantilla ${plantilla}: el vídeo de apertura es el ${que}`, async ({ page }) => {

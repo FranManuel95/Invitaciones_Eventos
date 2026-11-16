@@ -79,7 +79,7 @@ const RSVP_STEPS = [
 
 /** Lo que se cambia en el editor. */
 const EDITOR_FEATURES = [
-  ["Plantilla, colores y letra", "Empezáis por una de las cinco y la lleváis a vuestro gusto."],
+  ["Plantilla, colores y letra", "Empezáis por una de las diez y la lleváis a vuestro gusto."],
   ["Portada", "Vuestra foto, un vídeo o una de las portadas pintadas, con o sin efecto."],
   ["Textos y fotos", "La carta, vuestra historia, las preguntas frecuentes y cada foto."],
   ["Programa, lugares y autobuses", "Horas, direcciones, rutas y paradas."],
@@ -100,7 +100,7 @@ const PANEL_FEATURES = [
 
 const INCLUDED = [
   "Invitaciones para todos vuestros invitados, sin límite",
-  "Editor con cinco plantillas, siete aperturas, colores, tipografías y lacres",
+  "Editor con diez plantillas, siete aperturas, colores, tipografías y lacres",
   "Panel de organización hasta el día de la boda",
   "Cambios ilimitados, también después de enviarla",
   "Ayuda por correo para dejarla a vuestro gusto",
@@ -215,7 +215,7 @@ export default function SalesPage() {
               id="plantillas"
               className="font-display text-[2.25rem] leading-[1.05] text-ink sm:text-[2.75rem]"
             >
-              Cinco plantillas para empezar
+              Diez plantillas para empezar
             </h2>
             <p className="mt-3 max-w-[48ch] text-[0.9375rem] leading-relaxed text-muted md:mt-0">
               Cada una llega con su portada, sus colores, su letra y su forma de abrirse. Tocad
@@ -292,7 +292,7 @@ export default function SalesPage() {
             <div className="mt-12">
               <ScreenShot
                 src="/venta/editor.webp"
-                alt="El editor: a la izquierda, las cinco plantillas; a la derecha, la invitación en un móvil."
+                alt="El editor: a la izquierda, las plantillas; a la derecha, la invitación en un móvil."
                 caption={`También elegís cómo se abre: ${OPENING_IDS.map((id) => OPENINGS[id].label.replace(/^\p{Lu}/u, (c) => c.toLowerCase())).join(", ")}.`}
               />
             </div>

@@ -32,7 +32,20 @@ export type OpeningId = (typeof OPENING_IDS)[number];
  * una caja con lazo o un díptico). `action` es lo que se le pide al invitado y `name`, el nombre
  * accesible del botón.
  */
-export const FILM_IDS = ["blanco", "salvia", "burdeos", "caja", "diptico"] as const;
+export const FILM_IDS = [
+  "blanco",
+  "salvia",
+  "burdeos",
+  "azul",
+  "kraft",
+  "ventana",
+  "cielo",
+  "granate",
+  "caja",
+  "esmeralda",
+  "diptico",
+  "eucalipto",
+] as const;
 export type FilmId = (typeof FILM_IDS)[number];
 export const FILMS: Record<FilmId, { label: string; hex: string; action: string; name: string }> = {
   blanco: {
@@ -53,15 +66,57 @@ export const FILMS: Record<FilmId, { label: string; hex: string; action: string;
     action: "Toca el lacre para abrir el sobre",
     name: "Abrir el sobre",
   },
+  azul: {
+    label: "Sobre azul empolvado con lacre plateado",
+    hex: "#a9bfd6",
+    action: "Toca el lacre para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  kraft: {
+    label: "Sobre kraft con lazo burdeos",
+    hex: "linear-gradient(90deg, #c9a77c 0 44%, #6e1f2c 44% 56%, #c9a77c 56%)",
+    action: "Toca el lazo para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  ventana: {
+    label: "Sobre marfil junto a la ventana",
+    hex: "linear-gradient(135deg, #efe9df 0 70%, #7a2230 70%)",
+    action: "Toca el lacre para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  cielo: {
+    label: "Sobre azul junto a la ventana",
+    hex: "linear-gradient(135deg, #a9bfd6 0 70%, #c9ccd1 70%)",
+    action: "Toca el lacre para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  granate: {
+    label: "Sobre burdeos a pantalla completa",
+    hex: "radial-gradient(circle, #c9a14a 0 28%, #7a2230 30%)",
+    action: "Toca el lacre para abrir el sobre",
+    name: "Abrir el sobre",
+  },
   caja: {
     label: "Caja con lazo burdeos",
     hex: "linear-gradient(90deg, #efe9df 0 40%, #6e1f2c 40% 60%, #efe9df 60%)",
     action: "Toca el lazo para abrir la caja",
     name: "Abrir la caja",
   },
+  esmeralda: {
+    label: "Caja esmeralda con lazo dorado",
+    hex: "linear-gradient(90deg, #1f4a3a 0 40%, #c9a14a 40% 60%, #1f4a3a 60%)",
+    action: "Toca el lazo para abrir la caja",
+    name: "Abrir la caja",
+  },
   diptico: {
     label: "Díptico con lacre dorado",
     hex: "linear-gradient(90deg, #efe9df 0 48%, #b98a3c 48% 52%, #efe9df 52%)",
+    action: "Toca el lacre para abrir la invitación",
+    name: "Abrir la invitación",
+  },
+  eucalipto: {
+    label: "Díptico verde salvia con lacre dorado",
+    hex: "linear-gradient(90deg, #a9b79c 0 48%, #b98a3c 48% 52%, #a9b79c 52%)",
     action: "Toca el lacre para abrir la invitación",
     name: "Abrir la invitación",
   },

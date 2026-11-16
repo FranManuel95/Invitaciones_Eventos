@@ -729,12 +729,17 @@ export const TEMPLATE_IDS = [
   "buganvilla",
   "terciopelo",
   "orilla",
+  "bruma",
+  "cortijo",
+  "lino",
+  "granada",
+  "eucalipto",
 ] as const;
 export type TemplateId = (typeof TEMPLATE_IDS)[number];
 
 /**
- * Las plantillas que se enseñan al público (página de venta y ejemplos): las que tienen portada
- * pintada y apertura en vídeo. El resto sigue disponible en el editor.
+ * Las plantillas que se enseñan al público (página de venta, ejemplos y editor): las que se
+ * abren con un vídeo real. Las anteriores siguen funcionando en los eventos que ya las usan.
  */
 export const FEATURED_TEMPLATE_IDS = [
   "arcilla",
@@ -742,6 +747,11 @@ export const FEATURED_TEMPLATE_IDS = [
   "buganvilla",
   "terciopelo",
   "orilla",
+  "bruma",
+  "cortijo",
+  "lino",
+  "granada",
+  "eucalipto",
 ] as const satisfies readonly TemplateId[];
 
 type Look = Omit<Theme, "hidden" | "order" | "music">;
@@ -1042,7 +1052,7 @@ export const TEMPLATES: Record<
   terciopelo: {
     label: "Terciopelo",
     description:
-      "Terciopelo verde con marco dorado, polvo de oro y una caja con lazo que se abre en vídeo.",
+      "Terciopelo verde con marco dorado, polvo de oro y una caja esmeralda con lazo dorado.",
     look: {
       style: "esmeralda",
       envelope: "algodon",
@@ -1050,7 +1060,7 @@ export const TEMPLATES: Record<
       calendar: "poster",
       font: "deco",
       opening: "pelicula",
-      film: "caja",
+      film: "esmeralda",
       cover: "terciopelo",
       coverEffect: "oro",
       weight: "grueso",
@@ -1080,6 +1090,106 @@ export const TEMPLATES: Record<
       layout: "foto",
       ornament: "eucalipto",
       musicStyle: "guitarra",
+    },
+  },
+  bruma: {
+    label: "Bruma",
+    description: "Azul de medianoche con estrellas y un sobre azul empolvado con lacre plateado.",
+    look: {
+      style: "noche",
+      envelope: "medianoche",
+      wax: "azul",
+      calendar: "poster",
+      font: "moderna",
+      opening: "pelicula",
+      film: "azul",
+      cover: "medianoche",
+      coverEffect: "oro",
+      flap: "redonda",
+      liner: "propio",
+      sealShape: "redondo",
+      sealMark: "estrella",
+      layout: "minimal",
+      edge: "recto",
+      ornament: "geometrico",
+    },
+  },
+  cortijo: {
+    label: "Cortijo",
+    description: "Vuestra foto en la portada, tonos de barro y un sobre kraft atado con lazo burdeos.",
+    look: {
+      style: "terracota",
+      envelope: "kraft",
+      wax: "teja",
+      calendar: "taco",
+      font: "organica",
+      opening: "pelicula",
+      film: "kraft",
+      cover: "foto",
+      texture: "lino",
+      weight: "grueso",
+      liner: "rayas",
+      layout: "editorial",
+      ornament: "olivo",
+    },
+  },
+  lino: {
+    label: "Lino",
+    description: "Vuestra foto, papelería clásica en blanco y un sobre marfil junto a la ventana.",
+    look: {
+      style: "clasico",
+      envelope: "algodon",
+      wax: "burdeos",
+      calendar: "mano",
+      font: "clasica",
+      opening: "pelicula",
+      film: "ventana",
+      cover: "foto",
+      flap: "recta",
+      texture: "verjurado",
+      liner: "lunares",
+      sealShape: "redondo",
+      layout: "marco",
+      edge: "recto",
+      ornament: "ninguno",
+    },
+  },
+  granada: {
+    label: "Granada",
+    description: "Flores de acuarela sobre granate y un sobre burdeos que llena la pantalla.",
+    look: {
+      style: "empolvado",
+      envelope: "rosa",
+      wax: "rosa",
+      calendar: "corazon",
+      font: "caligrafica",
+      opening: "pelicula",
+      film: "granate",
+      cover: "acuarela",
+      flap: "redonda",
+      liner: "flores",
+      sealShape: "flor",
+      sealMark: "corazon",
+      edge: "redondeado",
+    },
+  },
+  eucalipto: {
+    label: "Eucalipto",
+    description: "Verde botánico con herbario dibujado y un díptico verde salvia con lacre dorado.",
+    look: {
+      style: "botanico",
+      envelope: "salvia",
+      wax: "salvia",
+      calendar: "taco",
+      font: "romantica",
+      opening: "pelicula",
+      film: "eucalipto",
+      cover: "herbario",
+      flap: "festoneada",
+      liner: "flores",
+      sealMark: "almendro",
+      layout: "foto",
+      ornament: "eucalipto",
     },
   },
   dorada: {

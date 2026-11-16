@@ -32,6 +32,13 @@ const TIMING = {
   // En la caja, la vibración va con el lazo que se suelta; en el díptico, con las hojas.
   caja: { crack: 3, glow: 8.6 },
   diptico: { crack: 3.5, glow: 8.6 },
+  azul: { crack: 4, glow: 8.5 },
+  kraft: { crack: 2.8, glow: 8.4 },
+  ventana: { crack: 2.6, glow: 8.5 },
+  cielo: { crack: 3.6, glow: 8.4 },
+  granate: { crack: 2.2, glow: 8.4 },
+  esmeralda: { crack: 2.6, glow: 8.4 },
+  eucalipto: { crack: 3.6, glow: 8.4 },
 } as const;
 
 const WIDE = "(min-aspect-ratio: 1/1)";

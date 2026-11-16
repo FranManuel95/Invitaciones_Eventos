@@ -17,7 +17,7 @@ test.describe("página de venta", () => {
     await expect(page.getByRole("heading", { name: "Invitaciones de ejemplo" })).toBeVisible();
   });
 
-  test("enseña las cinco plantillas y explica el producto con capturas", async ({ page }) => {
+  test("enseña las plantillas y explica el producto con capturas", async ({ page }) => {
     await page.goto("/");
     // En la portada no se enseñan las aperturas en marcha: están en /ejemplos y en el editor.
     await expect(page.getByRole("region", { name: /cómo se abre/ })).toHaveCount(0);
@@ -33,10 +33,10 @@ test.describe("página de venta", () => {
       page.getByRole("region", { name: "Confirma en un minuto" }).getByRole("listitem"),
     ).toHaveCount(5);
     await expect(page.getByText(/También elegís cómo se abre: sobre en la mesa,/)).toBeVisible();
-    const templates = page.getByRole("region", { name: "Cinco plantillas para empezar" });
-    // Solo se enseñan las cinco plantillas con portada pintada y apertura en vídeo.
-    await expect(templates.getByRole("link")).toHaveCount(5);
-    await expect(templates.getByText("Se abre con: caja con lazo burdeos.")).toBeVisible();
+    const templates = page.getByRole("region", { name: "Diez plantillas para empezar" });
+    // Solo se enseñan las plantillas que se abren con un vídeo real.
+    await expect(templates.getByRole("link")).toHaveCount(10);
+    await expect(templates.getByText("Se abre con: caja esmeralda con lazo dorado.")).toBeVisible();
     await templates.getByRole("link", { name: "Terciopelo", exact: true }).click();
     await expect(page).toHaveURL(/plantilla=terciopelo/);
   });

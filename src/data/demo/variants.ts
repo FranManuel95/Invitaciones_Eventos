@@ -967,11 +967,92 @@ const terciopelo: DemoVariant = {
   ),
 };
 
+/**
+ * Otra boda ficticia a partir de una ya escrita: cambian los nombres (en todos los textos), la
+ * fecha y las fotos de portada. Así cada plantilla enseña una pareja distinta sin repetir datos.
+ */
+function retitle(
+  base: DemoVariant,
+  change: {
+    id: string;
+    first: string;
+    second: string;
+    date: string;
+    rsvpDeadline: string;
+    coverPhoto: string;
+  },
+): DemoVariant {
+  const from = base.event.couple;
+  const swap = (text: string) =>
+    text
+      .replaceAll(from.first, change.first)
+      .replaceAll(from.second, change.second)
+      .replaceAll(from.monogram, `${change.first[0]}&${change.second[0]}`);
+  const event = JSON.parse(swap(JSON.stringify(base.event))) as WeddingEvent;
+  return {
+    guestbook: base.guestbook,
+    event: {
+      ...event,
+      id: change.id,
+      date: change.date,
+      rsvpDeadline: change.rsvpDeadline,
+      coverPhoto: change.coverPhoto,
+      coverDepthMap: null,
+    },
+  };
+}
+
+const bruma = retitle(terciopelo, {
+  id: "evt-demo-lucia-marcos",
+  first: "Lucía",
+  second: "Marcos",
+  date: "2027-11-06T19:00:00+01:00",
+  rsvpDeadline: "2027-10-01T23:59:00+02:00",
+  coverPhoto: "/fotos/buganvilla/historia-3.jpg",
+});
+const cortijo = retitle(olivar, {
+  id: "evt-demo-rocio-manuel",
+  first: "Rocío",
+  second: "Manuel",
+  date: "2027-10-02T12:30:00+02:00",
+  rsvpDeadline: "2027-08-25T23:59:00+02:00",
+  coverPhoto: "/fotos/olivar/historia-4.jpg",
+});
+const lino = retitle(buganvilla, {
+  id: "evt-demo-alba-sergio",
+  first: "Alba",
+  second: "Sergio",
+  date: "2027-06-12T18:30:00+02:00",
+  rsvpDeadline: "2027-05-05T23:59:00+02:00",
+  coverPhoto: "/fotos/buganvilla/portada.jpg",
+});
+const granada = retitle(orilla, {
+  id: "evt-demo-ines-pablo",
+  first: "Inés",
+  second: "Pablo",
+  date: "2027-05-08T18:00:00+02:00",
+  rsvpDeadline: "2027-04-01T23:59:00+02:00",
+  coverPhoto: "/fotos/buganvilla/pareja.jpg",
+});
+const eucalipto = retitle(olivar, {
+  id: "evt-demo-marta-adrian",
+  first: "Marta",
+  second: "Adrián",
+  date: "2027-04-24T12:00:00+02:00",
+  rsvpDeadline: "2027-03-15T23:59:00+01:00",
+  coverPhoto: "/fotos/olivar/historia-2.jpg",
+});
+
 const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   buganvilla,
   olivar,
   orilla,
   terciopelo,
+  bruma,
+  cortijo,
+  lino,
+  granada,
+  eucalipto,
 };
 
 /** La boda ficticia propia de una plantilla, si la tiene. */

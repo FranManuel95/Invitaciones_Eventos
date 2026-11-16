@@ -839,6 +839,24 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
   invitado, sentar por persona y no solo por invitación, exportar presupuesto y tareas, historial
   de cambios de respuesta y aviso a los novios cuando alguien responde.
 
+## Ronda 16: siete vídeos de apertura más y cinco plantillas nuevas (16/11/2026)
+
+- **Vídeos nuevos** (Higgsfield, 720p, 10 s) en `public/aperturas/sobre-dorado/`: `azul` (sobre
+  azul empolvado, lacre plateado), `kraft` (kraft con lazo burdeos), `ventana` (marfil junto a
+  la ventana), `cielo` (azul junto a la ventana), `granate` (burdeos a pantalla completa),
+  `esmeralda` (caja verde con lazo dorado) y `eucalipto` (díptico verde salvia). Son opciones
+  de `film` en la apertura «película» y se eligen en el editor.
+- **Plantillas nuevas**: Bruma (noche + sobre azul), Cortijo (foto + kraft), Lino (foto +
+  ventana), Granada (acuarela granate + sobre burdeos) y Eucalipto (herbario + díptico salvia).
+  Terciopelo pasa a la caja esmeralda, que casa con su verde. Ya son diez las que se enseñan.
+- **Bodas de ejemplo**: cada plantilla nueva reutiliza una ya escrita cambiando nombres, fecha
+  y foto de portada (`retitle` en `src/data/demo/variants.ts`); las fotos son las de siempre.
+- **No usados**: los bucles nuevos de pétalos y de luces (no enlazan el final con el principio),
+  el sobre salvia con ramita (casi igual al de Olivar), el lacre que se estampa y el lazo que
+  se desliza, y las imágenes sueltas de lacres y ramas de acuarela.
+- **Next.js 16.4.2 → 16.4.6**: parche de seguridad; la versión anterior paraba una de cada dos
+  compilaciones con un aviso.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

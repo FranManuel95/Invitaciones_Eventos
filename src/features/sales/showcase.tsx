@@ -78,13 +78,13 @@ export function OpeningShowcase({ className }: { className?: string }) {
 }
 
 /**
- * Las cinco plantillas, cada una con su portada en el móvil y, asomando delante, lo que se abre
+ * Las plantillas, cada una con su portada en el móvil y, asomando delante, lo que se abre
  * después (un sobre, una caja o un díptico). En el móvil se deslizan de lado; en pantallas anchas
- * caben las cinco en una fila.
+ * van de cinco en cinco.
  */
 export function TemplateShowcase() {
   return (
-    <ul className="-mx-6 flex snap-x snap-mandatory scroll-px-6 gap-6 overflow-x-auto px-6 pt-2 pb-6 sm:-mx-10 sm:scroll-px-10 sm:px-10 lg:mx-0 lg:grid lg:grid-cols-5 lg:gap-7 lg:overflow-visible lg:px-0 lg:pb-0">
+    <ul className="-mx-6 flex snap-x snap-mandatory scroll-px-6 gap-6 overflow-x-auto px-6 pt-2 pb-6 sm:-mx-10 sm:scroll-px-10 sm:px-10 lg:mx-0 lg:grid lg:grid-cols-5 lg:gap-x-7 lg:gap-y-14 lg:overflow-visible lg:px-0 lg:pb-0">
       {FEATURED_TEMPLATE_IDS.map((id) => {
         const template = TEMPLATES[id];
         const film = template.look.film ? FILMS[template.look.film] : null;
