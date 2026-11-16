@@ -846,14 +846,23 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
   la ventana), `cielo` (azul junto a la ventana), `granate` (burdeos a pantalla completa),
   `esmeralda` (caja verde con lazo dorado) y `eucalipto` (díptico verde salvia). Son opciones
   de `film` en la apertura «película» y se eligen en el editor.
-- **Plantillas nuevas**: Bruma (noche + sobre azul), Cortijo (foto + kraft), Lino (foto +
-  ventana), Granada (acuarela granate + sobre burdeos) y Eucalipto (herbario + díptico salvia).
+- **Plantillas nuevas**, cada una con estilo de color y portada pintada propios (una primera
+  versión reciclaba estilos y portadas antiguos y no se distinguía; se rehízo):
+  - Lavanda: estilo `lavanda` (lila y añil), portada de tallos de lavanda, sobre azul.
+  - Cortijo: estilo `trigo` (trigo, nogal y burdeos), plumeros de la pampa y lacre de sol, kraft.
+  - Lino: estilo `lino` (blanco de lino y rosa viejo), paniculata con filete, sobre en la ventana.
+  - Granada: estilo `granate` (vino oscuro y oro), olivo en oro y lacre de almendro, sobre burdeos.
+  - Eucalipto: estilo `eucalipto` (verde gris frío), ramas de eucalipto y lacre de hoja, díptico.
   Terciopelo pasa a la caja esmeralda, que casa con su verde. Ya son diez las que se enseñan.
-- **Bodas de ejemplo**: cada plantilla nueva reutiliza una ya escrita cambiando nombres, fecha
-  y foto de portada (`retitle` en `src/data/demo/variants.ts`); las fotos son las de siempre.
+- **Portadas compuestas** con las acuarelas y los lacres sueltos de Higgsfield: las ramas se
+  multiplican sobre un papel teñido (en Granada, la silueta se tiñe de oro sobre el vino). Se
+  generan a 1080 × 1920 en `public/portadas/`. No están en el repositorio ni el guion ni los
+  originales: para rehacerlas, bajar las imágenes de la cuenta y recomponer.
+- **Bodas de ejemplo**: cada plantilla nueva reutiliza una ya escrita cambiando nombres y fecha
+  (`retitle` en `src/data/demo/variants.ts`); las fotos son las de siempre.
 - **No usados**: los bucles nuevos de pétalos y de luces (no enlazan el final con el principio),
-  el sobre salvia con ramita (casi igual al de Olivar), el lacre que se estampa y el lazo que
-  se desliza, y las imágenes sueltas de lacres y ramas de acuarela.
+  el sobre salvia con ramita (casi igual al de Olivar), el lacre que se estampa, el lazo que
+  se desliza, y de las imágenes sueltas, la ramita de buganvilla y los lacres de estrella y corazón.
 - **Next.js 16.4.2 → 16.4.6**: parche de seguridad; la versión anterior paraba una de cada dos
   compilaciones con un aviso.
 

@@ -18,6 +18,11 @@ export const COVER_IDS = [
   "arcilla",
   "orilla",
   "terciopelo",
+  "lavanda",
+  "cortijo",
+  "lino",
+  "granada",
+  "eucalipto",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -71,6 +76,26 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Terciopelo",
     description: "Terciopelo verde con hojas en penumbra y un marco dorado art déco.",
   },
+  lavanda: {
+    label: "Lavanda",
+    description: "Tallos de lavanda en acuarela sobre papel lila.",
+  },
+  cortijo: {
+    label: "Pampa",
+    description: "Plumeros de la pampa sobre papel color trigo, con un lacre de sol.",
+  },
+  lino: {
+    label: "Paniculata",
+    description: "Paniculata muy fina sobre blanco de lino, con un filete doble.",
+  },
+  granada: {
+    label: "Olivo en oro",
+    description: "Vino oscuro con ramas de olivo doradas y un lacre de almendro.",
+  },
+  eucalipto: {
+    label: "Eucalipto",
+    description: "Ramas de eucalipto sobre verde gris, con un lacre de hoja.",
+  },
 };
 
 /**
@@ -84,6 +109,11 @@ export const PAINTED_COVERS = {
   arcilla: { tone: "oscuro", ink: "#ffffff", paper: "#b7705a" },
   orilla: { tone: "claro", ink: "#24465c", paper: "#f6fafb" },
   terciopelo: { tone: "oscuro", ink: "#ffffff", paper: "#0e3327" },
+  lavanda: { tone: "claro", ink: "#3a2f63", paper: "#f6f3fa" },
+  cortijo: { tone: "claro", ink: "#4a2c18", paper: "#f3e6cf" },
+  lino: { tone: "claro", ink: "#3a332c", paper: "#f8f4ec" },
+  granada: { tone: "oscuro", ink: "#ffffff", paper: "#3a121b" },
+  eucalipto: { tone: "claro", ink: "#22382f", paper: "#e7efe9" },
 } as const satisfies Partial<
   Record<CoverId, { tone: "claro" | "oscuro"; ink: string; paper: string }>
 >;

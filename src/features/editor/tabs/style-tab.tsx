@@ -512,6 +512,11 @@ const COVER_SAMPLES: Record<Theme["cover"], string> = {
   arcilla: "url(/portadas/arcilla.webp) center / cover",
   orilla: "url(/portadas/orilla.webp) center / cover",
   terciopelo: "url(/portadas/terciopelo.webp) center / cover",
+  lavanda: "url(/portadas/lavanda.webp) center / cover",
+  cortijo: "url(/portadas/cortijo.webp) center / cover",
+  lino: "url(/portadas/lino.webp) center / cover",
+  granada: "url(/portadas/granada.webp) center / cover",
+  eucalipto: "url(/portadas/eucalipto.webp) center / cover",
 };
 
 /** Miniatura de cada efecto de portada. */

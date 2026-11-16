@@ -1002,7 +1002,7 @@ function retitle(
   };
 }
 
-const bruma = retitle(terciopelo, {
+const lavanda = retitle(terciopelo, {
   id: "evt-demo-lucia-marcos",
   first: "Lucía",
   second: "Marcos",
@@ -1048,7 +1048,7 @@ const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   olivar,
   orilla,
   terciopelo,
-  bruma,
+  lavanda,
   cortijo,
   lino,
   granada,

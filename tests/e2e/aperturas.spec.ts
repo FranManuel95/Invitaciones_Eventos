@@ -51,7 +51,7 @@ test.describe("aperturas", () => {
     ["olivar", "sobre salvia", "salvia", "Abrir el sobre"],
     ["buganvilla", "sobre blanco", "(vertical|horizontal)", "Abrir el sobre"],
     ["terciopelo", "caja esmeralda", "esmeralda", "Abrir la caja"],
-    ["bruma", "sobre azul", "azul", "Abrir el sobre"],
+    ["lavanda", "sobre azul", "azul", "Abrir el sobre"],
     ["cortijo", "sobre kraft", "kraft", "Abrir el sobre"],
     ["lino", "sobre junto a la ventana", "ventana", "Abrir el sobre"],
     ["granada", "sobre burdeos a pantalla completa", "granate", "Abrir el sobre"],
