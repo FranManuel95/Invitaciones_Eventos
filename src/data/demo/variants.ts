@@ -326,10 +326,6 @@ const buganvilla: DemoVariant = {
         question: "¿Y si refresca por la noche?",
         answer: "Habrá mantas en las sillas, pero traed algo para los hombros.",
       },
-      {
-        question: "¿Hay lista de bodas?",
-        answer: "No hay lista: en la sección «Regalo» tenéis algunas ideas y nuestra cuenta.",
-      },
     ],
   },
   guestbook: guestbook(
@@ -585,10 +581,6 @@ const olivar: DemoVariant = {
       {
         question: "¿Habrá opciones sin gluten?",
         answer: "Sí. Indícalo al confirmar y el catering preparará tu menú por separado.",
-      },
-      {
-        question: "¿Hay lista de bodas?",
-        answer: "No hay lista: en la sección «Regalo» tenéis algunas ideas y nuestra cuenta.",
       },
     ],
   },

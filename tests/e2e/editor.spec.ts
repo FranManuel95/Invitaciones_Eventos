@@ -81,16 +81,18 @@ test.describe("editor de la invitación", () => {
     await expect(preview.locator("#cover-title")).toBeAttached();
     await page.getByRole("tab", { name: "Secciones y música" }).click();
     await expect(preview.locator("#fecha")).toBeAttached();
-    for (let i = 0; i < 6; i++) {
-      await page.getByRole("button", { name: "Subir «Regalo»" }).click();
+    // «Regalo» está apagada en todas las invitaciones: ni se puede elegir ni ordenar.
+    await expect(page.getByRole("button", { name: "Subir «Regalo»" })).toHaveCount(0);
+    for (let i = 0; i < 5; i++) {
+      await page.getByRole("button", { name: "Subir «Nuestra historia»" }).click();
     }
-    await expect(page.getByRole("button", { name: "Subir «Regalo»" })).toBeDisabled();
+    await expect(page.getByRole("button", { name: "Subir «Nuestra historia»" })).toBeDisabled();
     // La vista previa recibe el borrador con un pequeño retardo.
     await expect
       .poll(() =>
         preview.locator("main > section[id]").evaluateAll((els) => els.map((el) => el.id)[0]),
       )
-      .toBe("regalo");
+      .toBe("historia");
   });
 
   test("la apertura elegida se ve en la vista previa", async ({ page }) => {

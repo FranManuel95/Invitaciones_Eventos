@@ -251,10 +251,5 @@ export const demoEvent: WeddingEvent = {
       question: "¿Habrá opciones sin gluten?",
       answer: "Sí. Indícalo al confirmar y el catering preparará tu menú por separado.",
     },
-    {
-      question: "¿Hay lista de bodas?",
-      answer:
-        "No hay lista: si queréis tener un detalle, en la sección «Regalo» tenéis nuestra cuenta.",
-    },
   ],
 };

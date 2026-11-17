@@ -155,3 +155,27 @@ describe("plantillas de concepto: carta, pase y apertura", () => {
     expect(conceptKit("lavanda")).toBeNull();
   });
 });
+
+describe("funciones apagadas: regalos, pago y vestimenta", () => {
+  it("el evento sale sin regalos, cuenta, Bizum ni vestimenta, y la sección no existe", async () => {
+    const { DISABLED_SECTIONS, FEATURES, withFeatures } = await import("@/lib/features");
+    const { demoEvent } = await import("@/data/demo/event");
+    expect(FEATURES).toEqual({ gifts: false, dressCode: false });
+    expect(DISABLED_SECTIONS).toContain("regalo");
+    const shown = withFeatures(demoEvent);
+    expect(shown.gift).toEqual({ message: "", holder: "", iban: "", bizum: "", items: [] });
+    expect(shown.dressCode.title).toBe("");
+    expect(shown.dressCode.palette).toEqual([]);
+    expect(shown.dressCode.examples).toEqual([]);
+    // Lo demás no se toca.
+    expect(shown.accommodation).toEqual(demoEvent.accommodation);
+    expect(shown.faqs).toEqual(demoEvent.faqs);
+  });
+
+  it("las preguntas de la demo no hablan de la lista de bodas ni de la cuenta", async () => {
+    const { demoEvent } = await import("@/data/demo/event");
+    for (const faq of demoEvent.faqs) {
+      expect(`${faq.question} ${faq.answer}`).not.toMatch(/lista de bodas|nuestra cuenta|Regalo»/i);
+    }
+  });
+});

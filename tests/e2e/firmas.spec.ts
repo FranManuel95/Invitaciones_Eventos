@@ -36,7 +36,7 @@ test.describe("libro de firmas y música", () => {
     expect(violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""))).toEqual([]);
   });
 
-  test("la música enseña las canciones pedidas y el Bizum se puede copiar", async ({ page }) => {
+  test("la música enseña las canciones pedidas y no hay Bizum", async ({ page }) => {
     await page.goto("/i/carlos-ruiz");
     await page.getByRole("button", { name: "Saltar intro" }).click();
     const music = page.getByRole("region", { name: "La música la ponéis vosotros" });
@@ -45,10 +45,7 @@ test.describe("libro de firmas y música", () => {
       "href",
       /^https:\/\//,
     );
-    await expect(page.locator("#regalo").getByText("Por Bizum")).toBeAttached();
-    await expect(
-      page.locator("#regalo").getByRole("button", { name: "Copiar teléfono" }),
-    ).toBeAttached();
+    await expect(page.getByText("Por Bizum")).toHaveCount(0);
   });
 
   test("el panel deja ocultar un mensaje y volver a mostrarlo", async ({ page }) => {

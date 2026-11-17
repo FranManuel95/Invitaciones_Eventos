@@ -1,5 +1,6 @@
 "use client";
 
+import { DISABLED_SECTIONS } from "@/lib/features";
 import { clsx } from "clsx";
 import { ArrowDown, ArrowUp, Play, Square } from "lucide-react";
 import {
@@ -965,43 +966,45 @@ function SectionsPart() {
         description="Quita las que no necesitéis y ordenadlas a vuestro gusto. La confirmación de asistencia siempre se ve, al final."
       >
         <ol className="grid gap-2">
-          {order.map((id, i) => (
-            <li key={id} className="flex items-center gap-2">
-              <span
-                aria-hidden
-                className="w-5 shrink-0 text-right text-[0.8125rem] text-muted tabular-nums"
-              >
-                {i + 1}
-              </span>
-              <ChoiceCard
-                type="checkbox"
-                className="flex-1 !py-2.5"
-                label={SECTIONS[id]}
-                checked={!hidden.has(id)}
-                onChange={(e) => toggle(id, e.target.checked)}
-              />
-              <div className="flex shrink-0 gap-1">
-                <button
-                  type="button"
-                  aria-label={`Subir «${SECTIONS[id]}»`}
-                  disabled={i === 0}
-                  onClick={() => move(i, -1)}
-                  className="grid size-9 place-items-center rounded-md border border-line bg-paper text-ink-soft hover:border-ink/40 disabled:opacity-35"
+          {order.map((id, i) =>
+            DISABLED_SECTIONS.includes(id) ? null : (
+              <li key={id} className="flex items-center gap-2">
+                <span
+                  aria-hidden
+                  className="w-5 shrink-0 text-right text-[0.8125rem] text-muted tabular-nums"
                 >
-                  <ArrowUp aria-hidden className="size-4" />
-                </button>
-                <button
-                  type="button"
-                  aria-label={`Bajar «${SECTIONS[id]}»`}
-                  disabled={i === order.length - 1}
-                  onClick={() => move(i, 1)}
-                  className="grid size-9 place-items-center rounded-md border border-line bg-paper text-ink-soft hover:border-ink/40 disabled:opacity-35"
-                >
-                  <ArrowDown aria-hidden className="size-4" />
-                </button>
-              </div>
-            </li>
-          ))}
+                  {i + 1}
+                </span>
+                <ChoiceCard
+                  type="checkbox"
+                  className="flex-1 !py-2.5"
+                  label={SECTIONS[id]}
+                  checked={!hidden.has(id)}
+                  onChange={(e) => toggle(id, e.target.checked)}
+                />
+                <div className="flex shrink-0 gap-1">
+                  <button
+                    type="button"
+                    aria-label={`Subir «${SECTIONS[id]}»`}
+                    disabled={i === 0}
+                    onClick={() => move(i, -1)}
+                    className="grid size-9 place-items-center rounded-md border border-line bg-paper text-ink-soft hover:border-ink/40 disabled:opacity-35"
+                  >
+                    <ArrowUp aria-hidden className="size-4" />
+                  </button>
+                  <button
+                    type="button"
+                    aria-label={`Bajar «${SECTIONS[id]}»`}
+                    disabled={i === order.length - 1}
+                    onClick={() => move(i, 1)}
+                    className="grid size-9 place-items-center rounded-md border border-line bg-paper text-ink-soft hover:border-ink/40 disabled:opacity-35"
+                  >
+                    <ArrowDown aria-hidden className="size-4" />
+                  </button>
+                </div>
+              </li>
+            ),
+          )}
         </ol>
       </Group>
       <MusicGroup />

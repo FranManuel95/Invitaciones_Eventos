@@ -1066,6 +1066,26 @@ textos cortados, solapes y desbordes.
 - Lección: antes de sustituir una pieza que ya funciona, compararla con la nueva en el mismo
   móvil; y auditar siempre en pantalla baja (Safari con barras), no solo a 390 × 844.
 
+## Ronda 24: regalos, pago y vestimenta apagados (17/11/2026)
+
+El usuario no quiere que salgan ni la cuenta bancaria, ni el Bizum, ni la vestimenta, ni los
+regalos, en ninguna invitación.
+
+- **Un solo interruptor**: `src/lib/features.ts` (`FEATURES = { gifts: false, dressCode: false }`).
+  Se aplica en `InvitationContent`, el único sitio por el que pasa toda invitación (demo,
+  vista previa del editor, reales y grabación): la sección «Regalo» no se pinta ni sale en el
+  índice, y el evento llega sin cuenta, Bizum, lista de regalos ni vestimenta.
+- Los datos guardados, las migraciones, las acciones y las pruebas se quedan: encender
+  cualquiera de los dos es cambiar un valor. Las pruebas de la lista de regalos se saltan solas
+  mientras esté apagada (`test.skip(!FEATURES.gifts)`) y vuelven al encenderla.
+- En el editor desaparecen los grupos «Código de vestimenta», «Regalo» y «Lista de regalos», y
+  «Regalo» no se puede elegir ni ordenar entre las secciones. En el panel desaparece «Regalos».
+- «Antes de venir» sigue con «Dónde dormir» y las preguntas frecuentes. Se quitó de la demo la
+  pregunta «¿Hay lista de bodas?», que remitía a la cuenta.
+- Lo que no se tocó: la página de venta (`/`, `/ejemplos`) sigue anunciando la lista de regalos
+  como parte del producto, y el aviso legal y la privacidad la mencionan. Pendiente de decidir si
+  se quitan también.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).
