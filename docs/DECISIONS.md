@@ -1149,6 +1149,28 @@ rejilla de móviles) y sin usar el mejor recurso: el vídeo real del sobre.
   (`public/venta/lacre-oro.webp`, recortado de la imagen de Higgsfield).
 - Preguntas y formulario, juntos al final; el formulario va en una tarjeta con el borde de lacre.
 
+## Ronda 28: rediseño del panel de los novios (17/11/2026)
+
+El panel tenía la identidad de la invitación de ejemplo (crema y Bodoni) y en el móvil era
+incómodo: una fila de pastillas que se desplazaba de lado, tablas que se salían, la lista de
+invitados con tarjetas en blanco, la vista previa de Imprimir de 35.000 px y las mesas pisadas.
+
+- **Identidad de la marca** (`src/app/panel/[evento]/panel.css`): la misma de la venta (tinta
+  `#1b2033`, papel, oro y lacre), con Italiana en los títulos. Se redefinen los colores del tema
+  dentro de `.panel`, así que todas las pantallas cambian sin tocar sus clases. `.panel-dark` da
+  los mismos nombres de color en claro para las zonas de tinta.
+- **Navegación** (`features/dashboard/panel-nav.tsx`): las secciones agrupadas por lo que se hace
+  (Invitados, El día, Organización). En escritorio, menú lateral de tinta fijo. En el móvil,
+  barra inferior con Inicio, Invitaciones, Invitados, Mesas y «Más», que abre todas las secciones
+  en una hoja (`<dialog>` nativo: atrapa el foco y se cierra con Escape).
+- **Inicio**: la cabecera es una tarjeta de tinta con el saludo, los días que faltan en grande y
+  una barra de personas (confirmadas, sin responder y que no vienen) con sus cifras.
+- **Móvil**: rutas de autobús e invitados con alergias en fichas en lugar de tablas; la vista
+  previa de Imprimir en una ventana desplazable; las mesas, proporcionales al plano (`cqi`) y el
+  plano más alto; la lista de invitados sin `content-visibility` (dejaba tarjetas en blanco);
+  las cifras se ajustan al ancho para que los euros no se corten.
+- Tarjetas, cifras, estados y medidores con el mismo acabado (esquinas, sombra y oro).
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

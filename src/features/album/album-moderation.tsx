@@ -95,7 +95,7 @@ export function AlbumModeration({
         {shown.length ? (
           <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
             {shown.map((p, i) => (
-              <li key={p.id} className="overflow-hidden rounded-[3px] border border-line bg-paper">
+              <li key={p.id} className="overflow-hidden rounded-xl border border-line bg-paper">
                 <div className="relative aspect-square bg-cream">
                   <Image
                     src={p.url}
@@ -152,7 +152,7 @@ export function AlbumModeration({
 
       <aside
         aria-labelledby="qr-album"
-        className="h-fit rounded-[3px] border border-line bg-paper p-5 print:border-0"
+        className="h-fit rounded-xl border border-line bg-paper p-5 print:border-0"
       >
         <h2 id="qr-album" className="font-display text-[1.375rem] text-ink">
           QR para las mesas
@@ -160,7 +160,7 @@ export function AlbumModeration({
         <p className="mt-1 text-[0.875rem] text-muted">
           Los invitados lo escanean y suben sus fotos al momento.
         </p>
-        <div className="mt-4 rounded-[3px] border border-line p-4 text-center">
+        <div className="mt-4 rounded-xl border border-line p-4 text-center">
           <p className="font-names text-[1.5rem] text-ink">{couple}</p>
           <QrCode value={url} label="Código QR del álbum" className="mx-auto mt-3 size-40" />
           <p className="mt-3 text-[0.8125rem] text-ink-soft">Comparte tus fotos de hoy</p>

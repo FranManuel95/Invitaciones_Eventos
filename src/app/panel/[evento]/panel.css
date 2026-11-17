@@ -1,0 +1,97 @@
+/*
+ * Panel de los novios. Misma identidad que la página de venta (tinta, papel, oro y lacre) en vez de
+ * los colores de la invitación de ejemplo. Se redefinen los colores del tema dentro de `.panel`,
+ * así que todas las pantallas del panel cambian a la vez sin tocar sus clases.
+ */
+.panel {
+  --color-paper: #ffffff;
+  --color-ivory: #f4f2ed;
+  --color-cream: #ece8df;
+  --color-raised: #ffffff;
+  --color-sand: #ddd7ca;
+  --color-taupe: #b3ad9e;
+  --color-stone: #7c7f8c;
+  --color-ink: #1b2033;
+  --color-night: #12162a;
+  --color-ink-soft: #3a4058;
+  --color-muted: #5b6072;
+  --color-line: #e4dfd4;
+  /* El oro, como texto o filete sobre blanco: oscuro para que se lea. */
+  --color-gold: #86662a;
+  --color-gold-soft: #dcc690;
+  --color-wax: #8a2433;
+  --color-success: #2f6b45;
+  --color-danger: #9a2b2b;
+  --color-warning: #85570c;
+  --shadow-paper: 0 1px 2px rgb(27 32 51 / 0.05), 0 10px 30px -18px rgb(27 32 51 / 0.35);
+  --shadow-lift: 0 2px 4px rgb(27 32 51 / 0.06), 0 30px 60px -24px rgb(27 32 51 / 0.45);
+  background: var(--color-ivory);
+  color: var(--color-ink);
+}
+
+/* Zonas de tinta (menú lateral, barras del móvil): los mismos nombres de color, en claro. */
+.panel .panel-dark {
+  --color-paper: #242a41;
+  --color-ivory: #1b2033;
+  --color-ink: #f4f2ed;
+  --color-ink-soft: #d3d6e0;
+  --color-muted: #a3a8ba;
+  --color-line: #2f3653;
+  --color-gold: #d6b56f;
+  background: var(--color-ivory);
+  color: var(--color-ink);
+}
+
+/* Títulos de página: Italiana, la letra de la marca. */
+.panel .panel-title {
+  font-family: var(--font-italiana), "Didot", "Bodoni 72", serif;
+  font-weight: 400;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+
+.panel a,
+.panel button,
+.panel summary,
+.panel select,
+.panel label {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.panel :focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* La hoja «Más» del móvil. */
+.panel-sheet {
+  margin: 0;
+  max-width: none;
+  max-height: none;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overscroll-behavior: contain;
+}
+.panel-sheet::backdrop {
+  background: rgb(18 22 42 / 0.55);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .panel-sheet[open] .panel-sheet-body {
+    animation: panel-sheet-in 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+@keyframes panel-sheet-in {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+}
+
+@media print {
+  .panel {
+    background: #fff;
+  }
+}

@@ -90,11 +90,30 @@ export default async function MenusPage(props: PageProps<"/panel/[evento]/menus"
           Información de salud: en la versión real solo será visible para organizadores con permiso.
         </p>
         {withAllergies.length ? (
+          <ul className="divide-y divide-line sm:hidden">
+            {withAllergies.map((r) => (
+              <li key={r.id} className="py-3 first:pt-0 last:pb-0">
+                <div className="flex items-baseline justify-between gap-3">
+                  <span className="text-ink">{r.name}</span>
+                  <span className="text-xs text-muted">{r.menu ? MENU_LABELS[r.menu] : "—"}</span>
+                </div>
+                <p className="text-xs text-muted">{r.groupName}</p>
+                <p className="mt-1 text-sm text-danger">
+                  {r.allergies.map(allergyLabel).join(", ")}
+                  {r.allergyNotes ? (
+                    <span className="block text-xs text-muted">{r.allergyNotes}</span>
+                  ) : null}
+                </p>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+        {withAllergies.length ? (
           <div
             role="region"
             aria-label="Tabla de alergias"
             tabIndex={0}
-            className="relative -mx-5 overflow-x-auto sm:-mx-6"
+            className="relative -mx-5 hidden overflow-x-auto sm:-mx-6 sm:block"
           >
             <table className="w-full min-w-[30rem] text-left text-sm">
               <thead className="border-y border-line bg-ivory/60 text-xs text-muted">

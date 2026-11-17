@@ -227,7 +227,7 @@ export function SeatingPlanner({
         {/* Plano */}
         <div
           ref={plan}
-          className="relative aspect-[4/3] w-full touch-none overflow-hidden rounded-md border border-line bg-paper bg-[radial-gradient(var(--color-line)_1px,transparent_1px)] [background-size:24px_24px]"
+          className="@container relative aspect-[3/4] w-full touch-none overflow-hidden rounded-xl border border-line bg-paper bg-[radial-gradient(var(--color-line)_1px,transparent_1px)] [background-size:24px_24px] shadow-[var(--shadow-paper)] sm:aspect-[4/3]"
           aria-label="Plano del salón"
           role="group"
         >
@@ -502,7 +502,9 @@ function TableNode({
   onPointerDown: (e: ReactPointerEvent<HTMLButtonElement>) => void;
   onKeyDown: (e: KeyboardEvent<HTMLButtonElement>) => void;
 }) {
-  const size = 3.6 + Math.min(s.table.seats, 20) * 0.12; // rem
+  // Tamaño relativo al ancho del plano (cqi), para que en el móvil las mesas no se pisen; con
+  // un mínimo que se pueda tocar.
+  const size = 6.4 + Math.min(s.table.seats, 20) * 0.22; // % del ancho del plano
   const ratio = s.people / s.table.seats;
   return (
     <button
@@ -519,15 +521,17 @@ function TableNode({
       style={{
         left: `${s.table.x}%`,
         top: `${s.table.y}%`,
-        width: s.table.shape === "rect" ? `${size * 1.8}rem` : `${size}rem`,
-        height: `${size}rem`,
+        width: `max(2.75rem, ${s.table.shape === "rect" ? size * 1.8 : size}cqi)`,
+        height: `max(2.75rem, ${size}cqi)`,
       }}
     >
       <span className="pointer-events-none px-1">
-        <span className="block text-[0.6875rem] font-medium text-ink">{s.table.name}</span>
+        <span className="block text-[clamp(0.5625rem,2.4cqi,0.75rem)] font-medium text-ink">
+          {s.table.name}
+        </span>
         <span
           className={clsx(
-            "block text-[0.6875rem]",
+            "block text-[clamp(0.5625rem,2.2cqi,0.6875rem)]",
             s.over ? "font-semibold text-danger" : "text-muted",
           )}
         >

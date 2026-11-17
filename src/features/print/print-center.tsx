@@ -105,7 +105,13 @@ export function PrintCenter({ data }: { data: PrintData }) {
         </p>
       </div>
 
-      <div className="print-area overflow-x-auto rounded-[3px] border border-line bg-white p-4 sm:p-8 print:border-0 print:p-0">
+      {/* En el móvil la vista previa va en una ventana con desplazamiento: entera mediría metros. */}
+      <div
+        role="region"
+        aria-label="Vista previa"
+        tabIndex={0}
+        className="print-area max-h-[72svh] overflow-auto rounded-xl border border-line bg-white p-4 sm:max-h-none sm:overflow-x-auto sm:p-8 print:max-h-none print:overflow-visible print:border-0 print:p-0"
+      >
         {doc === "tarjetas" ? (
           <PlaceCards guests={data.guests} couple={data.couple} />
         ) : doc === "busca" ? (

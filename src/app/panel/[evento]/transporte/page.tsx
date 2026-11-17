@@ -45,11 +45,40 @@ export default async function TransportPage(props: PageProps<"/panel/[evento]/tr
       </div>
 
       <Card title="Rutas" icon={<Bus aria-hidden className="size-4" />}>
+        {/* En el móvil, una ficha por ruta; desde tableta, la tabla. */}
+        <ul className="divide-y divide-line sm:hidden">
+          {routes.map((r) => (
+            <li key={r.id} className="py-4 first:pt-0 last:pb-0">
+              <div className="flex items-baseline justify-between gap-3">
+                <span className="font-medium text-ink">{r.label}</span>
+                <span className="text-sm text-ink-soft tabular-nums">Sale a las {r.departure}</span>
+              </div>
+              <p className="mt-0.5 text-xs text-muted">{r.pickupPoint}</p>
+              <dl className="mt-3 grid grid-cols-3 gap-2 text-center">
+                {[
+                  ["Plazas", r.seats],
+                  ["Confirmadas", r.requested],
+                  ["Libres", r.available],
+                ].map(([label, value]) => (
+                  <div key={label} className="rounded-lg bg-ivory px-2 py-2">
+                    <dt className="text-[0.6875rem] text-muted">{label}</dt>
+                    <dd className="font-display text-[1.375rem] leading-tight text-ink tabular-nums">
+                      {value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              <div className="mt-3">
+                <Meter value={r.requested} max={r.seats} label={`Ocupación ${r.label}`} />
+              </div>
+            </li>
+          ))}
+        </ul>
         <div
           role="region"
           aria-label="Tabla de rutas"
           tabIndex={0}
-          className="relative -mx-5 overflow-x-auto sm:-mx-6"
+          className="relative -mx-5 hidden overflow-x-auto sm:-mx-6 sm:block"
         >
           <table className="w-full min-w-[34rem] text-left text-sm">
             <thead className="border-y border-line bg-ivory/60 text-xs text-muted">
