@@ -262,9 +262,10 @@ export default function SalesPage() {
         </section>
 
         {/* ── Lo que tenéis vosotros ── */}
-        <section aria-labelledby="vosotros-title" className="overflow-hidden py-24 lg:py-32">
+        {/* ── Lo que tenéis vosotros: panel, funciones y editor, en tres franjas equilibradas ── */}
+        <section aria-labelledby="vosotros-title" className="py-24 lg:py-32">
           <div
-            className={`${shell} grid gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16`}
+            className={`${shell} grid items-center gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16`}
           >
             <div>
               <h2
@@ -274,56 +275,72 @@ export default function SalesPage() {
                 Y vosotros, la boda en orden
               </h2>
               <p className="mt-6 max-w-[42ch] text-[1.0625rem] leading-relaxed text-[var(--grafito)]">
-                La editáis cuando queráis, también después de enviarla, y lo que responden los
-                invitados llega a un panel para los dos.
+                Todo lo que responden los invitados llega a un panel para los dos: cuántos vienen,
+                quién falta y qué toca hacer ahora.
               </p>
-              <dl className="mt-10 grid gap-6">
-                {FOR_YOU.map(([title, text]) => (
-                  <div key={title} className="border-t border-[var(--papel-2)] pt-4">
-                    <dt className="text-[1rem] font-medium">{title}</dt>
-                    <dd className="mt-1 text-[0.9375rem] leading-relaxed text-[var(--grafito)]">
-                      {text}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
               <p className="mt-8 text-[0.9375rem]">
                 <Link href="/panel/demo" className="v-link">
                   Ver el panel de ejemplo
                 </Link>
               </p>
             </div>
-            <div className="grid content-start gap-10">
-              <figure>
-                <div className="overflow-hidden rounded-[10px] shadow-[0_40px_80px_-40px_rgb(27_32_51/0.5)] ring-1 ring-[var(--papel-2)]">
-                  <Image
-                    src="/venta/panel.webp"
-                    width={1280}
-                    height={800}
-                    sizes="(min-width: 1024px) 760px, 100vw"
-                    alt="El inicio del panel de María y Daniel: 111 de 150 invitados confirmados, qué toca ahora, cómo han llegado las respuestas y los menús elegidos."
-                    className="h-auto w-full"
-                  />
-                </div>
-                <figcaption className="mt-3 text-[0.875rem] text-[var(--grafito)]">
-                  El panel: cuántos vienen y qué toca hacer ahora.
-                </figcaption>
-              </figure>
-              <figure className="lg:w-[82%]">
-                <div className="overflow-hidden rounded-[10px] shadow-[0_40px_80px_-40px_rgb(27_32_51/0.5)] ring-1 ring-[var(--papel-2)]">
-                  <Image
-                    src="/venta/editor.webp"
-                    width={1280}
-                    height={800}
-                    sizes="(min-width: 1024px) 620px, 100vw"
-                    alt="El editor: a la izquierda, las plantillas; a la derecha, la invitación en un móvil."
-                    className="h-auto w-full"
-                  />
-                </div>
-                <figcaption className="mt-3 text-[0.875rem] text-[var(--grafito)]">
-                  El editor: cada cambio se ve en el móvil de al lado.
-                </figcaption>
-              </figure>
+            <figure>
+              <div className="overflow-hidden rounded-[10px] shadow-[0_40px_80px_-40px_rgb(27_32_51/0.5)] ring-1 ring-[var(--papel-2)]">
+                <Image
+                  src="/venta/panel.webp"
+                  width={1280}
+                  height={800}
+                  sizes="(min-width: 1024px) 660px, 100vw"
+                  alt="El inicio del panel de María y Daniel: 111 de 150 invitados confirmados, qué toca ahora, cómo han llegado las respuestas y los menús elegidos."
+                  className="h-auto w-full"
+                />
+              </div>
+              <figcaption className="mt-3 text-[0.875rem] text-[var(--grafito)]">
+                El panel: cuántos vienen y qué toca hacer ahora.
+              </figcaption>
+            </figure>
+          </div>
+
+          <dl
+            className={`${shell} mt-20 grid gap-x-12 gap-y-8 sm:grid-cols-2 lg:mt-24 lg:grid-cols-3`}
+          >
+            {FOR_YOU.map(([title, text]) => (
+              <div key={title} className="border-t border-[var(--papel-2)] pt-4">
+                <dt className="text-[1rem] font-medium">{title}</dt>
+                <dd className="mt-1 text-[0.9375rem] leading-relaxed text-[var(--grafito)]">
+                  {text}
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+          <div
+            className={`${shell} mt-20 grid items-center gap-12 lg:mt-28 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16`}
+          >
+            <figure className="order-2 lg:order-1">
+              <div className="overflow-hidden rounded-[10px] shadow-[0_40px_80px_-40px_rgb(27_32_51/0.5)] ring-1 ring-[var(--papel-2)]">
+                <Image
+                  src="/venta/editor.webp"
+                  width={1280}
+                  height={800}
+                  sizes="(min-width: 1024px) 660px, 100vw"
+                  alt="El editor: a la izquierda, las plantillas; a la derecha, la invitación en un móvil."
+                  className="h-auto w-full"
+                />
+              </div>
+              <figcaption className="mt-3 text-[0.875rem] text-[var(--grafito)]">
+                El editor: cada cambio se ve en el móvil de al lado.
+              </figcaption>
+            </figure>
+            <div className="order-1 lg:order-2">
+              <h3 className="v-display max-w-[14ch] text-[clamp(2.2rem,4vw,3.25rem)] leading-[1.02]">
+                La editáis cuando queráis
+              </h3>
+              <p className="mt-5 max-w-[40ch] text-[1.0625rem] leading-relaxed text-[var(--grafito)]">
+                Plantilla, colores, letra, fotos y textos, con la invitación en un móvil al lado.
+                También después de enviarla: los invitados ven siempre la última versión, con el
+                mismo enlace.
+              </p>
             </div>
           </div>
         </section>
