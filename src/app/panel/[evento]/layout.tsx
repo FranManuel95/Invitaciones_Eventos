@@ -5,7 +5,9 @@ import { DemoBadge } from "@/components/demo-badge";
 import { MobileNav, SidebarNav } from "@/features/dashboard/panel-nav";
 import { Monogram } from "@/features/invitation/ornaments";
 import { formatLongDate } from "@/lib/format";
+import { latestReplyAt } from "@/lib/guests/news";
 import { loadOrganizer } from "./load";
+import { demoClock } from "./news-clock";
 import "./panel.css";
 
 export const metadata: Metadata = {
@@ -16,7 +18,13 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: "#1b2033" };
 
 export default async function PanelLayout(props: LayoutProps<"/panel/[evento]">) {
-  const { event, base, isDemo, meta } = await loadOrganizer(props.params);
+  const { event, base, isDemo, meta, responses } = await loadOrganizer(props.params);
+  // El punto de «respuestas nuevas» en «Invitaciones».
+  const news = {
+    event: isDemo ? "demo" : (meta?.id ?? "demo"),
+    latest: latestReplyAt(responses),
+    clock: isDemo ? demoClock : undefined,
+  };
 
   const brand = (
     <Link href={base} className="flex min-w-0 items-center gap-3">
@@ -75,7 +83,7 @@ export default async function PanelLayout(props: LayoutProps<"/panel/[evento]">)
       <aside className="panel-dark hidden lg:block print:hidden">
         <div className="sticky top-0 flex h-dvh flex-col gap-8 overflow-y-auto px-4 py-6">
           <div className="px-2">{brand}</div>
-          <SidebarNav base={base} />
+          <SidebarNav base={base} news={news} />
           <div className="mt-auto px-3">{extra}</div>
           <p className="px-3 text-[0.75rem] text-muted">
             <span className="panel-title text-[1.125rem] text-ink-soft">eFeLe</span> Invitaciones
@@ -90,7 +98,7 @@ export default async function PanelLayout(props: LayoutProps<"/panel/[evento]">)
           {isDemo ? <DemoBadge tone="dark" label="Demo" /> : null}
         </div>
       </header>
-      <MobileNav base={base} footer={extra} />
+      <MobileNav base={base} footer={extra} news={news} />
 
       <main
         id="contenido"

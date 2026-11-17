@@ -24,6 +24,17 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, type ReactNode } from "react";
+import type { VisitClock } from "./last-visit";
+import { NewsDot } from "./news";
+
+/** Para el punto de «respuestas nuevas» junto a «Invitaciones». */
+export interface NavNews {
+  event: string;
+  latest: string | null;
+  clock?: VisitClock;
+}
+
+const NEWS_PATH = "/invitaciones";
 
 type Item = { path: string; label: string; icon: LucideIcon };
 
@@ -78,7 +89,15 @@ function useIsActive(base: string) {
   };
 }
 
-function Groups({ base, onNavigate }: { base: string; onNavigate?: () => void }) {
+function Groups({
+  base,
+  news,
+  onNavigate,
+}: {
+  base: string;
+  news?: NavNews;
+  onNavigate?: () => void;
+}) {
   const isActive = useIsActive(base);
   return (
     <>
@@ -113,6 +132,9 @@ function Groups({ base, onNavigate }: { base: string; onNavigate?: () => void })
                         strokeWidth={1.75}
                       />
                       {label}
+                      {news && path === NEWS_PATH ? (
+                        <NewsDot {...news} className="ml-auto" />
+                      ) : null}
                     </Link>
                   </li>
                 );
@@ -126,10 +148,10 @@ function Groups({ base, onNavigate }: { base: string; onNavigate?: () => void })
 }
 
 /** Navegación lateral (escritorio). */
-export function SidebarNav({ base }: { base: string }) {
+export function SidebarNav({ base, news }: { base: string; news?: NavNews }) {
   return (
     <nav aria-label="Panel">
-      <Groups base={base} />
+      <Groups base={base} news={news} />
     </nav>
   );
 }
@@ -138,7 +160,15 @@ export function SidebarNav({ base }: { base: string }) {
  * Navegación del móvil: una barra abajo con lo más usado y «Más», que abre todas las secciones
  * en una hoja (un <dialog> nativo: atrapa el foco y se cierra con Escape).
  */
-export function MobileNav({ base, footer }: { base: string; footer?: ReactNode }) {
+export function MobileNav({
+  base,
+  footer,
+  news,
+}: {
+  base: string;
+  footer?: ReactNode;
+  news?: NavNews;
+}) {
   const isActive = useIsActive(base);
   const pathname = usePathname();
   const sheet = useRef<HTMLDialogElement>(null);
@@ -168,11 +198,16 @@ export function MobileNav({ base, footer }: { base: string; footer?: ReactNode }
                   aria-current={active ? "page" : undefined}
                   className={clsx(tab, active ? "text-ink" : "text-muted hover:text-ink")}
                 >
-                  <Icon
-                    aria-hidden
-                    className={clsx("size-5", active && "text-gold")}
-                    strokeWidth={1.75}
-                  />
+                  <span className="relative">
+                    <Icon
+                      aria-hidden
+                      className={clsx("size-5", active && "text-gold")}
+                      strokeWidth={1.75}
+                    />
+                    {news && path === NEWS_PATH ? (
+                      <NewsDot {...news} className="absolute -top-0.5 -right-1" />
+                    ) : null}
+                  </span>
                   <span className="truncate">{label}</span>
                 </Link>
               </li>
@@ -217,7 +252,7 @@ export function MobileNav({ base, footer }: { base: string; footer?: ReactNode }
             </button>
           </div>
           <nav aria-label="Todas las secciones">
-            <Groups base={base} onNavigate={() => sheet.current?.close()} />
+            <Groups base={base} news={news} onNavigate={() => sheet.current?.close()} />
           </nav>
           {footer ? <div className="mt-6 border-t border-line px-3 pt-4">{footer}</div> : null}
         </div>

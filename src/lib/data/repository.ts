@@ -141,6 +141,8 @@ export interface OrganizerData {
   tables: SeatingTable[];
   /** Solo en eventos reales. */
   meta?: EventMeta;
+  /** Aspecto del borrador (solo en eventos reales): dice si ya se ha elegido plantilla. */
+  theme?: Theme;
 }
 
 /** Datos del panel. `eventKey` es "demo" o el id de un evento del usuario. */
@@ -168,7 +170,7 @@ export async function getOrganizerData(eventKey = DEMO_EVENT_KEY): Promise<Organ
   const [eventRes, groupsRes, responsesRes, tablesRes, openedRes] = await Promise.all([
     supabase
       .from("events")
-      .select("id, slug, status, phase, content, published_at")
+      .select("id, slug, status, phase, content, theme, published_at")
       .eq("id", eventKey)
       .maybeSingle(),
     supabase
@@ -249,6 +251,7 @@ export async function getOrganizerData(eventKey = DEMO_EVENT_KEY): Promise<Organ
       phase: eventRes.data.phase === "save_the_date" ? "save_the_date" : "invitacion",
       publishedAt: eventRes.data.published_at,
     },
+    theme: parseTheme(eventRes.data.theme),
   };
 }
 

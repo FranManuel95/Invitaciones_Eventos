@@ -2,7 +2,7 @@ import { eventNoun } from "@/lib/event-kind";
 import { formatLongDate } from "@/lib/format";
 import { openSummary } from "@/lib/guests/opened";
 import Link from "next/link";
-import { DEMO_REFERENCE_DATE } from "@/data/demo/guests";
+import { DEMO_REFERENCE_DATE, showcaseGroups } from "@/data/demo/guests";
 import { ConfirmationsChart, DonutChart } from "@/features/dashboard/charts";
 import { Card, MENU_COLORS, MENU_ORDER, Meter } from "@/features/dashboard/ui";
 import { ALLERGIES, MENU_LABELS } from "@/lib/domain/catalog";
@@ -18,6 +18,13 @@ import {
 } from "@/lib/stats";
 
 import { nextSteps, songTally } from "@/lib/next-steps";
+import { FirstStepsGuide } from "@/features/dashboard/first-steps-guide";
+import { SinceLastVisit } from "@/features/dashboard/news";
+import { firstSteps, showFirstSteps } from "@/lib/events/first-steps";
+import { buildNewEventContent } from "@/lib/events/new-event";
+import { repliesSince } from "@/lib/guests/news";
+import { DEFAULT_THEME } from "@/lib/theme";
+import { demoClock } from "./news-clock";
 
 import { loadOrganizer } from "./load";
 import { PublishBar } from "./publish-bar";
@@ -37,7 +44,8 @@ const linkClass =
   "text-[0.875rem] text-ink underline decoration-gold underline-offset-4 transition-colors hover:decoration-ink";
 
 export default async function PanelHome(props: PageProps<"/panel/[evento]">) {
-  const { event, groups, responses, base, isDemo, meta } = await loadOrganizer(props.params);
+  const { event, groups, responses, base, isDemo, meta, theme } = await loadOrganizer(props.params);
+  const query = await props.searchParams;
   const summary = summarize(groups, responses);
   const rows = buildGuestRows(groups, responses);
   // En la demo, las fechas son ficticias; en un evento real, del primer envío a hoy.
@@ -56,7 +64,39 @@ export default async function PanelHome(props: PageProps<"/panel/[evento]">) {
   const reference = isDemo ? `${DEMO_REFERENCE_DATE}T12:00:00Z` : new Date().toISOString();
   const daysLeft = Math.ceil((Date.parse(event.date) - Date.parse(reference)) / 86_400_000);
   const opened = openSummary(groups, new Set(responses.map((r) => r.groupId)));
-  const steps = nextSteps(groups, responses, event.rsvpDeadline, reference);
+  const editorHref = `/editor/${isDemo ? "demo" : meta?.id}`;
+
+  // Primeros pasos. En la demo (que ya está hecha) se ven con ?vista=nuevo, como un evento recién
+  // creado con los mismos nombres y fecha.
+  const previewNew = isDemo && query.vista === "nuevo";
+  const guide = previewNew
+    ? firstSteps({
+        content: buildNewEventContent({
+          first: event.couple.first,
+          second: event.couple.second,
+          date: event.date.slice(0, 10),
+          kind: event.kind,
+        }),
+        theme: DEFAULT_THEME,
+        groups: [],
+        published: false,
+        sampleNames: [],
+      })
+    : meta
+      ? firstSteps({
+          content: event,
+          theme: theme ?? DEFAULT_THEME,
+          groups,
+          published: meta.status === "published",
+          sampleNames: showcaseGroups.map((g) => g.displayName),
+        })
+      : null;
+  const guideVisible = guide !== null && showFirstSteps(guide);
+  // Con la guía a la vista, «Qué toca ahora» no repite lo de crear invitaciones.
+  const steps = nextSteps(groups, responses, event.rsvpDeadline, reference).filter(
+    (s) => !(guideVisible && s.id === "sin-invitaciones"),
+  );
+  const allReplies = repliesSince(groups, responses, "1970-01-01T00:00:00Z");
 
   return (
     <>
@@ -91,7 +131,7 @@ export default async function PanelHome(props: PageProps<"/panel/[evento]">) {
             </p>
             <div className="mt-7 flex flex-wrap gap-2">
               <Link
-                href={`/editor/${isDemo ? "demo" : meta?.id}`}
+                href={editorHref}
                 className="inline-flex h-11 items-center rounded-full bg-[#f4f2ed] px-5 text-[0.9375rem] font-medium text-[#1b2033] transition-colors hover:bg-white"
               >
                 Editar la invitación
@@ -176,29 +216,50 @@ export default async function PanelHome(props: PageProps<"/panel/[evento]">) {
         </div>
       </section>
 
-      <section aria-labelledby="que-toca" className="mt-10">
-        <h2 id="que-toca" className="panel-title text-[1.875rem] leading-none text-ink">
-          Qué toca ahora
-        </h2>
-        <ul className="mt-3 grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] gap-3">
-          {steps.map((step) => (
-            <li
-              key={step.id}
-              className="flex flex-col rounded-xl border border-line bg-paper p-5 shadow-[var(--shadow-paper)] sm:p-6"
-            >
-              <p className="font-display text-[1.375rem] leading-tight text-ink">{step.title}</p>
-              <p className="mt-1.5 flex-1 text-[0.875rem] leading-relaxed text-ink-soft">
-                {step.detail}
-              </p>
-              {step.path && step.action ? (
-                <Link href={`${base}${step.path}`} className={`${linkClass} mt-3 self-start`}>
-                  {step.action}
-                </Link>
-              ) : null}
-            </li>
-          ))}
-        </ul>
-      </section>
+      {guideVisible ? (
+        <FirstStepsGuide
+          className="mt-10"
+          steps={guide}
+          welcome={query.bienvenida === "1"}
+          hrefs={{
+            editor: editorHref,
+            "/invitaciones": `${base}/invitaciones`,
+            "#publicacion": meta ? "#publicacion" : editorHref,
+          }}
+        />
+      ) : null}
+      <SinceLastVisit
+        className="mt-10"
+        event={isDemo ? "demo" : (meta?.id ?? "demo")}
+        replies={allReplies}
+        clock={isDemo ? demoClock : undefined}
+        invitationsHref={`${base}/invitaciones`}
+      />
+      {steps.length ? (
+        <section aria-labelledby="que-toca" className="mt-10">
+          <h2 id="que-toca" className="panel-title text-[1.875rem] leading-none text-ink">
+            Qué toca ahora
+          </h2>
+          <ul className="mt-3 grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] gap-3">
+            {steps.map((step) => (
+              <li
+                key={step.id}
+                className="flex flex-col rounded-xl border border-line bg-paper p-5 shadow-[var(--shadow-paper)] sm:p-6"
+              >
+                <p className="font-display text-[1.375rem] leading-tight text-ink">{step.title}</p>
+                <p className="mt-1.5 flex-1 text-[0.875rem] leading-relaxed text-ink-soft">
+                  {step.detail}
+                </p>
+                {step.path && step.action ? (
+                  <Link href={`${base}${step.path}`} className={`${linkClass} mt-3 self-start`}>
+                    {step.action}
+                  </Link>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <div className="mt-8 grid gap-6 xl:grid-cols-3">
         <Card title="Confirmaciones acumuladas" className="xl:col-span-2">
@@ -331,11 +392,13 @@ export default async function PanelHome(props: PageProps<"/panel/[evento]">) {
         </Card>
       </div>
 
-      <p className="mt-12 text-[0.8125rem] text-muted">
-        Datos ficticios generados para la demo, con fecha de referencia{" "}
-        {dateFmt.format(new Date(DEMO_REFERENCE_DATE))}. Las respuestas que envíes desde las
-        invitaciones de ejemplo se guardan solo en tu navegador y no aparecen aquí.
-      </p>
+      {isDemo ? (
+        <p className="mt-12 text-[0.8125rem] text-muted">
+          Datos ficticios generados para la demo, con fecha de referencia{" "}
+          {dateFmt.format(new Date(DEMO_REFERENCE_DATE))}. Las respuestas que envíes desde las
+          invitaciones de ejemplo se guardan solo en tu navegador y no aparecen aquí.
+        </p>
+      ) : null}
     </>
   );
 }
