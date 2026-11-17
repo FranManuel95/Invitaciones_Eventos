@@ -33,9 +33,13 @@ test.describe("página de venta", () => {
       page.getByRole("region", { name: "Confirma en un minuto" }).getByRole("listitem"),
     ).toHaveCount(5);
     await expect(page.getByText(/También elegís cómo se abre: sobre en la mesa,/)).toBeVisible();
-    const templates = page.getByRole("region", { name: "Veinticinco plantillas para empezar" });
+    const templates = page.getByRole("region", { name: "Plantillas para empezar" });
     // Solo se enseñan las plantillas que se abren con un vídeo real.
-    await expect(templates.getByRole("link")).toHaveCount(25);
+    // En la portada solo ocho, de familias distintas; el catálogo entero está en /ejemplos.
+    await expect(templates.getByRole("link", { name: /^(?!Ver las)/ })).toHaveCount(8);
+    await expect(
+      templates.getByRole("link", { name: "Ver las veinticinco plantillas" }),
+    ).toHaveAttribute("href", "/ejemplos#plantillas");
     await expect(templates.getByText("Se abre con: caja esmeralda con lazo dorado.")).toBeVisible();
     await templates.getByRole("link", { name: "Terciopelo", exact: true }).click();
     await expect(page).toHaveURL(/plantilla=terciopelo/);
@@ -103,5 +107,23 @@ test.describe("página de venta", () => {
   test("sin dominio propio, robots.txt no deja indexar nada", async ({ request }) => {
     const robots = await (await request.get("/robots.txt")).text();
     expect(robots).toMatch(/Disallow: \/\s*$/m);
+  });
+
+  test("las pieles de las plantillas con motivo solo se descargan con ellas", async ({ page }) => {
+    const skins = (path: string) =>
+      page.goto(path).then(() =>
+        page.evaluate(async () => {
+          const css = await Promise.all(
+            [...document.querySelectorAll<HTMLLinkElement>("link[rel=stylesheet]")].map((l) =>
+              fetch(l.href).then((r) => r.text()),
+            ),
+          );
+          // El minificador quita las comillas del selector: [data-motif=gaceta].
+          return css.some((text) => /data-motif=("?)gaceta/.test(text));
+        }),
+      );
+    expect(await skins("/")).toBe(false);
+    expect(await skins("/i/familia-garcia?plantilla=olivar")).toBe(false);
+    expect(await skins("/i/familia-garcia?plantilla=gaceta")).toBe(true);
   });
 });

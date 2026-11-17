@@ -47,8 +47,9 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 - **Pruebas (13/11/2026, rama de trabajo con todo unido)**: 301 unitarias y 255 E2E en verde (3
   se saltan: las 2 de Supabase real, que necesitan red, y la de la píldora en el proyecto de
   escritorio). Ver también la ronda 12.
-- **Regalos, cuenta, Bizum y vestimenta apagados (17/11/2026)** en todas las invitaciones, con un
-  interruptor en `src/lib/features.ts`. La venta y los textos legales aún los mencionan.
+- **Regalos, cuenta, Bizum y vestimenta apagados por defecto (17/11/2026)** en las plantillas y la
+  demo; cada cliente los enciende al editar (Estilo → Secciones y Textos → Código de
+  vestimenta). Ver la ronda 24 de `docs/DECISIONS.md`.
 - **Evento real del usuario**: `fm-y-lucia-2030-915f24` (lo creó probando en su iPhone). No tocar.
 
 ## Pendiente

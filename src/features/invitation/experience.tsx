@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { markOpened } from "@/app/actions/opened";
 import { eventNoun } from "@/lib/event-kind";
 import type { GiftStatus } from "@/lib/gifts";
@@ -55,6 +56,9 @@ export type Stage = "brief" | "cover" | "envelope" | "letter" | "content";
  */
 const loadContent = () =>
   import("./content/invitation-content").then((mod) => mod.InvitationContent);
+
+// Las pieles de las plantillas con motivo pesan: se cargan solo cuando la plantilla las usa.
+const MotifSkin = dynamic(() => import("./skins/motif-skin"));
 
 const noopSubscribe = () => () => {};
 
@@ -254,6 +258,7 @@ export function InvitationExperience({
                 : ({ ...themeVars(theme), ...motifVars(theme, event.date) } as CSSProperties)
             }
           >
+            {theme.motif === "ninguno" ? null : <MotifSkin />}
             {intro ? (
               <div className="fixed top-[max(1rem,env(safe-area-inset-top))] right-4 z-50 flex items-center gap-2">
                 <button

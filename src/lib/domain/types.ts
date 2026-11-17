@@ -114,6 +114,8 @@ export interface WeddingEvent {
     palette: { name: string; hex: string }[];
     /** Sugerencias por persona («Ellas», «Ellos», «Niños»…). */
     examples?: { who: string; text: string }[];
+    /** Se muestra solo si el cliente lo enciende en el editor. */
+    enabled?: boolean;
   };
   accommodation: Accommodation[];
   faqs: Faq[];

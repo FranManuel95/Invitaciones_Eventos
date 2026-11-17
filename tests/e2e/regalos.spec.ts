@@ -1,16 +1,13 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
-import { FEATURES } from "../../src/lib/features";
 
-// La lista de regalos está apagada en todas las invitaciones (src/lib/features.ts): estas pruebas
-// vuelven solas si se enciende.
+// La lista de regalos empieza oculta en las plantillas y la demo; ?regalos=1 la enciende, igual que
+// hace un cliente desde el editor (Estilo → Secciones).
 test.describe("lista de regalos", () => {
-  test.skip(!FEATURES.gifts, "Regalos apagados en todas las invitaciones.");
-
   test("el invitado reserva un regalo, lo ve sellado como suyo y puede deshacerlo", async ({
     page,
   }) => {
-    await page.goto("/i/carlos-ruiz");
+    await page.goto("/i/carlos-ruiz?regalos=1");
     await page.getByRole("button", { name: "Saltar intro" }).click();
     const list = page.getByRole("list", { name: "Lista de regalos" });
     await list.scrollIntoViewIfNeeded();

@@ -88,7 +88,8 @@ export const themeSchema = z.object({
   edge: z.enum(EDGE_IDS).catch("barba"),
   ornament: z.enum(ORNAMENT_IDS).catch("almendro"),
   calendar: z.enum(CALENDAR_IDS).catch("taco"),
-  hidden: z.array(z.enum(SECTION_IDS)).max(SECTION_IDS.length).catch([]),
+  // Sin el dato (evento nuevo), la lista de regalos empieza oculta; un tema ya guardado trae el suyo.
+  hidden: z.array(z.enum(SECTION_IDS)).max(SECTION_IDS.length).catch(["regalo"]),
   order: z.array(z.string()).catch([]).transform(normalizeOrder),
   music: z.boolean().catch(false),
   musicStyle: z.enum(MUSIC_IDS).catch("piano"),

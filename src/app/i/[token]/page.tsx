@@ -36,10 +36,14 @@ export default async function InvitationPage(props: PageProps<"/i/[token]">) {
     template && (TEMPLATE_IDS as readonly string[]).includes(template)
       ? applyTemplate(invitation.theme, template as TemplateId)
       : invitation.theme;
+  // En la demo, ?regalos=1 enciende la sección «Regalo», que las plantillas traen oculta.
+  const withGifts =
+    pick("regalos") === "1" ? { hidden: base.hidden.filter((id) => id !== "regalo") } : {};
   const theme = invitation.group.persisted
     ? invitation.theme
     : parseTheme({
         ...base,
+        ...withGifts,
         ...Object.fromEntries(
           Object.entries({
             style: pick("estilo"),

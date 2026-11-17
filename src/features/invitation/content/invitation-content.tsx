@@ -31,7 +31,7 @@ import { ResponseStatus } from "./response-status";
 import { dayClock, isAfterEvent, liveProgram } from "@/lib/day-mode";
 import { ThankYou } from "./thank-you";
 import { LiveDay } from "./live-day";
-import { DISABLED_SECTIONS, withFeatures } from "@/lib/features";
+import { withFeatures } from "@/lib/features";
 import { SaveTheDate, SaveTheDateOnly } from "./save-the-date";
 import { SectionDock, type DockLink } from "./section-dock";
 import { isDeadlinePassed } from "@/lib/rsvp/draft";
@@ -156,17 +156,15 @@ export function InvitationContent({
   const event = useMemo(() => withFeatures(fullEvent), [fullEvent]);
   useSmoothScroll(smooth);
   const early = phase === "save_the_date";
-  const shows = (id: SectionId) => !hidden.includes(id) && !DISABLED_SECTIONS.includes(id);
+  const shows = (id: SectionId) => !hidden.includes(id);
   const nav = useMemo(() => {
     const rank = (id: string) => {
       const i = (order as readonly string[]).indexOf(id);
       return i === -1 ? order.length : i;
     };
-    return NAV.filter(
-      (n) =>
-        !(hidden as string[]).includes(n.id) &&
-        !(DISABLED_SECTIONS as readonly string[]).includes(n.id),
-    ).sort((a, b) => rank(a.id) - rank(b.id));
+    return NAV.filter((n) => !(hidden as string[]).includes(n.id)).sort(
+      (a, b) => rank(a.id) - rank(b.id),
+    );
   }, [hidden, order]);
   const navIds = useMemo(() => nav.map((n) => n.id), [nav]);
   const active = useActiveSection(navIds);

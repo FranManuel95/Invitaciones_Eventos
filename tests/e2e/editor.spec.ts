@@ -75,14 +75,36 @@ test.describe("editor de la invitación", () => {
     await expect(preview.locator("[data-layout='foto'] img")).toBeAttached();
   });
 
+  test("regalos y vestimenta empiezan apagados y el cliente los enciende", async ({ page }) => {
+    await page.goto("/editor/demo");
+    const preview = page.frameLocator('iframe[title="Vista previa de la invitación"]');
+    await expect(preview.locator("#cover-title")).toBeAttached();
+
+    // Regalos: en Estilo → Secciones. Empiezan ocultos.
+    await page.getByRole("tab", { name: "Secciones y música" }).click();
+    await expect(preview.locator("#fecha")).toBeAttached();
+    await expect(preview.locator("#regalo")).toHaveCount(0);
+    await expect(preview.getByText("Colores que nos gustan")).toHaveCount(0);
+    await page.getByRole("checkbox", { name: "Regalo" }).check({ force: true });
+    await expect(preview.locator("#regalo")).toBeAttached();
+
+    // Vestimenta: en Textos → Código de vestimenta.
+    await page.getByRole("tab", { name: "Textos" }).click();
+    await page
+      .getByRole("checkbox", { name: "Mostrar el código de vestimenta" })
+      .check({ force: true });
+    await expect(preview.getByText("Colores que nos gustan")).toBeAttached();
+  });
+
   test("reordenar secciones cambia la invitación", async ({ page }) => {
     await page.goto("/editor/demo");
     const preview = page.frameLocator('iframe[title="Vista previa de la invitación"]');
     await expect(preview.locator("#cover-title")).toBeAttached();
     await page.getByRole("tab", { name: "Secciones y música" }).click();
     await expect(preview.locator("#fecha")).toBeAttached();
-    // «Regalo» está apagada en todas las invitaciones: ni se puede elegir ni ordenar.
-    await expect(page.getByRole("button", { name: "Subir «Regalo»" })).toHaveCount(0);
+    // «Regalo» empieza oculta, pero se puede elegir y ordenar como las demás.
+    await expect(page.getByRole("checkbox", { name: "Regalo" })).not.toBeChecked();
+    await expect(page.getByRole("button", { name: "Subir «Regalo»" })).toBeVisible();
     for (let i = 0; i < 5; i++) {
       await page.getByRole("button", { name: "Subir «Nuestra historia»" }).click();
     }

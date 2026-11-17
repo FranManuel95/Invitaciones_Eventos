@@ -2,7 +2,7 @@ import { clsx } from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { FEATURED_TEMPLATE_IDS, TEMPLATES } from "@/lib/theme";
+import { FEATURED_TEMPLATE_IDS, TEMPLATES, type TemplateId } from "@/lib/theme";
 import { COVER_IDS, COVERS } from "@/lib/theme/cover";
 import { FILMS, OPENINGS, SHOWN_OPENING_IDS } from "@/lib/theme/envelope";
 import { OpeningReel } from "./opening-reel";
@@ -82,10 +82,21 @@ export function OpeningShowcase({ className }: { className?: string }) {
  * después (un sobre, una caja o un díptico). En el móvil se deslizan de lado; en pantallas anchas
  * van de cinco en cinco.
  */
-export function TemplateShowcase() {
+export function TemplateShowcase({
+  ids = FEATURED_TEMPLATE_IDS,
+  columns = 5,
+}: {
+  ids?: readonly TemplateId[];
+  columns?: 4 | 5;
+}) {
   return (
-    <ul className="-mx-6 flex snap-x snap-mandatory scroll-px-6 gap-6 overflow-x-auto px-6 pt-2 pb-6 sm:-mx-10 sm:scroll-px-10 sm:px-10 lg:mx-0 lg:grid lg:grid-cols-5 lg:gap-x-7 lg:gap-y-14 lg:overflow-visible lg:px-0 lg:pb-0">
-      {FEATURED_TEMPLATE_IDS.map((id) => {
+    <ul
+      className={clsx(
+        "-mx-6 flex snap-x snap-mandatory scroll-px-6 gap-6 overflow-x-auto px-6 pt-2 pb-6 sm:-mx-10 sm:scroll-px-10 sm:px-10 lg:mx-0 lg:grid lg:gap-x-7 lg:gap-y-14 lg:overflow-visible lg:px-0 lg:pb-0",
+        columns === 4 ? "lg:grid-cols-4" : "lg:grid-cols-5",
+      )}
+    >
+      {ids.map((id) => {
         const template = TEMPLATES[id];
         const film = template.look.film ? FILMS[template.look.film] : null;
         return (

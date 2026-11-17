@@ -5,6 +5,7 @@ import { buttonClasses } from "@/components/ui/button";
 import { ContactForm } from "@/features/sales/contact-form";
 import { PhoneDemo } from "@/features/sales/phone-demo";
 import { PhoneFrame, PhoneStrip, ScreenShot, TemplateShowcase } from "@/features/sales/showcase";
+import { SALES_TEMPLATE_IDS } from "@/lib/theme";
 import { OPENINGS, SHOWN_OPENING_IDS } from "@/lib/theme/envelope";
 import { PRICE_EUR } from "@/lib/sales/contact";
 import { siteUrl } from "@/lib/site";
@@ -218,7 +219,7 @@ export default function SalesPage() {
               id="plantillas"
               className="font-display text-[2.25rem] leading-[1.05] text-ink sm:text-[2.75rem]"
             >
-              Veinticinco plantillas para empezar
+              Plantillas para empezar
             </h2>
             <p className="mt-3 max-w-[48ch] text-[0.9375rem] leading-relaxed text-muted md:mt-0">
               Cada una llega con su portada, sus colores, su letra y su forma de abrirse. Tocad
@@ -226,8 +227,13 @@ export default function SalesPage() {
             </p>
           </div>
           <div className="mt-10">
-            <TemplateShowcase />
+            <TemplateShowcase ids={SALES_TEMPLATE_IDS} columns={4} />
           </div>
+          <p className="mt-10">
+            <Link href="/ejemplos#plantillas" className={linkClass}>
+              Ver las veinticinco plantillas
+            </Link>
+          </p>
         </section>
 
         <section aria-labelledby="invitado" className="bg-ivory">

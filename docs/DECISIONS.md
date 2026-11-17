@@ -1066,25 +1066,30 @@ textos cortados, solapes y desbordes.
 - Lección: antes de sustituir una pieza que ya funciona, compararla con la nueva en el mismo
   móvil; y auditar siempre en pantalla baja (Safari con barras), no solo a 390 × 844.
 
-## Ronda 24: regalos, pago y vestimenta apagados (17/11/2026)
+## Ronda 24: regalos, pago y vestimenta apagados por defecto (17/11/2026)
 
 El usuario no quiere que salgan ni la cuenta bancaria, ni el Bizum, ni la vestimenta, ni los
-regalos, en ninguna invitación.
+regalos **en las plantillas**; pero cada cliente puede encenderlos al editar su invitación. (Una
+primera versión los apagaba para todos con un interruptor global y quitaba los controles del
+editor; se corrigió el mismo día.)
 
-- **Un solo interruptor**: `src/lib/features.ts` (`FEATURES = { gifts: false, dressCode: false }`).
-  Se aplica en `InvitationContent`, el único sitio por el que pasa toda invitación (demo,
-  vista previa del editor, reales y grabación): la sección «Regalo» no se pinta ni sale en el
-  índice, y el evento llega sin cuenta, Bizum, lista de regalos ni vestimenta.
-- Los datos guardados, las migraciones, las acciones y las pruebas se quedan: encender
-  cualquiera de los dos es cambiar un valor. Las pruebas de la lista de regalos se saltan solas
-  mientras esté apagada (`test.skip(!FEATURES.gifts)`) y vuelven al encenderla.
-- En el editor desaparecen los grupos «Código de vestimenta», «Regalo» y «Lista de regalos», y
-  «Regalo» no se puede elegir ni ordenar entre las secciones. En el panel desaparece «Regalos».
+- **Regalos**: la sección «Regalo» empieza oculta. `DEFAULT_THEME.hidden` es `["regalo"]` y
+  `parseTheme` usa ese valor cuando el tema no trae la lista (un evento nuevo). Un tema ya
+  guardado desde el editor conserva lo que eligió el cliente, también «nada oculto». Se enciende
+  en Estilo → Secciones, como cualquier otra sección. `applyTemplate` respeta esa elección al
+  cambiar de plantilla. Con la sección oculta tampoco salen la cuenta ni el Bizum.
+- **Vestimenta**: aparece solo si `dressCode.enabled` es verdadero (campo opcional del contenido).
+  Sin él, `withFeatures` (`src/lib/features.ts`) entrega el evento sin vestimenta. Se enciende en
+  Textos → Código de vestimenta. Los datos de la demo se conservan: encenderlo los muestra.
+- En el editor están siempre los grupos «Código de vestimenta», «Regalo» y «Lista de regalos»,
+  y en el panel, «Regalos».
+- En la demo, `?regalos=1` enciende la sección «Regalo» (lo usan las pruebas de la lista).
 - «Antes de venir» sigue con «Dónde dormir» y las preguntas frecuentes. Se quitó de la demo la
   pregunta «¿Hay lista de bodas?», que remitía a la cuenta.
-- Lo que no se tocó: la página de venta (`/`, `/ejemplos`) sigue anunciando la lista de regalos
-  como parte del producto, y el aviso legal y la privacidad la mencionan. Pendiente de decidir si
-  se quitan también.
+- La página de venta puede seguir anunciando la lista de regalos y la vestimenta: son cosas que el
+  cliente puede activar.
+- Los eventos que ya tenían el tema guardado sin «regalo» oculto siguen mostrándolos; no cambia
+  nada para ellos.
 
 ## Ronda 25: la vista previa del editor ya no se queda sin borrador (17/11/2026)
 
@@ -1101,6 +1106,24 @@ cambio **para siempre** aunque se esperasen 25 s: era un fallo real, no lentitud
 - Comprobado: 120 de 120 ejecuciones correctas en paralelo.
 - Lección: una intermitencia que se repite no es ruido. Medirla (cuántas veces, con qué margen de
   tiempo) antes de darla por intermitente.
+
+## Ronda 26: revisión de la tanda de conceptos y ajustes (17/11/2026)
+
+Revisión de `claude/exciting-franklin-43k083` (las doce plantillas de concepto, sus cartas, pases
+y aperturas) integrada en la rama de trabajo, con estos cambios:
+
+- **Venta**: en la portada, ocho plantillas de familias distintas (`SALES_TEMPLATE_IDS`: Arcilla,
+  Olivar, Terciopelo, Lavanda, Gaceta, Embarque, Vinilo y Tarot), en dos filas de cuatro, con un
+  enlace a las veinticinco en `/ejemplos`. La página baja de unos 10.300 a unos 8.800 px.
+  `FEATURED_TEMPLATE_IDS` sigue siendo el catálogo completo (editor y `/ejemplos`).
+- **Miniaturas de la venta**: en las plantillas de concepto, el sobre al que llega cada una (a
+  pantalla completa, con su lacre), como en las diez primeras, y no un trozo del interior.
+- **CSS por plantilla**: las pieles de motivo (acuarela y concepto, unas 1.350 líneas) salen de
+  `globals.css` a `src/features/invitation/skins/skins.css`, que `experience.tsx` carga con
+  `next/dynamic` solo si `theme.motif` no es «ninguno». El CSS llega en la primera respuesta
+  (sin parpadeo) y las demás páginas no lo descargan: el CSS global baja de 214 a 183 KB. En
+  `globals.css` queda solo la regla que oculta los rótulos del motivo cuando no hay motivo.
+- Regalos y vestimenta: ver la ronda 24.
 
 ## Pendiente para próximas fases
 

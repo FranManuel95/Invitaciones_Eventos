@@ -47,7 +47,7 @@ cómo confirmar se leen igual de claros que en cualquier otra plantilla.
 | Enganche en la portada     | `src/features/invitation/cover/cover-stage.tsx`           | Si `isConceptCover(scene)`, pinta `ConceptCover` en lugar del fondo y los nombres. El gesto de levantar la portada es el común.                  |
 | Motivo (piel interior)     | `MOTIF_IDS` y `MOTIFS` en `cover.ts`; `theme.motif`       | `kind: "concepto"` o `"acuarela"`. `experience.tsx` pone `data-motif` y `data-motif-kind` en la raíz.                                            |
 | Variables del motivo       | `motifVars()` en `src/features/invitation/experience.tsx` | `--motif-stamp` (`"10·07·27"`) y `--motif-serial` (`"N.º 100727"`), listas para `content:` en CSS.                                               |
-| Piel interior              | Final de `src/app/globals.css`                            | Reglas por `[data-motif="…"]`: `.motif-hero` (cabecera), `.motif-sprig` (rótulo de cada sección), `.motif-closing` (cierre).                     |
+| Piel interior              | `src/features/invitation/skins/skins.css`                 | Reglas por `[data-motif="…"]`: `.motif-hero` (cabecera), `.motif-sprig` (rótulo de cada sección), `.motif-closing` (cierre).                     |
 | Cabecera y cierre sin foto | `painted` en `invitation-content.tsx`                     | Con motivo, la cabecera es `header.motif-hero` (sin foto) y el pie lleva `.motif-closing`.                                                       |
 | Estilo de color            | `STYLES` en `src/lib/theme/index.ts`                      | Quince colores y cuatro tonos de escena. Las pruebas exigen contraste AA.                                                                        |
 | Plantilla                  | `TEMPLATES`, `TEMPLATE_IDS`, `FEATURED_TEMPLATE_IDS`      | Junta estilo, portada, motivo, letra, calendario y apertura. Las destacadas salen en la venta y el editor.                                       |
@@ -75,7 +75,8 @@ Sonido y vibración: `src/features/invitation/effects/sound.ts` (`playPaper`, `p
    - la fecha en un `<time dateTime={isoDay(event.date)}>`, siempre en la página aunque esté
      tapada (así la lee un lector de pantalla);
    - con `reduce` (movimiento reducido), sin animaciones de entrada.
-3. **Piel interior** (`globals.css`): tres reglas por motivo, como mínimo `.motif-hero`,
+3. **Piel interior** (`src/features/invitation/skins/skins.css`, que solo se descarga con las
+   plantillas con motivo): tres reglas por motivo, como mínimo `.motif-hero`,
    `.motif-sprig` y `.motif-closing`. Los hijos de `.motif-closing` ya se ocultan en los de
    concepto. Usar las variables de color del tema (`--color-ink`, `--color-gold`,
    `--color-paper`…), nunca colores fijos.
@@ -127,7 +128,7 @@ Hecho en la ronda 21: la carta (membrete y despedida), el pase del invitado y un
 propia («concepto», el objeto de la plantilla trae la carta). En la ronda 23 las plantillas
 volvieron a sus sobres, que se ven mucho mejor; «concepto» queda como opción del editor. Para una plantilla nueva: añadir su
 entrada en `CONCEPT_KITS` (`src/lib/theme/concept-kit.ts`) y su `.concept-carrier` en
-`globals.css` si quiere un objeto distinto en la apertura opcional. Y comprobar la portada en
+`skins.css` si quiere un objeto distinto en la apertura opcional. Y comprobar la portada en
 375 × 667: el botón de abrir tiene que verse entero (prueba en `tests/e2e/conceptos.spec.ts`).
 
 Lo que queda:

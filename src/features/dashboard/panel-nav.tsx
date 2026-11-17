@@ -20,7 +20,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { FEATURES } from "@/lib/features";
 import { usePathname } from "next/navigation";
 
 type Item = { path: string; label: string; icon: LucideIcon };
@@ -34,13 +33,10 @@ const GUESTS: Item[] = [
   { path: "/mesas", label: "Mesas", icon: LayoutGrid },
   { path: "/comunicaciones", label: "Recordatorios", icon: Send },
   { path: "/album", label: "Álbum", icon: Images },
+  { path: "/regalos", label: "Regalos", icon: Gift },
   { path: "/mensajes", label: "Libro de firmas", icon: MessageSquareHeart },
   { path: "/imprimir", label: "Imprimir", icon: Printer },
 ];
-
-const GIFTS_ITEM: Item[] = FEATURES.gifts
-  ? [{ path: "/regalos", label: "Regalos", icon: Gift }]
-  : [];
 
 const PLANNING: Item[] = [
   { path: "/tareas", label: "Tareas", icon: ClipboardList },
@@ -51,7 +47,7 @@ const PLANNING: Item[] = [
 
 const withHref = (items: Item[], base: string) =>
   items.map((item) => ({ ...item, href: base + item.path }));
-const itemsFor = (base: string) => withHref([...GUESTS, ...GIFTS_ITEM, ...PLANNING], base);
+const itemsFor = (base: string) => withHref([...GUESTS, ...PLANNING], base);
 
 /** `base` es la raíz del evento: /panel/demo o /panel/<id>. */
 function useIsActive(base: string) {

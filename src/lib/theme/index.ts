@@ -146,7 +146,8 @@ export const DEFAULT_THEME: Theme = {
   edge: "barba",
   ornament: "almendro",
   calendar: "taco",
-  hidden: [],
+  // La lista de regalos empieza oculta: cada cliente la enciende desde el editor si la quiere.
+  hidden: ["regalo"],
   order: [...SECTION_IDS],
   // La música de fondo empieza apagada: quien la quiera la activa en el editor.
   music: false,
@@ -1240,6 +1241,21 @@ export type TemplateId = (typeof TEMPLATE_IDS)[number];
  * Las plantillas que se enseñan al público (página de venta, ejemplos y editor): las que se
  * abren con un vídeo real. Las anteriores siguen funcionando en los eventos que ya las usan.
  */
+/**
+ * Las que se enseñan en la portada de la venta: ocho, de familias distintas (acuarela, foto y
+ * objeto). El catálogo completo está en /ejemplos y en el editor.
+ */
+export const SALES_TEMPLATE_IDS = [
+  "arcilla",
+  "olivar",
+  "terciopelo",
+  "lavanda",
+  "gaceta",
+  "embarque",
+  "vinilo",
+  "tarot",
+] as const satisfies readonly TemplateId[];
+
 export const FEATURED_TEMPLATE_IDS = [
   "arcilla",
   "olivar",

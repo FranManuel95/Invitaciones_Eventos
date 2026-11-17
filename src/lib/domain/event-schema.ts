@@ -95,6 +95,8 @@ export const eventContentSchema = z
         .array(z.object({ who: text(40), text: text(200) }))
         .max(4)
         .optional(),
+      // Los clientes lo encienden al editar. Sin él (plantillas, demo y eventos nuevos), no se ve.
+      enabled: z.boolean().optional(),
     }),
     accommodation: z
       .array(z.object({ name: text(120), distance: text(60), detail: text(300) }))
