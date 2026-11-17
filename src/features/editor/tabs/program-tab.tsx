@@ -27,6 +27,7 @@ export function ProgramTab() {
           path={["program"]}
           max={12}
           addLabel="Añadir acto"
+          empty="Aún no hay actos. Empezad por la ceremonia y seguid con el cóctel, la cena y la fiesta."
           itemName={(item, i) => item.title || `Acto ${i + 1}`}
           create={() => ({
             id: newId("acto"),
@@ -66,6 +67,7 @@ export function ProgramTab() {
           path={["venues"]}
           max={6}
           addLabel="Añadir lugar"
+          empty="Aún no hay lugares. Añadid la iglesia, la finca o el restaurante para que los invitados sepan llegar."
           itemName={(v, i) => v.name || `Lugar ${i + 1}`}
           create={() => ({
             id: newId("lugar"),

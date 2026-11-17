@@ -237,11 +237,39 @@ test.describe("editor de la invitación", () => {
     );
   });
 
+  test("en el móvil, la barra de abajo alterna editar y vista previa y deja publicar", async ({
+    page,
+    isMobile,
+  }) => {
+    test.skip(!isMobile, "La barra solo existe en el móvil.");
+    await page.goto("/editor/demo");
+    const editar = page.getByRole("button", { name: "Editar" });
+    const vista = page.getByRole("button", { name: "Vista previa" });
+    const publicar = page.getByRole("button", { name: "Publicar" });
+    await expect(editar).toHaveAttribute("aria-pressed", "true");
+    await expect(publicar).toBeInViewport();
+    // Bajando por los ajustes, la barra sigue a mano.
+    await page.getByRole("tab", { name: "Programa y lugares" }).click();
+    await page.mouse.wheel(0, 2000);
+    await expect(vista).toBeInViewport();
+    await expect(publicar).toBeInViewport();
+    await vista.click();
+    await expect(vista).toHaveAttribute("aria-pressed", "true");
+    await expect(page.locator('iframe[title="Vista previa de la invitación"]')).toBeInViewport();
+    await expect(page.getByRole("tab", { name: "Estilo" })).toBeHidden();
+    await expect(publicar).toBeInViewport();
+    await editar.click();
+    await expect(page.getByRole("tab", { name: "Estilo" })).toBeVisible();
+  });
+
   test("sin desbordes ni infracciones graves", async ({ page }) => {
     await page.goto("/editor/demo");
     await page.waitForTimeout(600);
     const overflow = await page.evaluate(
-      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      // innerWidth también cuenta: en el móvil, algo demasiado ancho hace que la página se aleje.
+      () =>
+        Math.max(document.documentElement.scrollWidth, window.innerWidth) -
+        document.documentElement.clientWidth,
     );
     expect(overflow).toBeLessThanOrEqual(0);
     for (const tab of [

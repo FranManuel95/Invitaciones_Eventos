@@ -159,18 +159,32 @@ function PremiumBadge({ children }: { children: ReactNode }) {
   );
 }
 
-// Cada apartado lleva la vista previa a la pantalla donde se ve lo que se cambia.
-const PARTS: readonly { id: string; label: string; Panel: () => ReactNode; stage?: Stage }[] = [
-  { id: "plantillas", label: "Plantillas", Panel: TemplatesPart },
-  { id: "colores", label: "Colores", Panel: ColorsPart },
-  { id: "letra", label: "Tipografía", Panel: FontsPart, stage: "cover" },
-  { id: "portada", label: "Portada", Panel: CoverPart, stage: "cover" },
-  { id: "apertura", label: "Apertura", Panel: OpeningPart, stage: "envelope" },
-  { id: "sobre", label: "Sobre", Panel: EnvelopePart, stage: "envelope" },
-  { id: "carta", label: "Carta", Panel: LetterPart, stage: "letter" },
-  { id: "calendario", label: "Calendario", Panel: CalendarPart, stage: "content" },
-  { id: "secciones", label: "Secciones y música", Panel: SectionsPart, stage: "content" },
+// Cada apartado lleva la vista previa a la pantalla donde se ve lo que se cambia. Van en dos
+// filas: lo que afecta a toda la invitación y, después, cada pantalla en el orden en que la ve
+// el invitado.
+type Part = { id: string; label: string; Panel: () => ReactNode; stage?: Stage };
+const PART_ROWS: readonly { title: string; parts: readonly Part[] }[] = [
+  {
+    title: "Para toda la invitación",
+    parts: [
+      { id: "plantillas", label: "Plantillas", Panel: TemplatesPart },
+      { id: "colores", label: "Colores", Panel: ColorsPart },
+      { id: "letra", label: "Tipografía", Panel: FontsPart, stage: "cover" },
+    ],
+  },
+  {
+    title: "Pantalla a pantalla, como la abren",
+    parts: [
+      { id: "portada", label: "Portada", Panel: CoverPart, stage: "cover" },
+      { id: "apertura", label: "Apertura", Panel: OpeningPart, stage: "envelope" },
+      { id: "sobre", label: "Sobre", Panel: EnvelopePart, stage: "envelope" },
+      { id: "carta", label: "Carta", Panel: LetterPart, stage: "letter" },
+      { id: "calendario", label: "Calendario", Panel: CalendarPart, stage: "content" },
+      { id: "secciones", label: "Secciones y música", Panel: SectionsPart, stage: "content" },
+    ],
+  },
 ];
+const PARTS = PART_ROWS.flatMap((row) => row.parts);
 
 /** Estilo: se parte de una plantilla y se ajusta cada detalle por apartados. */
 export function StyleTab() {
@@ -179,15 +193,17 @@ export function StyleTab() {
   const refs = useRef(new Map<string, HTMLButtonElement>());
   const id = useId();
   const current = PARTS.find((p) => p.id === part) ?? PARTS[0]!;
-  const choose = (next: (typeof PARTS)[number]) => {
+  const choose = (next: Part) => {
     setPart(next.id);
     if (next.stage) showStage(next.stage);
   };
 
-  const onKey = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
+  // Las flechas recorren los apartados de las dos filas seguidos.
+  const onKey = (e: KeyboardEvent<HTMLButtonElement>) => {
     const delta = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
     if (!delta) return;
     e.preventDefault();
+    const index = PARTS.findIndex((p) => p.id === part);
     const next = PARTS[(index + delta + PARTS.length) % PARTS.length]!;
     choose(next);
     refs.current.get(next.id)?.focus();
@@ -195,41 +211,50 @@ export function StyleTab() {
 
   return (
     <div>
-      <div
-        role="tablist"
-        aria-label="Apartados del estilo"
-        className="-mx-1 mb-6 flex flex-wrap gap-2 px-1"
-      >
-        {PARTS.map((p, i) => (
-          <button
-            key={p.id}
-            ref={(el) => {
-              if (el) refs.current.set(p.id, el);
-            }}
-            type="button"
-            role="tab"
-            id={`${id}-${p.id}`}
-            aria-selected={part === p.id}
-            aria-controls={`${id}-panel`}
-            tabIndex={part === p.id ? 0 : -1}
-            onClick={() => choose(p)}
-            onKeyDown={(e) => onKey(e, i)}
-            className={clsx(
-              "rounded-full border px-3.5 py-1.5 text-[0.875rem] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
-              part === p.id
-                ? "border-ink bg-ink text-paper"
-                : "border-line bg-paper text-ink-soft hover:border-ink/40",
-            )}
-          >
-            {p.label}
-          </button>
+      <div className="mb-10 grid gap-3 rounded-xl bg-cream/70 p-4 sm:gap-4 sm:p-5">
+        {PART_ROWS.map((row, r) => (
+          <div key={row.title}>
+            <p id={`${id}-fila-${r}`} className="mb-2 text-[0.8125rem] text-muted">
+              {row.title}
+            </p>
+            <div
+              role="tablist"
+              aria-labelledby={`${id}-fila-${r}`}
+              className="flex flex-wrap gap-2"
+            >
+              {row.parts.map((p) => (
+                <button
+                  key={p.id}
+                  ref={(el) => {
+                    if (el) refs.current.set(p.id, el);
+                  }}
+                  type="button"
+                  role="tab"
+                  id={`${id}-${p.id}`}
+                  aria-selected={part === p.id}
+                  aria-controls={`${id}-panel`}
+                  tabIndex={part === p.id ? 0 : -1}
+                  onClick={() => choose(p)}
+                  onKeyDown={onKey}
+                  className={clsx(
+                    "min-h-10 shrink-0 rounded-full border px-4 text-[0.875rem] whitespace-nowrap transition-colors",
+                    part === p.id
+                      ? "border-ink bg-ink font-medium text-paper"
+                      : "border-line bg-paper text-ink-soft hover:border-ink/40 hover:text-ink",
+                  )}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+          </div>
         ))}
       </div>
       <div
         id={`${id}-panel`}
         role="tabpanel"
         aria-labelledby={`${id}-${current.id}`}
-        className="grid gap-8"
+        className="grid gap-10"
       >
         <current.Panel />
       </div>
