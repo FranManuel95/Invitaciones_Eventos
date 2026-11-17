@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import {
   Bodoni_Moda,
   Cormorant_Garamond,
+  Courier_Prime,
   Fraunces,
   Great_Vibes,
   Italiana,
@@ -76,9 +77,24 @@ const greatVibes = Great_Vibes({
   preload: false,
 });
 
-const fontVariables = [classic, playfair, fraunces, italiana, poiret, pinyon, greatVibes].map(
-  (f) => f.variable,
-);
+// Máquina de escribir, para la plantilla Telegrama.
+const courier = Courier_Prime({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-courier",
+  display: "swap",
+  preload: false,
+});
+const fontVariables = [
+  classic,
+  playfair,
+  fraunces,
+  italiana,
+  poiret,
+  pinyon,
+  greatVibes,
+  courier,
+].map((f) => f.variable);
 
 const sans = Jost({
   subsets: ["latin"],

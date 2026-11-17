@@ -36,6 +36,8 @@ export const STYLE_IDS = [
   "prensa",
   "aeropostal",
   "decimo",
+  "telegrafo",
+  "postal",
 ] as const;
 export const ENVELOPE_IDS = [
   "olivo",
@@ -629,6 +631,53 @@ export const STYLES: Record<StyleId, StyleDef> = {
     },
     scene: ["#efeeda", "#e0dfc0", "#cdcc9f", "#b3b47e"],
   },
+  telegrafo: {
+    label: "Telégrafo",
+    description: "Papel amarillento de formulario, tinta azul de cinta y rojo de «urgente».",
+    dark: false,
+    palette: {
+      paper: "#fbf6e6",
+      ivory: "#f0e6cb",
+      cream: "#e4d8b8",
+      sand: "#d3c59f",
+      taupe: "#a69874",
+      stone: "#776c4f",
+      ink: "#1f2f4d",
+      inkSoft: "#33425f",
+      muted: "#4b5670",
+      line: "#dccfa9",
+      gold: "#a3221b",
+      goldSoft: "#dc9d95",
+      success: "#245a30",
+      danger: "#8f2f24",
+      warning: "#6a4710",
+    },
+    scene: ["#f1e8cf", "#e5d9b8", "#d5c69c", "#bfae7f"],
+  },
+  postal: {
+    label: "Postal",
+    description:
+      "Cartulina de postal, azul de bolígrafo y verde de sello, con un cielo de atardecer.",
+    dark: false,
+    palette: {
+      paper: "#fbf7ec",
+      ivory: "#f6f0e1",
+      cream: "#e9e1cd",
+      sand: "#d8cfb6",
+      taupe: "#a89f86",
+      stone: "#777059",
+      ink: "#1e3a6e",
+      inkSoft: "#33507f",
+      muted: "#4a6088",
+      line: "#ddd5c0",
+      gold: "#2f6b57",
+      goldSoft: "#9cc3b4",
+      success: "#245a30",
+      danger: "#b3312a",
+      warning: "#6a4710",
+    },
+    scene: ["#f6e7d3", "#f0d6bb", "#e6bd9c", "#d79f7f"],
+  },
 };
 
 /** Color de la cera. En los estilos oscuros el acento del texto se aclara para que se lea. */
@@ -932,6 +981,8 @@ export const TEMPLATE_IDS = [
   "gaceta",
   "embarque",
   "premio",
+  "telegrama",
+  "postal",
 ] as const;
 export type TemplateId = (typeof TEMPLATE_IDS)[number];
 
@@ -953,6 +1004,8 @@ export const FEATURED_TEMPLATE_IDS = [
   "gaceta",
   "embarque",
   "premio",
+  "telegrama",
+  "postal",
 ] as const satisfies readonly TemplateId[];
 
 type Look = Omit<Theme, "hidden" | "order" | "music">;
@@ -1456,6 +1509,49 @@ export const TEMPLATES: Record<
       sealShape: "redondo",
       sealMark: "estrella",
       layout: "marco",
+      edge: "recto",
+      ornament: "ninguno",
+    },
+  },
+  telegrama: {
+    label: "Telegrama",
+    description: "Un telegrama urgente que se teclea solo; dentro, cada sección llega en su tira.",
+    look: {
+      style: "telegrafo",
+      envelope: "kraft",
+      wax: "burdeos",
+      calendar: "minimal",
+      font: "editorial",
+      opening: "pantalla",
+      cover: "telegrama",
+      motif: "telegrama",
+      flap: "recta",
+      texture: "liso",
+      liner: "rayas",
+      sealShape: "redondo",
+      layout: "minimal",
+      edge: "recto",
+      ornament: "ninguno",
+    },
+  },
+  postal: {
+    label: "Postal",
+    description:
+      "Una postal con vuestra foto que se gira: detrás, el mensaje a mano y el matasellos.",
+    look: {
+      style: "postal",
+      envelope: "algodon",
+      wax: "salvia",
+      calendar: "corazon",
+      font: "clasica",
+      opening: "mesa",
+      cover: "postal",
+      motif: "postal",
+      flap: "pico",
+      texture: "verjurado",
+      liner: "rayas",
+      sealShape: "redondo",
+      layout: "foto",
       edge: "recto",
       ornament: "ninguno",
     },

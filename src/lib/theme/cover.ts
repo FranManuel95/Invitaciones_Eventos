@@ -26,6 +26,8 @@ export const COVER_IDS = [
   "gaceta",
   "embarque",
   "premio",
+  "telegrama",
+  "postal",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -112,6 +114,15 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Décimo premiado",
     description: "Un décimo de lotería con la fecha bajo una capa dorada que se rasca.",
   },
+  telegrama: {
+    label: "Telegrama",
+    description: "Un telegrama urgente que se teclea solo, con sus tiras de papel y sus STOP.",
+  },
+  postal: {
+    label: "Postal",
+    description:
+      "Una postal con vuestra foto; al girarla, el mensaje a mano, el sello y el matasellos.",
+  },
 };
 
 /**
@@ -123,6 +134,8 @@ export const CONCEPT_COVERS = {
   gaceta: { ink: "#161513", paper: "#f4f1e8" },
   embarque: { ink: "#14233f", paper: "#dfe8f1" },
   premio: { ink: "#1b3527", paper: "#f5f2e4" },
+  telegrama: { ink: "#1f2f4d", paper: "#f0e6cb" },
+  postal: { ink: "#1e3a6e", paper: "#efe5d0" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -192,6 +205,8 @@ export const MOTIF_IDS = [
   "gaceta",
   "embarque",
   "premio",
+  "telegrama",
+  "postal",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -206,4 +221,6 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   gaceta: { label: "Periódico", kind: "concepto" },
   embarque: { label: "Correo aéreo", kind: "concepto" },
   premio: { label: "Décimo de lotería", kind: "concepto" },
+  telegrama: { label: "Telégrafos", kind: "concepto" },
+  postal: { label: "Sellos y matasellos", kind: "concepto" },
 };

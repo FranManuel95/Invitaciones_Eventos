@@ -33,9 +33,9 @@ test.describe("página de venta", () => {
       page.getByRole("region", { name: "Confirma en un minuto" }).getByRole("listitem"),
     ).toHaveCount(5);
     await expect(page.getByText(/También elegís cómo se abre: sobre en la mesa,/)).toBeVisible();
-    const templates = page.getByRole("region", { name: "Trece plantillas para empezar" });
+    const templates = page.getByRole("region", { name: "Quince plantillas para empezar" });
     // Solo se enseñan las plantillas que se abren con un vídeo real.
-    await expect(templates.getByRole("link")).toHaveCount(13);
+    await expect(templates.getByRole("link")).toHaveCount(15);
     await expect(templates.getByText("Se abre con: caja esmeralda con lazo dorado.")).toBeVisible();
     await templates.getByRole("link", { name: "Terciopelo", exact: true }).click();
     await expect(page).toHaveURL(/plantilla=terciopelo/);
@@ -76,7 +76,7 @@ test.describe("página de venta", () => {
     await expect(openings.getByRole("link")).toHaveCount(7);
     // La película se ofrece como apertura premium.
     await expect(openings.getByRole("link", { name: /Sobre de película.*Premium/ })).toBeVisible();
-    await expect(page.getByRole("region", { name: "Portadas" }).getByRole("link")).toHaveCount(20);
+    await expect(page.getByRole("region", { name: "Portadas" }).getByRole("link")).toHaveCount(22);
     await openings.getByRole("link", { name: /Caja con lazo/ }).click();
     await expect(page).toHaveURL(/apertura=caja/);
     await expect(page.getByRole("heading", { level: 1, name: /María/ })).toBeAttached();

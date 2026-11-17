@@ -216,4 +216,75 @@ test.describe("portadas", () => {
     const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
     expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual([]);
   });
+  test("telegrama: el mensaje se teclea con los datos de la boda y se abre arrancando la tira", async ({
+    page,
+  }) => {
+    await page.goto("/i/familia-garcia?plantilla=telegrama");
+    const cover = page.locator("[data-cover='telegrama']");
+    await expect(cover.getByRole("heading", { level: 1, name: "Irene y Guille" })).toBeVisible();
+    await expect(cover.getByText("Familia García", { exact: true })).toBeVisible();
+    // El mensaje completo está siempre en la página, aunque aún se esté tecleando.
+    await expect(
+      cover.getByText("NOS CASAMOS. Stop. 18 SEPTIEMBRE 2027. Stop. BAEZA. Stop. NO FALTES. Stop."),
+    ).toBeAttached();
+    // Tocar el telegrama lo termina de teclear, sin levantar la portada.
+    await cover.getByText("TELEGRAMA", { exact: true }).click();
+    await expect(cover.getByText("NO FALTES STOP", { exact: true })).toBeVisible();
+    await expect(cover.locator(".type-caret")).toHaveCount(0);
+    const { violations } = await new AxeBuilder({ page }).analyze();
+    const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
+    expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual([]);
+    await page.getByRole("button", { name: /Arrancar la tira.*toca para abrir/ }).click();
+    await expect(page.locator("[data-opening='pantalla']")).toBeAttached();
+    await page.getByRole("button", { name: "Saltar intro" }).click();
+    const strip = page.locator("#fecha .motif-sprig");
+    expect(await strip.evaluate((el) => getComputedStyle(el, "::before").content)).toContain(
+      "MENSAJE",
+    );
+    expect(await strip.evaluate((el) => getComputedStyle(el, "::after").content)).toContain("STOP");
+  });
+
+  test("telegrama: con movimiento reducido el mensaje llega ya escrito", async ({ browser }) => {
+    const context = await browser.newContext({ reducedMotion: "reduce" });
+    const page = await context.newPage();
+    await page.goto("/i/familia-garcia?plantilla=telegrama");
+    const cover = page.locator("[data-cover='telegrama']");
+    await expect(cover.getByText("NO FALTES STOP", { exact: true })).toBeVisible();
+    await expect(cover.locator(".type-caret")).toHaveCount(0);
+    await context.close();
+  });
+
+  test("postal: se gira para leer el mensaje, la dirección del invitado y el matasellos", async ({
+    page,
+  }) => {
+    await page.goto("/i/familia-garcia?plantilla=postal");
+    const cover = page.locator("[data-cover='postal']");
+    await expect(cover.getByRole("heading", { level: 1, name: /Vera.*Nico/ })).toBeVisible();
+    await expect(cover.getByText("Recuerdo de")).toBeVisible();
+    const card = cover.locator("[data-side]");
+    await expect(card).toHaveAttribute("data-side", "anverso");
+    // La fecha está en la página aunque el reverso aún no se vea.
+    await expect(cover.getByText("21 de agosto de 2027")).toBeAttached();
+    await cover.getByRole("button", { name: "Girar la postal" }).click();
+    await expect(card).toHaveAttribute("data-side", "reverso");
+    await expect(cover.getByText("Familia García", { exact: true })).toBeVisible();
+    await expect(cover.getByText("21 de agosto de 2027")).toBeVisible();
+    // Girarla no levanta la portada.
+    await expect(cover).toBeVisible();
+    // El contraste se mide con la postal ya quieta, no a mitad del giro.
+    await page.waitForTimeout(500);
+    const { violations } = await new AxeBuilder({ page }).analyze();
+    const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
+    expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual([]);
+    await cover.getByRole("button", { name: /toca para abrir/i }).click();
+    // Debajo espera el sobre de siempre.
+    await expect(page.getByRole("button", { name: "Abrir el sobre" })).toBeVisible();
+    await page.getByRole("button", { name: "Saltar intro" }).click();
+    const stamp = page.locator("#fecha .motif-sprig");
+    // Cada sección lleva su sello, con el valor que le toca (5, 10, 15…).
+    expect(await stamp.evaluate((el) => getComputedStyle(el, "::before").content)).toContain(
+      "sello",
+    );
+    await expect(stamp).toBeVisible();
+  });
 });

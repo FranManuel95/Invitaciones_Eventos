@@ -4,7 +4,12 @@ Documento de trabajo para seguir la línea abierta con **Gaceta**, **Embarque** 
 (ronda 18 de `docs/DECISIONS.md`). Está pensado para que otra persona u otra sesión pueda
 construir las siguientes sin haber visto cómo se hicieron las primeras.
 
-Rama de trabajo: `claude/tender-franklin-isgz7b` (PR #6 contra `main`, sin fusionar).
+Rama de trabajo: `claude/tender-franklin-isgz7b` (PR #6 contra `main`, sin fusionar). La
+continuación (Telegrama y Postal, ronda 19) está en `claude/exciting-franklin-43k083`, que parte
+de esa rama y la contiene entera.
+
+**Hechas**: Gaceta, Embarque, Premio, **Telegrama** y **Postal**. De las doce ideas de abajo
+quedan diez; las fichas 5 y 11 se conservan como referencia de lo que se construyó.
 
 ## Qué es una plantilla de concepto
 
@@ -44,7 +49,7 @@ cómo confirmar se leen igual de claros que en cualquier otra plantilla.
 | Filigranas                 | `public/ornamentos/`                                      | SVG en negro para usar como `mask` (así toman el color del tema).                                                                                |
 
 Tipografías cargadas (en `src/app/layout.tsx`): Bodoni Moda, Cormorant, Playfair Display,
-Fraunces, Italiana, Poiret One, Pinyon Script, Great Vibes y Jost. Para una letra nueva hay que
+Fraunces, Italiana, Poiret One, Pinyon Script, Great Vibes, Courier Prime y Jost. Para una letra nueva hay que
 añadirla ahí con `next/font` y, si va a ser la de la plantilla, darla de alta en `FONTS`.
 
 Sonido y vibración: `src/features/invitation/effects/sound.ts` (`playPaper`, `playSealCrack`,
@@ -205,7 +210,7 @@ las pruebas de contraste y ajustar.
   costa en SVG. Con Higgsfield: una ilustración de mapa sin texto para el fondo.
 - **Dificultad**: alta (seguir un trazado con el dedo y tolerar el pulso).
 
-### 5. Telegrama: urgente, con STOP
+### 5. Telegrama: urgente, con STOP (hecha, ronda 19)
 
 - **Objeto**: un telegrama con sus tiras de texto pegadas.
 - **Huecos**: remitente, los nombres; destinatario, la invitación; origen, la ciudad; el texto,
@@ -310,7 +315,7 @@ las pruebas de contraste y ajustar.
 - **Recursos**: sonidos sintetizados con `audioContext()`; figuras en SVG de cuadrícula.
 - **Dificultad**: media o alta. Público muy concreto: ofrecerla como opción, no como principal.
 
-### 11. Postal: anverso y reverso
+### 11. Postal: anverso y reverso (hecha, ronda 19)
 
 - **Objeto**: una postal turística, con su foto y, detrás, sello, matasellos y renglones.
 - **Huecos**: en el anverso, la foto de la pareja con «Recuerdo de [ciudad]»; en el reverso, la
@@ -348,7 +353,7 @@ las pruebas de contraste y ajustar.
 
 ## Por dónde empezar
 
-1. **Telegrama** y **Postal**: las más sencillas y con interacción clara.
+1. ~~**Telegrama** y **Postal**~~: hechas (ronda 19).
 2. **Carta de restaurante**: la que mejor aprovecha los datos que ya hay (menús y alergias).
 3. **Vinilo**: la más vistosa para grabar en vídeo corto.
 4. Después, completar las tres existentes (carta y pase del concepto) antes de abrir más frentes:

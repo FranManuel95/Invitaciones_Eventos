@@ -1,14 +1,14 @@
 "use client";
 
-import { ChevronDown, Plane } from "lucide-react";
-import { m } from "motion/react";
+import { ChevronDown, Plane, RefreshCw } from "lucide-react";
+import { m, useAnimate } from "motion/react";
 import Image from "next/image";
 import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from "react";
 import type { WeddingEvent } from "@/lib/domain/types";
-import { coverVerb, hostsOf } from "@/lib/event-kind";
+import { announcement, coverVerb, hostNames, hostsOf } from "@/lib/event-kind";
 import { formatLongDate, formatWeekdayDate, isoDay } from "@/lib/format";
 import { seeded, type ConceptCoverId } from "@/lib/theme";
-import { haptic } from "../effects/sound";
+import { haptic, playKey, playPaper } from "../effects/sound";
 
 /*
  * Portadas de concepto: en vez de un fondo con los nombres encima, la portada es un objeto
@@ -29,6 +29,8 @@ const PLAYFAIR = "var(--font-playfair), 'Playfair Display', Georgia, serif";
 const SANS = "var(--font-jost), Jost, Futura, system-ui, sans-serif";
 const MONO = "ui-monospace, 'SF Mono', Menlo, Consolas, monospace";
 const FRAUNCES = "var(--font-fraunces), Fraunces, Georgia, serif";
+const COURIER = "var(--font-courier), 'Courier Prime', 'Courier New', ui-monospace, monospace";
+const SCRIPT = "var(--font-pinyon), 'Pinyon Script', 'Snell Roundhand', cursive";
 
 const madrid = (options: Intl.DateTimeFormatOptions) =>
   new Intl.DateTimeFormat("es-ES", { timeZone: "Europe/Madrid", ...options });
@@ -577,9 +579,7 @@ function PrizeCover({ event, onOpen }: ConceptProps) {
                 ["Premio", "Una boda"],
               ].map(([label, value], i) => (
                 <div key={label} className={i ? "border-l border-current/30" : undefined}>
-                  <dt className="text-[0.5625rem] tracking-[0.16em] uppercase">
-                    {label}
-                  </dt>
+                  <dt className="text-[0.5625rem] tracking-[0.16em] uppercase">{label}</dt>
                   <dd className="mt-0.5 text-[0.9375rem]" style={{ fontFamily: FRAUNCES }}>
                     {value}
                   </dd>
@@ -602,10 +602,349 @@ function PrizeCover({ event, onOpen }: ConceptProps) {
   );
 }
 
+/* ─────────────── Telegrama: un telegrama urgente que se teclea solo, con sus STOP ─────────────── */
+
+/** El mensaje, en el estilo de los telegramas: mayúsculas, sin artículos y un STOP tras cada frase. */
+function telegramLines(event: WeddingEvent) {
+  const hosts = hostsOf(event);
+  const names = hostNames(hosts, " y ");
+  // «María y Daniel nos casamos» → «NOS CASAMOS»; «Celebramos el bautizo de Lucía», tal cual.
+  const news = announcement(hosts).replace(new RegExp(`^${names}\\s+`), "");
+  const date = madrid({ day: "numeric", month: "long", year: "numeric" })
+    .format(new Date(event.date))
+    .replaceAll(" de ", " ");
+  return [news, date, event.city, "No faltes"].map((line) => line.toLocaleUpperCase("es-ES"));
+}
+
+function TelegramCover({ event, guestName, onOpen, reduce }: ConceptProps) {
+  const lines = telegramLines(event);
+  const total = lines.reduce((sum, line) => sum + line.length, 0);
+  // Cuántas letras lleva tecleadas la máquina (con movimiento reducido, todas desde el principio).
+  const [typed, setTyped] = useState(reduce ? total : 0);
+  const [torn, setTorn] = useState(false);
+  const done = typed >= total;
+  const { dd, mm, yy } = dateParts(event.date);
+  const time = madrid({ hour: "2-digit", minute: "2-digit" }).format(new Date(event.date));
+  const words = lines.join(" ").split(/\s+/).length + lines.length;
+
+  useEffect(() => {
+    if (done) return;
+    // Arranca tras una pausa y teclea a ritmo de mecanógrafo, con una letra algo más lenta a ratos.
+    const wait = typed === 0 ? 900 : typed % 7 === 0 ? 110 : 55;
+    const timer = window.setTimeout(() => {
+      setTyped((n) => n + 1);
+      playKey();
+    }, wait);
+    return () => window.clearTimeout(timer);
+  }, [typed, done]);
+
+  const tear = () => {
+    if (torn) return;
+    setTyped(total);
+    setTorn(true);
+    haptic([8, 40, 14]);
+    playPaper(0.4);
+    // Las tiras se desprenden y, al caer, la portada se abre.
+    window.setTimeout(onOpen, reduce ? 0 : 460);
+  };
+
+  // Dónde empieza cada tira dentro del mensaje.
+  const starts = lines.map((_, i) => lines.slice(0, i).reduce((sum, l) => sum + l.length, 0));
+  return (
+    <div
+      className="absolute inset-0 overflow-hidden"
+      style={{ fontFamily: SANS }}
+      // Tocar el telegrama termina de teclearlo de golpe (el gesto de abrir sigue funcionando).
+      onPointerDown={() => setTyped(total)}
+    >
+      <div aria-hidden className="paper-grain absolute inset-0 opacity-50" />
+      <div className="relative mx-auto flex h-full w-full max-w-[28rem] flex-col px-5 pt-[max(4.5rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+        {/* Cabecera del impreso. */}
+        <div className="flex items-end justify-between gap-3 border-b-2 border-current pb-2">
+          <div>
+            <p className="text-[0.6875rem] tracking-[0.16em] uppercase">Servicio de telégrafos</p>
+            <p
+              className="mt-1 text-[clamp(2rem,10.5vw,2.75rem)] leading-none font-bold tracking-[0.08em]"
+              style={{ fontFamily: COURIER }}
+            >
+              TELEGRAMA
+            </p>
+          </div>
+          <span
+            className="mb-1 -rotate-6 rounded-[3px] border-2 border-[#a3221b] px-2.5 py-1 text-[0.8125rem] font-semibold tracking-[0.16em] text-[#a3221b] uppercase"
+            style={{ fontFamily: COURIER }}
+          >
+            Urgente
+          </span>
+        </div>
+        <dl className="grid grid-cols-4 border-b border-current text-center">
+          {[
+            ["N.º", `${dd}${mm}${yy}`],
+            ["Palabras", String(words)],
+            ["Día", <time key="d" dateTime={isoDay(event.date)}>{`${dd}/${mm}/${yy}`}</time>],
+            ["Hora", time],
+          ].map(([label, value], i) => (
+            <div key={i} className={`py-1.5 ${i ? "border-l border-current" : ""}`}>
+              <dt className="text-[0.5625rem] tracking-[0.14em] uppercase">{label}</dt>
+              <dd className="text-[0.875rem] font-bold" style={{ fontFamily: COURIER }}>
+                {value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+
+        <p className="mt-4 text-[0.5625rem] tracking-[0.14em] uppercase">Remitente</p>
+        <h1
+          id="cover-title"
+          tabIndex={-1}
+          translate="no"
+          className="mt-0.5 font-names text-[clamp(2.25rem,11vw,3.25rem)] leading-[1] outline-none"
+        >
+          {event.couple.first}
+          {event.couple.second ? ` y ${event.couple.second}` : ""}
+        </h1>
+        <dl className="mt-3 grid grid-cols-2 gap-x-4 border-y border-current py-2">
+          <div className="min-w-0">
+            <dt className="text-[0.5625rem] tracking-[0.14em] uppercase">Destinatario</dt>
+            <dd className="truncate text-[0.9375rem] font-bold" style={{ fontFamily: COURIER }}>
+              {guestName ?? "Vosotros"}
+            </dd>
+          </div>
+          <div className="min-w-0 border-l border-current pl-4">
+            <dt className="text-[0.5625rem] tracking-[0.14em] uppercase">Origen</dt>
+            <dd className="truncate text-[0.9375rem] font-bold" style={{ fontFamily: COURIER }}>
+              {event.city}
+            </dd>
+          </div>
+        </dl>
+
+        {/* El mensaje completo, para quien no lo ve teclearse. */}
+        <p className="sr-only">{lines.map((line) => `${line}. Stop.`).join(" ")}</p>
+        {/* Las tiras de papel pegadas, cada una algo torcida; el texto llega letra a letra. */}
+        <p className="mt-4 text-[0.5625rem] tracking-[0.14em] uppercase">Texto</p>
+        <div
+          aria-hidden
+          className="telegram-lines mt-1 flex min-h-0 flex-1 flex-col items-start gap-[0.6875rem] pt-[0.5rem]"
+        >
+          {lines.map((line, i) => {
+            const before = starts[i]!;
+            const shown = Math.max(0, Math.min(line.length, typed - before));
+            const complete = shown === line.length;
+            const typing = !done && typed >= before && !complete;
+            if (!shown && !typing) return null;
+            return (
+              <m.p
+                key={i}
+                className="max-w-full bg-[#fbf6e6] px-3 py-[0.4375rem] text-[clamp(1.25rem,6vw,1.625rem)] leading-[1.75rem] font-bold break-words shadow-[0_3px_8px_-3px_rgb(31_47_77/0.45)]"
+                style={{ fontFamily: COURIER, rotate: `${[-1.2, 0.8, -0.6, 1][i % 4]}deg` }}
+                animate={
+                  torn && !reduce
+                    ? { y: 70 + i * 14, x: i % 2 ? 16 : -12, rotate: i % 2 ? 9 : -8, opacity: 0 }
+                    : undefined
+                }
+                transition={{ duration: 0.45, delay: i * 0.04, ease: [0.5, 0, 0.9, 0.4] }}
+              >
+                {line.slice(0, shown)}
+                {complete ? <span className="text-[#a3221b]"> STOP</span> : null}
+                {typing ? <span className="type-caret">▮</span> : null}
+              </m.p>
+            );
+          })}
+        </div>
+
+        <p className="text-center text-[0.8125rem] italic">Tasa: una sonrisa por palabra.</p>
+        <button
+          type="button"
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={tear}
+          className="mt-2 flex w-full items-center justify-between gap-3 border-t-2 border-dashed border-current pt-2.5 pb-1 text-left"
+        >
+          <span>
+            <span className="block text-[0.9375rem] font-medium">Arrancar la tira</span>
+            <span className="block text-[0.75rem]">Desliza o toca para abrir</span>
+          </span>
+          <ChevronDown aria-hidden className="nudge size-5 shrink-0" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ───────────────── Postal: la foto por delante; detrás, mensaje, sello y matasellos ───────────────── */
+
+function PostcardCover({ event, guestName, onOpen, reduce }: ConceptProps) {
+  const photo = event.coverPhoto ?? event.story.couplePhoto;
+  const [side, setSide] = useState<"anverso" | "reverso">("anverso");
+  const [card, animate] = useAnimate<HTMLDivElement>();
+  const turning = useRef(false);
+  const { dd, mm, yy } = dateParts(event.date);
+  const year = madrid({ year: "numeric" }).format(new Date(event.date));
+  const initials = `${event.couple.first[0] ?? ""}${event.couple.second ? ` & ${event.couple.second[0]}` : ""}`;
+
+  const flip = async () => {
+    if (turning.current) return;
+    const next = side === "anverso" ? "reverso" : "anverso";
+    haptic(10);
+    playPaper(0.3);
+    if (reduce) {
+      setSide(next);
+      return;
+    }
+    turning.current = true;
+    // Gira hasta ponerse de canto, cambia de cara y termina el giro (sin caras traseras en 3D).
+    await animate(
+      card.current,
+      { rotateY: 90, transformPerspective: 1200 },
+      { duration: 0.24, ease: [0.5, 0, 1, 0.6] },
+    );
+    setSide(next);
+    await animate(card.current, { rotateY: [-90, 0] }, { duration: 0.34, ease: [0, 0.5, 0.3, 1] });
+    turning.current = false;
+  };
+
+  const face = (shown: boolean) =>
+    `col-start-1 row-start-1 transition-none ${shown ? "" : "pointer-events-none opacity-0"}`;
+
+  return (
+    <div
+      className="absolute inset-0 overflow-hidden bg-[linear-gradient(180deg,#f3e3cd_0%,#efe5d0_55%,#e7dcc4_100%)]"
+      style={{ fontFamily: SANS }}
+    >
+      <div aria-hidden className="paper-grain absolute inset-0 opacity-40" />
+      <div className="relative flex h-full flex-col items-center px-6 pt-[max(4.5rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+        <p className="text-[0.75rem] tracking-[0.16em] uppercase">Ha llegado una postal</p>
+        <m.div
+          className="mt-4 flex min-h-0 w-full max-w-[21rem] flex-1 flex-col justify-center"
+          initial={reduce ? false : { y: 36, opacity: 0, rotate: 0 }}
+          animate={{ y: 0, opacity: 1, rotate: -2 }}
+          transition={{ duration: 1.1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div
+            ref={card}
+            data-side={side}
+            className="grid aspect-[5/7] max-h-full w-full shadow-[0_28px_56px_-18px_rgb(30_58_110/0.5)]"
+          >
+            {/* Anverso: la foto con «Recuerdo de…» y los nombres. */}
+            <div
+              className={`${face(side === "anverso")} relative overflow-hidden bg-[#fbf7ec] p-2.5`}
+            >
+              <div className="relative size-full overflow-hidden bg-[linear-gradient(180deg,#f2b98f_0%,#f6d7a8_45%,#7fb0b8_100%)]">
+                {photo ? (
+                  <Image
+                    src={photo}
+                    alt=""
+                    fill
+                    priority
+                    sizes="(min-width: 400px) 320px, 80vw"
+                    className="object-cover object-[50%_30%]"
+                  />
+                ) : (
+                  <span
+                    aria-hidden
+                    className="absolute top-[18%] left-1/2 size-28 -translate-x-1/2 rounded-full bg-[#fbe9c2]"
+                  />
+                )}
+                <div
+                  aria-hidden
+                  className="absolute inset-0 bg-[linear-gradient(180deg,rgb(0_0_0/0.38)_0%,rgb(0_0_0/0)_34%,rgb(0_0_0/0)_56%,rgb(0_0_0/0.72)_100%)]"
+                />
+                <div className="absolute inset-x-4 top-4 text-white [text-shadow:0_2px_14px_rgb(0_0_0/0.55)]">
+                  <p className="text-[1.75rem] leading-none" style={{ fontFamily: SCRIPT }}>
+                    Recuerdo de
+                  </p>
+                  <p className="mt-1 text-[clamp(1.5rem,8vw,2.25rem)] leading-[0.95] font-extrabold tracking-[0.04em] text-balance uppercase">
+                    {event.city}
+                  </p>
+                </div>
+                <h1
+                  id="cover-title"
+                  tabIndex={-1}
+                  translate="no"
+                  className="absolute inset-x-4 bottom-4 font-names text-[clamp(2.25rem,11vw,3rem)] leading-[0.95] text-white outline-none [text-shadow:0_2px_18px_rgb(0_0_0/0.6)]"
+                >
+                  {event.couple.first}
+                  {event.couple.second ? (
+                    <span className="block">&amp; {event.couple.second}</span>
+                  ) : null}
+                </h1>
+              </div>
+            </div>
+
+            {/* Reverso: matasellos y sello, la dirección y el mensaje a mano. */}
+            <div
+              className={`${face(side === "reverso")} flex flex-col overflow-hidden bg-[#fbf7ec] px-5 pt-4 pb-4 text-[#1e3a6e]`}
+            >
+              <div className="flex items-start justify-between">
+                <div aria-hidden className="relative mt-1 text-[#b3312a]">
+                  <span className="grid size-[4.75rem] -rotate-12 place-items-center rounded-full border-2 border-current text-center text-[0.6875rem] leading-tight font-semibold tracking-[0.04em] outline outline-1 -outline-offset-[7px] outline-current">
+                    {dd}·{mm}·{yy}
+                  </span>
+                  <span className="absolute top-5 left-[4.5rem] h-9 w-16 bg-[repeating-linear-gradient(180deg,currentColor_0_1.5px,transparent_1.5px_7px)] opacity-80" />
+                </div>
+                {/* El sello, con su dentado. */}
+                <div aria-hidden className="stamp-teeth bg-[#2f6b57] p-[5px]">
+                  <div className="flex h-[4.5rem] w-[3.5rem] flex-col items-center justify-between border border-[#fbf7ec]/70 py-1.5 text-[#fbf7ec]">
+                    <span className="text-[0.5rem] tracking-[0.14em] uppercase">Correos</span>
+                    <span className="text-[1.5rem] leading-none" style={{ fontFamily: SCRIPT }}>
+                      {initials}
+                    </span>
+                    <span className="text-[0.5625rem] tabular-nums">{year}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-3 border-b border-current/50 pb-1">
+                <p className="text-[0.5625rem] tracking-[0.14em] uppercase">Para</p>
+                <p
+                  className="truncate text-[1.625rem] leading-tight"
+                  style={{ fontFamily: SCRIPT }}
+                >
+                  {guestName ?? "Vosotros"}
+                </p>
+              </div>
+              <p
+                className="mt-3 line-clamp-6 min-h-0 flex-1 text-[1.3125rem] leading-[1.45]"
+                style={{ fontFamily: SCRIPT }}
+              >
+                {event.cardMessage}
+              </p>
+              <p
+                className="mt-2 text-right text-[1.375rem] leading-tight"
+                style={{ fontFamily: SCRIPT }}
+              >
+                {hostNames(hostsOf(event), " y ")}
+              </p>
+              <p className="mt-2 border-t border-current/50 pt-1.5 text-[0.75rem]">
+                <time dateTime={isoDay(event.date)}>{formatLongDate(event.date)}</time>, en{" "}
+                {event.city}
+              </p>
+            </div>
+          </div>
+        </m.div>
+
+        <button
+          type="button"
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={flip}
+          className="mt-4 flex items-center gap-2 rounded-full border border-current/50 bg-[#fbf7ec] px-5 py-2.5 text-[0.9375rem] font-medium"
+        >
+          <RefreshCw aria-hidden className="size-4" />
+          Girar la postal
+        </button>
+        <p className="mt-2 text-center text-[0.8125rem] italic">Franqueo pagado en ilusión.</p>
+        <div className="mt-1">
+          <OpenHint onOpen={onOpen} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const COVERS = {
   gaceta: GazetteCover,
   embarque: BoardingCover,
   premio: PrizeCover,
+  telegrama: TelegramCover,
+  postal: PostcardCover,
 } satisfies Record<ConceptCoverId, (props: ConceptProps) => ReactNode>;
 
 export function ConceptCover({ scene, ...props }: ConceptProps & { scene: ConceptCoverId }) {

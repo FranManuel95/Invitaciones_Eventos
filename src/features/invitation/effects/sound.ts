@@ -164,6 +164,24 @@ export function playSealCrack() {
   thump.stop(t + 0.15);
 }
 
+/** Tecla de máquina de escribir: un chasquido seco y breve (plantilla Telegrama). */
+export function playKey() {
+  if (!context || isMuted()) return;
+  const ctx = context;
+  const t = ctx.currentTime;
+  const click = ctx.createBufferSource();
+  click.buffer = noiseBuffer(ctx, 0.035);
+  const band = ctx.createBiquadFilter();
+  band.type = "bandpass";
+  band.frequency.value = 2100 + Math.random() * 700;
+  band.Q.value = 1.4;
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(0.11, t);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.035);
+  click.connect(band).connect(gain).connect(ctx.destination);
+  click.start(t);
+}
+
 /** Toque muy corto y suave, para marcar un paso al bajar (un capítulo, un acto). */
 export function playTick() {
   if (!context || isMuted()) return;

@@ -520,6 +520,8 @@ const COVER_SAMPLES: Record<Theme["cover"], string> = {
   gaceta: "url(/venta/portada-gaceta.webp) center / cover",
   embarque: "url(/venta/portada-embarque.webp) center / cover",
   premio: "url(/venta/portada-premio.webp) center / cover",
+  telegrama: "url(/venta/portada-telegrama.webp) center / cover",
+  postal: "url(/venta/portada-postal.webp) center / cover",
 };
 
 /** Miniatura de cada efecto de portada. */

@@ -1464,7 +1464,12 @@ textarea.note-lines {
   display: block;
   margin-bottom: 0.9rem;
   color: var(--color-danger);
-  font: 600 0.9375rem / 1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font:
+    600 0.9375rem / 1 ui-monospace,
+    "SF Mono",
+    Menlo,
+    Consolas,
+    monospace;
   letter-spacing: 0.12em;
 }
 [data-motif="premio"] .motif-sprig::before {
@@ -1487,6 +1492,174 @@ textarea.note-lines {
   background: var(--color-gold);
   mask: url("/ornamentos/roseta.svg") center / contain no-repeat;
   opacity: 0.7;
+}
+/* El cursor de la máquina de escribir de la portada del telegrama. */
+.type-caret {
+  margin-left: 0.1em;
+  opacity: 0.75;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .type-caret {
+    animation: type-caret 0.7s steps(1) infinite;
+  }
+}
+@keyframes type-caret {
+  50% {
+    opacity: 0;
+  }
+}
+/* Los renglones del impreso del telegrama, sobre los que se pegan las tiras. */
+.telegram-lines {
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0 calc(3.3125rem - 1px),
+    rgb(31 47 77 / 0.28) calc(3.3125rem - 1px) 3.3125rem
+  );
+}
+/* Dentado de sello de correos: muescas redondas en los cuatro bordes. */
+.stamp-teeth {
+  --tooth: 7px;
+  mask:
+    radial-gradient(circle at center, transparent 2.2px, #000 2.6px) calc(var(--tooth) / -2)
+      calc(var(--tooth) / -2) / var(--tooth) var(--tooth),
+    linear-gradient(#000 0 0) center / calc(100% - var(--tooth)) calc(100% - var(--tooth)) no-repeat;
+}
+
+/* Telegrama: cada sección llega en una tira de papel pegada, algo torcida, y acaba en STOP. */
+[data-motif="telegrama"] {
+  counter-reset: tira;
+  --font-typewriter: var(--font-courier), "Courier Prime", "Courier New", ui-monospace, monospace;
+}
+[data-motif="telegrama"] .motif-hero {
+  background: var(--color-ivory);
+  border-bottom: 2px dashed var(--color-ink);
+}
+[data-motif="telegrama"] #content-title::before {
+  content: "Telegrama urgente";
+  display: block;
+  width: fit-content;
+  margin-bottom: 1.1rem;
+  padding: 0.35rem 0.6rem;
+  border: 2px solid var(--color-gold);
+  border-radius: 3px;
+  color: var(--color-gold);
+  font: 700 0.8125rem / 1 var(--font-typewriter);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transform: rotate(-3deg);
+}
+[data-motif="telegrama"] section[id] {
+  counter-increment: tira;
+}
+[data-motif="telegrama"] .motif-sprig {
+  display: block;
+  width: fit-content;
+  margin-bottom: 1.1rem;
+  padding: 0.4rem 0.75rem;
+  background: var(--color-paper);
+  box-shadow: 0 3px 8px -3px color-mix(in srgb, var(--color-ink) 45%, transparent);
+  color: var(--color-ink);
+  font: 700 0.875rem / 1 var(--font-typewriter);
+  letter-spacing: 0.08em;
+  transform: rotate(-1deg);
+}
+[data-motif="telegrama"] section[id]:nth-of-type(even) .motif-sprig {
+  transform: rotate(0.8deg);
+}
+[data-motif="telegrama"] .motif-sprig::before {
+  content: "MENSAJE " counter(tira);
+}
+[data-motif="telegrama"] .motif-sprig::after {
+  content: " STOP";
+  color: var(--color-gold);
+}
+[data-motif="telegrama"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-ink);
+  font: 700 1rem / 1 var(--font-typewriter);
+  letter-spacing: 0.1em;
+}
+[data-motif="telegrama"] .motif-closing::before {
+  content: "FIN DEL MENSAJE STOP";
+}
+
+/* Postal: el reverso de la postal en la cabecera y un sello distinto en cada sección. */
+[data-motif="postal"] {
+  counter-reset: sello;
+}
+[data-motif="postal"] .motif-hero {
+  background: linear-gradient(180deg, var(--scene-2), var(--color-paper) 70%);
+}
+/* El matasellos, arriba a la derecha de la cabecera. */
+[data-motif="postal"] .motif-hero::before {
+  content: var(--motif-stamp);
+  position: absolute;
+  bottom: 2.25rem;
+  right: 1.5rem;
+  display: grid;
+  place-items: center;
+  width: 5.5rem;
+  height: 5.5rem;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  outline: 1px solid currentColor;
+  outline-offset: -8px;
+  color: var(--color-danger);
+  font: 600 0.8125rem / 1 var(--font-sans);
+  letter-spacing: 0.05em;
+  transform: rotate(-12deg);
+}
+[data-motif="postal"] section[id] {
+  counter-increment: sello 5;
+}
+/* El sello: dentado, con su valor (5, 10, 15…) y un color que va cambiando. */
+[data-motif="postal"] .motif-sprig {
+  --tooth: 7px;
+  display: grid;
+  place-items: center;
+  width: 3.75rem;
+  height: 4.5rem;
+  margin-bottom: 1rem;
+  background: var(--color-gold);
+  color: var(--color-paper);
+  font: 400 1.75rem / 1 var(--font-display);
+  mask:
+    radial-gradient(circle at center, transparent 2.2px, #000 2.6px) calc(var(--tooth) / -2)
+      calc(var(--tooth) / -2) / var(--tooth) var(--tooth),
+    linear-gradient(#000 0 0) center / calc(100% - var(--tooth)) calc(100% - var(--tooth)) no-repeat;
+  transform: rotate(-4deg);
+}
+[data-motif="postal"] section[id]:nth-of-type(3n + 2) .motif-sprig {
+  background: var(--color-ink);
+  transform: rotate(3deg);
+}
+[data-motif="postal"] section[id]:nth-of-type(3n) .motif-sprig {
+  background: var(--color-danger);
+  transform: rotate(-1.5deg);
+}
+[data-motif="postal"] .motif-sprig::before {
+  content: counter(sello);
+}
+/* Cierre: el matasellos en grande. */
+[data-motif="postal"] .motif-closing {
+  display: grid;
+  place-items: center;
+  width: 8.5rem;
+  height: 8.5rem;
+  margin: 3rem auto 0;
+  border: 3px solid currentColor;
+  border-radius: 50%;
+  outline: 1px solid currentColor;
+  outline-offset: -11px;
+  color: var(--color-danger);
+  font: 600 1.125rem / 1 var(--font-sans);
+  letter-spacing: 0.05em;
+  transform: rotate(-9deg);
+}
+[data-motif="postal"] .motif-closing::before {
+  content: var(--motif-stamp);
 }
 [data-motif-kind="concepto"] .motif-closing > * {
   display: none;

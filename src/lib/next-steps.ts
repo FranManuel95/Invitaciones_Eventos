@@ -109,12 +109,7 @@ export function nextSteps(
 /** Canciones pedidas, agrupadas sin distinguir mayúsculas ni acentos, de más a menos pedida. */
 export function songTally(songs: { song: string; groupName: string }[]) {
   const key = (text: string) =>
-    text
-      .normalize("NFD")
-      .replace(/[̀-ͯ]/g, "")
-      .toLowerCase()
-      .replace(/\s+/g, " ")
-      .trim();
+    text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
   const tally = new Map<string, { song: string; count: number; askedBy: string[] }>();
   for (const s of songs) {
     const k = key(s.song);

@@ -9,6 +9,7 @@ la demo son ficticios.
 ## Parte 1. El invitado: cómo confirma su asistencia
 
 ### Cómo llega
+
 - Cada **invitación** (no cada persona) tiene un **enlace personal** (`/i/<token>`). Puede ser una
   familia («Familia García»), una pareja o una persona sola.
 - La invitación sabe cuántas **plazas** incluye (`maxAttendees`) y quién viene nombrado (los
@@ -16,6 +17,7 @@ la demo son ficticios.
 - Al abrir el enlace por primera vez, la invitación queda marcada como «abierta» (los novios lo ven).
 
 ### La pregunta
+
 Tras el sobre y el resto de la invitación, la sección «Confirma tu asistencia» muestra, sobre la foto
 del banquete a toda pantalla, **«¿Venís?»** (o **«¿Vienes?»** si la invitación es de una persona) y
 cuántas plazas incluye. Dos botones: **«Sí, asistiré»** y **«No podré asistir»**. Se indica el
@@ -23,9 +25,11 @@ cuántas plazas incluye. Dos botones: **«Sí, asistiré»** y **«No podré asi
 sección dice «El plazo ha terminado» y remite a escribir directamente a los novios.
 
 ### Los pasos (formulario por pasos, con barra de progreso y botón «Atrás»)
+
 Los pasos cambian según lo que responda:
 
 **Si dice que NO asiste:** Asistencia → Mensaje → Resumen.
+
 - Mensaje opcional: «¿Quieres dejarnos unas palabras?» (hasta 500 caracteres).
 
 **Si dice que SÍ asiste:**
@@ -61,6 +65,7 @@ Validación: cada paso se valida antes de pasar al siguiente y los errores salen
 Si el invitado cierra la página con la respuesta a medias, el navegador le avisa.
 
 ### Después de enviar
+
 - Animación de celebración (pétalos) y mensaje de confirmación.
 - Si dijo que sí, recibe su **pase personal**: nombre de la invitación, personas, menús, transporte,
   mesa asignada (cuando los novios ya la han puesto), el primer acto del programa, un **QR** y un
@@ -70,6 +75,7 @@ Si el invitado cierra la página con la respuesta a medias, el navegador le avis
 - Si antes dijo que no y edita, se parte de que vienen todos los nombrados.
 
 ### Qué más puede hacer el invitado en su invitación (fuera del RSVP)
+
 - Ver programa, lugares, cómo llegar, vestimenta, preguntas frecuentes, regalos.
 - **Regalos:** reservar un regalo de la lista (el resto de invitados solo ve «libre» o «reservado»,
   nunca quién lo regala) y ver los datos de Bizum o cuenta si los novios los han puesto.
@@ -78,6 +84,7 @@ Si el invitado cierra la página con la respuesta a medias, el navegador le avis
 - **Música de fondo** (empieza apagada) y botón para añadir al calendario.
 
 ### Dónde se guarda
+
 - Eventos reales: la respuesta va a la base de datos (Supabase) y el invitado solo accede con su
   token. También se recuerda en su navegador.
 - Demostración (`/i/demo`): solo en el navegador del visitante, sin red.
@@ -91,6 +98,7 @@ organizador (Ajustes). Menú lateral en escritorio y barra deslizable en móvil.
 `/panel/demo`.
 
 ### Estado del evento
+
 Barra de publicación: el evento empieza como **«Borrador sin publicar»**. Se puede publicar primero
 como **save the date** (versión corta) y después como **invitación completa**. Desde el inicio se
 abre el **editor** de la invitación (`/editor/<evento>`: plantilla, estilo, portada, sobre, textos,
@@ -99,6 +107,7 @@ fotos, programa, rutas de autobús, menús, regalos, vestimenta…).
 ### Secciones
 
 **Invitados y envío**
+
 - **Inicio:** saludo («Hola, María»), días que faltan y resumen («han respondido 12 de 20
   invitaciones; quedan 8 por contestar y 3 aún no la han abierto»). Cifras: invitados, confirmados,
   sin responder, no asisten (con porcentajes). Gráfico de confirmaciones acumuladas por día,
@@ -117,6 +126,7 @@ fotos, programa, rutas de autobús, menús, regalos, vestimenta…).
   invitación.
 
 **Logística del día**
+
 - **Transporte:** plazas de autobús reservadas frente a las totales, por ruta y punto de recogida;
   lista de pasajeros (exportable a CSV); invitados que van por su cuenta; quién ofrece plazas de
   coche y cuántas.
@@ -129,24 +139,28 @@ fotos, programa, rutas de autobús, menús, regalos, vestimenta…).
   canciones para el DJ, con los datos de hoy.
 
 **Interacción con los invitados**
+
 - **Regalos:** quién ha reservado cada regalo (los invitados no lo ven).
 - **Libro de firmas:** mensajes que dejan los invitados; los novios pueden **ocultar** los que no
   convengan.
 - **Álbum:** las fotos que suben los invitados esperan aprobación; se imprime el QR para las mesas.
 
 **Organización de los novios**
+
 - **Tareas:** lo pendiente hasta el gran día, con fecha y responsable.
 - **Presupuesto:** previsto, pagado y pendiente, con los próximos pagos.
 - **Agenda:** calendario único con tareas, pagos, el plazo de respuesta y el día del evento.
 - **Ajustes:** quién organiza el evento, invitar a otra persona y borrar el evento.
 
 ### Cómo se relacionan las dos partes
+
 Todo lo que el invitado contesta en el formulario alimenta el panel: asistencia → Inicio e
 Invitados; acompañantes → plazas y Mesas; autobús y coche → Transporte; menú y alergias → Menús,
 Mesas e Imprimir (catering); canción → Imprimir (DJ); mensaje → Inicio; apertura del enlace →
 Invitaciones y Recordatorios.
 
 ### Notas
+
 - Los textos de la interfaz están en español y en tono cercano.
 - Los eventos que no son bodas (cumpleaños, bautizos…) cambian el vocabulario («anfitriones»,
   «el evento»), pero el flujo es el mismo.

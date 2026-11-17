@@ -1109,6 +1109,35 @@ const premio = retitle(buganvilla, {
     { name: "Papel", hex: "#ebe7d4" },
   ],
 });
+const telegrama = retitle(olivar, {
+  id: "evt-demo-irene-guille",
+  first: "Irene",
+  second: "Guille",
+  date: "2027-09-18T18:00:00+02:00",
+  rsvpDeadline: "2027-08-10T23:59:00+02:00",
+  coverPhoto: "/fotos/olivar/historia-2.jpg",
+  palette: [
+    { name: "Azul de cinta", hex: "#1f2f4d" },
+    { name: "Rojo urgente", hex: "#a3221b" },
+    { name: "Papel", hex: "#f0e6cb" },
+    { name: "Trigo", hex: "#d3c59f" },
+  ],
+});
+const postal = retitle(orilla, {
+  id: "evt-demo-vera-nico",
+  first: "Vera",
+  second: "Nico",
+  date: "2027-08-21T19:30:00+02:00",
+  rsvpDeadline: "2027-07-12T23:59:00+02:00",
+  coverPhoto: "/fotos/olivar/pareja.jpg",
+  palette: [
+    { name: "Azul bolígrafo", hex: "#1e3a6e" },
+    { name: "Verde sello", hex: "#2f6b57" },
+    { name: "Atardecer", hex: "#e6bd9c" },
+    { name: "Cartulina", hex: "#f6f0e1" },
+    { name: "Rojo matasellos", hex: "#b3312a" },
+  ],
+});
 
 const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   buganvilla,
@@ -1123,6 +1152,8 @@ const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   gaceta,
   embarque,
   premio,
+  telegrama,
+  postal,
 };
 
 /** La boda ficticia propia de una plantilla, si la tiene. */

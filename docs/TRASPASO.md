@@ -6,7 +6,10 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 ## Dónde estamos
 
 - **Línea de trabajo vigente (17/11/2026): plantillas de concepto.** Gaceta, Embarque y Premio
-  ya están en la rama `claude/tender-franklin-isgz7b`. `docs/CONCEPTOS.md` explica cómo están
+  están en la rama `claude/tender-franklin-isgz7b` (PR #6). **Telegrama y Postal** (ronda 19) están
+  en `claude/exciting-franklin-43k083`, que parte de esa rama y la contiene: hay que unirla a la
+  del PR #6 o abrirle un PR propio. Siguientes por orden: carta de restaurante y vinilo.
+  Pruebas con las cinco: 503 unitarias y 310 E2E en verde (4 se saltan). `docs/CONCEPTOS.md` explica cómo están
   hechas, la receta para hacer otra, el nivel de acabado exigido y doce ideas más con su ficha.
   Empezar por ahí. Las rondas 14 a 18 de `docs/DECISIONS.md` cuentan lo último: las diez
   plantillas con vídeo, las cinco con paleta y portada propias, el motivo de acuarela y el panel.

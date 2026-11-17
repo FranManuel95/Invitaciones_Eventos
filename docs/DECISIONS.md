@@ -853,7 +853,7 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
   - Lino: estilo `lino` (blanco de lino y rosa viejo), paniculata con filete, sobre en la ventana.
   - Granada: estilo `granate` (vino oscuro y oro), olivo en oro y lacre de almendro, sobre burdeos.
   - Eucalipto: estilo `eucalipto` (verde gris frío), ramas de eucalipto y lacre de hoja, díptico.
-  Terciopelo pasa a la caja esmeralda, que casa con su verde. Ya son diez las que se enseñan.
+    Terciopelo pasa a la caja esmeralda, que casa con su verde. Ya son diez las que se enseñan.
 - **Portadas compuestas** con las acuarelas y los lacres sueltos de Higgsfield: las ramas se
   multiplican sobre un papel teñido (en Granada, la silueta se tiñe de oro sobre el vino). Se
   generan a 1080 × 1920 en `public/portadas/`. No están en el repositorio ni el guion ni los
@@ -879,9 +879,9 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
   - cada sección se anuncia con su ramita en vez de la raya dorada;
   - la carta lleva una rama en la esquina y un lacre fotografiado bajo el botón;
   - los colores de vestimenta de la boda de ejemplo casan con la plantilla.
-  Casi todo es CSS sobre `[data-motif]` (final de `globals.css`); las imágenes, recortadas con
-  transparencia, están en `public/acuarelas/`. El lacre lila es el de hoja, virado de color.
-  Lino y Eucalipto no llevan motivo todavía: es fácil añadirlo si la prueba gusta.
+    Casi todo es CSS sobre `[data-motif]` (final de `globals.css`); las imágenes, recortadas con
+    transparencia, están en `public/acuarelas/`. El lacre lila es el de hoja, virado de color.
+    Lino y Eucalipto no llevan motivo todavía: es fácil añadirlo si la prueba gusta.
 
 ## Ronda 18: tres plantillas de concepto (Gaceta, Embarque y Premio)
 
@@ -902,6 +902,36 @@ objeto entero, cada una con una interacción nueva, y que visten también el int
   `isLightCover` en `cover.ts`, y los motivos de tipo «concepto» al final de `globals.css`.
   El rótulo de cada sección (`.motif-sprig`) sirve para las ramas de acuarela y para estos.
 - Sus bodas de ejemplo reutilizan otras con `retitle`, como las anteriores.
+
+## Ronda 19: Telegrama y Postal (17/11/2026)
+
+Las dos primeras de la lista de `docs/CONCEPTOS.md`, hechas con su receta.
+
+- **Telegrama** (estilo `telegrafo`, portada y motivo `telegrama`): el impreso de telégrafos con
+  los nombres como remitente, la invitación como destinatario y la ciudad como origen. El mensaje
+  sale del evento (`announcement()`, fecha y ciudad, cada frase con su STOP) y se teclea solo en
+  tiras de papel, con un chasquido por letra (`playKey`). Tocar el telegrama lo termina de golpe;
+  «Arrancar la tira» abre. Con movimiento reducido llega ya escrito, y el mensaje completo está
+  siempre en la página para los lectores de pantalla. Dentro: sello «Telegrama urgente», cada
+  sección en su tira («MENSAJE 3 STOP») y cierre «FIN DEL MENSAJE STOP».
+- **Postal** (estilo `postal`, portada y motivo `postal`): anverso con la foto, «Recuerdo de
+  [ciudad]» y los nombres; al girarla, matasellos con la fecha, sello con las iniciales, «Para
+  [invitación]» y el mensaje de la carta a mano. El giro no usa caras traseras en 3D (problemas
+  en Safari): gira hasta ponerse de canto, cambia de cara y termina. Dentro: matasellos en la
+  cabecera y en el cierre, y un sello dentado por sección con su valor (5, 10, 15…) y tres
+  colores que rotan.
+- **Paletas**: las de las fichas se ajustaron al esquema de quince colores y pasan las pruebas de
+  contraste. En Postal el acento es el verde del sello (no el rojo) y la escena es un atardecer,
+  para que no se confunda con Embarque, que también es azul y rojo.
+- **Letra nueva**: Courier Prime (`--font-courier`), solo para Telegrama.
+- **Sello dentado** (`.stamp-teeth`): una máscara de puntos en los bordes; sirve para más sellos.
+- Bodas de ejemplo: Irene y Guille (Telegrama) y Vera y Nico (Postal). Ya son quince plantillas
+  destacadas y veintidós portadas.
+- Trampas nuevas: el contenido calculado de `counter()` no trae el número (las pruebas miran el
+  nombre del contador); axe mide mal el contraste a mitad de un giro (esperar a que acabe); el
+  sobre «en la mesa» no lleva `data-opening`.
+- Pendiente en estas dos, igual que en las tres primeras: carta y pase del concepto, apertura
+  propia y prueba con el dedo en un móvil real.
 
 ## Pendiente para próximas fases
 
