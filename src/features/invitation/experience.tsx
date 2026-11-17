@@ -153,9 +153,14 @@ export function InvitationExperience({
   const [Content, setContent] = useState<ComponentType<InvitationContentProps> | null>(null);
   const userNavigated = useRef(false);
   // Si ya abrió el sobre en esta sesión, apertura corta (en servidor siempre es la portada).
+  // En la demo todas las plantillas comparten invitación: cada aspecto recuerda su apertura, o
+  // al abrir una plantilla las demás se saltarían su portada.
+  const seenId = group.persisted
+    ? group.token
+    : `${group.token}:${theme.style}:${theme.cover}:${theme.opening}`;
   const openedBefore = useSyncExternalStore(
     noopSubscribe,
-    () => hasOpenedEnvelope(group.token),
+    () => hasOpenedEnvelope(seenId),
     () => false,
   );
   const muted = useSyncExternalStore(subscribeMuted, isMuted, () => false);
@@ -191,7 +196,7 @@ export function InvitationExperience({
     (next: Stage) => {
       userNavigated.current = true;
       if (next !== "cover") preload();
-      if (next === "content") markEnvelopeOpened(group.token);
+      if (next === "content") markEnvelopeOpened(seenId);
       // Música (si la pareja la quiere): entra al levantar la portada y se despide al llegar al
       // contenido.
       if (next === "envelope" && theme.music) startAmbient(theme.musicStyle, event.song);
@@ -199,7 +204,7 @@ export function InvitationExperience({
       // Dentro de una transición: React activa los <ViewTransition> (la carta que se transforma).
       startTransition(() => setStage(next));
     },
-    [group.token, preload, theme.music, theme.musicStyle, event.song],
+    [seenId, preload, theme.music, theme.musicStyle, event.song],
   );
 
   const toContent = useCallback(() => go("content"), [go]);

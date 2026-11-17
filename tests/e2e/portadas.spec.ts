@@ -289,4 +289,18 @@ test.describe("portadas", () => {
     );
     await expect(stamp).toBeVisible();
   });
+
+  test("en la demo, abrir una plantilla no hace que las demás se salten su portada", async ({
+    page,
+  }) => {
+    await page.goto("/i/familia-garcia?plantilla=arcilla");
+    await page.getByRole("button", { name: "Saltar intro" }).click();
+    await expect(page.locator("#content-title")).toBeAttached();
+    // Otra plantilla de la misma invitación de ejemplo empieza por su portada.
+    await page.goto("/i/familia-garcia?plantilla=gaceta");
+    await expect(page.locator("[data-cover='gaceta']")).toBeVisible();
+    // Y la misma plantilla, vuelta a abrir, sí recuerda que ya se abrió.
+    await page.goto("/i/familia-garcia?plantilla=arcilla");
+    await expect(page.locator("[data-cover='arcilla']")).toHaveCount(0);
+  });
 });
