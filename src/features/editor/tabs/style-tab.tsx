@@ -522,6 +522,16 @@ const COVER_SAMPLES: Record<Theme["cover"], string> = {
   premio: "url(/venta/portada-premio.webp) center / cover",
   telegrama: "url(/venta/portada-telegrama.webp) center / cover",
   postal: "url(/venta/portada-postal.webp) center / cover",
+  vinilo: "url(/venta/portada-vinilo.webp) center / cover",
+  pasaporte: "url(/venta/portada-pasaporte.webp) center / cover",
+  carta: "url(/venta/portada-carta.webp) center / cover",
+  mapa: "url(/venta/portada-mapa.webp) center / cover",
+  constelacion: "url(/venta/portada-constelacion.webp) center / cover",
+  comic: "url(/venta/portada-comic.webp) center / cover",
+  cosecha: "url(/venta/portada-cosecha.webp) center / cover",
+  tarot: "url(/venta/portada-tarot.webp) center / cover",
+  arcade: "url(/venta/portada-arcade.webp) center / cover",
+  semillas: "url(/venta/portada-semillas.webp) center / cover",
 };
 
 /** Miniatura de cada efecto de portada. */

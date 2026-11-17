@@ -1138,6 +1138,147 @@ const postal = retitle(orilla, {
     { name: "Rojo matasellos", hex: "#b3312a" },
   ],
 });
+const vinilo = retitle(terciopelo, {
+  id: "evt-demo-nuria-dani",
+  first: "Nuria",
+  second: "Dani",
+  date: "2027-10-02T18:30:00+02:00",
+  rsvpDeadline: "2027-08-25T23:59:00+02:00",
+  coverPhoto: "/fotos/buganvilla/pareja.jpg",
+  palette: [
+    { name: "Negro vinilo", hex: "#1c1917" },
+    { name: "Naranja", hex: "#c2511f" },
+    { name: "Mostaza", hex: "#d9a441" },
+    { name: "Crema", hex: "#f3ead8" },
+  ],
+});
+const pasaporte = retitle(orilla, {
+  id: "evt-demo-paula-iker",
+  first: "Paula",
+  second: "Íker",
+  date: "2027-06-26T19:00:00+02:00",
+  rsvpDeadline: "2027-05-20T23:59:00+02:00",
+  coverPhoto: "/fotos/buganvilla/historia-2.jpg",
+  palette: [
+    { name: "Granate", hex: "#5a1220" },
+    { name: "Dorado", hex: "#c9a14a" },
+    { name: "Azul sello", hex: "#2a4a7f" },
+    { name: "Papel", hex: "#f1ece0" },
+  ],
+});
+const carta = retitle(olivar, {
+  id: "evt-demo-rocio-manu",
+  first: "Rocío",
+  second: "Manu",
+  date: "2027-05-29T13:00:00+02:00",
+  rsvpDeadline: "2027-04-20T23:59:00+02:00",
+  coverPhoto: "/fotos/olivar/banquete.jpg",
+  palette: [
+    { name: "Verde botella", hex: "#2f4a3a" },
+    { name: "Burdeos", hex: "#7a2230" },
+    { name: "Dorado", hex: "#b08a2e" },
+    { name: "Mantel", hex: "#fbf8f1" },
+  ],
+});
+const mapa = retitle(orilla, {
+  id: "evt-demo-aitana-bruno",
+  first: "Aitana",
+  second: "Bruno",
+  date: "2027-07-24T19:00:00+02:00",
+  rsvpDeadline: "2027-06-15T23:59:00+02:00",
+  coverPhoto: "/fotos/buganvilla/historia-1.jpg",
+  palette: [
+    { name: "Sepia", hex: "#3b2a1a" },
+    { name: "Rojo lacre", hex: "#9b2c1f" },
+    { name: "Mar", hex: "#9fb7b5" },
+    { name: "Verde tierra", hex: "#6f7d4f" },
+    { name: "Pergamino", hex: "#efe2c4" },
+  ],
+});
+const constelacion = retitle(terciopelo, {
+  id: "evt-demo-lola-samuel",
+  first: "Lola",
+  second: "Samuel",
+  date: "2027-12-11T19:30:00+01:00",
+  rsvpDeadline: "2027-11-02T23:59:00+01:00",
+  coverPhoto: "/fotos/buganvilla/historia-4.jpg",
+  palette: [
+    { name: "Azul noche", hex: "#0d1530" },
+    { name: "Oro", hex: "#d8b96a" },
+    { name: "Azul claro", hex: "#6f8cc4" },
+    { name: "Marfil", hex: "#f2ecdb" },
+  ],
+});
+const comic = retitle(buganvilla, {
+  id: "evt-demo-valeria-jorge",
+  first: "Valeria",
+  second: "Jorge",
+  date: "2027-06-05T18:00:00+02:00",
+  rsvpDeadline: "2027-04-28T23:59:00+02:00",
+  coverPhoto: "/fotos/buganvilla/pareja.jpg",
+  palette: [
+    { name: "Rojo", hex: "#d92b2b" },
+    { name: "Amarillo", hex: "#f5c518" },
+    { name: "Azul", hex: "#2563c9" },
+    { name: "Negro", hex: "#141414" },
+  ],
+});
+const cosecha = retitle(olivar, {
+  id: "evt-demo-blanca-rodrigo",
+  first: "Blanca",
+  second: "Rodrigo",
+  date: "2027-09-25T13:00:00+02:00",
+  rsvpDeadline: "2027-08-16T23:59:00+02:00",
+  coverPhoto: "/fotos/olivar/historia-3.jpg",
+  palette: [
+    { name: "Vino", hex: "#5e1a2b" },
+    { name: "Dorado", hex: "#b3924a" },
+    { name: "Verde botella", hex: "#243a2e" },
+    { name: "Etiqueta", hex: "#f4efe2" },
+  ],
+});
+const tarot = retitle(terciopelo, {
+  id: "evt-demo-abril-oscar",
+  first: "Abril",
+  second: "Óscar",
+  date: "2027-11-20T19:00:00+01:00",
+  rsvpDeadline: "2027-10-12T23:59:00+02:00",
+  coverPhoto: "/fotos/buganvilla/historia-3.jpg",
+  palette: [
+    { name: "Violeta", hex: "#1c1630" },
+    { name: "Oro", hex: "#d3ad5a" },
+    { name: "Ciruela", hex: "#5c2f5a" },
+    { name: "Marfil", hex: "#f1e7d0" },
+  ],
+});
+const arcade = retitle(buganvilla, {
+  id: "evt-demo-leire-marc",
+  first: "Leire",
+  second: "Marc",
+  date: "2027-07-03T19:00:00+02:00",
+  rsvpDeadline: "2027-05-25T23:59:00+02:00",
+  coverPhoto: "/fotos/buganvilla/historia-2.jpg",
+  palette: [
+    { name: "Magenta", hex: "#ff3d81" },
+    { name: "Cian", hex: "#37d5d6" },
+    { name: "Amarillo", hex: "#ffd23f" },
+    { name: "Azul noche", hex: "#12122b" },
+  ],
+});
+const semillas = retitle(olivar, {
+  id: "evt-demo-olivia-tomas",
+  first: "Olivia",
+  second: "Tomás",
+  date: "2027-04-17T12:30:00+02:00",
+  rsvpDeadline: "2027-03-08T23:59:00+01:00",
+  coverPhoto: "/fotos/olivar/historia-1.jpg",
+  palette: [
+    { name: "Verde hoja", hex: "#5d7a3a" },
+    { name: "Amapola", hex: "#c8452c" },
+    { name: "Kraft", hex: "#ece0c5" },
+    { name: "Crema", hex: "#fbf6e7" },
+  ],
+});
 
 const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   buganvilla,
@@ -1154,6 +1295,16 @@ const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   premio,
   telegrama,
   postal,
+  vinilo,
+  pasaporte,
+  carta,
+  mapa,
+  constelacion,
+  comic,
+  cosecha,
+  tarot,
+  arcade,
+  semillas,
 };
 
 /** La boda ficticia propia de una plantilla, si la tiene. */

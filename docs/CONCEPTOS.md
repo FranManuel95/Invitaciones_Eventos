@@ -8,8 +8,14 @@ Rama de trabajo: `claude/tender-franklin-isgz7b` (PR #6 contra `main`, sin fusio
 continuación (Telegrama y Postal, ronda 19) está en `claude/exciting-franklin-43k083`, que parte
 de esa rama y la contiene entera.
 
-**Hechas**: Gaceta, Embarque, Premio, **Telegrama** y **Postal**. De las doce ideas de abajo
-quedan diez; las fichas 5 y 11 se conservan como referencia de lo que se construyó.
+**Hechas las quince**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19) y
+las diez restantes (ronda 20): Vinilo, Pasaporte, Carta, Mapa, Constelación, Cómic, Cosecha,
+Tarot, Arcade y Semillas. Las fichas de abajo se conservan como referencia de lo que se
+construyó; lo que queda es lo de «Pendiente en las que ya existen», que vale para todas.
+
+Dónde está cada cosa ahora: piezas comunes en `cover/concept-kit.tsx`; portadas en
+`concepts.tsx`, `concepts-more.tsx` y `concepts-play.tsx`; pruebas en
+`tests/e2e/portadas.spec.ts` y `tests/e2e/conceptos.spec.ts`.
 
 ## Qué es una plantilla de concepto
 
@@ -115,7 +121,7 @@ Antes de enseñar una plantilla de concepto, repasar:
 - [ ] Contraste AA y axe sin fallos graves ni críticos.
 - [ ] Probado con el dedo en un móvil real (pendiente también en las tres primeras).
 
-## Pendiente en las tres que ya existen
+## Pendiente en las que ya existen
 
 1. **La carta, del concepto.** Hoy es la carta común. Gaceta: un recorte de periódico con el
    saludo como noticia breve. Embarque: un telegrama o la etiqueta de equipaje. Premio: el

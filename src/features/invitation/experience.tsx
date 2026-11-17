@@ -76,6 +76,7 @@ function motifVars(theme: Theme, date: string): Record<string, string> {
       : {}),
     "--motif-stamp": `"${dd}·${mm}·${yy}"`,
     "--motif-serial": `"N.º ${dd}${mm}${yy}"`,
+    "--motif-year": `"20${yy}"`,
   };
 }
 

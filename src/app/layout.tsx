@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import {
+  Bangers,
   Bodoni_Moda,
   Cormorant_Garamond,
   Courier_Prime,
@@ -9,6 +10,7 @@ import {
   Jost,
   Pinyon_Script,
   Playfair_Display,
+  Press_Start_2P,
   Poiret_One,
 } from "next/font/google";
 import "./globals.css";
@@ -85,6 +87,21 @@ const courier = Courier_Prime({
   display: "swap",
   preload: false,
 });
+// Rotulación de tebeo (plantilla Cómic) y píxeles de recreativa (plantilla Arcade).
+const bangers = Bangers({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-bangers",
+  display: "swap",
+  preload: false,
+});
+const pixel = Press_Start_2P({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-pixel",
+  display: "swap",
+  preload: false,
+});
 const fontVariables = [
   classic,
   playfair,
@@ -94,6 +111,8 @@ const fontVariables = [
   pinyon,
   greatVibes,
   courier,
+  bangers,
+  pixel,
 ].map((f) => f.variable);
 
 const sans = Jost({

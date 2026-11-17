@@ -16,48 +16,19 @@ import { haptic, playKey, playPaper } from "../effects/sound";
  * («Desliza o toca para abrir»), igual que el resto de portadas.
  */
 
-export interface ConceptProps {
-  event: WeddingEvent;
-  /** A quién va dirigida («Familia García»); en la vista previa puede faltar. */
-  guestName?: string;
-  /** Abre la invitación (la portada se levanta). */
-  onOpen: () => void;
-  reduce: boolean;
-}
-
-const PLAYFAIR = "var(--font-playfair), 'Playfair Display', Georgia, serif";
-const SANS = "var(--font-jost), Jost, Futura, system-ui, sans-serif";
-const MONO = "ui-monospace, 'SF Mono', Menlo, Consolas, monospace";
-const FRAUNCES = "var(--font-fraunces), Fraunces, Georgia, serif";
-const COURIER = "var(--font-courier), 'Courier Prime', 'Courier New', ui-monospace, monospace";
-const SCRIPT = "var(--font-pinyon), 'Pinyon Script', 'Snell Roundhand', cursive";
-
-const madrid = (options: Intl.DateTimeFormatOptions) =>
-  new Intl.DateTimeFormat("es-ES", { timeZone: "Europe/Madrid", ...options });
-/** dd, MM y aa de la fecha del evento, en hora peninsular. */
-function dateParts(iso: string) {
-  const parts = madrid({ day: "2-digit", month: "2-digit", year: "2-digit" }).formatToParts(
-    new Date(iso),
-  );
-  const get = (type: string) => parts.find((p) => p.type === type)?.value ?? "";
-  return { dd: get("day"), mm: get("month"), yy: get("year") };
-}
-
-function OpenHint({ onOpen, children }: { onOpen: () => void; children?: ReactNode }) {
-  return (
-    <button
-      type="button"
-      onPointerDown={(e) => e.stopPropagation()}
-      onClick={onOpen}
-      className="group mx-auto flex flex-col items-center gap-1 rounded-full px-6 py-2 transition-opacity hover:opacity-80"
-      style={{ fontFamily: SANS }}
-    >
-      {children}
-      <span className="text-[0.9375rem]">Desliza o toca para abrir</span>
-      <ChevronDown aria-hidden className="nudge size-5" />
-    </button>
-  );
-}
+import {
+  COURIER,
+  dateParts,
+  FRAUNCES,
+  madrid,
+  MONO,
+  OpenHint,
+  PLAYFAIR,
+  SANS,
+  SCRIPT,
+  type ConceptProps,
+} from "./concept-kit";
+import { MORE_COVERS } from "./concepts-more";
 
 /* ───────────────────────── Gaceta: la portada de un periódico ───────────────────────── */
 
@@ -945,6 +916,7 @@ const COVERS = {
   premio: PrizeCover,
   telegrama: TelegramCover,
   postal: PostcardCover,
+  ...MORE_COVERS,
 } satisfies Record<ConceptCoverId, (props: ConceptProps) => ReactNode>;
 
 export function ConceptCover({ scene, ...props }: ConceptProps & { scene: ConceptCoverId }) {

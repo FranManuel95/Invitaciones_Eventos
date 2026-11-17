@@ -5,14 +5,12 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 
 ## Dónde estamos
 
-- **Línea de trabajo vigente (17/11/2026): plantillas de concepto.** Gaceta, Embarque y Premio
-  están en la rama `claude/tender-franklin-isgz7b` (PR #6). **Telegrama y Postal** (ronda 19) están
-  en `claude/exciting-franklin-43k083`, que parte de esa rama y la contiene: hay que unirla a la
-  del PR #6 o abrirle un PR propio. Siguientes por orden: carta de restaurante y vinilo.
-  Pruebas con las cinco: 503 unitarias y 310 E2E en verde (4 se saltan). `docs/CONCEPTOS.md` explica cómo están
-  hechas, la receta para hacer otra, el nivel de acabado exigido y doce ideas más con su ficha.
-  Empezar por ahí. Las rondas 14 a 18 de `docs/DECISIONS.md` cuentan lo último: las diez
-  plantillas con vídeo, las cinco con paleta y portada propias, el motivo de acuarela y el panel.
+- **Línea de trabajo vigente (17/11/2026): plantillas de concepto, las quince hechas.** Gaceta,
+  Embarque y Premio están en `claude/tender-franklin-isgz7b` (PR #6). Telegrama y Postal (ronda 19) y las diez restantes (ronda 20) están en `claude/exciting-franklin-43k083`, que parte de esa
+  rama y la contiene entera: falta unirla al PR #6 o abrirle un PR propio (decisión del usuario).
+  `docs/CONCEPTOS.md` explica cómo están hechas. Lo siguiente: carta y pase del invitado con el
+  aspecto de cada concepto, aperturas propias y prueba en móvil real.
+  Pruebas: 653 unitarias y 340 E2E en verde (4 se saltan).
 
 - **Ramas** (13/11/2026). Ojo: hay varias líneas de trabajo y **lo que no está en `main` no está
   en producción**. Antes de empezar, `git fetch` y `git branch -r`, y para cada rama

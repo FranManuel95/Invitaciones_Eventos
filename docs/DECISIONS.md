@@ -933,6 +933,46 @@ Las dos primeras de la lista de `docs/CONCEPTOS.md`, hechas con su receta.
 - Pendiente en estas dos, igual que en las tres primeras: carta y pase del concepto, apertura
   propia y prueba con el dedo en un móvil real.
 
+## Ronda 20: las diez plantillas de concepto que faltaban (17/11/2026)
+
+Con esto quedan hechas las doce ideas de `docs/CONCEPTOS.md`: quince plantillas de concepto en
+total, veinticinco destacadas y treinta y dos portadas.
+
+| Plantilla    | Estilo      | Qué se hace en la portada                                       | Rótulo de cada sección             |
+| ------------ | ----------- | --------------------------------------------------------------- | ---------------------------------- |
+| Vinilo       | `vinilo`    | Sacar el disco de la funda (o «Poner el disco»)                 | «Pista 03» con su surco            |
+| Pasaporte    | `pasaporte` | Abrirlo: hoja de datos a nombre del invitado                    | Sello de visado con la fecha       |
+| Carta        | `mantel`    | Levantar la campana: debajo, la fecha (o «Destapar»)            | Aperitivo, Entrantes, Postres…     |
+| Mapa         | `pergamino` | Seguir la ruta con el dedo hasta la X (o «Ir a la X»)           | Número de parada y línea de puntos |
+| Constelación | `celeste`   | Tocar el cielo para unir las estrellas (o «Unir las estrellas») | Coordenadas de la estrella         |
+| Cómic        | `tebeo`     | Pasar tres viñetas; la última trae la fecha                     | Cartela «Mientras tanto…»          |
+| Cosecha      | `bodega`    | Tirar del corcho (o «Descorchar»)                               | «Botella n.º 3 · Cosecha 2027»     |
+| Tarot        | `arcano`    | Girar la carta: VI, los enamorados                              | Arcano con su número romano        |
+| Arcade       | `arcade`    | Pulsar el botón rojo                                            | «FASE 3» con barra de progreso     |
+| Semillas     | `vivero`    | «Sembrar»: brotan flores alrededor de la fecha                  | Pictogramas de siembra y «Ficha 3» |
+
+- **Código**: las piezas comunes están en `cover/concept-kit.tsx` (props, letras, fechas, números
+  romanos, `OpenHint` y `ActionButton`); las portadas, en `concepts.tsx` (las cinco primeras),
+  `concepts-more.tsx` (vinilo, pasaporte, carta, cosecha, tarot) y `concepts-play.tsx` (mapa,
+  constelación, cómic, arcade, semillas). `usePull` sirve para todo lo que se saca tirando;
+  `useFlip`, para lo que se gira.
+- **Portadas oscuras**: Constelación, Tarot y Arcade llevan `tone: "oscuro"` en `CONCEPT_COVERS`
+  para que los botones de arriba vayan en blanco (`isDarkConcept`).
+- **Letras nuevas**: Bangers (Cómic) y Press Start 2P (Arcade, solo en rótulos cortos; el cuerpo
+  sigue en Jost). Pasaporte usa la monoespaciada del sistema, sin cargar nada.
+- **Sonidos nuevos**: `playNotes` (recreativa y estrellas) y `playPop` (corcho).
+- **Decisiones**: el mapa perdona el pulso (40 unidades de margen) pero no los atajos (solo
+  cuentan los tres puntos siguientes); en la constelación basta tocar el cielo, sin acertar en
+  cada estrella; el tarot no usa imagen generada, sino sol, luna y dos alianzas en SVG; las
+  semillas no dependen del sensor de movimiento (en iOS pide permiso).
+- **Contraste**: el naranja de la funda del vinilo se oscureció (`#ad4418`) para que el texto
+  pequeño pase AA; Arcade usa calendario de cartel porque la píldora del semanal no se leía.
+- **Pruebas**: `tests/e2e/conceptos.spec.ts` recorre las diez (título, fecha, axe, abrir y rótulo
+  interior) y prueba cada interacción. Total: 653 unitarias y 340 E2E.
+- **Pendiente en las quince**: carta y pase del invitado con el aspecto del concepto, apertura
+  propia, y probarlas con el dedo en un móvil real. Avisos de la ficha que siguen valiendo: Tarot
+  no gusta a todas las familias y Arcade es para un público muy concreto.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

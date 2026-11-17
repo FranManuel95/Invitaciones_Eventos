@@ -1661,6 +1661,537 @@ textarea.note-lines {
 [data-motif="postal"] .motif-closing::before {
   content: var(--motif-stamp);
 }
+/* ── Portadas de concepto, segunda tanda: animaciones propias ── */
+@media (prefers-reduced-motion: no-preference) {
+  /* El disco gira al ponerlo. */
+  .disc-spin {
+    animation: vinyl-spin 1.8s linear infinite;
+  }
+  /* «Pulsa para empezar» parpadea como en una recreativa. */
+  .arcade-blink {
+    animation: type-caret 1s steps(1) infinite;
+  }
+}
+/* El dorso de la carta de tarot: una retícula de rombos. */
+.tarot-back {
+  background-image:
+    repeating-linear-gradient(45deg, rgb(211 173 90 / 0.22) 0 1px, transparent 1px 14px),
+    repeating-linear-gradient(-45deg, rgb(211 173 90 / 0.22) 0 1px, transparent 1px 14px);
+}
+/* Flores que brotan al sembrar: cinco pétalos y el centro, dibujados con degradados. */
+.seed-bloom {
+  background:
+    radial-gradient(circle at 50% 50%, #f1dea0 0 18%, transparent 19%),
+    radial-gradient(circle at 50% 18%, currentColor 0 17%, transparent 18%),
+    radial-gradient(circle at 82% 40%, currentColor 0 17%, transparent 18%),
+    radial-gradient(circle at 70% 80%, currentColor 0 17%, transparent 18%),
+    radial-gradient(circle at 30% 80%, currentColor 0 17%, transparent 18%),
+    radial-gradient(circle at 18% 40%, currentColor 0 17%, transparent 18%);
+  opacity: 0;
+  transform: scale(0.2) rotate(-40deg);
+  transition:
+    opacity 0.5s ease-out,
+    transform 0.7s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+.seed-bloom.is-sown {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+/* ── Interiores de concepto, segunda tanda ── */
+
+/* Vinilo: cada sección es una pista, con un surco debajo. */
+[data-motif="vinilo"] {
+  counter-reset: pista;
+}
+[data-motif="vinilo"] .motif-hero {
+  background: var(--color-ivory);
+}
+[data-motif="vinilo"] .motif-hero::before {
+  content: "";
+  position: absolute;
+  right: -9rem;
+  bottom: -9rem;
+  width: 24rem;
+  height: 24rem;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, var(--color-gold) 0 17%, var(--color-ivory) 17% 18.5%, transparent 19%),
+    repeating-radial-gradient(circle, var(--color-ink) 0 1.5px, #3a3532 1.5px 3px);
+  opacity: 0.9;
+}
+[data-motif="vinilo"] section[id] {
+  counter-increment: pista;
+}
+[data-motif="vinilo"] .motif-sprig {
+  display: block;
+  width: 9rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 4px double var(--color-ink);
+  color: var(--color-gold);
+  font: 600 0.8125rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="vinilo"] .motif-sprig::before {
+  content: "Pista " counter(pista, decimal-leading-zero);
+}
+[data-motif="vinilo"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-ink-soft);
+  font: italic 400 1.125rem / 1 var(--font-display);
+}
+[data-motif="vinilo"] .motif-closing::before {
+  content: "Fin de la cara B";
+}
+
+/* Pasaporte: cada sección es un visado con su sello, de forma y color distintos. */
+[data-motif="pasaporte"] .motif-hero {
+  background: var(--color-ivory);
+}
+[data-motif="pasaporte"] .motif-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-gold);
+  mask: url("/ornamentos/filigrana.svg") center / 9rem 2rem repeat;
+  opacity: 0.1;
+}
+[data-motif="pasaporte"] .motif-sprig {
+  display: grid;
+  place-items: center;
+  width: fit-content;
+  min-width: 8.5rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0.9rem;
+  border: 2px solid currentColor;
+  border-radius: 4px;
+  outline: 1px solid currentColor;
+  outline-offset: 3px;
+  color: var(--color-danger);
+  font:
+    700 0.75rem / 1.5 ui-monospace,
+    "SF Mono",
+    Menlo,
+    Consolas,
+    monospace;
+  letter-spacing: 0.1em;
+  text-align: center;
+  transform: rotate(-4deg);
+}
+[data-motif="pasaporte"] section[id]:nth-of-type(even) .motif-sprig {
+  border-radius: 999px;
+  color: var(--color-ink);
+  transform: rotate(3deg);
+}
+[data-motif="pasaporte"] .motif-sprig::before {
+  content: "VISADO\A" var(--motif-stamp);
+  white-space: pre;
+}
+[data-motif="pasaporte"] .motif-closing {
+  display: grid;
+  place-items: center;
+  width: fit-content;
+  margin: 3rem auto 0;
+  padding: 0.7rem 1.4rem;
+  border: 3px solid currentColor;
+  border-radius: 999px;
+  color: var(--color-danger);
+  font:
+    700 1rem / 1 ui-monospace,
+    "SF Mono",
+    Menlo,
+    Consolas,
+    monospace;
+  letter-spacing: 0.14em;
+  transform: rotate(-5deg);
+}
+[data-motif="pasaporte"] .motif-closing::before {
+  content: "BUEN VIAJE";
+}
+
+/* Carta de restaurante: cada sección es un apartado de la carta, con sus puntos hasta el margen. */
+[data-motif="carta"] .motif-hero {
+  background: var(--color-ivory);
+  box-shadow:
+    inset 0 0 0 0.75rem var(--color-ivory),
+    inset 0 0 0 calc(0.75rem + 2px) var(--color-gold),
+    inset 0 0 0 calc(0.75rem + 6px) var(--color-ivory),
+    inset 0 0 0 calc(0.75rem + 7px) var(--color-danger);
+}
+[data-motif="carta"] .motif-sprig {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  color: var(--color-gold);
+  font: italic 400 1.125rem / 1 var(--font-display);
+}
+[data-motif="carta"] .motif-sprig::before {
+  content: "De la casa";
+}
+[data-motif="carta"] #fecha .motif-sprig::before {
+  content: "Aperitivo";
+}
+[data-motif="carta"] #programa .motif-sprig::before {
+  content: "Entrantes";
+}
+[data-motif="carta"] #lugares .motif-sprig::before {
+  content: "Principales";
+}
+[data-motif="carta"] #transporte .motif-sprig::before {
+  content: "Guarniciones";
+}
+[data-motif="carta"] #info .motif-sprig::before {
+  content: "Sugerencias del chef";
+}
+[data-motif="carta"] #regalo .motif-sprig::before {
+  content: "Postres";
+}
+[data-motif="carta"] #confirmar .motif-sprig::before {
+  content: "La cuenta";
+}
+[data-motif="carta"] .motif-sprig::after {
+  content: "";
+  flex: 1;
+  max-width: 9rem;
+  border-bottom: 2px dotted currentColor;
+}
+[data-motif="carta"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-ink-soft);
+  font: italic 400 1.25rem / 1 var(--font-display);
+}
+[data-motif="carta"] .motif-closing::before {
+  content: "La casa invita";
+}
+
+/* Mapa del tesoro: cada sección es una parada de la ruta, y al final espera la X. */
+[data-motif="mapa"] {
+  counter-reset: parada;
+}
+[data-motif="mapa"] .motif-hero {
+  background: linear-gradient(180deg, var(--scene-3), var(--color-ivory) 62%);
+  border-bottom: 3px double var(--color-ink);
+}
+[data-motif="mapa"] section[id] {
+  counter-increment: parada;
+}
+[data-motif="mapa"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: italic 400 1rem / 1 var(--font-display);
+}
+[data-motif="mapa"] .motif-sprig::before {
+  content: counter(parada);
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 2px solid var(--color-gold);
+  border-radius: 50%;
+  color: var(--color-gold);
+  font: 600 1.0625rem / 1 var(--font-sans);
+}
+[data-motif="mapa"] .motif-sprig::after {
+  content: "";
+  width: 5rem;
+  border-bottom: 3px dotted var(--color-ink);
+}
+[data-motif="mapa"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: 700 3.5rem / 1 var(--font-sans);
+}
+[data-motif="mapa"] .motif-closing::before {
+  content: "✕";
+}
+
+/* Constelación: cada sección lleva las coordenadas de su estrella. */
+[data-motif="constelacion"] {
+  counter-reset: estrella;
+}
+[data-motif="constelacion"] .motif-hero {
+  background: radial-gradient(circle at 50% 40%, var(--scene-1), var(--color-ivory) 70%);
+}
+[data-motif="constelacion"] section[id] {
+  counter-increment: estrella;
+}
+[data-motif="constelacion"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  color: var(--color-gold);
+  font: 400 0.8125rem / 1 var(--font-sans);
+  letter-spacing: 0.12em;
+}
+[data-motif="constelacion"] .motif-sprig::before {
+  content: "";
+  width: 1.1rem;
+  height: 1.1rem;
+  background: currentColor;
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+}
+[data-motif="constelacion"] .motif-sprig::after {
+  content: "AR " counter(estrella) "h 2" counter(estrella) "m  DEC +3" counter(estrella) "°";
+  white-space: pre;
+}
+[data-motif="constelacion"] .motif-closing {
+  display: block;
+  width: 9rem;
+  height: 1.4rem;
+  margin: 3rem auto 0;
+  background: radial-gradient(circle, var(--color-gold) 0 0.22rem, transparent 0.25rem) 0 50% /
+    2.25rem 100% repeat-x;
+}
+
+/* Cómic: cada sección empieza con la cartela amarilla del narrador. */
+[data-motif="comic"] .motif-hero {
+  background:
+    radial-gradient(var(--color-gold) 1.3px, transparent 1.6px) 0 0 / 9px 9px,
+    var(--scene-2);
+  border-bottom: 4px solid var(--color-ink);
+}
+[data-motif="comic"] .motif-sprig {
+  display: block;
+  width: fit-content;
+  margin-bottom: 1rem;
+  padding: 0.35rem 0.7rem;
+  border: 2px solid var(--color-ink);
+  background: var(--scene-3);
+  box-shadow: 3px 3px 0 var(--color-ink);
+  color: var(--color-ink);
+  font:
+    400 1.0625rem / 1.1 var(--font-bangers),
+    Impact,
+    sans-serif;
+  letter-spacing: 0.04em;
+}
+[data-motif="comic"] .motif-sprig::before {
+  content: "Mientras tanto…";
+}
+[data-motif="comic"] section[id]:nth-of-type(3n + 2) .motif-sprig::before {
+  content: "Poco después…";
+}
+[data-motif="comic"] section[id]:nth-of-type(3n) .motif-sprig::before {
+  content: "Y entonces…";
+}
+[data-motif="comic"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font:
+    400 2.25rem / 1 var(--font-bangers),
+    Impact,
+    sans-serif;
+  letter-spacing: 0.04em;
+}
+[data-motif="comic"] .motif-closing::before {
+  content: "¡Continuará!";
+}
+
+/* Cosecha: cada sección lleva el número de botella y la añada. */
+[data-motif="cosecha"] {
+  counter-reset: botella;
+}
+[data-motif="cosecha"] .motif-hero {
+  background: var(--color-ivory);
+  box-shadow:
+    inset 0 0 0 0.75rem var(--color-ivory),
+    inset 0 0 0 calc(0.75rem + 1px) var(--color-gold);
+}
+[data-motif="cosecha"] section[id] {
+  counter-increment: botella;
+}
+[data-motif="cosecha"] .motif-sprig {
+  display: block;
+  width: fit-content;
+  margin-bottom: 1rem;
+  padding: 0.4rem 0;
+  border-top: 1px solid var(--color-gold);
+  border-bottom: 1px solid var(--color-gold);
+  color: var(--color-gold);
+  font: 500 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="cosecha"] .motif-sprig::before {
+  content: "Botella n.º " counter(botella) "  ·  Cosecha " var(--motif-year);
+  white-space: pre;
+}
+/* El corcho, con la fecha grabada. */
+[data-motif="cosecha"] .motif-closing {
+  display: grid;
+  place-items: center;
+  width: 6.5rem;
+  height: 6.5rem;
+  margin: 3rem auto 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e2bd8a, #b98a56 70%, #9b7040);
+  box-shadow: inset 0 0 0 4px rgb(0 0 0 / 0.08);
+  color: #4a3219;
+  font: 600 0.875rem / 1 var(--font-sans);
+  letter-spacing: 0.04em;
+}
+[data-motif="cosecha"] .motif-closing::before {
+  content: var(--motif-stamp);
+}
+
+/* Tarot: cada sección es un arcano, con su número romano. */
+[data-motif="tarot"] {
+  counter-reset: arcano;
+}
+[data-motif="tarot"] .motif-hero {
+  background: radial-gradient(circle at 50% 38%, var(--scene-1), var(--color-ivory) 68%);
+  box-shadow:
+    inset 0 0 0 0.75rem var(--color-ivory),
+    inset 0 0 0 calc(0.75rem + 2px) var(--color-gold);
+}
+[data-motif="tarot"] section[id] {
+  counter-increment: arcano;
+}
+[data-motif="tarot"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-gold);
+  font: 400 1.5rem / 1 var(--font-display);
+}
+[data-motif="tarot"] .motif-sprig::before {
+  content: counter(arcano, upper-roman);
+  display: grid;
+  place-items: center;
+  min-width: 3rem;
+  height: 3rem;
+  padding: 0 0.4rem;
+  border: 1.5px solid currentColor;
+  border-radius: 4px;
+  outline: 1px solid currentColor;
+  outline-offset: 3px;
+}
+[data-motif="tarot"] .motif-sprig::after {
+  content: "";
+  width: 4rem;
+  border-bottom: 1px solid currentColor;
+}
+[data-motif="tarot"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.25rem / 1 var(--font-display);
+}
+[data-motif="tarot"] .motif-closing::before {
+  content: "Así estaba escrito";
+}
+
+/* Arcade: cada sección es una fase, con su barra de progreso. */
+[data-motif="arcade"] {
+  counter-reset: fase;
+}
+[data-motif="arcade"] .motif-hero {
+  background:
+    repeating-linear-gradient(180deg, transparent 0 3px, rgb(255 255 255 / 0.045) 3px 4px),
+    var(--color-ivory);
+  border-bottom: 4px solid var(--color-danger);
+}
+[data-motif="arcade"] section[id] {
+  counter-increment: fase;
+}
+[data-motif="arcade"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.1rem;
+  color: var(--color-gold);
+  font:
+    400 0.6875rem / 1.4 var(--font-pixel),
+    ui-monospace,
+    monospace;
+}
+[data-motif="arcade"] .motif-sprig::before {
+  content: "FASE " counter(fase);
+}
+[data-motif="arcade"] .motif-sprig::after {
+  content: "";
+  width: 6rem;
+  height: 0.7rem;
+  border: 2px solid var(--color-success);
+  background: linear-gradient(90deg, var(--color-success) 0 62%, transparent 62%);
+}
+[data-motif="arcade"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-danger);
+  font:
+    400 0.8125rem / 1.8 var(--font-pixel),
+    ui-monospace,
+    monospace;
+}
+[data-motif="arcade"] .motif-closing::before {
+  content: "FIN DE LA PARTIDA\A ¿CONTINUAR? SÍ";
+  white-space: pre;
+}
+
+/* Semillas: cada sección lleva los pictogramas de la ficha de siembra (sol, riego y brote). */
+[data-motif="semillas"] {
+  counter-reset: ficha;
+}
+[data-motif="semillas"] .motif-hero {
+  background: linear-gradient(180deg, var(--scene-3) 0 5.5rem, var(--color-paper) 5.5rem);
+}
+[data-motif="semillas"] section[id] {
+  counter-increment: ficha;
+}
+[data-motif="semillas"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 500 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+[data-motif="semillas"] .motif-sprig::before {
+  content: "";
+  width: 4.6rem;
+  height: 1.3rem;
+  background:
+    radial-gradient(circle, var(--color-warning) 0 0.42rem, transparent 0.45rem) 0 50% / 1.3rem 100%
+      no-repeat,
+    radial-gradient(circle at 50% 62%, var(--color-ink-soft) 0 0.36rem, transparent 0.39rem) 1.65rem
+      50% / 1.3rem 100% no-repeat,
+    radial-gradient(circle at 50% 40%, var(--color-success) 0 0.4rem, transparent 0.43rem) 3.3rem
+      50% / 1.3rem 100% no-repeat;
+}
+[data-motif="semillas"] .motif-sprig::after {
+  content: "Ficha " counter(ficha);
+}
+[data-motif="semillas"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-success);
+  font: italic 400 1.25rem / 1 var(--font-display);
+}
+[data-motif="semillas"] .motif-closing::before {
+  content: "Germina en buena compañía";
+}
 [data-motif-kind="concepto"] .motif-closing > * {
   display: none;
 }

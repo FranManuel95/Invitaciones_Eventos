@@ -62,7 +62,7 @@ export function CoverStage({
   // Fondos pintados: los claros llevan el texto en tinta, sin velo oscuro.
   const painted = isPaintedCover(scene) ? PAINTED_COVERS[scene] : null;
   const concept = isConceptCover(scene) ? CONCEPT_COVERS[scene] : null;
-  const light = painted?.tone === "claro" || Boolean(concept);
+  const light = painted?.tone === "claro" || (concept !== null && !("tone" in concept));
   const tilt = useTilt();
   const lift = useMotionValue(0);
   const opacity = useMotionValue(1);

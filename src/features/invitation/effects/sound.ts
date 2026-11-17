@@ -164,6 +164,42 @@ export function playSealCrack() {
   thump.stop(t + 0.15);
 }
 
+/** Notas cortas seguidas (recreativa, estrellas que se unen). `wave` cambia el timbre. */
+export function playNotes(frequencies: number[], wave: OscillatorType = "square", step = 0.11) {
+  if (!context || isMuted()) return;
+  const ctx = context;
+  frequencies.forEach((frequency, i) => {
+    const t = ctx.currentTime + i * step;
+    const tone = ctx.createOscillator();
+    tone.type = wave;
+    tone.frequency.setValueAtTime(frequency, t);
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.exponentialRampToValueAtTime(wave === "square" ? 0.05 : 0.08, t + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + step * 1.6);
+    tone.connect(gain).connect(ctx.destination);
+    tone.start(t);
+    tone.stop(t + step * 1.7);
+  });
+}
+
+/** Corcho que sale de la botella: un golpe hueco que sube de tono. */
+export function playPop() {
+  if (!context || isMuted()) return;
+  const ctx = context;
+  const t = ctx.currentTime;
+  const tone = ctx.createOscillator();
+  tone.type = "sine";
+  tone.frequency.setValueAtTime(220, t);
+  tone.frequency.exponentialRampToValueAtTime(900, t + 0.07);
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(0.3, t);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.16);
+  tone.connect(gain).connect(ctx.destination);
+  tone.start(t);
+  tone.stop(t + 0.18);
+}
+
 /** Tecla de máquina de escribir: un chasquido seco y breve (plantilla Telegrama). */
 export function playKey() {
   if (!context || isMuted()) return;
