@@ -71,7 +71,7 @@ export function SampleBook({ families }: { families: readonly SampleFamily[] }) 
             </button>
           ))}
         </div>
-        <div className="hidden gap-2 sm:flex">
+        <div className="flex gap-2">
           <button
             type="button"
             onClick={() => scroll(-1)}
@@ -103,7 +103,7 @@ export function SampleBook({ families }: { families: readonly SampleFamily[] }) 
         <ul
           ref={rail}
           aria-label={`Plantillas: ${family.label}`}
-          className="v-rail -mx-6 flex snap-x snap-mandatory scroll-px-6 gap-6 overflow-x-auto px-6 pb-4 sm:-mx-10 sm:scroll-px-10 sm:px-10 lg:mx-0 lg:scroll-px-0 lg:px-0"
+          className="v-rail flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4"
         >
           {family.templates.map((t) => (
             <li

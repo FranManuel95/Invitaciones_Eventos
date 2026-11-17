@@ -23,8 +23,17 @@ test.describe("página de venta", () => {
     await page.getByRole("button", { name: "Pausar el vídeo del sobre" }).click();
     await expect(page.getByRole("button", { name: "Reproducir el vídeo del sobre" })).toBeVisible();
     const journey = page.getByRole("region", { name: "Así la vive cada invitado" });
-    await expect(journey.getByRole("listitem")).toHaveCount(7);
-    await expect(journey.getByRole("heading", { name: "Rompe el lacre" })).toBeAttached();
+    if ((page.viewportSize()?.width ?? 0) < 640) {
+      // En el móvil, un paso a la vez, dentro de los márgenes, con botones.
+      await expect(journey.getByRole("heading", { name: "Le llega vuestro enlace" })).toBeVisible();
+      await expect(journey.getByRole("button", { name: "Paso anterior" })).toBeDisabled();
+      await journey.getByRole("button", { name: "Paso siguiente" }).click();
+      await expect(journey.getByRole("heading", { name: "Rompe el lacre" })).toBeVisible();
+      await expect(journey.getByText(/^2\s*de 7$/)).toBeAttached();
+    } else {
+      await expect(journey.getByRole("listitem")).toHaveCount(7);
+      await expect(journey.getByRole("heading", { name: "Rompe el lacre" })).toBeVisible();
+    }
     for (const name of ["Y vosotros, la boda en orden", "Un precio, sin letra pequeña"]) {
       await expect(page.getByRole("region", { name })).toBeAttached();
     }

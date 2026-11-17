@@ -219,9 +219,6 @@ export default function SalesPage() {
               De la portada al pase, en la plantilla Arcilla. Con cualquier otra cambia el aspecto,
               no el camino.
             </p>
-            <p className="mt-4 text-[0.875rem] text-[var(--grafito)] sm:hidden">
-              Deslizad para ver los siete pasos.
-            </p>
           </div>
           <div className={`${shell} pb-16`}>
             <Journey steps={STEPS} />

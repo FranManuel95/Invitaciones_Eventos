@@ -1,7 +1,8 @@
 "use client";
 
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type PointerEvent } from "react";
 
 export interface JourneyStep {
   src: string;
@@ -24,7 +25,8 @@ function Phone({ children, className = "" }: { children: React.ReactNode; classN
 
 /**
  * El recorrido del invitado, paso a paso. En pantallas anchas el móvil se queda fijo a la
- * izquierda y cambia de pantalla según el paso que se lee; en el móvil, cada paso lleva la suya.
+ * izquierda y cambia de pantalla según el paso que se lee; en tableta, cada paso lleva la suya;
+ * en el móvil, un paso a la vez (MobileSteps).
  */
 export function Journey({ steps }: { steps: readonly JourneyStep[] }) {
   const [active, setActive] = useState(0);
@@ -69,12 +71,9 @@ export function Journey({ steps }: { steps: readonly JourneyStep[] }) {
         </div>
       </div>
 
-      <ol
-        // En el móvil se desliza de lado (y se recorre con el teclado); desde tableta, en columna.
-        tabIndex={0}
-        aria-label="Pasos del invitado"
-        className="v-rail -mx-6 flex snap-x snap-mandatory scroll-px-6 gap-5 overflow-x-auto px-6 pb-4 focus-visible:outline-offset-4 sm:mx-0 sm:grid sm:gap-16 sm:overflow-visible sm:px-0 sm:pb-0 lg:gap-0"
-      >
+      <MobileSteps steps={steps} />
+
+      <ol className="hidden gap-16 sm:grid lg:gap-0">
         {steps.map((step, i) => (
           <li
             key={step.src}
@@ -83,31 +82,122 @@ export function Journey({ steps }: { steps: readonly JourneyStep[] }) {
             }}
             data-index={i}
             data-active={i === active ? "" : undefined}
-            className="v-step flex w-[68vw] max-w-[17rem] shrink-0 snap-start flex-col gap-5 sm:grid sm:w-auto sm:max-w-none sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-center sm:gap-6 lg:flex lg:min-h-[64svh] lg:flex-col lg:items-start lg:justify-center"
+            className="v-step grid grid-cols-[11rem_minmax(0,1fr)] items-center gap-6 lg:flex lg:min-h-[64svh] lg:flex-col lg:items-start lg:justify-center"
           >
-            <Phone className="w-[min(100%,25svh)] sm:w-[11rem] lg:hidden">
+            <Phone className="w-[11rem] lg:hidden">
               <Image
                 src={step.src}
                 alt={step.alt}
                 fill
-                sizes="(min-width: 640px) 176px, 68vw"
+                sizes="176px"
                 className="object-cover object-top"
               />
             </Phone>
             <div>
-              <p className="v-num text-[2.25rem] leading-none text-[var(--oro-tinta)] sm:text-[3rem]">
-                {i + 1}
-              </p>
-              <h3 className="v-display mt-2 text-[1.75rem] leading-[1.05] sm:mt-3 sm:text-[2.75rem]">
-                {step.title}
-              </h3>
-              <p className="mt-3 max-w-[38ch] text-[0.9375rem] leading-relaxed text-[var(--grafito)] sm:mt-4 sm:text-[1.0625rem]">
+              <p className="v-num text-[3rem] leading-none text-[var(--oro-tinta)]">{i + 1}</p>
+              <h3 className="v-display mt-3 text-[2.75rem] leading-[1.05]">{step.title}</h3>
+              <p className="mt-4 max-w-[38ch] text-[1.0625rem] leading-relaxed text-[var(--grafito)]">
                 {step.text}
               </p>
             </div>
           </li>
         ))}
       </ol>
+    </div>
+  );
+}
+
+/**
+ * El recorrido en el móvil: un solo móvil centrado, dentro de los márgenes, con el paso debajo.
+ * Se pasa con los botones o deslizando el dedo sobre la pantalla.
+ */
+function MobileSteps({ steps }: { steps: readonly JourneyStep[] }) {
+  const [index, setIndex] = useState(0);
+  const startX = useRef<number | null>(null);
+  const step = steps[index]!;
+  const go = (delta: number) => setIndex((i) => Math.min(steps.length - 1, Math.max(0, i + delta)));
+
+  const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
+    startX.current = e.clientX;
+  };
+  const onPointerUp = (e: PointerEvent<HTMLDivElement>) => {
+    if (startX.current === null) return;
+    const dx = e.clientX - startX.current;
+    startX.current = null;
+    if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+  };
+
+  const arrow =
+    "grid size-11 place-items-center rounded-full border border-[var(--papel-2)] bg-white text-[var(--tinta)] transition-opacity disabled:opacity-35";
+
+  return (
+    <div className="sm:hidden">
+      <div
+        className="mx-auto w-[min(58vw,14.5rem)] touch-pan-y"
+        onPointerDown={onPointerDown}
+        onPointerUp={onPointerUp}
+        onPointerCancel={() => (startX.current = null)}
+      >
+        <Phone>
+          {steps.map((s, i) => (
+            <div
+              key={s.src}
+              data-active={i === index ? "" : undefined}
+              className="v-screen absolute inset-0"
+            >
+              <Image
+                src={s.src}
+                alt={i === index ? s.alt : ""}
+                fill
+                sizes="232px"
+                className="object-cover object-top"
+              />
+            </div>
+          ))}
+        </Phone>
+      </div>
+
+      <div aria-live="polite" className="mt-8 text-center">
+        <p className="v-num text-[2.25rem] leading-none text-[var(--oro-tinta)]">
+          {index + 1}
+          <span className="sr-only"> de {steps.length}</span>
+        </p>
+        <h3 className="v-display mt-2 text-[1.875rem] leading-[1.05]">{step.title}</h3>
+        <p className="mx-auto mt-3 min-h-[4.9em] max-w-[32ch] text-[0.9375rem] leading-relaxed text-[var(--grafito)]">
+          {step.text}
+        </p>
+      </div>
+
+      <div className="mt-4 flex items-center justify-between gap-4">
+        <button
+          type="button"
+          onClick={() => go(-1)}
+          disabled={index === 0}
+          aria-label="Paso anterior"
+          className={arrow}
+        >
+          <ChevronLeft aria-hidden className="size-5" />
+        </button>
+        <div aria-hidden className="flex gap-2">
+          {steps.map((s, i) => (
+            <span
+              key={s.src}
+              className={`h-1.5 rounded-full transition-[width,background-color] duration-300 ${
+                i === index ? "w-5 bg-[var(--oro-tinta)]" : "w-1.5 bg-[var(--papel-2)]"
+              }`}
+            />
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={() => go(1)}
+          disabled={index === steps.length - 1}
+          aria-label="Paso siguiente"
+          className={arrow}
+        >
+          <ChevronRight aria-hidden className="size-5" />
+        </button>
+      </div>
     </div>
   );
 }
