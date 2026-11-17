@@ -71,7 +71,7 @@ export function SampleBook({ families }: { families: readonly SampleFamily[] }) 
             </button>
           ))}
         </div>
-        <div className="flex gap-2">
+        <div className="hidden gap-2 sm:flex">
           <button
             type="button"
             onClick={() => scroll(-1)}

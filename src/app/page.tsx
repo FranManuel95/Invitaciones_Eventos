@@ -166,9 +166,9 @@ export default function SalesPage() {
 
         <section
           aria-labelledby="titular"
-          className={`${shell} grid items-end gap-12 pt-10 pb-16 md:pt-14 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16 lg:pb-24`}
+          className={`${shell} grid items-end gap-12 pt-12 pb-16 md:pt-14 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16 lg:pb-24`}
         >
-          <div className="order-2 lg:order-1 lg:pb-6">
+          <div className="lg:pb-6">
             <h1
               id="titular"
               className="v-display max-w-[12ch] text-[clamp(3.4rem,6.6vw,6.25rem)] leading-[0.95]"
@@ -192,8 +192,8 @@ export default function SalesPage() {
             </p>
           </div>
 
-          <figure className="order-1 lg:order-2">
-            <div className="relative mx-auto aspect-[4/5] w-full max-w-[30rem] overflow-hidden rounded-[6px] sm:aspect-[9/14] lg:aspect-[9/16] lg:max-h-[78svh]">
+          <figure>
+            <div className="relative mx-auto aspect-[4/5] max-h-[62svh] w-full max-w-[30rem] overflow-hidden rounded-[6px] sm:aspect-[9/14] lg:aspect-[9/16] lg:max-h-[78svh]">
               <HeroFilm />
             </div>
             <figcaption className="mx-auto mt-4 max-w-[30rem] text-[0.875rem] text-[var(--niebla)]">
@@ -206,7 +206,7 @@ export default function SalesPage() {
       <main>
         {/* ── El recorrido del invitado ── */}
         <section id="recorrido" aria-labelledby="recorrido-title" className="scroll-mt-4">
-          <div className={`${shell} pt-24 pb-10 lg:pt-32`}>
+          <div className={`${shell} pt-16 pb-8 sm:pt-24 sm:pb-10 lg:pt-32`}>
             <h2
               id="recorrido-title"
               className="v-display max-w-[16ch] text-[clamp(2.6rem,5.2vw,4.5rem)] leading-[0.98]"
@@ -217,13 +217,16 @@ export default function SalesPage() {
               De la portada al pase, en la plantilla Arcilla. Con cualquier otra cambia el aspecto,
               no el camino.
             </p>
+            <p className="mt-4 text-[0.875rem] text-[var(--grafito)] sm:hidden">
+              Deslizad para ver los siete pasos.
+            </p>
           </div>
           <div className={`${shell} pb-16`}>
             <Journey steps={STEPS} />
           </div>
 
           {/* La invitación de verdad, para probarla aquí mismo. */}
-          <div className={`${shell} pb-28`}>
+          <div className={`${shell} pb-20 sm:pb-28`}>
             <div className="grid items-center gap-10 border-t border-[var(--papel-2)] pt-16 md:grid-cols-[minmax(0,1fr)_auto] md:gap-16">
               <div>
                 <h3 className="v-display text-[clamp(2.2rem,4vw,3.25rem)] leading-[1.02]">
@@ -245,7 +248,7 @@ export default function SalesPage() {
         <section
           id="plantillas"
           aria-labelledby="plantillas-title"
-          className="v-ink scroll-mt-4 py-24 lg:py-32"
+          className="v-ink scroll-mt-4 py-16 sm:py-24 lg:py-32"
         >
           <div className={shell}>
             <h2
@@ -267,7 +270,7 @@ export default function SalesPage() {
 
         {/* ── Lo que tenéis vosotros ── */}
         {/* ── Lo que tenéis vosotros: panel, funciones y editor, en tres franjas equilibradas ── */}
-        <section aria-labelledby="vosotros-title" className="py-24 lg:py-32">
+        <section aria-labelledby="vosotros-title" className="py-16 sm:py-24 lg:py-32">
           <div
             className={`${shell} grid items-center gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16`}
           >
@@ -306,7 +309,7 @@ export default function SalesPage() {
           </div>
 
           <dl
-            className={`${shell} mt-20 grid gap-x-12 gap-y-8 sm:grid-cols-2 lg:mt-24 lg:grid-cols-3`}
+            className={`${shell} mt-14 grid gap-x-12 gap-y-8 sm:mt-20 sm:grid-cols-2 lg:mt-24 lg:grid-cols-3`}
           >
             {FOR_YOU.map(([title, text]) => (
               <div key={title} className="border-t border-[var(--papel-2)] pt-4">
@@ -319,7 +322,7 @@ export default function SalesPage() {
           </dl>
 
           <div
-            className={`${shell} mt-20 grid items-center gap-12 lg:mt-28 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16`}
+            className={`${shell} mt-16 grid items-center gap-10 sm:mt-20 sm:gap-12 lg:mt-28 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16`}
           >
             <figure className="order-2 lg:order-1">
               <div className="overflow-hidden rounded-[10px] shadow-[0_40px_80px_-40px_rgb(27_32_51/0.5)] ring-1 ring-[var(--papel-2)]">
@@ -353,7 +356,7 @@ export default function SalesPage() {
         <section
           id="precio"
           aria-labelledby="precio-title"
-          className="v-ink scroll-mt-4 py-24 lg:py-32"
+          className="v-ink scroll-mt-4 py-16 sm:py-24 lg:py-32"
         >
           <div
             className={`${shell} grid items-center gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]`}
@@ -420,7 +423,7 @@ export default function SalesPage() {
                     {f.q}
                     <span
                       aria-hidden
-                      className="v-display text-[1.75rem] leading-none text-[var(--oro-tinta)] transition-transform group-open:rotate-45"
+                      className="text-[1.5rem] leading-none font-light text-[var(--oro-tinta)] transition-transform group-open:rotate-45"
                     >
                       +
                     </span>

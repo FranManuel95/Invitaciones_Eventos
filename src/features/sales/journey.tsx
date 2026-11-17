@@ -69,7 +69,12 @@ export function Journey({ steps }: { steps: readonly JourneyStep[] }) {
         </div>
       </div>
 
-      <ol className="grid gap-16 lg:gap-0">
+      <ol
+        // En el móvil se desliza de lado (y se recorre con el teclado); desde tableta, en columna.
+        tabIndex={0}
+        aria-label="Pasos del invitado"
+        className="v-rail -mx-6 flex snap-x snap-mandatory scroll-px-6 gap-5 overflow-x-auto px-6 pb-4 focus-visible:outline-offset-4 sm:mx-0 sm:grid sm:gap-16 sm:overflow-visible sm:px-0 sm:pb-0 lg:gap-0"
+      >
         {steps.map((step, i) => (
           <li
             key={step.src}
@@ -78,25 +83,25 @@ export function Journey({ steps }: { steps: readonly JourneyStep[] }) {
             }}
             data-index={i}
             data-active={i === active ? "" : undefined}
-            className="v-step grid gap-6 sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-center lg:flex lg:min-h-[64svh] lg:flex-col lg:items-start lg:justify-center"
+            className="v-step flex w-[74vw] max-w-[18rem] shrink-0 snap-start flex-col gap-5 sm:grid sm:w-auto sm:max-w-none sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-center sm:gap-6 lg:flex lg:min-h-[64svh] lg:flex-col lg:items-start lg:justify-center"
           >
-            <Phone className="w-[11rem] lg:hidden">
+            <Phone className="w-full sm:w-[11rem] lg:hidden">
               <Image
                 src={step.src}
                 alt={step.alt}
                 fill
-                sizes="176px"
+                sizes="(min-width: 640px) 176px, 74vw"
                 className="object-cover object-top"
               />
             </Phone>
             <div>
-              <p className="v-num text-[3rem] leading-none text-[var(--oro-tinta)]">
+              <p className="v-num text-[2.25rem] leading-none text-[var(--oro-tinta)] sm:text-[3rem]">
                 {i + 1}
               </p>
-              <h3 className="v-display mt-3 text-[2.25rem] leading-[1.05] sm:text-[2.75rem]">
+              <h3 className="v-display mt-2 text-[1.75rem] leading-[1.05] sm:mt-3 sm:text-[2.75rem]">
                 {step.title}
               </h3>
-              <p className="mt-4 max-w-[38ch] text-[1.0625rem] leading-relaxed text-[var(--grafito)]">
+              <p className="mt-3 max-w-[38ch] text-[0.9375rem] leading-relaxed text-[var(--grafito)] sm:mt-4 sm:text-[1.0625rem]">
                 {step.text}
               </p>
             </div>
