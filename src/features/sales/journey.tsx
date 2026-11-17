@@ -83,14 +83,14 @@ export function Journey({ steps }: { steps: readonly JourneyStep[] }) {
             }}
             data-index={i}
             data-active={i === active ? "" : undefined}
-            className="v-step flex w-[74vw] max-w-[18rem] shrink-0 snap-start flex-col gap-5 sm:grid sm:w-auto sm:max-w-none sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-center sm:gap-6 lg:flex lg:min-h-[64svh] lg:flex-col lg:items-start lg:justify-center"
+            className="v-step flex w-[68vw] max-w-[17rem] shrink-0 snap-start flex-col gap-5 sm:grid sm:w-auto sm:max-w-none sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-center sm:gap-6 lg:flex lg:min-h-[64svh] lg:flex-col lg:items-start lg:justify-center"
           >
-            <Phone className="w-full sm:w-[11rem] lg:hidden">
+            <Phone className="w-[min(100%,25svh)] sm:w-[11rem] lg:hidden">
               <Image
                 src={step.src}
                 alt={step.alt}
                 fill
-                sizes="(min-width: 640px) 176px, 74vw"
+                sizes="(min-width: 640px) 176px, 68vw"
                 className="object-cover object-top"
               />
             </Phone>

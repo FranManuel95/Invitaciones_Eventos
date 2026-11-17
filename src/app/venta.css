@@ -22,10 +22,20 @@
 
 /* Titulares: Italiana, una didona fina como de grabado. Solo en tamaños grandes. */
 .venta .v-display {
+  text-wrap: balance;
   font-family: var(--font-italiana), "Didot", "Bodoni 72", serif;
   font-weight: 400;
   letter-spacing: -0.012em;
   font-feature-settings: "lnum";
+}
+
+/* En pantallas táctiles: sin retardo de doble toque y sin el resaltado azul (hay foco propio). */
+.venta a,
+.venta button,
+.venta summary,
+.venta [role="tab"] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Cifras: en Italiana el «1» parece una «I»; los números van en Bodoni. */

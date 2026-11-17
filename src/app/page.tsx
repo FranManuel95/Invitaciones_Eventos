@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ContactForm } from "@/features/sales/contact-form";
@@ -10,6 +10,8 @@ import { FEATURED_TEMPLATE_IDS, isConceptCover, TEMPLATES } from "@/lib/theme";
 import { PRICE_EUR } from "@/lib/sales/contact";
 import { siteUrl } from "@/lib/site";
 import "./venta.css";
+
+export const viewport: Viewport = { themeColor: "#1b2033" };
 
 export function generateMetadata(): Metadata {
   const url = siteUrl();
@@ -292,15 +294,18 @@ export default function SalesPage() {
               </p>
             </div>
             <figure>
-              <div className="overflow-hidden rounded-[10px] shadow-[0_40px_80px_-40px_rgb(27_32_51/0.5)] ring-1 ring-[var(--papel-2)]">
-                <Image
-                  src="/venta/panel.webp"
-                  width={1280}
-                  height={800}
-                  sizes="(min-width: 1024px) 660px, 100vw"
-                  alt="El inicio del panel de María y Daniel: 111 de 150 invitados confirmados, qué toca ahora, cómo han llegado las respuestas y los menús elegidos."
-                  className="h-auto w-full"
-                />
+              <div className="aspect-[4/3] overflow-hidden rounded-[10px] shadow-[0_40px_80px_-40px_rgb(27_32_51/0.5)] ring-1 ring-[var(--papel-2)] sm:aspect-auto">
+                {/* En el móvil, ampliada y recortada: a tamaño completo no se leería. */}
+                <div className="w-[175%] sm:w-full">
+                  <Image
+                    src="/venta/panel.webp"
+                    width={1280}
+                    height={800}
+                    sizes="(min-width: 1024px) 660px, (min-width: 640px) 100vw, 175vw"
+                    alt="El inicio del panel de María y Daniel: 111 de 150 invitados confirmados, qué toca ahora, cómo han llegado las respuestas y los menús elegidos."
+                    className="h-auto w-full"
+                  />
+                </div>
               </div>
               <figcaption className="mt-3 text-[0.875rem] text-[var(--grafito)]">
                 El panel: cuántos vienen y qué toca hacer ahora.
@@ -325,15 +330,17 @@ export default function SalesPage() {
             className={`${shell} mt-16 grid items-center gap-10 sm:mt-20 sm:gap-12 lg:mt-28 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16`}
           >
             <figure className="order-2 lg:order-1">
-              <div className="overflow-hidden rounded-[10px] shadow-[0_40px_80px_-40px_rgb(27_32_51/0.5)] ring-1 ring-[var(--papel-2)]">
-                <Image
-                  src="/venta/editor.webp"
-                  width={1280}
-                  height={800}
-                  sizes="(min-width: 1024px) 660px, 100vw"
-                  alt="El editor: a la izquierda, las plantillas; a la derecha, la invitación en un móvil."
-                  className="h-auto w-full"
-                />
+              <div className="aspect-[4/3] overflow-hidden rounded-[10px] shadow-[0_40px_80px_-40px_rgb(27_32_51/0.5)] ring-1 ring-[var(--papel-2)] sm:aspect-auto">
+                <div className="-ml-[75%] w-[175%] sm:ml-0 sm:w-full">
+                  <Image
+                    src="/venta/editor.webp"
+                    width={1280}
+                    height={800}
+                    sizes="(min-width: 1024px) 660px, (min-width: 640px) 100vw, 175vw"
+                    alt="El editor: a la izquierda, las plantillas; a la derecha, la invitación en un móvil."
+                    className="h-auto w-full"
+                  />
+                </div>
               </div>
               <figcaption className="mt-3 text-[0.875rem] text-[var(--grafito)]">
                 El editor: cada cambio se ve en el móvil de al lado.
