@@ -1,6 +1,7 @@
 "use client";
 
 import { useReducedMotion } from "motion/react";
+import { useReducedMotionForMarkup } from "../effects/reduced-motion";
 import {
   type ReactNode,
   type Ref,
@@ -75,6 +76,7 @@ export function Cinema({
   children: ReactNode;
 }) {
   const reduce = useReducedMotion();
+  const reduceMarkup = useReducedMotionForMarkup();
   const gsap = useRef<Gsap | null>(null);
   const vignette = useRef<HTMLDivElement>(null);
   const light = useRef<HTMLDivElement>(null);
@@ -239,35 +241,38 @@ export function Cinema({
     },
   }));
 
-  // Con movimiento reducido no hay cámara ni luces: ni se descargan ni se montan.
-  if (reduce) return children;
-
+  // Con movimiento reducido no hay cámara ni luces: ni se descargan ni se montan. Se quitan al
+  // terminar de hidratar; sus huecos quedan vacíos para que la escena (children) no se remonte.
   return (
     <>
       {/* Foco: detrás de la escena, para que el sobre siga iluminado. */}
-      <div
-        ref={vignette}
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_55%_at_50%_48%,transparent_30%,rgb(24_17_10/0.62)_100%)] opacity-0"
-      />
-      {children}
-      <div aria-hidden className="pointer-events-none absolute inset-0 z-30 overflow-hidden">
+      {reduceMarkup ? null : (
         <div
-          ref={light}
-          className="absolute -translate-x-1/2 -translate-y-1/2 opacity-0 mix-blend-screen"
-        >
-          <div className="absolute inset-0 rounded-full bg-[radial-gradient(closest-side,rgb(255_240_208/0.85),rgb(255_226_170/0.32)_38%,transparent_72%)] [mask-image:linear-gradient(180deg,black_48%,rgb(0_0_0/0.3)_62%)]" />
-          {/* Rayos: solo hacia arriba, por donde se abre el sobre. */}
+          ref={vignette}
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_55%_at_50%_48%,transparent_30%,rgb(24_17_10/0.62)_100%)] opacity-0"
+        />
+      )}
+      {children}
+      {reduceMarkup ? null : (
+        <div aria-hidden className="pointer-events-none absolute inset-0 z-30 overflow-hidden">
           <div
-            ref={rays}
-            className="absolute inset-[-25%] [mask-image:linear-gradient(180deg,black_20%,transparent_52%)]"
+            ref={light}
+            className="absolute -translate-x-1/2 -translate-y-1/2 opacity-0 mix-blend-screen"
           >
-            <div className="absolute inset-0 bg-[repeating-conic-gradient(from_-40deg_at_50%_50%,transparent_0deg,rgb(255_238_200/0.26)_5deg,transparent_11deg_23deg)] [mask-image:radial-gradient(closest-side,black_10%,transparent_78%)] blur-[5px]" />
+            <div className="absolute inset-0 rounded-full bg-[radial-gradient(closest-side,rgb(255_240_208/0.85),rgb(255_226_170/0.32)_38%,transparent_72%)] [mask-image:linear-gradient(180deg,black_48%,rgb(0_0_0/0.3)_62%)]" />
+            {/* Rayos: solo hacia arriba, por donde se abre el sobre. */}
+            <div
+              ref={rays}
+              className="absolute inset-[-25%] [mask-image:linear-gradient(180deg,black_20%,transparent_52%)]"
+            >
+              <div className="absolute inset-0 bg-[repeating-conic-gradient(from_-40deg_at_50%_50%,transparent_0deg,rgb(255_238_200/0.26)_5deg,transparent_11deg_23deg)] [mask-image:radial-gradient(closest-side,black_10%,transparent_78%)] blur-[5px]" />
+            </div>
           </div>
+          <canvas ref={canvas} className="absolute inset-0 size-full" />
+          <div ref={flashLayer} className="absolute inset-0 bg-[rgb(255_244_224)] opacity-0" />
         </div>
-        <canvas ref={canvas} className="absolute inset-0 size-full" />
-        <div ref={flashLayer} className="absolute inset-0 bg-[rgb(255_244_224)] opacity-0" />
-      </div>
+      )}
     </>
   );
 }

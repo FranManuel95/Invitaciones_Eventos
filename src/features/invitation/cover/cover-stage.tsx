@@ -17,6 +17,7 @@ import {
 } from "@/lib/theme";
 import { formatLongDate, isoDay } from "@/lib/format";
 import { playPaper, unlockAudio } from "../effects/sound";
+import { useReducedMotionForMarkup } from "../effects/reduced-motion";
 import { SplitText } from "../effects/split-text";
 import { useTilt } from "../effects/tilt";
 import { CoverPhoto } from "./cover-photo";
@@ -59,6 +60,9 @@ export function CoverStage({
   effect?: CoverEffectId;
 }) {
   const reduce = useReducedMotion();
+  // Lo que solo existe con movimiento (el fundido desde negro, el vídeo del efecto) se quita al
+  // terminar de hidratar: así el primer render coincide con el HTML del servidor.
+  const reduceMarkup = useReducedMotionForMarkup();
   // Fondos pintados: los claros llevan el texto en tinta, sin velo oscuro.
   const painted = isPaintedCover(scene) ? PAINTED_COVERS[scene] : null;
   const concept = isConceptCover(scene) ? CONCEPT_COVERS[scene] : null;
@@ -217,7 +221,7 @@ export function CoverStage({
             )}
           </m.div>
           {/* Efecto: un bucle corto sobre negro que solo suma luz. Con movimiento reducido no se pinta. */}
-          {effect !== "ninguno" && !reduce ? (
+          {effect !== "ninguno" && !reduceMarkup ? (
             <video
               key={effect}
               data-cover-effect={effect}
@@ -275,7 +279,7 @@ export function CoverStage({
             />
           ) : null}
           {/* Apertura de película: se parte de negro y la imagen aparece poco a poco. */}
-          {reduce ? null : (
+          {reduceMarkup ? null : (
             <m.div
               aria-hidden
               className="pointer-events-none absolute inset-0 bg-black"

@@ -20,7 +20,8 @@ export function SplitText({
   animate?: boolean;
   className?: string;
 }) {
-  if (!animate) return <span className={className}>{text}</span>;
+  // Con o sin movimiento, el mismo HTML: el servidor no sabe si se pide movimiento reducido y un
+  // HTML distinto en el cliente obliga a React a montar la página entera de nuevo.
   return (
     <span className={className}>
       <span className="sr-only">{text}</span>
@@ -29,7 +30,7 @@ export function SplitText({
           <m.span
             key={i}
             className="inline-block whitespace-pre"
-            initial={{ opacity: 0, y: "0.18em", filter: "blur(10px)" }}
+            initial={animate ? { opacity: 0, y: "0.18em", filter: "blur(10px)" } : false}
             animate={{ opacity: 1, y: "0em", filter: "blur(0px)" }}
             transition={{ duration: 0.9, delay: delay + i * stagger, ease: [0.22, 1, 0.36, 1] }}
           >
