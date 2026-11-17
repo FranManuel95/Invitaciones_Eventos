@@ -39,6 +39,27 @@ test.describe("página de venta", () => {
     }
   });
 
+  test("la invitación a juego con la decoración lleva a pedirla", async ({ page }) => {
+    await page.goto("/");
+    const decor = page.getByRole("region", { name: "A juego con vuestra decoración" });
+    // Va entre el panel de los novios y el precio.
+    const order = await page
+      .getByRole("heading", { level: 2 })
+      .evaluateAll((hs) => hs.map((h) => h.textContent?.trim()));
+    const at = order.indexOf("A juego con vuestra decoración");
+    expect(order[at - 1]).toBe("Y vosotros, la boda en orden");
+    expect(order[at + 1]).toBe("Un precio, sin letra pequeña");
+    await expect(
+      decor.getByRole("list", { name: "Tres decoraciones de muestra" }).getByRole("listitem"),
+    ).toHaveCount(3);
+    await expect(
+      decor.getByRole("link", { name: "Ver decoraciones en Instagram" }),
+    ).toHaveAttribute("href", "https://www.instagram.com/eventos.efele/");
+    await decor.getByRole("link", { name: "Contadnos vuestra decoración" }).click();
+    await expect(page).toHaveURL(/#pedir$/);
+    await expect(page.getByLabel("Vuestros nombres")).toBeInViewport();
+  });
+
   test("el muestrario enseña las veinticinco plantillas por familias", async ({ page }) => {
     await page.goto("/");
     const book = page.getByRole("region", { name: "Veinticinco plantillas para empezar" });
@@ -87,11 +108,38 @@ test.describe("página de venta", () => {
 
   test("los ejemplos enlazan cada apertura, portada y momento", async ({ page }) => {
     await page.goto("/ejemplos");
-    const openings = page.getByRole("region", { name: "Aperturas" });
+    await expect(page.getByRole("banner").getByRole("link", { name: /eFeLe/ })).toBeVisible();
+    const openings = page.getByRole("region", { name: "Siete aperturas" });
     await expect(openings.getByRole("link")).toHaveCount(7);
     // La película se ofrece como apertura premium.
-    await expect(openings.getByRole("link", { name: /Sobre de película.*Premium/ })).toBeVisible();
-    await expect(page.getByRole("region", { name: "Portadas" }).getByRole("link")).toHaveCount(32);
+    await expect(openings.getByRole("link", { name: /Sobre de película.*Premium/ })).toBeAttached();
+    // Las portadas, por familias: entre las tres pestañas están las treinta y dos.
+    const covers = page.getByRole("region", { name: "Treinta y dos portadas" });
+    const tabs = covers.getByRole("tab");
+    await expect(tabs).toHaveCount(3);
+    let total = 0;
+    for (const [i, expected] of [6, 11, 15].entries()) {
+      await tabs.nth(i).click();
+      await expect(tabs.nth(i)).toHaveAttribute("aria-selected", "true");
+      await expect(covers.getByRole("tabpanel").getByRole("link")).toHaveCount(expected);
+      total += expected;
+    }
+    expect(total).toBe(32);
+    await covers.getByRole("link", { name: "Gaceta", exact: true }).click();
+    await expect(page).toHaveURL(/portada=gaceta/);
+    await page.goBack();
+    // Las plantillas, también por familias y con su apertura asomando.
+    const templates = page.getByRole("region", { name: "Veinticinco plantillas" });
+    await expect(templates.getByRole("tabpanel").getByRole("link")).toHaveCount(10);
+    await expect(templates.getByText(/^Se abre con:/).first()).toBeAttached();
+    // Nada se sale de la página.
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    );
+    expect(overflow).toBeLessThanOrEqual(0);
+    const { violations } = await new AxeBuilder({ page }).analyze();
+    const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
+    expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual([]);
     await openings.getByRole("link", { name: /Caja con lazo/ }).click();
     await expect(page).toHaveURL(/apertura=caja/);
     await expect(page.getByRole("heading", { level: 1, name: /María/ })).toBeAttached();

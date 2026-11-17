@@ -15,6 +15,8 @@
   --oro-tinta: #86662a;
   --lacre: #8a2433;
   --grafito: #4a4e5d;
+  /* Bordes de controles sobre el papel (pestañas, flechas). */
+  --linea: #c9c3b6;
   --niebla: #b9bccb;
   background: var(--papel);
   color: var(--tinta);
