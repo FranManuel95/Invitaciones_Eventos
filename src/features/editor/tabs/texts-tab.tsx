@@ -53,6 +53,7 @@ export function TextsTab() {
             path={["dressCode", "palette"]}
             max={8}
             addLabel="Añadir color"
+            empty="Sin colores: añadid los que os gustaría ver, o los que preferís que se eviten."
             itemName={(c, i) => c.name || `Color ${i + 1}`}
             create={() => ({ name: "", hex: "#d3c08f" })}
           >
@@ -81,6 +82,7 @@ export function TextsTab() {
             path={["dressCode", "examples"]}
             max={4}
             addLabel="Añadir sugerencia"
+            empty="Sin sugerencias. Podéis dar ideas para ellas, para ellos o para los niños."
             itemName={(e, i) => e.who || `Sugerencia ${i + 1}`}
             create={() => ({ who: "", text: "" })}
           >
@@ -157,6 +159,7 @@ export function TextsTab() {
           path={["gift", "items"]}
           max={30}
           addLabel="Añadir regalo"
+          empty="La lista está vacía. Añadid regalos concretos o una aportación para el viaje."
           itemName={(g, i) => g.title || `Regalo ${i + 1}`}
           create={() => ({
             id: newId("regalo"),

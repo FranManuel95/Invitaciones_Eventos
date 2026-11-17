@@ -29,6 +29,7 @@ export function StoryTab() {
           path={["story", "moments"]}
           max={8}
           addLabel="Añadir momento"
+          empty="Aún no hay momentos. Por ejemplo: cómo os conocisteis, el primer viaje y la pedida."
           itemName={(m, i) => m.title || `Momento ${i + 1}`}
           create={() => ({ year: "", title: "", text: "", photo: null, photoAlt: "" })}
         >

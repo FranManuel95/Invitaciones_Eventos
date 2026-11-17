@@ -15,6 +15,7 @@ export function ListEditor<T>({
   max,
   min = 0,
   addLabel,
+  empty = "Todavía no hay ninguno.",
   itemName,
   create,
   children,
@@ -23,6 +24,8 @@ export function ListEditor<T>({
   max: number;
   min?: number;
   addLabel: string;
+  /** Qué pasa mientras la lista está vacía y qué se puede poner (estado vacío). */
+  empty?: string;
   /** Nombre del elemento para la leyenda y los botones («Ceremonia», «Pregunta 2»). */
   itemName: (item: T, index: number) => string;
   create: () => T;
@@ -42,17 +45,20 @@ export function ListEditor<T>({
   return (
     <div className="grid gap-4">
       {items.length === 0 ? (
-        <p className="rounded-md border border-dashed border-line px-4 py-5 text-center text-[0.875rem] text-muted">
-          Todavía no hay ninguno.
+        <p className="rounded-lg border border-dashed border-ink/20 bg-paper/60 px-4 py-5 text-[0.875rem] leading-relaxed text-muted">
+          {empty}
         </p>
       ) : null}
       {items.map((item, index) => {
         const name = itemName(item, index);
         const key = (item as { id?: string }).id ?? index;
         return (
-          <fieldset key={key} className="rounded-md border border-line bg-paper p-4 sm:p-5">
+          <fieldset
+            key={key}
+            className="rounded-lg border border-line bg-paper p-4 shadow-[var(--shadow-paper)] sm:p-5"
+          >
             {/* La leyenda tiene que ser el primer hijo del fieldset para darle nombre. */}
-            <legend className="float-left max-w-[calc(100%-7.5rem)] truncate py-2 font-medium text-ink">
+            <legend className="float-left max-w-[calc(100%-8rem)] truncate py-2 font-medium text-ink">
               {name}
             </legend>
             <div className="float-right flex gap-1">
@@ -98,7 +104,7 @@ export function ListEditor<T>({
           {addLabel}
         </Button>
         {items.length >= max ? (
-          <span className="ml-3 text-[0.8125rem] text-muted">Has llegado al máximo ({max}).</span>
+          <p className="mt-2 text-[0.8125rem] text-muted">Has llegado al máximo ({max}).</p>
         ) : null}
       </div>
     </div>
@@ -123,7 +129,7 @@ function IconButton({
       title={label}
       disabled={disabled}
       onClick={onClick}
-      className="grid size-9 place-items-center rounded-md text-ink-soft transition-colors hover:bg-ink/5 hover:text-ink disabled:opacity-30"
+      className="grid size-10 place-items-center rounded-md text-ink-soft transition-colors hover:bg-ink/5 hover:text-ink disabled:opacity-30"
     >
       {children}
     </button>
