@@ -126,15 +126,6 @@
 .venta .v-rail {
   scrollbar-width: none;
 }
-/* En pantallas anchas, el carril llega hasta el borde derecho de la ventana. */
-@media (min-width: 1024px) {
-  .venta .v-rail {
-    --fuera: max(2.5rem, calc((100vw - 72rem) / 2 + 2.5rem));
-    margin-right: calc(-1 * var(--fuera));
-    padding-right: var(--fuera);
-    scroll-padding-right: var(--fuera);
-  }
-}
 .venta .v-rail::-webkit-scrollbar {
   display: none;
 }

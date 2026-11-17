@@ -103,10 +103,13 @@ export function SampleBook({ families }: { families: readonly SampleFamily[] }) 
         <ul
           ref={rail}
           aria-label={`Plantillas: ${family.label}`}
-          className="v-rail -mx-6 flex snap-x snap-mandatory scroll-px-6 gap-6 overflow-x-auto px-6 pb-4 sm:-mx-10 sm:scroll-px-10 sm:px-10"
+          className="v-rail -mx-6 flex snap-x snap-mandatory scroll-px-6 gap-6 overflow-x-auto px-6 pb-4 sm:-mx-10 sm:scroll-px-10 sm:px-10 lg:mx-0 lg:scroll-px-0 lg:px-0"
         >
           {family.templates.map((t) => (
-            <li key={t.id} className="relative w-[15rem] shrink-0 snap-start sm:w-[16.5rem]">
+            <li
+              key={t.id}
+              className="relative w-[15rem] shrink-0 snap-start sm:w-[16.5rem] lg:w-[calc((100%-4.5rem)/4)]"
+            >
               <div className="relative aspect-[390/844] overflow-hidden rounded-[1.1rem] ring-1 ring-[var(--tinta-3)] transition-[box-shadow] duration-300 hover:ring-[var(--oro)]">
                 <Image
                   src={`/venta/plantilla-${t.id}-portada.webp`}

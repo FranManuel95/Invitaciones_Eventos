@@ -293,7 +293,7 @@ export default function SalesPage() {
                 </Link>
               </p>
             </div>
-            <div className="grid content-start gap-10 lg:-mr-[max(0px,calc((100vw-72rem)/2+2.5rem))]">
+            <div className="grid content-start gap-10">
               <figure>
                 <div className="overflow-hidden rounded-[10px] shadow-[0_40px_80px_-40px_rgb(27_32_51/0.5)] ring-1 ring-[var(--papel-2)]">
                   <Image
@@ -349,7 +349,7 @@ export default function SalesPage() {
                 cuarenta o a cuatrocientos.
               </p>
             </div>
-            <div className="relative mx-auto w-full max-w-[30rem] pt-12">
+            <div className="relative mx-auto w-full max-w-[30rem] pt-12 lg:mr-0">
               <Image
                 src="/venta/lacre-oro.webp"
                 alt=""
