@@ -29,19 +29,19 @@ cómo confirmar se leen igual de claros que en cualquier otra plantilla.
 
 ## Cómo está montado (lo que ya existe)
 
-| Pieza | Dónde | Qué hace |
-|---|---|---|
-| Portadas de concepto | `src/features/invitation/cover/concepts.tsx` | Un componente por portada (`GazetteCover`, `BoardingCover`, `PrizeCover`) y el mapa `COVERS`. Reciben `event`, `guestName`, `onOpen` y `reduce`. |
-| Registro de portadas | `src/lib/theme/cover.ts` | `COVER_IDS`, `COVERS` (nombre y descripción), `CONCEPT_COVERS` (tinta y papel de la hoja), `isConceptCover`, `isLightCover`. |
-| Enganche en la portada | `src/features/invitation/cover/cover-stage.tsx` | Si `isConceptCover(scene)`, pinta `ConceptCover` en lugar del fondo y los nombres. El gesto de levantar la portada es el común. |
-| Motivo (piel interior) | `MOTIF_IDS` y `MOTIFS` en `cover.ts`; `theme.motif` | `kind: "concepto"` o `"acuarela"`. `experience.tsx` pone `data-motif` y `data-motif-kind` en la raíz. |
-| Variables del motivo | `motifVars()` en `src/features/invitation/experience.tsx` | `--motif-stamp` (`"10·07·27"`) y `--motif-serial` (`"N.º 100727"`), listas para `content:` en CSS. |
-| Piel interior | Final de `src/app/globals.css` | Reglas por `[data-motif="…"]`: `.motif-hero` (cabecera), `.motif-sprig` (rótulo de cada sección), `.motif-closing` (cierre). |
-| Cabecera y cierre sin foto | `painted` en `invitation-content.tsx` | Con motivo, la cabecera es `header.motif-hero` (sin foto) y el pie lleva `.motif-closing`. |
-| Estilo de color | `STYLES` en `src/lib/theme/index.ts` | Quince colores y cuatro tonos de escena. Las pruebas exigen contraste AA. |
-| Plantilla | `TEMPLATES`, `TEMPLATE_IDS`, `FEATURED_TEMPLATE_IDS` | Junta estilo, portada, motivo, letra, calendario y apertura. Las destacadas salen en la venta y el editor. |
-| Boda de ejemplo | `retitle()` en `src/data/demo/variants.ts` | Parte de una boda ya escrita y cambia nombres, fecha, foto y colores de vestimenta. |
-| Filigranas | `public/ornamentos/` | SVG en negro para usar como `mask` (así toman el color del tema). |
+| Pieza                      | Dónde                                                     | Qué hace                                                                                                                                         |
+| -------------------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Portadas de concepto       | `src/features/invitation/cover/concepts.tsx`              | Un componente por portada (`GazetteCover`, `BoardingCover`, `PrizeCover`) y el mapa `COVERS`. Reciben `event`, `guestName`, `onOpen` y `reduce`. |
+| Registro de portadas       | `src/lib/theme/cover.ts`                                  | `COVER_IDS`, `COVERS` (nombre y descripción), `CONCEPT_COVERS` (tinta y papel de la hoja), `isConceptCover`, `isLightCover`.                     |
+| Enganche en la portada     | `src/features/invitation/cover/cover-stage.tsx`           | Si `isConceptCover(scene)`, pinta `ConceptCover` en lugar del fondo y los nombres. El gesto de levantar la portada es el común.                  |
+| Motivo (piel interior)     | `MOTIF_IDS` y `MOTIFS` en `cover.ts`; `theme.motif`       | `kind: "concepto"` o `"acuarela"`. `experience.tsx` pone `data-motif` y `data-motif-kind` en la raíz.                                            |
+| Variables del motivo       | `motifVars()` en `src/features/invitation/experience.tsx` | `--motif-stamp` (`"10·07·27"`) y `--motif-serial` (`"N.º 100727"`), listas para `content:` en CSS.                                               |
+| Piel interior              | Final de `src/app/globals.css`                            | Reglas por `[data-motif="…"]`: `.motif-hero` (cabecera), `.motif-sprig` (rótulo de cada sección), `.motif-closing` (cierre).                     |
+| Cabecera y cierre sin foto | `painted` en `invitation-content.tsx`                     | Con motivo, la cabecera es `header.motif-hero` (sin foto) y el pie lleva `.motif-closing`.                                                       |
+| Estilo de color            | `STYLES` en `src/lib/theme/index.ts`                      | Quince colores y cuatro tonos de escena. Las pruebas exigen contraste AA.                                                                        |
+| Plantilla                  | `TEMPLATES`, `TEMPLATE_IDS`, `FEATURED_TEMPLATE_IDS`      | Junta estilo, portada, motivo, letra, calendario y apertura. Las destacadas salen en la venta y el editor.                                       |
+| Boda de ejemplo            | `retitle()` en `src/data/demo/variants.ts`                | Parte de una boda ya escrita y cambia nombres, fecha, foto y colores de vestimenta.                                                              |
+| Filigranas                 | `public/ornamentos/`                                      | SVG en negro para usar como `mask` (así toman el color del tema).                                                                                |
 
 Tipografías cargadas (en `src/app/layout.tsx`): Bodoni Moda, Cormorant, Playfair Display,
 Fraunces, Italiana, Poiret One, Pinyon Script, Great Vibes y Jost. Para una letra nueva hay que
