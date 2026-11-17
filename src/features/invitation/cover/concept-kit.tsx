@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
+import { m } from "motion/react";
 import type { ReactNode } from "react";
 import type { WeddingEvent } from "@/lib/domain/types";
 
@@ -103,5 +104,59 @@ export function ActionButton({
       <span className="text-[0.8125rem]">Desliza o toca para abrir</span>
       <ChevronDown aria-hidden className="nudge size-5" />
     </button>
+  );
+}
+
+/**
+ * La llegada del objeto: sube, se asienta con su inclinación y deja una sombra real. Es la única
+ * animación automática de cada portada (como el billete de Embarque); lo demás responde al dedo.
+ * Con movimiento reducido aparece ya en su sitio.
+ */
+export function Arrive({
+  reduce,
+  tilt = -2,
+  delay = 0.35,
+  className,
+  children,
+}: {
+  reduce: boolean;
+  tilt?: number;
+  delay?: number;
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <m.div
+      className={className}
+      initial={reduce ? false : { y: 46, rotate: 0, opacity: 0 }}
+      animate={{ y: 0, rotate: tilt, opacity: 1 }}
+      transition={{ duration: 1.1, delay, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {children}
+    </m.div>
+  );
+}
+
+/** Lo que llega después del objeto principal (el panel de salidas de Embarque, por ejemplo). */
+export function After({
+  reduce,
+  delay = 1.3,
+  className,
+  children,
+}: {
+  reduce: boolean;
+  delay?: number;
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <m.div
+      className={className}
+      initial={reduce ? false : { y: 18, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.9, delay, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {children}
+    </m.div>
   );
 }

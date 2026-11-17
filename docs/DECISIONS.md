@@ -1004,6 +1004,46 @@ concepto; la apertura, la carta y el pase eran los comunes.
 - Pruebas (654 unitarias y 346 E2E en verde): `tests/e2e/conceptos.spec.ts` (apertura, membrete y pase de embarque), la de concepto
   añadida a `tests/e2e/aperturas.spec.ts` y la unitaria de los textos en `theme.test.ts`.
 
+## Ronda 22: repaso de diseño de las plantillas de concepto (17/11/2026)
+
+El usuario vio que las doce nuevas no llegaban al nivel de Gaceta, Embarque y Premio. Repaso
+con la skill `frontend-design`, comparando las quince en el mismo móvil.
+
+- **Qué tenían las tres de referencia**: el objeto llena la pantalla o un segundo objeto la
+  completa (el panel de salidas de Embarque); materia (grano, inclinación, sombra real, una mesa
+  debajo); una sola llegada orquestada; y todo dato sale de la boda.
+- **Reglas que se aplicaron a las doce**: ninguna banda vacía de más del 15 % de la pantalla;
+  cada objeto llega con `Arrive` (sube y se asienta inclinado) y lo secundario con `After`
+  (`cover/concept-kit.tsx`); fondo de superficie propio (mantel de lino, estante de bodega,
+  tapete de terciopelo, mueble de recreativa, pergamino tostado).
+- **Cambios por plantilla**:
+  - Vinilo: funda grande con pegatina de la tienda, el disco asoma solo para invitar a sacarlo y
+    la contraportada lleva lista de canciones, notas y créditos («Colaboración especial:» el
+    invitado).
+  - Pasaporte: tapa de piel con oro estampado y filete hundido (`.passport-cover`), un visado
+    asomando entre las hojas y tres sellos de tinta en la mesa.
+  - Carta: la carta sobre un mantel de lino (`.tablecloth`), cada acto con su nombre de plato
+    (Para empezar, Entrante, Principal…) y un cartel de «Reservado» con el invitado.
+  - Cosecha: luz de bodega, estante, reflejos del vidrio, cápsula dorada y una etiqueta colgada
+    del cuello con el nombre del invitado.
+  - Tarot: tirada de tres cartas sobre terciopelo («Lo que fue · Lo que es · Lo que será»); la
+    del centro es la vuestra.
+  - Telegrama: el pie del impreso con la firma del remitente y el matasellos de telégrafos.
+  - Constelación: borde de planisferio con los meses (el de la boda en oro) y el catálogo de esa
+    noche con cada acto y su hora.
+  - Arcade: mueble con pantalla de tubo (`.arcade-screen`), corazón de píxeles entre los
+    jugadores, tabla de récords con el programa y panel de mandos (palanca, botón y moneda).
+  - Mapa: bordes tostados, mar grabado, aguas someras, retícula, barco y palmeras.
+  - Postal: otra postal debajo, de otro viaje. Semillas: el sobre inclinado y semillas
+    derramadas.
+- **Apertura «concepto»**: cada objeto tiene su emblema (cabecera de La Gaceta, sello de correos,
+  número del décimo, «TELEGRAMA», disco, «Menú», carta celeste, ruta con su X, «¡Boda!»,
+  «FRÁGIL», sol del tarot, «1UP», la variedad de las semillas) y su forma de abrirse: se levanta,
+  se desliza de lado (correo aéreo, telegrama, disco, tebeo) o gira como una tapa (pasaporte,
+  postal, tarot). Sin plantilla de concepto, el monograma de siempre.
+- Pruebas: 654 unitarias y 346 E2E en verde. Imágenes de la venta regeneradas con las portadas
+  nuevas.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

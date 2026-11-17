@@ -10,6 +10,8 @@ import { seeded } from "@/lib/theme";
 import { haptic, playNotes, playPaper } from "../effects/sound";
 import {
   ActionButton,
+  After,
+  Arrive,
   dateParts,
   FRAUNCES,
   madrid,
@@ -88,6 +90,11 @@ function TreasureCover({ event, onOpen, reduce }: ConceptProps) {
   return (
     <div className="absolute inset-0 overflow-hidden" style={{ fontFamily: FRAUNCES }}>
       <div aria-hidden className="paper-grain absolute inset-0 opacity-60" />
+      {/* Los bordes tostados del pergamino. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 shadow-[inset_0_0_70px_rgb(110_70_30/0.45),inset_0_0_14px_rgb(80_45_15/0.5)]"
+      />
       <div className="relative mx-auto flex h-full w-full max-w-[26rem] flex-col px-5 pt-[max(4.25rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))]">
         {/* La cartela del mapa. */}
         <div className="border-y-2 border-double border-current py-2 text-center">
@@ -132,13 +139,65 @@ function TreasureCover({ event, onOpen, reduce }: ConceptProps) {
         >
           <g aria-hidden>
             {/* El mar, la costa y unas olas. */}
-            <rect width="360" height="500" rx="6" fill="#9fb7b5" opacity="0.55" />
+            <defs>
+              <pattern id="mar" width="14" height="10" patternUnits="userSpaceOnUse">
+                <path d="M0 6q3.5-3 7 0t7 0" fill="none" stroke="#5f7f7c" strokeWidth="0.6" />
+              </pattern>
+            </defs>
+            <rect width="360" height="500" rx="6" fill="#9fb7b5" opacity="0.5" />
+            <rect width="360" height="500" rx="6" fill="url(#mar)" opacity="0.45" />
+            {/* Retícula de meridianos y paralelos. */}
+            <g stroke="currentColor" strokeWidth="0.4" opacity="0.25">
+              {[60, 120, 180, 240, 300].map((x) => (
+                <path key={x} d={`M${x} 0V500`} />
+              ))}
+              {[80, 160, 240, 320, 400].map((y) => (
+                <path key={y} d={`M0 ${y}H360`} />
+              ))}
+            </g>
+            {/* Las aguas someras alrededor de la costa. */}
+            <path
+              d="M30 470C8 400 30 330 70 290 40 230 80 150 150 140 190 70 300 50 330 110c24 50-6 100-30 130 30 50 20 120-30 160-40 34-90 20-120 50-40 36-100 40-120 20z"
+              fill="none"
+              stroke="#cfe0dc"
+              strokeWidth="14"
+              strokeLinejoin="round"
+              opacity="0.7"
+            />
             <path
               d="M30 470C8 400 30 330 70 290 40 230 80 150 150 140 190 70 300 50 330 110c24 50-6 100-30 130 30 50 20 120-30 160-40 34-90 20-120 50-40 36-100 40-120 20z"
               fill="#efe2c4"
               stroke="currentColor"
               strokeWidth="1.5"
             />
+            {/* Un barco y unas palmeras, dibujados a pluma. */}
+            <g
+              transform="translate(292 372)"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.2"
+              strokeLinejoin="round"
+            >
+              <path d="M-16 0h32l-6 8h-20z" fill="#efe2c4" />
+              <path d="M0 0V-26M0-24l12 18H0M0-22l-10 16H0" fill="#efe2c4" />
+            </g>
+            {[
+              [176, 296],
+              [258, 214],
+              [92, 418],
+            ].map(([x, y]) => (
+              <g
+                key={`${x}-${y}`}
+                transform={`translate(${x} ${y})`}
+                fill="none"
+                stroke="#6f7d4f"
+                strokeWidth="1.3"
+                strokeLinecap="round"
+              >
+                <path d="M0 0q2-10-1-18" stroke="currentColor" />
+                <path d="M-1-18q-8-2-12 4M-1-18q8-3 12 3M-1-18q-3-7-9-8M-1-18q4-7 10-7" />
+              </g>
+            ))}
             {[
               [20, 120],
               [300, 300],
@@ -266,6 +325,7 @@ function ConstellationCover({ event, onOpen, reduce }: ConceptProps) {
     });
   }, []);
   const time = madrid({ hour: "2-digit", minute: "2-digit" }).format(new Date(event.date));
+  const month = Number(madrid({ month: "numeric" }).format(new Date(event.date))) - 1;
   const join = (all = false) => {
     if (done) return;
     const next = all ? acts.length : joined + 1;
@@ -318,6 +378,33 @@ function ConstellationCover({ event, onOpen, reduce }: ConceptProps) {
               ))}
             </g>
             <circle cx="170" cy="170" r="150" fill="none" stroke="#d8b96a" strokeWidth="1.5" />
+            {/* El borde del planisferio: una muesca por día y los meses, con el de la boda en oro. */}
+            <circle cx="170" cy="170" r="158" fill="none" stroke="#d8b96a" strokeWidth="0.6" />
+            {Array.from({ length: 72 }, (_, i) => (
+              <path
+                key={i}
+                d={i % 6 ? "M170 12v3" : "M170 10v6"}
+                stroke="#d8b96a"
+                strokeWidth="0.7"
+                transform={`rotate(${i * 5} 170 170)`}
+              />
+            ))}
+            {"EFMAMJJASOND".split("").map((letter, i) => {
+              const angle = ((i * 30 + 15 - 90) * Math.PI) / 180;
+              return (
+                <text
+                  key={i}
+                  x={170 + Math.cos(angle) * 165}
+                  y={170 + Math.sin(angle) * 165 + 3}
+                  textAnchor="middle"
+                  fontSize="8"
+                  fill={i === month ? "#d8b96a" : "#9fb0d6"}
+                  fontWeight={i === month ? 700 : 400}
+                >
+                  {letter}
+                </text>
+              );
+            })}
             {sky.map(([x, y, r], i) => (
               <circle key={i} cx={x} cy={y} r={r! * 0.9} fill="#f2ecdb" opacity={0.35 + r! * 0.3} />
             ))}
@@ -357,6 +444,24 @@ function ConstellationCover({ event, onOpen, reduce }: ConceptProps) {
             );
           })}
         </svg>
+        {/* El catálogo de esa noche: cada estrella es un acto del programa, con su hora. */}
+        <After
+          reduce={reduce}
+          className="mt-2 w-full rounded-[10px] border border-[#d8b96a]/50 bg-[#0d1530]/70 px-4 py-2.5"
+        >
+          <p className="text-[0.75rem] text-[#d8b96a]">Catálogo de esta noche</p>
+          <ul className="mt-1 grid grid-cols-2 gap-x-4 gap-y-1 text-[0.8125rem]">
+            {acts.map((act, i) => (
+              <li key={act.id} className="flex items-baseline gap-2">
+                <span aria-hidden className={i < joined ? "text-[#d8b96a]" : "text-[#9fb0d6]"}>
+                  ✦
+                </span>
+                <span className="min-w-0 flex-1 truncate">{act.title}</span>
+                <span className="text-[#d8b96a] tabular-nums">{act.time}</span>
+              </li>
+            ))}
+          </ul>
+        </After>
         <p className="mt-2 text-center text-[0.8125rem] italic">
           Toca el cielo para unir las estrellas. Visible desde la pista de baile.
         </p>
@@ -505,6 +610,9 @@ function ComicCover({ event, onOpen }: ConceptProps) {
 
 /* ───────────────── Arcade: la pantalla de inicio de una recreativa ───────────────── */
 
+/** Corazón de píxeles (7 × 6), para el marcador de la recreativa. */
+const HEART_PIXELS = ["0110110", "1111111", "1111111", "0111110", "0011100", "0001000"];
+
 function ArcadeCover({ event, onOpen, reduce }: ConceptProps) {
   const [started, setStarted] = useState(false);
   const { dd, mm, yy } = dateParts(event.date);
@@ -517,85 +625,145 @@ function ArcadeCover({ event, onOpen, reduce }: ConceptProps) {
   };
   const players = [event.couple.first, event.couple.second].filter(Boolean);
   return (
-    <div className="absolute inset-0 overflow-hidden" style={{ fontFamily: PIXEL }}>
-      {/* Las líneas de la pantalla de tubo. */}
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-[repeating-linear-gradient(180deg,transparent_0_3px,rgb(255_255_255/0.045)_3px_4px)]"
-      />
-      <div className="relative mx-auto flex h-full w-full max-w-[26rem] flex-col items-center px-5 pt-[max(4.75rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))] text-center">
-        <div className="flex w-full justify-between text-[0.625rem] leading-relaxed">
-          <p className="text-left text-[#37d5d6]">
-            1UP
-            <br />
-            <span className="text-[#f4f4f0]">000000</span>
-          </p>
-          <p className="text-[#ff3d81]">
-            RÉCORD
-            <br />
-            <span className="text-[#f4f4f0]">
-              {dd}
-              {mm}
-              {yy}
-            </span>
-          </p>
-          <p className="text-right text-[#37d5d6]">
-            2UP
-            <br />
-            <span className="text-[#f4f4f0]">000000</span>
-          </p>
-        </div>
-
-        <h1
-          id="cover-title"
-          tabIndex={-1}
-          translate="no"
-          className="mt-[7svh] text-[clamp(1.25rem,6.4vw,1.75rem)] leading-[1.5] text-[#ffd23f] outline-none [text-shadow:3px_3px_0_#ff3d81]"
+    <div
+      className="absolute inset-0 overflow-hidden bg-[linear-gradient(90deg,#ff3d81_0_6px,#12122b_6px_calc(100%-6px),#37d5d6_calc(100%-6px))]"
+      style={{ fontFamily: PIXEL }}
+    >
+      <div className="relative mx-auto flex h-full w-full max-w-[26rem] flex-col px-4 pt-[max(4.25rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))] text-center">
+        {/* La pantalla de tubo, con su marco, su curvatura y sus líneas. */}
+        <Arrive
+          reduce={reduce}
+          tilt={0}
+          className="relative flex min-h-0 flex-1 flex-col rounded-[20px] bg-[#05050f] p-2.5 shadow-[inset_0_0_0_3px_#2a2a52,0_18px_40px_-16px_rgb(0_0_0/0.8)]"
         >
-          {players.map((player, i) => (
-            <span key={player} className="block">
-              {i ? <span className="text-[#f4f4f0]">+ </span> : null}
-              {player}
-            </span>
-          ))}
-        </h1>
-        <dl className="mt-[5svh] grid w-full grid-cols-2 gap-3 text-[0.625rem] leading-relaxed">
-          {players.map((player, i) => (
-            <div key={player} className="border-2 border-[#37d5d6] px-2 py-2">
-              <dt className="text-[#37d5d6]">JUGADOR {i + 1}</dt>
-              <dd className="mt-1 truncate text-[0.75rem]">{player}</dd>
+          <div className="arcade-screen relative flex min-h-0 flex-1 flex-col items-center overflow-hidden rounded-[14px] px-4 pt-4 pb-4">
+            <div className="flex w-full justify-between text-[0.625rem] leading-relaxed">
+              <p className="text-left text-[#37d5d6]">
+                1UP
+                <br />
+                <span className="text-[#f4f4f0]">000000</span>
+              </p>
+              <p className="text-[#ff3d81]">
+                RÉCORD
+                <br />
+                <span className="text-[#f4f4f0]">
+                  {dd}
+                  {mm}
+                  {yy}
+                </span>
+              </p>
+              <p className="text-right text-[#37d5d6]">
+                2UP
+                <br />
+                <span className="text-[#f4f4f0]">000000</span>
+              </p>
             </div>
-          ))}
-        </dl>
-        <p className="mt-[4svh] text-[0.625rem] leading-relaxed text-[#ff3d81]">FASE</p>
-        <p className="mt-1 text-[0.8125rem] leading-relaxed">{event.city}</p>
-        <p className="mt-3 text-[0.9375rem] leading-relaxed" style={{ fontFamily: SANS }}>
-          <time dateTime={isoDay(event.date)}>{formatLongDate(event.date)}</time>
-        </p>
-        <p className="mt-2 text-[0.5625rem] leading-relaxed text-[#ffd23f]">
-          VIDAS: TODAS LAS QUE HAGAN FALTA
-        </p>
 
-        {/* El botón rojo de la máquina. */}
-        <button
-          type="button"
-          onPointerDown={(e) => e.stopPropagation()}
-          onClick={start}
-          className="mt-auto flex flex-col items-center gap-3"
+            <h1
+              id="cover-title"
+              tabIndex={-1}
+              translate="no"
+              className="mt-[4svh] text-[clamp(1.25rem,6.4vw,1.75rem)] leading-[1.5] text-[#ffd23f] outline-none [text-shadow:3px_3px_0_#ff3d81]"
+            >
+              {players.map((player, i) => (
+                <span key={player} className="block">
+                  {i ? <span className="text-[#f4f4f0]">+ </span> : null}
+                  {player}
+                </span>
+              ))}
+            </h1>
+            {/* Los dos jugadores y, entre ellos, un corazón de píxeles. */}
+            <dl className="mt-[3svh] grid w-full grid-cols-[1fr_auto_1fr] items-center gap-2 text-[0.625rem] leading-relaxed">
+              {players.map((player, i) => (
+                <div
+                  key={player}
+                  className={`border-2 border-[#37d5d6] px-2 py-2 ${i ? "col-start-3" : ""}`}
+                >
+                  <dt className="text-[#37d5d6]">JUGADOR {i + 1}</dt>
+                  <dd className="mt-1 truncate text-[0.75rem]">{player}</dd>
+                </div>
+              ))}
+              <svg
+                aria-hidden
+                viewBox="0 0 7 6"
+                className="col-start-2 row-start-1 size-7"
+                shapeRendering="crispEdges"
+              >
+                {HEART_PIXELS.flatMap((row, y) =>
+                  row
+                    .split("")
+                    .map((cell, x) =>
+                      cell === "1" ? (
+                        <rect key={`${x}-${y}`} x={x} y={y} width="1" height="1" fill="#ff3d81" />
+                      ) : null,
+                    ),
+                )}
+              </svg>
+            </dl>
+            <p className="mt-[3svh] text-[0.625rem] leading-relaxed text-[#ff3d81]">FASE FINAL</p>
+            <p className="mt-1 text-[0.8125rem] leading-relaxed">{event.city}</p>
+            <p className="mt-2 text-[0.9375rem] leading-relaxed" style={{ fontFamily: SANS }}>
+              <time dateTime={isoDay(event.date)}>{formatLongDate(event.date)}</time>
+            </p>
+            {/* La tabla de récords: el programa del día, con su hora como puntuación. */}
+            <div className="mt-[3svh] w-full">
+              <p className="text-[0.625rem] leading-relaxed text-[#37d5d6]">TABLA DE RÉCORDS</p>
+              <ol className="mt-2 space-y-1.5 text-left text-[0.625rem] leading-relaxed">
+                {event.program.slice(0, 4).map((act, i) => (
+                  <li key={act.id} className="flex gap-2">
+                    <span className="text-[#ff3d81]">{i + 1}.</span>
+                    <span className="min-w-0 flex-1 truncate">
+                      {act.title.toLocaleUpperCase("es-ES")}
+                    </span>
+                    <span className="text-[#ffd23f] tabular-nums">{act.time}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <p className="mt-auto pt-3 text-[0.5625rem] leading-relaxed text-[#ffd23f]">
+              VIDAS: TODAS LAS QUE HAGAN FALTA
+            </p>
+            <p
+              className={`mt-2 text-[0.6875rem] leading-relaxed ${started || reduce ? "" : "arcade-blink"}`}
+            >
+              {started ? "¡ALLÁ VAMOS!" : "PULSA PARA EMPEZAR"}
+            </p>
+          </div>
+        </Arrive>
+
+        {/* El panel de mandos: la palanca, el botón rojo y la ranura de las monedas. */}
+        <After
+          reduce={reduce}
+          delay={1}
+          className="relative mt-3 flex items-center justify-between rounded-[14px] bg-[linear-gradient(180deg,#24244a,#18183a)] px-6 py-3 shadow-[inset_0_2px_0_rgb(255_255_255/0.08)]"
         >
-          <span
-            aria-hidden
-            className={`block size-20 rounded-full border-4 border-[#7a0f2e] bg-[radial-gradient(circle_at_35%_30%,#ff8fb3,#ff3d81_45%,#b3134a)] shadow-[0_8px_0_#7a0f2e] transition-transform ${started ? "translate-y-1.5 shadow-[0_2px_0_#7a0f2e]" : ""}`}
-          />
-          <span
-            className={`text-[0.6875rem] leading-relaxed ${started || reduce ? "" : "arcade-blink"}`}
+          <span aria-hidden className="relative block h-16 w-12">
+            <span className="absolute bottom-0 left-1/2 h-4 w-12 -translate-x-1/2 rounded-[50%] bg-[#05050f]" />
+            <span className="absolute bottom-2 left-1/2 h-10 w-1.5 -translate-x-1/2 rounded-full bg-[#9494bd]" />
+            <span className="absolute top-0 left-1/2 size-7 -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_35%_30%,#7ff0f0,#37d5d6_50%,#168a8b)]" />
+          </span>
+          <button
+            type="button"
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={start}
+            aria-label="Pulsar para empezar: desliza o toca para abrir"
+            className="flex flex-col items-center gap-1.5"
           >
-            PULSA PARA EMPEZAR
+            <span
+              aria-hidden
+              className={`block size-[4.5rem] rounded-full border-4 border-[#7a0f2e] bg-[radial-gradient(circle_at_35%_30%,#ff8fb3,#ff3d81_45%,#b3134a)] shadow-[0_8px_0_#7a0f2e] transition-transform ${started ? "translate-y-1.5 shadow-[0_2px_0_#7a0f2e]" : ""}`}
+            />
+          </button>
+          <span aria-hidden className="flex flex-col items-center gap-1.5">
+            <span className="block h-9 w-6 rounded-[4px] border-2 border-[#ffd23f] bg-[#05050f] p-[5px]">
+              <span className="block h-full w-full rounded-full bg-[#ffd23f]/60" />
+            </span>
+            <span className="text-[0.5rem] leading-tight text-[#ffd23f]">1 CRÉDITO</span>
           </span>
-          <span className="text-[0.8125rem]" style={{ fontFamily: SANS }}>
-            Desliza o toca para abrir
-          </span>
-        </button>
+        </After>
+        <p className="mt-2 text-[0.8125rem]" style={{ fontFamily: SANS }}>
+          Desliza o toca el botón rojo para abrir
+        </p>
       </div>
     </div>
   );
@@ -625,8 +793,12 @@ function SeedsCover({ event, onOpen, reduce }: ConceptProps) {
     <div className="absolute inset-0 overflow-hidden" style={{ fontFamily: SANS }}>
       <div aria-hidden className="paper-grain absolute inset-0 opacity-60" />
       <div className="relative mx-auto flex h-full w-full max-w-[24rem] flex-col items-center px-6 pt-[max(4.5rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-        {/* El sobre de semillas. */}
-        <div className="flex min-h-0 w-full flex-1 flex-col overflow-hidden rounded-[6px] border border-current/40 bg-[#fbf6e7] shadow-[0_24px_50px_-20px_rgb(43_58_35/0.55)]">
+        {/* El sobre de semillas, apoyado en la mesa del vivero. */}
+        <Arrive
+          reduce={reduce}
+          tilt={-2}
+          className="flex min-h-0 w-full flex-1 flex-col overflow-hidden rounded-[6px] border border-current/40 bg-[#fbf6e7] shadow-[0_24px_50px_-20px_rgb(43_58_35/0.55)]"
+        >
           <div className="bg-[#5d7a3a] px-5 py-3 text-[#fbf6e7]">
             <p className="text-[0.6875rem] tracking-[0.18em] uppercase">Semillas de temporada</p>
             <p className="text-[0.8125rem] italic" style={{ fontFamily: FRAUNCES }}>
@@ -691,6 +863,23 @@ function SeedsCover({ event, onOpen, reduce }: ConceptProps) {
               </div>
             ))}
           </dl>
+        </Arrive>
+        {/* Unas semillas derramadas junto al sobre. */}
+        <div aria-hidden className="relative -mt-1 h-3 w-full">
+          {[
+            [18, 0, 20],
+            [24, 6, -30],
+            [31, 2, 60],
+            [70, 4, -10],
+            [76, 0, 35],
+            [81, 7, 80],
+          ].map(([x, y, r], i) => (
+            <span
+              key={i}
+              className="absolute h-[5px] w-[9px] rounded-[50%] bg-[#6d5134]"
+              style={{ left: `${x}%`, top: y, rotate: `${r}deg` }}
+            />
+          ))}
         </div>
         <button
           type="button"

@@ -695,7 +695,7 @@ function TelegramCover({ event, guestName, onOpen, reduce }: ConceptProps) {
         <p className="mt-4 text-[0.5625rem] tracking-[0.14em] uppercase">Texto</p>
         <div
           aria-hidden
-          className="telegram-lines mt-1 flex min-h-0 flex-1 flex-col items-start gap-[0.6875rem] pt-[0.5rem]"
+          className="telegram-lines mt-1 flex min-h-[13.25rem] flex-col items-start gap-[0.6875rem] pt-[0.5rem]"
         >
           {lines.map((line, i) => {
             const before = starts[i]!;
@@ -723,7 +723,31 @@ function TelegramCover({ event, guestName, onOpen, reduce }: ConceptProps) {
           })}
         </div>
 
-        <p className="text-center text-[0.8125rem] italic">Tasa: una sonrisa por palabra.</p>
+        {/* El pie del impreso: la firma del remitente y el sello de la oficina. */}
+        <div className="mt-auto flex items-end justify-between gap-4 border-t border-current pt-3">
+          <div className="min-w-0">
+            <p className="text-[0.5625rem] tracking-[0.14em] uppercase">Firma del expedidor</p>
+            <p
+              translate="no"
+              className="mt-1 truncate text-[1.75rem] leading-none"
+              style={{ fontFamily: SCRIPT }}
+            >
+              {hostNames(hostsOf(event), " y ")}
+            </p>
+            <p className="mt-2 text-[0.8125rem] italic">Tasa: una sonrisa por palabra.</p>
+          </div>
+          <span
+            aria-hidden
+            className="grid size-[5.25rem] shrink-0 -rotate-12 place-items-center rounded-full border-2 border-[#a3221b] text-center text-[0.625rem] leading-tight font-bold text-[#a3221b] outline outline-1 -outline-offset-[7px] outline-[#a3221b]"
+            style={{ fontFamily: COURIER }}
+          >
+            TELÉGRAFOS
+            <br />
+            {dd}·{mm}·{yy}
+            <br />
+            {event.city.split(/\s+/)[0]!.toLocaleUpperCase("es-ES")}
+          </span>
+        </div>
         <button
           type="button"
           onPointerDown={(e) => e.stopPropagation()}
@@ -785,11 +809,18 @@ function PostcardCover({ event, guestName, onOpen, reduce }: ConceptProps) {
       <div className="relative flex h-full flex-col items-center px-6 pt-[max(4.5rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))]">
         <p className="text-[0.75rem] tracking-[0.16em] uppercase">Ha llegado una postal</p>
         <m.div
-          className="mt-4 flex min-h-0 w-full max-w-[21rem] flex-1 flex-col justify-center"
+          className="relative mt-4 flex min-h-0 w-full max-w-[21rem] flex-1 flex-col justify-center"
           initial={reduce ? false : { y: 36, opacity: 0, rotate: 0 }}
           animate={{ y: 0, opacity: 1, rotate: -2 }}
           transition={{ duration: 1.1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
         >
+          {/* Otra postal debajo, de otro viaje: la pila de recuerdos. */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-[4%] top-[50%] aspect-[5/7] translate-x-4 -translate-y-1/2 rotate-[7deg] bg-[#fbf7ec] p-2.5 shadow-[0_18px_30px_-16px_rgb(30_58_110/0.45)]"
+          >
+            <div className="size-full bg-[linear-gradient(180deg,#e6bd9c,#cfdcea)] opacity-80" />
+          </div>
           <div
             ref={card}
             data-side={side}
