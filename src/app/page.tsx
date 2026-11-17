@@ -134,6 +134,40 @@ const FAQS = [
   },
 ];
 
+/**
+ * Tres decoraciones de muestra y su invitación: la misma paleta, la misma flor y el mismo lacre.
+ * Las imágenes son las portadas pintadas y los lacres de las plantillas.
+ */
+const DECOR = [
+  {
+    name: "Pampa y terracota",
+    colors: "Crudo, rosa pampa y terracota",
+    swatches: ["#f3e6cf", "#e4bfa9", "#b8593a"],
+    cover: "/portadas/cortijo-fondo.webp",
+    seal: "/acuarelas/pampa-lacre.webp",
+  },
+  {
+    name: "Lavanda",
+    colors: "Blanco, lila y violeta",
+    swatches: ["#f6f3fa", "#bcaad8", "#6a5799"],
+    cover: "/portadas/lavanda.webp",
+    seal: "/acuarelas/lavanda-lacre.webp",
+  },
+  {
+    name: "Olivo y oro",
+    colors: "Marfil, salvia y oro",
+    swatches: ["#f8f4ea", "#a9b79c", "#c8a45c"],
+    cover: "/portadas/ramas.webp",
+    seal: "/venta/lacre-oro.webp",
+  },
+] as const;
+
+const MATCH = [
+  ["Los colores", "Los de vuestras mesas, del papel de la carta al forro del sobre."],
+  ["Las flores", "Las mismas de los centros, también en la portada de la invitación."],
+  ["El lacre", "Del color de la decoración, con el motivo que elijáis."],
+] as const;
+
 const shell = "mx-auto w-full max-w-6xl px-6 sm:px-10";
 
 export default function SalesPage() {
@@ -352,6 +386,103 @@ export default function SalesPage() {
                 También después de enviarla: los invitados ven siempre la última versión, con el
                 mismo enlace.
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ── A juego con la decoración: lo que diferencia a eFeLe ── */}
+        <section
+          id="decoracion"
+          aria-labelledby="decoracion-title"
+          className="scroll-mt-4 bg-[var(--papel-2)] py-16 sm:py-24 lg:py-32"
+        >
+          <div
+            className={`${shell} grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-x-16 lg:gap-y-10`}
+          >
+            <div className="lg:col-start-1 lg:row-start-1">
+              <h2
+                id="decoracion-title"
+                className="v-display max-w-[13ch] text-[clamp(2.6rem,5.2vw,4.5rem)] leading-[0.98]"
+              >
+                A juego con vuestra decoración
+              </h2>
+              <p className="mt-6 max-w-[42ch] text-[1.0625rem] leading-relaxed text-[var(--grafito)]">
+                En eFeLe decoramos bodas. Si también decoramos la vuestra, la invitación puede
+                llevar lo mismo que veréis ese día en las mesas. Y se pide junto con la decoración.
+              </p>
+            </div>
+
+            {/* Tres muestras: la paleta de la decoración y su invitación. */}
+            <ul
+              aria-label="Tres decoraciones de muestra"
+              className="grid grid-cols-3 gap-4 self-center sm:gap-6 lg:col-start-2 lg:row-span-2 lg:row-start-1"
+            >
+              {DECOR.map((d, i) => (
+                <li key={d.name} className={i === 1 ? "mt-8 sm:mt-12" : ""}>
+                  <div className="relative">
+                    <div className="relative aspect-[9/16] overflow-hidden rounded-[3px] bg-[var(--papel)] shadow-[0_30px_50px_-30px_rgb(27_32_51/0.55)] ring-1 ring-[var(--linea)]">
+                      <Image
+                        src={d.cover}
+                        alt=""
+                        fill
+                        sizes="(min-width: 1024px) 200px, 30vw"
+                        className="object-cover"
+                      />
+                    </div>
+                    <Image
+                      src={d.seal}
+                      alt=""
+                      width={120}
+                      height={120}
+                      className="absolute -bottom-4 left-2 size-11 rotate-[-10deg] drop-shadow-[0_8px_10px_rgb(0_0_0/0.3)] sm:left-3 sm:size-16"
+                    />
+                  </div>
+                  <p className="mt-7 text-[0.875rem] leading-snug font-medium sm:mt-8 sm:text-[1rem]">
+                    {d.name}
+                  </p>
+                  <div aria-hidden className="mt-2.5 flex gap-1 sm:mt-3 sm:gap-1.5">
+                    {d.swatches.map((c) => (
+                      <span
+                        key={c}
+                        className="size-4 rounded-full ring-1 ring-[var(--tinta)]/15 sm:size-6"
+                        style={{ background: c }}
+                      />
+                    ))}
+                  </div>
+                  <p className="mt-2 text-[0.8125rem] leading-snug text-[var(--grafito)] sm:text-[0.875rem]">
+                    {d.colors}
+                  </p>
+                </li>
+              ))}
+            </ul>
+
+            <div className="lg:col-start-1 lg:row-start-2">
+              <dl className="grid gap-6 sm:grid-cols-3 lg:grid-cols-1">
+                {MATCH.map(([title, text]) => (
+                  <div key={title} className="border-t border-[var(--linea)] pt-4">
+                    <dt className="text-[1rem] font-medium">{title}</dt>
+                    <dd className="mt-1 text-[0.9375rem] leading-relaxed text-[var(--grafito)]">
+                      {text}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              <p className="mt-10 max-w-[40ch] text-[1.0625rem] leading-relaxed">
+                Contadnos cómo será vuestra decoración y la invitación la sigue.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center gap-x-7 gap-y-4">
+                <a href="#pedir" className="v-btn v-btn-lacre">
+                  Contadnos vuestra decoración
+                </a>
+                <a
+                  href="https://www.instagram.com/eventos.efele/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="v-link text-[0.9375rem]"
+                >
+                  Ver decoraciones en Instagram
+                </a>
+              </div>
             </div>
           </div>
         </section>
