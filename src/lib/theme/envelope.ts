@@ -16,7 +16,10 @@ export const OPENING_IDS = [
   "pelicula",
   "sobre3d",
   "ventana",
+  "concepto",
 ] as const;
+/** Las que se enseñan en la venta y los ejemplos: la de concepto va con su plantilla. */
+export const SHOWN_OPENING_IDS = OPENING_IDS.filter((id) => id !== "concepto");
 export const SEAL_MARK_IDS = ["monograma", "almendro", "corazon", "estrella"] as const;
 
 export type FlapId = (typeof FLAP_IDS)[number];
@@ -155,6 +158,11 @@ export const OPENINGS: Record<
     label: "Sobre junto a la ventana",
     description:
       "Un sobre de verdad sobre un mantel de lino, con luz de ventana. Se abre con el dedo: rompes el lacre, levantas la solapa y sacas la tarjeta.",
+  },
+  concepto: {
+    label: "La del concepto",
+    description:
+      "La carta llega dentro del objeto de la plantilla: el periódico, el sobre de correo aéreo, la funda del disco…",
   },
 };
 

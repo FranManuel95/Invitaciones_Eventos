@@ -7,32 +7,98 @@ import { expect, test, type Page } from "@playwright/test";
  * Después, la interacción de cada una.
  */
 const CONCEPTS = [
-  { id: "vinilo", names: /Nuria.*Dani/, date: "2 de octubre de 2027", opening: "pantalla" },
-  { id: "pasaporte", names: /Paula.*Íker/, date: "26/06/2027", opening: "pantalla" },
-  { id: "carta", names: /Rocío y Manu/, date: "29 de mayo de 2027", opening: "mesa" },
-  { id: "mapa", names: /Aitana y Bruno/, date: "24 de julio de 2027", opening: "mesa" },
+  { id: "vinilo", names: /Nuria.*Dani/, date: "2 de octubre de 2027", opening: "concepto" },
+  { id: "pasaporte", names: /Paula.*Íker/, date: "26/06/2027", opening: "concepto" },
+  { id: "carta", names: /Rocío y Manu/, date: "29 de mayo de 2027", opening: "concepto" },
+  { id: "mapa", names: /Aitana y Bruno/, date: "24 de julio de 2027", opening: "concepto" },
   {
     id: "constelacion",
     names: /Lola & Samuel/,
     date: "11 de diciembre de 2027",
-    opening: "pantalla",
+    opening: "concepto",
   },
-  { id: "comic", names: /Valeria y Jorge/, date: "05/06/27", opening: "pantalla" },
-  { id: "cosecha", names: /Blanca.*Rodrigo/, date: "25 de septiembre de 2027", opening: "mesa" },
-  { id: "tarot", names: /Abril & Óscar/, date: "20 de noviembre de 2027", opening: "pantalla" },
-  { id: "arcade", names: /Leire.*Marc/, date: "3 de julio de 2027", opening: "pantalla" },
-  { id: "semillas", names: /Amor de Olivia y Tomás/, date: "17 de abril de 2027", opening: "mesa" },
+  { id: "comic", names: /Valeria y Jorge/, date: "05/06/27", opening: "concepto" },
+  {
+    id: "cosecha",
+    names: /Blanca.*Rodrigo/,
+    date: "25 de septiembre de 2027",
+    opening: "concepto",
+  },
+  { id: "tarot", names: /Abril & Óscar/, date: "20 de noviembre de 2027", opening: "concepto" },
+  { id: "arcade", names: /Leire.*Marc/, date: "3 de julio de 2027", opening: "concepto" },
+  {
+    id: "semillas",
+    names: /Amor de Olivia y Tomás/,
+    date: "17 de abril de 2027",
+    opening: "concepto",
+  },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
 
-async function expectOpened(page: Page, opening: "pantalla" | "mesa") {
-  if (opening === "pantalla")
-    await expect(page.locator("[data-opening='pantalla']")).toBeAttached();
-  else await expect(page.getByRole("button", { name: "Abrir el sobre" })).toBeVisible();
+/** Tras la portada llega la apertura de concepto: el objeto de la plantilla con la carta dentro. */
+async function expectOpened(page: Page) {
+  await expect(page.locator("[data-opening='concepto']")).toBeAttached();
 }
 
 test.describe("plantillas de concepto (segunda tanda)", () => {
+  test("la apertura de concepto trae la carta en el objeto de la plantilla", async ({ page }) => {
+    await page.goto("/i/elena-y-pablo?plantilla=telegrama");
+    await cover(page, "telegrama")
+      .getByRole("button", { name: /toca para abrir/i })
+      .click();
+    const opening = page.locator("[data-opening='concepto']");
+    await expect(opening.getByText("Servicio de telégrafos · Urgente")).toBeVisible();
+    await expect(opening.getByRole("heading", { name: "Elena y Pablo" })).toBeVisible();
+    await page.getByRole("button", { name: "Abrir el telegrama" }).click();
+    await expect(page.getByRole("heading", { name: /^Hola, Elena y Pablo/ })).toBeVisible();
+    // La carta lleva el membrete y la despedida del concepto.
+    await expect(page.locator("article[data-layout] .concept-letterhead").first()).toHaveText(
+      "Telegrama · Texto completo",
+    );
+    await expect(page.locator("article[data-layout] .concept-signoff").first()).toHaveText(
+      "Fin del mensaje STOP",
+    );
+    const { violations } = await new AxeBuilder({ page }).analyze();
+    expect(
+      violations.filter((v) => ["serious", "critical"].includes(v.impact ?? "")).map((v) => v.id),
+    ).toEqual([]);
+  });
+
+  test("el pase del invitado se viste del concepto sin perder lo importante", async ({ page }) => {
+    await page.goto("/i/elena-y-pablo?plantilla=embarque");
+    await page.getByRole("button", { name: "Saltar intro" }).click();
+    const next = page.getByRole("button", { name: /^(Siguiente|Revisar)/ });
+    await page.getByRole("button", { name: "Sí, asistiré" }).click();
+    await next.click();
+    await page.getByText("No, iremos por nuestra cuenta").click();
+    await page
+      .getByRole("group", { name: /plazas en vuestro coche/ })
+      .getByText("No", { exact: true })
+      .click();
+    await next.click();
+    for (const name of ["Elena Vidal", "Pablo Serra"]) {
+      await page
+        .getByRole("group", { name: `Menú para ${name}` })
+        .getByText("Pescado")
+        .click();
+    }
+    await next.click();
+    await next.click();
+    await page.getByRole("button", { name: "Enviar respuesta" }).click();
+    const pass = page.locator("#pase article");
+    await expect(pass.getByText("Tarjeta de embarque")).toBeVisible();
+    await expect(pass.getByRole("heading", { name: "Pase de Elena y Pablo" })).toBeVisible();
+    await expect(pass.getByText("Pasajeros")).toBeVisible();
+    // Las etiquetas que importan siguen diciendo mesa y autobús.
+    await expect(pass.getByText("Asiento (mesa)")).toBeVisible();
+    await expect(pass.getByText("Conexión en autobús")).toBeVisible();
+    const { violations } = await new AxeBuilder({ page }).include("#pase").analyze();
+    expect(
+      violations.filter((v) => ["serious", "critical"].includes(v.impact ?? "")).map((v) => v.id),
+    ).toEqual([]);
+  });
+
   for (const concept of CONCEPTS) {
     test(`${concept.id}: portada accesible, se abre y el interior lleva su rótulo`, async ({
       page,
@@ -49,7 +115,7 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
         [],
       );
       await stage.getByRole("button", { name: /toca para abrir/i }).click();
-      await expectOpened(page, concept.opening);
+      await expectOpened(page);
       await page.getByRole("button", { name: "Saltar intro" }).click();
       await expect(page.locator(`[data-motif='${concept.id}']`)).toBeAttached();
       const sprig = page.locator("#fecha .motif-sprig");
@@ -135,7 +201,7 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     }
     await page.mouse.up();
     await expect(map).toHaveAttribute("data-route", "hecha");
-    await expectOpened(page, "mesa");
+    await expectOpened(page);
   });
 
   test("constelación: cada toque une una estrella y, al completarla, se abre", async ({ page }) => {
@@ -147,7 +213,7 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await expect(sky.getByText("Ceremonia")).toBeVisible();
     for (let i = 0; i < 3; i += 1) await sky.click();
     await expect(sky).toHaveAttribute("data-stars", "unidas");
-    await expectOpened(page, "pantalla");
+    await expectOpened(page);
   });
 
   test("cómic: las viñetas se pasan con los botones y la última trae la fecha", async ({
@@ -186,7 +252,7 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
       await cover(page, id)
         .getByRole("button", { name: /toca para abrir/i })
         .click();
-      await expectOpened(page, id === "cosecha" ? "mesa" : "pantalla");
+      await expectOpened(page);
     }
     await context.close();
   });

@@ -123,17 +123,19 @@ Antes de enseñar una plantilla de concepto, repasar:
 
 ## Pendiente en las que ya existen
 
-1. **La carta, del concepto.** Hoy es la carta común. Gaceta: un recorte de periódico con el
-   saludo como noticia breve. Embarque: un telegrama o la etiqueta de equipaje. Premio: el
-   reverso del décimo con las «bases del sorteo».
-2. **El pase del invitado, del concepto** (`src/features/invitation/rsvp/guest-pass.tsx`).
-   Embarque: su tarjeta de embarque con mesa como asiento y autobús como conexión. Premio: el
-   décimo premiado a su nombre. Gaceta: una nota de sociedad con su nombre.
-3. **Apertura propia.** Usan el sobre común. Ideas: el periódico que se despliega, el sobre de
-   correo aéreo, el sobre de la administración de lotería. Si se generan en vídeo, seguir
-   `docs/HIGGSFIELD.md` y añadirlos como `film`.
-4. **Prueba en móvil real y en escritorio.** Solo se han revisado capturas de móvil.
-5. **Tono.** Los textos son desenfadados a propósito; falta decidir si se ofrece una variante
+Hecho en la ronda 21: la carta (membrete y despedida), el pase del invitado y una apertura
+propia («concepto», el objeto de la plantilla trae la carta). Para una plantilla nueva: añadir su
+entrada en `CONCEPT_KITS` (`src/lib/theme/concept-kit.ts`), su `.concept-carrier` en
+`globals.css` si quiere un objeto distinto, y `opening: "concepto"` en la plantilla.
+
+Lo que queda:
+
+1. **Probarlas con el dedo en un móvil real**, sobre todo los gestos (sacar el disco, tirar del
+   corcho, levantar la campana, seguir la ruta) y los sonidos.
+2. **Aperturas en vídeo** para las que más se vendan, cuando haya créditos de Higgsfield
+   (`docs/HIGGSFIELD.md`): el periódico que se despliega, el sobre de correo aéreo, la botella
+   que se descorcha.
+3. **Tono.** Los textos son desenfadados a propósito; falta decidir si se ofrece una variante
    sobria de cada uno.
 
 ## Ideas siguientes

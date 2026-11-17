@@ -9,6 +9,8 @@ const OPENINGS = [
   { opening: "pelicula", button: "Abrir el sobre", heading: "Familia García" },
   { opening: "sobre3d", button: "Abrir el sobre", heading: "Familia García" },
   { opening: "ventana", button: "Abrir el sobre", heading: "Familia García" },
+  // Sin plantilla de concepto, el objeto se viste como un sobre de papelería.
+  { opening: "concepto", button: "Abrir la invitación", heading: "Familia García" },
 ];
 
 test.describe("aperturas", () => {

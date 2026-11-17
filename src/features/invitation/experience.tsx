@@ -39,6 +39,7 @@ import { TiltProvider } from "./effects/tilt";
 import { EnvelopeStage } from "./envelope/envelope-stage";
 import { FullEnvelope } from "./envelope/full-envelope";
 import { RibbonBox } from "./envelope/ribbon-box";
+import { ConceptOpening } from "./envelope/concept-opening";
 import { Diptych3D, Envelope3D } from "./envelope/envelope-3d";
 import { VideoEnvelope } from "./envelope/video-envelope";
 import { WindowEnvelope } from "./envelope/window-envelope";
@@ -89,6 +90,7 @@ const OPENINGS = {
   pelicula: VideoEnvelope,
   sobre3d: Envelope3D,
   ventana: WindowEnvelope,
+  concepto: ConceptOpening,
 } satisfies Record<Theme["opening"], unknown>;
 
 const HEADINGS: Record<Stage, string> = {
@@ -358,6 +360,7 @@ export function InvitationExperience({
                     guestbook={guestbook}
                     smooth={theme.cover === "cine"}
                     seal={{ shape: theme.sealShape, mark: theme.sealMark }}
+                    motif={theme.motif}
                     badge={badge}
                   />
                 </ViewTransition>

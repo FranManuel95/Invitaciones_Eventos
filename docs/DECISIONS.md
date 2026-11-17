@@ -973,6 +973,37 @@ total, veinticinco destacadas y treinta y dos portadas.
   propia, y probarlas con el dedo en un móvil real. Avisos de la ficha que siguen valiendo: Tarot
   no gusta a todas las familias y Arcade es para un público muy concreto.
 
+## Ronda 21: carta, pase y apertura de las plantillas de concepto (17/11/2026)
+
+Lo que quedaba pendiente en las quince: hasta ahora solo la portada y el interior eran del
+concepto; la apertura, la carta y el pase eran los comunes.
+
+- **Textos de cada concepto** en `src/lib/theme/concept-kit.ts` (`CONCEPT_KITS`, `conceptKit`):
+  el objeto que trae la carta, su rótulo, el membrete y la despedida de la carta y las etiquetas
+  del pase. El aspecto va en `globals.css` por `data-motif`.
+- **Apertura «concepto»** (`envelope/concept-opening.tsx`, id `concepto`): la carta llega dentro
+  del objeto de la plantilla y, al tocarlo, el objeto se levanta y deja la carta. Es una sola
+  pieza vestida quince veces (`.concept-carrier`): periódico doblado, sobre de correo aéreo, sobre
+  de la administración, telegrama, postal, funda del disco, tapa del pasaporte, carta del
+  restaurante, pergamino, carta celeste, tebeo, caja de la botella, baraja, máquina y sobre de
+  semillas. El botón dice qué se abre («Abrir el telegrama»). Las quince plantillas la usan. No
+  sale en la venta ni en los ejemplos (`SHOWN_OPENING_IDS`): no tiene grabación y sin plantilla de
+  concepto es solo un sobre de papelería. Sí se puede elegir en el editor.
+- **Carta**: membrete arriba y despedida abajo («La Gaceta · Noticia breve» / «Sigue en la página
+  2», «Etiqueta de equipaje · Prioridad» / «Buen vuelo»…), con la letra del concepto (máquina de
+  escribir, píxeles, rotulación de tebeo). Van ocultos para lectores de pantalla: son decoración.
+- **Pase del invitado**: encima del título, lo que es en ese mundo («Tarjeta de embarque»,
+  «Décimo premiado», «Ficha de jugador»…), y quienes vienen se llaman pasajeros, agraciados,
+  comensales… El título sigue siendo «Pase de …» y las etiquetas que importan siguen diciendo
+  «mesa» y «autobús» (una prueba unitaria lo vigila). Algunos llevan además su borde: correo aéreo
+  en Embarque, filete doble en Gaceta, orla en Carta, roseta en Premio, tinta y sombra plana en
+  Cómic.
+- Decisión: una apertura común vestida en vez de quince bespoke. Quince aperturas distintas
+  eran semanas de trabajo; esta da a cada plantilla su objeto ya, y deja sitio para que las que
+  más se vendan tengan una propia (en vídeo con Higgsfield, como `film`).
+- Pruebas (654 unitarias y 346 E2E en verde): `tests/e2e/conceptos.spec.ts` (apertura, membrete y pase de embarque), la de concepto
+  añadida a `tests/e2e/aperturas.spec.ts` y la unitaria de los textos en `theme.test.ts`.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

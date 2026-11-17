@@ -128,3 +128,28 @@ describe("tema", () => {
     });
   });
 });
+
+describe("plantillas de concepto: carta, pase y apertura", () => {
+  it("cada motivo de concepto tiene sus textos y su plantilla se abre con su objeto", async () => {
+    const { MOTIF_IDS, MOTIFS, TEMPLATES } = await import("@/lib/theme");
+    const { conceptKit } = await import("@/lib/theme/concept-kit");
+    const concepts = MOTIF_IDS.filter((id) => MOTIFS[id].kind === "concepto");
+    expect(concepts.length).toBe(15);
+    for (const id of concepts) {
+      const kit = conceptKit(id);
+      expect(kit, id).not.toBeNull();
+      for (const text of [kit!.object, kit!.carrier, kit!.letterhead, kit!.signoff]) {
+        expect(text.trim(), id).not.toBe("");
+      }
+      expect(kit!.pass.kicker.trim(), id).not.toBe("");
+      // Lo importante del pase sigue diciendo mesa y autobús.
+      if (kit!.pass.table) expect(kit!.pass.table.toLowerCase(), id).toMatch(/mesa/);
+      if (kit!.pass.bus) expect(kit!.pass.bus.toLowerCase(), id).toMatch(/autob/);
+      const template = Object.values(TEMPLATES).find((t) => t.look.motif === id);
+      expect(template?.look.opening, id).toBe("concepto");
+    }
+    // Los motivos de acuarela y «sin motivo» no tienen kit.
+    expect(conceptKit("ninguno")).toBeNull();
+    expect(conceptKit("lavanda")).toBeNull();
+  });
+});

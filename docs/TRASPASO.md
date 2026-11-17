@@ -9,7 +9,8 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   Embarque y Premio están en `claude/tender-franklin-isgz7b` (PR #6). Telegrama y Postal (ronda 19) y las diez restantes (ronda 20) están en `claude/exciting-franklin-43k083`, que parte de esa
   rama y la contiene entera: falta unirla al PR #6 o abrirle un PR propio (decisión del usuario).
   `docs/CONCEPTOS.md` explica cómo están hechas. Lo siguiente: carta y pase del invitado con el
-  aspecto de cada concepto, aperturas propias y prueba en móvil real.
+  aspecto de cada concepto (hecho, ronda 21), aperturas propias (hecho: apertura «concepto»,
+  ronda 21) y prueba en móvil real (pendiente).
   Pruebas: 653 unitarias y 340 E2E en verde (4 se saltan).
 
 - **Ramas** (13/11/2026). Ojo: hay varias líneas de trabajo y **lo que no está en `main` no está

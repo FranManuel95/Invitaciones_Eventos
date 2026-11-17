@@ -1,5 +1,7 @@
 "use client";
 
+import { conceptKit } from "@/lib/theme/concept-kit";
+
 import { hostNames } from "@/lib/event-kind";
 import { clsx } from "clsx";
 import { ChevronDown } from "lucide-react";
@@ -164,6 +166,7 @@ export function LetterPaper({
 }) {
   const fallbackRef = useRef<HTMLHeadingElement>(null);
   const layout = letterLayout(event, theme);
+  const kit = conceptKit(theme.motif);
   const photo = event.story.couplePhoto ?? event.coverPhoto;
   const props = { event, group, headingRef: headingRef ?? fallbackRef, onContinue };
   return (
@@ -189,6 +192,17 @@ export function LetterPaper({
             <span className="motif-letter-seal" />
           </span>
         )}
+        {/* Con plantilla de concepto: membrete y despedida del objeto (el aspecto, en CSS). */}
+        {kit && !bare ? (
+          <>
+            <span aria-hidden className="concept-letterhead">
+              {kit.letterhead}
+            </span>
+            <span aria-hidden className="concept-signoff">
+              {kit.signoff}
+            </span>
+          </>
+        ) : null}
         {layout === "editorial" ? (
           <EditorialLetter {...props} />
         ) : layout === "minimal" ? (

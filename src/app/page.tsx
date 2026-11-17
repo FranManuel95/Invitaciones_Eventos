@@ -5,7 +5,7 @@ import { buttonClasses } from "@/components/ui/button";
 import { ContactForm } from "@/features/sales/contact-form";
 import { PhoneDemo } from "@/features/sales/phone-demo";
 import { PhoneFrame, PhoneStrip, ScreenShot, TemplateShowcase } from "@/features/sales/showcase";
-import { OPENING_IDS, OPENINGS } from "@/lib/theme/envelope";
+import { OPENINGS, SHOWN_OPENING_IDS } from "@/lib/theme/envelope";
 import { PRICE_EUR } from "@/lib/sales/contact";
 import { siteUrl } from "@/lib/site";
 
@@ -296,7 +296,7 @@ export default function SalesPage() {
               <ScreenShot
                 src="/venta/editor.webp"
                 alt="El editor: a la izquierda, las plantillas; a la derecha, la invitación en un móvil."
-                caption={`También elegís cómo se abre: ${OPENING_IDS.map((id) => OPENINGS[id].label.replace(/^\p{Lu}/u, (c) => c.toLowerCase())).join(", ")}.`}
+                caption={`También elegís cómo se abre: ${SHOWN_OPENING_IDS.map((id) => OPENINGS[id].label.replace(/^\p{Lu}/u, (c) => c.toLowerCase())).join(", ")}.`}
               />
             </div>
           </div>

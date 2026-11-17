@@ -37,6 +37,7 @@ import { isDeadlinePassed } from "@/lib/rsvp/draft";
 import {
   SECTION_IDS,
   type CalendarId,
+  type MotifId,
   type SealMarkId,
   type SealShapeId,
   type SectionId,
@@ -127,6 +128,8 @@ export interface InvitationContentProps {
   smooth?: boolean;
   /** El lacre del tema: sella la respuesta al confirmar. */
   seal?: { shape: SealShapeId; mark: SealMarkId };
+  /** Motivo de la plantilla: el pase del invitado se viste con él. */
+  motif?: MotifId;
 }
 
 /** Pantallas 4 a 7 · La invitación completa con secciones y RSVP. */
@@ -146,6 +149,7 @@ export function InvitationContent({
   guestbook = EMPTY_GUESTBOOK,
   smooth = false,
   seal,
+  motif,
 }: InvitationContentProps) {
   useSmoothScroll(smooth);
   const early = phase === "save_the_date";
@@ -555,7 +559,7 @@ export function InvitationContent({
                 }
               </Fragment>
             ))}
-            {after ? null : <RsvpSection event={event} group={group} seal={seal} />}
+            {after ? null : <RsvpSection event={event} group={group} seal={seal} motif={motif} />}
             {after ? null : (
               <PlaylistBand
                 url={event.playlistUrl ?? ""}

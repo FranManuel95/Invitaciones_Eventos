@@ -8,6 +8,8 @@ import { MENU_LABELS } from "@/lib/domain/catalog";
 import type { GuestGroup, MenuId, RsvpResponse, WeddingEvent } from "@/lib/domain/types";
 import { formatWeekdayDate } from "@/lib/format";
 import { describeTransport } from "@/lib/rsvp/summary";
+import type { MotifId } from "@/lib/theme";
+import { conceptKit } from "@/lib/theme/concept-kit";
 import { FoilMonogram } from "../effects/foil";
 
 function menuSummary(response: RsvpResponse) {
@@ -24,11 +26,15 @@ export function GuestPass({
   event,
   group,
   response,
+  motif,
 }: {
   event: WeddingEvent;
   group: GuestGroup;
   response: RsvpResponse;
+  /** Con una plantilla de concepto, el pase es el objeto de ese mundo (tarjeta de embarque…). */
+  motif?: MotifId;
 }) {
+  const kit = conceptKit(motif)?.pass;
   const transport = describeTransport(response, event);
   const ceremony = event.program[0];
   const code = `INV-${group.token.toUpperCase()}-${response.updatedAt.slice(0, 10).replaceAll("-", "")}`;
@@ -48,6 +54,7 @@ export function GuestPass({
     <div id="pase" className="print-area scroll-mt-24">
       <article
         aria-labelledby="pase-title"
+        data-pass={kit ? "concepto" : undefined}
         className="paper-grain relative overflow-hidden rounded-[4px] border border-line bg-paper shadow-[var(--shadow-paper)] sm:grid sm:grid-cols-[minmax(0,1fr)_11rem]"
       >
         {/* Franja holográfica, como la de una entrada auténtica: sus colores se desplazan. */}
@@ -60,6 +67,7 @@ export function GuestPass({
               className="size-10 text-[2.5rem]"
             />
             <div>
+              {kit ? <p className="pass-kicker">{kit.kicker}</p> : null}
               <h3 id="pase-title" className="font-display text-[1.5rem] leading-tight text-ink">
                 Pase de {group.displayName}
               </h3>
@@ -71,7 +79,7 @@ export function GuestPass({
           </div>
           <dl className="mt-5 grid grid-cols-2 gap-x-5 gap-y-4 text-[0.9375rem]">
             <div className="col-span-2">
-              <dt className="text-[0.8125rem] text-muted">Asistentes</dt>
+              <dt className="text-[0.8125rem] text-muted">{kit?.people ?? "Asistentes"}</dt>
               <dd className="text-ink">{response.attendees.map((a) => a.name).join(", ")}</dd>
             </div>
             <div>
@@ -79,11 +87,11 @@ export function GuestPass({
               <dd className="text-ink">{menuSummary(response)}</dd>
             </div>
             <div>
-              <dt className="text-[0.8125rem] text-muted">Mesa</dt>
+              <dt className="text-[0.8125rem] text-muted">{kit?.table ?? "Mesa"}</dt>
               <dd className="text-ink">{group.tableName ?? "Se asignará pronto"}</dd>
             </div>
             <div className="col-span-2">
-              <dt className="text-[0.8125rem] text-muted">Autobús</dt>
+              <dt className="text-[0.8125rem] text-muted">{kit?.bus ?? "Autobús"}</dt>
               <dd className="text-ink">
                 <strong className="font-semibold">{transport.answer}</strong>. {transport.detail}
               </dd>

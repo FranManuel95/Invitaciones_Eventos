@@ -20,7 +20,7 @@ import Image from "next/image";
 import { Petals } from "../effects/petals";
 import { haptic, playPaper } from "../effects/sound";
 import { WaxSealArt } from "../ornaments";
-import type { SealMarkId, SealShapeId } from "@/lib/theme";
+import type { MotifId, SealMarkId, SealShapeId } from "@/lib/theme";
 import { GuestPass } from "./guest-pass";
 import { ResponseDetails } from "./rsvp-summary";
 import { useSavedResponse } from "./use-saved-response";
@@ -34,11 +34,14 @@ export function RsvpSection({
   event,
   group,
   seal,
+  motif,
 }: {
   event: WeddingEvent;
   group: GuestGroup;
   /** El lacre del sobre: al confirmar, sella la respuesta. */
   seal?: { shape: SealShapeId; mark: SealMarkId };
+  /** Motivo de la plantilla, para vestir el pase. */
+  motif?: MotifId;
 }) {
   // La respuesta guardada es compartida con la cabecera y el pase (misma fuente de datos).
   const saved = useSavedResponse(group.token);
@@ -95,7 +98,7 @@ export function RsvpSection({
       <div className="max-w-xl">
         {saved?.status === "attending" && !editing ? (
           <div className="mb-8">
-            <GuestPass event={event} group={group} response={saved} />
+            <GuestPass event={event} group={group} response={saved} motif={motif} />
           </div>
         ) : null}
         {askOnPhoto ? (

@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { FEATURED_TEMPLATE_IDS, TEMPLATES } from "@/lib/theme";
 import { COVER_IDS, COVERS } from "@/lib/theme/cover";
-import { FILMS, OPENING_IDS, OPENINGS } from "@/lib/theme/envelope";
+import { FILMS, OPENINGS, SHOWN_OPENING_IDS } from "@/lib/theme/envelope";
 import { OpeningReel } from "./opening-reel";
 
 /*
@@ -53,7 +53,7 @@ export function OpeningShowcase({ className }: { className?: string }) {
         className,
       )}
     >
-      {OPENING_IDS.map((id) => {
+      {SHOWN_OPENING_IDS.map((id) => {
         const opening = OPENINGS[id];
         return (
           <li key={id} className="relative w-[11.5rem] shrink-0 snap-start lg:w-auto lg:even:mt-14">
