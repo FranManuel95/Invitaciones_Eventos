@@ -1086,6 +1086,22 @@ regalos, en ninguna invitación.
   como parte del producto, y el aviso legal y la privacidad la mencionan. Pendiente de decidir si
   se quitan también.
 
+## Ronda 25: la vista previa del editor ya no se queda sin borrador (17/11/2026)
+
+La prueba «el sobre a medida se ve en la vista previa» fallaba a ratos y se daba por
+intermitente. Midiéndola en paralelo (60 ejecuciones, 6 a la vez), 2 de cada 60 perdían el
+cambio **para siempre** aunque se esperasen 25 s: era un fallo real, no lentitud.
+
+- **Causa**: el editor solo enviaba el borrador cuando la vista previa le avisaba con «ready».
+  Si el iframe cargaba antes de que el editor empezase a escuchar (un móvil o un equipo lento
+  hidratando), ese aviso se perdía y no volvía a enviarse nada: la vista previa se quedaba con
+  el tema de partida.
+- **Arreglo**: saludo en los dos sentidos. El editor llama a la vista previa (`hello`, cada
+  400 ms) hasta que contesta con `ready`, y la vista previa responde `ready` a cada `hello`.
+- Comprobado: 120 de 120 ejecuciones correctas en paralelo.
+- Lección: una intermitencia que se repite no es ruido. Medirla (cuántas veces, con qué margen de
+  tiempo) antes de darla por intermitente.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

@@ -46,6 +46,16 @@ export function PreviewFrame({
     return () => window.removeEventListener("message", onMessage);
   }, []);
 
+  // Si la vista previa cargó antes de que el editor empezase a escuchar, su aviso «ready» se
+  // perdió y nunca llegaría el borrador. Por eso el editor la llama («hello») hasta que contesta.
+  useEffect(() => {
+    if (ready) return;
+    const call = () => post({ type: "hello" });
+    call();
+    const id = window.setInterval(call, 400);
+    return () => window.clearInterval(id);
+  }, [ready]);
+
   // Último borrador válido: si el iframe se recarga mientras hay campos con errores, recibe este.
   const lastDraft = useRef<Draft | null>(null);
   useEffect(() => {
