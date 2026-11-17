@@ -141,11 +141,7 @@ export default function SalesPage() {
       <div className="v-ink relative overflow-hidden">
         <header className={`${shell} flex items-center justify-between gap-6 pt-6`}>
           {/* La marca: eFeLe, la empresa de decoración de eventos, y el servicio. */}
-          <Link
-            href="/"
-            aria-label="Invitaciones eFeLe, inicio"
-            className="flex items-baseline gap-2.5"
-          >
+          <Link href="/" className="flex items-baseline gap-2.5">
             <span className="v-display text-[1.875rem] leading-none">eFeLe</span>
             <span className="text-[0.8125rem] text-[var(--niebla)]">Invitaciones</span>
           </Link>
