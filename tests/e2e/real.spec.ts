@@ -28,7 +28,12 @@ test.describe("recorrido real con Supabase", () => {
     await page.getByLabel("Fecha", { exact: true }).fill("2030-06-15");
     await page.getByRole("button", { name: "Crear invitación" }).click();
 
-    // Tras crearlo se abre el editor: un cambio de estilo y de texto se guarda solo.
+    // Tras crearlo se abre el panel con la guía de primeros pasos, que lleva al editor.
+    await expect(page).toHaveURL(/\/panel\/[0-9a-f-]{36}\?bienvenida=1$/, { timeout: 20_000 });
+    const guide = page.getByRole("region", { name: "Primeros pasos" });
+    await expect(guide.getByText("0 de 4 hechos")).toBeVisible();
+    await guide.getByRole("link", { name: "Ver las plantillas" }).click();
+    // En el editor, un cambio de estilo y de texto se guarda solo.
     await expect(page).toHaveURL(/\/editor\/[0-9a-f-]{36}$/, { timeout: 20_000 });
     const eventId = page.url().split("/").pop()!;
     await page.getByRole("tab", { name: "Colores" }).click();

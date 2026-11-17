@@ -81,3 +81,8 @@ export function validateNewEvent(input: NewEventInput, today = new Date()): stri
   if (input.date <= today.toISOString().slice(0, 10)) return "La fecha tiene que ser futura.";
   return null;
 }
+
+/** La primera fecha que se puede elegir al crear un evento (tiene que ser futura): mañana. */
+export function earliestEventDate(today = new Date()) {
+  return new Date(today.getTime() + 86_400_000).toISOString().slice(0, 10);
+}

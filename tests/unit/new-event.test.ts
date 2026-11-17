@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { buildNewEventContent, slugFor, validateNewEvent } from "@/lib/events/new-event";
+import {
+  buildNewEventContent,
+  earliestEventDate,
+  slugFor,
+  validateNewEvent,
+} from "@/lib/events/new-event";
 
 describe("alta de eventos", () => {
   const input = { first: "Lucía", second: "Íñigo", date: "2028-06-10" };
@@ -22,5 +27,12 @@ describe("alta de eventos", () => {
     expect(validateNewEvent(input, today)).toBeNull();
     expect(validateNewEvent({ ...input, first: " " }, today)).toMatch(/nombres/);
     expect(validateNewEvent({ ...input, date: "2025-01-01" }, today)).toMatch(/futura/);
+  });
+
+  it("la primera fecha que se ofrece es mañana, que ya pasa la validación", () => {
+    const today = new Date("2027-03-10T22:30:00Z");
+    expect(earliestEventDate(today)).toBe("2027-03-11");
+    const input = { first: "Ana", second: "Luis", date: earliestEventDate(today) };
+    expect(validateNewEvent(input, today)).toBeNull();
   });
 });
