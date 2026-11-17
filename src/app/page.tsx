@@ -14,7 +14,7 @@ import "./venta.css";
 export function generateMetadata(): Metadata {
   const url = siteUrl();
   return {
-    title: { absolute: "Invitaciones de boda que se abren como una carta" },
+    title: { absolute: "Invitaciones eFeLe: invitaciones de boda que se abren como una carta" },
     description: `Invitación digital con sobre, lacre y carta, confirmaciones, mesas, menús y lista de regalos. Pago único de ${PRICE_EUR} €.`,
     // Solo con dominio propio: las direcciones de prueba de Vercel no deben indexarse.
     ...(url ? { robots: { index: true, follow: true }, alternates: { canonical: url } } : {}),
@@ -140,7 +140,15 @@ export default function SalesPage() {
       {/* ── Portada: el sobre real que se abre, sobre la tinta ── */}
       <div className="v-ink relative overflow-hidden">
         <header className={`${shell} flex items-center justify-between gap-6 pt-6`}>
-          <p className="v-display text-[1.75rem] leading-none">Invitaciones</p>
+          {/* La marca: eFeLe, la empresa de decoración de eventos, y el servicio. */}
+          <Link
+            href="/"
+            aria-label="Invitaciones eFeLe, inicio"
+            className="flex items-baseline gap-2.5"
+          >
+            <span className="v-display text-[1.875rem] leading-none">eFeLe</span>
+            <span className="text-[0.8125rem] text-[var(--niebla)]">Invitaciones</span>
+          </Link>
           <nav aria-label="Principal" className="flex items-center gap-6 text-[0.9375rem]">
             <a href="#recorrido" className="v-link hidden md:inline">
               Cómo funciona
@@ -447,7 +455,23 @@ export default function SalesPage() {
         <div
           className={`${shell} flex flex-wrap items-center justify-between gap-6 py-10 text-[0.875rem] text-[var(--niebla)]`}
         >
-          <p className="v-display text-[1.5rem] text-[var(--papel)]">Invitaciones</p>
+          <div>
+            <p className="flex items-baseline gap-2.5 text-[var(--papel)]">
+              <span className="v-display text-[1.75rem] leading-none">eFeLe</span>
+              <span className="text-[0.8125rem] text-[var(--niebla)]">Invitaciones</span>
+            </p>
+            <p className="mt-2">
+              Un servicio de eFeLe, decoración de eventos.{" "}
+              <a
+                href="https://www.instagram.com/eventos.efele/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="v-link"
+              >
+                @eventos.efele en Instagram
+              </a>
+            </p>
+          </div>
           <nav aria-label="Pie de página" className="flex flex-wrap gap-x-6 gap-y-2">
             <Link href="/ejemplos" className="v-link">
               Ver todos los ejemplos

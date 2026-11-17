@@ -122,7 +122,7 @@ const sans = Jost({
 });
 
 export const metadata: Metadata = {
-  title: { default: "Invitaciones (demo)", template: "%s | Invitaciones" },
+  title: { default: "Invitaciones eFeLe (demo)", template: "%s | Invitaciones eFeLe" },
   description: "Prototipo de invitaciones digitales premium para bodas y eventos.",
   // Prototipo con datos ficticios: no debe indexarse.
   robots: { index: false, follow: false },
