@@ -5,6 +5,11 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 
 ## Dónde estamos
 
+- **Siguiente paso (17/11/2026): `docs/PLAN-EQUIPO.md`.** Plan para terminar lo que falta antes
+  de vender, repartido en cuatro agentes (editor, `/ejemplos` y decoración, alta de pareja y
+  novedades del panel, bodas de ejemplo y pendientes técnicos), con sus encargos listos para
+  copiar, cómo integrarlos y lo que necesita datos del cliente (producción, legal, precio, `.es`).
+
 - **Línea de trabajo vigente (17/11/2026): plantillas de concepto, las quince hechas.** Gaceta,
   Embarque y Premio están en `claude/tender-franklin-isgz7b` (PR #6). Telegrama y Postal (ronda 19) y las diez restantes (ronda 20) están en `claude/exciting-franklin-43k083`, que parte de esa
   rama y la contiene entera: falta unirla al PR #6 o abrirle un PR propio (decisión del usuario).

@@ -14,6 +14,7 @@ Supabase).
 - Recursos con IA (vídeos de sobres, portadas, efectos con Higgsfield): `docs/HIGGSFIELD.md`.
 - Plantillas de concepto (periódico, tarjeta de embarque, décimo) y lista de las siguientes:
   `docs/CONCEPTOS.md`.
+- Plan de lo que falta para vender, repartido en agentes: `docs/PLAN-EQUIPO.md`.
 - Al empezar una sesión, lee `docs/TRASPASO.md`: estado del trabajo, pendientes y trucos del entorno.
 - Antes de cambiar la interfaz, aplica las skills de `.claude/skills/`:
   - `frontend-design` para la dirección visual;
