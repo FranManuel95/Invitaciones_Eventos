@@ -695,7 +695,7 @@ function TelegramCover({ event, guestName, onOpen, reduce }: ConceptProps) {
         <p className="mt-4 text-[0.5625rem] tracking-[0.14em] uppercase">Texto</p>
         <div
           aria-hidden
-          className="telegram-lines mt-1 flex min-h-[13.25rem] flex-col items-start gap-[0.6875rem] pt-[0.5rem]"
+          className="telegram-lines mt-1 flex min-h-0 flex-1 flex-col items-start gap-[0.6875rem] overflow-hidden pt-[0.5rem]"
         >
           {lines.map((line, i) => {
             const before = starts[i]!;
@@ -724,7 +724,7 @@ function TelegramCover({ event, guestName, onOpen, reduce }: ConceptProps) {
         </div>
 
         {/* El pie del impreso: la firma del remitente y el sello de la oficina. */}
-        <div className="mt-auto flex items-end justify-between gap-4 border-t border-current pt-3">
+        <div className="short-hide mt-3 flex items-end justify-between gap-4 border-t border-current pt-3">
           <div className="min-w-0">
             <p className="text-[0.5625rem] tracking-[0.14em] uppercase">Firma del expedidor</p>
             <p

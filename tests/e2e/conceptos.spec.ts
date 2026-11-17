@@ -36,14 +36,14 @@ const CONCEPTS = [
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
 
-/** Tras la portada llega la apertura de concepto: el objeto de la plantilla con la carta dentro. */
+/** Tras la portada llega el sobre de la plantilla (a pantalla completa o sobre la mesa). */
 async function expectOpened(page: Page) {
-  await expect(page.locator("[data-opening='concepto']")).toBeAttached();
+  await expect(page.locator("#envelope-title")).toBeAttached();
 }
 
 test.describe("plantillas de concepto (segunda tanda)", () => {
-  test("la apertura de concepto trae la carta en el objeto de la plantilla", async ({ page }) => {
-    await page.goto("/i/elena-y-pablo?plantilla=telegrama");
+  test("la apertura de concepto, elegida a mano, trae la carta en el objeto", async ({ page }) => {
+    await page.goto("/i/elena-y-pablo?plantilla=telegrama&apertura=concepto");
     await cover(page, "telegrama")
       .getByRole("button", { name: /toca para abrir/i })
       .click();
@@ -63,6 +63,19 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     expect(
       violations.filter((v) => ["serious", "critical"].includes(v.impact ?? "")).map((v) => v.id),
     ).toEqual([]);
+  });
+
+  test("en pantallas bajas el botón de abrir queda siempre a la vista", async ({ browser }) => {
+    const context = await browser.newContext({ viewport: { width: 375, height: 667 } });
+    const page = await context.newPage();
+    for (const id of [...CONCEPTS.map((c) => c.id), "telegrama", "postal"]) {
+      await page.goto(`/i/familia-garcia?plantilla=${id}`);
+      const open = cover(page, id)
+        .getByRole("button", { name: /toca para abrir/i })
+        .last();
+      await expect(open).toBeInViewport({ ratio: 1 });
+    }
+    await context.close();
   });
 
   test("el pase del invitado se viste del concepto sin perder lo importante", async ({ page }) => {

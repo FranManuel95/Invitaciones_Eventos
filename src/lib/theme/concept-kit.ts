@@ -56,7 +56,7 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
   premio: {
     object: "el sobre de la administración",
     carrier: "Administración de lotería n.º 1",
-    letterhead: "Reverso del décimo · Bases del sorteo",
+    letterhead: "Bases del sorteo",
     signoff: "El premio se recoge en persona",
     pass: { kicker: "Décimo premiado", people: "Agraciados" },
   },

@@ -124,9 +124,11 @@ Antes de enseñar una plantilla de concepto, repasar:
 ## Pendiente en las que ya existen
 
 Hecho en la ronda 21: la carta (membrete y despedida), el pase del invitado y una apertura
-propia («concepto», el objeto de la plantilla trae la carta). Para una plantilla nueva: añadir su
-entrada en `CONCEPT_KITS` (`src/lib/theme/concept-kit.ts`), su `.concept-carrier` en
-`globals.css` si quiere un objeto distinto, y `opening: "concepto"` en la plantilla.
+propia («concepto», el objeto de la plantilla trae la carta). En la ronda 23 las plantillas
+volvieron a sus sobres, que se ven mucho mejor; «concepto» queda como opción del editor. Para una plantilla nueva: añadir su
+entrada en `CONCEPT_KITS` (`src/lib/theme/concept-kit.ts`) y su `.concept-carrier` en
+`globals.css` si quiere un objeto distinto en la apertura opcional. Y comprobar la portada en
+375 × 667: el botón de abrir tiene que verse entero (prueba en `tests/e2e/conceptos.spec.ts`).
 
 Lo que queda:
 

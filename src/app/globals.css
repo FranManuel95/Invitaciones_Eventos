@@ -1698,6 +1698,14 @@ textarea.note-lines {
   transform: scale(1) rotate(0deg);
 }
 
+/* Lo accesorio de una portada se retira en pantallas bajas (iPhone SE, o Safari con sus
+   barras), para que el botón de abrir quede siempre a la vista. */
+@media (max-height: 720px) {
+  .short-hide {
+    display: none !important;
+  }
+}
+
 /* La pantalla de tubo de la recreativa: líneas, viñeta y un brillo en la curva del cristal. */
 .arcade-screen {
   background:

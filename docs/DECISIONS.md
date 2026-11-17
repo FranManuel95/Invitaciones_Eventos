@@ -1044,6 +1044,28 @@ con la skill `frontend-design`, comparando las quince en el mismo móvil.
 - Pruebas: 654 unitarias y 346 E2E en verde. Imágenes de la venta regeneradas con las portadas
   nuevas.
 
+## Ronda 23: auditoría en móviles reales y vuelta a los sobres (17/11/2026)
+
+El usuario notó que había cosas que fallaban y que la calidad estaba bajando. Auditoría con la
+skill `webapp-testing`: las quince recorridas en iPhone SE (375 × 667), iPhone con las barras de
+Safari visibles (390 × 664) e iPhone 13 (390 × 844), midiendo errores, botones fuera de pantalla,
+textos cortados, solapes y desbordes.
+
+- **Lo que fallaba**:
+  - En pantallas bajas, el botón de abrir de Telegrama y de Vinilo quedaba fuera de la vista.
+    Ahora el disco se limita por altura (`w-[min(80%,36svh)]`) y lo accesorio (firma y matasellos
+    del telegrama, créditos del disco) se retira bajo 720 px de alto (`.short-hide`). Hay una
+    prueba que lo vigila en las quince.
+  - El membrete de la carta de Premio salía cortado: ahora es «Bases del sorteo».
+- **Lo que bajaba la calidad**: la apertura «concepto» (ronda 21) había sustituido a los sobres
+  de las quince, también a los de las tres de referencia. Puestos lado a lado, el sobre a pantalla
+  completa con lacre y el sobre sobre la mesa son muy superiores a la tarjeta que se levanta.
+  Cada plantilla vuelve al sobre que tenía; «concepto» queda como opción en el editor
+  (`?apertura=concepto` en la demo).
+- Resultado de la auditoría tras los cambios: sin fallos en las 45 combinaciones.
+- Lección: antes de sustituir una pieza que ya funciona, compararla con la nueva en el mismo
+  móvil; y auditar siempre en pantalla baja (Safari con barras), no solo a 390 × 844.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

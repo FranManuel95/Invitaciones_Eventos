@@ -165,7 +165,7 @@ test.describe("portadas", () => {
     const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
     expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual([]);
     await page.getByRole("button", { name: /toca para abrir/i }).click();
-    await expect(page.locator("[data-opening='concepto']")).toBeAttached();
+    await expect(page.locator("#envelope-title")).toBeAttached();
     await page.getByRole("button", { name: "Saltar intro" }).click();
     const page2 = await page
       .locator("#fecha .motif-sprig")
@@ -184,7 +184,7 @@ test.describe("portadas", () => {
     const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
     expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual([]);
     await page.getByRole("button", { name: /Arrancar el resguardo.*toca para abrir/ }).click();
-    await expect(page.locator("[data-opening='concepto']")).toBeAttached();
+    await expect(page.locator("#envelope-title")).toBeAttached();
   });
 
   test("premio: la fecha se descubre rascando, o con el botón para quien no pueda rascar", async ({
@@ -237,7 +237,7 @@ test.describe("portadas", () => {
     const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
     expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual([]);
     await page.getByRole("button", { name: /Arrancar la tira.*toca para abrir/ }).click();
-    await expect(page.locator("[data-opening='concepto']")).toBeAttached();
+    await expect(page.locator("#envelope-title")).toBeAttached();
     await page.getByRole("button", { name: "Saltar intro" }).click();
     const strip = page.locator("#fecha .motif-sprig");
     expect(await strip.evaluate((el) => getComputedStyle(el, "::before").content)).toContain(
@@ -279,8 +279,8 @@ test.describe("portadas", () => {
     const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
     expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual([]);
     await cover.getByRole("button", { name: /toca para abrir/i }).click();
-    // Debajo espera la postal con la carta dentro.
-    await expect(page.getByRole("button", { name: "Abrir la postal" })).toBeVisible();
+    // Debajo espera el sobre en la mesa.
+    await expect(page.getByRole("button", { name: "Abrir el sobre" })).toBeVisible();
     await page.getByRole("button", { name: "Saltar intro" }).click();
     const stamp = page.locator("#fecha .motif-sprig");
     // Cada sección lleva su sello, con el valor que le toca (5, 10, 15…).

@@ -100,7 +100,11 @@ function VinylCover({ event, guestName, onOpen, reduce }: ConceptProps) {
     >
       <div aria-hidden className="paper-grain absolute inset-0 opacity-50" />
       <div className="relative mx-auto flex h-full w-full max-w-[26rem] flex-col px-6 pt-[max(4.25rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-        <Arrive reduce={reduce} tilt={-2.5} className="relative aspect-square w-[80%] shrink-0">
+        <Arrive
+          reduce={reduce}
+          tilt={-2.5}
+          className="relative aspect-square w-[min(80%,36svh)] shrink-0"
+        >
           {/* El disco: asoma por la derecha y se saca tirando de él. */}
           <div
             {...pull.handlers}
@@ -212,7 +216,7 @@ function VinylCover({ event, guestName, onOpen, reduce }: ConceptProps) {
             {event.welcomeMessage}
           </p>
           {/* Los créditos del disco: quién lo firma y quién está invitado a tocarlo. */}
-          <dl className="mt-3 grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-1 border-t border-current/40 pt-2 text-[0.8125rem]">
+          <dl className="short-hide mt-3 grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-1 border-t border-current/40 pt-2 text-[0.8125rem]">
             <dt className="opacity-80">Producción</dt>
             <dd className="truncate font-medium">{names(event)}</dd>
             <dt className="opacity-80">Colaboración especial</dt>

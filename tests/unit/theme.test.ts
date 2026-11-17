@@ -145,8 +145,10 @@ describe("plantillas de concepto: carta, pase y apertura", () => {
       // Lo importante del pase sigue diciendo mesa y autobús.
       if (kit!.pass.table) expect(kit!.pass.table.toLowerCase(), id).toMatch(/mesa/);
       if (kit!.pass.bus) expect(kit!.pass.bus.toLowerCase(), id).toMatch(/autob/);
+      // Cada plantilla conserva su sobre (más cuidado que la apertura «concepto», que queda como
+      // opción en el editor).
       const template = Object.values(TEMPLATES).find((t) => t.look.motif === id);
-      expect(template?.look.opening, id).toBe("concepto");
+      expect(template?.look.opening, id).not.toBe("concepto");
     }
     // Los motivos de acuarela y «sin motivo» no tienen kit.
     expect(conceptKit("ninguno")).toBeNull();
