@@ -883,6 +883,26 @@ Mientras no lleguen las fotos reales, los huecos llevan una ilustración del mis
   transparencia, están en `public/acuarelas/`. El lacre lila es el de hoja, virado de color.
   Lino y Eucalipto no llevan motivo todavía: es fácil añadirlo si la prueba gusta.
 
+## Ronda 18: tres plantillas de concepto (Gaceta, Embarque y Premio)
+
+Se pidió explorar más allá de «fondo bonito con los nombres encima». Tres portadas que son un
+objeto entero, cada una con una interacción nueva, y que visten también el interior:
+
+- **Gaceta** (portada `gaceta`, estilo `prensa`): la portada de un periódico con cabecera,
+  titular («… se casan»), foto en trama de puntos, entradilla con capitular y sumario con el
+  programa. Dentro, cada sección es una «Página N» (contador CSS) y las fotos van en gris.
+- **Embarque** (`embarque`, `aeropostal`): tarjeta de embarque a nombre de la invitación
+  (origen «Soltería», destino las tres primeras letras de la ciudad), panel de salidas con el
+  programa y un resguardo que se arranca para abrir. Dentro, borde de correo aéreo y matasellos
+  con la fecha en cada sección.
+- **Premio** (`premio`, `decimo`): un décimo con filigrana (rosetas de hipotrocoide dibujadas
+  por código) y la fecha bajo una capa dorada que se rasca en un lienzo; al quitar el 42 % se
+  retira sola. La fecha está siempre en la página y hay un botón «Descubrir sin rascar».
+- Código: `src/features/invitation/cover/concepts.tsx` (portadas), `CONCEPT_COVERS` e
+  `isLightCover` en `cover.ts`, y los motivos de tipo «concepto» al final de `globals.css`.
+  El rótulo de cada sección (`.motif-sprig`) sirve para las ramas de acuarela y para estos.
+- Sus bodas de ejemplo reutilizan otras con `retitle`, como las anteriores.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

@@ -1242,7 +1242,7 @@ textarea.note-lines {
   display: none;
 }
 /* Cada sección se anuncia con su ramita en lugar de la raya dorada. */
-[data-motif] .motif-sprig {
+[data-motif-kind="acuarela"] .motif-sprig {
   display: block;
   height: 5rem;
   width: calc(5rem * var(--motif-ratio));
@@ -1259,7 +1259,7 @@ textarea.note-lines {
   background: var(--motif-cover) center / cover no-repeat;
 }
 /* La carta: una rama en la esquina del papel y un lacre de verdad que pisa el borde. */
-[data-motif] .motif-letter {
+[data-motif-kind="acuarela"] .motif-letter {
   display: block;
   position: absolute;
   inset: 0;
@@ -1282,7 +1282,7 @@ textarea.note-lines {
   border-radius: inherit;
 }
 /* Sitio para el lacre bajo el botón de la carta. */
-[data-motif] article[data-layout]:has(> .motif-letter) {
+[data-motif-kind="acuarela"] article[data-layout]:has(> .motif-letter) {
   padding-bottom: 6rem;
 }
 .motif-letter-seal {
@@ -1297,7 +1297,7 @@ textarea.note-lines {
   filter: drop-shadow(0 6px 8px rgb(0 0 0 / 0.22));
 }
 /* El cierre: dos ramas enfrentadas y el lacre en medio. */
-[data-motif] .motif-closing {
+[data-motif-kind="acuarela"] .motif-closing {
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -1322,4 +1322,172 @@ textarea.note-lines {
   margin-bottom: 0.5rem;
   background: var(--motif-seal) center / contain no-repeat;
   filter: drop-shadow(0 8px 12px rgb(0 0 0 / 0.25));
+}
+
+/*
+ * Motivos de concepto: la invitación se viste con el objeto de su portada. Aquí el «sprig» de
+ * cada sección no es una rama sino un rótulo (número de página, matasellos o número de serie).
+ */
+
+/* Gaceta: cada sección es una página numerada del periódico, con las fotos en blanco y negro. */
+[data-motif="gaceta"] {
+  counter-reset: pagina 1;
+}
+[data-motif="gaceta"] .motif-hero {
+  background: var(--color-paper);
+  border-bottom: 4px double var(--color-ink);
+}
+/* El antetítulo rojo de la portada se repite sobre los nombres. */
+[data-motif="gaceta"] #content-title::before {
+  content: "Edición especial";
+  display: block;
+  margin-bottom: 0.9rem;
+  padding-top: 0.6rem;
+  border-top: 3px solid var(--color-ink);
+  color: var(--color-gold);
+  font: 600 0.6875rem / 1 var(--font-sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+[data-motif="gaceta"] section[id] {
+  counter-increment: pagina;
+}
+[data-motif="gaceta"] .motif-sprig {
+  display: block;
+  margin-bottom: 1.1rem;
+  padding: 0.35rem 0;
+  border-top: 3px solid var(--color-ink);
+  border-bottom: 1px solid var(--color-ink);
+  font: 600 0.6875rem / 1 var(--font-sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+[data-motif="gaceta"] .motif-sprig::before {
+  content: "Página " counter(pagina);
+}
+[data-motif="gaceta"] section img {
+  filter: grayscale(1) contrast(1.08);
+}
+[data-motif="gaceta"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.125rem;
+  color: var(--color-ink-soft);
+}
+[data-motif="gaceta"] .motif-closing::before {
+  content: "— Fin de la edición —";
+}
+
+/* Embarque: borde de correo aéreo y, en cada sección, un matasellos con la fecha. */
+[data-motif="embarque"] {
+  --airmail: repeating-linear-gradient(
+    135deg,
+    var(--color-gold) 0 12px,
+    var(--color-paper) 12px 24px,
+    var(--color-ink) 24px 36px,
+    var(--color-paper) 36px 48px
+  );
+}
+[data-motif="embarque"] .motif-hero {
+  background: linear-gradient(180deg, var(--scene-2), var(--color-paper) 72%);
+}
+[data-motif="embarque"] .motif-hero::before,
+[data-motif="embarque"] .motif-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 0.6rem;
+  background: var(--airmail);
+}
+[data-motif="embarque"] .motif-hero::after {
+  inset: auto 0 0;
+}
+[data-motif="embarque"] .motif-sprig {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 5.25rem;
+  height: 5.25rem;
+  margin-bottom: 0.9rem;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  outline: 1px solid currentColor;
+  outline-offset: -8px;
+  color: var(--color-gold);
+  font: 600 0.8125rem / 1 var(--font-sans);
+  letter-spacing: 0.06em;
+  transform: rotate(-11deg);
+  opacity: 0.85;
+}
+[data-motif="embarque"] .motif-sprig::before {
+  content: var(--motif-stamp);
+}
+/* Las rayas onduladas del matasellos, a la derecha del círculo. */
+[data-motif="embarque"] .motif-sprig::after {
+  content: "";
+  position: absolute;
+  left: 5.6rem;
+  top: 1.35rem;
+  width: 5rem;
+  height: 2.4rem;
+  background: repeating-linear-gradient(180deg, currentColor 0 1.5px, transparent 1.5px 8px);
+  mask: url("/ornamentos/filigrana.svg") center / 100% 100%;
+  opacity: 0.9;
+}
+[data-motif="embarque"] .motif-closing {
+  display: block;
+  height: 0.6rem;
+  margin-top: 3rem;
+  background: var(--airmail);
+}
+
+/* Premio: número de serie en rojo y una banda de filigrana, como en un décimo. */
+[data-motif="premio"] .motif-hero {
+  background: var(--color-paper);
+}
+[data-motif="premio"] .motif-hero::before {
+  content: "";
+  position: absolute;
+  top: -9rem;
+  right: -9rem;
+  width: 26rem;
+  height: 26rem;
+  background: var(--color-gold);
+  mask: url("/ornamentos/roseta.svg") center / contain no-repeat;
+  opacity: 0.4;
+}
+[data-motif="premio"] .motif-sprig {
+  display: block;
+  margin-bottom: 0.9rem;
+  color: var(--color-danger);
+  font: 600 0.9375rem / 1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  letter-spacing: 0.12em;
+}
+[data-motif="premio"] .motif-sprig::before {
+  content: var(--motif-serial);
+}
+[data-motif="premio"] .motif-sprig::after {
+  content: "";
+  display: block;
+  width: 9rem;
+  height: 0.9rem;
+  margin-top: 0.5rem;
+  background: var(--color-gold);
+  mask: url("/ornamentos/filigrana.svg") left center / 4.5rem 100% repeat-x;
+}
+[data-motif="premio"] .motif-closing {
+  display: block;
+  width: 9rem;
+  height: 9rem;
+  margin: 3rem auto 0;
+  background: var(--color-gold);
+  mask: url("/ornamentos/roseta.svg") center / contain no-repeat;
+  opacity: 0.7;
+}
+[data-motif-kind="concepto"] .motif-closing > * {
+  display: none;
 }

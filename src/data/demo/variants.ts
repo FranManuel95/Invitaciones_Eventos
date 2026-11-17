@@ -1067,6 +1067,49 @@ const eucalipto = retitle(olivar, {
   coverPhoto: "/fotos/olivar/historia-2.jpg",
 });
 
+const gaceta = retitle(terciopelo, {
+  id: "evt-demo-clara-mateo",
+  first: "Clara",
+  second: "Mateo",
+  date: "2027-10-23T18:30:00+02:00",
+  rsvpDeadline: "2027-09-15T23:59:00+02:00",
+  coverPhoto: "/fotos/buganvilla/pareja.jpg",
+  palette: [
+    { name: "Negro tinta", hex: "#161513" },
+    { name: "Blanco roto", hex: "#f4f1e8" },
+    { name: "Rojo titular", hex: "#a3221b" },
+    { name: "Gris plomo", hex: "#76726a" },
+  ],
+});
+const embarque = retitle(orilla, {
+  id: "evt-demo-noa-alex",
+  first: "Noa",
+  second: "Álex",
+  date: "2027-07-10T19:00:00+02:00",
+  rsvpDeadline: "2027-06-01T23:59:00+02:00",
+  coverPhoto: "/fotos/buganvilla/historia-2.jpg",
+  palette: [
+    { name: "Azul marino", hex: "#14233f" },
+    { name: "Rojo correo", hex: "#b3312a" },
+    { name: "Crema", hex: "#f8f4ea" },
+    { name: "Azul cielo", hex: "#b5c8dc" },
+  ],
+});
+const premio = retitle(buganvilla, {
+  id: "evt-demo-sofia-diego",
+  first: "Sofía",
+  second: "Diego",
+  date: "2027-12-18T12:30:00+01:00",
+  rsvpDeadline: "2027-11-10T23:59:00+01:00",
+  coverPhoto: "/fotos/buganvilla/portada.jpg",
+  palette: [
+    { name: "Verde imprenta", hex: "#1b3527" },
+    { name: "Oro viejo", hex: "#b08a2e" },
+    { name: "Rojo sorteo", hex: "#a3221b" },
+    { name: "Papel", hex: "#ebe7d4" },
+  ],
+});
+
 const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   buganvilla,
   olivar,
@@ -1077,6 +1120,9 @@ const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   lino,
   granada,
   eucalipto,
+  gaceta,
+  embarque,
+  premio,
 };
 
 /** La boda ficticia propia de una plantilla, si la tiene. */

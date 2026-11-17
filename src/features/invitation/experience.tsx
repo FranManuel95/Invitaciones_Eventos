@@ -24,7 +24,8 @@ import type { GuestGroup, RsvpResponse, WeddingEvent } from "@/lib/domain/types"
 import {
   DEFAULT_THEME,
   isPaintedCover,
-  PAINTED_COVERS,
+  isLightCover,
+  MOTIFS,
   STYLES,
   themeVars,
   type Theme,
@@ -55,6 +56,28 @@ const loadContent = () =>
   import("./content/invitation-content").then((mod) => mod.InvitationContent);
 
 const noopSubscribe = () => () => {};
+
+/**
+ * Variables del motivo: la pintura de la cabecera (solo con portada pintada) y, para los de
+ * concepto, la fecha que estampan el matasellos y el número de serie.
+ */
+function motifVars(theme: Theme, date: string): Record<string, string> {
+  const parts = new Intl.DateTimeFormat("es-ES", {
+    timeZone: "Europe/Madrid",
+    day: "2-digit",
+    month: "2-digit",
+    year: "2-digit",
+  }).formatToParts(new Date(date));
+  const get = (type: string) => parts.find((p) => p.type === type)?.value ?? "";
+  const [dd, mm, yy] = [get("day"), get("month"), get("year")];
+  return {
+    ...(isPaintedCover(theme.cover)
+      ? { "--motif-cover": `url(/portadas/${theme.cover}-fondo.webp)` }
+      : {}),
+    "--motif-stamp": `"${dd}·${mm}·${yy}"`,
+    "--motif-serial": `"N.º ${dd}${mm}${yy}"`,
+  };
+}
 
 // Apertura elegida en el tema: todas reciben las mismas props y acaban en la carta.
 const OPENINGS = {
@@ -195,7 +218,7 @@ export function InvitationExperience({
       }
     : event;
   // Las portadas pintadas en claro piden los botones de arriba en tinta.
-  const lightCover = isPaintedCover(theme.cover) && PAINTED_COVERS[theme.cover].tone === "claro";
+  const lightCover = isLightCover(theme.cover);
   const onDark = (stage === "cover" && !lightCover) || stage === "brief";
   // La barra del navegador (Safari en el iPhone) acompaña a la pantalla: oscura en las portadas
   // oscuras y del color del papel de la plantilla en el resto.
@@ -219,15 +242,13 @@ export function InvitationExperience({
           <div
             data-style={theme.style}
             data-motif={theme.motif === "ninguno" ? undefined : theme.motif}
+            data-motif-kind={MOTIFS[theme.motif].kind ?? undefined}
             data-dark={STYLES[theme.style].dark ? "" : undefined}
             className="min-h-dvh bg-ivory text-ink"
             style={
               theme.motif === "ninguno"
                 ? themeVars(theme)
-                : ({
-                    ...themeVars(theme),
-                    "--motif-cover": `url(/portadas/${theme.cover}-fondo.webp)`,
-                  } as CSSProperties)
+                : ({ ...themeVars(theme), ...motifVars(theme, event.date) } as CSSProperties)
             }
           >
             {intro ? (
@@ -301,6 +322,7 @@ export function InvitationExperience({
                 event={event}
                 scene={theme.cover}
                 effect={theme.coverEffect}
+                guestName={group.displayName}
                 onOpen={() => go("envelope")}
               />
             ) : null}

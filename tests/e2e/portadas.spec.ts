@@ -150,4 +150,70 @@ test.describe("portadas", () => {
     await expect(page.locator("header.motif-hero")).toHaveCount(0);
     await expect(page.locator("#fecha .motif-sprig")).toBeHidden();
   });
+
+  test("gaceta: la portada es un periódico y dentro las secciones son páginas numeradas", async ({
+    page,
+  }) => {
+    await page.goto("/i/familia-garcia?plantilla=gaceta");
+    await expect(
+      page.getByRole("heading", { level: 1, name: /Clara y Mateo.*se casan/ }),
+    ).toBeVisible();
+    await expect(page.getByText("La Gaceta", { exact: true })).toBeVisible();
+    const { violations } = await new AxeBuilder({ page }).analyze();
+    const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
+    expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual([]);
+    await page.getByRole("button", { name: /toca para abrir/i }).click();
+    await expect(page.locator("[data-opening='pantalla']")).toBeAttached();
+    await page.getByRole("button", { name: "Saltar intro" }).click();
+    const page2 = await page
+      .locator("#fecha .motif-sprig")
+      .evaluate((el) => getComputedStyle(el, "::before").content);
+    expect(page2).toContain("Página");
+  });
+
+  test("embarque: el billete va a nombre del invitado y se abre arrancando el resguardo", async ({
+    page,
+  }) => {
+    await page.goto("/i/familia-garcia?plantilla=embarque");
+    await expect(page.getByRole("heading", { level: 1, name: /Noa & Álex/ })).toBeVisible();
+    await expect(page.getByRole("article").getByText("Familia García")).toBeVisible();
+    await expect(page.getByText("VEJ", { exact: true })).toBeVisible();
+    const { violations } = await new AxeBuilder({ page }).analyze();
+    const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
+    expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual([]);
+    await page.getByRole("button", { name: /Arrancar el resguardo.*toca para abrir/ }).click();
+    await expect(page.locator("[data-opening='pantalla']")).toBeAttached();
+  });
+
+  test("premio: la fecha se descubre rascando, o con el botón para quien no pueda rascar", async ({
+    page,
+  }) => {
+    await page.goto("/i/familia-garcia?plantilla=premio");
+    await expect(page.getByRole("heading", { level: 1, name: /Sofía/ })).toBeVisible();
+    const foil = page.locator("canvas[data-scratch]");
+    await expect(foil).toHaveAttribute("data-scratch", "pendiente");
+    // Rascar con el puntero no levanta la portada: solo borra la capa dorada.
+    const box = (await foil.boundingBox())!;
+    await page.mouse.move(box.x + 12, box.y + 14);
+    await page.mouse.down();
+    for (let row = 0; row < 5; row += 1) {
+      const y = box.y + 14 + (row * (box.height - 28)) / 4;
+      await page.mouse.move(box.x + (row % 2 ? 12 : box.width - 12), y, { steps: 14 });
+    }
+    await page.mouse.up();
+    await expect(foil).toHaveAttribute("data-scratch", "hecho");
+    await expect(page.locator("#cover-title")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Descubrir sin rascar" })).toHaveCount(0);
+
+    // Sin rascar: el botón hace lo mismo, y la fecha está siempre en la página.
+    await page.reload();
+    await expect(
+      page.locator("[data-cover='premio']").getByText("18 de diciembre de 2027", { exact: true }),
+    ).toBeAttached();
+    await page.getByRole("button", { name: "Descubrir sin rascar" }).click();
+    await expect(page.locator("canvas[data-scratch]")).toHaveAttribute("data-scratch", "hecho");
+    const { violations } = await new AxeBuilder({ page }).analyze();
+    const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
+    expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual([]);
+  });
 });

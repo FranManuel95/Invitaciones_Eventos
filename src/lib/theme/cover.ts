@@ -23,6 +23,9 @@ export const COVER_IDS = [
   "lino",
   "granada",
   "eucalipto",
+  "gaceta",
+  "embarque",
+  "premio",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -96,7 +99,39 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Eucalipto",
     description: "Ramas de eucalipto sobre verde gris, con un lacre de hoja.",
   },
+  gaceta: {
+    label: "Gaceta",
+    description:
+      "La portada de un periódico: cabecera, titular con vuestros nombres y foto en trama.",
+  },
+  embarque: {
+    label: "Tarjeta de embarque",
+    description: "Un billete a nombre del invitado que se abre arrancando el resguardo.",
+  },
+  premio: {
+    label: "Décimo premiado",
+    description: "Un décimo de lotería con la fecha bajo una capa dorada que se rasca.",
+  },
 };
+
+/**
+ * Portadas de concepto: no son un fondo con los nombres encima, sino un objeto entero (un
+ * periódico, un billete, un décimo) con su propia composición. `paper` e `ink` son los colores
+ * de la hoja; todas son claras.
+ */
+export const CONCEPT_COVERS = {
+  gaceta: { ink: "#161513", paper: "#f4f1e8" },
+  embarque: { ink: "#14233f", paper: "#dfe8f1" },
+  premio: { ink: "#1b3527", paper: "#f5f2e4" },
+} as const satisfies Partial<Record<CoverId, { ink: string; paper: string }>>;
+export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
+export function isConceptCover(id: CoverId): id is ConceptCoverId {
+  return id in CONCEPT_COVERS;
+}
+/** Si los botones que van encima de la portada deben ir en tinta (portada clara) o en blanco. */
+export function isLightCover(id: CoverId) {
+  return isConceptCover(id) || (isPaintedCover(id) && PAINTED_COVERS[id].tone === "claro");
+}
 
 /**
  * Fondos pintados: una imagen en `public/portadas/<id>.webp`. Los claros llevan los nombres en
@@ -149,11 +184,26 @@ export function seeded(seed: number) {
  * cierre siguen pintados, cada sección lleva su ramita, y la carta, una esquina pintada y un
  * lacre de verdad. Las imágenes están en `public/acuarelas/<id>.webp` y `<id>-lacre.webp`.
  */
-export const MOTIF_IDS = ["ninguno", "lavanda", "pampa", "olivo"] as const;
+export const MOTIF_IDS = [
+  "ninguno",
+  "lavanda",
+  "pampa",
+  "olivo",
+  "gaceta",
+  "embarque",
+  "premio",
+] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
-export const MOTIFS: Record<MotifId, { label: string }> = {
-  ninguno: { label: "Sin motivo" },
-  lavanda: { label: "Lavanda en acuarela" },
-  pampa: { label: "Plumeros de la pampa" },
-  olivo: { label: "Olivo en oro" },
+/**
+ * `kind`: «acuarela» lleva ramas y lacre recortados; «concepto» viste la invitación con el
+ * objeto de su portada (páginas de periódico, matasellos, número de serie).
+ */
+export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concepto" | null }> = {
+  ninguno: { label: "Sin motivo", kind: null },
+  lavanda: { label: "Lavanda en acuarela", kind: "acuarela" },
+  pampa: { label: "Plumeros de la pampa", kind: "acuarela" },
+  olivo: { label: "Olivo en oro", kind: "acuarela" },
+  gaceta: { label: "Periódico", kind: "concepto" },
+  embarque: { label: "Correo aéreo", kind: "concepto" },
+  premio: { label: "Décimo de lotería", kind: "concepto" },
 };
