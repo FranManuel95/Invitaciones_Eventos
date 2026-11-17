@@ -17,32 +17,34 @@ test.describe("página de venta", () => {
     await expect(page.getByRole("heading", { name: "Invitaciones de ejemplo" })).toBeVisible();
   });
 
-  test("enseña las plantillas y explica el producto con capturas", async ({ page }) => {
+  test("cuenta el recorrido del invitado paso a paso, con el sobre en vídeo", async ({ page }) => {
     await page.goto("/");
-    // En la portada no se enseñan las aperturas en marcha: están en /ejemplos y en el editor.
-    await expect(page.getByRole("region", { name: /cómo se abre/ })).toHaveCount(0);
-    for (const name of [
-      "Lo que recibe cada invitado",
-      "Confirma en un minuto",
-      "La editáis vosotros",
-      "Lo que tenéis vosotros",
-    ]) {
-      await expect(page.getByRole("region", { name })).toBeVisible();
+    // La portada: el sobre real en bucle, que se puede parar.
+    await page.getByRole("button", { name: "Pausar el vídeo del sobre" }).click();
+    await expect(page.getByRole("button", { name: "Reproducir el vídeo del sobre" })).toBeVisible();
+    const journey = page.getByRole("region", { name: "Así la vive cada invitado" });
+    await expect(journey.getByRole("listitem")).toHaveCount(7);
+    await expect(journey.getByRole("heading", { name: "Rompe el lacre" })).toBeAttached();
+    for (const name of ["Y vosotros, la boda en orden", "Un precio, sin letra pequeña"]) {
+      await expect(page.getByRole("region", { name })).toBeAttached();
     }
-    await expect(
-      page.getByRole("region", { name: "Confirma en un minuto" }).getByRole("listitem"),
-    ).toHaveCount(5);
-    await expect(page.getByText(/También elegís cómo se abre: sobre en la mesa,/)).toBeVisible();
-    const templates = page.getByRole("region", { name: "Plantillas para empezar" });
-    // Solo se enseñan las plantillas que se abren con un vídeo real.
-    // En la portada solo ocho, de familias distintas; el catálogo entero está en /ejemplos.
-    await expect(templates.getByRole("link", { name: /^(?!Ver las)/ })).toHaveCount(8);
-    await expect(
-      templates.getByRole("link", { name: "Ver las veinticinco plantillas" }),
-    ).toHaveAttribute("href", "/ejemplos#plantillas");
-    await expect(templates.getByText("Se abre con: caja esmeralda con lazo dorado.")).toBeVisible();
-    await templates.getByRole("link", { name: "Terciopelo", exact: true }).click();
-    await expect(page).toHaveURL(/plantilla=terciopelo/);
+  });
+
+  test("el muestrario enseña las veinticinco plantillas por familias", async ({ page }) => {
+    await page.goto("/");
+    const book = page.getByRole("region", { name: "Veinticinco plantillas para empezar" });
+    const papel = book.getByRole("tab", { name: /Papel y acuarela/ });
+    await expect(papel).toHaveAttribute("aria-selected", "true");
+    await expect(book.getByRole("tabpanel").getByRole("link")).toHaveCount(10);
+    // Con el teclado se pasa a la otra familia.
+    await papel.focus();
+    await page.keyboard.press("ArrowRight");
+    const objetos = book.getByRole("tab", { name: /Objetos/ });
+    await expect(objetos).toHaveAttribute("aria-selected", "true");
+    await expect(objetos).toBeFocused();
+    await expect(book.getByRole("tabpanel").getByRole("link")).toHaveCount(15);
+    await book.getByRole("link", { name: "Gaceta", exact: true }).click();
+    await expect(page).toHaveURL(/plantilla=gaceta/);
   });
 
   test("el formulario marca los errores y conserva lo escrito", async ({ page }) => {

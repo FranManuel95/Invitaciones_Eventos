@@ -1125,6 +1125,30 @@ y aperturas) integrada en la rama de trabajo, con estos cambios:
   `globals.css` queda solo la regla que oculta los rótulos del motivo cuando no hay motivo.
 - Regalos y vestimenta: ver la ronda 24.
 
+## Ronda 27: rediseño de la página de venta (17/11/2026)
+
+La venta caía en el tópico de crema cálido con Bodoni, con ocho secciones iguales (título, texto,
+rejilla de móviles) y sin usar el mejor recurso: el vídeo real del sobre.
+
+- **Paleta propia de la venta** (`src/app/venta.css`, solo se carga en `/`): tinta de estilográfica
+  `#1b2033` como campo, oro de estampación `#c8a45c` para filetes (y `#86662a` cuando es texto
+  sobre papel, por contraste), lacre `#8a2433` para la acción principal y papel `#f4f2ed`.
+- **Letra**: Italiana para los titulares (didona fina, como de grabado) y Jost para el texto.
+  Las cifras van en Bodoni (`.v-num`): en Italiana el «1» parece una «I».
+- **Portada**: el vídeo del sobre blanco abriéndose en bucle, sin sonido, que entra y sale
+  fundiéndose con la tinta (`public/venta/portada-sobre.*`, sacado de
+  `aperturas/sobre-dorado/vertical.mp4`). Se puede parar; con movimiento reducido no arranca.
+- **Recorrido del invitado** (`features/sales/journey.tsx`): siete pasos numerados, todos en la
+  plantilla Arcilla. En escritorio el móvil se queda fijo y cambia de pantalla según el paso que
+  se lee; el paso activo lleva un filete de oro (no se atenúan los demás: perdían contraste). En
+  el móvil, cada paso lleva su pantalla. Al final, la invitación de ejemplo para probarla.
+- **Muestrario** (`features/sales/sample-book.tsx`): las veinticinco plantillas en dos pestañas
+  (Papel y acuarela, Objetos), en un carril que llega al borde de la pantalla, con flechas y
+  teclado. Sustituye a las ocho destacadas (se quitó `SALES_TEMPLATE_IDS`).
+- **Precio**: una tarjeta impresa con filete doble y un lacre dorado fotografiado
+  (`public/venta/lacre-oro.webp`, recortado de la imagen de Higgsfield).
+- Preguntas y formulario, juntos al final; el formulario va en una tarjeta con el borde de lacre.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

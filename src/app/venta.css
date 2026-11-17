@@ -1,0 +1,140 @@
+/*
+ * Página de venta. Paleta propia, distinta de la de las invitaciones: la tinta de una estilográfica
+ * como campo, el oro de la estampación para los filetes y el lacre para la acción principal.
+ * Solo se carga en esta página.
+ */
+.venta {
+  --tinta: #1b2033;
+  --tinta-2: #242a41;
+  --tinta-3: #343c5a;
+  --papel: #f4f2ed;
+  --papel-2: #e9e5dc;
+  --oro: #c8a45c;
+  --oro-claro: #e2cb93;
+  /* El oro como texto sobre papel: más oscuro, para que se lea (4,9:1). */
+  --oro-tinta: #86662a;
+  --lacre: #8a2433;
+  --grafito: #4a4e5d;
+  --niebla: #b9bccb;
+  background: var(--papel);
+  color: var(--tinta);
+}
+
+/* Titulares: Italiana, una didona fina como de grabado. Solo en tamaños grandes. */
+.venta .v-display {
+  font-family: var(--font-italiana), "Didot", "Bodoni 72", serif;
+  font-weight: 400;
+  letter-spacing: -0.012em;
+  font-feature-settings: "lnum";
+}
+
+/* Cifras: en Italiana el «1» parece una «I»; los números van en Bodoni. */
+.venta .v-num {
+  font-family: var(--font-bodoni), "Didot", Georgia, serif;
+  font-weight: 400;
+  font-variant-numeric: lining-nums;
+}
+
+/* Zonas de tinta: el texto pasa a papel y los enlaces subrayan en oro. */
+.venta .v-ink {
+  background: var(--tinta);
+  color: var(--papel);
+}
+
+/* Enlace de texto: subrayado fino que se vuelve sólido al pasar. */
+.venta .v-link {
+  text-decoration: underline;
+  text-decoration-color: var(--oro);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+  transition: text-decoration-color 0.2s;
+}
+.venta .v-link:hover {
+  text-decoration-color: currentColor;
+}
+
+/* Botones de la página. */
+.venta .v-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0 1.5rem;
+  border-radius: 999px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+.venta .v-btn-lacre {
+  background: var(--lacre);
+  color: #fff;
+}
+.venta .v-btn-lacre:hover {
+  background: #74192a;
+}
+.venta .v-btn-papel {
+  background: var(--papel);
+  color: var(--tinta);
+}
+.venta .v-btn-papel:hover {
+  background: #fff;
+}
+.venta :focus-visible {
+  outline: 2px solid var(--oro);
+  outline-offset: 3px;
+}
+
+/* Filete doble en oro, como el de una tarjeta impresa. */
+.venta .v-filete {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--oro) 70%, transparent),
+    inset 0 0 0 6px var(--papel),
+    inset 0 0 0 7px color-mix(in oklab, var(--oro) 45%, transparent);
+}
+
+/* Recorrido: la pantalla del móvil cambia con un fundido corto (solo si se permite movimiento). */
+.venta .v-screen {
+  opacity: 0;
+}
+.venta .v-screen[data-active] {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .venta .v-screen {
+    transition: opacity 0.45s ease;
+  }
+  .venta .v-step {
+    transition: border-color 0.3s ease;
+  }
+}
+/* El paso que se está leyendo lleva un filete de oro a la izquierda; los demás, uno gris. */
+@media (min-width: 1024px) {
+  .venta .v-step {
+    border-left: 2px solid var(--papel-2);
+    padding-left: 2.5rem;
+  }
+  .venta .v-step[data-active] {
+    border-left-color: var(--oro-tinta);
+  }
+}
+
+/* Muestrario: carril horizontal sin barra de desplazamiento visible. */
+.venta .v-rail {
+  scrollbar-width: none;
+}
+/* En pantallas anchas, el carril llega hasta el borde derecho de la ventana. */
+@media (min-width: 1024px) {
+  .venta .v-rail {
+    --fuera: max(2.5rem, calc((100vw - 72rem) / 2 + 2.5rem));
+    margin-right: calc(-1 * var(--fuera));
+    padding-right: var(--fuera);
+    scroll-padding-right: var(--fuera);
+  }
+}
+.venta .v-rail::-webkit-scrollbar {
+  display: none;
+}
