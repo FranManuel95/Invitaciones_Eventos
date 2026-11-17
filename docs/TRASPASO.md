@@ -5,6 +5,12 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 
 ## Dónde estamos
 
+- **Línea de trabajo vigente (17/11/2026): plantillas de concepto.** Gaceta, Embarque y Premio
+  ya están en la rama `claude/tender-franklin-isgz7b`. `docs/CONCEPTOS.md` explica cómo están
+  hechas, la receta para hacer otra, el nivel de acabado exigido y doce ideas más con su ficha.
+  Empezar por ahí. Las rondas 14 a 18 de `docs/DECISIONS.md` cuentan lo último: las diez
+  plantillas con vídeo, las cinco con paleta y portada propias, el motivo de acuarela y el panel.
+
 - **Ramas** (13/11/2026). Ojo: hay varias líneas de trabajo y **lo que no está en `main` no está
   en producción**. Antes de empezar, `git fetch` y `git branch -r`, y para cada rama
   `git log origin/main..origin/<rama>`.
