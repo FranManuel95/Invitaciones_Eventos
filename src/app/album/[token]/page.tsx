@@ -17,8 +17,11 @@ export async function generateMetadata(props: PageProps<"/album/[token]">): Prom
 
 export default async function AlbumPage(props: PageProps<"/album/[token]">) {
   const { token } = await props.params;
-  const album = await getAlbum(token);
-  if (!album) notFound();
+  const found = await getAlbum(token);
+  if (!found) notFound();
+  // Solo en la demo: «?al-momento=1» enseña el álbum como si la pareja publicara las fotos al momento.
+  const query = await props.searchParams;
+  const album = found.demo && query["al-momento"] === "1" ? { ...found, autoApprove: true } : found;
   return (
     <div
       data-style={album.theme.style}

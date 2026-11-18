@@ -38,6 +38,9 @@ export function AlbumView({ album }: { album: Album }) {
   const [uploads, setUploads] = useState<Upload[]>([]);
   const [busy, setBusy] = useState(false);
   const [showing, setShowing] = useState(false);
+  // Demo con fotos al momento: las subidas se añaden a la galería sin red.
+  const [added, setAdded] = useState<Album["photos"]>([]);
+  const photos = added.length ? [...added, ...album.photos] : album.photos;
   const router = useRouter();
   const couple = hostNames(album.couple, " y ");
   const done = uploads.filter((u) => u.state === "done").length;
@@ -71,6 +74,12 @@ export function AlbumView({ album }: { album: Album }) {
           // Demo: no hay red; se simula la subida.
           await new Promise((r) => setTimeout(r, 300));
           update(upload.id, { state: "done" });
+          if (album.autoApprove) {
+            setAdded((list) => [
+              { id: upload.id, url: upload.preview, createdAt: new Date().toISOString() },
+              ...list,
+            ]);
+          }
           continue;
         }
         const slot = await supabase.rpc("album_upload_slot", { p_token: album.token });
@@ -215,7 +224,7 @@ export function AlbumView({ album }: { album: Album }) {
           <h2 id="fotos" className="font-display text-[1.75rem] text-ink">
             Las fotos de todos
           </h2>
-          {album.photos.length > 1 ? (
+          {photos.length > 1 ? (
             <button
               type="button"
               onClick={() => setShowing(true)}
@@ -226,9 +235,9 @@ export function AlbumView({ album }: { album: Album }) {
             </button>
           ) : null}
         </div>
-        {album.photos.length ? (
+        {photos.length ? (
           <ul className="mt-5 columns-2 gap-3 sm:columns-3">
-            {album.photos.map((p, i) => (
+            {photos.map((p, i) => (
               <li
                 key={p.id}
                 className="mb-3 break-inside-avoid overflow-hidden rounded-[2px] bg-cream"
@@ -239,6 +248,7 @@ export function AlbumView({ album }: { album: Album }) {
                   width={800}
                   height={600}
                   sizes="(min-width: 640px) 33vw, 50vw"
+                  unoptimized={p.url.startsWith("blob:")}
                   className="h-auto w-full"
                 />
               </li>
@@ -250,7 +260,7 @@ export function AlbumView({ album }: { album: Album }) {
           </p>
         )}
       </section>
-      {showing ? <Slideshow photos={album.photos} onClose={() => setShowing(false)} /> : null}
+      {showing ? <Slideshow photos={photos} onClose={() => setShowing(false)} /> : null}
     </main>
   );
 }
