@@ -1253,6 +1253,24 @@ Agente A de `docs/PLAN-EQUIPO.md`.
 build y 369 E2E en verde (5 se saltan). La comprobación en Supabase no se pudo hacer: el proyecto
 estaba hibernado.
 
+## Ronda 33: álbum sin revisión, si la pareja quiere (18/11/2026)
+
+- **Opción «Publicar las fotos al momento»** en el panel del álbum, apagada por defecto. Encendida,
+  las fotos de los invitados se ven en el álbum en cuanto se suben; la pareja puede ocultarlas o
+  borrarlas después. Apagada, como hasta ahora: cada foto espera a que la aprueben.
+- Migración `20261118100000_album_sin_revision.sql`: columna `events.album_auto_approve`
+  (la cambian los miembros con la política existente), `album_info` devuelve `autoApprove` y
+  `album_confirm` guarda la foto aprobada o pendiente según el evento. **Sin aplicar todavía en
+  el proyecto real**: hace falta el «sí» del cliente. Hasta entonces, en eventos reales el
+  interruptor falla al guardar (la columna no existe) y el álbum sigue moderado.
+- El invitado lee «Aparecerán aquí al momento» y «Ya están en el álbum», y la galería se refresca
+  tras subir. En la demo el interruptor cambia en el navegador.
+- **Fotos del álbum a calidad completa** (el cliente no quiere perder calidad): se suben a su
+  tamaño real, hasta 4096 px por el lado largo (la resolución completa de casi cualquier móvil),
+  en JPEG al 92 % (si pasa de 8 MB, al 85 %), sin datos de ubicación (`ALBUM_PHOTO` en
+  `features/editor/image.ts`). Antes: 2000 px en WebP al 85 %. Sirven para imprimir en A4 o más
+  y el zip las da en JPEG. La migración cambia las rutas a `.jpg`. El editor sigue en WebP.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

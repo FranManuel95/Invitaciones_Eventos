@@ -4,7 +4,11 @@ import { clsx } from "clsx";
 import { Check, EyeOff, Printer, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useState, useTransition } from "react";
-import { deletePhoto, setPhotoStatus } from "@/app/panel/[evento]/album/actions";
+import {
+  deletePhoto,
+  setAlbumAutoApprove,
+  setPhotoStatus,
+} from "@/app/panel/[evento]/album/actions";
 import { QrCode } from "@/components/qr-code";
 import { buttonClasses } from "@/components/ui/button";
 import type { AlbumPhoto } from "@/lib/data/album";
@@ -25,15 +29,19 @@ const FILTERS: { id: Filter; label: string }[] = [
 export function AlbumModeration({
   eventId,
   token,
+  autoApprove: initialAuto = false,
   photos: initial,
   couple,
 }: {
   eventId: string | null;
   token: string;
+  /** Las fotos nuevas se publican al momento, sin revisarlas. */
+  autoApprove?: boolean;
   photos: AlbumPhoto[];
   couple: string;
 }) {
   const [photos, setPhotos] = useState(initial);
+  const [autoApprove, setAutoApprove] = useState(initialAuto);
   const [filter, setFilter] = useState<Filter>("pending");
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
@@ -59,9 +67,55 @@ export function AlbumModeration({
       );
     });
 
+  const toggleAuto = (next: boolean) =>
+    start(async () => {
+      setError(null);
+      if (eventId) {
+        const result = await setAlbumAutoApprove(eventId, next);
+        if (!result.ok) return setError(result.error);
+      }
+      setAutoApprove(next);
+    });
+
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_17rem]">
       <section aria-labelledby="fotos-album">
+        <div className="mb-6 rounded-xl border border-line bg-paper p-4">
+          <label className="flex cursor-pointer items-start gap-3">
+            <input
+              type="checkbox"
+              role="switch"
+              checked={autoApprove}
+              disabled={pending}
+              onChange={(e) => toggleAuto(e.target.checked)}
+              className="peer sr-only"
+            />
+            <span
+              aria-hidden
+              className={clsx(
+                "relative mt-0.5 inline-flex h-6 w-11 shrink-0 rounded-full transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-ink peer-focus-visible:ring-offset-2",
+                autoApprove ? "bg-ink" : "bg-sand",
+              )}
+            >
+              <span
+                className={clsx(
+                  "absolute top-0.5 size-5 rounded-full bg-paper shadow transition-transform motion-reduce:transition-none",
+                  autoApprove ? "translate-x-5.5" : "translate-x-0.5",
+                )}
+              />
+            </span>
+            <span>
+              <span className="block text-[0.9375rem] font-medium text-ink">
+                Publicar las fotos al momento
+              </span>
+              <span className="mt-0.5 block text-[0.8125rem] text-muted">
+                {autoApprove
+                  ? "Las fotos nuevas se ven en el álbum en cuanto se suben. Podéis ocultarlas o borrarlas después."
+                  : "Ahora cada foto espera a que la aprobéis antes de que la vean los invitados."}
+              </span>
+            </span>
+          </label>
+        </div>
         <h2 id="fotos-album" className="sr-only">
           Fotos
         </h2>

@@ -18,11 +18,16 @@ export default async function AlbumPanelPage(props: PageProps<"/panel/[evento]/a
     <>
       <PageHeader
         title="Álbum de los invitados"
-        description="Las fotos que suben los invitados esperan aquí hasta que las aprobéis. Imprimid el QR para las mesas."
+        description={
+          album.autoApprove
+            ? "Las fotos que suben los invitados se ven al momento en el álbum. Podéis ocultar o borrar las que queráis. Imprimid el QR para las mesas."
+            : "Las fotos que suben los invitados esperan aquí hasta que las aprobéis. Imprimid el QR para las mesas."
+        }
       />
       <AlbumModeration
         eventId={meta?.id ?? null}
         token={album.token}
+        autoApprove={album.autoApprove}
         photos={album.photos}
         couple={hostNames(event.couple)}
       />

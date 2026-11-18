@@ -2,6 +2,9 @@
  * Fotos subidas desde el editor. Se recodifican en el navegador antes de subirlas:
  * - como mucho 2000 px de lado, en WebP: pesan poco y cargan rápido en el móvil;
  * - al pintar en un canvas se pierden el EXIF y la ubicación GPS.
+ * El álbum de los invitados pide otra cosa (`ALBUM_PHOTO`): la foto a su tamaño real (hasta
+ * 4096 px, la resolución completa de casi cualquier móvil) en JPEG de alta calidad, que sirve
+ * para imprimir y se abre en cualquier programa; también sin ubicación.
  * Para la portada se genera además un mapa de profundidad aproximado (cerca = claro) que usa
  * el efecto 3D: un degradado vertical (el suelo está más cerca que el cielo) mezclado con la
  * luminosidad suavizada de la foto.
@@ -34,18 +37,44 @@ function canvasBlob(canvas: HTMLCanvasElement, type: string, quality?: number) {
   );
 }
 
-/** Foto reducida y sin metadatos, en WebP. */
-export async function prepareImage(file: File) {
+export interface PhotoOptions {
+  maxSide: number;
+  type: "image/webp" | "image/jpeg";
+  quality: number;
+  maxBytes: number;
+}
+
+const EDITOR_PHOTO: PhotoOptions = {
+  maxSide: MAX_SIDE,
+  type: "image/webp",
+  quality: 0.85,
+  maxBytes: MAX_BYTES,
+};
+
+/** Fotos del álbum: calidad de impresión (el almacén admite hasta 8 MB por foto). */
+export const ALBUM_PHOTO: PhotoOptions = {
+  maxSide: 4096,
+  type: "image/jpeg",
+  quality: 0.92,
+  maxBytes: MAX_BYTES,
+};
+
+/** Foto sin metadatos: reducida en WebP para el editor, o a tamaño real para el álbum. */
+export async function prepareImage(file: File, options: PhotoOptions = EDITOR_PHOTO) {
   const bitmap = await createImageBitmap(file, { imageOrientation: "from-image" });
-  const size = fitWithin(bitmap.width, bitmap.height);
+  const size = fitWithin(bitmap.width, bitmap.height, options.maxSide);
   const canvas = document.createElement("canvas");
   canvas.width = size.width;
   canvas.height = size.height;
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("No se pudo procesar la foto.");
   ctx.drawImage(bitmap, 0, 0, size.width, size.height);
-  const photo = await canvasBlob(canvas, "image/webp", 0.85);
-  if (photo.size > MAX_BYTES) throw new Error("La foto sigue pesando demasiado. Prueba con otra.");
+  let photo = await canvasBlob(canvas, options.type, options.quality);
+  // Una foto con muchísimo detalle puede pasarse del límite: se reintenta un poco más comprimida.
+  if (photo.size > options.maxBytes) photo = await canvasBlob(canvas, options.type, 0.85);
+  if (photo.size > options.maxBytes) {
+    throw new Error("La foto sigue pesando demasiado. Prueba con otra.");
+  }
   return { photo, bitmap, ...size };
 }
 
