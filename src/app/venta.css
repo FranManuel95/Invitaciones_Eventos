@@ -141,3 +141,15 @@
 .venta .v-rail::-webkit-scrollbar {
   display: none;
 }
+
+/* Paleta café de eFeLe (prueba). */
+.venta {
+  --tinta: #3a2a22;
+  --tinta-2: #46342b;
+  --tinta-3: #5a463b;
+  --papel: #f7efe9;
+  --papel-2: #efe3da;
+  --grafito: #5a463b;
+  --linea: #d9c6b8;
+  --niebla: #cdb8a8;
+}

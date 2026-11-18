@@ -67,7 +67,7 @@ export function FirstStepsGuide({
                     step.done
                       ? "bg-success text-white"
                       : current
-                        ? "bg-gold text-[#1b2033]"
+                        ? "bg-gold text-[#3a2a22]"
                         : "border border-line text-ink-soft",
                   )}
                 >
@@ -91,7 +91,7 @@ export function FirstStepsGuide({
                   className={clsx(
                     "mt-4 inline-flex h-11 items-center self-start rounded-full px-5 text-[0.9375rem] transition-colors",
                     current
-                      ? "bg-[#f4f2ed] font-medium text-[#1b2033] hover:bg-white"
+                      ? "bg-[#f7efe9] font-medium text-[#3a2a22] hover:bg-white"
                       : "border border-line text-ink hover:border-ink",
                   )}
                 >

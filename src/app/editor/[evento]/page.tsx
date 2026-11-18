@@ -8,7 +8,7 @@ import "./editor.css";
 export const metadata: Metadata = { title: "Editor" };
 
 // La barra del navegador del móvil, del color de la tinta del editor (como en el panel).
-export const viewport: Viewport = { themeColor: "#1b2033" };
+export const viewport: Viewport = { themeColor: "#3a2a22" };
 
 /** Editor de la invitación: /editor/demo (sin guardado) o /editor/<id> (eventos propios). */
 export default async function EditorPage(props: PageProps<"/editor/[evento]">) {

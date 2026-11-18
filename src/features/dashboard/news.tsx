@@ -118,7 +118,7 @@ export function NewsDot({
       <span
         aria-hidden
         data-testid="punto-novedades"
-        className={clsx("size-2 rounded-full bg-gold ring-2 ring-[#1b2033]", className)}
+        className={clsx("size-2 rounded-full bg-gold ring-2 ring-[#3a2a22]", className)}
       />
       <span className="sr-only"> (respuestas nuevas)</span>
     </>

@@ -7,7 +7,7 @@ import { LoginForm } from "./login-form";
 import "../panel/[evento]/panel.css";
 
 export const metadata: Metadata = { title: "Entrar" };
-export const viewport: Viewport = { themeColor: "#1b2033" };
+export const viewport: Viewport = { themeColor: "#3a2a22" };
 
 const linkClass =
   "text-ink underline decoration-gold underline-offset-4 transition-colors hover:decoration-ink";

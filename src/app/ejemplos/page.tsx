@@ -7,7 +7,7 @@ import { getEvent, listShowcaseInvitations } from "@/lib/data/repository";
 import "../venta.css";
 
 export const metadata = { title: "Ejemplos" };
-export const viewport: Viewport = { themeColor: "#1b2033" };
+export const viewport: Viewport = { themeColor: "#3a2a22" };
 
 const NOTES: Record<string, string> = {
   "familia-garcia": "Familia con una niña y una plaza libre para acompañante.",

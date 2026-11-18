@@ -132,7 +132,7 @@ export default async function PanelHome(props: PageProps<"/panel/[evento]">) {
             <div className="mt-7 flex flex-wrap gap-2">
               <Link
                 href={editorHref}
-                className="inline-flex h-11 items-center rounded-full bg-[#f4f2ed] px-5 text-[0.9375rem] font-medium text-[#1b2033] transition-colors hover:bg-white"
+                className="inline-flex h-11 items-center rounded-full bg-[#f7efe9] px-5 text-[0.9375rem] font-medium text-[#3a2a22] transition-colors hover:bg-white"
               >
                 Editar la invitación
               </Link>
@@ -165,11 +165,11 @@ export default async function PanelHome(props: PageProps<"/panel/[evento]">) {
                 style={{ width: pctOf(summary.attending, summary.totalSeats) }}
               />
               <span
-                className="bg-[#a3a8ba]/45"
+                className="bg-[#a8917f]"
                 style={{ width: pctOf(summary.pending, summary.totalSeats) }}
               />
               <span
-                className="bg-[#c4515f]"
+                className="bg-[#d77a7a]"
                 style={{ width: pctOf(summary.declined, summary.totalSeats) }}
               />
             </div>
@@ -179,25 +179,29 @@ export default async function PanelHome(props: PageProps<"/panel/[evento]">) {
                   label: "Invitados",
                   value: summary.totalSeats,
                   detail: `${summary.groups} invitaciones`,
+                  tone: "",
                   dot: "",
                 },
                 {
                   label: "Confirmados",
                   value: summary.attending,
                   detail: `${share(summary.attending, summary.totalSeats)} del total`,
+                  tone: "text-[#d9b46e]",
                   dot: "bg-gold",
                 },
                 {
                   label: "Sin responder",
                   value: summary.pending,
                   detail: `${share(summary.pending, summary.totalSeats)} del total`,
-                  dot: "bg-[#a3a8ba]/60",
+                  tone: "text-[#d9c3b1]",
+                  dot: "bg-[#a8917f]",
                 },
                 {
                   label: "No asisten",
                   value: summary.declined,
                   detail: `${share(summary.declined, summary.totalSeats)} del total`,
-                  dot: "bg-[#c4515f]",
+                  tone: "text-[#eb9a9a]",
+                  dot: "bg-[#d77a7a]",
                 },
               ].map((k) => (
                 <div key={k.label}>
@@ -205,7 +209,9 @@ export default async function PanelHome(props: PageProps<"/panel/[evento]">) {
                     {k.dot ? <span aria-hidden className={`size-2 rounded-full ${k.dot}`} /> : null}
                     {k.label}
                   </dt>
-                  <dd className="mt-1 font-display text-[2.25rem] leading-none text-ink lining-nums tabular-nums">
+                  <dd
+                    className={`mt-1 font-display text-[2.25rem] leading-none lining-nums tabular-nums ${k.tone || "text-ink"}`}
+                  >
                     {k.value}
                   </dd>
                   <dd className="mt-1.5 text-[0.75rem] text-muted">{k.detail}</dd>

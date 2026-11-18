@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 // La barra del navegador del móvil, del color de la barra del panel.
-export const viewport: Viewport = { themeColor: "#1b2033" };
+export const viewport: Viewport = { themeColor: "#3a2a22" };
 
 export default async function PanelLayout(props: LayoutProps<"/panel/[evento]">) {
   const { event, base, isDemo, meta, responses } = await loadOrganizer(props.params);

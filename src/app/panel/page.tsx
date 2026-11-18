@@ -7,7 +7,7 @@ import { MyEvents } from "./my-events";
 import "./[evento]/panel.css";
 
 export const metadata: Metadata = { title: "Mis eventos" };
-export const viewport: Viewport = { themeColor: "#1b2033" };
+export const viewport: Viewport = { themeColor: "#3a2a22" };
 
 export default async function MyEventsPage() {
   const supabase = await createSessionClient();

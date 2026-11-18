@@ -11,7 +11,7 @@ import { PRICE_EUR } from "@/lib/sales/contact";
 import { siteUrl } from "@/lib/site";
 import "./venta.css";
 
-export const viewport: Viewport = { themeColor: "#1b2033" };
+export const viewport: Viewport = { themeColor: "#3a2a22" };
 
 export function generateMetadata(): Metadata {
   const url = siteUrl();
