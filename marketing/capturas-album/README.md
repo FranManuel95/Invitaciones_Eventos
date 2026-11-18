@@ -22,6 +22,9 @@ la captura se ocultaron el distintivo «Demo con datos ficticios», «Saltar int
 | `03_album_portada`            | El álbum: «El álbum de María & Daniel», con «Elegir fotos» y «Hacer una foto». Dice «Se suben con toda su calidad y sin datos de ubicación»                |
 | `04_album_fotos`              | Solo móvil. «Las fotos de todos»: la galería de fotos aprobadas                                                                                            |
 | `05_subir_fotos`              | Después de subir una foto: «1 foto enviada. ¡Gracias! Aparecerán cuando María y Daniel las revisen», con la foto marcada «Pendiente de revisar»            |
+| `03b_album_al_momento`        | Si los novios publican las fotos al momento: «Aparecerán aquí al momento para todos»                                                                       |
+| `05b_subida_al_momento`       | Con esa opción, tras subir una foto: «¡Gracias! Ya están en el álbum», con la foto marcada «En el álbum»                                                   |
+| `05c_ya_en_la_galeria`        | La foto recién subida, ya la primera de «Las fotos de todos» (en la demo, foto de ejemplo de la costa)                                                     |
 | `06_pase_de_fotos`            | El pase de fotos a pantalla completa, con anterior, pausa y siguiente                                                                                      |
 
 ## Lo que ven los novios
