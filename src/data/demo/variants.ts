@@ -1,19 +1,36 @@
-import type { WeddingEvent } from "@/lib/domain/types";
-import type { GuestbookState } from "@/lib/guestbook";
 import type { TemplateId } from "@/lib/theme";
 import { demoEvent } from "./event";
+import {
+  lavanda,
+  cortijo,
+  lino,
+  granada,
+  eucalipto,
+  gaceta,
+  embarque,
+  premio,
+  telegrama,
+  postal,
+  vinilo,
+  pasaporte,
+  carta,
+  mapa,
+  constelacion,
+  comic,
+  cosecha,
+  tarot,
+  arcade,
+  semillas,
+} from "./template-weddings";
+import { guestbook, type DemoVariant } from "./wedding-builder";
 
 /**
  * Bodas ficticias para enseñar plantillas distintas como si fueran de parejas distintas
- * (`?plantilla=buganvilla`, `?plantilla=olivar`, `?plantilla=orilla`, `?plantilla=terciopelo`). El
- * resto de plantillas usa la de María y Daniel.
+ * (`?plantilla=buganvilla`, `?plantilla=olivar`…). Las cuatro primeras están aquí; las de las
+ * plantillas de concepto y las demás, en `template-weddings.ts`. Las plantillas que no tienen
+ * boda propia (Arcilla, Cine…) usan la de María y Daniel.
  * Nombres, lugares, teléfonos y cuentas son inventados.
  */
-interface DemoVariant {
-  event: WeddingEvent;
-  /** Si falta, la plantilla enseña el libro de firmas de la boda de María y Daniel. */
-  guestbook?: GuestbookState;
-}
 
 /**
  * Fotos de cada variante (generadas con IA; no son personas reales). Para cambiarlas basta
@@ -81,19 +98,6 @@ const PHOTOS = {
     ],
   },
 } as const;
-
-function guestbook(messages: [name: string, body: string][], songs: string[]): GuestbookState {
-  return {
-    messages: messages.map(([name, body], index) => ({
-      id: `demo-${index + 1}`,
-      name,
-      body,
-      createdAt: new Date(Date.UTC(2027, 1, 14 - index * 3, 9, 10)).toISOString(),
-      mine: false,
-    })),
-    songs,
-  };
-}
 
 const buganvilla: DemoVariant = {
   event: {
@@ -958,319 +962,6 @@ const terciopelo: DemoVariant = {
     ["Fly me to the moon", "Sway", "September", "Mi gran noche", "Valerie", "Dancing Queen"],
   ),
 };
-
-/**
- * Otra boda ficticia a partir de una ya escrita: cambian los nombres (en todos los textos), la
- * fecha y las fotos de portada. Así cada plantilla enseña una pareja distinta sin repetir datos.
- */
-function retitle(
-  base: DemoVariant,
-  change: {
-    id: string;
-    first: string;
-    second: string;
-    date: string;
-    rsvpDeadline: string;
-    coverPhoto: string;
-    /** Colores de vestimenta a juego con la plantilla. */
-    palette?: { name: string; hex: string }[];
-  },
-): DemoVariant {
-  const from = base.event.couple;
-  const swap = (text: string) =>
-    text
-      .replaceAll(from.first, change.first)
-      .replaceAll(from.second, change.second)
-      .replaceAll(from.monogram, `${change.first[0]}&${change.second[0]}`);
-  const event = JSON.parse(swap(JSON.stringify(base.event))) as WeddingEvent;
-  return {
-    guestbook: base.guestbook,
-    event: {
-      ...event,
-      id: change.id,
-      date: change.date,
-      rsvpDeadline: change.rsvpDeadline,
-      coverPhoto: change.coverPhoto,
-      coverDepthMap: null,
-      dressCode: change.palette ? { ...event.dressCode, palette: change.palette } : event.dressCode,
-    },
-  };
-}
-
-const lavanda = retitle(terciopelo, {
-  id: "evt-demo-lucia-marcos",
-  first: "Lucía",
-  second: "Marcos",
-  date: "2027-11-06T19:00:00+01:00",
-  rsvpDeadline: "2027-10-01T23:59:00+02:00",
-  coverPhoto: "/fotos/buganvilla/historia-3.jpg",
-  palette: [
-    { name: "Lavanda", hex: "#b9a8dc" },
-    { name: "Malva", hex: "#8d78b8" },
-    { name: "Añil", hex: "#3d3560" },
-    { name: "Gris perla", hex: "#d9d6e0" },
-    { name: "Verde salvia", hex: "#a9b79c" },
-  ],
-});
-const cortijo = retitle(olivar, {
-  id: "evt-demo-rocio-manuel",
-  first: "Rocío",
-  second: "Manuel",
-  date: "2027-10-02T12:30:00+02:00",
-  rsvpDeadline: "2027-08-25T23:59:00+02:00",
-  coverPhoto: "/fotos/olivar/historia-4.jpg",
-  palette: [
-    { name: "Trigo", hex: "#e3d1b0" },
-    { name: "Teja", hex: "#c0623f" },
-    { name: "Burdeos", hex: "#8a2a35" },
-    { name: "Verde olivo", hex: "#7d8a5f" },
-    { name: "Nogal", hex: "#654a30" },
-  ],
-});
-const lino = retitle(buganvilla, {
-  id: "evt-demo-alba-sergio",
-  first: "Alba",
-  second: "Sergio",
-  date: "2027-06-12T18:30:00+02:00",
-  rsvpDeadline: "2027-05-05T23:59:00+02:00",
-  coverPhoto: "/fotos/buganvilla/portada.jpg",
-});
-const granada = retitle(orilla, {
-  id: "evt-demo-ines-pablo",
-  first: "Inés",
-  second: "Pablo",
-  date: "2027-05-08T18:00:00+02:00",
-  rsvpDeadline: "2027-04-01T23:59:00+02:00",
-  coverPhoto: "/fotos/buganvilla/pareja.jpg",
-  palette: [
-    { name: "Granate", hex: "#6e1f2c" },
-    { name: "Oro viejo", hex: "#c9a14a" },
-    { name: "Marfil", hex: "#f1e6d6" },
-    { name: "Rosa palo", hex: "#d6a9a4" },
-    { name: "Negro", hex: "#26201f" },
-  ],
-});
-const eucalipto = retitle(olivar, {
-  id: "evt-demo-marta-adrian",
-  first: "Marta",
-  second: "Adrián",
-  date: "2027-04-24T12:00:00+02:00",
-  rsvpDeadline: "2027-03-15T23:59:00+01:00",
-  coverPhoto: "/fotos/olivar/historia-2.jpg",
-});
-
-const gaceta = retitle(terciopelo, {
-  id: "evt-demo-clara-mateo",
-  first: "Clara",
-  second: "Mateo",
-  date: "2027-10-23T18:30:00+02:00",
-  rsvpDeadline: "2027-09-15T23:59:00+02:00",
-  coverPhoto: "/fotos/buganvilla/pareja.jpg",
-  palette: [
-    { name: "Negro tinta", hex: "#161513" },
-    { name: "Blanco roto", hex: "#f4f1e8" },
-    { name: "Rojo titular", hex: "#a3221b" },
-    { name: "Gris plomo", hex: "#76726a" },
-  ],
-});
-const embarque = retitle(orilla, {
-  id: "evt-demo-noa-alex",
-  first: "Noa",
-  second: "Álex",
-  date: "2027-07-10T19:00:00+02:00",
-  rsvpDeadline: "2027-06-01T23:59:00+02:00",
-  coverPhoto: "/fotos/buganvilla/historia-2.jpg",
-  palette: [
-    { name: "Azul marino", hex: "#14233f" },
-    { name: "Rojo correo", hex: "#b3312a" },
-    { name: "Crema", hex: "#f8f4ea" },
-    { name: "Azul cielo", hex: "#b5c8dc" },
-  ],
-});
-const premio = retitle(buganvilla, {
-  id: "evt-demo-sofia-diego",
-  first: "Sofía",
-  second: "Diego",
-  date: "2027-12-18T12:30:00+01:00",
-  rsvpDeadline: "2027-11-10T23:59:00+01:00",
-  coverPhoto: "/fotos/buganvilla/portada.jpg",
-  palette: [
-    { name: "Verde imprenta", hex: "#1b3527" },
-    { name: "Oro viejo", hex: "#b08a2e" },
-    { name: "Rojo sorteo", hex: "#a3221b" },
-    { name: "Papel", hex: "#ebe7d4" },
-  ],
-});
-const telegrama = retitle(olivar, {
-  id: "evt-demo-irene-guille",
-  first: "Irene",
-  second: "Guille",
-  date: "2027-09-18T18:00:00+02:00",
-  rsvpDeadline: "2027-08-10T23:59:00+02:00",
-  coverPhoto: "/fotos/olivar/historia-2.jpg",
-  palette: [
-    { name: "Azul de cinta", hex: "#1f2f4d" },
-    { name: "Rojo urgente", hex: "#a3221b" },
-    { name: "Papel", hex: "#f0e6cb" },
-    { name: "Trigo", hex: "#d3c59f" },
-  ],
-});
-const postal = retitle(orilla, {
-  id: "evt-demo-vera-nico",
-  first: "Vera",
-  second: "Nico",
-  date: "2027-08-21T19:30:00+02:00",
-  rsvpDeadline: "2027-07-12T23:59:00+02:00",
-  coverPhoto: "/fotos/olivar/pareja.jpg",
-  palette: [
-    { name: "Azul bolígrafo", hex: "#1e3a6e" },
-    { name: "Verde sello", hex: "#2f6b57" },
-    { name: "Atardecer", hex: "#e6bd9c" },
-    { name: "Cartulina", hex: "#f6f0e1" },
-    { name: "Rojo matasellos", hex: "#b3312a" },
-  ],
-});
-const vinilo = retitle(terciopelo, {
-  id: "evt-demo-nuria-dani",
-  first: "Nuria",
-  second: "Dani",
-  date: "2027-10-02T18:30:00+02:00",
-  rsvpDeadline: "2027-08-25T23:59:00+02:00",
-  coverPhoto: "/fotos/buganvilla/pareja.jpg",
-  palette: [
-    { name: "Negro vinilo", hex: "#1c1917" },
-    { name: "Naranja", hex: "#c2511f" },
-    { name: "Mostaza", hex: "#d9a441" },
-    { name: "Crema", hex: "#f3ead8" },
-  ],
-});
-const pasaporte = retitle(orilla, {
-  id: "evt-demo-paula-iker",
-  first: "Paula",
-  second: "Íker",
-  date: "2027-06-26T19:00:00+02:00",
-  rsvpDeadline: "2027-05-20T23:59:00+02:00",
-  coverPhoto: "/fotos/buganvilla/historia-2.jpg",
-  palette: [
-    { name: "Granate", hex: "#5a1220" },
-    { name: "Dorado", hex: "#c9a14a" },
-    { name: "Azul sello", hex: "#2a4a7f" },
-    { name: "Papel", hex: "#f1ece0" },
-  ],
-});
-const carta = retitle(olivar, {
-  id: "evt-demo-rocio-manu",
-  first: "Rocío",
-  second: "Manu",
-  date: "2027-05-29T13:00:00+02:00",
-  rsvpDeadline: "2027-04-20T23:59:00+02:00",
-  coverPhoto: "/fotos/olivar/banquete.jpg",
-  palette: [
-    { name: "Verde botella", hex: "#2f4a3a" },
-    { name: "Burdeos", hex: "#7a2230" },
-    { name: "Dorado", hex: "#b08a2e" },
-    { name: "Mantel", hex: "#fbf8f1" },
-  ],
-});
-const mapa = retitle(orilla, {
-  id: "evt-demo-aitana-bruno",
-  first: "Aitana",
-  second: "Bruno",
-  date: "2027-07-24T19:00:00+02:00",
-  rsvpDeadline: "2027-06-15T23:59:00+02:00",
-  coverPhoto: "/fotos/buganvilla/historia-1.jpg",
-  palette: [
-    { name: "Sepia", hex: "#3b2a1a" },
-    { name: "Rojo lacre", hex: "#9b2c1f" },
-    { name: "Mar", hex: "#9fb7b5" },
-    { name: "Verde tierra", hex: "#6f7d4f" },
-    { name: "Pergamino", hex: "#efe2c4" },
-  ],
-});
-const constelacion = retitle(terciopelo, {
-  id: "evt-demo-lola-samuel",
-  first: "Lola",
-  second: "Samuel",
-  date: "2027-12-11T19:30:00+01:00",
-  rsvpDeadline: "2027-11-02T23:59:00+01:00",
-  coverPhoto: "/fotos/buganvilla/historia-4.jpg",
-  palette: [
-    { name: "Azul noche", hex: "#0d1530" },
-    { name: "Oro", hex: "#d8b96a" },
-    { name: "Azul claro", hex: "#6f8cc4" },
-    { name: "Marfil", hex: "#f2ecdb" },
-  ],
-});
-const comic = retitle(buganvilla, {
-  id: "evt-demo-valeria-jorge",
-  first: "Valeria",
-  second: "Jorge",
-  date: "2027-06-05T18:00:00+02:00",
-  rsvpDeadline: "2027-04-28T23:59:00+02:00",
-  coverPhoto: "/fotos/buganvilla/pareja.jpg",
-  palette: [
-    { name: "Rojo", hex: "#d92b2b" },
-    { name: "Amarillo", hex: "#f5c518" },
-    { name: "Azul", hex: "#2563c9" },
-    { name: "Negro", hex: "#141414" },
-  ],
-});
-const cosecha = retitle(olivar, {
-  id: "evt-demo-blanca-rodrigo",
-  first: "Blanca",
-  second: "Rodrigo",
-  date: "2027-09-25T13:00:00+02:00",
-  rsvpDeadline: "2027-08-16T23:59:00+02:00",
-  coverPhoto: "/fotos/olivar/historia-3.jpg",
-  palette: [
-    { name: "Vino", hex: "#5e1a2b" },
-    { name: "Dorado", hex: "#b3924a" },
-    { name: "Verde botella", hex: "#243a2e" },
-    { name: "Etiqueta", hex: "#f4efe2" },
-  ],
-});
-const tarot = retitle(terciopelo, {
-  id: "evt-demo-abril-oscar",
-  first: "Abril",
-  second: "Óscar",
-  date: "2027-11-20T19:00:00+01:00",
-  rsvpDeadline: "2027-10-12T23:59:00+02:00",
-  coverPhoto: "/fotos/buganvilla/historia-3.jpg",
-  palette: [
-    { name: "Violeta", hex: "#1c1630" },
-    { name: "Oro", hex: "#d3ad5a" },
-    { name: "Ciruela", hex: "#5c2f5a" },
-    { name: "Marfil", hex: "#f1e7d0" },
-  ],
-});
-const arcade = retitle(buganvilla, {
-  id: "evt-demo-leire-marc",
-  first: "Leire",
-  second: "Marc",
-  date: "2027-07-03T19:00:00+02:00",
-  rsvpDeadline: "2027-05-25T23:59:00+02:00",
-  coverPhoto: "/fotos/buganvilla/historia-2.jpg",
-  palette: [
-    { name: "Magenta", hex: "#ff3d81" },
-    { name: "Cian", hex: "#37d5d6" },
-    { name: "Amarillo", hex: "#ffd23f" },
-    { name: "Azul noche", hex: "#12122b" },
-  ],
-});
-const semillas = retitle(olivar, {
-  id: "evt-demo-olivia-tomas",
-  first: "Olivia",
-  second: "Tomás",
-  date: "2027-04-17T12:30:00+02:00",
-  rsvpDeadline: "2027-03-08T23:59:00+01:00",
-  coverPhoto: "/fotos/olivar/historia-1.jpg",
-  palette: [
-    { name: "Verde hoja", hex: "#5d7a3a" },
-    { name: "Amapola", hex: "#c8452c" },
-    { name: "Kraft", hex: "#ece0c5" },
-    { name: "Crema", hex: "#fbf6e7" },
-  ],
-});
 
 const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   buganvilla,

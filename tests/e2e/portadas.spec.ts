@@ -81,15 +81,22 @@ test.describe("portadas", () => {
   test("con movimiento reducido las escenas quedan quietas", async ({ browser }) => {
     const context = await browser.newContext({ reducedMotion: "reduce" });
     const page = await context.newPage();
+    // Si el HTML del servidor no coincide con el primer render del cliente, React monta la página
+    // entera de nuevo y las luces que se miran quedan sueltas (sin estilos): eso no debe pasar.
+    const errors: string[] = [];
+    page.on("pageerror", (error) => errors.push(error.message));
     await page.goto("/i/familia-garcia?portada=luces");
-    await expect(page.locator("[data-cover='luces']")).toBeAttached();
-    const animated = await page
-      .locator("[data-cover='luces'] .scene-fly, [data-cover='luces'] .scene-twinkle")
-      .evaluateAll(
-        (els) => els.filter((el) => getComputedStyle(el).animationName !== "none").length,
-      );
+    const scene = page.locator(
+      "[data-cover='luces'] .scene-fly, [data-cover='luces'] .scene-twinkle",
+    );
+    await expect(scene.first()).toBeAttached();
+    const animated = await scene.evaluateAll(
+      (els) =>
+        els.filter((el) => !el.isConnected || getComputedStyle(el).animationName !== "none").length,
+    );
     expect(animated).toBe(0);
     await expect(page.locator("canvas")).toHaveCount(0);
+    expect(errors).toEqual([]);
     await context.close();
   });
 
@@ -179,7 +186,7 @@ test.describe("portadas", () => {
     await page.goto("/i/familia-garcia?plantilla=embarque");
     await expect(page.getByRole("heading", { level: 1, name: /Noa & Álex/ })).toBeVisible();
     await expect(page.getByRole("article").getByText("Familia García")).toBeVisible();
-    await expect(page.getByText("VEJ", { exact: true })).toBeVisible();
+    await expect(page.getByText("TEG", { exact: true })).toBeVisible();
     const { violations } = await new AxeBuilder({ page }).analyze();
     const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
     expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual([]);
@@ -227,7 +234,7 @@ test.describe("portadas", () => {
     await expect(cover.getByText("Familia García", { exact: true })).toBeVisible();
     // El mensaje completo está siempre en la página, aunque aún se esté tecleando.
     await expect(
-      cover.getByText("NOS CASAMOS. Stop. 18 SEPTIEMBRE 2027. Stop. BAEZA. Stop. NO FALTES. Stop."),
+      cover.getByText("NOS CASAMOS. Stop. 18 SEPTIEMBRE 2027. Stop. ALMAGRO. Stop. NO FALTES. Stop."),
     ).toBeAttached();
     // Tocar el telegrama lo termina de teclear, sin levantar la portada.
     await cover.getByText("TELEGRAMA", { exact: true }).click();

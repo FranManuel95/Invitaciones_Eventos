@@ -8,6 +8,7 @@ import type { WeddingEvent } from "@/lib/domain/types";
 import { announcement, coverVerb, hostNames, hostsOf } from "@/lib/event-kind";
 import { formatLongDate, formatWeekdayDate, isoDay } from "@/lib/format";
 import { seeded, type ConceptCoverId } from "@/lib/theme";
+import { useReducedMotionForMarkup } from "../effects/reduced-motion";
 import { haptic, playKey, playPaper } from "../effects/sound";
 
 /*
@@ -590,8 +591,10 @@ function telegramLines(event: WeddingEvent) {
 function TelegramCover({ event, guestName, onOpen, reduce }: ConceptProps) {
   const lines = telegramLines(event);
   const total = lines.reduce((sum, line) => sum + line.length, 0);
-  // Cuántas letras lleva tecleadas la máquina (con movimiento reducido, todas desde el principio).
-  const [typed, setTyped] = useState(reduce ? total : 0);
+  // Cuántas letras lleva tecleadas la máquina (con movimiento reducido, todas desde el principio;
+  // se decide al hidratar, porque el servidor no sabe si se pide movimiento reducido).
+  const [keyed, setTyped] = useState(0);
+  const typed = useReducedMotionForMarkup() ? total : keyed;
   const [torn, setTorn] = useState(false);
   const done = typed >= total;
   const { dd, mm, yy } = dateParts(event.date);
