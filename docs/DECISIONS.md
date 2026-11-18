@@ -1171,6 +1171,88 @@ invitados con tarjetas en blanco, la vista previa de Imprimir de 35.000 px y las
   las cifras se ajustan al ancho para que los euros no se corten.
 - Tarjetas, cifras, estados y medidores con el mismo acabado (esquinas, sombra y oro).
 
+## Ronda 29: bodas de ejemplo propias y prueba de movimiento reducido estable (18/11/2026)
+
+Agente D de `docs/PLAN-EQUIPO.md`.
+
+- **Una boda por plantilla** (`src/data/demo/template-weddings.ts`, montadas con
+  `wedding-builder.ts`): se quita `retitle`, que repetía ciudad, lugares, historia, programa y
+  libro de firmas entre veinte plantillas. Cada una tiene los suyos, a juego con el concepto
+  (Embarque en Teguise, Vinilo en Valencia, Cosecha en una bodega del Priorat, Telegrama en
+  Almagro…). Se mantienen nombres y fechas de las parejas. Solo fotos de `public/fotos/`, una
+  pareja por boda. Ciudades reales; sitios, hoteles y personas inventados.
+- `tests/unit/demo-variants.test.ts` comprueba el esquema, que no se repitan ciudades, parejas,
+  historias, sitios ni mensajes, que el programa apunte a sitios propios, plazos y horas
+  coherentes y que existan las fotos.
+- **Prueba intermitente de movimiento reducido**: la causa era un desajuste de hidratación. El
+  servidor pinta la versión con movimiento; el cliente, en su primer render, la quitaba (error
+  #418 de React y página montada de nuevo), y la prueba a veces leía elementos ya sueltos. El hook
+  `useReducedMotionForMarkup` (`effects/reduced-motion.ts`) devuelve «con movimiento» hasta
+  hidratar; lo usan `cover-stage`, `cinema` y el Telegrama, y `SplitText` pinta el mismo HTML en
+  los dos casos. La prueba ahora también falla con elementos sueltos o errores de página. 60 de
+  60 con `--repeat-each=10`.
+
+## Ronda 30: alta de pareja, primeros pasos y novedades en el panel (18/11/2026)
+
+Agente C de `docs/PLAN-EQUIPO.md`.
+
+- **`/entrar`** con la identidad del panel: zona de tinta con la marca y formulario con mostrar
+  contraseña, aviso de 8 caracteres y textos en «vosotros».
+- **«Mis eventos»** (`src/app/panel/my-events.tsx`): tarjetas con fecha y estado, abrir y
+  duplicar; sin eventos, invita a crear el primero. El alta adapta las etiquetas al tipo de
+  evento y no deja fechas anteriores a mañana (`earliestEventDate`). Tras crear, se va al panel
+  (`?bienvenida=1`), no al editor.
+- **Primeros pasos** (`src/lib/events/first-steps.ts`): plantilla, fotos y textos, invitaciones
+  y publicar, con «0 de 4 hechos»; se oculta sola al terminar. `getOrganizerData` lee también
+  `theme` (sin cambio de esquema). La demo está terminada y no la enseña: se ve con
+  `/panel/demo?vista=nuevo`.
+- **«Desde vuestra última visita»** (`src/lib/guests/news.ts`, guardado en
+  `features/dashboard/last-visit.ts`): respuestas nuevas con fecha, sin correo. Fecha de la última
+  visita en `localStorage`; durante la visita, `sessionStorage` para que no desaparezcan al
+  cambiar de página. Punto dorado en «Invitaciones» (anunciado como «respuestas nuevas»). En un
+  evento real, la primera visita no marca nada como nuevo.
+- El aviso de datos ficticios del pie ya solo sale en la demo.
+- `tests/e2e/real.spec.ts` se adaptó al recorrido nuevo, pero necesita Supabase y no se ha
+  ejecutado aquí.
+
+## Ronda 31: `/ejemplos` con la identidad de la venta y la invitación a juego con la decoración (18/11/2026)
+
+Agente B de `docs/PLAN-EQUIPO.md`.
+
+- **`/ejemplos`** usa `venta.css`, con cabecera y pie de eFeLe. Secciones alternas de papel y
+  tinta: plantillas (Papel y acuarela, Objetos), aperturas en carril y portadas (Con
+  movimiento, Pintadas, Objetos), todas con el muestrario de la venta
+  (`features/sales/sample-book.tsx`), que ahora admite fondo de tinta, filas de cuatro o cinco,
+  grabaciones, etiqueta y enlace propio. Pestañas de 44 px y sin transparencia en los números
+  (contraste). Se quitan los escaparates viejos de `showcase.tsx`.
+- **Sección «A juego con vuestra decoración»** en la venta, entre el panel y el precio: lo que
+  diferencia a eFeLe. Tres muestras (Pampa y terracota, Lavanda, Olivo y oro) con portada
+  pintada, lacre y paleta, solo con recursos que ya había. Sin precios ni promesas: «Contadnos
+  cómo será vuestra decoración y la invitación la sigue». Botón a `#pedir` y enlace a Instagram.
+
+## Ronda 32: rediseño del editor (18/11/2026)
+
+Agente A de `docs/PLAN-EQUIPO.md`.
+
+- **Identidad común** en `src/app/marca.css` (`.marca`, `.marca-dark`, `.marca-title`, con
+  `.panel*` como alias). `panel.css` la importa y deja solo lo propio del panel; así `/entrar` y
+  `/panel`, que importan `panel.css`, la reciben sin más. El editor importa `marca.css` y un
+  `editor.css` pequeño. La vista previa conserva los colores de la invitación.
+- **Escritorio**: barra lateral de tinta con monograma, nombres, estado de guardado, siete
+  pestañas con icono y descripción, y «Publicar» fijo abajo; ajustes en el centro y el móvil de
+  vista previa a la derecha. Cada pestaña abre con un título en Italiana y una línea de para qué
+  sirve, y acaba con «Siguiente». Enlace «Saltar a los ajustes» para teclado.
+- **Móvil**: pestañas en una fila fija que se desliza; barra inferior fija con el conmutador
+  «Editar / Vista previa» y «Publicar» siempre a mano. La vista previa ocupa la pantalla a
+  tamaño real.
+- Listas vacías con mensaje útil, tarjetas de papel, botones de 40 px. Nueva e2e de la barra
+  inferior en el móvil; la medida de desbordes cuenta también `innerWidth`.
+- Pendiente: partir `style-tab.tsx` (unas 1.100 líneas).
+
+**Integración (18/11/2026)**: las cuatro ramas unidas con `--no-ff`; lint, tipos, 675 unitarias,
+build y 369 E2E en verde (5 se saltan). La comprobación en Supabase no se pudo hacer: el proyecto
+estaba hibernado.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

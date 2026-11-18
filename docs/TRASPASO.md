@@ -5,10 +5,19 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 
 ## Dónde estamos
 
-- **Siguiente paso (17/11/2026): `docs/PLAN-EQUIPO.md`.** Plan para terminar lo que falta antes
-  de vender, repartido en cuatro agentes (editor, `/ejemplos` y decoración, alta de pareja y
-  novedades del panel, bodas de ejemplo y pendientes técnicos), con sus encargos listos para
-  copiar, cómo integrarlos y lo que necesita datos del cliente (producción, legal, precio, `.es`).
+- **Plan de equipo hecho (18/11/2026)**: los cuatro encargos de `docs/PLAN-EQUIPO.md` están
+  unidos en `claude/exciting-franklin-43k083` (rondas 29 a 32 de `docs/DECISIONS.md`): bodas de
+  ejemplo propias, alta de pareja con primeros pasos y novedades, `/ejemplos` y la sección de
+  decoración, y el editor rediseñado. 675 unitarias y 369 E2E en verde. Esa rama contiene entera
+  `claude/tender-franklin-isgz7b`; falta llevarla a esa rama (la del dominio
+  `invitaciones.efeleeventos.com`) y lo de la sección 4 del plan, que decide el cliente.
+  Pendientes técnicos: comprobar en Supabase la migración del libro de firmas y los avisos (el
+  proyecto estaba hibernado), ejecutar `tests/e2e/real.spec.ts` con Supabase y partir
+  `style-tab.tsx`.
+- **Agentes en paralelo**: con `isolation: "worktree"`, las copias quedan en
+  `.claude/worktrees/`. ESLint y `tsc` ya las ignoran (`eslint.config.mjs`, `tsconfig.json`);
+  para que git tampoco las enseñe, añadir `.claude/worktrees/` a `.git/info/exclude`. Un reinicio del contenedor para a los agentes: sus
+  cambios sin commit siguen en la copia y se retoman lanzando otro agente en esa carpeta.
 
 - **Línea de trabajo vigente (17/11/2026): plantillas de concepto, las quince hechas.** Gaceta,
   Embarque y Premio están en `claude/tender-franklin-isgz7b` (PR #6). Telegrama y Postal (ronda 19) y las diez restantes (ronda 20) están en `claude/exciting-franklin-43k083`, que parte de esa
