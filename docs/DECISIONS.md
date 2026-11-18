@@ -1265,8 +1265,11 @@ estaba hibernado.
   interruptor falla al guardar (la columna no existe) y el álbum sigue moderado.
 - El invitado lee «Aparecerán aquí al momento» y «Ya están en el álbum», y la galería se refresca
   tras subir. En la demo el interruptor cambia en el navegador.
-- Calidad de las fotos: se reducen a 2000 px por el lado largo y WebP al 85 %. Basta para pantalla
-  e impresión hasta unos 13×18 cm; subir el límite a 3000–4000 px queda como decisión del cliente.
+- **Fotos del álbum a calidad completa** (el cliente no quiere perder calidad): se suben a su
+  tamaño real, hasta 4096 px por el lado largo (la resolución completa de casi cualquier móvil),
+  en JPEG al 92 % (si pasa de 8 MB, al 85 %), sin datos de ubicación (`ALBUM_PHOTO` en
+  `features/editor/image.ts`). Antes: 2000 px en WebP al 85 %. Sirven para imprimir en A4 o más
+  y el zip las da en JPEG. La migración cambia las rutas a `.jpg`. El editor sigue en WebP.
 
 ## Pendiente para próximas fases
 

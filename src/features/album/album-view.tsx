@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useId, useState } from "react";
 import { DemoBadge } from "@/components/demo-badge";
 import { buttonClasses } from "@/components/ui/button";
-import { checkImageFile, prepareImage } from "@/features/editor/image";
+import { ALBUM_PHOTO, checkImageFile, prepareImage } from "@/features/editor/image";
 import { Monogram } from "@/features/invitation/ornaments";
 import type { Album } from "@/lib/data/album";
 import { formatLongDate } from "@/lib/format";
@@ -65,7 +65,7 @@ export function AlbumView({ album }: { album: Album }) {
         continue;
       }
       try {
-        const { photo, bitmap } = await prepareImage(file);
+        const { photo, bitmap } = await prepareImage(file, ALBUM_PHOTO);
         bitmap.close();
         if (album.demo || !supabase) {
           // Demo: no hay red; se simula la subida.
@@ -77,7 +77,7 @@ export function AlbumView({ album }: { album: Album }) {
         if (slot.error || typeof slot.data !== "string") throw new Error(slot.error?.message);
         const put = await supabase.storage
           .from(BUCKET)
-          .upload(slot.data, photo, { contentType: "image/webp", upsert: false });
+          .upload(slot.data, photo, { contentType: "image/jpeg", upsert: false });
         if (put.error) throw new Error(put.error.message);
         const confirm = await supabase.rpc("album_confirm", {
           p_token: album.token,
@@ -126,7 +126,7 @@ export function AlbumView({ album }: { album: Album }) {
           Sube tus fotos
         </h2>
         <p className="mt-1 text-[0.9375rem] text-muted">
-          Hasta {MAX_FILES} a la vez. Antes de enviarlas se reducen y se les quita la ubicación.
+          Hasta {MAX_FILES} a la vez. Se suben con toda su calidad y sin datos de ubicación.
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
           <label
