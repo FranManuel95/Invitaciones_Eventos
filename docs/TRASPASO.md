@@ -5,6 +5,10 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 
 ## Dónde estamos
 
+- **En producción (18/11/2026)**: el PR #6 está fusionado en `main` con todo lo de las rondas 9
+  a 33. Falta que el cliente cambie en Vercel el dominio `invitaciones.efeleeventos.com` para que
+  sirva producción (hoy va ligado a la rama `claude/tender-franklin-isgz7b`), ponga `SITE_URL` y
+  los datos legales, y aplicar en Supabase `20261118100000_album_sin_revision.sql`.
 - **Plan de equipo hecho (18/11/2026)**: los cuatro encargos de `docs/PLAN-EQUIPO.md` están
   unidos en `claude/exciting-franklin-43k083` (rondas 29 a 32 de `docs/DECISIONS.md`): bodas de
   ejemplo propias, alta de pareja con primeros pasos y novedades, `/ejemplos` y la sección de
