@@ -8,18 +8,19 @@ Solo durante la captura se ha ocultado:
 - en la invitación, el distintivo «Demo con datos ficticios» y «Saltar intro», con el modo de
   grabación `?grabar=1`;
 - en el panel, el distintivo «Demo» de la cabecera, el aviso del pie «Datos ficticios generados
-  para la demo…» y el enlace «Regalos» del menú (los regalos no se ofrecen).
+  para la demo…», las notas «Demo: …» y el enlace «Regalos» del menú (los regalos no se ofrecen);
+- en el editor, la nota de la demo y, dentro de la vista previa, «Vista previa» y «Saltar intro».
 
 La app no se ha cambiado.
 
 ## Carpetas
 
-| Carpeta             | Qué hay                                                                                       |
-| ------------------- | --------------------------------------------------------------------------------------------- |
-| `invitado/`         | Móvil 390×844 a @3x (1170×2532): la confirmación paso a paso                                  |
-| `panel-movil/`      | Móvil 390×844 a @3x: pantalla visible de cada página, y página completa de Inicio e Invitados |
-| `panel-escritorio/` | Escritorio 1440×900 a @2x (2880×1800), mismas páginas                                         |
-| `carrusel-4x5/`     | Las capturas de móvil en un lienzo de 1080×1350 (4:5) sobre papel, listas para Instagram      |
+| Carpeta             | Qué hay                                                                                                           |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `invitado/`         | Móvil 390×844 a @3x (1170×2532): la confirmación paso a paso                                                      |
+| `panel-movil/`      | Móvil 390×844 a @3x: pantalla visible de cada página, y página completa de Inicio e Invitados                     |
+| `panel-escritorio/` | Escritorio 1440×900 a @2x (2880×1800), mismas páginas                                                             |
+| `carrusel-4x5/`     | Las capturas en un lienzo de 1080×1350 (4:5) sobre papel, listas para Instagram: `invitado_*`, `movil_*` y `pc_*` |
 
 ## Invitado (`invitado/`)
 
@@ -38,20 +39,28 @@ El botón del primer paso dice «Sí, asistiré»; la opción marcada dice «Sí
 
 ## Panel (`panel-movil/` y `panel-escritorio/`)
 
-| Archivo                          | Página                                                                           |
-| -------------------------------- | -------------------------------------------------------------------------------- |
-| `01_inicio.png`                  | Inicio: días que faltan y cifras de respuestas                                   |
-| `01b_novedades.png` (solo móvil) | Inicio, bloque «Desde vuestra última visita» (en escritorio sale en `01_inicio`) |
-| `01_inicio_completa.png`         | Inicio, página completa                                                          |
-| `02_invitados.png`               | Lista de invitados                                                               |
-| `02_invitados_completa.png`      | Lista de invitados, página completa                                              |
-| `03_invitaciones.png`            | Invitaciones: copiar enlace, WhatsApp y QR de cada una                           |
-| `04_menus_alergias.png`          | Menús y necesidades especiales                                                   |
-| `05_transporte.png`              | Transporte: rutas, plazas y pasajeros                                            |
-| `06_mesas.png`                   | Mesas: plano y sitio de cada invitación                                          |
-| `07_recordatorios.png`           | Recordatorios a quien aún no ha respondido                                       |
-| `08_libro_de_firmas.png`         | Libro de firmas                                                                  |
-| `09_primeros_pasos.png`          | Guía de primeros pasos de un evento recién creado (`?vista=nuevo`)               |
+| Archivo                                    | Página                                                                           |
+| ------------------------------------------ | -------------------------------------------------------------------------------- |
+| `01_inicio.png`                            | Inicio: días que faltan y cifras de respuestas                                   |
+| `01b_novedades.png` (solo móvil)           | Inicio, bloque «Desde vuestra última visita» (en escritorio sale en `01_inicio`) |
+| `01_inicio_completa.png`                   | Inicio, página completa                                                          |
+| `02_invitados.png`                         | Lista de invitados                                                               |
+| `02_invitados_completa.png`                | Lista de invitados, página completa                                              |
+| `03_invitaciones.png`                      | Invitaciones: copiar enlace, WhatsApp y QR de cada una                           |
+| `04_menus_alergias.png`                    | Menús y necesidades especiales                                                   |
+| `05_transporte.png`                        | Transporte: rutas, plazas y pasajeros                                            |
+| `06_mesas.png`                             | Mesas: plano y sitio de cada invitación                                          |
+| `07_recordatorios.png`                     | Recordatorios a quien aún no ha respondido                                       |
+| `08_libro_de_firmas.png`                   | Libro de firmas                                                                  |
+| `09_primeros_pasos.png`                    | Guía de primeros pasos de un evento recién creado (`?vista=nuevo`)               |
+| `10_editor.png`                            | Editor de la invitación: plantillas y vista previa al lado                       |
+| `10b_editor_vista_previa.png` (solo móvil) | Editor en el móvil, con «Vista previa» activada                                  |
+| `11_tareas.png`                            | Tareas con fecha y responsable                                                   |
+| `12_presupuesto.png`                       | Presupuesto: previsto, pagado, pendiente y por categoría                         |
+| `13_agenda.png`                            | Agenda: tareas, pagos, plazo de respuesta y la boda en un calendario             |
+| `14_imprimir.png`                          | Imprimir: tarjetas de mesa, lista de la entrada, carteles del álbum…             |
+| `15_album.png`                             | Álbum de los invitados (para la publicación del álbum, más a fondo)              |
+| `16_menu_mas.png` (solo móvil)             | La hoja «Más» del móvil, con todas las secciones del panel                       |
 
 ## Lo que hace de verdad el panel
 
@@ -81,6 +90,18 @@ Comprobado en el código y en la demo. Que no se prometa nada más.
   plazas y de las alergias de cada una, y se puede imprimir.
 - **Libro de firmas**: los novios leen los mensajes y pueden ocultar los que no quieran que se
   vean.
+
+- **Editor**: plantillas, colores, tipografía, portada, apertura, sobre, carta y secciones, con
+  vista previa al momento; textos, fotos, programa, autobuses, menús y preguntas en sus pestañas.
+- **Tareas**: lista con fecha y responsable, filtros de pendientes y hechas, y tareas sugeridas para
+  añadir de golpe.
+- **Presupuesto**: lo previsto, lo pagado, lo pendiente y el coste por invitado, por categoría y
+  con los próximos pagos.
+- **Agenda**: un calendario con tareas, pagos, el plazo de respuesta y el día de la boda.
+- **Imprimir**: tarjetas de mesa, la lista «Busca tu mesa» para la entrada, carteles del álbum con
+  QR, la hoja del catering y las canciones pedidas para el DJ, con los datos del momento.
+- **Álbum de los invitados**: los invitados suben fotos escaneando un QR. Los novios las aprueban
+  u ocultan antes de que se vean y pueden descargarlas en un zip. Va en otra publicación.
 
 La lista de invitados no se exporta a CSV: solo se descargan el catering y los pasajeros del
 autobús.
