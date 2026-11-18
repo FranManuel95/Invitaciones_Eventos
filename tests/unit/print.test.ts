@@ -3,6 +3,7 @@ import { demoGroups, demoResponses } from "@/data/demo/guests";
 import { demoAssignment, demoTables } from "@/data/demo/tables";
 import type { GuestGroup, RsvpResponse } from "@/lib/domain/types";
 import {
+  cateringCsv,
   cateringSheet,
   djSongs,
   djSongsCsv,
@@ -77,6 +78,17 @@ describe("documentos para imprimir", () => {
     const tableOrder = sheet.perTable.map((t) => t.table).filter((t) => t !== "Sin mesa");
     const planOrder = demoTables.map((t) => t.name).filter((n) => tableOrder.includes(n));
     expect(tableOrder).toEqual(planOrder);
+  });
+
+  it("el CSV del catering lleva una fila por comensal confirmado, ordenado por mesa", () => {
+    const sheet = cateringSheet(groups, demoResponses, demoTables);
+    const lines = cateringCsv(groups, demoResponses, demoTables).split("\r\n");
+    expect(lines[0]).toBe(
+      '"Mesa";"Invitación";"Nombre";"Menú";"Alergias";"Detalle de la alergia";"Niño"',
+    );
+    expect(lines).toHaveLength(sheet.total + 1);
+    const tablesInCsv = lines.slice(1).map((l) => l.split(";")[0]!.replaceAll('"', ""));
+    expect([...new Set(tablesInCsv)]).toEqual(sheet.perTable.map((t) => t.table));
   });
 
   it("las canciones para el DJ no se repiten y se exportan en texto y CSV", () => {

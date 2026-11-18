@@ -9,6 +9,8 @@ const OPENINGS = [
   { opening: "pelicula", button: "Abrir el sobre", heading: "Familia García" },
   { opening: "sobre3d", button: "Abrir el sobre", heading: "Familia García" },
   { opening: "ventana", button: "Abrir el sobre", heading: "Familia García" },
+  // Sin plantilla de concepto, el objeto se viste como un sobre de papelería.
+  { opening: "concepto", button: "Abrir la invitación", heading: "Familia García" },
 ];
 
 test.describe("aperturas", () => {
@@ -16,8 +18,9 @@ test.describe("aperturas", () => {
     test(`${opening}: se abre una vez y llega a la carta`, async ({ page }) => {
       // El sobre 3D se dibuja aquí sin tarjeta gráfica (por software): va mucho más lento que en
       // un móvil, sobre todo con varias pruebas a la vez.
-      const slow = opening === "sobre3d";
-      if (slow) test.setTimeout(90_000);
+      // El díptico va en el mismo plató 3D que el sobre.
+      const slow = opening === "sobre3d" || opening === "diptico";
+      if (slow) test.setTimeout(180_000);
       const errors: string[] = [];
       page.on("pageerror", (e) => errors.push(e.message));
       await page.goto(`/i/familia-garcia?apertura=${opening}`);
@@ -37,9 +40,39 @@ test.describe("aperturas", () => {
       await page.waitForTimeout(300);
       await trigger.click({ force: true }).catch(() => {});
       const letter = page.getByRole("heading", { name: "Hola, Familia García:" });
-      await expect(letter).toBeVisible({ timeout: slow ? 60_000 : 20_000 });
+      await expect(letter).toBeVisible({ timeout: slow ? 120_000 : 20_000 });
       await expect(letter).toBeFocused();
       expect(errors).toEqual([]);
+    });
+  }
+
+  // El blanco tiene dos encuadres (vertical en el móvil, horizontal en pantallas anchas). La caja
+  // y el díptico piden otra cosa al invitado, así que su botón se llama distinto.
+  for (const [plantilla, que, file, boton] of [
+    ["arcilla", "sobre burdeos", "burdeos", "Abrir el sobre"],
+    ["olivar", "sobre salvia", "salvia", "Abrir el sobre"],
+    ["buganvilla", "sobre blanco", "(vertical|horizontal)", "Abrir el sobre"],
+    ["terciopelo", "caja esmeralda", "esmeralda", "Abrir la caja"],
+    ["lavanda", "sobre azul", "azul", "Abrir el sobre"],
+    ["cortijo", "sobre kraft", "kraft", "Abrir el sobre"],
+    ["lino", "sobre junto a la ventana", "ventana", "Abrir el sobre"],
+    ["granada", "sobre burdeos a pantalla completa", "granate", "Abrir el sobre"],
+    ["eucalipto", "díptico salvia", "eucalipto", "Abrir la invitación"],
+    ["orilla", "díptico", "diptico", "Abrir la invitación"],
+  ] as const) {
+    test(`plantilla ${plantilla}: el vídeo de apertura es el ${que}`, async ({ page }) => {
+      await page.goto(`/i/familia-garcia?plantilla=${plantilla}`);
+      await page.getByRole("button", { name: /toca para abrir/i }).click();
+      await expect(page.getByRole("button", { name: boton })).toBeVisible();
+      const video = page.locator("[data-opening='pelicula'] video");
+      await expect(video).toHaveAttribute(
+        "poster",
+        new RegExp(`/aperturas/sobre-dorado/${file}\\.webp$`),
+      );
+      await page.getByRole("button", { name: boton }).click();
+      await expect
+        .poll(() => video.evaluate((el: HTMLVideoElement) => el.currentSrc))
+        .toMatch(new RegExp(`/sobre-dorado/${file}\\.`));
     });
   }
 

@@ -1,8 +1,10 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { markOpened } from "@/app/actions/opened";
 import { eventNoun } from "@/lib/event-kind";
 import type { GiftStatus } from "@/lib/gifts";
+import type { GuestbookState } from "@/lib/guestbook";
 import { Volume2, VolumeX } from "lucide-react";
 import { domAnimation, LazyMotion, MotionConfig, useReducedMotion } from "motion/react";
 import {
@@ -14,23 +16,32 @@ import {
   useSyncExternalStore,
   ViewTransition,
   type ComponentType,
+  type CSSProperties,
 } from "react";
 import { DemoBadge } from "@/components/demo-badge";
 import { hasOpenedEnvelope, markEnvelopeOpened } from "@/lib/data/session";
 import { primeResponse } from "@/lib/data/rsvp-cache";
 import type { GuestGroup, RsvpResponse, WeddingEvent } from "@/lib/domain/types";
-import { DEFAULT_THEME, STYLES, themeVars, type Theme } from "@/lib/theme";
+import {
+  DEFAULT_THEME,
+  isPaintedCover,
+  isLightCover,
+  MOTIFS,
+  STYLES,
+  themeVars,
+  type Theme,
+} from "@/lib/theme";
 import type { InvitationContentProps } from "./content/invitation-content";
 import { BriefStage } from "./brief/brief-stage";
 import { CoverStage } from "./cover/cover-stage";
 import { startAmbient, stopAmbient } from "./effects/ambient";
 import { isMuted, setMuted, subscribeMuted, unlockAudio } from "./effects/sound";
 import { TiltProvider } from "./effects/tilt";
-import { Diptych } from "./envelope/diptych";
 import { EnvelopeStage } from "./envelope/envelope-stage";
 import { FullEnvelope } from "./envelope/full-envelope";
 import { RibbonBox } from "./envelope/ribbon-box";
-import { Envelope3D } from "./envelope/envelope-3d";
+import { ConceptOpening } from "./envelope/concept-opening";
+import { Diptych3D, Envelope3D } from "./envelope/envelope-3d";
 import { VideoEnvelope } from "./envelope/video-envelope";
 import { WindowEnvelope } from "./envelope/window-envelope";
 import { LetterStage } from "./letter/letter-stage";
@@ -46,17 +57,44 @@ export type Stage = "brief" | "cover" | "envelope" | "letter" | "content";
 const loadContent = () =>
   import("./content/invitation-content").then((mod) => mod.InvitationContent);
 
+// Las pieles de las plantillas con motivo pesan: se cargan solo cuando la plantilla las usa.
+const MotifSkin = dynamic(() => import("./skins/motif-skin"));
+
 const noopSubscribe = () => () => {};
+
+/**
+ * Variables del motivo: la pintura de la cabecera (solo con portada pintada) y, para los de
+ * concepto, la fecha que estampan el matasellos y el número de serie.
+ */
+function motifVars(theme: Theme, date: string): Record<string, string> {
+  const parts = new Intl.DateTimeFormat("es-ES", {
+    timeZone: "Europe/Madrid",
+    day: "2-digit",
+    month: "2-digit",
+    year: "2-digit",
+  }).formatToParts(new Date(date));
+  const get = (type: string) => parts.find((p) => p.type === type)?.value ?? "";
+  const [dd, mm, yy] = [get("day"), get("month"), get("year")];
+  return {
+    ...(isPaintedCover(theme.cover)
+      ? { "--motif-cover": `url(/portadas/${theme.cover}-fondo.webp)` }
+      : {}),
+    "--motif-stamp": `"${dd}·${mm}·${yy}"`,
+    "--motif-serial": `"N.º ${dd}${mm}${yy}"`,
+    "--motif-year": `"20${yy}"`,
+  };
+}
 
 // Apertura elegida en el tema: todas reciben las mismas props y acaban en la carta.
 const OPENINGS = {
   mesa: EnvelopeStage,
   pantalla: FullEnvelope,
-  diptico: Diptych,
+  diptico: Diptych3D,
   caja: RibbonBox,
   pelicula: VideoEnvelope,
   sobre3d: Envelope3D,
   ventana: WindowEnvelope,
+  concepto: ConceptOpening,
 } satisfies Record<Theme["opening"], unknown>;
 
 const HEADINGS: Record<Stage, string> = {
@@ -79,9 +117,11 @@ export function InvitationExperience({
   theme = DEFAULT_THEME,
   initialStage,
   preview = false,
+  recording = false,
   phase = "invitacion",
   albumToken = null,
   gifts,
+  guestbook,
 }: {
   event: WeddingEvent;
   group: GuestGroup;
@@ -91,12 +131,15 @@ export function InvitationExperience({
   initialStage?: Stage;
   /** Vista previa del editor: el distintivo dice «Vista previa». */
   preview?: boolean;
+  /** Modo de grabación (solo demo, `?grabar=1`): sin distintivo ni «Saltar intro», para capturas limpias. */
+  recording?: boolean;
   /** «save_the_date»: aviso corto (fecha y calendario) antes de la invitación completa. */
   phase?: "save_the_date" | "invitacion";
   /** Token del álbum de fotos de los invitados (enlace al final de la invitación). */
   albumToken?: string | null;
   /** Reservas de la lista de regalos (sin ellas, la lista empieza sin reservas). */
   gifts?: GiftStatus;
+  guestbook?: GuestbookState;
   /** Respuesta guardada en el servidor (invitaciones reales); undefined en la demo. */
   initialResponse?: RsvpResponse | null;
 }) {
@@ -110,16 +153,21 @@ export function InvitationExperience({
   const [Content, setContent] = useState<ComponentType<InvitationContentProps> | null>(null);
   const userNavigated = useRef(false);
   // Si ya abrió el sobre en esta sesión, apertura corta (en servidor siempre es la portada).
+  // En la demo todas las plantillas comparten invitación: cada aspecto recuerda su apertura, o
+  // al abrir una plantilla las demás se saltarían su portada.
+  const seenId = group.persisted
+    ? group.token
+    : `${group.token}:${theme.style}:${theme.cover}:${theme.opening}`;
   const openedBefore = useSyncExternalStore(
     noopSubscribe,
-    () => hasOpenedEnvelope(group.token),
+    () => hasOpenedEnvelope(seenId),
     () => false,
   );
   const muted = useSyncExternalStore(subscribeMuted, isMuted, () => false);
   const stage: Stage =
     chosenStage ?? initialStage ?? (openedBefore ? (reduce ? "content" : "brief") : "cover");
   // Datos reales: sin distintivo. Demo o vista previa: se avisa de que no es una invitación real.
-  const badge = group.persisted ? null : preview ? "Vista previa" : undefined;
+  const badge = group.persisted || recording ? null : preview ? "Vista previa" : undefined;
 
   const preload = useCallback(() => {
     void loadContent().then((component) => setContent(() => component));
@@ -148,7 +196,7 @@ export function InvitationExperience({
     (next: Stage) => {
       userNavigated.current = true;
       if (next !== "cover") preload();
-      if (next === "content") markEnvelopeOpened(group.token);
+      if (next === "content") markEnvelopeOpened(seenId);
       // Música (si la pareja la quiere): entra al levantar la portada y se despide al llegar al
       // contenido.
       if (next === "envelope" && theme.music) startAmbient(theme.musicStyle, event.song);
@@ -156,7 +204,7 @@ export function InvitationExperience({
       // Dentro de una transición: React activa los <ViewTransition> (la carta que se transforma).
       startTransition(() => setStage(next));
     },
-    [group.token, preload, theme.music, theme.musicStyle, event.song],
+    [seenId, preload, theme.music, theme.musicStyle, event.song],
   );
 
   const toContent = useCallback(() => go("content"), [go]);
@@ -181,7 +229,22 @@ export function InvitationExperience({
         cardMessage: `¡Guarda la fecha! ${(event.kind ?? "boda") === "boda" ? "Nos casamos" : `Celebramos ${eventNoun(event)}`} y queremos que estés. Muy pronto te llegará la invitación con todos los detalles, en este mismo enlace.`,
       }
     : event;
-  const onDark = stage === "cover" || stage === "brief";
+  // Las portadas pintadas en claro piden los botones de arriba en tinta.
+  const lightCover = isLightCover(theme.cover);
+  const onDark = (stage === "cover" && !lightCover) || stage === "brief";
+  // La barra del navegador (Safari en el iPhone) acompaña a la pantalla: oscura en las portadas
+  // oscuras y del color del papel de la plantilla en el resto.
+  const night = (themeVars(theme) as Record<string, string>)["--color-night"] ?? "#10110d";
+  const barColor = onDark ? night : STYLES[theme.style].palette.ivory;
+  useEffect(() => {
+    const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (!meta) return;
+    const previous = meta.content;
+    meta.content = barColor;
+    return () => {
+      meta.content = previous;
+    };
+  }, [barColor]);
 
   return (
     <LazyMotion features={domAnimation} strict>
@@ -190,10 +253,17 @@ export function InvitationExperience({
           {/* El tema sobrescribe las variables de color y tipografía de toda la invitación. */}
           <div
             data-style={theme.style}
+            data-motif={theme.motif === "ninguno" ? undefined : theme.motif}
+            data-motif-kind={MOTIFS[theme.motif].kind ?? undefined}
             data-dark={STYLES[theme.style].dark ? "" : undefined}
             className="min-h-dvh bg-ivory text-ink"
-            style={themeVars(theme)}
+            style={
+              theme.motif === "ninguno"
+                ? themeVars(theme)
+                : ({ ...themeVars(theme), ...motifVars(theme, event.date) } as CSSProperties)
+            }
           >
+            {theme.motif === "ninguno" ? null : <MotifSkin />}
             {intro ? (
               <div className="fixed top-[max(1rem,env(safe-area-inset-top))] right-4 z-50 flex items-center gap-2">
                 <button
@@ -220,17 +290,19 @@ export function InvitationExperience({
                     <Volume2 aria-hidden className="size-4" />
                   )}
                 </button>
-                <button
-                  type="button"
-                  onClick={() => go("content")}
-                  className={
-                    onDark
-                      ? "rounded-full border border-white/40 bg-black/15 px-4 py-2 text-[0.8125rem] text-white backdrop-blur-sm transition-colors hover:bg-black/30"
-                      : "rounded-full border border-ink/20 bg-paper/60 px-4 py-2 text-[0.8125rem] text-ink backdrop-blur-sm transition-colors hover:bg-paper"
-                  }
-                >
-                  Saltar intro
-                </button>
+                {recording ? null : (
+                  <button
+                    type="button"
+                    onClick={() => go("content")}
+                    className={
+                      onDark
+                        ? "rounded-full border border-white/40 bg-black/15 px-4 py-2 text-[0.8125rem] text-white backdrop-blur-sm transition-colors hover:bg-black/30"
+                        : "rounded-full border border-ink/20 bg-paper/60 px-4 py-2 text-[0.8125rem] text-ink backdrop-blur-sm transition-colors hover:bg-paper"
+                    }
+                  >
+                    Saltar intro
+                  </button>
+                )}
               </div>
             ) : null}
 
@@ -259,7 +331,13 @@ export function InvitationExperience({
               </ViewTransition>
             ) : null}
             {stage === "cover" ? (
-              <CoverStage event={event} scene={theme.cover} onOpen={() => go("envelope")} />
+              <CoverStage
+                event={event}
+                scene={theme.cover}
+                effect={theme.coverEffect}
+                guestName={group.displayName}
+                onOpen={() => go("envelope")}
+              />
             ) : null}
             {stage === "letter" ? (
               <ViewTransition exit="fade-out" default="none">
@@ -283,12 +361,16 @@ export function InvitationExperience({
                     onReplay={() => go("cover")}
                     focusOnMount={chosenStage !== null}
                     calendar={theme.calendar}
+                    painted={theme.motif !== "ninguno"}
                     hidden={theme.hidden}
                     order={theme.order}
                     phase={phase}
                     albumToken={albumToken}
                     gifts={gifts}
+                    guestbook={guestbook}
                     smooth={theme.cover === "cine"}
+                    seal={{ shape: theme.sealShape, mark: theme.sealMark }}
+                    motif={theme.motif}
                     badge={badge}
                   />
                 </ViewTransition>

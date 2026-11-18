@@ -24,6 +24,8 @@ import {
   accentFor,
   applyTemplate,
   CALENDAR_IDS,
+  COVER_EFFECT_IDS,
+  COVER_EFFECTS,
   COVER_IDS,
   COVERS,
   CALENDARS,
@@ -31,6 +33,8 @@ import {
   EDGE_IDS,
   EDGES,
   ENVELOPES,
+  FILM_IDS,
+  FILMS,
   FLAP_IDS,
   flapGeometry,
   FLAPS,
@@ -54,7 +58,8 @@ import {
   SECTIONS,
   STYLE_IDS,
   STYLES,
-  TEMPLATE_IDS,
+  FEATURED_TEMPLATE_IDS,
+  type TemplateId,
   TEMPLATES,
   templateOf,
   TEXTURE_IDS,
@@ -97,7 +102,9 @@ type ChoiceKey =
   | "sealShape"
   | "sealMark"
   | "opening"
+  | "film"
   | "cover"
+  | "coverEffect"
   | "musicStyle"
   | "layout"
   | "edge"
@@ -152,18 +159,32 @@ function PremiumBadge({ children }: { children: ReactNode }) {
   );
 }
 
-// Cada apartado lleva la vista previa a la pantalla donde se ve lo que se cambia.
-const PARTS: readonly { id: string; label: string; Panel: () => ReactNode; stage?: Stage }[] = [
-  { id: "plantillas", label: "Plantillas", Panel: TemplatesPart },
-  { id: "colores", label: "Colores", Panel: ColorsPart },
-  { id: "letra", label: "Tipografía", Panel: FontsPart, stage: "cover" },
-  { id: "portada", label: "Portada", Panel: CoverPart, stage: "cover" },
-  { id: "apertura", label: "Apertura", Panel: OpeningPart, stage: "envelope" },
-  { id: "sobre", label: "Sobre", Panel: EnvelopePart, stage: "envelope" },
-  { id: "carta", label: "Carta", Panel: LetterPart, stage: "letter" },
-  { id: "calendario", label: "Calendario", Panel: CalendarPart, stage: "content" },
-  { id: "secciones", label: "Secciones y música", Panel: SectionsPart, stage: "content" },
+// Cada apartado lleva la vista previa a la pantalla donde se ve lo que se cambia. Van en dos
+// filas: lo que afecta a toda la invitación y, después, cada pantalla en el orden en que la ve
+// el invitado.
+type Part = { id: string; label: string; Panel: () => ReactNode; stage?: Stage };
+const PART_ROWS: readonly { title: string; parts: readonly Part[] }[] = [
+  {
+    title: "Para toda la invitación",
+    parts: [
+      { id: "plantillas", label: "Plantillas", Panel: TemplatesPart },
+      { id: "colores", label: "Colores", Panel: ColorsPart },
+      { id: "letra", label: "Tipografía", Panel: FontsPart, stage: "cover" },
+    ],
+  },
+  {
+    title: "Pantalla a pantalla, como la abren",
+    parts: [
+      { id: "portada", label: "Portada", Panel: CoverPart, stage: "cover" },
+      { id: "apertura", label: "Apertura", Panel: OpeningPart, stage: "envelope" },
+      { id: "sobre", label: "Sobre", Panel: EnvelopePart, stage: "envelope" },
+      { id: "carta", label: "Carta", Panel: LetterPart, stage: "letter" },
+      { id: "calendario", label: "Calendario", Panel: CalendarPart, stage: "content" },
+      { id: "secciones", label: "Secciones y música", Panel: SectionsPart, stage: "content" },
+    ],
+  },
 ];
+const PARTS = PART_ROWS.flatMap((row) => row.parts);
 
 /** Estilo: se parte de una plantilla y se ajusta cada detalle por apartados. */
 export function StyleTab() {
@@ -172,15 +193,17 @@ export function StyleTab() {
   const refs = useRef(new Map<string, HTMLButtonElement>());
   const id = useId();
   const current = PARTS.find((p) => p.id === part) ?? PARTS[0]!;
-  const choose = (next: (typeof PARTS)[number]) => {
+  const choose = (next: Part) => {
     setPart(next.id);
     if (next.stage) showStage(next.stage);
   };
 
-  const onKey = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
+  // Las flechas recorren los apartados de las dos filas seguidos.
+  const onKey = (e: KeyboardEvent<HTMLButtonElement>) => {
     const delta = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
     if (!delta) return;
     e.preventDefault();
+    const index = PARTS.findIndex((p) => p.id === part);
     const next = PARTS[(index + delta + PARTS.length) % PARTS.length]!;
     choose(next);
     refs.current.get(next.id)?.focus();
@@ -188,41 +211,50 @@ export function StyleTab() {
 
   return (
     <div>
-      <div
-        role="tablist"
-        aria-label="Apartados del estilo"
-        className="-mx-1 mb-6 flex flex-wrap gap-2 px-1"
-      >
-        {PARTS.map((p, i) => (
-          <button
-            key={p.id}
-            ref={(el) => {
-              if (el) refs.current.set(p.id, el);
-            }}
-            type="button"
-            role="tab"
-            id={`${id}-${p.id}`}
-            aria-selected={part === p.id}
-            aria-controls={`${id}-panel`}
-            tabIndex={part === p.id ? 0 : -1}
-            onClick={() => choose(p)}
-            onKeyDown={(e) => onKey(e, i)}
-            className={clsx(
-              "rounded-full border px-3.5 py-1.5 text-[0.875rem] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
-              part === p.id
-                ? "border-ink bg-ink text-paper"
-                : "border-line bg-paper text-ink-soft hover:border-ink/40",
-            )}
-          >
-            {p.label}
-          </button>
+      <div className="mb-10 grid gap-3 rounded-xl bg-cream/70 p-4 sm:gap-4 sm:p-5">
+        {PART_ROWS.map((row, r) => (
+          <div key={row.title}>
+            <p id={`${id}-fila-${r}`} className="mb-2 text-[0.8125rem] text-muted">
+              {row.title}
+            </p>
+            <div
+              role="tablist"
+              aria-labelledby={`${id}-fila-${r}`}
+              className="flex flex-wrap gap-2"
+            >
+              {row.parts.map((p) => (
+                <button
+                  key={p.id}
+                  ref={(el) => {
+                    if (el) refs.current.set(p.id, el);
+                  }}
+                  type="button"
+                  role="tab"
+                  id={`${id}-${p.id}`}
+                  aria-selected={part === p.id}
+                  aria-controls={`${id}-panel`}
+                  tabIndex={part === p.id ? 0 : -1}
+                  onClick={() => choose(p)}
+                  onKeyDown={onKey}
+                  className={clsx(
+                    "min-h-10 shrink-0 rounded-full border px-4 text-[0.875rem] whitespace-nowrap transition-colors",
+                    part === p.id
+                      ? "border-ink bg-ink font-medium text-paper"
+                      : "border-line bg-paper text-ink-soft hover:border-ink/40 hover:text-ink",
+                  )}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+          </div>
         ))}
       </div>
       <div
         id={`${id}-panel`}
         role="tabpanel"
         aria-labelledby={`${id}-${current.id}`}
-        className="grid gap-8"
+        className="grid gap-10"
       >
         <current.Panel />
       </div>
@@ -273,7 +305,11 @@ function TemplatesPart() {
       description="Empieza por una y después cambia lo que quieras en los demás apartados."
     >
       <div role="radiogroup" aria-label="Plantillas" className="grid gap-3 sm:grid-cols-2">
-        {TEMPLATE_IDS.map((id) => {
+        {/* Se ofrecen las cinco plantillas; si el evento usa una anterior, se sigue viendo. */}
+        {(active && !(FEATURED_TEMPLATE_IDS as readonly TemplateId[]).includes(active)
+          ? [active, ...FEATURED_TEMPLATE_IDS]
+          : FEATURED_TEMPLATE_IDS
+        ).map((id) => {
           const look = applyTemplate(draft.theme, id);
           return (
             <ChoiceCard
@@ -495,6 +531,40 @@ const COVER_SAMPLES: Record<Theme["cover"], string> = {
     "linear-gradient(135deg, transparent 0 18%, #d8bd80 18% 19.5%, transparent 19.5%), linear-gradient(315deg, transparent 0 18%, #d8bd80 18% 19.5%, transparent 19.5%), radial-gradient(110% 80% at 50% 42%, #25392e, #0b130f)",
   cine: "linear-gradient(180deg, #000 0 14%, #6b4f37 14% 86%, #000 86%)",
   video: "linear-gradient(135deg, #2b2b2b, #555)",
+  ramas: "url(/portadas/ramas.webp) center / cover",
+  buganvilla: "url(/portadas/buganvilla.webp) center / cover",
+  medianoche: "url(/portadas/medianoche.webp) center / cover",
+  arcilla: "url(/portadas/arcilla.webp) center / cover",
+  orilla: "url(/portadas/orilla.webp) center / cover",
+  terciopelo: "url(/portadas/terciopelo.webp) center / cover",
+  lavanda: "url(/portadas/lavanda.webp) center / cover",
+  cortijo: "url(/portadas/cortijo.webp) center / cover",
+  lino: "url(/portadas/lino.webp) center / cover",
+  granada: "url(/portadas/granada.webp) center / cover",
+  eucalipto: "url(/portadas/eucalipto.webp) center / cover",
+  gaceta: "url(/venta/portada-gaceta.webp) center / cover",
+  embarque: "url(/venta/portada-embarque.webp) center / cover",
+  premio: "url(/venta/portada-premio.webp) center / cover",
+  telegrama: "url(/venta/portada-telegrama.webp) center / cover",
+  postal: "url(/venta/portada-postal.webp) center / cover",
+  vinilo: "url(/venta/portada-vinilo.webp) center / cover",
+  pasaporte: "url(/venta/portada-pasaporte.webp) center / cover",
+  carta: "url(/venta/portada-carta.webp) center / cover",
+  mapa: "url(/venta/portada-mapa.webp) center / cover",
+  constelacion: "url(/venta/portada-constelacion.webp) center / cover",
+  comic: "url(/venta/portada-comic.webp) center / cover",
+  cosecha: "url(/venta/portada-cosecha.webp) center / cover",
+  tarot: "url(/venta/portada-tarot.webp) center / cover",
+  arcade: "url(/venta/portada-arcade.webp) center / cover",
+  semillas: "url(/venta/portada-semillas.webp) center / cover",
+};
+
+/** Miniatura de cada efecto de portada. */
+const EFFECT_SAMPLES: Record<Theme["coverEffect"], string> = {
+  ninguno: "linear-gradient(135deg, #e9e4d8, #cfc8b8)",
+  petalos:
+    "radial-gradient(ellipse at 30% 30%, #fff 0 3px, transparent 4px), radial-gradient(ellipse at 68% 55%, #f3ece2 0 4px, transparent 5px), radial-gradient(ellipse at 40% 80%, #fff 0 2px, transparent 3px), #1c1a1a",
+  oro: "radial-gradient(circle at 25% 35%, #f6d98a 0 1px, transparent 2px), radial-gradient(circle at 60% 25%, #f6d98a 0 1.4px, transparent 2.4px), radial-gradient(circle at 70% 70%, #f6d98a 0 1px, transparent 2px), radial-gradient(circle at 35% 75%, #f6d98a 0 1.2px, transparent 2.2px), radial-gradient(120% 90% at 50% 50%, #4a2c12, #120b06)",
 };
 
 function CoverPart() {
@@ -514,6 +584,27 @@ function CoverPart() {
               label={COVERS[id].label}
               description={COVERS[id].description}
               swatch={<Tile background={COVER_SAMPLES[id]} />}
+            />
+          ))}
+        </div>
+      </Group>
+      <Group
+        title="Efecto"
+        description="Algo que se mueve por encima de la portada. Luce en los fondos oscuros; en los claros casi no se nota."
+      >
+        <div
+          role="radiogroup"
+          aria-label="Efecto de la portada"
+          className="grid gap-3 sm:grid-cols-3"
+        >
+          {COVER_EFFECT_IDS.map((id) => (
+            <Choice
+              key={id}
+              name="coverEffect"
+              value={id}
+              label={COVER_EFFECTS[id].label}
+              description={COVER_EFFECTS[id].description}
+              swatch={<Tile background={EFFECT_SAMPLES[id]} />}
             />
           ))}
         </div>
@@ -542,25 +633,50 @@ function CoverPart() {
 }
 
 function OpeningPart() {
+  const { draft } = useEditor();
   return (
-    <Group
-      title="Apertura"
-      description="Lo primero que hace el invitado al levantar la portada. Usa el papel, el forro y el lacre del apartado Sobre."
-    >
-      <div role="radiogroup" aria-label="Apertura" className="grid gap-3 sm:grid-cols-2">
-        {OPENING_IDS.map((id) => (
-          <Choice
-            key={id}
-            name="opening"
-            value={id}
-            label={OPENINGS[id].label}
-            description={OPENINGS[id].description}
-            badge={OPENINGS[id].premium ? "Premium" : undefined}
-            swatch={<OpeningSample opening={id} />}
-          />
-        ))}
-      </div>
-    </Group>
+    <>
+      <Group
+        title="Apertura"
+        description="Lo primero que hace el invitado al levantar la portada. Usa el papel, el forro y el lacre del apartado Sobre."
+      >
+        <div role="radiogroup" aria-label="Apertura" className="grid gap-3 sm:grid-cols-2">
+          {OPENING_IDS.map((id) => (
+            <Choice
+              key={id}
+              name="opening"
+              value={id}
+              label={OPENINGS[id].label}
+              description={OPENINGS[id].description}
+              badge={OPENINGS[id].premium ? "Premium" : undefined}
+              swatch={<OpeningSample opening={id} />}
+            />
+          ))}
+        </div>
+      </Group>
+      {draft.theme.opening === "pelicula" ? (
+        <Group
+          title="Qué se abre en el vídeo"
+          description="La apertura va grabada en vídeo: se elige entre estos sobres, una caja con lazo o un díptico."
+        >
+          <div
+            role="radiogroup"
+            aria-label="Qué se abre en el vídeo"
+            className="grid gap-3 sm:grid-cols-3"
+          >
+            {FILM_IDS.map((id) => (
+              <Choice
+                key={id}
+                name="film"
+                value={id}
+                label={FILMS[id].label}
+                swatch={<Tile background={FILMS[id].hex} />}
+              />
+            ))}
+          </div>
+        </Group>
+      ) : null}
+    </>
   );
 }
 

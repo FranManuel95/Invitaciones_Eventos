@@ -2,7 +2,7 @@
 
 import { CalendarPlus } from "lucide-react";
 import { m, useInView, useReducedMotion } from "motion/react";
-import { useRef, useState, type MouseEvent, type RefObject } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type RefObject } from "react";
 import { buttonClasses } from "@/components/ui/button";
 import {
   buildIcs,
@@ -15,6 +15,7 @@ import {
 import type { WeddingEvent } from "@/lib/domain/types";
 import type { CalendarId } from "@/lib/theme";
 import { formatWeekdayDate, isoDay } from "@/lib/format";
+import { haptic, playPaper } from "../effects/sound";
 import { FlipCountdown } from "./countdown";
 import { Section } from "./sections";
 
@@ -28,15 +29,18 @@ const pageName = ({ year, month }: MonthPage) =>
     new Date(Date.UTC(year, month - 1, 15)),
   );
 
-/** Cada hoja tarda algo menos que la anterior: el taco «se acelera» hasta llegar a mayo. */
+/**
+ * Cuándo cae cada hoja: una tras otra, con calma y casi al mismo paso (la última algo más
+ * ligera), para que dé tiempo a leer cada mes.
+ */
 function pageDelays(count: number) {
   const delays: number[] = [];
-  let t = 0.35;
+  let t = 0.4;
   for (let i = 0; i < count; i++) {
     delays.push(t);
-    t += Math.max(0.16, 0.48 * 0.82 ** i);
+    t += Math.max(0.42, 0.6 * 0.94 ** i);
   }
-  return { delays, end: t + 0.35 };
+  return { delays, end: t + 0.45 };
 }
 
 /** Corazón a mano alzada alrededor del día (como el círculo, no cierra del todo). */
@@ -46,8 +50,8 @@ const RING = "M38 6C22 2 6 9 5 22C4 34 18 41 32 39C47 37 57 28 55 17C53 8 42 4 3
 
 /**
  * «Guarda la fecha». Variantes según el tema:
- * - taco: al llegar, las hojas de los meses que faltan caen una tras otra hasta descubrir el mes
- *   de la boda, y entonces se rodea el día a mano;
+ * - taco: al llegar, las hojas de los meses que faltan caen una tras otra hasta descubrir el
+ *   mes de la boda, y entonces se rodea el día a mano;
  * - minimal: una sola hoja limpia en la que el día se marca con un círculo de color;
  * - mano y corazón: la hoja del mes con el día rodeado a pluma (un círculo o un corazón);
  * - semana: solo la semana de la boda, con el día en grande;
@@ -78,6 +82,21 @@ export function SaveTheDate({
     reduce || !isPad ? [] : pagesUntil(new Date().toISOString(), day),
   );
   const { delays, end } = pageDelays(pages.length);
+  // Cada hoja suena a papel y se nota en el dedo al caer.
+  const pageCount = pages.length;
+  useEffect(() => {
+    if (!inView || !pageCount) return;
+    const timers = pageDelays(pageCount).delays.map((delay) =>
+      window.setTimeout(
+        () => {
+          haptic(6);
+          playPaper(0.25);
+        },
+        (delay + 0.1) * 1000,
+      ),
+    );
+    return () => timers.forEach((timer) => window.clearTimeout(timer));
+  }, [inView, pageCount]);
   const dayRef = useRef<HTMLSpanElement>(null);
   const [flight, setFlight] = useState<{ x: number; y: number; dx: number; dy: number } | null>(
     null,
@@ -126,6 +145,7 @@ export function SaveTheDate({
                 ))}
               </div>
             ) : null}
+            {/* Al llegar, las hojas caen una tras otra, cada una a su tiempo. */}
             {pages.map((page, i) => (
               <m.div
                 key={`${page.year}-${page.month}`}
@@ -140,10 +160,10 @@ export function SaveTheDate({
                 }
                 // La hoja se levanta entera por encima de la espiral y solo se desvanece al final.
                 transition={{
-                  duration: 0.62,
+                  duration: 0.7,
                   delay: delays[i],
                   ease: [0.5, 0, 0.6, 1],
-                  opacity: { duration: 0.62, delay: delays[i], times: [0, 0.7, 1] },
+                  opacity: { duration: 0.7, delay: delays[i], times: [0, 0.7, 1] },
                 }}
               >
                 <span className="text-center">
@@ -258,8 +278,8 @@ export function SaveTheDate({
               ? "Guárdalo ya en tu calendario. La confirmación de asistencia llegará con la invitación."
               : "Guárdalo ya en tu calendario. Podrás confirmar asistencia más abajo cuando quieras."}
           </p>
-          <FlipCountdown date={event.date} className="mt-6" />
-          <div className="mt-6 flex flex-wrap gap-3">
+          <FlipCountdown date={event.date} className="mt-8" />
+          <div className="mt-8 flex flex-wrap gap-3">
             <a
               href={googleCalendarUrl(event)}
               target="_blank"

@@ -33,6 +33,9 @@ export function PreviewClient({
         if (nextTheme.success) setTheme(nextTheme.data);
       } else if (data?.type === "stage") {
         setStage((s) => ({ stage: data.stage, n: s.n + 1 }));
+      } else if (data?.type === "hello") {
+        // El editor puede haber empezado a escuchar después de nuestro primer aviso.
+        window.parent.postMessage({ type: "ready" } satisfies FromPreview, window.location.origin);
       }
     };
     window.addEventListener("message", onMessage);

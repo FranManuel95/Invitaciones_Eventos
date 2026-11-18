@@ -1,13 +1,16 @@
 import type { Metadata, Viewport } from "next";
 import {
+  Bangers,
   Bodoni_Moda,
   Cormorant_Garamond,
+  Courier_Prime,
   Fraunces,
   Great_Vibes,
   Italiana,
   Jost,
   Pinyon_Script,
   Playfair_Display,
+  Press_Start_2P,
   Poiret_One,
 } from "next/font/google";
 import "./globals.css";
@@ -76,9 +79,41 @@ const greatVibes = Great_Vibes({
   preload: false,
 });
 
-const fontVariables = [classic, playfair, fraunces, italiana, poiret, pinyon, greatVibes].map(
-  (f) => f.variable,
-);
+// Máquina de escribir, para la plantilla Telegrama.
+const courier = Courier_Prime({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-courier",
+  display: "swap",
+  preload: false,
+});
+// Rotulación de tebeo (plantilla Cómic) y píxeles de recreativa (plantilla Arcade).
+const bangers = Bangers({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-bangers",
+  display: "swap",
+  preload: false,
+});
+const pixel = Press_Start_2P({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-pixel",
+  display: "swap",
+  preload: false,
+});
+const fontVariables = [
+  classic,
+  playfair,
+  fraunces,
+  italiana,
+  poiret,
+  pinyon,
+  greatVibes,
+  courier,
+  bangers,
+  pixel,
+].map((f) => f.variable);
 
 const sans = Jost({
   subsets: ["latin"],
@@ -87,7 +122,7 @@ const sans = Jost({
 });
 
 export const metadata: Metadata = {
-  title: { default: "Invitaciones (demo)", template: "%s | Invitaciones" },
+  title: { default: "Invitaciones eFeLe (demo)", template: "%s | Invitaciones eFeLe" },
   description: "Prototipo de invitaciones digitales premium para bodas y eventos.",
   // Prototipo con datos ficticios: no debe indexarse.
   robots: { index: false, follow: false },

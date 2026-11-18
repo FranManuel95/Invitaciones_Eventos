@@ -17,16 +17,64 @@ test.describe("página de venta", () => {
     await expect(page.getByRole("heading", { name: "Invitaciones de ejemplo" })).toBeVisible();
   });
 
-  test("enseña cada apertura en marcha y cada plantilla, con su enlace", async ({ page }) => {
+  test("cuenta el recorrido del invitado paso a paso, con el sobre en vídeo", async ({ page }) => {
     await page.goto("/");
-    const openings = page.getByRole("region", { name: "Elegid cómo se abre" });
-    await expect(openings.getByRole("link")).toHaveCount(7);
-    // Los vídeos se pueden parar.
-    await openings.getByRole("button", { name: "Pausar «Caja con lazo»" }).click();
-    await expect(openings.getByRole("button", { name: "Ver «Caja con lazo»" })).toBeVisible();
-    const templates = page.getByRole("region", { name: "Plantillas para empezar" });
-    await templates.getByRole("link", { name: "Medianoche", exact: true }).click();
-    await expect(page).toHaveURL(/plantilla=medianoche/);
+    // La portada: el sobre real en bucle, que se puede parar.
+    await page.getByRole("button", { name: "Pausar el vídeo del sobre" }).click();
+    await expect(page.getByRole("button", { name: "Reproducir el vídeo del sobre" })).toBeVisible();
+    const journey = page.getByRole("region", { name: "Así la vive cada invitado" });
+    if ((page.viewportSize()?.width ?? 0) < 640) {
+      // En el móvil, un paso a la vez, dentro de los márgenes, con botones.
+      await expect(journey.getByRole("heading", { name: "Le llega vuestro enlace" })).toBeVisible();
+      await expect(journey.getByRole("button", { name: "Paso anterior" })).toBeDisabled();
+      await journey.getByRole("button", { name: "Paso siguiente" }).click();
+      await expect(journey.getByRole("heading", { name: "Rompe el lacre" })).toBeVisible();
+      await expect(journey.getByText(/^2\s*de 7$/)).toBeAttached();
+    } else {
+      await expect(journey.getByRole("listitem")).toHaveCount(7);
+      await expect(journey.getByRole("heading", { name: "Rompe el lacre" })).toBeVisible();
+    }
+    for (const name of ["Y vosotros, la boda en orden", "Un precio, sin letra pequeña"]) {
+      await expect(page.getByRole("region", { name })).toBeAttached();
+    }
+  });
+
+  test("la invitación a juego con la decoración lleva a pedirla", async ({ page }) => {
+    await page.goto("/");
+    const decor = page.getByRole("region", { name: "A juego con vuestra decoración" });
+    // Va entre el panel de los novios y el precio.
+    const order = await page
+      .getByRole("heading", { level: 2 })
+      .evaluateAll((hs) => hs.map((h) => h.textContent?.trim()));
+    const at = order.indexOf("A juego con vuestra decoración");
+    expect(order[at - 1]).toBe("Y vosotros, la boda en orden");
+    expect(order[at + 1]).toBe("Un precio, sin letra pequeña");
+    await expect(
+      decor.getByRole("list", { name: "Tres decoraciones de muestra" }).getByRole("listitem"),
+    ).toHaveCount(3);
+    await expect(
+      decor.getByRole("link", { name: "Ver decoraciones en Instagram" }),
+    ).toHaveAttribute("href", "https://www.instagram.com/eventos.efele/");
+    await decor.getByRole("link", { name: "Contadnos vuestra decoración" }).click();
+    await expect(page).toHaveURL(/#pedir$/);
+    await expect(page.getByLabel("Vuestros nombres")).toBeInViewport();
+  });
+
+  test("el muestrario enseña las veinticinco plantillas por familias", async ({ page }) => {
+    await page.goto("/");
+    const book = page.getByRole("region", { name: "Veinticinco plantillas para empezar" });
+    const papel = book.getByRole("tab", { name: /Papel y acuarela/ });
+    await expect(papel).toHaveAttribute("aria-selected", "true");
+    await expect(book.getByRole("tabpanel").getByRole("link")).toHaveCount(10);
+    // Con el teclado se pasa a la otra familia.
+    await papel.focus();
+    await page.keyboard.press("ArrowRight");
+    const objetos = book.getByRole("tab", { name: /Objetos/ });
+    await expect(objetos).toHaveAttribute("aria-selected", "true");
+    await expect(objetos).toBeFocused();
+    await expect(book.getByRole("tabpanel").getByRole("link")).toHaveCount(15);
+    await book.getByRole("link", { name: "Gaceta", exact: true }).click();
+    await expect(page).toHaveURL(/plantilla=gaceta/);
   });
 
   test("el formulario marca los errores y conserva lo escrito", async ({ page }) => {
@@ -60,11 +108,38 @@ test.describe("página de venta", () => {
 
   test("los ejemplos enlazan cada apertura, portada y momento", async ({ page }) => {
     await page.goto("/ejemplos");
-    const openings = page.getByRole("region", { name: "Aperturas" });
+    await expect(page.getByRole("banner").getByRole("link", { name: /eFeLe/ })).toBeVisible();
+    const openings = page.getByRole("region", { name: "Siete aperturas" });
     await expect(openings.getByRole("link")).toHaveCount(7);
     // La película se ofrece como apertura premium.
-    await expect(openings.getByRole("link", { name: /Sobre de película.*Premium/ })).toBeVisible();
-    await expect(page.getByRole("region", { name: "Portadas" }).getByRole("link")).toHaveCount(6);
+    await expect(openings.getByRole("link", { name: /Sobre de película.*Premium/ })).toBeAttached();
+    // Las portadas, por familias: entre las tres pestañas están las treinta y dos.
+    const covers = page.getByRole("region", { name: "Treinta y dos portadas" });
+    const tabs = covers.getByRole("tab");
+    await expect(tabs).toHaveCount(3);
+    let total = 0;
+    for (const [i, expected] of [6, 11, 15].entries()) {
+      await tabs.nth(i).click();
+      await expect(tabs.nth(i)).toHaveAttribute("aria-selected", "true");
+      await expect(covers.getByRole("tabpanel").getByRole("link")).toHaveCount(expected);
+      total += expected;
+    }
+    expect(total).toBe(32);
+    await covers.getByRole("link", { name: "Gaceta", exact: true }).click();
+    await expect(page).toHaveURL(/portada=gaceta/);
+    await page.goBack();
+    // Las plantillas, también por familias y con su apertura asomando.
+    const templates = page.getByRole("region", { name: "Veinticinco plantillas" });
+    await expect(templates.getByRole("tabpanel").getByRole("link")).toHaveCount(10);
+    await expect(templates.getByText(/^Se abre con:/).first()).toBeAttached();
+    // Nada se sale de la página.
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    );
+    expect(overflow).toBeLessThanOrEqual(0);
+    const { violations } = await new AxeBuilder({ page }).analyze();
+    const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
+    expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual([]);
     await openings.getByRole("link", { name: /Caja con lazo/ }).click();
     await expect(page).toHaveURL(/apertura=caja/);
     await expect(page.getByRole("heading", { level: 1, name: /María/ })).toBeAttached();
@@ -91,5 +166,23 @@ test.describe("página de venta", () => {
   test("sin dominio propio, robots.txt no deja indexar nada", async ({ request }) => {
     const robots = await (await request.get("/robots.txt")).text();
     expect(robots).toMatch(/Disallow: \/\s*$/m);
+  });
+
+  test("las pieles de las plantillas con motivo solo se descargan con ellas", async ({ page }) => {
+    const skins = (path: string) =>
+      page.goto(path).then(() =>
+        page.evaluate(async () => {
+          const css = await Promise.all(
+            [...document.querySelectorAll<HTMLLinkElement>("link[rel=stylesheet]")].map((l) =>
+              fetch(l.href).then((r) => r.text()),
+            ),
+          );
+          // El minificador quita las comillas del selector: [data-motif=gaceta].
+          return css.some((text) => /data-motif=("?)gaceta/.test(text));
+        }),
+      );
+    expect(await skins("/")).toBe(false);
+    expect(await skins("/i/familia-garcia?plantilla=olivar")).toBe(false);
+    expect(await skins("/i/familia-garcia?plantilla=gaceta")).toBe(true);
   });
 });

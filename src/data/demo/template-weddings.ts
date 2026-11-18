@@ -1,0 +1,3312 @@
+import { wedding } from "./wedding-builder";
+
+/*
+ * Una boda ficticia por plantilla, con su sitio, su historia y sus textos, a juego con el concepto
+ * de cada una (Embarque, una pareja viajera; Vinilo, una pareja de músicos; Cosecha, una bodega…).
+ * Las ciudades existen; los sitios, las personas, las direcciones y los hoteles son inventados.
+ */
+
+export const lavanda = wedding({
+  id: "evt-demo-lucia-marcos",
+  first: "Lucía",
+  second: "Marcos",
+  date: "2027-11-06T19:00:00+01:00",
+  rsvpDeadline: "2027-10-01T23:59:00+02:00",
+  city: "Brihuega",
+  region: "Guadalajara",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-4.jpg",
+  cardMessage:
+    "Nos conocimos entre lavanda y queremos casarnos con su olor todavía en la ropa. Ven a celebrarlo con nosotros.",
+  welcomeMessage:
+    "Ella hace perfumes y él cuida abejas: era cuestión de tiempo que coincidiéramos en un campo morado. Aquí tienes todo para acompañarnos.",
+  thankYouMessage:
+    "Gracias por venir a la Alcarria en pleno otoño, por los brindis junto a la chimenea y por bailar hasta tarde. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Ermita de la Vega",
+      kind: "Ceremonia",
+      address: "Camino de la Vega, s/n",
+      note: "A las afueras del pueblo, con aparcamiento al lado. Llegad 20 minutos antes: anochece pronto.",
+      photo: "ermitaOlivos",
+    },
+    {
+      id: "finca",
+      name: "Destilería El Lavandar",
+      kind: "Cóctel, cena y fiesta",
+      address: "Carretera de Masegoso, km 2",
+      note: "A 8 minutos de la ermita. La cena es dentro, en la antigua nave de los alambiques.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [13, 2, 35],
+  program: [
+    [
+      "19:00",
+      "Ceremonia",
+      "iglesia",
+      "Ermita de la Vega",
+      "Breve, a la luz de las velas y con un cuarteto de cuerda.",
+      "ceremony",
+    ],
+    [
+      "20:00",
+      "Cóctel",
+      "finca",
+      "Junto a los alambiques",
+      "Vino caliente, quesos de la Alcarria y miel de nuestras colmenas.",
+      "cocktail",
+    ],
+    [
+      "21:30",
+      "Cena",
+      "finca",
+      "La nave grande",
+      "Cena de otoño, con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "00:00",
+      "Fiesta",
+      "finca",
+      "Hasta que se apague la chimenea",
+      "Barra libre y baile. Hay chocolate caliente a las dos.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["madrid", "Madrid → Brihuega", "Avenida de América, Madrid", "17:00", ["01:30", "03:30"], 50],
+    [
+      "guadalajara",
+      "Guadalajara → Brihuega",
+      "Estación de tren, Guadalajara",
+      "17:45",
+      ["03:30"],
+      30,
+    ],
+  ],
+  menu: {
+    carne: "Cordero asado con miel de lavanda y patatas panaderas",
+    pescado: "Bacalao con pisto y aceite de romero",
+    vegetariano: "Crema de calabaza y risotto de setas",
+    vegano: "Guiso de garbanzos con boletus y castañas",
+  },
+  dressCode: {
+    title: "Elegante de otoño",
+    detail: "Colores de lavanda y de piedra. La ermita es fría: traed abrigo para la ceremonia.",
+    palette: [
+      { name: "Lavanda", hex: "#b9a8dc" },
+      { name: "Malva", hex: "#8d78b8" },
+      { name: "Añil", hex: "#3d3560" },
+      { name: "Gris perla", hex: "#d9d6e0" },
+      { name: "Verde salvia", hex: "#a9b79c" },
+    ],
+    examples: [
+      "Vestido midi o largo en tonos lila o gris; mejor tacón ancho, que hay camino de tierra.",
+      "Traje de lana en gris o azul noche; la corbata, si os apetece.",
+      "Ropa de abrigo y cómoda: hay jardín para correr.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Plaza del Coso",
+      "En el centro, a 5 min de la ermita",
+      "Habitaciones reservadas hasta el 20 de septiembre. Menciona la boda.",
+    ],
+    [
+      "Casa rural Los Alambiques",
+      "Junto a la destilería",
+      "Seis habitaciones con chimenea, ideal para grupos.",
+    ],
+  ],
+  story: {
+    intro:
+      "Un festival de la lavanda, un frasco de perfume y muchas abejas. Esta es la versión corta.",
+    moments: [
+      [
+        "2020",
+        "El campo morado",
+        "Ella vino a recoger flor para sus perfumes y él le avisó de que las abejas no pican si no corres. Corrió igual.",
+        "olivos",
+      ],
+      [
+        "2022",
+        "El primer perfume",
+        "Lo llamó «Marcos en julio». Él dice que huele a miel; ella, a verano.",
+        "terraza",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "Con el anillo escondido en una caja de esencias. Lo encontró al tercer frasco.",
+        "anilloMuro",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Vivimos en Brihuega, entre el taller y las colmenas. Solo faltáis vosotros.",
+        "olivar",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a la Provenza",
+      "A ver los campos de Valensole y aprender de sus perfumistas.",
+      "Lo que queráis",
+    ],
+    ["Un alambique de cobre pequeño", "Para destilar en casa los experimentos de Lucía.", "260 €"],
+    ["Dos colmenas nuevas", "Las abejas de Marcos necesitan vecinas.", "180 €"],
+    ["Un rosal para el patio", "Lo plantaremos al volver del viaje.", "35 €"],
+  ],
+  kids: "Habrá monitores y una sala de juegos junto a la nave.",
+  faq: [
+    "¿Hará frío?",
+    "Por la noche, bastante. La nave tiene calefacción y chimenea, pero traed abrigo para la ermita.",
+  ],
+  guestbook: [
+    ["Sara y Joaquín", "Llevamos años oliendo a lavanda en cada cena con vosotros. ¡Qué ganas!"],
+    ["La abuela Pilar", "Que la miel no os falte nunca, y la paciencia tampoco."],
+    ["Los del taller", "Ya tenemos el perfume para la boda. Adivinad cuál."],
+  ],
+  songs: ["La vie en rose", "Lavender Haze", "Contigo", "Como hablar", "September", "Valerie"],
+});
+
+export const cortijo = wedding({
+  id: "evt-demo-rocio-manuel",
+  first: "Rocío",
+  second: "Manuel",
+  date: "2027-10-02T12:30:00+02:00",
+  rsvpDeadline: "2027-08-25T23:59:00+02:00",
+  city: "Carmona",
+  region: "Sevilla",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-1.jpg",
+  cardMessage:
+    "Nos casamos en el cortijo de la familia, con caballos, plumeros y mucho mantel. Nos encantaría verte allí.",
+  welcomeMessage:
+    "Crecimos a dos fincas de distancia y tardamos treinta años en darnos cuenta. Aquí tienes todo para pasar el día con nosotros.",
+  thankYouMessage:
+    "Gracias por las sevillanas, por la sobremesa interminable y por quedaros a ver la puesta de sol. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Ermita de Santa Ana",
+      kind: "Ceremonia",
+      address: "Camino de la Ermita, s/n",
+      note: "A las afueras de Carmona. Hay sitio para aparcar en la explanada.",
+      photo: "ermitaOlivos",
+    },
+    {
+      id: "finca",
+      name: "Cortijo El Alcor",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Carretera de Brenes, km 6",
+      note: "A 15 minutos de la ermita, por la vega. Los autobuses salen al terminar la ceremonia.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [28, 15, 10],
+  program: [
+    [
+      "12:30",
+      "Ceremonia",
+      "iglesia",
+      "Ermita de Santa Ana",
+      "Con coro rociero y la puerta abierta al campo.",
+      "ceremony",
+    ],
+    [
+      "13:45",
+      "Aperitivo",
+      "finca",
+      "El patio de los caballos",
+      "Jamón, gambas de Huelva y rebujito bien frío.",
+      "cocktail",
+    ],
+    [
+      "15:30",
+      "Comida",
+      "finca",
+      "Bajo la pérgola",
+      "Comida larga con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "19:00",
+      "Fiesta",
+      "finca",
+      "Hasta que salga la luna",
+      "Sevillanas, barra libre y recena de montaditos.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "sevilla",
+      "Sevilla → Cortijo",
+      "Prado de San Sebastián, Sevilla",
+      "11:15",
+      ["21:00", "01:30"],
+      50,
+    ],
+    ["carmona", "Carmona → Cortijo", "Puerta de Sevilla, Carmona", "12:00", ["01:30"], 30],
+  ],
+  menu: {
+    carne: "Carrillada ibérica al vino de naranja",
+    pescado: "Lubina a la sal con ajo blanco",
+    vegetariano: "Espinacas con garbanzos y huevo de corral",
+    vegano: "Berenjenas asadas con miel de caña vegetal y almendras",
+  },
+  dressCode: {
+    title: "Campo de gala",
+    detail: "Colores de trigo y de teja. El aperitivo es sobre albero: mejor evitar tacones finos.",
+    palette: [
+      { name: "Trigo", hex: "#e3d1b0" },
+      { name: "Teja", hex: "#c0623f" },
+      { name: "Burdeos", hex: "#8a2a35" },
+      { name: "Verde olivo", hex: "#7d8a5f" },
+      { name: "Nogal", hex: "#654a30" },
+    ],
+    examples: [
+      "Vestido midi con flores o en un color liso cálido; cuña o tacón ancho.",
+      "Traje en tonos tierra o azul; la chaqueta se podrá quitar en la comida.",
+      "Ropa fresca: verán los caballos de cerca.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Alcázar de la Puerta",
+      "En Carmona, a 10 min de la ermita",
+      "Habitaciones reservadas hasta el 15 de agosto. Menciona la boda.",
+    ],
+    [
+      "Casas del Cortijo",
+      "Dentro de la finca",
+      "Cuatro casitas para la familia; preguntadnos si queréis una.",
+    ],
+  ],
+  story: {
+    intro:
+      "Dos cortijos vecinos, un caballo escapado y treinta años de despiste. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "El caballo",
+        "La yegua de Rocío se coló en la finca de Manuel. Él la devolvió y se quedó a comer.",
+        "olivos",
+      ],
+      [
+        "2021",
+        "Sevilla",
+        "Un piso en la Alameda, con terraza y vistas a las azoteas. Los domingos, al campo.",
+        "terraza",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En la feria, en la caseta de siempre, delante de toda la familia. Hubo sevillanas.",
+        "anilloMuro",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Volvemos al campo donde nos conocimos, a dos fincas de casa. Solo faltáis vosotros.",
+        "olivar",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Argentina",
+      "Las estancias de la pampa, a caballo. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Una vajilla de La Cartuja", "La de toda la vida, para los almuerzos de domingo.", "320 €"],
+    ["Una montura nueva", "La de la yegua, que ya tiene sus años.", "450 €"],
+    ["Un naranjo para el patio", "Para que algún día haya azahar en casa.", "60 €"],
+  ],
+  kids: "Habrá monitores, paseos en poni y comida para ellos.",
+  faq: [
+    "¿Hará calor?",
+    "A mediodía, sí. Hay sombra en la pérgola, abanicos en las mesas y agua fresca todo el día.",
+  ],
+  guestbook: [
+    ["Los primos de Écija", "Vamos con la guitarra y las palmas. ¡Vivan los novios!"],
+    ["Tía Reme", "Treinta años viéndoos crecer en fincas vecinas. Ya era hora."],
+    ["Fernando", "Reservo la primera sevillana con la novia. Manuel, tú la segunda."],
+  ],
+  songs: [
+    "Sevilla tiene un color especial",
+    "Algo se muere en el alma",
+    "Volando voy",
+    "Sarandonga",
+    "La flaca",
+    "September",
+  ],
+});
+
+export const lino = wedding({
+  id: "evt-demo-alba-sergio",
+  first: "Alba",
+  second: "Sergio",
+  date: "2027-06-12T18:30:00+02:00",
+  rsvpDeadline: "2027-05-05T23:59:00+02:00",
+  city: "Ciutadella",
+  region: "Menorca",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/portada.jpg",
+  cardMessage: "Una boda sencilla, de lino y cal, con el mar al lado. No nos la imaginamos sin ti.",
+  welcomeMessage:
+    "Ella cose velas y él repara barcos de madera: nos casamos en el puerto donde trabajamos. Aquí tienes todo para acompañarnos.",
+  thankYouMessage:
+    "Gracias por cruzar el mar para estar con nosotros, por la cena tranquila y por la fiesta que no lo fue tanto. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Ermita de Sant Joan",
+      kind: "Ceremonia",
+      address: "Camí de Sant Joan, s/n",
+      note: "A 5 minutos del centro. Mejor calzado plano: el último tramo es de piedra.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Lloc de Sa Vela",
+      kind: "Cóctel, cena y fiesta",
+      address: "Camí de Cala Morell, km 3",
+      note: "A 12 minutos de la ermita, frente al mar. Los autobuses salen al terminar la ceremonia.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [26, 17, 5],
+  program: [
+    [
+      "18:30",
+      "Ceremonia",
+      "iglesia",
+      "Ermita de Sant Joan",
+      "Corta, sencilla y con las puertas abiertas al mar.",
+      "ceremony",
+    ],
+    [
+      "19:30",
+      "Cóctel",
+      "finca",
+      "La terraza",
+      "Gin de la isla con limonada, queso de Mahón y la puesta de sol.",
+      "cocktail",
+    ],
+    [
+      "21:30",
+      "Cena",
+      "finca",
+      "Bajo los toldos de lino",
+      "Mesas largas con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "00:30",
+      "Fiesta",
+      "finca",
+      "Hasta que llegue el primer barco",
+      "Barra libre, música en directo y ensaimadas a las tres.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "ciutadella",
+      "Ciutadella → Finca",
+      "Plaça des Born, Ciutadella",
+      "17:45",
+      ["02:00", "04:00"],
+      50,
+    ],
+    ["mao", "Maó → Finca", "Estación de autobuses, Maó", "17:00", ["04:00"], 30],
+  ],
+  menu: {
+    carne: "Paletilla de cordero menorquín con patata nueva",
+    pescado: "Caldereta de pescado de roca",
+    vegetariano: "Berenjenas rellenas a la menorquina",
+    vegano: "Arroz de verduras de la huerta y algas",
+  },
+  dressCode: {
+    title: "Lino y cal",
+    detail: "Tejidos naturales y colores claros. Cenamos al aire libre: traed algo para la brisa.",
+    palette: [
+      { name: "Lino", hex: "#e9e2d4" },
+      { name: "Carbón", hex: "#3b3a38" },
+      { name: "Rosa viejo", hex: "#c9a3a0" },
+      { name: "Arena", hex: "#d8c7a8" },
+    ],
+    examples: [
+      "Vestido de lino o algodón, liso; avarcas o sandalia plana.",
+      "Camisa de lino y pantalón claro; la chaqueta es opcional.",
+      "Ropa fresca y cómoda: habrá juegos junto a la terraza.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Sa Murada",
+      "En el casco antiguo, a 5 min de la ermita",
+      "Habitaciones reservadas hasta el 25 de abril. Menciona la boda.",
+    ],
+    [
+      "Apartamentos Cala Morell",
+      "A 5 min de la finca",
+      "Junto al mar, por si queréis quedaros el fin de semana.",
+    ],
+  ],
+  story: {
+    intro: "Una vela rota, un barco viejo y muchas horas en el puerto. Esta es la versión corta.",
+    moments: [
+      [
+        "2018",
+        "La vela rota",
+        "Él le llevó una vela hecha jirones; ella tardó tres semanas en coserla a propósito.",
+        "cala",
+      ],
+      [
+        "2021",
+        "La vuelta a la isla",
+        "Una semana dando la vuelta a Menorca, de cala en cala, con una furgoneta prestada.",
+        "furgoneta",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En el llaüt que restauraron juntos, el día que por fin flotó.",
+        "anilloBarca",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Seguimos en Ciutadella, entre el taller y el puerto. Solo faltáis vosotros.",
+        "orilla",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Noruega",
+      "Los fiordos en velero, por supuesto. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Una máquina de coser industrial", "La de Alba ya tiene más años que el taller.", "540 €"],
+    [
+      "Herramientas de carpintería de ribera",
+      "Gubias y cepillos para los barcos de Sergio.",
+      "210 €",
+    ],
+    ["Un olivo para el patio", "Lo plantaremos al volver del viaje.", "70 €"],
+  ],
+  kids: "Habrá monitores y cena para ellos.",
+  faq: [
+    "¿Cómo llego a Menorca?",
+    "Hay vuelos a Maó y barco desde Barcelona o Alcúdia. Desde Maó sale un autobús a la finca.",
+  ],
+  guestbook: [
+    ["Marina y Pau", "Iremos en barco, como debe ser. ¡Enhorabuena!"],
+    ["L'avi Joan", "Que naveguéis siempre con buen viento."],
+    ["Los del puerto", "Prometemos no hablar de barcos en la cena. O casi."],
+  ],
+  songs: ["Mediterráneo", "La mar", "Banana Pancakes", "Sea of Love", "Valerie", "September"],
+});
+
+export const granada = wedding({
+  id: "evt-demo-ines-pablo",
+  first: "Inés",
+  second: "Pablo",
+  date: "2027-05-08T18:00:00+02:00",
+  rsvpDeadline: "2027-04-01T23:59:00+02:00",
+  city: "Granada",
+  region: "Granada",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/pareja.jpg",
+  cardMessage:
+    "Nos casamos frente a la Alhambra, en un carmen del Albaicín. Queremos que estés con nosotros.",
+  welcomeMessage:
+    "Ella restaura yeserías y él toca la guitarra en las cuevas del Sacromonte. Aquí tienes todo para acompañarnos.",
+  thankYouMessage:
+    "Gracias por subir las cuestas del Albaicín, por la guitarra a medianoche y por cada abrazo. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Gregorio Alto",
+      kind: "Ceremonia",
+      address: "Cuesta de San Gregorio, 2",
+      note: "En pleno Albaicín, sin coches. Os recomendamos el autobús o subir a pie con calzado cómodo.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Carmen de las Granadas",
+      kind: "Cóctel, cena y fiesta",
+      address: "Callejón del Aljibe, 7",
+      note: "A 5 minutos a pie de la iglesia. Desde el jardín se ve la Alhambra.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [24, 10, 20],
+  program: [
+    [
+      "18:00",
+      "Ceremonia",
+      "iglesia",
+      "San Gregorio Alto",
+      "Con guitarra y cante, a media luz.",
+      "ceremony",
+    ],
+    [
+      "19:15",
+      "Cóctel",
+      "finca",
+      "El mirador",
+      "Vino de la Contraviesa y la Alhambra encendiéndose al fondo.",
+      "cocktail",
+    ],
+    [
+      "21:00",
+      "Cena",
+      "finca",
+      "El jardín de los granados",
+      "Cena con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "23:30",
+      "Fiesta",
+      "finca",
+      "Hasta que cante el gallo",
+      "Barra libre, flamenco en directo y churros al amanecer.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["centro", "Centro → Albaicín", "Plaza Nueva, Granada", "17:15", ["01:00", "03:30"], 30],
+    ["malaga", "Málaga → Granada", "Estación María Zambrano, Málaga", "15:45", ["03:30"], 50],
+  ],
+  menu: {
+    carne: "Cordero segureño con migas",
+    pescado: "Bacalao con alboronía",
+    vegetariano: "Habas con alcachofas y huevo",
+    vegano: "Remojón granadino y pastela de verduras",
+  },
+  dressCode: {
+    title: "Noche andaluza",
+    detail: "Vino, oro y marfil. Las calles son empedradas: dejad los tacones finos en casa.",
+    palette: [
+      { name: "Granate", hex: "#6e1f2c" },
+      { name: "Oro viejo", hex: "#c9a14a" },
+      { name: "Marfil", hex: "#f1e6d6" },
+      { name: "Rosa palo", hex: "#d6a9a4" },
+      { name: "Negro", hex: "#26201f" },
+    ],
+    examples: [
+      "Vestido largo en granate, oro o negro; tacón ancho o plano.",
+      "Traje oscuro; la corbata, a vuestro gusto.",
+      "Ropa cómoda: hay jardín y escaleras.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Casa del Aljibe",
+      "En el Albaicín, a 3 min del carmen",
+      "Habitaciones reservadas hasta el 20 de marzo. Menciona la boda.",
+    ],
+    [
+      "Apartamentos Plaza Nueva",
+      "A 10 min a pie",
+      "En el centro, con el autobús de la boda en la puerta.",
+    ],
+  ],
+  story: {
+    intro: "Una yesería rota, una guitarra y muchas cuestas. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "La guitarra",
+        "Ella restauraba el techo de una cueva y él ensayaba debajo. Bajó a pedirle silencio y se quedó a escuchar.",
+        "terraza",
+      ],
+      [
+        "2021",
+        "El campo",
+        "Los fines de semana, al cortijo de su abuelo en la Vega, a coger aceitunas y desconectar.",
+        "olivos",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "Con una soleá que le escribió él. Ella dijo que sí antes del final.",
+        "anilloMuro",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Seguimos en el Albaicín, con la Alhambra en la ventana. Solo faltáis vosotros.",
+        "olivar",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Marrakech",
+      "A buscar los yeseros y las guitarras del otro lado. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Una vajilla de Fajalauza", "La de siempre, en verde y azul, hecha aquí.", "290 €"],
+    ["Una guitarra nueva", "Para que Pablo jubile la de los ensayos.", "650 €"],
+    ["Un granado para el patio", "Lo plantaremos al volver del viaje.", "45 €"],
+  ],
+  kids: "Habrá monitores y cena para ellos en el jardín.",
+  faq: [
+    "¿Cómo se sube al Albaicín?",
+    "En los autobuses de la boda o en el microbús desde Plaza Nueva. En coche no se puede subir.",
+  ],
+  guestbook: [
+    ["Lucía y Javi", "Que suene la soleá otra vez, por favor."],
+    ["La abuela Encarna", "Os quiero ver bailar a los dos. Y que no se os enfríe la cena."],
+    ["Los del Sacromonte", "La guitarra la llevamos nosotros. Tú solo cásate, Pablo."],
+  ],
+  songs: ["Entre dos aguas", "Granada", "Volando voy", "Me quedo contigo", "La flaca", "Valerie"],
+});
+
+export const eucalipto = wedding({
+  id: "evt-demo-marta-adrian",
+  first: "Marta",
+  second: "Adrián",
+  date: "2027-04-24T12:00:00+02:00",
+  rsvpDeadline: "2027-03-15T23:59:00+01:00",
+  city: "Cartaya",
+  region: "Huelva",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-1.jpg",
+  cardMessage:
+    "Nos casamos entre eucaliptos, con el río a un lado y el mar al otro. Ven a celebrarlo con nosotros.",
+  welcomeMessage:
+    "Somos biólogos y nos conocimos contando aves en las marismas. Aquí tienes todo para pasar el día con nosotros.",
+  thankYouMessage:
+    "Gracias por venir hasta la costa de Huelva, por la comida al aire libre y por bailar entre los árboles. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia del Rosario",
+      kind: "Ceremonia",
+      address: "Plaza Redonda, 1",
+      note: "En el centro de Cartaya. Hay aparcamiento junto al paseo.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Finca Los Eucaliptos",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Camino de El Rompido, km 4",
+      note: "A 15 minutos de la iglesia, junto al río Piedras. Los autobuses salen al terminar.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [23, 11, 15],
+  program: [
+    [
+      "12:00",
+      "Ceremonia",
+      "iglesia",
+      "Iglesia del Rosario",
+      "Breve y con música de cámara.",
+      "ceremony",
+    ],
+    [
+      "13:15",
+      "Aperitivo",
+      "finca",
+      "Bajo los eucaliptos",
+      "Gambas blancas, coquinas y vino del Condado.",
+      "cocktail",
+    ],
+    [
+      "15:00",
+      "Comida",
+      "finca",
+      "La pradera del río",
+      "Comida al aire libre con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "18:30",
+      "Fiesta",
+      "finca",
+      "Hasta que se haga de noche",
+      "Barra libre y baile. Los últimos autobuses salen a la una.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["huelva", "Huelva → Cartaya", "Plaza de las Monjas, Huelva", "11:00", ["21:00", "01:00"], 50],
+    ["sevilla", "Sevilla → Cartaya", "Plaza de Armas, Sevilla", "10:00", ["01:00"], 30],
+  ],
+  menu: {
+    carne: "Presa ibérica de la sierra con patatas a lo pobre",
+    pescado: "Choco frito y corvina a la plancha",
+    vegetariano: "Ensalada de fresas de Huelva y queso de cabra",
+    vegano: "Arroz con verduras y espárragos trigueros",
+  },
+  dressCode: {
+    title: "Primavera en el campo",
+    detail: "Verdes de hoja y tonos claros. La comida es sobre hierba: mejor cuña que tacón fino.",
+    palette: [
+      { name: "Eucalipto", hex: "#8fa59a" },
+      { name: "Verde bosque", hex: "#2f4a3e" },
+      { name: "Salvia", hex: "#b7c4b0" },
+      { name: "Crudo", hex: "#efe9dc" },
+    ],
+    examples: [
+      "Vestido fluido en verde o un color claro; cuña o sandalia.",
+      "Traje claro o chaqueta de lino; la corbata es opcional.",
+      "Ropa cómoda: habrá talleres de naturaleza junto al río.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Río Piedras",
+      "En El Rompido, a 5 min de la finca",
+      "Habitaciones reservadas hasta el 10 de marzo. Menciona la boda.",
+    ],
+    ["Casa rural La Marisma", "A 10 min de la iglesia", "Ideal para familias con niños."],
+  ],
+  story: {
+    intro:
+      "Unos prismáticos, un censo de aves y un río que lleva al mar. Esta es la versión corta.",
+    moments: [
+      [
+        "2018",
+        "El censo",
+        "Les tocó contar flamencos juntos un enero helado. Ella contó 214; él, 215. Siguen discutiéndolo.",
+        "cala",
+      ],
+      [
+        "2021",
+        "La costa de Portugal",
+        "Un mes de furgoneta siguiendo a las aves hasta el Algarve. Volvimos con 300 fotos de pájaros y ninguna nuestra.",
+        "furgoneta",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En la barca de un pescador, al amanecer, con las espátulas de testigo.",
+        "anilloBarca",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Vivimos en Cartaya, a diez minutos de la marisma. Solo faltáis vosotros.",
+        "orilla",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Costa Rica",
+      "Selva, tortugas y, claro, muchas aves. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Unos prismáticos buenos", "Los de Adrián son de cuando hizo la comunión.", "380 €"],
+    ["Un kayak doble", "Para recorrer el río Piedras los domingos.", "520 €"],
+    ["Cajas nido para el jardín", "Las colgaremos al volver del viaje.", "40 €"],
+  ],
+  kids: "Habrá monitores y un taller de naturaleza para ellos.",
+  faq: [
+    "¿Hay mosquitos junto al río?",
+    "En abril, casi ninguno. Aun así, habrá repelente en el aseo.",
+  ],
+  guestbook: [
+    ["Elena y Rubén", "Nosotros contaremos a los invitados. Prometemos no equivocarnos."],
+    ["El abuelo Antonio", "Que seáis tan felices como un flamenco en la marisma."],
+    ["Los del máster", "Vamos todos en el autobús de Sevilla. ¡Vivan los novios!"],
+  ],
+  songs: ["Hoy", "Here Comes the Sun", "La bicicleta", "Pájaros de barro", "September", "Valerie"],
+});
+
+export const gaceta = wedding({
+  id: "evt-demo-clara-mateo",
+  first: "Clara",
+  second: "Mateo",
+  date: "2027-10-23T18:30:00+02:00",
+  rsvpDeadline: "2027-09-15T23:59:00+02:00",
+  city: "Santander",
+  region: "Cantabria",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/pareja.jpg",
+  cardMessage:
+    "Exclusiva: nos casamos. Tenemos sitio para ti en primera fila. No te pierdas la noticia del año.",
+  welcomeMessage:
+    "Nos conocimos en la redacción de un periódico, una noche de cierre. Aquí tienes toda la información, contrastada y sin erratas.",
+  thankYouMessage:
+    "Gracias por cubrir la boda con nosotros, por los titulares en el libro de firmas y por bailar hasta el cierre. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Roque del Muelle",
+      kind: "Ceremonia",
+      address: "Calle del Muelle, 9",
+      note: "En el centro. Hay aparcamiento público a dos calles.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "La Antigua Imprenta",
+      kind: "Cóctel, cena y fiesta",
+      address: "Paseo de la Bahía, 14",
+      note: "A 10 minutos a pie de la iglesia. Fue la imprenta de un diario: aún quedan las rotativas.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [19, 12, 40],
+  program: [
+    [
+      "18:30",
+      "Ceremonia",
+      "iglesia",
+      "San Roque del Muelle",
+      "Puntual, como un cierre de edición.",
+      "ceremony",
+    ],
+    [
+      "19:45",
+      "Cóctel",
+      "finca",
+      "La sala de rotativas",
+      "Anchoas de Santoña, rabas y vermut.",
+      "cocktail",
+    ],
+    [
+      "21:30",
+      "Cena",
+      "finca",
+      "La terraza de la bahía",
+      "Cena con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "00:00",
+      "Fiesta",
+      "finca",
+      "Hasta la última edición",
+      "Barra libre y baile. La recena sale a las tres, como el periódico.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["bilbao", "Bilbao → Santander", "Termibus, Bilbao", "16:45", ["02:00", "04:30"], 50],
+    [
+      "torrelavega",
+      "Torrelavega → Santander",
+      "Estación de autobuses, Torrelavega",
+      "17:45",
+      ["04:30"],
+      30,
+    ],
+  ],
+  menu: {
+    carne: "Solomillo de ternera tudanca con queso de Tresviso",
+    pescado: "Merluza del Cantábrico en salsa verde",
+    vegetariano: "Pimientos rellenos de setas",
+    vegano: "Cocido lebaniego de verduras",
+  },
+  dressCode: {
+    title: "Blanco y negro",
+    detail:
+      "Como un periódico: tinta, papel y algún rojo de titular. Puede llover: traed paraguas.",
+    palette: [
+      { name: "Negro tinta", hex: "#161513" },
+      { name: "Blanco roto", hex: "#f4f1e8" },
+      { name: "Rojo titular", hex: "#a3221b" },
+      { name: "Gris plomo", hex: "#76726a" },
+    ],
+    examples: [
+      "Vestido en blanco, negro o rojo; el tacón, a vuestro gusto.",
+      "Traje oscuro y, si os animáis, pajarita.",
+      "Ropa cómoda y un abrigo para la terraza.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Bahía Vieja",
+      "A 5 min de la iglesia",
+      "Habitaciones reservadas hasta el 1 de septiembre. Menciona la boda.",
+    ],
+    [
+      "Apartamentos El Sardinero",
+      "A 15 min en taxi",
+      "Frente a la playa, para alargar el fin de semana.",
+    ],
+  ],
+  story: {
+    intro: "Una errata, una noche de cierre y muchos cafés de máquina. Esta es la versión corta.",
+    moments: [
+      [
+        "2017",
+        "La errata",
+        "Ella corrigió un titular de él a las dos de la mañana. Él insistió en invitarla a desayunar para agradecérselo.",
+        "cala",
+      ],
+      [
+        "2020",
+        "El reportaje",
+        "Un mes por la costa en furgoneta para un especial de verano. Publicamos ocho páginas y volvimos juntos.",
+        "furgoneta",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "Con un anuncio por palabras en la última página. Ella lo leyó en la barca, de vacaciones.",
+        "anilloBarca",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Seguimos en Santander, en la misma redacción. Solo faltáis vosotros.",
+        "orilla",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Nueva York",
+      "A ver la sala de un gran diario y desayunar como en las películas.",
+      "Lo que queráis",
+    ],
+    ["Una máquina de escribir antigua", "Para el salón, de adorno (y para alguna carta).", "190 €"],
+    ["Una suscripción doble", "Dos diarios, en papel, durante un año.", "300 €"],
+    ["Una estantería para los libros", "Que ya no caben en el pasillo.", "240 €"],
+  ],
+  kids: "Habrá monitores y una sala de juegos en la imprenta.",
+  faq: [
+    "¿Y si llueve?",
+    "Es Santander: lo tenemos previsto. La cena se puede hacer dentro, junto a las rotativas.",
+  ],
+  guestbook: [
+    ["La sección de Deportes", "Os damos cobertura completa. Y prometemos no hablar de fútbol."],
+    ["Tía Begoña", "Siempre supe que esto acabaría en portada."],
+    ["Íñigo, el de maquetación", "La foto de la boda, a cinco columnas. Palabra."],
+  ],
+  songs: [
+    "Hoy puede ser un gran día",
+    "Mediterráneo",
+    "September",
+    "Mi gran noche",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
+
+export const embarque = wedding({
+  id: "evt-demo-noa-alex",
+  first: "Noa",
+  second: "Álex",
+  date: "2027-07-10T19:00:00+02:00",
+  rsvpDeadline: "2027-06-01T23:59:00+02:00",
+  city: "Teguise",
+  region: "Lanzarote",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-2.jpg",
+  cardMessage:
+    "Treinta países después, aterrizamos en Lanzarote para casarnos. Tu billete ya está emitido.",
+  welcomeMessage:
+    "Nos conocimos en una puerta de embarque, con el vuelo retrasado. Aquí tienes todo lo que necesitas para el viaje.",
+  thankYouMessage:
+    "Gracias por volar hasta la isla, por los brindis entre volcanes y por bailar hasta el último vuelo. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Ermita de las Nieves",
+      kind: "Ceremonia",
+      address: "Camino de la Ermita, s/n",
+      note: "En lo alto del risco, sobre el mar. Sopla viento: mejor recogido que pamela.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Finca Volcán Azul",
+      kind: "Cóctel, cena y fiesta",
+      address: "Carretera de Famara, km 5",
+      note: "A 15 minutos de la ermita, entre viñas en ceniza. Los autobuses salen al terminar.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [28, 20, 0],
+  program: [
+    [
+      "19:00",
+      "Ceremonia",
+      "iglesia",
+      "Ermita de las Nieves",
+      "Embarque puntual: os esperamos dentro con tiempo.",
+      "ceremony",
+    ],
+    [
+      "20:15",
+      "Cóctel",
+      "finca",
+      "La terraza de Famara",
+      "Malvasía de la isla, papas arrugadas y el sol cayendo al mar.",
+      "cocktail",
+    ],
+    [
+      "21:45",
+      "Cena",
+      "finca",
+      "El jardín de cactus",
+      "Cena con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "00:30",
+      "Fiesta",
+      "finca",
+      "Hasta el primer vuelo",
+      "Barra libre, música de medio mundo y recena a las tres.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "arrecife",
+      "Arrecife → Finca",
+      "Aeropuerto de Lanzarote, llegadas",
+      "17:45",
+      ["02:00", "04:30"],
+      50,
+    ],
+    [
+      "puerto",
+      "Puerto del Carmen → Finca",
+      "Avenida de las Playas, Puerto del Carmen",
+      "17:30",
+      ["04:30"],
+      30,
+    ],
+  ],
+  menu: {
+    carne: "Cabrito al horno con mojo verde",
+    pescado: "Cherne a la plancha con batata",
+    vegetariano: "Queso de cabra asado con mojo rojo y ensalada",
+    vegano: "Potaje de verduras con gofio",
+  },
+  dressCode: {
+    title: "Elegante de viaje",
+    detail:
+      "Colores de aerolínea antigua: marino, rojo y crema. Hace viento y sol: gafas y algo para los hombros.",
+    palette: [
+      { name: "Azul marino", hex: "#14233f" },
+      { name: "Rojo correo", hex: "#b3312a" },
+      { name: "Crema", hex: "#f8f4ea" },
+      { name: "Azul cielo", hex: "#b5c8dc" },
+    ],
+    examples: [
+      "Vestido ligero en marino, rojo o crema; sandalia o cuña, que hay picón.",
+      "Traje claro o americana azul, sin corbata.",
+      "Ropa fresca y una gorra: el sol de la isla engaña.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Villa de Teguise",
+      "En el pueblo, a 5 min de la ermita",
+      "Habitaciones reservadas hasta el 20 de mayo. Menciona la boda.",
+    ],
+    [
+      "Casitas de Famara",
+      "A 10 min de la finca",
+      "Frente a la playa de los surfistas, para alargar el viaje.",
+    ],
+  ],
+  story: {
+    intro:
+      "Un vuelo retrasado, treinta países y demasiados sellos en el pasaporte. Esta es la versión corta.",
+    moments: [
+      [
+        "2018",
+        "La puerta B23",
+        "Seis horas de retraso en Lisboa. Compartimos enchufe, bocadillo y, al final, asiento.",
+        "cala",
+      ],
+      [
+        "2021",
+        "La ruta",
+        "Tres meses en furgoneta de Portugal a Grecia. Volvimos con una lista de países pendientes.",
+        "furgoneta",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En una barca frente a La Graciosa, al amanecer. El anillo viajó escondido en la mochila un mes.",
+        "anilloBarca",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Vivimos en Lanzarote desde hace dos años. De aquí no nos movemos (salvo de vacaciones).",
+        "orilla",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Japón",
+      "El país número treinta y uno. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Dos maletas de cabina", "Las nuestras ya han dado la vuelta al mundo.", "260 €"],
+    ["Un mapa para rascar", "Para ir tachando los países que nos quedan.", "35 €"],
+    ["Una cámara de carrete", "Para las fotos del próximo viaje.", "180 €"],
+  ],
+  kids: "Habrá monitores y cena para ellos.",
+  faq: [
+    "¿Cómo llego a Lanzarote?",
+    "Hay vuelos directos desde casi todas las ciudades. El autobús de la boda os recoge en el aeropuerto.",
+  ],
+  guestbook: [
+    ["Carla y Toni", "Ya tenemos los billetes. Este sí que no se retrasa."],
+    ["La abuela Rosa", "Por fin os quedáis quietos en un sitio. Qué alegría, hijos."],
+    ["Los compañeros de viaje", "Llevamos el mapa de Grecia firmado por todos."],
+  ],
+  songs: [
+    "Volando voy",
+    "Viajar contigo",
+    "Leaving on a Jet Plane",
+    "Mediterráneo",
+    "Valerie",
+    "September",
+  ],
+});
+
+export const premio = wedding({
+  id: "evt-demo-sofia-diego",
+  first: "Sofía",
+  second: "Diego",
+  date: "2027-12-18T12:30:00+01:00",
+  rsvpDeadline: "2027-11-10T23:59:00+01:00",
+  city: "Toledo",
+  region: "Toledo",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/pareja.jpg",
+  cardMessage:
+    "Nos ha tocado el gordo: nos casamos cuatro días antes del sorteo. Rasca, mira la fecha y ven.",
+  welcomeMessage:
+    "Llevamos diez años comprando el mismo décimo y nunca ha tocado. Ahora vamos a por otro premio. Aquí tienes todo para acompañarnos.",
+  thankYouMessage:
+    "Gracias por compartir el décimo de la suerte, por la comida de Navidad adelantada y por los villancicos de madrugada. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Ermita del Valle Alto",
+      kind: "Ceremonia",
+      address: "Carretera del Valle, km 1",
+      note: "Al otro lado del río, con Toledo enfrente. Hay aparcamiento junto a la ermita.",
+      photo: "ermitaOlivos",
+    },
+    {
+      id: "finca",
+      name: "Cigarral de la Suerte",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Camino de los Cigarrales, 18",
+      note: "A 5 minutos de la ermita, entre olivos y con vistas a la ciudad.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [11, 2, 30],
+  program: [
+    [
+      "12:30",
+      "Ceremonia",
+      "iglesia",
+      "Ermita del Valle Alto",
+      "Con villancicos al final, que estamos en fechas.",
+      "ceremony",
+    ],
+    [
+      "13:45",
+      "Aperitivo",
+      "finca",
+      "Junto a la chimenea",
+      "Mazapán, perdiz escabechada y vino de la tierra.",
+      "cocktail",
+    ],
+    [
+      "15:30",
+      "Comida",
+      "finca",
+      "El salón del cigarral",
+      "Comida de Navidad adelantada, con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "19:00",
+      "Fiesta",
+      "finca",
+      "Hasta que canten los niños de San Ildefonso",
+      "Barra libre y baile. Se reparte un décimo por mesa.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["madrid", "Madrid → Toledo", "Plaza Elíptica, Madrid", "11:00", ["21:00", "01:30"], 50],
+    ["toledo", "Toledo → Cigarral", "Puerta de Bisagra, Toledo", "12:00", ["01:30"], 30],
+  ],
+  menu: {
+    carne: "Perdiz estofada a la toledana",
+    pescado: "Lomo de bacalao con pisto manchego",
+    vegetariano: "Migas con uvas y huevo de corral",
+    vegano: "Crema de castañas y pastel de setas",
+  },
+  dressCode: {
+    title: "Gala de invierno",
+    detail: "Verde de imprenta, oro y algo de rojo, como un décimo. Hace frío: traed abrigo.",
+    palette: [
+      { name: "Verde imprenta", hex: "#1b3527" },
+      { name: "Oro viejo", hex: "#b08a2e" },
+      { name: "Rojo sorteo", hex: "#a3221b" },
+      { name: "Papel", hex: "#ebe7d4" },
+    ],
+    examples: [
+      "Vestido largo o midi en tonos de invierno; abrigo para la ermita.",
+      "Traje oscuro con corbata o pajarita.",
+      "Ropa de abrigo: habrá juegos en el jardín si sale el sol.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Puerta del Sol",
+      "En el casco histórico, a 10 min del cigarral",
+      "Habitaciones reservadas hasta el 1 de noviembre. Menciona la boda.",
+    ],
+    [
+      "Hotel Mirador de los Cigarrales",
+      "A 5 min de la ermita",
+      "Con la mejor vista de Toledo; ideal para quedarse el fin de semana.",
+    ],
+  ],
+  story: {
+    intro:
+      "Una cola de lotería, un décimo a medias y diez años sin premio. Esta es la versión corta.",
+    moments: [
+      [
+        "2017",
+        "La cola",
+        "Dos horas de cola en Madrid para comprar lotería. Él se quedó sin cambio y ella le prestó diez euros.",
+        "terraza",
+      ],
+      [
+        "2019",
+        "El décimo compartido",
+        "Desde entonces compramos uno a medias cada Navidad. Nunca nos ha tocado ni el reintegro.",
+        "olivos",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "El 22 de diciembre, con el sorteo de fondo. El anillo iba envuelto en un décimo.",
+        "anilloMuro",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Vivimos en Toledo, con vistas al río. Esta vez, el premio es seguro. Solo faltáis vosotros.",
+        "olivar",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Laponia",
+      "Ya que nos casamos en Navidad, a ver a Papá Noel. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Una vajilla de Talavera", "La de toda la vida, para las cenas de Nochebuena.", "340 €"],
+    ["Un décimo para cada año", "Durante diez años. Algún día tocará.", "200 €"],
+    ["Un olivo para el cigarral", "Lo plantaremos en el primer aniversario.", "90 €"],
+  ],
+  kids: "Habrá monitores, un taller de adornos de Navidad y comida para ellos.",
+  faq: [
+    "¿Habrá lotería?",
+    "Sí: cada mesa tendrá un décimo del sorteo del 22. Si toca, se reparte entre la mesa.",
+  ],
+  guestbook: [
+    ["Laura y Óscar", "Diez años sin premio y ahora os toca el gordo. ¡Enhorabuena!"],
+    ["El abuelo Felipe", "Yo pongo el mazapán. Que seáis muy felices."],
+    ["Los de la oficina", "Ya tenemos el número de la boda. Si toca, invitamos nosotros."],
+  ],
+  songs: [
+    "Last Christmas",
+    "All I Want for Christmas Is You",
+    "Hoy puede ser un gran día",
+    "September",
+    "Valerie",
+    "Mi gran noche",
+  ],
+});
+
+export const telegrama = wedding({
+  id: "evt-demo-irene-guille",
+  first: "Irene",
+  second: "Guille",
+  date: "2027-09-18T18:00:00+02:00",
+  rsvpDeadline: "2027-08-10T23:59:00+02:00",
+  city: "Almagro",
+  region: "Ciudad Real",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-2.jpg",
+  cardMessage: "Noticia urgente: nos casamos. Stop. Te queremos allí. Stop. Contesta pronto. Stop.",
+  welcomeMessage:
+    "Ella estudia cartas antiguas y él arregla radios de válvulas. Nos escribimos telegramas en broma desde la primera cita. Aquí tienes todo, sin abreviar.",
+  thankYouMessage:
+    "Gracias por venir a Almagro. Stop. Por los brindis y el baile. Stop. Aquí están vuestras fotos. Stop.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Bartolomé el Viejo",
+      kind: "Ceremonia",
+      address: "Calle de la Feria, 6",
+      note: "A dos calles de la plaza Mayor. El centro es peatonal: aparcad en la ronda.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Casa de Postas del Camino Real",
+      kind: "Cóctel, cena y fiesta",
+      address: "Camino de Bolaños, km 3",
+      note: "A 10 minutos de la iglesia. Fue una casa de postas: aún conserva el antiguo telégrafo.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [29, 14, 10],
+  program: [
+    [
+      "18:00",
+      "Ceremonia",
+      "iglesia",
+      "San Bartolomé el Viejo",
+      "Corta y al grano, como un buen telegrama.",
+      "ceremony",
+    ],
+    [
+      "19:15",
+      "Cóctel",
+      "finca",
+      "El patio de las postas",
+      "Berenjenas de Almagro, queso manchego y vino de Valdepeñas.",
+      "cocktail",
+    ],
+    [
+      "21:00",
+      "Cena",
+      "finca",
+      "Las caballerizas",
+      "Cena con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "23:30",
+      "Fiesta",
+      "finca",
+      "Hasta el último mensaje",
+      "Barra libre y baile. Recena de migas a las dos.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["madrid", "Madrid → Almagro", "Estación de Atocha, Madrid", "15:30", ["01:00", "03:30"], 50],
+    [
+      "ciudad-real",
+      "Ciudad Real → Almagro",
+      "Estación de tren, Ciudad Real",
+      "17:00",
+      ["03:30"],
+      30,
+    ],
+  ],
+  menu: {
+    carne: "Caldereta de cordero manchego",
+    pescado: "Bacalao al ajoarriero",
+    vegetariano: "Pisto manchego con huevo de corral",
+    vegano: "Gachas de almortas con setas",
+  },
+  dressCode: {
+    title: "Elegante de verano",
+    detail:
+      "Azul de cinta, rojo de urgente y color papel. El patio es de piedra: tacón ancho mejor.",
+    palette: [
+      { name: "Azul de cinta", hex: "#1f2f4d" },
+      { name: "Rojo urgente", hex: "#a3221b" },
+      { name: "Papel", hex: "#f0e6cb" },
+      { name: "Trigo", hex: "#d3c59f" },
+    ],
+    examples: [
+      "Vestido midi liso o de rayas; tacón ancho o alpargata.",
+      "Traje claro o azul; corbata opcional.",
+      "Ropa fresca: hay patio para correr.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Corral de Comedias",
+      "En la plaza Mayor, a 3 min de la iglesia",
+      "Habitaciones reservadas hasta el 1 de agosto. Menciona la boda.",
+    ],
+    [
+      "Casa rural El Telegrafista",
+      "A 5 min de la casa de postas",
+      "Cinco habitaciones, ideal para grupos.",
+    ],
+  ],
+  story: {
+    intro:
+      "Una radio rota, una carta de 1920 y muchos mensajes con «stop». Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "La radio",
+        "Ella llevó a arreglar la radio de su abuelo. Él tardó un mes, a propósito. Stop.",
+        "terraza",
+      ],
+      [
+        "2021",
+        "El primer telegrama",
+        "«Cena viernes. Stop. Llevo vino. Stop.» Así la invitó a la segunda cita.",
+        "olivos",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "Por telegrama, claro: «¿Te casas conmigo? Stop.» Contestó en persona.",
+        "anilloMuro",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Vivimos en Almagro, entre cartas viejas y radios de válvulas. Solo faltáis vosotros. Stop.",
+        "olivar",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Escocia",
+      "Castillos, faros y oficinas de correos antiguas. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Una radio de válvulas de 1950", "Para el salón; Guille ya sabe arreglarla.", "220 €"],
+    ["Papel y sobres de algodón", "Para seguir escribiéndonos cartas.", "60 €"],
+    ["Una mesa de escritorio", "Para los manuscritos de Irene.", "380 €"],
+  ],
+  kids: "Habrá monitores y un taller de cartas para ellos.",
+  faq: [
+    "¿Cómo contesto?",
+    "Desde este enlace, en un minuto. Si prefieres un telegrama, también lo aceptamos.",
+  ],
+  guestbook: [
+    ["Ana y Luis", "Recibido. Stop. Allí estaremos. Stop. Con tacones bajos. Stop."],
+    ["La tía Carmen", "Que vuestra vida sea larga y sin interferencias."],
+    ["Los de la facultad", "Prometemos no escribir el discurso con «stop». Mentira."],
+  ],
+  songs: ["Mi carta", "Please Mr. Postman", "Contigo", "La flaca", "September", "Valerie"],
+});
+
+export const postal = wedding({
+  id: "evt-demo-vera-nico",
+  first: "Vera",
+  second: "Nico",
+  date: "2027-08-21T19:30:00+02:00",
+  rsvpDeadline: "2027-07-12T23:59:00+02:00",
+  city: "Cudillero",
+  region: "Asturias",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-4.jpg",
+  cardMessage:
+    "Nos pasamos dos años escribiéndonos postales. Esta es la última, y es para invitarte.",
+  welcomeMessage:
+    "Ella vivía en Lisboa y él en Asturias, y nos escribíamos una postal cada semana. Ahora vivimos juntos y nos casamos en el pueblo más de postal que conocemos.",
+  thankYouMessage:
+    "Gracias por venir hasta Cudillero, por las postales del libro de firmas y por bailar junto al mar. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Pedro del Puerto",
+      kind: "Ceremonia",
+      address: "Calle del Puerto, 3",
+      note: "Sobre el puerto. El pueblo es muy empinado: calzado cómodo y llegar con tiempo.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Casona Los Indianos",
+      kind: "Cóctel, cena y fiesta",
+      address: "Camino del Faro, 12",
+      note: "A 10 minutos del puerto, en el acantilado. Los autobuses salen al terminar la ceremonia.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [22, 15, 30],
+  program: [
+    [
+      "19:30",
+      "Ceremonia",
+      "iglesia",
+      "San Pedro del Puerto",
+      "Con gaita al salir, como manda la tradición.",
+      "ceremony",
+    ],
+    [
+      "20:45",
+      "Cóctel",
+      "finca",
+      "El jardín del faro",
+      "Sidra escanciada, pixín y quesos de la tierra.",
+      "cocktail",
+    ],
+    [
+      "22:00",
+      "Cena",
+      "finca",
+      "La galería acristalada",
+      "Cena con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "00:30",
+      "Fiesta",
+      "finca",
+      "Hasta que vuelvan los barcos",
+      "Barra libre, música y recena de bollos preñaos.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "oviedo",
+      "Oviedo → Cudillero",
+      "Estación de autobuses, Oviedo",
+      "18:15",
+      ["02:30", "05:00"],
+      50,
+    ],
+    ["gijon", "Gijón → Cudillero", "Plaza del Humedal, Gijón", "18:00", ["05:00"], 30],
+  ],
+  menu: {
+    carne: "Cachopo de ternera asturiana con patatas",
+    pescado: "Merluza del pincho a la sidra",
+    vegetariano: "Pastel de cabracho vegetal y ensalada de la huerta",
+    vegano: "Fabes con verduras y pimentón",
+  },
+  dressCode: {
+    title: "Verano del norte",
+    detail: "Colores de postal antigua. Por la noche refresca: traed una chaqueta.",
+    palette: [
+      { name: "Azul bolígrafo", hex: "#1e3a6e" },
+      { name: "Verde sello", hex: "#2f6b57" },
+      { name: "Atardecer", hex: "#e6bd9c" },
+      { name: "Cartulina", hex: "#f6f0e1" },
+      { name: "Rojo matasellos", hex: "#b3312a" },
+    ],
+    examples: [
+      "Vestido midi y algo para los hombros; el pueblo tiene cuestas.",
+      "Traje claro o americana azul; corbata opcional.",
+      "Ropa cómoda y un chubasquero por si acaso.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel El Muelle Viejo",
+      "En el puerto, a 2 min de la iglesia",
+      "Habitaciones reservadas hasta el 1 de julio. Menciona la boda.",
+    ],
+    [
+      "Apartamentos El Faro",
+      "Junto a la casona",
+      "Con vistas al mar, para alargar el fin de semana.",
+    ],
+  ],
+  story: {
+    intro:
+      "Ciento cuatro postales, dos países y un buzón que ya nos conoce. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "La primera postal",
+        "Nos conocimos una semana en el Algarve. Él le pidió la dirección para mandarle una postal. Mandó ciento cuatro.",
+        "cala",
+      ],
+      [
+        "2021",
+        "La mudanza",
+        "Ella cruzó Portugal y media España en furgoneta, con las postales en una caja de zapatos.",
+        "furgoneta",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En la barca de su tío, con una postal que decía: «¿Y si nos casamos?».",
+        "anilloBarca",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Vivimos en Gijón y nos seguimos escribiendo, aunque sea de una habitación a otra.",
+        "orilla",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a las Azores",
+      "Un sitio de postal que aún no conocemos. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Un álbum para las postales", "Las ciento cuatro, por orden.", "80 €"],
+    ["Una cámara instantánea", "Para hacer postales propias.", "150 €"],
+    ["Una vajilla de cerámica de Faro", "Para las cenas en casa.", "260 €"],
+  ],
+  kids: "Habrá monitores y cena para ellos.",
+  faq: [
+    "¿Y si llueve?",
+    "Es Asturias: la cena es en una galería acristalada y hay carpa para el cóctel.",
+  ],
+  guestbook: [
+    ["Inês e João", "Viemos de Lisboa para isto. Parabéns!"],
+    ["El tío Ramón", "Ya tengo la sidra fría y la gaita afinada."],
+    ["La cartera del barrio", "Ciento cuatro postales. Os echaré de menos."],
+  ],
+  songs: [
+    "Postcards from Italy",
+    "Asturias",
+    "Mediterráneo",
+    "Volando voy",
+    "Valerie",
+    "September",
+  ],
+});
+
+export const vinilo = wedding({
+  id: "evt-demo-nuria-dani",
+  first: "Nuria",
+  second: "Dani",
+  date: "2027-10-02T18:30:00+02:00",
+  rsvpDeadline: "2027-08-25T23:59:00+02:00",
+  city: "Valencia",
+  region: "Valencia",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/pareja.jpg",
+  cardMessage: "Cara A: nos casamos. Cara B: queremos que estés en la pista. Pon el disco y ven.",
+  welcomeMessage:
+    "Ella toca el bajo y él pincha discos. Nos conocimos peleándonos por el mismo vinilo en una tienda del Carmen. Aquí tienes todo para acompañarnos.",
+  thankYouMessage:
+    "Gracias por llenar la pista, por las canciones del libro de firmas y por quedaros hasta el último bis. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "finca",
+      name: "Alquería del Disco",
+      kind: "Ceremonia, cena y concierto",
+      address: "Camí de la Horta, 21",
+      note: "Entre huertas, a 15 minutos del centro. Hay aparcamiento y autobús desde la ciudad.",
+      photo: "pista",
+    },
+  ],
+  climate: [26, 17, 20],
+  program: [
+    [
+      "18:30",
+      "Ceremonia",
+      "finca",
+      "El jardín de los naranjos",
+      "Civil, con la banda tocando la entrada.",
+      "ceremony",
+    ],
+    [
+      "19:30",
+      "Cóctel",
+      "finca",
+      "La era",
+      "Horchata, agua de Valencia y tapas de la huerta.",
+      "cocktail",
+    ],
+    [
+      "21:30",
+      "Cena",
+      "finca",
+      "La nave de la alquería",
+      "Cena con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "00:00",
+      "Fiesta",
+      "finca",
+      "Concierto y sesión",
+      "Primero la banda de Nuria, luego los discos de Dani. Sin hora de cierre.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "centro",
+      "Centro → Alquería",
+      "Plaza del Ayuntamiento, Valencia",
+      "17:45",
+      ["02:00", "04:30"],
+      50,
+    ],
+    ["castellon", "Castellón → Alquería", "Estación de tren, Castellón", "17:00", ["04:30"], 30],
+  ],
+  menu: {
+    carne: "Paella valenciana de pollo y conejo",
+    pescado: "Arroz del senyoret",
+    vegetariano: "Arroz de verduras de la huerta",
+    vegano: "Arroz de alcachofas y garrofó",
+  },
+  dressCode: {
+    title: "Noche de concierto",
+    detail: "Negro de vinilo con algo de naranja o mostaza. Se baila mucho: calzado cómodo.",
+    palette: [
+      { name: "Negro vinilo", hex: "#1c1917" },
+      { name: "Naranja", hex: "#c2511f" },
+      { name: "Mostaza", hex: "#d9a441" },
+      { name: "Crema", hex: "#f3ead8" },
+    ],
+    examples: [
+      "Vestido o mono con el que podáis bailar; zapatillas permitidas.",
+      "Traje o americana con camiseta: como en un concierto bueno.",
+      "Ropa cómoda y cascos para los oídos, que habrá música alta.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Barrio del Carmen",
+      "En el centro, a 15 min de la alquería",
+      "Habitaciones reservadas hasta el 15 de agosto. Menciona la boda.",
+    ],
+    ["Apartamentos La Malvarrosa", "Frente a la playa", "Para alargar el fin de semana."],
+  ],
+  story: {
+    intro:
+      "Un vinilo, una tienda pequeña y una discusión que todavía no ha terminado. Esta es la versión corta.",
+    moments: [
+      [
+        "2018",
+        "El disco",
+        "El último vinilo de una edición limitada. Ninguno lo soltó, así que lo escuchamos juntos.",
+        "cala",
+      ],
+      [
+        "2021",
+        "La gira",
+        "Un verano de festivales en furgoneta, ella con la banda y él con los discos.",
+        "furgoneta",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En una barca en la Albufera, con el anillo dentro de la funda de aquel disco.",
+        "anilloBarca",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Vivimos en el Cabanyal con dos mil discos y un bajo. Solo faltáis vosotros.",
+        "orilla",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Londres",
+      "Tiendas de discos y salas de conciertos. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Un tocadiscos nuevo", "El de Dani tiene treinta años y se nota.", "420 €"],
+    ["Un amplificador para el bajo", "Para que suene en casa (bajito).", "350 €"],
+    ["Un mueble para los discos", "Que ya no caben en el pasillo.", "240 €"],
+  ],
+  kids: "Habrá monitores, cascos de protección y cena para ellos.",
+  faq: [
+    "¿Puedo pedir canciones?",
+    "Sí: déjalas en el libro de firmas. Dani promete pinchar todas (o casi).",
+  ],
+  guestbook: [
+    ["La banda", "Ensayamos la de la entrada desde marzo. Que nadie llore. Mentira, llorad."],
+    ["Tía Amparo", "Yo solo quiero un pasodoble. Uno."],
+    ["Los de la tienda", "El disco sigue siendo nuestro, que conste."],
+  ],
+  songs: [
+    "Rock the Casbah",
+    "Lucha de gigantes",
+    "Heroes",
+    "Mr. Brightside",
+    "Bailando",
+    "September",
+  ],
+});
+
+export const pasaporte = wedding({
+  id: "evt-demo-paula-iker",
+  first: "Paula",
+  second: "Íker",
+  date: "2027-06-26T19:00:00+02:00",
+  rsvpDeadline: "2027-05-20T23:59:00+02:00",
+  city: "Hondarribia",
+  region: "Gipuzkoa",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-2.jpg",
+  cardMessage:
+    "Nos casamos en la frontera, con un pie en cada lado. Tu pasaporte para la boda ya está sellado.",
+  welcomeMessage:
+    "Ella es de Toulouse y él de Hondarribia. Nos conocimos cruzando el puente del Bidasoa cada mañana. Aquí tienes todo, en los dos idiomas que hablamos en casa.",
+  thankYouMessage:
+    "Gracias por cruzar fronteras para estar con nosotros, por los brindis en tres idiomas y por cada baile. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa Engracia",
+      kind: "Ceremonia",
+      address: "Calle Mayor, 11",
+      note: "En lo alto del casco antiguo. Las calles son empedradas: calzado cómodo.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Caserío Amalur",
+      kind: "Cóctel, cena y fiesta",
+      address: "Barrio de Jaizubia, 7",
+      note: "A 10 minutos de la iglesia, mirando a la bahía. Los autobuses salen al terminar.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [23, 15, 35],
+  program: [
+    [
+      "19:00",
+      "Ceremonia",
+      "iglesia",
+      "Santa Engracia",
+      "En castellano, francés y euskera, sin prisas.",
+      "ceremony",
+    ],
+    [
+      "20:15",
+      "Cóctel",
+      "finca",
+      "La campa del caserío",
+      "Txakoli, pintxos y queso de los dos lados.",
+      "cocktail",
+    ],
+    [
+      "21:45",
+      "Cena",
+      "finca",
+      "El bodegón",
+      "Cena con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "00:30",
+      "Fiesta",
+      "finca",
+      "Hasta que abra la frontera",
+      "Barra libre, trikitixa y recena a las tres.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "donostia",
+      "Donostia → Hondarribia",
+      "Plaza de Gipuzkoa, Donostia",
+      "18:00",
+      ["02:30", "04:30"],
+      50,
+    ],
+    ["biarritz", "Biarritz → Hondarribia", "Gare de Biarritz", "17:45", ["04:30"], 30],
+  ],
+  menu: {
+    carne: "Chuletón de vaca con pimientos de Gernika",
+    pescado: "Kokotxas de merluza al pilpil",
+    vegetariano: "Piperrada con huevo y pan de caserío",
+    vegano: "Alubias de Tolosa con verduras",
+  },
+  dressCode: {
+    title: "Elegante de frontera",
+    detail: "Granate de pasaporte y dorado de sello. Puede llover: traed paraguas.",
+    palette: [
+      { name: "Granate", hex: "#5a1220" },
+      { name: "Dorado", hex: "#c9a14a" },
+      { name: "Azul sello", hex: "#2a4a7f" },
+      { name: "Papel", hex: "#f1ece0" },
+    ],
+    examples: [
+      "Vestido midi y algo de abrigo; tacón ancho, que hay empedrado.",
+      "Traje oscuro o azul; corbata opcional.",
+      "Ropa cómoda y un chubasquero.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Murallas",
+      "En el casco antiguo, a 3 min de la iglesia",
+      "Habitaciones reservadas hasta el 10 de mayo. Menciona la boda.",
+    ],
+    [
+      "Chambres du Pont",
+      "En Hendaya, al otro lado del puente",
+      "Para quien venga de Francia, a 10 min del caserío.",
+    ],
+  ],
+  story: {
+    intro: "Un puente, dos países y tres idiomas. Esta es la versión corta.",
+    moments: [
+      [
+        "2018",
+        "El puente",
+        "Cada mañana cruzábamos el Bidasoa en sentido contrario. Un día ella perdió el bus y él la llevó.",
+        "cala",
+      ],
+      [
+        "2021",
+        "La costa",
+        "De Burdeos a Lisboa en furgoneta, sellando el pasaporte de mentira en cada pueblo.",
+        "furgoneta",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En una txalupa, justo en medio de la bahía: ni en Francia ni en España.",
+        "anilloBarca",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Vivimos en Hondarribia, a un puente de su familia. Solo faltáis vosotros.",
+        "orilla",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Islandia",
+      "Un país nuevo para los dos pasaportes. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Una vajilla de Pasaia", "Para las comidas con las dos familias.", "300 €"],
+    ["Clases de euskera para Paula", "Y de francés para Íker.", "200 €"],
+    ["Un manzano para la huerta", "Para tener sidra propia algún día.", "50 €"],
+  ],
+  kids: "Habrá monitores y cena para ellos.",
+  faq: [
+    "¿Necesito pasaporte de verdad?",
+    "No: con el DNI basta para cruzar la frontera. El de la boda os lo damos nosotros.",
+  ],
+  guestbook: [
+    ["Camille et Julien", "On arrive de Toulouse en voiture. Félicitations !"],
+    ["Amama Miren", "Zorionak, maiteak. Y que no os falte de nada."],
+    ["Los de la cuadrilla", "Llevamos la trikitixa. Íker, prepárate."],
+  ],
+  songs: ["La vie en rose", "Txoria txori", "Mediterráneo", "Volando voy", "Valerie", "September"],
+});
+
+export const carta = wedding({
+  id: "evt-demo-rocio-manu",
+  first: "Rocío",
+  second: "Manu",
+  date: "2027-05-29T13:00:00+02:00",
+  rsvpDeadline: "2027-04-20T23:59:00+02:00",
+  city: "Priego de Córdoba",
+  region: "Córdoba",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/banquete.jpg",
+  cardMessage:
+    "Hoy cocinamos para ti. Menú del día: una boda, una comida larga y la sobremesa sin hora.",
+  welcomeMessage:
+    "Somos cocineros y nos conocimos en la misma cocina, peleando por el último fuego libre. Aquí tienes la carta completa del día.",
+  thankYouMessage:
+    "Gracias por venir con hambre, por repetir postre y por la sobremesa más larga que hemos servido. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Ermita de la Aurora Vieja",
+      kind: "Ceremonia",
+      address: "Calle Aurora, 2",
+      note: "En el centro del pueblo. Hay aparcamiento en el paseo.",
+      photo: "ermitaOlivos",
+    },
+    {
+      id: "finca",
+      name: "Almazara El Fogón",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Carretera de Zagrilla, km 3",
+      note: "A 10 minutos de la ermita, entre olivos. La cocina estará abierta para quien quiera mirar.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [27, 13, 10],
+  program: [
+    [
+      "13:00",
+      "Ceremonia",
+      "iglesia",
+      "Ermita de la Aurora",
+      "Breve: la comida no espera.",
+      "ceremony",
+    ],
+    [
+      "14:00",
+      "Aperitivo",
+      "finca",
+      "El patio de la almazara",
+      "Salmorejo, aceite nuevo y vino de Montilla.",
+      "cocktail",
+    ],
+    [
+      "15:30",
+      "Comida",
+      "finca",
+      "Bajo los olivos",
+      "Siete pases y el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "19:00",
+      "Fiesta",
+      "finca",
+      "Sobremesa y baile",
+      "Barra libre y, a medianoche, la recena que cocinamos nosotros.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "cordoba",
+      "Córdoba → Priego",
+      "Paseo de la Victoria, Córdoba",
+      "11:30",
+      ["21:00", "01:30"],
+      50,
+    ],
+    ["granada", "Granada → Priego", "Palacio de Congresos, Granada", "11:45", ["01:30"], 30],
+  ],
+  menu: {
+    carne: "Rabo de toro deshuesado con puré de patata",
+    pescado: "Bacalao confitado en aceite de Priego",
+    vegetariano: "Flamenquín de berenjena y queso",
+    vegano: "Alcachofas confitadas con salmorejo de remolacha",
+  },
+  dressCode: {
+    title: "Mantel largo",
+    detail: "Verde botella, burdeos y oro. Comeremos al aire libre: algo fresco y sin tacón fino.",
+    palette: [
+      { name: "Verde botella", hex: "#2f4a3a" },
+      { name: "Burdeos", hex: "#7a2230" },
+      { name: "Dorado", hex: "#b08a2e" },
+      { name: "Mantel", hex: "#fbf8f1" },
+    ],
+    examples: [
+      "Vestido midi y cómodo, que la comida es larga; cuña o tacón ancho.",
+      "Traje ligero; la chaqueta se quita en el segundo plato.",
+      "Ropa fresca: habrá taller de pizzas para ellos.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Fuente del Rey",
+      "En el centro, a 5 min de la ermita",
+      "Habitaciones reservadas hasta el 10 de abril. Menciona la boda.",
+    ],
+    [
+      "Casa rural El Lagar",
+      "Junto a la almazara",
+      "Ideal para familias y para quien no quiera conducir después de comer.",
+    ],
+  ],
+  story: {
+    intro: "Una cocina, dos delantales y muchos platos rotos. Esta es la versión corta.",
+    moments: [
+      [
+        "2018",
+        "El último fuego",
+        "Primer día en la misma cocina y un solo fuego libre. Lo compartieron y se quemó el arroz.",
+        "terraza",
+      ],
+      [
+        "2021",
+        "El restaurante",
+        "Abrimos uno pequeño en Córdoba. Ella hace los postres; él, todo lo demás (dice él).",
+        "olivos",
+      ],
+      ["2026", "La pedida", "Con el anillo escondido en el postre. Casi se lo come.", "anilloMuro"],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Cocinamos con el aceite de la familia de Manu, en el pueblo donde se hace. Solo faltáis vosotros.",
+        "olivar",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Japón",
+      "A comer, claro: de Tokio a Osaka. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    [
+      "Un juego de cuchillos japoneses",
+      "Para la cocina de casa, que es la única que no es del trabajo.",
+      "390 €",
+    ],
+    ["Una paellera grande", "Para cocinar para todos cuando vengáis.", "90 €"],
+    ["Un olivo con vuestro nombre", "Lo plantaremos en la finca el primer aniversario.", "90 €"],
+  ],
+  kids: "Habrá monitores, taller de pizzas y comida para ellos.",
+  faq: [
+    "¿Y si tengo alergias?",
+    "Dínoslo al confirmar. Cocinamos nosotros: te preparamos un plato a medida.",
+  ],
+  guestbook: [
+    ["La brigada del restaurante", "Ese día no cocináis vosotros. Bueno, solo la recena."],
+    ["La abuela Dolores", "El aceite de este año es el mejor que hemos tenido. Como vosotros."],
+    ["Carmen, la de sala", "Yo os sirvo el vino. Que sea con alegría."],
+  ],
+  songs: [
+    "Hoy puede ser un gran día",
+    "Bailando",
+    "Andaluces de Jaén",
+    "Sarandonga",
+    "September",
+    "Valerie",
+  ],
+});
+
+export const mapa = wedding({
+  id: "evt-demo-aitana-bruno",
+  first: "Aitana",
+  second: "Bruno",
+  date: "2027-07-24T19:00:00+02:00",
+  rsvpDeadline: "2027-06-15T23:59:00+02:00",
+  city: "Formentera",
+  region: "Baleares",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-1.jpg",
+  cardMessage: "Hemos escondido una boda en una isla. Sigue el mapa: la X marca el sitio.",
+  welcomeMessage:
+    "Nos conocimos buscando tesoros escondidos, de esos de coordenadas y cajitas. Ahora el tesoro es la boda. Aquí tienes todas las pistas.",
+  thankYouMessage:
+    "Gracias por cruzar el mar, por encontrar cada pista y por bailar hasta que salió el sol. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Ermita de Sant Ferran",
+      kind: "Ceremonia",
+      address: "Plaça de l'Església, 1",
+      note: "En Sant Ferran. Se llega en bici o en el autobús de la boda desde el puerto.",
+      photo: "ermitaMar",
+      city: "Sant Ferran de ses Roques, Baleares",
+    },
+    {
+      id: "faro",
+      name: "Mirador del Faro Viejo",
+      kind: "Cóctel",
+      address: "Camí del Far, s/n",
+      note: "A 10 minutos de la ermita, en el acantilado. Sopla viento: algo para los hombros.",
+      photo: "terrazaMar",
+    },
+    {
+      id: "finca",
+      name: "Finca Es Tresor",
+      kind: "Cena y fiesta",
+      address: "Camí de Ses Salines, km 2",
+      note: "A 15 minutos del faro, junto a las salinas.",
+      photo: "pista",
+    },
+  ],
+  climate: [30, 22, 0],
+  program: [
+    [
+      "19:00",
+      "Ceremonia",
+      "iglesia",
+      "Ermita de Sant Ferran",
+      "La primera parada del mapa.",
+      "ceremony",
+    ],
+    [
+      "20:15",
+      "Cóctel",
+      "faro",
+      "Mirador del Faro Viejo",
+      "Hierbas ibicencas, sobrasada y la puesta de sol.",
+      "cocktail",
+    ],
+    [
+      "22:00",
+      "Cena",
+      "finca",
+      "El jardín de las salinas",
+      "Cena con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "00:30",
+      "Fiesta",
+      "finca",
+      "Donde marca la X",
+      "Barra libre y baile bajo las luces. Hay un tesoro escondido.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "puerto",
+      "La Savina → Boda",
+      "Puerto de La Savina, llegada de los barcos",
+      "18:15",
+      ["02:30", "05:00"],
+      50,
+    ],
+    ["es-pujols", "Es Pujols → Boda", "Paseo de Es Pujols", "18:30", ["05:00"], 30],
+  ],
+  menu: {
+    carne: "Sofrit pagès con patata",
+    pescado: "Bullit de peix y arroz a banda",
+    vegetariano: "Ensalada payesa con pimientos asados",
+    vegano: "Tumbet de verduras",
+  },
+  dressCode: {
+    title: "Aventura elegante",
+    detail: "Colores de mapa viejo y de mar. Hay arena y caminos: sandalia plana.",
+    palette: [
+      { name: "Sepia", hex: "#3b2a1a" },
+      { name: "Rojo lacre", hex: "#9b2c1f" },
+      { name: "Mar", hex: "#9fb7b5" },
+      { name: "Verde tierra", hex: "#6f7d4f" },
+      { name: "Pergamino", hex: "#efe2c4" },
+    ],
+    examples: [
+      "Vestido ligero y sandalia plana: el mapa tiene arena.",
+      "Camisa de lino y pantalón claro; nada de corbata.",
+      "Ropa fresca y gorra: habrá búsqueda del tesoro para ellos.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hostal Es Tresor",
+      "En Sant Ferran, a 3 min de la ermita",
+      "Habitaciones reservadas hasta el 1 de junio. Menciona la boda.",
+    ],
+    ["Apartamentos Es Pujols", "Frente a la playa", "Para alargar el viaje unos días."],
+  ],
+  story: {
+    intro: "Unas coordenadas, una caja de latón y muchos mapas. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "La caja de latón",
+        "Buscábamos el mismo tesoro escondido en una cala. Lo encontramos a la vez y firmamos juntos el cuaderno.",
+        "cala",
+      ],
+      [
+        "2021",
+        "La ruta",
+        "Un verano entero de furgoneta siguiendo pistas por la costa. Encontramos 63 tesoros.",
+        "furgoneta",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "Ella le dio unas coordenadas. En el punto había una barca y, dentro, el anillo.",
+        "anilloBarca",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Vivimos en Ibiza y cruzamos a Formentera siempre que podemos. Solo faltáis vosotros.",
+        "orilla",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Escocia",
+      "Islas, castillos y mapas antiguos. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Un GPS de montaña", "El nuestro ya se pierde más que nosotros.", "260 €"],
+    ["Dos bicis para la isla", "Para llegar a las calas sin coche.", "480 €"],
+    ["Un mapa antiguo enmarcado", "Para la pared del salón.", "120 €"],
+  ],
+  kids: "Habrá monitores y una búsqueda del tesoro para ellos.",
+  faq: [
+    "¿Cómo llego a Formentera?",
+    "En barco desde Ibiza, unos 30 minutos. El autobús de la boda espera en el puerto de La Savina.",
+  ],
+  guestbook: [
+    ["Nerea y Pol", "Hemos encontrado la boda a la primera. ¡Enhorabuena!"],
+    ["El abuelo Vicent", "Os dejo una pista: sed felices."],
+    ["Los del club de tesoros", "Escondimos algo en la finca. Buena suerte."],
+  ],
+  songs: [
+    "Mediterráneo",
+    "Islands in the Stream",
+    "La isla bonita",
+    "Volando voy",
+    "Valerie",
+    "September",
+  ],
+});
+
+export const constelacion = wedding({
+  id: "evt-demo-lola-samuel",
+  first: "Lola",
+  second: "Samuel",
+  date: "2027-12-11T19:30:00+01:00",
+  rsvpDeadline: "2027-11-02T23:59:00+01:00",
+  city: "Garafía",
+  region: "La Palma",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-4.jpg",
+  cardMessage:
+    "Nos casamos bajo uno de los cielos más limpios del mundo. Queremos verte entre las estrellas.",
+  welcomeMessage:
+    "Somos astrónomos y nos conocimos en el observatorio, una noche de nubes en la que no se veía nada. Aquí tienes todo para acompañarnos.",
+  thankYouMessage:
+    "Gracias por subir hasta las estrellas, por mirar por el telescopio en la fiesta y por cada brindis. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Nuestra Señora de las Estrellas",
+      kind: "Ceremonia",
+      address: "Plaza de Baltasar Martín, 1",
+      note: "En el centro de Garafía. La carretera tiene curvas: mejor en el autobús de la boda.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Hacienda Cielo Abierto",
+      kind: "Cóctel, cena y fiesta",
+      address: "Camino del Roque, km 4",
+      note: "A 15 minutos de la iglesia. Por la noche apagamos las luces para ver las estrellas.",
+      photo: "pista",
+    },
+  ],
+  climate: [17, 9, 30],
+  program: [
+    [
+      "19:30",
+      "Ceremonia",
+      "iglesia",
+      "Nuestra Señora de las Estrellas",
+      "Con la primera estrella de la noche.",
+      "ceremony",
+    ],
+    [
+      "20:45",
+      "Cóctel",
+      "finca",
+      "El mirador",
+      "Vino de la isla, quesos palmeros y telescopios.",
+      "cocktail",
+    ],
+    [
+      "22:00",
+      "Cena",
+      "finca",
+      "Bajo la Vía Láctea",
+      "Cena con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "00:30",
+      "Fiesta",
+      "finca",
+      "Hasta el amanecer",
+      "Barra libre, baile y una visita guiada al cielo a las dos.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "santa-cruz",
+      "Santa Cruz → Garafía",
+      "Avenida Marítima, Santa Cruz de La Palma",
+      "17:45",
+      ["02:30", "05:00"],
+      50,
+    ],
+    [
+      "los-llanos",
+      "Los Llanos → Garafía",
+      "Plaza de España, Los Llanos de Aridane",
+      "18:00",
+      ["05:00"],
+      30,
+    ],
+  ],
+  menu: {
+    carne: "Cabrito en adobo con papas",
+    pescado: "Vieja sancochada con mojo",
+    vegetariano: "Queso asado con mojo verde y papas",
+    vegano: "Potaje de berros con gofio",
+  },
+  dressCode: {
+    title: "Noche de gala",
+    detail: "Azul noche y oro de estrella. Arriba hace frío de noche: abrigo sin excusa.",
+    palette: [
+      { name: "Azul noche", hex: "#0d1530" },
+      { name: "Oro", hex: "#d8b96a" },
+      { name: "Azul claro", hex: "#6f8cc4" },
+      { name: "Marfil", hex: "#f2ecdb" },
+    ],
+    examples: [
+      "Vestido largo en azul noche o dorado, y abrigo.",
+      "Traje oscuro o esmoquin.",
+      "Ropa de abrigo: los telescopios son para ellos primero.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel El Roque",
+      "En Garafía, a 5 min de la iglesia",
+      "Habitaciones reservadas hasta el 20 de octubre. Menciona la boda.",
+    ],
+    ["Casas rurales del Cielo", "Junto a la hacienda", "Con terraza para seguir mirando el cielo."],
+  ],
+  story: {
+    intro: "Una noche de nubes, un telescopio y mucho café. Esta es la versión corta.",
+    moments: [
+      [
+        "2018",
+        "La noche nublada",
+        "Primera noche de los dos en el observatorio y no se veía nada. Hablamos hasta el amanecer.",
+        "cala",
+      ],
+      [
+        "2021",
+        "El eclipse",
+        "Cruzamos media Europa en furgoneta para ver un eclipse. Llegamos tarde, pero llegamos juntos.",
+        "furgoneta",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En una barca, de noche, con la Vía Láctea encima. El anillo brillaba más.",
+        "anilloBarca",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Vivimos en La Palma, cerca del observatorio. Solo faltáis vosotros.",
+        "orilla",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Atacama",
+      "El desierto con el cielo más limpio. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Un telescopio para casa", "Para no tener que ir al trabajo a mirar las estrellas.", "650 €"],
+    ["Una estrella con vuestro nombre", "En nuestro mapa del cielo, claro.", "20 €"],
+    ["Una manta para el mirador", "Para las noches largas de observación.", "60 €"],
+  ],
+  kids: "Habrá monitores, un planetario hinchable y cena para ellos.",
+  faq: [
+    "¿Veremos estrellas?",
+    "Si el cielo está despejado, muchísimas. A las dos apagamos todas las luces y habrá telescopios.",
+  ],
+  guestbook: [
+    ["Los del observatorio", "Hemos reservado el cielo para esa noche. Que no se nuble."],
+    ["Abuela Candelaria", "Mis dos estrellas. Que seáis muy felices."],
+    ["Elsa y Marco", "Pedimos un deseo por vosotros con la primera estrella fugaz."],
+  ],
+  songs: [
+    "Fly me to the moon",
+    "A Sky Full of Stars",
+    "Starman",
+    "La Luna",
+    "September",
+    "Valerie",
+  ],
+});
+
+export const comic = wedding({
+  id: "evt-demo-valeria-jorge",
+  first: "Valeria",
+  second: "Jorge",
+  date: "2027-06-05T18:00:00+02:00",
+  rsvpDeadline: "2027-04-28T23:59:00+02:00",
+  city: "Sitges",
+  region: "Barcelona",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/pareja.jpg",
+  cardMessage:
+    "¡Atención! En el próximo número, nuestros héroes se casan. Y tú sales en la última viñeta.",
+  welcomeMessage:
+    "Ella dibuja y él escribe los guiones. Nos conocimos en un salón del cómic, haciendo cola para la misma firma. Aquí tienes todo para acompañarnos.",
+  thankYouMessage:
+    "Gracias por venir disfrazados (algunos), por los bocadillos del libro de firmas y por bailar hasta el final. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Ermita del Vinyet",
+      kind: "Ceremonia",
+      address: "Passeig del Vinyet, 5",
+      note: "Junto al paseo marítimo. Hay aparcamiento en el paseo.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Villa Viñeta",
+      kind: "Cóctel, cena y fiesta",
+      address: "Carrer de la Riera, 22",
+      note: "A 10 minutos de la ermita. Los autobuses salen al terminar la ceremonia.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [25, 17, 10],
+  program: [
+    ["18:00", "Ceremonia", "iglesia", "Ermita del Vinyet", "Primer capítulo: el sí.", "ceremony"],
+    [
+      "19:15",
+      "Cóctel",
+      "finca",
+      "La terraza",
+      "Cava del Penedès, croquetas y un fotomatón con bocadillos de cómic.",
+      "cocktail",
+    ],
+    ["21:00", "Cena", "finca", "El jardín", "Cena con el menú que elijas al confirmar.", "banquet"],
+    [
+      "23:30",
+      "Fiesta",
+      "finca",
+      "Continuará…",
+      "Barra libre y baile. Concurso de disfraces a la una.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "barcelona",
+      "Barcelona → Sitges",
+      "Plaça d'Espanya, Barcelona",
+      "16:45",
+      ["02:00", "04:00"],
+      50,
+    ],
+    [
+      "vilanova",
+      "Vilanova → Sitges",
+      "Estación de tren, Vilanova i la Geltrú",
+      "17:15",
+      ["04:00"],
+      30,
+    ],
+  ],
+  menu: {
+    carne: "Fricandó de ternera con setas",
+    pescado: "Suquet de rape y gambas",
+    vegetariano: "Escalivada con queso de cabra y romesco",
+    vegano: "Arroz de verduras con romesco",
+  },
+  dressCode: {
+    title: "Elegante con superpoderes",
+    detail: "Rojo, amarillo y azul, como una portada de tebeo. Si queréis, un guiño de disfraz.",
+    palette: [
+      { name: "Rojo", hex: "#d92b2b" },
+      { name: "Amarillo", hex: "#f5c518" },
+      { name: "Azul", hex: "#2563c9" },
+      { name: "Negro", hex: "#141414" },
+    ],
+    examples: [
+      "Vestido de un color vivo; la capa es opcional.",
+      "Traje con una corbata o unos calcetines de héroe.",
+      "¡Disfraz! Habrá concurso para ellos también.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Platja",
+      "Frente al mar, a 5 min de la ermita",
+      "Habitaciones reservadas hasta el 15 de abril. Menciona la boda.",
+    ],
+    ["Apartamentos La Riera", "A 3 min de la villa", "Para grupos de amigos."],
+  ],
+  story: {
+    intro: "Una cola de firmas, un rotulador y muchas viñetas. Esta es la versión corta.",
+    moments: [
+      [
+        "2017",
+        "La cola",
+        "Tres horas de cola para que nos firmaran el mismo tebeo. Ella le dibujó un retrato mientras tanto.",
+        "cala",
+      ],
+      [
+        "2020",
+        "El primer cómic",
+        "Lo hicimos juntos en un verano de furgoneta por la costa. Vendimos 200 ejemplares, casi todos a la familia.",
+        "furgoneta",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En la última página de nuestro cómic nuevo. Ella lo leyó en la barca.",
+        "anilloBarca",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Vivimos en Sitges, con un estudio lleno de lápices. Solo faltáis vosotros.",
+        "orilla",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Angulema",
+      "Al festival de cómic más grande de Europa. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Una tableta de dibujo", "Para que Valeria jubile la de la carrera.", "480 €"],
+    ["Una estantería para los tebeos", "Que ya no caben ni en la cocina.", "220 €"],
+    ["Una edición integral", "De nuestra serie favorita, en tapa dura.", "90 €"],
+  ],
+  kids: "Habrá monitores, taller de dibujo y cena para ellos.",
+  faq: [
+    "¿Hay que ir disfrazado?",
+    "No hace falta. Pero si traes un guiño de héroe, participas en el concurso.",
+  ],
+  guestbook: [
+    ["Los del salón del cómic", "¡Zas! ¡Pum! ¡Enhorabuena!"],
+    ["La iaia Montse", "Mis dos dibujantes favoritos. Que seáis felices."],
+    ["Bea y Sergi", "Llevamos capa. Avisados estáis."],
+  ],
+  songs: ["Holding Out for a Hero", "Superman", "Mediterráneo", "Bailando", "Valerie", "September"],
+});
+
+export const cosecha = wedding({
+  id: "evt-demo-blanca-rodrigo",
+  first: "Blanca",
+  second: "Rodrigo",
+  date: "2027-09-25T13:00:00+02:00",
+  rsvpDeadline: "2027-08-16T23:59:00+02:00",
+  city: "Falset",
+  region: "Tarragona",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-3.jpg",
+  cardMessage:
+    "Nos casamos en plena vendimia, en la bodega de la familia. Ven a brindar por nuestra mejor añada.",
+  welcomeMessage:
+    "Ella es enóloga y él cultiva la viña de su abuelo. Nos conocimos en una vendimia y llevamos siete cosechas juntos. Aquí tienes todo para acompañarnos.",
+  thankYouMessage:
+    "Gracias por brindar con nuestro vino, por pisar uva con nosotros y por quedaros hasta el último trago. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Ermita de Sant Pere de les Vinyes",
+      kind: "Ceremonia",
+      address: "Camí de la Ermita, s/n",
+      note: "Entre viñas y olivos, a las afueras de Falset. Hay aparcamiento junto a la ermita.",
+      photo: "ermitaOlivos",
+    },
+    {
+      id: "finca",
+      name: "Celler Mas de l'Àvia",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Carretera de Gratallops, km 3",
+      note: "A 10 minutos de la ermita. Haremos una visita a la bodega antes de comer.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [26, 14, 15],
+  program: [
+    [
+      "13:00",
+      "Ceremonia",
+      "iglesia",
+      "Sant Pere de les Vinyes",
+      "Con la uva recién cogida en el altar.",
+      "ceremony",
+    ],
+    [
+      "14:00",
+      "Aperitivo",
+      "finca",
+      "Entre las barricas",
+      "Vino joven, embutidos de la comarca y una pisada de uva.",
+      "cocktail",
+    ],
+    [
+      "15:30",
+      "Comida",
+      "finca",
+      "El patio de la masía",
+      "Comida larga, con el menú que elijas al confirmar y un vino para cada plato.",
+      "banquet",
+    ],
+    [
+      "19:00",
+      "Fiesta",
+      "finca",
+      "Hasta la última botella",
+      "Barra libre y baile. Se abre la añada de la boda.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "tarragona",
+      "Tarragona → Falset",
+      "Plaça Imperial Tarraco, Tarragona",
+      "11:30",
+      ["21:00", "01:30"],
+      50,
+    ],
+    ["reus", "Reus → Falset", "Estación de tren, Reus", "11:45", ["01:30"], 30],
+  ],
+  menu: {
+    carne: "Conejo con caracoles y alioli",
+    pescado: "Romesco de pescado de la costa",
+    vegetariano: "Calçots asados y escalivada",
+    vegano: "Arroz de setas del Priorat",
+  },
+  dressCode: {
+    title: "Vendimia elegante",
+    detail: "Vino, oro y verde botella. Hay tierra entre las viñas: mejor tacón ancho.",
+    palette: [
+      { name: "Vino", hex: "#5e1a2b" },
+      { name: "Dorado", hex: "#b3924a" },
+      { name: "Verde botella", hex: "#243a2e" },
+      { name: "Etiqueta", hex: "#f4efe2" },
+    ],
+    examples: [
+      "Vestido midi en tonos vino o verde; tacón ancho o cuña.",
+      "Traje en tonos tierra; la corbata, opcional.",
+      "Ropa cómoda que se pueda manchar: habrá pisada de uva para ellos.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Plaça del Priorat",
+      "En el centro de Falset, a 5 min de la ermita",
+      "Habitaciones reservadas hasta el 1 de agosto. Menciona la boda.",
+    ],
+    ["Mas de les Oliveres", "A 5 min de la bodega", "Casa rural entre viñas, ideal para grupos."],
+  ],
+  story: {
+    intro: "Una vendimia, un depósito de vino y siete cosechas. Esta es la versión corta.",
+    moments: [
+      [
+        "2020",
+        "La vendimia",
+        "Ella vino a hacer prácticas y él le enseñó a cortar racimos. Se cortó un dedo y él la llevó al médico.",
+        "olivos",
+      ],
+      [
+        "2022",
+        "El primer vino",
+        "Lo hicimos juntos con la uva de la viña vieja. Salieron 300 botellas; quedan dos.",
+        "terraza",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En la bodega, con el anillo atado al cuello de una botella de aquella añada.",
+        "anilloMuro",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Vivimos en la masía, entre viñas y olivos. Solo faltáis vosotros.",
+        "olivar",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Burdeos",
+      "Bodegas, castillos y mucho vino. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Una barrica de roble", "Para la añada de la boda.", "450 €"],
+    ["Copas de cristal fino", "Doce, para las catas en casa.", "180 €"],
+    ["Una cepa con vuestro nombre", "La plantaremos en la viña nueva.", "50 €"],
+  ],
+  kids: "Habrá monitores, pisada de uva y comida para ellos.",
+  faq: [
+    "¿Hay que beber vino?",
+    "Claro que no. Habrá mosto, cerveza, refrescos y agua de la masía.",
+  ],
+  guestbook: [
+    ["Los de la cooperativa", "Este año la vendimia la hacemos sin vosotros. Solo este año."],
+    ["La iaia Teresa", "Siete cosechas esperando esta. Que sea la mejor."],
+    ["Anna i Jordi", "Llevamos sacacorchos de repuesto, por si acaso."],
+  ],
+  songs: ["Red Red Wine", "Vino tinto", "Mediterráneo", "La flaca", "September", "Valerie"],
+});
+
+export const tarot = wedding({
+  id: "evt-demo-abril-oscar",
+  first: "Abril",
+  second: "Óscar",
+  date: "2027-11-20T19:00:00+01:00",
+  rsvpDeadline: "2027-10-12T23:59:00+02:00",
+  city: "Cedeira",
+  region: "A Coruña",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-3.jpg",
+  cardMessage: "Las cartas lo dijeron antes que nosotros: nos casamos. Ven a ver cómo se cumple.",
+  welcomeMessage:
+    "Ella ilustra barajas y él cuenta leyendas de la costa en un museo. Nos conocimos en una feria, cuando ella le echó las cartas por broma. Aquí tienes todo para acompañarnos.",
+  thankYouMessage:
+    "Gracias por venir al fin del mundo, por la queimada y por cada conjuro bien dicho. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María do Mar",
+      kind: "Ceremonia",
+      address: "Rúa do Porto, 4",
+      note: "Junto al puerto. Llegad con tiempo y paraguas: aquí llueve sin avisar.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Pazo das Meigas",
+      kind: "Cóctel, cena y fiesta",
+      address: "Lugar de Montoxo, 9",
+      note: "A 15 minutos del puerto, mirando a la ría. Los autobuses salen al terminar.",
+      photo: "pista",
+    },
+  ],
+  climate: [14, 8, 60],
+  program: [
+    [
+      "19:00",
+      "Ceremonia",
+      "iglesia",
+      "Santa María do Mar",
+      "Con gaita y a la luz de las velas.",
+      "ceremony",
+    ],
+    ["20:15", "Cóctel", "finca", "La galería del pazo", "Pulpo, percebes y albariño.", "cocktail"],
+    [
+      "21:45",
+      "Cena",
+      "finca",
+      "El salón de piedra",
+      "Cena con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "00:00",
+      "Fiesta",
+      "finca",
+      "Queimada y baile",
+      "Conjuro a medianoche y barra libre después.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "coruna",
+      "A Coruña → Cedeira",
+      "Plaza de Pontevedra, A Coruña",
+      "17:30",
+      ["02:00", "04:30"],
+      50,
+    ],
+    ["ferrol", "Ferrol → Cedeira", "Estación de tren, Ferrol", "18:00", ["04:30"], 30],
+  ],
+  menu: {
+    carne: "Ternera gallega asada con castañas",
+    pescado: "Rodaballo con ajada",
+    vegetariano: "Empanada de verduras y queso de tetilla",
+    vegano: "Caldo gallego de verduras y empanada de setas",
+  },
+  dressCode: {
+    title: "Noche de meigas",
+    detail: "Violeta, oro y ciruela. Noviembre en Galicia: abrigo y paraguas.",
+    palette: [
+      { name: "Violeta", hex: "#1c1630" },
+      { name: "Oro", hex: "#d3ad5a" },
+      { name: "Ciruela", hex: "#5c2f5a" },
+      { name: "Marfil", hex: "#f1e7d0" },
+    ],
+    examples: [
+      "Vestido largo en tonos oscuros y un buen abrigo.",
+      "Traje oscuro; la capa, si os atrevéis.",
+      "Ropa de abrigo y botas de agua.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel A Ría",
+      "En el puerto, a 2 min de la iglesia",
+      "Habitaciones reservadas hasta el 1 de octubre. Menciona la boda.",
+    ],
+    ["Casa rural O Faro", "A 10 min del pazo", "Con chimenea, para los días de lluvia."],
+  ],
+  story: {
+    intro: "Una baraja, una feria y una carta que salió dos veces. Esta es la versión corta.",
+    moments: [
+      [
+        "2018",
+        "Los enamorados",
+        "Ella le echó las cartas en una feria por broma. Salieron Los enamorados. Dos veces.",
+        "cala",
+      ],
+      [
+        "2021",
+        "La costa da Morte",
+        "Un mes en furgoneta buscando leyendas de faro en faro. Él las contaba y ella las dibujaba.",
+        "furgoneta",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En una barca frente a San Andrés de Teixido. Dicen que quien no va de vivo, va de muerto.",
+        "anilloBarca",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Vivimos en Cedeira, con una baraja nueva a medio pintar. Solo faltáis vosotros.",
+        "orilla",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Irlanda",
+      "Más leyendas, más faros y más lluvia. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Un juego de pinceles finos", "Para la baraja que Abril aún no ha terminado.", "120 €"],
+    ["Unas cuncas para la queimada", "Con su pote de barro, para las noches de San Juan.", "70 €"],
+    ["Una lámpara de lectura", "Para los libros de leyendas de Óscar.", "90 €"],
+  ],
+  kids: "Habrá monitores, cuentacuentos y cena para ellos.",
+  faq: [
+    "¿Y si llueve?",
+    "Lloverá, es Galicia en noviembre. Todo es bajo techo, salvo el conjuro (que también se puede hacer dentro).",
+  ],
+  guestbook: [
+    ["Uxía e Brais", "As cartas non mentían. Parabéns!"],
+    ["La avoa Carmiña", "Haberlas, haylas. Y vosotros, a ser felices."],
+    ["Los del museo", "Ya tenemos la leyenda de vuestra boda escrita."],
+  ],
+  songs: ["Magic", "Rumore", "A Rianxeira", "La flaca", "September", "Valerie"],
+});
+
+export const arcade = wedding({
+  id: "evt-demo-leire-marc",
+  first: "Leire",
+  second: "Marc",
+  date: "2027-07-03T19:00:00+02:00",
+  rsvpDeadline: "2027-05-25T23:59:00+02:00",
+  city: "Getxo",
+  region: "Bizkaia",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-2.jpg",
+  cardMessage:
+    "Jugador 2 se ha unido a la partida. Nos casamos y tú tienes una vida extra para venir.",
+  welcomeMessage:
+    "Nos conocimos en un salón recreativo, peleando por el récord de la misma máquina. Ella hace videojuegos y él los arregla. Aquí tienes todo para acompañarnos.",
+  thankYouMessage:
+    "Gracias por jugar con nosotros, por batir récords en la fiesta y por bailar hasta el game over. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Palacio Itsasoa",
+      kind: "Ceremonia",
+      address: "Paseo de las Grandes Villas, 15",
+      note: "Civil, en el jardín del palacio. Hay aparcamiento en el puerto viejo.",
+      photo: "terrazaMar",
+    },
+    {
+      id: "finca",
+      name: "Antiguo salón Neón",
+      kind: "Cena y fiesta",
+      address: "Calle del Puerto Viejo, 4",
+      note: "A 5 minutos a pie del palacio. Las máquinas son gratis toda la noche.",
+      photo: "pista",
+    },
+  ],
+  climate: [24, 15, 30],
+  program: [
+    [
+      "19:00",
+      "Ceremonia",
+      "iglesia",
+      "Jardín del palacio",
+      "Pulsad start: empieza la partida.",
+      "ceremony",
+    ],
+    [
+      "20:00",
+      "Cóctel",
+      "iglesia",
+      "La terraza del mar",
+      "Txakoli, pintxos y la puesta de sol sobre el Abra.",
+      "cocktail",
+    ],
+    [
+      "21:30",
+      "Cena",
+      "finca",
+      "El salón Neón",
+      "Cena con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "00:00",
+      "Fiesta",
+      "finca",
+      "Hasta el game over",
+      "Barra libre, música de 8 bits y torneo de recreativas.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["bilbao", "Bilbao → Getxo", "Plaza Moyúa, Bilbao", "18:00", ["02:30", "04:30"], 50],
+    ["donostia", "Donostia → Getxo", "Estación de autobuses, Donostia", "17:00", ["04:30"], 30],
+  ],
+  menu: {
+    carne: "Carrilleras al vino tinto con puré",
+    pescado: "Bacalao a la vizcaína",
+    vegetariano: "Pimientos rellenos de hongos",
+    vegano: "Porrusalda con verduras de temporada",
+  },
+  dressCode: {
+    title: "Neón elegante",
+    detail: "Un toque de magenta, cian o amarillo sobre fondo oscuro. Se baila: calzado cómodo.",
+    palette: [
+      { name: "Magenta", hex: "#ff3d81" },
+      { name: "Cian", hex: "#37d5d6" },
+      { name: "Amarillo", hex: "#ffd23f" },
+      { name: "Azul noche", hex: "#12122b" },
+    ],
+    examples: [
+      "Vestido oscuro con un detalle de color neón; zapatillas permitidas.",
+      "Traje oscuro con calcetines o corbata de color.",
+      "Ropa cómoda: tendrán su propio torneo.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Puerto Viejo",
+      "A 3 min del palacio",
+      "Habitaciones reservadas hasta el 15 de mayo. Menciona la boda.",
+    ],
+    ["Apartamentos Ereaga", "Frente a la playa", "Para alargar el fin de semana."],
+  ],
+  story: {
+    intro: "Una máquina recreativa, un récord y muchas monedas. Esta es la versión corta.",
+    moments: [
+      [
+        "2017",
+        "El récord",
+        "Ella tenía el récord de la máquina; él se lo quitó; ella lo recuperó al día siguiente. Así seis meses.",
+        "cala",
+      ],
+      [
+        "2020",
+        "La ruta de los salones",
+        "Un verano en furgoneta buscando salones recreativos antiguos. Encontramos catorce.",
+        "furgoneta",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "Él escribió «¿TE CASAS?» en la tabla de récords. Ella contestó con tres letras: «SÍ».",
+        "anilloBarca",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Vivimos en Getxo, con dos máquinas en el salón. Solo faltáis vosotros.",
+        "orilla",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Tokio",
+      "Los salones de Akihabara nos esperan. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Una máquina recreativa restaurada", "La tercera del salón.", "900 €"],
+    ["Una consola antigua", "Para la colección de Marc.", "150 €"],
+    ["Un sofá para jugar", "El nuestro ya tiene la forma de los dos.", "600 €"],
+  ],
+  kids: "Habrá monitores, máquinas para ellos y cena.",
+  faq: ["¿Las máquinas son gratis?", "Sí, toda la noche. El récord de la boda tiene premio."],
+  guestbook: [
+    ["Los del salón", "Os guardamos la máquina de siempre. Récord nuevo o no hay boda."],
+    ["Amona Begoña", "No entiendo nada de esas maquinitas, pero os quiero mucho."],
+    ["Aitor y Júlia", "Insert coin. ¡Que viva la partida!"],
+  ],
+  songs: ["Pac-Man Fever", "Take On Me", "Bailando", "Mr. Brightside", "September", "Valerie"],
+});
+
+export const semillas = wedding({
+  id: "evt-demo-olivia-tomas",
+  first: "Olivia",
+  second: "Tomás",
+  date: "2027-04-17T12:30:00+02:00",
+  rsvpDeadline: "2027-03-08T23:59:00+01:00",
+  city: "Cabezuela del Valle",
+  region: "Cáceres",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-1.jpg",
+  cardMessage:
+    "Sembramos esto hace seis años y ya ha florecido. Nos casamos con los cerezos en flor. Ven a verlo.",
+  welcomeMessage:
+    "Tenemos una huerta ecológica y un banco de semillas antiguas. Nos casamos en el valle, en plena floración. Aquí tienes todo para acompañarnos.",
+  thankYouMessage:
+    "Gracias por venir al valle, por plantar vuestra semilla y por la sobremesa entre cerezos. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Ermita de San Isidro Labrador",
+      kind: "Ceremonia",
+      address: "Camino de la Garganta, s/n",
+      note: "A las afueras del pueblo, entre bancales. Hay aparcamiento junto a la ermita.",
+      photo: "ermitaOlivos",
+    },
+    {
+      id: "finca",
+      name: "La Huerta del Valle",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Paraje de Las Vegas, 3",
+      note: "A 10 minutos de la ermita, junto al río. Los autobuses salen al terminar.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [20, 7, 30],
+  program: [
+    [
+      "12:30",
+      "Ceremonia",
+      "iglesia",
+      "San Isidro Labrador",
+      "Breve, con flores de la huerta.",
+      "ceremony",
+    ],
+    [
+      "13:45",
+      "Aperitivo",
+      "finca",
+      "Entre los bancales",
+      "Verduras de la huerta, queso de la Vera y pitarra.",
+      "cocktail",
+    ],
+    [
+      "15:30",
+      "Comida",
+      "finca",
+      "Bajo los cerezos",
+      "Comida larga con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "19:00",
+      "Fiesta",
+      "finca",
+      "Hasta que caiga la noche",
+      "Barra libre y baile. Cada invitado se lleva sus semillas.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["plasencia", "Plasencia → Valle", "Plaza Mayor, Plasencia", "11:30", ["21:00", "01:00"], 50],
+    ["madrid", "Madrid → Valle", "Estación Sur, Madrid", "09:00", ["01:00"], 30],
+  ],
+  menu: {
+    carne: "Cabrito asado con patatas revolconas",
+    pescado: "Trucha del Jerte con jamón",
+    vegetariano: "Pimientos de la Vera rellenos de verduras y queso",
+    vegano: "Guiso de verduras de la huerta con pimentón",
+  },
+  dressCode: {
+    title: "Primavera de huerta",
+    detail: "Verde hoja, rojo amapola y tonos de papel kraft. Hay tierra: calzado cómodo.",
+    palette: [
+      { name: "Verde hoja", hex: "#5d7a3a" },
+      { name: "Amapola", hex: "#c8452c" },
+      { name: "Kraft", hex: "#ece0c5" },
+      { name: "Crema", hex: "#fbf6e7" },
+    ],
+    examples: [
+      "Vestido de flores o liso; cuña o calzado plano para la huerta.",
+      "Traje ligero o chaqueta con pantalón claro; sin corbata.",
+      "Ropa que se pueda manchar: habrá taller de siembra para ellos.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Valle del Jerte",
+      "En el pueblo, a 5 min de la ermita",
+      "Habitaciones reservadas hasta el 1 de marzo. Menciona la boda.",
+    ],
+    ["Casa rural Los Cerezos", "Junto a la huerta", "Ideal para familias con niños."],
+  ],
+  story: {
+    intro:
+      "Un mercado de agricultores, un sobre de semillas y una huerta. Esta es la versión corta.",
+    moments: [
+      [
+        "2021",
+        "El mercado",
+        "Ella vendía tomates antiguos y él compró todos los que quedaban. No le gustan los tomates.",
+        "olivos",
+      ],
+      [
+        "2022",
+        "La ciudad",
+        "Un año en Madrid, con una terraza llena de macetas. No aguantamos sin campo.",
+        "terraza",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "Con el anillo enterrado en un bancal. Ella lo encontró al plantar las lechugas.",
+        "anilloMuro",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Vivimos en el valle, con la huerta y el banco de semillas. Solo faltáis vosotros.",
+        "olivar",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Japón",
+      "A ver los cerezos de allí. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Un invernadero pequeño", "Para que las semillas empiecen antes.", "450 €"],
+    ["Herramientas de huerta", "Azadas, rastrillos y unos guantes que duren.", "120 €"],
+    ["Un cerezo con vuestro nombre", "Lo plantaremos en la huerta el primer aniversario.", "60 €"],
+  ],
+  kids: "Habrá monitores, taller de siembra y comida para ellos.",
+  faq: [
+    "¿Estarán los cerezos en flor?",
+    "Si la primavera acompaña, sí: mediados de abril suele ser la mejor semana.",
+  ],
+  guestbook: [
+    ["Los del mercado", "Os llevamos los mejores tomates del puesto. Tomás, esta vez cómetelos."],
+    ["La abuela Juana", "Lo que se siembra con cariño crece solo. Enhorabuena, hijos."],
+    ["Nuria y Pedro", "Ya tenemos sitio en el balcón para nuestras semillas."],
+  ],
+  songs: ["Here Comes the Sun", "Hoy", "La flaca", "Contigo", "September", "Valerie"],
+});

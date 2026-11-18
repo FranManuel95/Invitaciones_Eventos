@@ -206,7 +206,7 @@ export function GuestTable({
       </p>
 
       {filtered.length === 0 ? (
-        <div className="grid place-items-center rounded-[3px] border border-dashed border-line bg-paper px-6 py-14 text-center">
+        <div className="grid place-items-center rounded-xl border border-dashed border-line bg-paper px-6 py-14 text-center">
           <SearchX aria-hidden className="size-6 text-muted" />
           <p className="mt-3 text-sm font-medium text-ink">
             Ningún invitado coincide con estos filtros
@@ -222,7 +222,7 @@ export function GuestTable({
       ) : (
         <>
           {/* Escritorio: tabla */}
-          <div className="hidden overflow-hidden rounded-[3px] border border-line bg-paper md:block">
+          <div className="hidden overflow-hidden rounded-xl border border-line bg-paper md:block">
             <table className="w-full text-left text-sm">
               <thead className="border-b border-line bg-ivory/60 text-xs text-muted">
                 <tr>
@@ -318,12 +318,9 @@ export function GuestTable({
           </div>
 
           {/* Móvil: tarjetas */}
-          <ul className="space-y-2 md:hidden">
+          <ul className="divide-y divide-line overflow-hidden rounded-xl border border-line bg-paper shadow-[var(--shadow-paper)] md:hidden">
             {filtered.map((r) => (
-              <li
-                key={r.id}
-                className="rounded-[3px] border border-line bg-paper p-4 [contain-intrinsic-size:auto_7rem] [content-visibility:auto]"
-              >
+              <li key={r.id} className="px-4 py-3.5">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <p className="font-medium text-ink">{r.name}</p>

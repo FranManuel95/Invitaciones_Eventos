@@ -16,7 +16,10 @@ export const OPENING_IDS = [
   "pelicula",
   "sobre3d",
   "ventana",
+  "concepto",
 ] as const;
+/** Las que se enseñan en la venta y los ejemplos: la de concepto va con su plantilla. */
+export const SHOWN_OPENING_IDS = OPENING_IDS.filter((id) => id !== "concepto");
 export const SEAL_MARK_IDS = ["monograma", "almendro", "corazon", "estrella"] as const;
 
 export type FlapId = (typeof FLAP_IDS)[number];
@@ -26,6 +29,101 @@ export type LinerId = (typeof LINER_IDS)[number];
 export type SealShapeId = (typeof SEAL_SHAPE_IDS)[number];
 export type SealMarkId = (typeof SEAL_MARK_IDS)[number];
 export type OpeningId = (typeof OPENING_IDS)[number];
+
+/**
+ * Qué se abre en la apertura «película»: cada opción es un vídeo distinto (un sobre de un color,
+ * una caja con lazo o un díptico). `action` es lo que se le pide al invitado y `name`, el nombre
+ * accesible del botón.
+ */
+export const FILM_IDS = [
+  "blanco",
+  "salvia",
+  "burdeos",
+  "azul",
+  "kraft",
+  "ventana",
+  "cielo",
+  "granate",
+  "caja",
+  "esmeralda",
+  "diptico",
+  "eucalipto",
+] as const;
+export type FilmId = (typeof FILM_IDS)[number];
+export const FILMS: Record<FilmId, { label: string; hex: string; action: string; name: string }> = {
+  blanco: {
+    label: "Sobre blanco con lacre dorado",
+    hex: "#efe9df",
+    action: "Toca el lacre para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  salvia: {
+    label: "Sobre verde salvia",
+    hex: "#a9b79c",
+    action: "Toca el lacre para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  burdeos: {
+    label: "Sobre burdeos",
+    hex: "#7a2230",
+    action: "Toca el lacre para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  azul: {
+    label: "Sobre azul empolvado con lacre plateado",
+    hex: "#a9bfd6",
+    action: "Toca el lacre para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  kraft: {
+    label: "Sobre kraft con lazo burdeos",
+    hex: "linear-gradient(90deg, #c9a77c 0 44%, #6e1f2c 44% 56%, #c9a77c 56%)",
+    action: "Toca el lazo para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  ventana: {
+    label: "Sobre marfil junto a la ventana",
+    hex: "linear-gradient(135deg, #efe9df 0 70%, #7a2230 70%)",
+    action: "Toca el lacre para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  cielo: {
+    label: "Sobre azul junto a la ventana",
+    hex: "linear-gradient(135deg, #a9bfd6 0 70%, #c9ccd1 70%)",
+    action: "Toca el lacre para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  granate: {
+    label: "Sobre burdeos a pantalla completa",
+    hex: "radial-gradient(circle, #c9a14a 0 28%, #7a2230 30%)",
+    action: "Toca el lacre para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  caja: {
+    label: "Caja con lazo burdeos",
+    hex: "linear-gradient(90deg, #efe9df 0 40%, #6e1f2c 40% 60%, #efe9df 60%)",
+    action: "Toca el lazo para abrir la caja",
+    name: "Abrir la caja",
+  },
+  esmeralda: {
+    label: "Caja esmeralda con lazo dorado",
+    hex: "linear-gradient(90deg, #1f4a3a 0 40%, #c9a14a 40% 60%, #1f4a3a 60%)",
+    action: "Toca el lazo para abrir la caja",
+    name: "Abrir la caja",
+  },
+  diptico: {
+    label: "Díptico con lacre dorado",
+    hex: "linear-gradient(90deg, #efe9df 0 48%, #b98a3c 48% 52%, #efe9df 52%)",
+    action: "Toca el lacre para abrir la invitación",
+    name: "Abrir la invitación",
+  },
+  eucalipto: {
+    label: "Díptico verde salvia con lacre dorado",
+    hex: "linear-gradient(90deg, #a9b79c 0 48%, #b98a3c 48% 52%, #a9b79c 52%)",
+    action: "Toca el lacre para abrir la invitación",
+    name: "Abrir la invitación",
+  },
+};
 
 /** Cómo se abre la invitación antes de la carta. `premium`: se ofrece como opción de pago superior. */
 export const OPENINGS: Record<
@@ -60,6 +158,11 @@ export const OPENINGS: Record<
     label: "Sobre junto a la ventana",
     description:
       "Un sobre de verdad sobre un mantel de lino, con luz de ventana. Se abre con el dedo: rompes el lacre, levantas la solapa y sacas la tarjeta.",
+  },
+  concepto: {
+    label: "La del concepto",
+    description:
+      "La carta llega dentro del objeto de la plantilla: el periódico, el sobre de correo aéreo, la funda del disco…",
   },
 };
 

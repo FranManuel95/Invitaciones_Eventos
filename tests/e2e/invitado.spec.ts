@@ -127,6 +127,30 @@ test.describe("experiencia del invitado", () => {
     );
   });
 
+  test("en el móvil se responde desde la píldora y el formulario se abre en el paso siguiente", async ({
+    page,
+    isMobile,
+  }) => {
+    test.skip(!isMobile, "La píldora de secciones solo existe en el móvil.");
+    await page.goto("/i/familia-garcia");
+    await page.getByRole("button", { name: "Saltar intro" }).click();
+    await page.locator("#fecha").scrollIntoViewIfNeeded();
+    const dock = page.getByRole("navigation", { name: "Secciones de la invitación" });
+    await dock.getByRole("button", { name: "Confirmar", exact: true }).click();
+    await expect(dock.getByText("¿Venís?")).toBeVisible();
+    await dock.getByRole("button", { name: "Sí", exact: true }).click();
+    await expect(page.getByText("Paso 2 de 6")).toBeVisible();
+    await expect(page.locator("#confirmar")).toBeInViewport();
+    // Dentro del formulario la píldora se retira.
+    await expect(dock).toHaveAttribute("inert", "");
+
+    // El índice lleva a cualquier sección.
+    await page.locator("#info").scrollIntoViewIfNeeded();
+    await dock.getByRole("button", { name: /Índice/ }).click();
+    await dock.getByRole("link", { name: "Cómo llegar" }).click();
+    await expect(page.locator("#transporte")).toBeInViewport();
+  });
+
   test("RSVP sin autobús: queda claro el «no»", async ({ page }) => {
     await page.goto("/i/elena-y-pablo");
     await page.getByRole("button", { name: "Saltar intro" }).click();
@@ -153,9 +177,7 @@ test.describe("experiencia del invitado", () => {
     await expect(page.locator("#transporte")).toContainText("Autobús: No");
   });
 
-  test("calendario y regalo", async ({ page, context, browserName }) => {
-    test.skip(browserName !== "chromium", "Permisos de portapapeles solo en Chromium");
-    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  test("calendario, y sin regalos ni datos de pago", async ({ page }) => {
     await page.goto("/i/carlos-ruiz");
     await page.getByRole("button", { name: "Saltar intro" }).click();
     await expect(page.getByRole("heading", { name: "Guarda la fecha" })).toBeAttached();
@@ -165,11 +187,14 @@ test.describe("experiencia del invitado", () => {
       "href",
       /calendar\.google\.com/,
     );
-    await page.getByRole("button", { name: "Copiar número de cuenta" }).click();
-    await expect(page.getByText("Número de cuenta copiado.")).toBeVisible();
-    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      "ES0000000000000000000000",
-    );
+    // Regalos, cuenta y Bizum están apagados en todas las invitaciones (src/lib/features.ts).
+    await expect(page.locator("#regalo")).toHaveCount(0);
+    await expect(page.getByRole("link", { name: "Regalo", exact: true })).toHaveCount(0);
+    await expect(
+      page.getByRole("button", { name: /Copiar (número de cuenta|teléfono)/ }),
+    ).toHaveCount(0);
+    await expect(page.getByText("Por Bizum")).toHaveCount(0);
+    await expect(page.getByText(/IBAN|ES00 0000/)).toHaveCount(0);
   });
 
   test("modo día de la boda: acto actual y siguiente", async ({ page }) => {
@@ -268,13 +293,16 @@ test.describe("experiencia del invitado", () => {
     expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual([]);
   });
 
-  test("el dress code muestra los colores con nombre y las sugerencias", async ({ page }) => {
+  test("la vestimenta está apagada, pero «Antes de venir» sigue con lo demás", async ({ page }) => {
     await page.goto("/i/carlos-ruiz");
     await page.getByRole("button", { name: "Saltar intro" }).click();
     const info = page.locator("#info");
-    await expect(info.getByText("Rosa flor de almendro")).toBeAttached();
-    await expect(info.getByText("Ellas", { exact: true })).toBeAttached();
-    await expect(info.getByText(/Traje claro o de lino/)).toBeAttached();
+    await expect(info.getByText("Dónde dormir")).toBeAttached();
+    await expect(info.getByText("Preguntas frecuentes")).toBeAttached();
+    await expect(info.getByText("Colores que nos gustan")).toHaveCount(0);
+    await expect(info.getByText("Rosa flor de almendro")).toHaveCount(0);
+    await expect(info.getByText("Ellas", { exact: true })).toHaveCount(0);
+    await expect(info.getByText(/lista de bodas/i)).toHaveCount(0);
   });
 
   test("save the date: solo la fecha, sin confirmación, y accesible", async ({ page }) => {

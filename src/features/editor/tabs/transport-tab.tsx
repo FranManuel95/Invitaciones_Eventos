@@ -48,6 +48,7 @@ export function TransportTab() {
           path={["busRoutes"]}
           max={8}
           addLabel="Añadir ruta"
+          empty="Sin autobuses: al confirmar no se pregunta por ellos. Añadid una ruta si ponéis transporte."
           itemName={(r, i) => r.label || `Ruta ${i + 1}`}
           create={() => ({
             id: newId("ruta"),

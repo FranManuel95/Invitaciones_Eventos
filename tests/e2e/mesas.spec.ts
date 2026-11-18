@@ -20,6 +20,31 @@ test.describe("mesas y recordatorios", () => {
     await expect(presidential.locator(`#cambiar-${name}`)).toHaveValue("mesa-0");
   });
 
+  test("busca una invitación, con mesa o sin ella, y la cambia de mesa", async ({ page }) => {
+    await page.goto("/panel/demo/mesas");
+    const search = page.getByLabel("Buscar invitación o persona para sentarla");
+    // Por el nombre de una persona, aunque la invitación ya esté sentada.
+    await search.fill("martina");
+    await expect(page.getByText("1 resultado, con mesa o sin ella.")).toBeVisible();
+    const table = page.getByLabel("Mesa de Familia García", { exact: true });
+    await expect(table).toHaveValue(/.+/);
+    await table.selectOption({ label: "Mesa 9" });
+    await expect(page.getByLabel("Cambiar la mesa de Familia García")).toHaveValue(
+      await table.inputValue(),
+    );
+    await search.fill("zzzz");
+    await expect(page.getByText("Nadie coincide con la búsqueda.")).toBeVisible();
+  });
+
+  test("los menús se descargan para el catering", async ({ page }) => {
+    await page.goto("/panel/demo/menus");
+    const download = page.waitForEvent("download");
+    await page.getByRole("button", { name: "Descargar para el catering" }).click();
+    expect((await download).suggestedFilename()).toBe("catering.csv");
+    await page.getByRole("link", { name: "Imprimir la hoja por mesas" }).click();
+    await expect(page).toHaveURL(/\/panel\/demo\/imprimir$/);
+  });
+
   test("las mesas se mueven con las flechas y se pueden añadir", async ({ page }) => {
     await page.goto("/panel/demo/mesas");
     const table = page.getByRole("button", { name: /^Mesa 1 \d/ });

@@ -250,12 +250,16 @@ export function Group({
   return (
     <section
       aria-labelledby={id}
-      className={clsx("border-t border-line pt-6 first:border-t-0 first:pt-0", className)}
+      className={clsx("border-t border-line pt-8 first:border-t-0 first:pt-0", className)}
     >
-      <h3 id={id} className="font-display text-[1.375rem] leading-tight text-ink">
+      <h3 id={id} className="marca-title text-[1.75rem] leading-tight text-ink">
         {title}
       </h3>
-      {description ? <p className="mt-1 text-[0.875rem] text-muted">{description}</p> : null}
+      {description ? (
+        <p className="mt-1 max-w-[60ch] text-[0.875rem] leading-relaxed text-muted">
+          {description}
+        </p>
+      ) : null}
       <div className="mt-5 grid gap-5">{children}</div>
     </section>
   );

@@ -28,6 +28,8 @@ export interface Album {
   couple: { first: string; second: string };
   date: string;
   theme: Theme;
+  /** La pareja publica las fotos al momento, sin revisarlas (por defecto, no). */
+  autoApprove: boolean;
   photos: AlbumPhoto[];
 }
 
@@ -59,6 +61,7 @@ export const getAlbum = cache(async (token: string): Promise<Album | null> => {
       couple: demoEvent.couple,
       date: demoEvent.date,
       theme: DEFAULT_THEME,
+      autoApprove: false,
       photos: DEMO_PHOTOS,
     };
   }
@@ -71,6 +74,7 @@ export const getAlbum = cache(async (token: string): Promise<Album | null> => {
     couple: { first: string; second: string };
     date: string;
     theme: unknown;
+    autoApprove?: boolean;
     photos: { path: string; createdAt: string }[];
   };
   return {
@@ -79,6 +83,7 @@ export const getAlbum = cache(async (token: string): Promise<Album | null> => {
     couple: raw.couple,
     date: raw.date,
     theme: parseTheme(raw.theme),
+    autoApprove: raw.autoApprove === true,
     photos: raw.photos.map((p) => ({
       id: p.path,
       url: guestPhotoUrl(p.path),
@@ -88,12 +93,15 @@ export const getAlbum = cache(async (token: string): Promise<Album | null> => {
 });
 
 /** Fotos del álbum para moderar en el panel (miembros del evento; en la demo, las de ejemplo). */
-export async function getAlbumModeration(
-  eventId: string,
-): Promise<{ token: string; photos: (AlbumPhoto & { path: string })[] } | null> {
+export async function getAlbumModeration(eventId: string): Promise<{
+  token: string;
+  autoApprove: boolean;
+  photos: (AlbumPhoto & { path: string })[];
+} | null> {
   if (eventId === "demo") {
     return {
       token: DEMO_ALBUM_TOKEN,
+      autoApprove: false,
       photos: DEMO_PHOTOS.map((p, i) => ({
         ...p,
         path: p.url,
@@ -104,7 +112,11 @@ export async function getAlbumModeration(
   const supabase = await createSessionClient();
   if (!supabase) return null;
   const [event, photos] = await Promise.all([
-    supabase.from("events").select("album_token").eq("id", eventId).maybeSingle(),
+    supabase
+      .from("events")
+      .select("album_token, album_auto_approve")
+      .eq("id", eventId)
+      .maybeSingle(),
     supabase
       .from("guest_photos")
       .select("id, path, status, created_at")
@@ -115,6 +127,7 @@ export async function getAlbumModeration(
   if (!event.data) return null;
   return {
     token: event.data.album_token as string,
+    autoApprove: event.data.album_auto_approve === true,
     photos: (photos.data ?? []).map((p) => ({
       id: p.id as string,
       path: p.path as string,

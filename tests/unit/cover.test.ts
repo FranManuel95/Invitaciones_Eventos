@@ -22,6 +22,23 @@ describe("portadas", () => {
     expect(parseTheme({}).cover).toBe("foto");
     expect(parseTheme({ cover: "fuegos" }).cover).toBe("foto");
     expect(parseTheme({ cover: "luces" }).cover).toBe("luces");
+    expect(parseTheme({ cover: "medianoche" }).cover).toBe("medianoche");
+  });
+
+  it("sin color elegido, el sobre de película es el blanco", () => {
+    expect(parseTheme({}).film).toBe("blanco");
+    expect(parseTheme({ film: "fucsia" }).film).toBe("blanco");
+    expect(parseTheme({ film: "burdeos" }).film).toBe("burdeos");
+    // El motivo de acuarela: sin él por defecto y en los temas guardados antes de existir.
+    expect(parseTheme({}).motif).toBe("ninguno");
+    expect(parseTheme({ motif: "girasol" }).motif).toBe("ninguno");
+    expect(parseTheme({ motif: "lavanda" }).motif).toBe("lavanda");
+  });
+
+  it("sin efecto elegido la portada no lleva ninguno", () => {
+    expect(parseTheme({}).coverEffect).toBe("ninguno");
+    expect(parseTheme({ coverEffect: "confeti" }).coverEffect).toBe("ninguno");
+    expect(parseTheme({ coverEffect: "oro" }).coverEffect).toBe("oro");
   });
 
   it("el contenido guardado antes sin vídeo sigue siendo válido", () => {

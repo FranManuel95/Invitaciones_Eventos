@@ -71,8 +71,9 @@ export async function createEvent(_prev: ActionState, form: FormData): Promise<A
       );
     }
   }
-  // Lo siguiente es darle vuestro toque: textos, fotos y estilo.
-  redirect(`/editor/${event.id}`);
+  // Al panel, con la guía de primeros pasos (plantilla, fotos y textos, invitaciones, publicar).
+  revalidatePath("/panel");
+  redirect(`/panel/${event.id}?bienvenida=1`);
 }
 
 /**

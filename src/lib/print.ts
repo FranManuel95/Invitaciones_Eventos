@@ -135,3 +135,42 @@ export function djSongsCsv(songs: { song: string; from: string[] }[]) {
     .map((l) => l.map(escape).join(";"))
     .join("\r\n");
 }
+
+/**
+ * Detalle para el catering, una fila por comensal confirmado: mesa, invitación, nombre, menú,
+ * alergias y si es niño. CSV con separador «;», para abrirlo en Excel en español.
+ */
+export function cateringCsv(
+  groups: GuestGroup[],
+  responses: RsvpResponse[],
+  tables: SeatingTable[],
+) {
+  const tableName = new Map(tables.map((t) => [t.id, t.name]));
+  const groupTable = new Map(
+    groups.map((g) => [g.id, (g.tableId && tableName.get(g.tableId)) || "Sin mesa"]),
+  );
+  const order = [...tables.map((t) => t.name), "Sin mesa"];
+  const rows = buildGuestRows(groups, responses)
+    .filter((r) => r.status === "attending")
+    .map((r) => ({ ...r, table: groupTable.get(r.groupId) ?? "Sin mesa" }))
+    .sort(
+      (a, b) =>
+        order.indexOf(a.table) - order.indexOf(b.table) ||
+        a.groupName.localeCompare(b.groupName, "es"),
+    );
+  const escape = (v: string) => `"${v.replaceAll('"', '""')}"`;
+  return [
+    ["Mesa", "Invitación", "Nombre", "Menú", "Alergias", "Detalle de la alergia", "Niño"],
+    ...rows.map((r) => [
+      r.table,
+      r.groupName,
+      r.name.trim(),
+      menuLabel(r.menu ?? "sin-elegir"),
+      r.allergies.map(allergyLabel).join(", "),
+      r.allergyNotes.trim(),
+      r.isChild ? "Sí" : "No",
+    ]),
+  ]
+    .map((l) => l.map(escape).join(";"))
+    .join("\r\n");
+}

@@ -24,7 +24,7 @@ test.describe("editor de la invitación", () => {
     await expect(preview.locator("[data-style='mediterraneo']")).toBeAttached();
     await expect(page.getByRole("radio", { name: /Almendro/ })).toBeChecked();
 
-    await page.getByRole("radio", { name: /Esmeralda/ }).check({ force: true });
+    await page.getByRole("radio", { name: /Terciopelo/ }).check({ force: true });
     await expect(preview.locator("[data-style='esmeralda']")).toBeAttached();
 
     await page.getByRole("tab", { name: "Colores" }).click();
@@ -75,22 +75,46 @@ test.describe("editor de la invitación", () => {
     await expect(preview.locator("[data-layout='foto'] img")).toBeAttached();
   });
 
+  test("regalos y vestimenta empiezan apagados y el cliente los enciende", async ({ page }) => {
+    await page.goto("/editor/demo");
+    const preview = page.frameLocator('iframe[title="Vista previa de la invitación"]');
+    await expect(preview.locator("#cover-title")).toBeAttached();
+
+    // Regalos: en Estilo → Secciones. Empiezan ocultos.
+    await page.getByRole("tab", { name: "Secciones y música" }).click();
+    await expect(preview.locator("#fecha")).toBeAttached();
+    await expect(preview.locator("#regalo")).toHaveCount(0);
+    await expect(preview.getByText("Colores que nos gustan")).toHaveCount(0);
+    await page.getByRole("checkbox", { name: "Regalo" }).check({ force: true });
+    await expect(preview.locator("#regalo")).toBeAttached();
+
+    // Vestimenta: en Textos → Código de vestimenta.
+    await page.getByRole("tab", { name: "Textos" }).click();
+    await page
+      .getByRole("checkbox", { name: "Mostrar el código de vestimenta" })
+      .check({ force: true });
+    await expect(preview.getByText("Colores que nos gustan")).toBeAttached();
+  });
+
   test("reordenar secciones cambia la invitación", async ({ page }) => {
     await page.goto("/editor/demo");
     const preview = page.frameLocator('iframe[title="Vista previa de la invitación"]');
     await expect(preview.locator("#cover-title")).toBeAttached();
     await page.getByRole("tab", { name: "Secciones y música" }).click();
     await expect(preview.locator("#fecha")).toBeAttached();
-    for (let i = 0; i < 6; i++) {
-      await page.getByRole("button", { name: "Subir «Regalo»" }).click();
+    // «Regalo» empieza oculta, pero se puede elegir y ordenar como las demás.
+    await expect(page.getByRole("checkbox", { name: "Regalo" })).not.toBeChecked();
+    await expect(page.getByRole("button", { name: "Subir «Regalo»" })).toBeVisible();
+    for (let i = 0; i < 5; i++) {
+      await page.getByRole("button", { name: "Subir «Nuestra historia»" }).click();
     }
-    await expect(page.getByRole("button", { name: "Subir «Regalo»" })).toBeDisabled();
+    await expect(page.getByRole("button", { name: "Subir «Nuestra historia»" })).toBeDisabled();
     // La vista previa recibe el borrador con un pequeño retardo.
     await expect
       .poll(() =>
         preview.locator("main > section[id]").evaluateAll((els) => els.map((el) => el.id)[0]),
       )
-      .toBe("regalo");
+      .toBe("historia");
   });
 
   test("la apertura elegida se ve en la vista previa", async ({ page }) => {
@@ -136,6 +160,8 @@ test.describe("editor de la invitación", () => {
   test("se elige el estilo de música y se escucha una muestra", async ({ page }) => {
     await page.goto("/editor/demo");
     await page.getByRole("tab", { name: "Secciones y música" }).click();
+    // La música empieza apagada: los estilos aparecen al activarla.
+    await page.getByRole("checkbox", { name: /Música al abrir/ }).check({ force: true });
     await page.getByRole("radio", { name: /Caja de música/ }).check({ force: true });
     const sample = page.getByRole("button", { name: "Escuchar una muestra" });
     await sample.click();
@@ -211,11 +237,39 @@ test.describe("editor de la invitación", () => {
     );
   });
 
+  test("en el móvil, la barra de abajo alterna editar y vista previa y deja publicar", async ({
+    page,
+    isMobile,
+  }) => {
+    test.skip(!isMobile, "La barra solo existe en el móvil.");
+    await page.goto("/editor/demo");
+    const editar = page.getByRole("button", { name: "Editar" });
+    const vista = page.getByRole("button", { name: "Vista previa" });
+    const publicar = page.getByRole("button", { name: "Publicar" });
+    await expect(editar).toHaveAttribute("aria-pressed", "true");
+    await expect(publicar).toBeInViewport();
+    // Bajando por los ajustes, la barra sigue a mano.
+    await page.getByRole("tab", { name: "Programa y lugares" }).click();
+    await page.mouse.wheel(0, 2000);
+    await expect(vista).toBeInViewport();
+    await expect(publicar).toBeInViewport();
+    await vista.click();
+    await expect(vista).toHaveAttribute("aria-pressed", "true");
+    await expect(page.locator('iframe[title="Vista previa de la invitación"]')).toBeInViewport();
+    await expect(page.getByRole("tab", { name: "Estilo" })).toBeHidden();
+    await expect(publicar).toBeInViewport();
+    await editar.click();
+    await expect(page.getByRole("tab", { name: "Estilo" })).toBeVisible();
+  });
+
   test("sin desbordes ni infracciones graves", async ({ page }) => {
     await page.goto("/editor/demo");
     await page.waitForTimeout(600);
     const overflow = await page.evaluate(
-      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      // innerWidth también cuenta: en el móvil, algo demasiado ancho hace que la página se aleje.
+      () =>
+        Math.max(document.documentElement.scrollWidth, window.innerWidth) -
+        document.documentElement.clientWidth,
     );
     expect(overflow).toBeLessThanOrEqual(0);
     for (const tab of [
@@ -229,6 +283,8 @@ test.describe("editor de la invitación", () => {
       if (["Colores", "Sobre"].includes(tab))
         await page.getByRole("tab", { name: "Estilo" }).click();
       await page.getByRole("tab", { name: tab, exact: true }).click();
+      // Las pestañas cambian de color con una transición: se mide cuando ha terminado.
+      await page.waitForTimeout(400);
       const { violations } = await new AxeBuilder({ page }).exclude("iframe").analyze();
       const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
       expect(

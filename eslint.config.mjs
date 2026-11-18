@@ -12,5 +12,7 @@ export default defineConfig([
     "next-env.d.ts",
     "playwright-report/**",
     "test-results/**",
+    // Copias de trabajo de los agentes en paralelo.
+    ".claude/**",
   ]),
 ]);

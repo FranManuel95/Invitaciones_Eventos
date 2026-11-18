@@ -1,5 +1,6 @@
 "use client";
 
+import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ export function LoginForm({ next, signup = true }: { next: string; signup?: bool
   const router = useRouter();
   const [mode, setMode] = useState<Mode>("entrar");
   const [busy, setBusy] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState<{ tone: "error" | "ok"; text: string } | null>(null);
 
   const submit = async (e: FormEvent<HTMLFormElement>) => {
@@ -34,7 +36,7 @@ export function LoginForm({ next, signup = true }: { next: string; signup?: bool
         setMessage({
           tone: "error",
           text: error.message.includes("not confirmed")
-            ? "Confirma tu email con el enlace que te enviamos y vuelve a intentarlo."
+            ? "Falta confirmar el email: abrid el enlace que os enviamos y volved a intentarlo."
             : "Email o contraseña incorrectos.",
         });
         return;
@@ -54,13 +56,13 @@ export function LoginForm({ next, signup = true }: { next: string; signup?: bool
           text:
             error.message.includes("Password") || error.message.includes("password")
               ? "La contraseña debe tener al menos 8 caracteres."
-              : "No hemos podido crear la cuenta. Revisa el email e inténtalo de nuevo.",
+              : "No hemos podido crear la cuenta. Revisad el email y volved a intentarlo.",
         });
         return;
       }
       setMessage({
         tone: "ok",
-        text: "Te hemos enviado un email. Abre el enlace para confirmar la cuenta y después entra aquí.",
+        text: "Os hemos enviado un email. Abrid el enlace para confirmar la cuenta y después entrad aquí.",
       });
       setMode("entrar");
     }
@@ -68,12 +70,15 @@ export function LoginForm({ next, signup = true }: { next: string; signup?: bool
 
   return (
     <div>
+      <h2 className="panel-title mb-6 text-[2rem] leading-none text-ink">
+        {mode === "entrar" ? "Entrad con vuestro email" : "Cread vuestra cuenta"}
+      </h2>
       {/* Con el alta cerrada solo se entra: las cuentas se piden por el formulario de la portada. */}
       <div
         role="tablist"
         aria-label="Acceso"
         hidden={!signup}
-        className="grid grid-cols-2 rounded-md bg-ink/5 p-1"
+        className="mb-6 grid grid-cols-2 rounded-lg bg-cream p-1"
       >
         {(
           [
@@ -90,7 +95,7 @@ export function LoginForm({ next, signup = true }: { next: string; signup?: bool
               setMode(value);
               setMessage(null);
             }}
-            className={`h-10 rounded-[5px] text-[0.9375rem] transition-colors ${
+            className={`h-11 rounded-md text-[0.9375rem] transition-colors ${
               mode === value ? "bg-paper text-ink shadow-sm" : "text-ink-soft hover:text-ink"
             }`}
           >
@@ -98,25 +103,56 @@ export function LoginForm({ next, signup = true }: { next: string; signup?: bool
           </button>
         ))}
       </div>
-      <form onSubmit={submit} className="mt-6 space-y-4" noValidate={false}>
+      <form onSubmit={submit} className="space-y-4">
         <div>
           <label htmlFor="email" className="mb-1.5 block text-[0.875rem] text-ink">
             Email
           </label>
-          <TextInput id="email" name="email" type="email" autoComplete="email" required />
+          <TextInput
+            id="email"
+            name="email"
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            autoCapitalize="none"
+            spellCheck={false}
+            required
+          />
         </div>
         <div>
           <label htmlFor="password" className="mb-1.5 block text-[0.875rem] text-ink">
             Contraseña
           </label>
-          <TextInput
-            id="password"
-            name="password"
-            type="password"
-            minLength={8}
-            autoComplete={mode === "entrar" ? "current-password" : "new-password"}
-            required
-          />
+          <div className="relative">
+            <TextInput
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              minLength={8}
+              autoComplete={mode === "entrar" ? "current-password" : "new-password"}
+              aria-describedby={mode === "crear" ? "password-hint" : undefined}
+              className="pr-12"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((v) => !v)}
+              aria-pressed={showPassword}
+              aria-label="Mostrar la contraseña"
+              className="absolute inset-y-0 right-0 grid w-11 place-items-center rounded-r-md text-ink-soft hover:text-ink"
+            >
+              {showPassword ? (
+                <EyeOff aria-hidden className="size-[1.125rem]" />
+              ) : (
+                <Eye aria-hidden className="size-[1.125rem]" />
+              )}
+            </button>
+          </div>
+          {mode === "crear" ? (
+            <p id="password-hint" className="mt-1.5 text-[0.8125rem] text-muted">
+              Al menos 8 caracteres.
+            </p>
+          ) : null}
         </div>
         <p role="status" aria-live="polite" className="min-h-5 text-[0.875rem]">
           {message ? (

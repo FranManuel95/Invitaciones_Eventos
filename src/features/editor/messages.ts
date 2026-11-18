@@ -7,7 +7,10 @@ import type { GuestGroup } from "@/lib/domain/types";
  */
 
 export type ToPreview =
-  { type: "draft"; content: unknown; theme: unknown } | { type: "stage"; stage: Stage };
+  | { type: "draft"; content: unknown; theme: unknown }
+  | { type: "stage"; stage: Stage }
+  // «¿Estás ahí?»: el editor lo repite hasta que la vista previa contesta con «ready».
+  | { type: "hello" };
 
 export type FromPreview = { type: "ready" };
 

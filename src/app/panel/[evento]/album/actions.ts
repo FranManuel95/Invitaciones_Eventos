@@ -32,6 +32,22 @@ export async function setPhotoStatus(
   return { ok: true };
 }
 
+/** La pareja elige si las fotos nuevas se publican al momento, sin revisarlas. */
+export async function setAlbumAutoApprove(eventId: string, value: boolean): Promise<AlbumResult> {
+  if (!isUuid(eventId) || typeof value !== "boolean") {
+    return { ok: false, error: "No encontramos el evento." };
+  }
+  const supabase = await createSessionClient();
+  if (!supabase) return { ok: false, error: "Supabase no está configurado." };
+  const { error } = await supabase
+    .from("events")
+    .update({ album_auto_approve: value })
+    .eq("id", eventId);
+  if (error) return { ok: false, error: "No hemos podido guardar el cambio." };
+  revalidatePath(`/panel/${eventId}/album`);
+  return { ok: true };
+}
+
 export async function deletePhoto(eventId: string, photoId: string): Promise<AlbumResult> {
   if (!isUuid(eventId) || !isUuid(photoId)) return { ok: false, error: "No encontramos la foto." };
   const supabase = await createSessionClient();

@@ -1,11 +1,13 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
+// La lista de regalos empieza oculta en las plantillas y la demo; ?regalos=1 la enciende, igual que
+// hace un cliente desde el editor (Estilo → Secciones).
 test.describe("lista de regalos", () => {
   test("el invitado reserva un regalo, lo ve sellado como suyo y puede deshacerlo", async ({
     page,
   }) => {
-    await page.goto("/i/carlos-ruiz");
+    await page.goto("/i/carlos-ruiz?regalos=1");
     await page.getByRole("button", { name: "Saltar intro" }).click();
     const list = page.getByRole("list", { name: "Lista de regalos" });
     await list.scrollIntoViewIfNeeded();

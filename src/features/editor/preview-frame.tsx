@@ -10,7 +10,8 @@ const PHONE = { width: 390, height: 844 };
 
 /**
  * Móvil con la invitación real (un iframe de /editor/<evento>/vista). Recibe el borrador
- * válido con un pequeño retardo mientras se escribe y salta a la pantalla elegida.
+ * válido con un pequeño retardo mientras se escribe y salta a la pantalla elegida. En un hueco
+ * estrecho (el propio móvil) la invitación llena el hueco a su tamaño real, sin marco de móvil.
  */
 export function PreviewFrame({
   src,
@@ -32,6 +33,8 @@ export function PreviewFrame({
   // recarga del iframe, que el móvil puede hacer por su cuenta) vuelve a enviar borrador y pantalla.
   const [ready, setReady] = useState(0);
   const [scale, setScale] = useState(0.7);
+  // En el móvil (pantallas sin columna para la vista previa), la invitación ocupa todo el hueco, sin dibujar un móvil.
+  const [fill, setFill] = useState(false);
 
   const post = (message: ToPreview) =>
     frame.current?.contentWindow?.postMessage(message, window.location.origin);
@@ -45,6 +48,16 @@ export function PreviewFrame({
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
   }, []);
+
+  // Si la vista previa cargó antes de que el editor empezase a escuchar, su aviso «ready» se
+  // perdió y nunca llegaría el borrador. Por eso el editor la llama («hello») hasta que contesta.
+  useEffect(() => {
+    if (ready) return;
+    const call = () => post({ type: "hello" });
+    call();
+    const id = window.setInterval(call, 400);
+    return () => window.clearInterval(id);
+  }, [ready]);
 
   // Último borrador válido: si el iframe se recarga mientras hay campos con errores, recibe este.
   const lastDraft = useRef<Draft | null>(null);
@@ -75,6 +88,7 @@ export function PreviewFrame({
       if (!entry) return;
       const { width, height } = entry.contentRect;
       if (!width || !height) return;
+      setFill(window.innerWidth < 1024);
       setScale(Math.max(0.35, Math.min(1, width / PHONE.width, height / PHONE.height)));
     });
     observer.observe(el);
@@ -82,11 +96,11 @@ export function PreviewFrame({
   }, []);
 
   return (
-    <div className="flex h-full min-h-0 flex-col items-center gap-4">
+    <div className="flex h-full min-h-0 flex-col items-center gap-3 lg:gap-5">
       <div
         role="group"
         aria-label="Pantalla de la vista previa"
-        className="flex flex-wrap justify-center gap-1 rounded-full bg-ink/5 p-1"
+        className="flex max-w-full shrink-0 [scrollbar-width:none] gap-0.5 overflow-x-auto rounded-full bg-paper p-1 shadow-[var(--shadow-paper)] ring-1 ring-line"
       >
         {PREVIEW_STAGES.map((s) => (
           <button
@@ -95,8 +109,8 @@ export function PreviewFrame({
             aria-pressed={stage === s.stage}
             onClick={() => onStage(s.stage)}
             className={clsx(
-              "rounded-full px-3.5 py-1.5 text-[0.8125rem] transition-colors",
-              stage === s.stage ? "bg-paper text-ink shadow-sm" : "text-ink-soft hover:text-ink",
+              "min-h-10 shrink-0 rounded-full px-3.5 text-[0.8125rem] whitespace-nowrap transition-colors lg:min-h-9",
+              stage === s.stage ? "bg-ink font-medium text-paper" : "text-ink-soft hover:text-ink",
             )}
           >
             {s.label}
@@ -114,15 +128,24 @@ export function PreviewFrame({
       </p>
       <div ref={box} className="flex min-h-0 w-full flex-1 justify-center">
         <div
-          className="relative shrink-0 overflow-hidden rounded-[2.25rem] bg-ink shadow-[var(--shadow-lift)] ring-[6px] ring-ink"
-          style={{ width: PHONE.width * scale, height: PHONE.height * scale }}
+          className={clsx(
+            "relative shrink-0 overflow-hidden bg-ink",
+            fill
+              ? "size-full rounded-2xl shadow-[var(--shadow-paper)] ring-1 ring-line"
+              : "rounded-[2.25rem] shadow-[var(--shadow-lift)] ring-[6px] ring-ink",
+          )}
+          style={fill ? undefined : { width: PHONE.width * scale, height: PHONE.height * scale }}
         >
           <iframe
             ref={frame}
             src={src}
             title="Vista previa de la invitación"
             className="absolute top-0 left-0 origin-top-left border-0 bg-ivory"
-            style={{ width: PHONE.width, height: PHONE.height, transform: `scale(${scale})` }}
+            style={
+              fill
+                ? { width: "100%", height: "100%" }
+                : { width: PHONE.width, height: PHONE.height, transform: `scale(${scale})` }
+            }
           />
         </div>
       </div>

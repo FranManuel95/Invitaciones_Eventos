@@ -73,3 +73,35 @@ test.describe("álbum de los invitados", () => {
     await noSerious(page);
   });
 });
+
+test.describe("álbum sin revisión", () => {
+  test("los novios eligen publicar las fotos al momento", async ({ page }) => {
+    await page.goto("/panel/demo/album");
+    const toggle = page.getByRole("switch", { name: /Publicar las fotos al momento/ });
+    await expect(toggle).not.toBeChecked();
+    await expect(page.getByText("Ahora cada foto espera a que la aprobéis")).toBeVisible();
+    await page.getByText("Publicar las fotos al momento").click();
+    await expect(toggle).toBeChecked();
+    await expect(
+      page.getByText("Las fotos nuevas se ven en el álbum en cuanto se suben"),
+    ).toBeVisible();
+    await noSerious(page);
+  });
+});
+
+test("con fotos al momento, el invitado ve la suya en el álbum enseguida (demo)", async ({
+  page,
+}) => {
+  await page.goto("/album/demo?al-momento=1");
+  await expect(page.getByText("Aparecerán aquí al momento para todos.")).toBeVisible();
+  await expect(page.getByRole("img", { name: /Foto \d+ del álbum/ })).toHaveCount(6);
+  await page.getByLabel("Elegir fotos").setInputFiles({
+    name: "foto.png",
+    mimeType: "image/png",
+    buffer: PNG,
+  });
+  await expect(page.getByText(/1 foto enviada\. ¡Gracias! Ya están en el álbum\./)).toBeVisible();
+  await expect(page.getByText("En el álbum", { exact: true })).toBeVisible();
+  await expect(page.getByRole("img", { name: /Foto \d+ del álbum/ })).toHaveCount(7);
+  await noSerious(page);
+});

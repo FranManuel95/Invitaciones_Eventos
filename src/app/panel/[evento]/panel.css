@@ -1,0 +1,33 @@
+@import "../../marca.css";
+
+/*
+ * Panel de los novios. Los colores, los títulos y el foco vienen de la identidad común
+ * (`src/app/marca.css`, que también usa el editor); aquí queda lo propio del panel.
+ */
+
+/* La hoja «Más» del móvil. */
+.panel-sheet {
+  margin: 0;
+  max-width: none;
+  max-height: none;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overscroll-behavior: contain;
+}
+.panel-sheet::backdrop {
+  background: rgb(18 22 42 / 0.55);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .panel-sheet[open] .panel-sheet-body {
+    animation: panel-sheet-in 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+@keyframes panel-sheet-in {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+}

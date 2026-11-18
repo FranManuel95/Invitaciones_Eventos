@@ -9,6 +9,7 @@ import { haptic, playPaper, playSealCrack, unlockAudio } from "../effects/sound"
 import { useTilt } from "../effects/tilt";
 import { AlmondBranch, Monogram, WaxSealArt } from "../ornaments";
 import { LetterMiniature } from "../letter/letter-miniature";
+import { Cinema, type CinemaHandle } from "./cinema";
 import { breakSeal, SealBreakPieces } from "./seal-break";
 
 /*
@@ -26,9 +27,10 @@ import { breakSeal, SealBreakPieces } from "./seal-break";
  * Solo participa en ese relevo (share); con default="none" no se «eleva» por encima del sobre
  * en otras transiciones, como el paso de la portada al sobre.
  *
- * Coreografía de cámara: al abrir, la escena se acerca despacio y los bordes se oscurecen como
- * un foco; la carta da un primer tirón, se desliza fuera, el sobre sale de plano por abajo y un
- * destello de luz recorre la carta justo antes de convertirse en la carta grande.
+ * Coreografía de cámara (./cinema): al tocar, la cámara se cierra sobre el lacre y los bordes se
+ * oscurecen; el golpe de la rotura sacude el plano; al levantarse la solapa sale luz del sobre y
+ * la cámara se retira mientras la carta da un primer tirón y se desliza fuera. El sobre sale de
+ * plano por abajo y un destello recorre la carta justo antes de convertirse en la carta grande.
  */
 
 // Papel, forro, textura e interior salen del tema (variables --env-* de src/lib/theme).
@@ -65,7 +67,7 @@ export function EnvelopeStage({
   const reduce = useReducedMotion();
   const tilt = useTilt();
   const [scope, animate] = useAnimate<HTMLDivElement>();
-  const spotlight = useRef<HTMLDivElement>(null);
+  const cinema = useRef<CinemaHandle>(null);
   const [opening, setOpening] = useState(false);
   // Guarda síncrona: un segundo toque (o un clic tardío) nunca relanza la secuencia.
   const started = useRef(false);
@@ -112,28 +114,28 @@ export function EnvelopeStage({
 
     // El título se retira para dejar espacio a la solapa abierta y a la carta.
     animate("[data-title-heading]", { opacity: 0, y: -12 }, { duration: 0.45, ease: "easeOut" });
-    // Cámara: un acercamiento lento durante toda la apertura y un foco que oscurece los bordes.
-    const cameraDuration = 3.82 + (pace - 1) * 0.92;
-    animate(
-      scope.current,
-      { scale: 1.1, y: 18 },
-      { duration: cameraDuration, ease: [0.45, 0, 0.25, 1] },
-    );
-    if (spotlight.current) {
-      animate(spotlight.current, { opacity: 1 }, { duration: 2.6, delay: 0.6, ease: "easeInOut" });
-    }
+    // Cámara: el plano se cierra sobre el lacre mientras los bordes se oscurecen.
+    const seal = scope.current?.querySelector("[data-seal]") ?? null;
+    cinema.current?.dim();
+    cinema.current?.pushIn(seal, { scale: 1.32, duration: 0.75 });
 
-    // 1. Presión: el sobre cede un poco y el lacre se aplasta antes de romperse.
+    // 1. Presión: el sobre cede un poco y el lacre se aplasta; un instante de tensión antes de
+    //    romperse, con la cámara ya encima.
     animate("[data-envelope]", { scale: [1, 0.982, 1], y: [0, 3, 0] }, { duration: 0.36 });
     await animate("[data-seal]", { scale: [1, 0.84, 1.03] }, { duration: 0.34, ease: "easeOut" });
+    await animate("[data-seal]", { scale: [1.03, 0.97] }, { duration: 0.3, ease: "easeIn" });
     if (!alive.current) return;
     playSealCrack();
     haptic([8, 30, 14]);
+    cinema.current?.impact();
+    cinema.current?.flash(0.14);
     const sealSize = scope.current?.querySelector("[data-seal]")?.getBoundingClientRect().width;
     await breakSeal(animate, scope, { size: sealSize ?? 70, fall: 1.4 });
     if (!alive.current) return;
 
-    // 2. La solapa se levanta: se oscurece al ponerse de canto, cambia de cara y se aclara.
+    // 2. La solapa se levanta: se oscurece al ponerse de canto, cambia de cara y se aclara. La
+    //    cámara empieza a retirarse hasta el encuadre en el que saldrá la carta.
+    cinema.current?.settle({ scale: 1.1, y: 18, duration: 0.97 * pace + 1.25 });
     playPaper(0.55, 0.05);
     animate("[data-flap-shadow]", { opacity: 0 }, { duration: 0.3 });
     animate(
@@ -149,6 +151,8 @@ export function EnvelopeStage({
     );
     if (!alive.current) return;
     animate("[data-flap]", { zIndex: 5 }, { duration: 0 });
+    // Al pasar de canto, el sobre queda abierto: sale la luz de dentro.
+    cinema.current?.glow(scope.current?.querySelector("[data-envelope]") ?? null, { at: 0.06 });
     animate("[data-flap-outer]", { opacity: 0 }, { duration: 0 });
     // El forro sale de la sombra poco a poco, como la cara interior que empieza a recibir luz.
     animate(
@@ -185,6 +189,7 @@ export function EnvelopeStage({
     // 4. El sobre sale de plano por abajo y la carta sube al centro, se endereza y crece; un
     //    destello la recorre. La solapa cae con el cuerpo: si se quedara, Safari la aplanaría
     //    al capturar el relevo y parecería un sobre cerrado.
+    cinema.current?.fade(0.9);
     animate(
       "[data-body]",
       { y: 280, opacity: 0, scale: 0.94 },
@@ -220,253 +225,248 @@ export function EnvelopeStage({
       className="fixed inset-0 z-10 flex flex-col items-center justify-center overflow-hidden bg-[radial-gradient(120%_80%_at_50%_45%,var(--scene-2)_0%,var(--scene-3)_55%,var(--scene-4)_100%)] px-6 pt-16 pb-10"
     >
       <div aria-hidden className="paper-grain absolute inset-0" />
-      {/* Foco: los bordes se oscurecen al abrir, como una cámara que se centra en la carta. */}
-      <div
-        ref={spotlight}
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_55%_at_50%_48%,transparent_35%,rgb(28_20_12/0.55)_100%)] opacity-0"
-      />
-
-      <div ref={scope} className="relative flex w-full flex-col items-center">
-        <div
-          data-title-heading
-          className="mb-10 flex flex-col items-center text-center text-ink-soft sm:mb-12"
-        >
-          <Monogram
-            first={event.couple.first}
-            second={event.couple.second}
-            className="mb-5 size-12 text-ink-soft"
-          />
-          <p className="caption text-ink-soft">Una invitación para</p>
-          <h1
-            id="envelope-title"
-            tabIndex={-1}
-            className="mt-1 font-display text-[clamp(2.25rem,9vw,3.25rem)] leading-tight text-ink outline-none"
+      <Cinema ref={cinema} stage={scope}>
+        <div ref={scope} className="relative flex w-full flex-col items-center">
+          <div
+            data-title-heading
+            className="mb-10 flex flex-col items-center text-center text-ink-soft sm:mb-12"
           >
-            {group.displayName}
-          </h1>
-        </div>
-
-        <m.button
-          type="button"
-          onClick={open}
-          aria-label="Abrir el sobre"
-          disabled={opening}
-          aria-disabled={opening}
-          aria-busy={opening}
-          className={`group relative block w-[min(84vw,380px)] rounded-sm focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-[var(--env-seal)] sm:w-[440px] ${opening ? "cursor-not-allowed" : "cursor-pointer"}`}
-          style={reduce ? undefined : { rotateX, rotateY, transformPerspective: 1100 }}
-        >
-          {/* Flotación en reposo (CSS) en un contenedor propio para no competir con Motion. */}
-          <span
-            data-envelope
-            data-flap-shape={theme.flap}
-            className={`relative block aspect-[10/7] ${opening ? "" : "envelope-idle"}`}
-          >
-            {/* Sombra proyectada en la mesa */}
-            <span
-              data-body
-              aria-hidden
-              className="absolute inset-x-[6%] -bottom-6 block h-8 rounded-[50%] bg-[#4b3a28] blur-xl"
-              style={{ opacity: weight.shadow + 0.06 }}
+            <Monogram
+              first={event.couple.first}
+              second={event.couple.second}
+              className="mb-5 size-12 text-ink-soft"
             />
-
-            {/* Fondo interior del sobre (visible al abrir) */}
-            <span
-              data-body
-              aria-hidden
-              className="absolute inset-0 block overflow-hidden rounded-[3px] bg-[var(--env-inside)]"
+            <p className="caption text-ink-soft">Una invitación para</p>
+            <h1
+              id="envelope-title"
+              tabIndex={-1}
+              className="mt-1 font-display text-[clamp(2.25rem,9vw,3.25rem)] leading-tight text-ink outline-none"
             >
+              {group.displayName}
+            </h1>
+          </div>
+
+          <m.button
+            type="button"
+            onClick={open}
+            aria-label="Abrir el sobre"
+            disabled={opening}
+            aria-disabled={opening}
+            aria-busy={opening}
+            className={`group relative block w-[min(84vw,380px)] rounded-sm focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-[var(--env-seal)] sm:w-[440px] ${opening ? "cursor-not-allowed" : "cursor-pointer"}`}
+            style={reduce ? undefined : { rotateX, rotateY, transformPerspective: 1100 }}
+          >
+            {/* Flotación en reposo (CSS) en un contenedor propio para no competir con Motion. */}
+            <span
+              data-envelope
+              data-flap-shape={theme.flap}
+              className={`relative block aspect-[10/7] ${opening ? "" : "envelope-idle"}`}
+            >
+              {/* Sombra proyectada en la mesa */}
               <span
-                className="absolute inset-x-0 top-0 block h-[60%]"
-                style={{ background: linerPattern }}
+                data-body
+                aria-hidden
+                className="absolute inset-x-[6%] -bottom-6 block h-8 rounded-[50%] bg-[#4b3a28] blur-xl"
+                style={{ opacity: weight.shadow + 0.06 }}
               />
-            </span>
 
-            {/* Carta: la misma carta de la invitación, en pequeño. Es más alta que el sobre: lo
+              {/* Fondo interior del sobre (visible al abrir) */}
+              <span
+                data-body
+                aria-hidden
+                className="absolute inset-0 block overflow-hidden rounded-[3px] bg-[var(--env-inside)]"
+              >
+                <span
+                  className="absolute inset-x-0 top-0 block h-[60%]"
+                  style={{ background: linerPattern }}
+                />
+              </span>
+
+              {/* Carta: la misma carta de la invitación, en pequeño. Es más alta que el sobre: lo
                 que sobresale por abajo queda recortado mientras está dentro. */}
-            <span
-              data-letter-clip
-              className="absolute inset-0 z-10 block"
-              style={{ clipPath: "inset(-500% -30% 0 -30%)" }}
-            >
-              <ViewTransition name="carta" share="paper-morph" default="none">
-                <m.span
-                  data-letter
-                  aria-hidden
-                  className="absolute inset-x-[6%] top-[5%] block origin-bottom drop-shadow-[0_2px_4px_rgb(60_45_25/0.22)]"
-                >
-                  <LetterMiniature event={event} group={group} theme={theme} />
-                  {/* Destello de luz que cruza el papel al llegar al primer plano */}
-                  <span className="pointer-events-none absolute inset-0 block overflow-hidden">
+              <span
+                data-letter-clip
+                className="absolute inset-0 z-10 block"
+                style={{ clipPath: "inset(-500% -30% 2px -30%)" }}
+              >
+                <ViewTransition name="carta" share="paper-morph" default="none">
+                  <m.span
+                    data-letter
+                    aria-hidden
+                    className="absolute inset-x-[6%] top-[5%] block origin-bottom drop-shadow-[0_2px_4px_rgb(60_45_25/0.22)]"
+                  >
+                    <LetterMiniature event={event} group={group} theme={theme} />
+                    {/* Destello de luz que cruza el papel al llegar al primer plano */}
+                    <span className="pointer-events-none absolute inset-0 block overflow-hidden">
+                      <span
+                        data-letter-sheen
+                        className="absolute inset-y-0 left-1/4 block w-1/2 -skew-x-12 bg-[linear-gradient(90deg,transparent,rgb(255_250_235/0.75),transparent)] opacity-0"
+                      />
+                    </span>
                     <span
-                      data-letter-sheen
-                      className="absolute inset-y-0 left-1/4 block w-1/2 -skew-x-12 bg-[linear-gradient(90deg,transparent,rgb(255_250_235/0.75),transparent)] opacity-0"
+                      data-letter-shadow
+                      className="pointer-events-none absolute inset-x-0 top-0 block h-1/4 bg-[linear-gradient(180deg,rgb(35_30_20/0.45),transparent)] opacity-0"
+                    />
+                  </m.span>
+                </ViewTransition>
+              </span>
+
+              {/* Bolsillo: tres triángulos con sombra estática de pliegue */}
+              <span
+                data-body
+                aria-hidden
+                className="absolute inset-0 z-20 block"
+                style={{
+                  filter: `drop-shadow(0 ${-weight.edge * 0.7}px ${weight.edge + 0.6}px rgb(80 60 35 / ${weight.shadow})) drop-shadow(0 -2px 3px rgb(60 45 25 / 0.22))`,
+                }}
+              >
+                <span
+                  className="paper-grain absolute inset-0 block"
+                  style={{
+                    backgroundImage: paper("100deg"),
+                    clipPath: `polygon(0 0, 0 100%, 50% ${POCKET_TIP}%)`,
+                  }}
+                />
+                <span
+                  className="paper-grain absolute inset-0 block brightness-[0.985]"
+                  style={{
+                    backgroundImage: paper("260deg"),
+                    clipPath: `polygon(100% 0, 100% 100%, 50% ${POCKET_TIP}%)`,
+                  }}
+                />
+                <span
+                  className="paper-grain absolute inset-0 block rounded-b-[3px]"
+                  style={{
+                    backgroundImage: paper("0deg"),
+                    clipPath: `polygon(0 100%, 100% 100%, 50% ${POCKET_BOTTOM}%)`,
+                  }}
+                />
+              </span>
+
+              {/* Sombra de la solapa cerrada sobre el bolsillo */}
+              <span
+                data-flap-shadow
+                aria-hidden
+                className="absolute inset-x-0 top-[1.5%] z-[29] block bg-[#5a4630]/25 blur-[2px]"
+                style={{ height: `${FLAP_DEPTH}%`, clipPath: flapClip }}
+              />
+
+              {/* Solapa superior */}
+              <m.span
+                data-flap
+                aria-hidden
+                className="absolute inset-x-0 top-0 z-30 block"
+                style={{
+                  height: `${FLAP_DEPTH}%`,
+                  transformOrigin: "50% 0%",
+                  transformPerspective: 900,
+                }}
+              >
+                <span
+                  className="absolute inset-0 block"
+                  style={{ background: linerPattern, clipPath: flapClip }}
+                >
+                  <span
+                    data-liner-shade
+                    className="absolute inset-0 block bg-black opacity-0"
+                    style={{ clipPath: flapClip }}
+                  />
+                </span>
+                {/* Canto del papel: una copia más oscura asoma bajo el borde según el gramaje. */}
+                <span
+                  data-flap-outer
+                  className="absolute inset-0 block"
+                  style={{
+                    background: "var(--env-edge)",
+                    clipPath: flapClip,
+                    transform: `translateY(${weight.edge}px)`,
+                  }}
+                />
+                <span
+                  data-flap-outer
+                  className="paper-grain absolute inset-0 block"
+                  style={{
+                    backgroundImage: `var(--env-texture), linear-gradient(180deg, var(--env-paper-a), var(--env-paper-b))`,
+                    clipPath: flapClip,
+                  }}
+                >
+                  {ENVELOPES[theme.envelope].ornament ? (
+                    <AlmondBranch className="absolute top-[22%] left-[55%] w-[22%] rotate-[4deg] opacity-95" />
+                  ) : null}
+                  {/* Luz rasante: la solapa se oscurece al girar hacia la vertical */}
+                  <span
+                    data-flap-shade
+                    className="absolute inset-0 block bg-[linear-gradient(180deg,rgb(40_30_15/0.2),rgb(40_30_15/0.9))] opacity-0"
+                  />
+                </span>
+              </m.span>
+
+              {/* Lacre en la punta de la solapa */}
+              <span
+                aria-hidden
+                className="absolute z-40 block w-[19%] -translate-x-1/2 -translate-y-1/2"
+                style={{ left: "50%", top: `${FLAP_DEPTH}%` }}
+              >
+                <m.span
+                  data-seal
+                  className="relative block aspect-square drop-shadow-[0_3px_4px_rgb(60_20_10/0.35)]"
+                >
+                  {/* Mientras espera, un halo dorado respira alrededor: invita a tocarlo. */}
+                  {interactive && !opening ? (
+                    <span
+                      aria-hidden
+                      className="seal-halo pointer-events-none absolute -inset-[18%] block rounded-full"
+                    />
+                  ) : null}
+                  <span
+                    data-seal-whole
+                    className="absolute inset-0 block overflow-hidden rounded-full transition-transform duration-500 group-hover:scale-105 group-active:scale-[0.9] group-active:duration-100"
+                  >
+                    {/* Al apretar, la cera se hunde: sombra interior como un botón físico. */}
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 z-10 block rounded-full opacity-0 shadow-[inset_0_3px_7px_rgb(30_5_5/0.55)] transition-opacity duration-100 group-active:opacity-100"
+                    />
+                    <WaxSealArt
+                      monogram={event.couple.monogram}
+                      shape={theme.sealShape}
+                      mark={theme.sealMark}
+                      className="size-full"
+                    />
+                    {/* Reflejo de la cera que se desliza con la inclinación */}
+                    <m.span
+                      className="absolute inset-[12%] block rounded-full bg-[radial-gradient(circle_at_35%_30%,rgb(255_235_220/0.35),transparent_45%)] mix-blend-screen"
+                      style={{ x: sealShineX }}
                     />
                   </span>
-                  <span
-                    data-letter-shadow
-                    className="pointer-events-none absolute inset-x-0 top-0 block h-1/4 bg-[linear-gradient(180deg,rgb(35_30_20/0.45),transparent)] opacity-0"
-                  />
-                </m.span>
-              </ViewTransition>
-            </span>
-
-            {/* Bolsillo: tres triángulos con sombra estática de pliegue */}
-            <span
-              data-body
-              aria-hidden
-              className="absolute inset-0 z-20 block"
-              style={{
-                filter: `drop-shadow(0 ${-weight.edge * 0.7}px ${weight.edge + 0.6}px rgb(80 60 35 / ${weight.shadow})) drop-shadow(0 -2px 3px rgb(60 45 25 / 0.22))`,
-              }}
-            >
-              <span
-                className="paper-grain absolute inset-0 block"
-                style={{
-                  backgroundImage: paper("100deg"),
-                  clipPath: `polygon(0 0, 0 100%, 50% ${POCKET_TIP}%)`,
-                }}
-              />
-              <span
-                className="paper-grain absolute inset-0 block brightness-[0.985]"
-                style={{
-                  backgroundImage: paper("260deg"),
-                  clipPath: `polygon(100% 0, 100% 100%, 50% ${POCKET_TIP}%)`,
-                }}
-              />
-              <span
-                className="paper-grain absolute inset-0 block rounded-b-[3px]"
-                style={{
-                  backgroundImage: paper("0deg"),
-                  clipPath: `polygon(0 100%, 100% 100%, 50% ${POCKET_BOTTOM}%)`,
-                }}
-              />
-            </span>
-
-            {/* Sombra de la solapa cerrada sobre el bolsillo */}
-            <span
-              data-flap-shadow
-              aria-hidden
-              className="absolute inset-x-0 top-[1.5%] z-[29] block bg-[#5a4630]/25 blur-[2px]"
-              style={{ height: `${FLAP_DEPTH}%`, clipPath: flapClip }}
-            />
-
-            {/* Solapa superior */}
-            <m.span
-              data-flap
-              aria-hidden
-              className="absolute inset-x-0 top-0 z-30 block"
-              style={{
-                height: `${FLAP_DEPTH}%`,
-                transformOrigin: "50% 0%",
-                transformPerspective: 900,
-              }}
-            >
-              <span
-                className="absolute inset-0 block"
-                style={{ background: linerPattern, clipPath: flapClip }}
-              >
-                <span
-                  data-liner-shade
-                  className="absolute inset-0 block bg-black opacity-0"
-                  style={{ clipPath: flapClip }}
-                />
-              </span>
-              {/* Canto del papel: una copia más oscura asoma bajo el borde según el gramaje. */}
-              <span
-                data-flap-outer
-                className="absolute inset-0 block"
-                style={{
-                  background: "var(--env-edge)",
-                  clipPath: flapClip,
-                  transform: `translateY(${weight.edge}px)`,
-                }}
-              />
-              <span
-                data-flap-outer
-                className="paper-grain absolute inset-0 block"
-                style={{
-                  backgroundImage: `var(--env-texture), linear-gradient(180deg, var(--env-paper-a), var(--env-paper-b))`,
-                  clipPath: flapClip,
-                }}
-              >
-                {ENVELOPES[theme.envelope].ornament ? (
-                  <AlmondBranch className="absolute top-[22%] left-[55%] w-[22%] rotate-[4deg] opacity-95" />
-                ) : null}
-                {/* Luz rasante: la solapa se oscurece al girar hacia la vertical */}
-                <span
-                  data-flap-shade
-                  className="absolute inset-0 block bg-[linear-gradient(180deg,rgb(40_30_15/0.2),rgb(40_30_15/0.9))] opacity-0"
-                />
-              </span>
-            </m.span>
-
-            {/* Lacre en la punta de la solapa */}
-            <span
-              aria-hidden
-              className="absolute z-40 block w-[19%] -translate-x-1/2 -translate-y-1/2"
-              style={{ left: "50%", top: `${FLAP_DEPTH}%` }}
-            >
-              <m.span
-                data-seal
-                className="relative block aspect-square drop-shadow-[0_3px_4px_rgb(60_20_10/0.35)]"
-              >
-                {/* Mientras espera, un halo dorado respira alrededor: invita a tocarlo. */}
-                {interactive && !opening ? (
-                  <span
-                    aria-hidden
-                    className="seal-halo pointer-events-none absolute -inset-[18%] block rounded-full"
-                  />
-                ) : null}
-                <span
-                  data-seal-whole
-                  className="absolute inset-0 block overflow-hidden rounded-full transition-transform duration-500 group-hover:scale-105 group-active:scale-[0.9] group-active:duration-100"
-                >
-                  {/* Al apretar, la cera se hunde: sombra interior como un botón físico. */}
-                  <span
-                    aria-hidden
-                    className="pointer-events-none absolute inset-0 z-10 block rounded-full opacity-0 shadow-[inset_0_3px_7px_rgb(30_5_5/0.55)] transition-opacity duration-100 group-active:opacity-100"
-                  />
-                  <WaxSealArt
+                  <SealBreakPieces
                     monogram={event.couple.monogram}
                     shape={theme.sealShape}
                     mark={theme.sealMark}
-                    className="size-full"
                   />
-                  {/* Reflejo de la cera que se desliza con la inclinación */}
-                  <m.span
-                    className="absolute inset-[12%] block rounded-full bg-[radial-gradient(circle_at_35%_30%,rgb(255_235_220/0.35),transparent_45%)] mix-blend-screen"
-                    style={{ x: sealShineX }}
-                  />
-                </span>
-                <SealBreakPieces
-                  monogram={event.couple.monogram}
-                  shape={theme.sealShape}
-                  mark={theme.sealMark}
-                />
-              </m.span>
+                </m.span>
+              </span>
             </span>
-          </span>
-        </m.button>
+          </m.button>
 
-        <p
-          data-heading
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-          className="mt-14 flex items-center gap-2 text-[0.9375rem] text-ink-soft"
-        >
-          {opening ? (
-            "Abriendo…"
-          ) : (
-            <>
-              <Pointer aria-hidden className="size-4" />
-              Toca el sobre para abrirlo
-            </>
-          )}
-        </p>
-      </div>
+          <p
+            data-heading
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            className="mt-14 flex items-center gap-2 text-[0.9375rem] text-ink-soft"
+          >
+            {opening ? (
+              "Abriendo…"
+            ) : (
+              <>
+                <Pointer aria-hidden className="size-4" />
+                Toca el sobre para abrirlo
+              </>
+            )}
+          </p>
+        </div>
+      </Cinema>
     </section>
   );
 }

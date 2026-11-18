@@ -1,0 +1,10 @@
+/*
+ * Editor en el móvil: las pestañas se quedan arriba y la barra de «Editar / Vista previa» abajo.
+ * Al llevar un campo a la vista (con el teclado o al enfocarlo), que no quede debajo de ellas.
+ */
+@media (max-width: 1023.98px) {
+  html:has(.editor) {
+    scroll-padding-top: 4.75rem;
+    scroll-padding-bottom: 5.5rem;
+  }
+}

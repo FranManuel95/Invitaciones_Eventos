@@ -30,7 +30,7 @@ export function ChoiceCard({
     <label
       className={clsx(
         "group relative flex cursor-pointer items-center gap-3 rounded-lg border border-line bg-paper px-4 py-3.5 transition-colors",
-        "hover:border-ink/30 has-[:checked]:border-ink has-[:checked]:bg-white has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ink has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-ivory",
+        "hover:border-ink/30 has-[:checked]:border-ink has-[:checked]:bg-raised has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ink has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-ivory",
         className,
       )}
     >

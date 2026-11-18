@@ -24,8 +24,8 @@ export const demoEvent: WeddingEvent = {
       city: "Chinchón, Madrid",
       mapsQuery: "Plaza Mayor Chinchón",
       note: "Recomendamos llegar 20 minutos antes. Hay aparcamiento público a 200 m.",
-      photo: "/fotos/iglesia.jpg",
-      photoAlt: "Fachada de piedra de la iglesia, con rosetón y campanario",
+      photo: "/fotos/lugares/iglesia.jpg",
+      photoAlt: "Interior de una iglesia de piedra con el pasillo adornado con paniculata",
     },
     {
       id: "finca",
@@ -35,8 +35,8 @@ export const demoEvent: WeddingEvent = {
       city: "Chinchón, Madrid",
       mapsQuery: "Chinchón Madrid",
       note: "A 8 minutos en coche de la iglesia. Los autobuses salen de la plaza al terminar la ceremonia.",
-      photo: "/fotos/finca.jpg",
-      photoAlt: "Jardín de la finca al anochecer, con guirnaldas de luces y mesas altas",
+      photo: "/fotos/lugares/cortijo.jpg",
+      photoAlt: "Cortijo al atardecer, con olivos y un camino de farolillos",
     },
   ],
   // Valores de ejemplo para la demo.
@@ -150,48 +150,54 @@ export const demoEvent: WeddingEvent = {
   ],
   story: {
     intro: "Once años, dos mudanzas y un perro. Esta es la versión corta.",
-    couplePhoto: "/fotos/pareja.jpg",
+    couplePhoto: "/fotos/olivar/pareja.jpg",
     moments: [
       {
         year: "2015",
-        title: "Nos conocimos en Amalfi",
-        text: "La misma excursión de Erasmus y el último sitio libre en el muro del mirador. Nos quedamos hasta que se fue el sol.",
-        photo: "/fotos/historia-amalfi.jpg",
-        photoAlt: "María y Daniel de espaldas, sentados frente a la costa de Amalfi",
+        title: "El primer paseo",
+        text: "Una tarde de otoño entre olivos, sin móvil y sin prisa. Volvimos con las botas llenas de barro.",
+        photo: "/fotos/olivar/historia-1.jpg",
+        photoAlt: "María y Daniel de espaldas, abrazados, caminando entre olivos",
       },
       {
-        year: "2017",
-        title: "El primer viaje",
-        text: "Florencia en agosto, con una mochila y un mapa de papel. Volvimos sabiendo que podíamos con todo.",
-        photo: "/fotos/historia-florencia.jpg",
-        photoAlt: "María y Daniel mirando la cúpula de Florencia desde un mirador",
+        year: "2018",
+        title: "La terraza",
+        text: "Nuestro primer piso tenía una terraza diminuta y tres tomateras. Nos pasamos el verano mirando los tejados.",
+        photo: "/fotos/olivar/historia-2.jpg",
+        photoAlt:
+          "María y Daniel de espaldas, abrazados en una terraza con tomateras, mirando los tejados",
       },
       {
         year: "2026",
         title: "La pedida",
         text: "En el mirador de Chinchón, al atardecer. Dijo que sí antes de que terminara la pregunta.",
-        photo: "/fotos/historia-pedida.jpg",
-        photoAlt: "Anillo de compromiso en un estuche de terciopelo entre flores blancas",
+        photo: "/fotos/olivar/historia-3.jpg",
+        photoAlt: "Anillo de compromiso en un estuche, sobre una piedra entre ramas de olivo",
       },
       {
         year: "Hoy",
         title: "Y ahora, la boda",
         text: "Vivimos en Madrid con Higo, un perro de agua que eligió el sofá y, de paso, a nosotros. Solo faltáis vosotros.",
-        photo: "/fotos/historia-hoy.jpg",
-        photoAlt: "María y Daniel de espaldas, viendo el atardecer sobre el mar",
+        photo: "/fotos/olivar/historia-4.jpg",
+        photoAlt: "María y Daniel de espaldas, viendo caer la tarde sobre un olivar",
       },
     ],
   },
-  coverPhoto: "/fotos/portada.jpg",
-  coverDepthMap: "/fotos/portada-profundidad.png",
-  banquetPhoto: "/fotos/banquete.jpg",
+  coverPhoto: "/fotos/olivar/portada.jpg",
+  coverDepthMap: "/fotos/olivar/portada-profundidad.png",
+  banquetPhoto: "/fotos/lugares/banquete.jpg",
   contactPhone: "+34 600 000 000",
+  guestbook: true,
+  // Enlace de ejemplo: no lleva a ninguna lista real.
+  playlistUrl: "https://open.spotify.com/",
   gift: {
     message:
       "Vuestra presencia es nuestro mejor regalo. Si aun así queréis tener un detalle, os dejamos algunas ideas y nuestra cuenta.",
-    holder: "María y Daniel (cuenta de demostración)",
+    holder: "María y Daniel",
     // IBAN ficticio con formato válido de longitud, pero sin banco real: solo para la demo.
     iban: "ES00 0000 0000 0000 0000 0000",
+    // Teléfono ficticio (los 600 000 000 no se asignan): solo para la demo.
+    bizum: "600 000 000",
     items: [
       {
         id: "viaje",
@@ -214,7 +220,7 @@ export const demoEvent: WeddingEvent = {
       {
         id: "cafetera",
         title: "Cafetera de espresso",
-        detail: "Para empezar cada mañana como en Florencia.",
+        detail: "Para empezar cada mañana en la terraza.",
         price: "180 €",
         url: "",
         photo: null,
@@ -244,11 +250,6 @@ export const demoEvent: WeddingEvent = {
     {
       question: "¿Habrá opciones sin gluten?",
       answer: "Sí. Indícalo al confirmar y el catering preparará tu menú por separado.",
-    },
-    {
-      question: "¿Hay lista de bodas?",
-      answer:
-        "No hay lista: si queréis tener un detalle, en la sección «Regalo» tenéis nuestra cuenta.",
     },
   ],
 };

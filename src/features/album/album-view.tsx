@@ -4,10 +4,11 @@ import { hostNames } from "@/lib/event-kind";
 import { Camera, Check, ImagePlus, Play } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useId, useState } from "react";
 import { DemoBadge } from "@/components/demo-badge";
 import { buttonClasses } from "@/components/ui/button";
-import { checkImageFile, prepareImage } from "@/features/editor/image";
+import { ALBUM_PHOTO, checkImageFile, prepareImage } from "@/features/editor/image";
 import { Monogram } from "@/features/invitation/ornaments";
 import type { Album } from "@/lib/data/album";
 import { formatLongDate } from "@/lib/format";
@@ -37,6 +38,11 @@ export function AlbumView({ album }: { album: Album }) {
   const [uploads, setUploads] = useState<Upload[]>([]);
   const [busy, setBusy] = useState(false);
   const [showing, setShowing] = useState(false);
+  // Demo con fotos al momento: las subidas se añaden a la galería sin red.
+  const [added, setAdded] = useState<Album["photos"]>([]);
+  const photos = added.length ? [...added, ...album.photos] : album.photos;
+  const router = useRouter();
+  const couple = hostNames(album.couple, " y ");
   const done = uploads.filter((u) => u.state === "done").length;
 
   const update = (id: string, patch: Partial<Upload>) =>
@@ -62,19 +68,25 @@ export function AlbumView({ album }: { album: Album }) {
         continue;
       }
       try {
-        const { photo, bitmap } = await prepareImage(file);
+        const { photo, bitmap } = await prepareImage(file, ALBUM_PHOTO);
         bitmap.close();
         if (album.demo || !supabase) {
           // Demo: no hay red; se simula la subida.
           await new Promise((r) => setTimeout(r, 300));
           update(upload.id, { state: "done" });
+          if (album.autoApprove) {
+            setAdded((list) => [
+              { id: upload.id, url: upload.preview, createdAt: new Date().toISOString() },
+              ...list,
+            ]);
+          }
           continue;
         }
         const slot = await supabase.rpc("album_upload_slot", { p_token: album.token });
         if (slot.error || typeof slot.data !== "string") throw new Error(slot.error?.message);
         const put = await supabase.storage
           .from(BUCKET)
-          .upload(slot.data, photo, { contentType: "image/webp", upsert: false });
+          .upload(slot.data, photo, { contentType: "image/jpeg", upsert: false });
         if (put.error) throw new Error(put.error.message);
         const confirm = await supabase.rpc("album_confirm", {
           p_token: album.token,
@@ -82,6 +94,8 @@ export function AlbumView({ album }: { album: Album }) {
         });
         if (confirm.error) throw new Error(confirm.error.message);
         update(upload.id, { state: "done" });
+        // Si se publican al momento, que aparezcan ya en «Las fotos de todos».
+        if (album.autoApprove) router.refresh();
       } catch (e) {
         const text = e instanceof Error && /muchas fotos/.test(e.message) ? e.message : null;
         update(upload.id, {
@@ -108,8 +122,9 @@ export function AlbumView({ album }: { album: Album }) {
         El álbum de {hostNames(album.couple)}
       </h1>
       <p className="mt-4 max-w-[52ch] text-[1.0625rem] leading-relaxed text-ink-soft">
-        Comparte las fotos que hagas hoy. Las verán {hostNames(album.couple, " y ")} y, cuando las
-        revisen, aparecerán aquí para todos.
+        {album.autoApprove
+          ? "Comparte las fotos que hagas hoy. Aparecerán aquí al momento para todos."
+          : `Comparte las fotos que hagas hoy. Las verán ${couple} y, cuando las revisen, aparecerán aquí para todos.`}
       </p>
 
       <section
@@ -120,7 +135,7 @@ export function AlbumView({ album }: { album: Album }) {
           Sube tus fotos
         </h2>
         <p className="mt-1 text-[0.9375rem] text-muted">
-          Hasta {MAX_FILES} a la vez. Antes de enviarlas se reducen y se les quita la ubicación.
+          Hasta {MAX_FILES} a la vez. Se suben con toda su calidad y sin datos de ubicación.
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
           <label
@@ -168,7 +183,7 @@ export function AlbumView({ album }: { album: Album }) {
           {busy
             ? "Subiendo…"
             : done
-              ? `${done === 1 ? "1 foto enviada" : `${done} fotos enviadas`}. ¡Gracias! Aparecerán cuando ${hostNames(album.couple, " y ")} las revisen.`
+              ? `${done === 1 ? "1 foto enviada" : `${done} fotos enviadas`}. ¡Gracias! ${album.autoApprove ? "Ya están en el álbum." : `Aparecerán cuando ${couple} las revisen.`}`
               : null}
         </p>
         {uploads.length ? (
@@ -187,7 +202,9 @@ export function AlbumView({ album }: { album: Album }) {
                   {u.state === "pending"
                     ? "Subiendo…"
                     : u.state === "done"
-                      ? "Pendiente de revisar"
+                      ? album.autoApprove
+                        ? "En el álbum"
+                        : "Pendiente de revisar"
                       : "No se subió"}
                 </span>
                 {u.message ? <span className="sr-only">{u.message}</span> : null}
@@ -207,7 +224,7 @@ export function AlbumView({ album }: { album: Album }) {
           <h2 id="fotos" className="font-display text-[1.75rem] text-ink">
             Las fotos de todos
           </h2>
-          {album.photos.length > 1 ? (
+          {photos.length > 1 ? (
             <button
               type="button"
               onClick={() => setShowing(true)}
@@ -218,9 +235,9 @@ export function AlbumView({ album }: { album: Album }) {
             </button>
           ) : null}
         </div>
-        {album.photos.length ? (
+        {photos.length ? (
           <ul className="mt-5 columns-2 gap-3 sm:columns-3">
-            {album.photos.map((p, i) => (
+            {photos.map((p, i) => (
               <li
                 key={p.id}
                 className="mb-3 break-inside-avoid overflow-hidden rounded-[2px] bg-cream"
@@ -231,6 +248,7 @@ export function AlbumView({ album }: { album: Album }) {
                   width={800}
                   height={600}
                   sizes="(min-width: 640px) 33vw, 50vw"
+                  unoptimized={p.url.startsWith("blob:")}
                   className="h-auto w-full"
                 />
               </li>
@@ -242,7 +260,7 @@ export function AlbumView({ album }: { album: Album }) {
           </p>
         )}
       </section>
-      {showing ? <Slideshow photos={album.photos} onClose={() => setShowing(false)} /> : null}
+      {showing ? <Slideshow photos={photos} onClose={() => setShowing(false)} /> : null}
     </main>
   );
 }

@@ -26,12 +26,17 @@ describe("tema", () => {
   });
 
   it("los temas guardados antes de las secciones y la música siguen valiendo", () => {
-    expect(parseTheme({ style: "clasico" })).toMatchObject({ hidden: [], music: true });
+    // Sin el dato, la música de fondo queda apagada (el valor por defecto desde la ronda 11).
+    expect(parseTheme({ style: "clasico" })).toMatchObject({ hidden: ["regalo"], music: false });
+    // Un tema guardado desde el editor conserva lo que el cliente eligió, también «nada oculto».
+    expect(parseTheme({ hidden: [] }).hidden).toEqual([]);
+    expect(parseTheme({ music: true }).music).toBe(true);
     expect(parseTheme({ hidden: ["historia", "regalo"], music: false })).toMatchObject({
       hidden: ["historia", "regalo"],
       music: false,
     });
-    expect(parseTheme({ hidden: ["confirmar"] }).hidden).toEqual([]);
+    // Un valor desconocido vuelve al de un evento nuevo.
+    expect(parseTheme({ hidden: ["confirmar"] }).hidden).toEqual(["regalo"]);
   });
 
   it("mezcla y mide el contraste como WCAG", () => {
@@ -124,5 +129,62 @@ describe("tema", () => {
       expect(vars["--color-paper"]).toBe(p.paper);
       expect(vars["--color-ink"]).toBe(p.ink);
     });
+  });
+});
+
+describe("plantillas de concepto: carta, pase y apertura", () => {
+  it("cada motivo de concepto tiene sus textos y su plantilla se abre con su objeto", async () => {
+    const { MOTIF_IDS, MOTIFS, TEMPLATES } = await import("@/lib/theme");
+    const { conceptKit } = await import("@/lib/theme/concept-kit");
+    const concepts = MOTIF_IDS.filter((id) => MOTIFS[id].kind === "concepto");
+    expect(concepts.length).toBe(15);
+    for (const id of concepts) {
+      const kit = conceptKit(id);
+      expect(kit, id).not.toBeNull();
+      for (const text of [kit!.object, kit!.carrier, kit!.letterhead, kit!.signoff]) {
+        expect(text.trim(), id).not.toBe("");
+      }
+      expect(kit!.pass.kicker.trim(), id).not.toBe("");
+      // Lo importante del pase sigue diciendo mesa y autobús.
+      if (kit!.pass.table) expect(kit!.pass.table.toLowerCase(), id).toMatch(/mesa/);
+      if (kit!.pass.bus) expect(kit!.pass.bus.toLowerCase(), id).toMatch(/autob/);
+      // Cada plantilla conserva su sobre (más cuidado que la apertura «concepto», que queda como
+      // opción en el editor).
+      const template = Object.values(TEMPLATES).find((t) => t.look.motif === id);
+      expect(template?.look.opening, id).not.toBe("concepto");
+    }
+    // Los motivos de acuarela y «sin motivo» no tienen kit.
+    expect(conceptKit("ninguno")).toBeNull();
+    expect(conceptKit("lavanda")).toBeNull();
+  });
+});
+
+describe("regalos y vestimenta: apagados por defecto, los enciende cada cliente", () => {
+  it("el tema nuevo y las plantillas llevan la sección «Regalo» oculta, y cambiar de plantilla no la toca", async () => {
+    const { DEFAULT_THEME, applyTemplate, TEMPLATE_IDS } = await import("@/lib/theme");
+    expect(DEFAULT_THEME.hidden).toEqual(["regalo"]);
+    for (const id of TEMPLATE_IDS)
+      expect(applyTemplate(DEFAULT_THEME, id).hidden).toEqual(["regalo"]);
+    // Si el cliente la enciende, otra plantilla respeta su elección.
+    expect(applyTemplate({ ...DEFAULT_THEME, hidden: [] }, "arcilla").hidden).toEqual([]);
+  });
+
+  it("la vestimenta sale vacía hasta que el cliente la enciende, y lo demás no se toca", async () => {
+    const { withFeatures } = await import("@/lib/features");
+    const { demoEvent } = await import("@/data/demo/event");
+    const off = withFeatures(demoEvent);
+    expect(off.dressCode).toEqual({ title: "", detail: "", palette: [], examples: [] });
+    expect(off.accommodation).toEqual(demoEvent.accommodation);
+    // Los datos de regalo se conservan: lo que se oculta es la sección.
+    expect(off.gift).toEqual(demoEvent.gift);
+    const on = { ...demoEvent, dressCode: { ...demoEvent.dressCode, enabled: true } };
+    expect(withFeatures(on).dressCode.title).toBe(demoEvent.dressCode.title);
+  });
+
+  it("las preguntas de la demo no hablan de la lista de bodas ni de la cuenta", async () => {
+    const { demoEvent } = await import("@/data/demo/event");
+    for (const faq of demoEvent.faqs) {
+      expect(`${faq.question} ${faq.answer}`).not.toMatch(/lista de bodas|nuestra cuenta|Regalo»/i);
+    }
   });
 });
