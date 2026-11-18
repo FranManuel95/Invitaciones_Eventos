@@ -4,6 +4,7 @@ import { hostNames } from "@/lib/event-kind";
 import { Camera, Check, ImagePlus, Play } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useId, useState } from "react";
 import { DemoBadge } from "@/components/demo-badge";
 import { buttonClasses } from "@/components/ui/button";
@@ -37,6 +38,8 @@ export function AlbumView({ album }: { album: Album }) {
   const [uploads, setUploads] = useState<Upload[]>([]);
   const [busy, setBusy] = useState(false);
   const [showing, setShowing] = useState(false);
+  const router = useRouter();
+  const couple = hostNames(album.couple, " y ");
   const done = uploads.filter((u) => u.state === "done").length;
 
   const update = (id: string, patch: Partial<Upload>) =>
@@ -82,6 +85,8 @@ export function AlbumView({ album }: { album: Album }) {
         });
         if (confirm.error) throw new Error(confirm.error.message);
         update(upload.id, { state: "done" });
+        // Si se publican al momento, que aparezcan ya en «Las fotos de todos».
+        if (album.autoApprove) router.refresh();
       } catch (e) {
         const text = e instanceof Error && /muchas fotos/.test(e.message) ? e.message : null;
         update(upload.id, {
@@ -108,8 +113,9 @@ export function AlbumView({ album }: { album: Album }) {
         El álbum de {hostNames(album.couple)}
       </h1>
       <p className="mt-4 max-w-[52ch] text-[1.0625rem] leading-relaxed text-ink-soft">
-        Comparte las fotos que hagas hoy. Las verán {hostNames(album.couple, " y ")} y, cuando las
-        revisen, aparecerán aquí para todos.
+        {album.autoApprove
+          ? "Comparte las fotos que hagas hoy. Aparecerán aquí al momento para todos."
+          : `Comparte las fotos que hagas hoy. Las verán ${couple} y, cuando las revisen, aparecerán aquí para todos.`}
       </p>
 
       <section
@@ -168,7 +174,7 @@ export function AlbumView({ album }: { album: Album }) {
           {busy
             ? "Subiendo…"
             : done
-              ? `${done === 1 ? "1 foto enviada" : `${done} fotos enviadas`}. ¡Gracias! Aparecerán cuando ${hostNames(album.couple, " y ")} las revisen.`
+              ? `${done === 1 ? "1 foto enviada" : `${done} fotos enviadas`}. ¡Gracias! ${album.autoApprove ? "Ya están en el álbum." : `Aparecerán cuando ${couple} las revisen.`}`
               : null}
         </p>
         {uploads.length ? (
@@ -187,7 +193,9 @@ export function AlbumView({ album }: { album: Album }) {
                   {u.state === "pending"
                     ? "Subiendo…"
                     : u.state === "done"
-                      ? "Pendiente de revisar"
+                      ? album.autoApprove
+                        ? "En el álbum"
+                        : "Pendiente de revisar"
                       : "No se subió"}
                 </span>
                 {u.message ? <span className="sr-only">{u.message}</span> : null}

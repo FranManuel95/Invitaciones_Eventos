@@ -14,6 +14,9 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   Pendientes técnicos: comprobar en Supabase la migración del libro de firmas y los avisos (el
   proyecto estaba hibernado), ejecutar `tests/e2e/real.spec.ts` con Supabase y partir
   `style-tab.tsx`.
+- **Álbum sin revisión (18/11/2026, ronda 33)**: la migración
+  `20261118100000_album_sin_revision.sql` está en el repositorio pero **no aplicada** en Supabase;
+  aplicarla solo con el «sí» del cliente y revisar después los avisos de seguridad.
 - **Agentes en paralelo**: con `isolation: "worktree"`, las copias quedan en
   `.claude/worktrees/`. ESLint y `tsc` ya las ignoran (`eslint.config.mjs`, `tsconfig.json`);
   para que git tampoco las enseñe, añadir `.claude/worktrees/` a `.git/info/exclude`. Un reinicio del contenedor para a los agentes: sus

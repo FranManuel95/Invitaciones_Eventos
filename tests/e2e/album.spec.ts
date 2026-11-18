@@ -73,3 +73,18 @@ test.describe("álbum de los invitados", () => {
     await noSerious(page);
   });
 });
+
+test.describe("álbum sin revisión", () => {
+  test("los novios eligen publicar las fotos al momento", async ({ page }) => {
+    await page.goto("/panel/demo/album");
+    const toggle = page.getByRole("switch", { name: /Publicar las fotos al momento/ });
+    await expect(toggle).not.toBeChecked();
+    await expect(page.getByText("Ahora cada foto espera a que la aprobéis")).toBeVisible();
+    await page.getByText("Publicar las fotos al momento").click();
+    await expect(toggle).toBeChecked();
+    await expect(
+      page.getByText("Las fotos nuevas se ven en el álbum en cuanto se suben"),
+    ).toBeVisible();
+    await noSerious(page);
+  });
+});
