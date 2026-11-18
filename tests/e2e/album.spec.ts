@@ -88,3 +88,20 @@ test.describe("álbum sin revisión", () => {
     await noSerious(page);
   });
 });
+
+test("con fotos al momento, el invitado ve la suya en el álbum enseguida (demo)", async ({
+  page,
+}) => {
+  await page.goto("/album/demo?al-momento=1");
+  await expect(page.getByText("Aparecerán aquí al momento para todos.")).toBeVisible();
+  await expect(page.getByRole("img", { name: /Foto \d+ del álbum/ })).toHaveCount(6);
+  await page.getByLabel("Elegir fotos").setInputFiles({
+    name: "foto.png",
+    mimeType: "image/png",
+    buffer: PNG,
+  });
+  await expect(page.getByText(/1 foto enviada\. ¡Gracias! Ya están en el álbum\./)).toBeVisible();
+  await expect(page.getByText("En el álbum", { exact: true })).toBeVisible();
+  await expect(page.getByRole("img", { name: /Foto \d+ del álbum/ })).toHaveCount(7);
+  await noSerious(page);
+});

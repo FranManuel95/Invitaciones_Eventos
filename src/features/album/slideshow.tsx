@@ -82,6 +82,7 @@ export function Slideshow({
               alt=""
               fill
               sizes="100vw"
+              unoptimized={photo.url.startsWith("blob:")}
               className="scale-110 object-cover opacity-40 blur-2xl"
             />
             <div className="slide-kb absolute inset-0">
@@ -90,6 +91,7 @@ export function Slideshow({
                 alt={`Foto ${index + 1} de ${total}`}
                 fill
                 sizes="100vw"
+                unoptimized={photo.url.startsWith("blob:")}
                 className="object-contain"
               />
             </div>
@@ -99,7 +101,14 @@ export function Slideshow({
       {/* La siguiente se descarga ya, invisible, para que entre sin esperas. */}
       {next && total > 1 ? (
         <div aria-hidden className="pointer-events-none absolute inset-0 opacity-0">
-          <Image src={next.url} alt="" fill sizes="100vw" loading="eager" />
+          <Image
+            src={next.url}
+            alt=""
+            fill
+            sizes="100vw"
+            loading="eager"
+            unoptimized={next.url.startsWith("blob:")}
+          />
         </div>
       ) : null}
 
