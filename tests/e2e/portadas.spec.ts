@@ -186,7 +186,7 @@ test.describe("portadas", () => {
     await page.goto("/i/familia-garcia?plantilla=embarque");
     await expect(page.getByRole("heading", { level: 1, name: /Noa & Álex/ })).toBeVisible();
     await expect(page.getByRole("article").getByText("Familia García")).toBeVisible();
-    await expect(page.getByText("VEJ", { exact: true })).toBeVisible();
+    await expect(page.getByText("TEG", { exact: true })).toBeVisible();
     const { violations } = await new AxeBuilder({ page }).analyze();
     const serious = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
     expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" | ")}`)).toEqual([]);
@@ -234,7 +234,7 @@ test.describe("portadas", () => {
     await expect(cover.getByText("Familia García", { exact: true })).toBeVisible();
     // El mensaje completo está siempre en la página, aunque aún se esté tecleando.
     await expect(
-      cover.getByText("NOS CASAMOS. Stop. 18 SEPTIEMBRE 2027. Stop. BAEZA. Stop. NO FALTES. Stop."),
+      cover.getByText("NOS CASAMOS. Stop. 18 SEPTIEMBRE 2027. Stop. ALMAGRO. Stop. NO FALTES. Stop."),
     ).toBeAttached();
     // Tocar el telegrama lo termina de teclear, sin levantar la portada.
     await cover.getByText("TELEGRAMA", { exact: true }).click();
