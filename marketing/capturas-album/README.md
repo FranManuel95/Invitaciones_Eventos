@@ -19,19 +19,20 @@ la captura se ocultaron el distintivo «Demo con datos ficticios», «Saltar int
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `01_invitacion_seccion_album` | Solo móvil. En la invitación, antes de la boda: «El álbum de la boda», con tres fotos en abanico, y «Abrir el álbum». Avisa de que las mesas tendrán un QR |
 | `02_despues_de_la_boda`       | Solo móvil. Desde el día siguiente, la invitación da las gracias y enlaza al álbum: «Si te queda alguna en el móvil, aún puedes subirla»                   |
-| `03_album_portada`            | El álbum: «El álbum de María & Daniel», con «Elegir fotos» y «Hacer una foto»                                                                              |
+| `03_album_portada`            | El álbum: «El álbum de María & Daniel», con «Elegir fotos» y «Hacer una foto». Dice «Se suben con toda su calidad y sin datos de ubicación»                |
 | `04_album_fotos`              | Solo móvil. «Las fotos de todos»: la galería de fotos aprobadas                                                                                            |
 | `05_subir_fotos`              | Después de subir una foto: «1 foto enviada. ¡Gracias! Aparecerán cuando María y Daniel las revisen», con la foto marcada «Pendiente de revisar»            |
 | `06_pase_de_fotos`            | El pase de fotos a pantalla completa, con anterior, pausa y siguiente                                                                                      |
 
 ## Lo que ven los novios
 
-| Archivo                      | Qué muestra                                                                                                                                                           |
-| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `07_panel_album_por_revisar` | Panel, «Álbum de los invitados»: fotos por revisar con «Aprobar», «Ocultar» y borrar, y «Descargar 4 fotos en un zip». En el ordenador, al lado, el QR para las mesas |
-| `08_panel_album_aprobadas`   | Las fotos aprobadas, que ya ven todos los invitados                                                                                                                   |
-| `09_panel_qr_mesas`          | Solo móvil. «QR para las mesas», con «Imprimir» y «Abrir el álbum»                                                                                                    |
-| `10_imprimir_carteles_qr`    | Imprimir → «Carteles del álbum»: un cartel por mesa con «Comparte tus fotos de hoy», el QR y el nombre de la mesa                                                     |
+| Archivo                         | Qué muestra                                                                                                                                                           |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `07_panel_album_por_revisar`    | Panel, «Álbum de los invitados»: fotos por revisar con «Aprobar», «Ocultar» y borrar, y «Descargar 4 fotos en un zip». En el ordenador, al lado, el QR para las mesas |
+| `08_panel_album_aprobadas`      | Las fotos aprobadas, que ya ven todos los invitados                                                                                                                   |
+| `08b_panel_publicar_al_momento` | El interruptor «Publicar las fotos al momento» encendido: las fotos nuevas se ven en el álbum en cuanto se suben, sin revisarlas. Viene apagado                       |
+| `09_panel_qr_mesas`             | Solo móvil. «QR para las mesas», con «Imprimir» y «Abrir el álbum»                                                                                                    |
+| `10_imprimir_carteles_qr`       | Imprimir → «Carteles del álbum»: un cartel por mesa con «Comparte tus fotos de hoy», el QR y el nombre de la mesa                                                     |
 
 ## Lo que hace de verdad el álbum
 
@@ -39,9 +40,11 @@ Comprobado en el código. Que no se prometa nada más.
 
 - **Subir fotos sin instalar nada**: el invitado escanea el QR de su mesa o abre el enlace de la
   invitación. Puede elegir fotos del móvil (hasta 10 a la vez) o hacer una foto con la cámara.
-- **Privacidad**: antes de enviarlas, las fotos se reducen y se les quitan los datos de ubicación.
-- **Los novios deciden qué se ve**: cada foto llega «por revisar». Los novios la aprueban, la
-  ocultan o la borran. Los invitados solo ven las aprobadas.
+- **Calidad y privacidad**: las fotos se suben a su tamaño real (hasta 4096 px, la resolución
+  completa de casi cualquier móvil) en JPEG de alta calidad, y sin los datos de ubicación.
+- **Los novios deciden qué se ve**: por defecto, cada foto llega «por revisar» y los novios la
+  aprueban, la ocultan o la borran. Si lo prefieren, activan «Publicar las fotos al momento» y se
+  ven en cuanto se suben (pueden ocultarlas o borrarlas después).
 - **Pase de fotos**: las fotos aprobadas se ven en un pase a pantalla completa.
 - **Descarga**: los novios descargan todas las fotos aprobadas en un zip.
 - **QR para las mesas**: el panel da el QR del álbum y, en Imprimir, un cartel por mesa listo para
