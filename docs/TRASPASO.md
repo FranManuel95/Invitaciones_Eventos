@@ -3,24 +3,68 @@
 Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Complementa a
 `CLAUDE.md` (reglas), `PROJECT_SPEC.md` (producto) y `docs/DECISIONS.md` (por qué está hecho así).
 
-## Dónde estamos
+## Estado a 19/11/2026 (leer primero)
 
-- **En producción (18/11/2026)**: el PR #6 está fusionado en `main` con todo lo de las rondas 9
-  a 33. Falta que el cliente cambie en Vercel el dominio `invitaciones.efeleeventos.com` para que
-  sirva producción (hoy va ligado a la rama `claude/tender-franklin-isgz7b`), ponga `SITE_URL` y
-  los datos legales, y aplicar en Supabase `20261118100000_album_sin_revision.sql`.
-- **Plan de equipo hecho (18/11/2026)**: los cuatro encargos de `docs/PLAN-EQUIPO.md` están
-  unidos en `claude/exciting-franklin-43k083` (rondas 29 a 32 de `docs/DECISIONS.md`): bodas de
-  ejemplo propias, alta de pareja con primeros pasos y novedades, `/ejemplos` y la sección de
-  decoración, y el editor rediseñado. 675 unitarias y 369 E2E en verde. Esa rama contiene entera
-  `claude/tender-franklin-isgz7b`; falta llevarla a esa rama (la del dominio
-  `invitaciones.efeleeventos.com`) y lo de la sección 4 del plan, que decide el cliente.
-  Pendientes técnicos: comprobar en Supabase la migración del libro de firmas y los avisos (el
-  proyecto estaba hibernado), ejecutar `tests/e2e/real.spec.ts` con Supabase y partir
-  `style-tab.tsx`.
-- **Álbum sin revisión (18/11/2026, ronda 33)**: la migración
-  `20261118100000_album_sin_revision.sql` está en el repositorio pero **no aplicada** en Supabase;
-  aplicarla solo con el «sí» del cliente y revisar después los avisos de seguridad.
+- **Producción**: `main` en `2f8e3a4` (PR #6 fusionado). `invitaciones.efeleeventos.com` ya sirve
+  producción (el usuario cambió el dominio en Vercel). En Vercel están puestas `SITE_URL` y los
+  datos legales (`LEGAL_TITULAR`, `LEGAL_NIF`, `LEGAL_DOMICILIO` = «Sevilla», `LEGAL_EMAIL`). **Los
+  datos personales viven solo en Vercel: nunca en el repositorio.** `/aviso-legal` está
+  comprobado. El usuario aún no vende por la web.
+- **Rama de trabajo**: `claude/exciting-franklin-43k083`, 6 commits por delante de `main`, **sin
+  llevar a producción**. El usuario los está probando en la vista previa:
+  `https://invitaciones-eventos-git-claude-e-51ba32-franmanuel95s-projects.vercel.app` (la URL de
+  rama se mantiene en cada push). Cuando diga «pásalo a producción»: `npm run check`, batería E2E
+  completa, PR a `main` con el MCP de GitHub y fusionarlo (como el #6), y comprobar en Vercel que
+  el despliegue de producción está `READY`.
+  Lo que traen esos commits (detalle en las rondas 34 y 35 de `docs/DECISIONS.md`):
+  1. **El editor enseña la invitación mientras se edita**. Cada pestaña y cada grupo llevan la
+     vista previa a su pantalla y su sección (`shows`, mensaje `stage` con `section`). En el
+     móvil hay una miniatura flotante que se oculta al escribir. `?pestana=` abre una pestaña.
+  2. **El editor dice qué falta**: `src/lib/editor/progress.ts` compara con el contenido de
+     partida (`baseline`). Hay marca dorada en las pestañas hechas, «Lo imprescindible: X de Y» y
+     una píldora «Hecho / Opcional / Por hacer». Los ajustes finos del sobre y la carta van plegados
+     («Más ajustes…»). Las fotos admiten arrastrar, con vista previa local y forma
+     vertical/horizontal.
+  3. **Arreglo**: la portada en 3D (`depth-shader.ts`) ya no pinta una cortina oscura con tamaño 0.
+  4. **Galerías visuales** en Estilo (`VisualGallery` en `style-tab.tsx`):
+     - Plantillas: solo las 25 del muestrario. **Almendro ya no se ofrece**, por petición del
+       usuario.
+     - Portadas: 32 con imagen, en grupos «Con movimiento / Pintadas / Objetos».
+     - Aperturas: 7 con fotograma y la marca Premium.
+       Las miniaturas están en `public/venta/`.
+  5. **El tiempo, automático**. El editor lo calcula solo al poner la ciudad o la fecha y guarda
+     las coordenadas, sin cifras a mano. Desde 14 días antes, `/i/[token]` pide en el servidor la
+     previsión real de Open-Meteo (`src/lib/forecast.ts`, caché de 3 h, 3 s de espera máxima;
+     si falla, sale la media). En la demo, `?prevision=1` enseña una previsión de ejemplo. **Falta
+     verla con un evento real**: el sandbox no llega a `api.open-meteo.com` y se probó con
+     respuestas simuladas. Los eventos antiguos recalculan el tiempo al abrir el editor y deben
+     publicar otra vez.
+- **Álbum** (ronda 33, en producción): las fotos se suben a su calidad completa (JPEG 0,92, hasta
+  4096 px). El interruptor «Publicar las fotos al momento» (`events.album_auto_approve`) evita
+  aprobar las fotos una a una. La migración `20261118100000_album_sin_revision.sql` **está
+  aplicada** en Supabase y los avisos no han cambiado. Demo: `/album/<token>?al-momento=1`.
+- **Capturas para Instagram**: están en Google Drive, subidas desde esta sesión (RSVP, panel en
+  móvil y PC, álbum). Las ramas `capturas/*` solo tienen los scripts. Pendiente si se pide: rehacer
+  las del panel con «Regalos» visible.
+- **Paleta**: el usuario probó los colores corporativos en la invitación y los rechazó todos. Se
+  queda la paleta actual. La rama `paleta-cafe` es de esas pruebas: no unir; borrarla si el
+  usuario lo confirma.
+- **Pendientes que decide el usuario**:
+  - Precio e IVA.
+  - Redirigir `efeleeventos.es`.
+  - Plan de pago de Supabase, para la protección de contraseñas filtradas y para que no se pause.
+  - Stripe.
+  - Domicilio completo cuando se dé de alta como autónomo.
+  - Pruebas en un móvil real.
+- **No hacer sin permiso**: no tocar el evento real `fm-y-lucia-2030-915f24`; preguntar antes de
+  escribir en Supabase; no abrir PR ni subir a otras ramas sin que lo pida; no crear vídeos
+  nuevos con Higgsfield.
+- **Pruebas** (19/11): 685 unitarias, y las E2E del editor y del tiempo en verde. La batería E2E
+  completa se pasó por última vez antes de la ronda 34: hay que repetirla antes de llevar todo a
+  producción.
+
+## Historial (lo de antes, por si hace falta)
+
 - **Agentes en paralelo**: con `isolation: "worktree"`, las copias quedan en
   `.claude/worktrees/`. ESLint y `tsc` ya las ignoran (`eslint.config.mjs`, `tsconfig.json`);
   para que git tampoco las enseñe, añadir `.claude/worktrees/` a `.git/info/exclude`. Un reinicio del contenedor para a los agentes: sus
