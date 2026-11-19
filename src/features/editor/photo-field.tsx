@@ -1,8 +1,9 @@
 "use client";
 
-import { Film, ImagePlus, Music, Trash2 } from "lucide-react";
+import { clsx } from "clsx";
+import { Film, ImagePlus, Loader2, Music, Trash2 } from "lucide-react";
 import Image from "next/image";
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { buttonClasses } from "@/components/ui/button";
 import { errorFor, getIn, type Path } from "@/lib/editor/draft";
 import { createBrowserSupabase } from "@/lib/supabase/browser";
@@ -20,15 +21,23 @@ export function PhotoField({
   path,
   depthPath,
   hint,
+  shape = "square",
 }: {
   label: string;
   path: Path;
   /** Ruta donde guardar el mapa de profundidad (solo la portada). */
   depthPath?: Path;
   hint?: string;
+  /** Forma del hueco en la invitación: la miniatura la imita (la portada es vertical). */
+  shape?: "portrait" | "landscape" | "square";
 }) {
   const { draft, set, eventId, errors } = useEditor();
-  const src = getIn(draft.content, path) as string | null | undefined;
+  const saved = getIn(draft.content, path) as string | null | undefined;
+  // La foto elegida se ve al momento, mientras se prepara y se sube.
+  const [local, setLocal] = useState<string | null>(null);
+  const [dragging, setDragging] = useState(false);
+  const src = local ?? saved;
+  useEffect(() => () => void (local && URL.revokeObjectURL(local)), [local]);
   const input = useRef<HTMLInputElement>(null);
   const id = useId();
   const [status, setStatus] = useState<{ busy: boolean; message: string | null }>({
@@ -43,6 +52,7 @@ export function PhotoField({
     const supabase = createBrowserSupabase();
     if (!supabase || !eventId) return;
     setStatus({ busy: true, message: "Preparando la foto…" });
+    setLocal(URL.createObjectURL(file));
     try {
       const { photo, bitmap } = await prepareImage(file);
       setStatus({ busy: true, message: "Subiendo…" });
@@ -63,14 +73,45 @@ export function PhotoField({
         set(depthPath, await put(depth, "-profundidad.png", "image/png"));
       }
       bitmap.close();
+      setLocal(null);
       setStatus({ busy: false, message: "Foto subida." });
     } catch (e) {
+      setLocal(null);
       setStatus({
         busy: false,
         message: e instanceof Error ? e.message : "No hemos podido subir la foto.",
       });
     }
   }
+  const box = clsx(
+    "relative grid shrink-0 place-items-center overflow-hidden rounded-lg border bg-cream transition-colors",
+    shape === "portrait" ? "h-40 w-24" : shape === "landscape" ? "h-24 w-36" : "size-24",
+    dragging ? "border-2 border-dashed border-ink bg-paper" : "border-line",
+  );
+  const thumb = (
+    <>
+      {src ? (
+        <Image
+          src={src}
+          alt=""
+          fill
+          sizes="144px"
+          unoptimized={src.startsWith("blob:")}
+          className="object-cover"
+        />
+      ) : (
+        <span className="grid justify-items-center gap-1 px-2 text-center text-[0.75rem] text-muted">
+          <ImagePlus aria-hidden className="size-6 text-stone" />
+          {eventId ? "Tocad o arrastrad" : null}
+        </span>
+      )}
+      {status.busy ? (
+        <span className="absolute inset-0 grid place-items-center bg-ink/45 text-paper">
+          <Loader2 aria-hidden className="size-6 animate-spin motion-reduce:animate-none" />
+        </span>
+      ) : null}
+    </>
+  );
 
   return (
     <div>
@@ -78,13 +119,31 @@ export function PhotoField({
         {label}
       </p>
       <div className="flex items-center gap-4">
-        <div className="relative grid size-20 shrink-0 place-items-center overflow-hidden rounded-md border border-line bg-cream">
-          {src ? (
-            <Image src={src} alt="" fill sizes="80px" className="object-cover" />
-          ) : (
-            <ImagePlus aria-hidden className="size-6 text-stone" />
-          )}
-        </div>
+        {eventId ? (
+          // La miniatura también sube la foto: se toca o se suelta una foto encima.
+          <div
+            role="button"
+            tabIndex={-1}
+            aria-hidden
+            onClick={() => !status.busy && input.current?.click()}
+            onDragOver={(e) => {
+              e.preventDefault();
+              setDragging(true);
+            }}
+            onDragLeave={() => setDragging(false)}
+            onDrop={(e) => {
+              e.preventDefault();
+              setDragging(false);
+              const file = e.dataTransfer.files?.[0];
+              if (file && !status.busy) void upload(file);
+            }}
+            className={clsx(box, "cursor-pointer")}
+          >
+            {thumb}
+          </div>
+        ) : (
+          <div className={box}>{thumb}</div>
+        )}
         <div className="min-w-0">
           {eventId ? (
             <div className="flex flex-wrap gap-2">

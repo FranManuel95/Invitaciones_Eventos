@@ -9,6 +9,7 @@ import {
   CalendarHeart,
   Images,
   MapPin,
+  Check,
   Maximize2,
   Palette,
   PenLine,
@@ -29,6 +30,8 @@ import { saveDraft } from "@/app/editor/actions";
 import { publishEvent } from "@/app/panel/actions";
 import { Button } from "@/components/ui/button";
 import type { EventMeta } from "@/lib/data/repository";
+import type { EventContent } from "@/lib/domain/event-schema";
+import { editorProgress, progressCount } from "@/lib/editor/progress";
 import { setIn, validateDraft, type Draft, type Path } from "@/lib/editor/draft";
 import type { Theme } from "@/lib/theme";
 import type { Stage } from "@/features/invitation/experience";
@@ -165,9 +168,12 @@ export function Editor({
   initial,
   meta,
   initialTab,
+  baseline,
 }: {
   eventKey: string;
   initial: Draft;
+  /** El contenido con el que nace el evento: lo que sigue igual aún está «por hacer». */
+  baseline: EventContent;
   /** Pestaña de la dirección (?pestana=): al recargar se vuelve a la misma. */
   initialTab?: string;
   meta?: EventMeta & { unpublishedChanges: boolean };
@@ -205,6 +211,11 @@ export function Editor({
   }, []);
 
   const check = useMemo(() => validateDraft(draft), [draft]);
+  const progress = useMemo(
+    () => editorProgress(draft.content, draft.theme, baseline),
+    [draft, baseline],
+  );
+  const counted = progressCount(progress);
   const errors = useMemo(() => (check.ok ? new Map<string, string>() : check.errors), [check]);
   const set = useCallback(
     (path: Path, value: unknown) => dispatch({ type: "set", path, value }),
@@ -400,6 +411,11 @@ export function Editor({
                   />
                   <span className="min-w-0">{status.text}</span>
                 </p>
+                <p className="mt-1 hidden text-[0.8125rem] text-muted lg:block">
+                  {counted.done === counted.total
+                    ? "Lo imprescindible, hecho."
+                    : `Lo imprescindible: ${counted.done} de ${counted.total} hecho.`}
+                </p>
               </div>
             </div>
           </header>
@@ -459,12 +475,24 @@ export function Editor({
                         className="hidden text-[0.75rem] leading-snug text-muted lg:mt-0.5 lg:block"
                       >
                         {t.hint}
+                        {progress[t.id].done ? <span className="sr-only">. Hecho.</span> : null}
                       </span>
                     </span>
                     {count ? (
                       <span className="rounded-full bg-[#9a2b2b] px-1.5 text-[0.6875rem] leading-4 font-semibold text-white lg:mt-1">
                         {count}
                         <span className="sr-only"> por revisar</span>
+                      </span>
+                    ) : progress[t.id].done ? (
+                      <span
+                        className={clsx(
+                          "grid size-5 shrink-0 place-items-center rounded-full lg:mt-0.5",
+                          selected
+                            ? "bg-gold text-ink max-lg:bg-ivory/20 max-lg:text-ivory"
+                            : "bg-gold/20 text-gold",
+                        )}
+                      >
+                        <Check aria-hidden className="size-3" strokeWidth={3} />
                       </span>
                     ) : null}
                   </button>
@@ -547,6 +575,30 @@ export function Editor({
               </h2>
               <p className="mt-2.5 max-w-[56ch] text-[0.9375rem] leading-relaxed text-muted">
                 {current.intro}
+              </p>
+              <p
+                className={clsx(
+                  "mt-4 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[0.8125rem]",
+                  progress[current.id].done
+                    ? "bg-success/10 text-success"
+                    : progress[current.id].optional
+                      ? "bg-cream text-ink-soft"
+                      : "bg-gold/15 text-ink",
+                )}
+              >
+                {progress[current.id].done ? (
+                  <>
+                    <Check aria-hidden className="size-3.5" strokeWidth={3} />
+                    Hecho
+                  </>
+                ) : progress[current.id].optional ? (
+                  "Opcional: solo si os hace falta"
+                ) : (
+                  <>
+                    <span aria-hidden className="size-1.5 rounded-full bg-gold" />
+                    Por hacer: {progress[current.id].todo}
+                  </>
+                )}
               </p>
             </header>
             <current.Panel />

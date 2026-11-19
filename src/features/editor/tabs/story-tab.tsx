@@ -14,7 +14,12 @@ export function StoryTab() {
         shows={{ stage: "cover" }}
         description="Mejor vertical y sin personas en primer plano: se mueve en 3D al inclinar el móvil."
       >
-        <PhotoField label="Foto de portada" path={["coverPhoto"]} depthPath={["coverDepthMap"]} />
+        <PhotoField
+          label="Foto de portada"
+          path={["coverPhoto"]}
+          depthPath={["coverDepthMap"]}
+          shape="portrait"
+        />
       </Group>
       <Group title="Otras fotos">
         <PhotoField label="Foto de la pareja" path={["story", "couplePhoto"]} />
@@ -22,6 +27,7 @@ export function StoryTab() {
           label="Foto del banquete"
           hint="Se ve al terminar de confirmar."
           path={["banquetPhoto"]}
+          shape="landscape"
         />
       </Group>
       <Group title="Nuestra historia" shows={{ stage: "content", section: "historia" }}>

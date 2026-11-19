@@ -1,7 +1,7 @@
 "use client";
 
 import { clsx } from "clsx";
-import { ArrowDown, ArrowUp, Check, Play, Square } from "lucide-react";
+import { ArrowDown, ArrowUp, Check, ChevronDown, Play, Square } from "lucide-react";
 import Image from "next/image";
 import {
   useEffect,
@@ -261,6 +261,33 @@ export function StyleTab() {
         <current.Panel />
       </div>
     </div>
+  );
+}
+
+/** Ajustes finos, plegados: lo esencial queda a la vista y esto, a un toque. */
+function MoreSettings({
+  title,
+  hint,
+  children,
+}: {
+  title: string;
+  hint: string;
+  children: ReactNode;
+}) {
+  return (
+    <details className="group/more border-t border-line pt-6">
+      <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink [&::-webkit-details-marker]:hidden">
+        <span>
+          <span className="block text-[1rem] font-medium text-ink">{title}</span>
+          <span className="block text-[0.8125rem] text-muted">{hint}</span>
+        </span>
+        <ChevronDown
+          aria-hidden
+          className="size-5 shrink-0 text-ink-soft transition-transform group-open/more:rotate-180 motion-reduce:transition-none"
+        />
+      </summary>
+      <div className="mt-8 grid gap-8">{children}</div>
+    </details>
   );
 }
 
@@ -775,55 +802,6 @@ function EnvelopePart() {
           })}
         </div>
       </Group>
-      <Group title="Solapa">
-        <div role="radiogroup" aria-label="Solapa" className="grid gap-3 sm:grid-cols-2">
-          {FLAP_IDS.map((id) => (
-            <Choice
-              key={id}
-              name="flap"
-              value={id}
-              label={FLAPS[id].label}
-              description={FLAPS[id].description}
-              swatch={<FlapSample flap={id} theme={theme} />}
-            />
-          ))}
-        </div>
-      </Group>
-      <Group
-        title="Gramaje"
-        description="Cuanto más grueso, más canto, más sombra y más peso al abrir."
-      >
-        <div role="radiogroup" aria-label="Gramaje" className="grid gap-3 sm:grid-cols-3">
-          {WEIGHT_IDS.map((id) => (
-            <Choice
-              key={id}
-              name="weight"
-              value={id}
-              label={WEIGHTS[id].label}
-              description={WEIGHTS[id].description}
-              swatch={null}
-            />
-          ))}
-        </div>
-      </Group>
-      <Group title="Textura">
-        <div role="radiogroup" aria-label="Textura" className="grid gap-3 sm:grid-cols-2">
-          {TEXTURE_IDS.map((id) => (
-            <Choice
-              key={id}
-              name="texture"
-              value={id}
-              label={TEXTURES[id].label}
-              description={TEXTURES[id].description}
-              swatch={
-                <Tile
-                  background={`${TEXTURES[id].image}, linear-gradient(${env.paper[0]}, ${env.paper[1]})`}
-                />
-              }
-            />
-          ))}
-        </div>
-      </Group>
       <Group title="Forro" description="El dibujo que se ve al levantar la solapa.">
         <div role="radiogroup" aria-label="Forro" className="grid gap-3 sm:grid-cols-2">
           {LINER_IDS.map((id) => (
@@ -865,28 +843,86 @@ function EnvelopePart() {
           ))}
         </div>
       </Group>
-      <Group title="Grabado del lacre">
-        <div role="radiogroup" aria-label="Grabado del lacre" className="grid gap-3 sm:grid-cols-2">
-          {SEAL_MARK_IDS.map((id) => (
-            <Choice
-              key={id}
-              name="sealMark"
-              value={id}
-              label={SEAL_MARKS[id].label}
-              swatch={
-                <span style={seal} className="block size-10 shrink-0">
-                  <WaxSealArt
-                    monogram={draft.content.couple.monogram}
-                    shape={theme.sealShape}
-                    mark={id}
-                    className="size-full"
+      <MoreSettings
+        title="Más ajustes del sobre"
+        hint="Solapa, gramaje, textura y grabado del lacre"
+      >
+        <Group title="Solapa">
+          <div role="radiogroup" aria-label="Solapa" className="grid gap-3 sm:grid-cols-2">
+            {FLAP_IDS.map((id) => (
+              <Choice
+                key={id}
+                name="flap"
+                value={id}
+                label={FLAPS[id].label}
+                description={FLAPS[id].description}
+                swatch={<FlapSample flap={id} theme={theme} />}
+              />
+            ))}
+          </div>
+        </Group>
+        <Group
+          title="Gramaje"
+          description="Cuanto más grueso, más canto, más sombra y más peso al abrir."
+        >
+          <div role="radiogroup" aria-label="Gramaje" className="grid gap-3 sm:grid-cols-3">
+            {WEIGHT_IDS.map((id) => (
+              <Choice
+                key={id}
+                name="weight"
+                value={id}
+                label={WEIGHTS[id].label}
+                description={WEIGHTS[id].description}
+                swatch={null}
+              />
+            ))}
+          </div>
+        </Group>
+        <Group title="Textura">
+          <div role="radiogroup" aria-label="Textura" className="grid gap-3 sm:grid-cols-2">
+            {TEXTURE_IDS.map((id) => (
+              <Choice
+                key={id}
+                name="texture"
+                value={id}
+                label={TEXTURES[id].label}
+                description={TEXTURES[id].description}
+                swatch={
+                  <Tile
+                    background={`${TEXTURES[id].image}, linear-gradient(${env.paper[0]}, ${env.paper[1]})`}
                   />
-                </span>
-              }
-            />
-          ))}
-        </div>
-      </Group>
+                }
+              />
+            ))}
+          </div>
+        </Group>
+        <Group title="Grabado del lacre">
+          <div
+            role="radiogroup"
+            aria-label="Grabado del lacre"
+            className="grid gap-3 sm:grid-cols-2"
+          >
+            {SEAL_MARK_IDS.map((id) => (
+              <Choice
+                key={id}
+                name="sealMark"
+                value={id}
+                label={SEAL_MARKS[id].label}
+                swatch={
+                  <span style={seal} className="block size-10 shrink-0">
+                    <WaxSealArt
+                      monogram={draft.content.couple.monogram}
+                      shape={theme.sealShape}
+                      mark={id}
+                      className="size-full"
+                    />
+                  </span>
+                }
+              />
+            ))}
+          </div>
+        </Group>
+      </MoreSettings>
     </>
   );
 }
@@ -952,20 +988,6 @@ function LetterPart() {
           ))}
         </div>
       </Group>
-      <Group title="Borde del papel">
-        <div role="radiogroup" aria-label="Borde del papel" className="grid gap-3 sm:grid-cols-3">
-          {EDGE_IDS.map((id) => (
-            <Choice
-              key={id}
-              name="edge"
-              value={id}
-              label={EDGES[id].label}
-              description={EDGES[id].description}
-              swatch={null}
-            />
-          ))}
-        </div>
-      </Group>
       <Group title="Ornamento" description="Lo que enmarca la carta en la pantalla.">
         <div role="radiogroup" aria-label="Ornamento" className="grid gap-3 sm:grid-cols-2">
           {ORNAMENT_IDS.map((id) => (
@@ -980,6 +1002,22 @@ function LetterPart() {
           ))}
         </div>
       </Group>
+      <MoreSettings title="Más ajustes de la carta" hint="El borde del papel">
+        <Group title="Borde del papel">
+          <div role="radiogroup" aria-label="Borde del papel" className="grid gap-3 sm:grid-cols-3">
+            {EDGE_IDS.map((id) => (
+              <Choice
+                key={id}
+                name="edge"
+                value={id}
+                label={EDGES[id].label}
+                description={EDGES[id].description}
+                swatch={null}
+              />
+            ))}
+          </div>
+        </Group>
+      </MoreSettings>
     </>
   );
 }

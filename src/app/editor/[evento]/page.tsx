@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { Editor } from "@/features/editor/editor";
 import { getEventDraft } from "@/lib/data/repository";
+import { buildNewEventContent } from "@/lib/events/new-event";
 import "../../marca.css";
 import "./editor.css";
 
@@ -22,6 +23,12 @@ export default async function EditorPage(props: PageProps<"/editor/[evento]">) {
       initial={{ content: draft.content, theme: draft.theme }}
       meta={draft.meta}
       initialTab={typeof pestana === "string" ? pestana : undefined}
+      baseline={buildNewEventContent({
+        first: draft.content.couple.first,
+        second: draft.content.couple.second,
+        date: draft.content.date.slice(0, 10),
+        kind: draft.content.kind,
+      })}
     />
   );
 }

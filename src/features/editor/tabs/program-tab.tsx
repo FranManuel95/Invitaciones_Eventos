@@ -111,7 +111,11 @@ export function ProgramTab() {
                 className="sm:col-span-2"
               />
               <div className="sm:col-span-2">
-                <PhotoField label="Foto del lugar" path={["venues", i, "photo"]} />
+                <PhotoField
+                  label="Foto del lugar"
+                  path={["venues", i, "photo"]}
+                  shape="landscape"
+                />
               </div>
               <TextField
                 label="Descripción de la foto"

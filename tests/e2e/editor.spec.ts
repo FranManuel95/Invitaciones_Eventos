@@ -52,6 +52,9 @@ test.describe("editor de la invitación", () => {
     await page.getByRole("tab", { name: "Sobre", exact: true }).click();
     // El apartado lleva la vista previa al sobre.
     await expect(preview.locator("[data-flap-shape='pico']")).toBeAttached();
+    // Lo esencial (papel, forro, lacre) a la vista; la solapa y lo demás, en «Más ajustes».
+    await expect(page.getByRole("radio", { name: /Festoneada/ })).toBeHidden();
+    await page.getByText("Más ajustes del sobre").click();
     await page.getByRole("radio", { name: /Festoneada/ }).check({ force: true });
     await expect(preview.locator("[data-flap-shape='festoneada']")).toBeAttached();
     await page.getByRole("radio", { name: /400 g/ }).check({ force: true });

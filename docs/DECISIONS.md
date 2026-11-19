@@ -1289,6 +1289,18 @@ estaba cambiando.
   en sus dos familias (Papel y acuarela, Objetos) con su número, dos columnas en el móvil y tres en
   el ordenador. Al elegir, la vista previa vuelve a la portada.
 - La pestaña queda en la dirección (`?pestana=`): al recargar no se vuelve a Estilo.
+- **Qué está hecho** (`src/lib/editor/progress.ts`, con pruebas): cada pestaña se compara con el
+  contenido con el que nace el evento (`buildNewEventContent`, calculado en el servidor para no
+  cargar la plantilla en el navegador). Las pestañas hechas llevan una marca dorada, la cabecera
+  dice «Lo imprescindible: 3 de 5 hecho» y cada pestaña abre con «Por hacer: …», «Hecho» u
+  «Opcional» (autobuses y preguntas no hacen falta en todas las bodas). En la demo casi todo sale
+  por hacer: es la plantilla sin tocar.
+- **Menos opciones a la vista en Estilo**: en el sobre quedan papel, forro y forma del lacre; la
+  solapa, el gramaje, la textura y el grabado van plegados en «Más ajustes del sobre». En la carta,
+  el borde del papel en «Más ajustes de la carta».
+- **Fotos**: la miniatura tiene la forma del hueco (la portada, vertical; el banquete y los
+  lugares, apaisados), se toca o se suelta una foto encima para subirla y la foto elegida se ve al
+  momento, con un indicador mientras se prepara y se sube.
 
 ## Pendiente para próximas fases
 
