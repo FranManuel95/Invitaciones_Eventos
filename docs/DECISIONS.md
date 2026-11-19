@@ -1295,6 +1295,13 @@ estaba cambiando.
   dice «Lo imprescindible: 3 de 5 hecho» y cada pestaña abre con «Por hacer: …», «Hecho» u
   «Opcional» (autobuses y preguntas no hacen falta en todas las bodas). En la demo casi todo sale
   por hacer: es la plantilla sin tocar.
+- **Portadas y aperturas también en galería** (`VisualGallery` en `style-tab.tsx`, común a
+  plantillas, portadas y aperturas): las 32 portadas con su imagen real
+  (`/venta/portada-<id>.webp`) en tres familias (Con movimiento, Pintadas, Objetos; «Vuestro vídeo»
+  sin imagen, con un icono) y las siete aperturas con su fotograma y la marca Premium. Al elegir,
+  la vista previa salta a la portada o al sobre.
+- **Almendro ya no se ofrece**: solo las 25 plantillas del muestrario. Un evento que siga con la
+  de partida ve «Tocad una plantilla para empezar».
 - **Menos opciones a la vista en Estilo**: en el sobre quedan papel, forro y forma del lacre; la
   solapa, el gramaje, la textura y el grabado van plegados en «Más ajustes del sobre». En la carta,
   el borde del papel en «Más ajustes de la carta».

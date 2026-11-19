@@ -1,7 +1,7 @@
 "use client";
 
 import { clsx } from "clsx";
-import { ArrowDown, ArrowUp, Check, ChevronDown, Play, Square } from "lucide-react";
+import { ArrowDown, ArrowUp, Check, ChevronDown, Film, Play, Square } from "lucide-react";
 import Image from "next/image";
 import {
   useEffect,
@@ -48,7 +48,6 @@ import {
   MUSICS,
   linerBackground,
   LINERS,
-  OPENING_IDS,
   OPENINGS,
   ORNAMENT_IDS,
   ORNAMENTS,
@@ -74,6 +73,8 @@ import {
   type SectionId,
   type Theme,
 } from "@/lib/theme";
+import { isPaintedCover, type CoverId } from "@/lib/theme/cover";
+import { SHOWN_OPENING_IDS } from "@/lib/theme/envelope";
 
 // Pestaña «Estilo» del editor: plantillas y, por apartados, cada detalle del aspecto.
 import { Group, useEditor } from "../fields";
@@ -291,88 +292,108 @@ function MoreSettings({
   );
 }
 
-/** Plantillas en galería: la portada real de cada una, en sus dos familias. */
-function TemplatesPart() {
-  const { draft, setTheme, showStage } = useEditor();
-  const active = templateOf(draft.theme);
-  const isObject = (id: TemplateId) => isConceptCover(TEMPLATES[id].look.cover!);
-  // Se ofrecen las veinticinco; si el evento usa una anterior, se sigue viendo.
-  const ids =
-    active && !(FEATURED_TEMPLATE_IDS as readonly TemplateId[]).includes(active)
-      ? [active, ...FEATURED_TEMPLATE_IDS]
-      : [...FEATURED_TEMPLATE_IDS];
-  const [family, setFamily] = useState<"papel" | "objetos">(
-    active && isObject(active) ? "objetos" : "papel",
+type GalleryItem = {
+  id: string;
+  label: string;
+  description: string;
+  /** Imagen de muestra (portada real); sin ella, un hueco con icono. */
+  src: string | null;
+  badge?: string;
+};
+
+type GalleryFamily = { id: string; label: string; items: GalleryItem[] };
+
+/**
+ * Elección visual (plantillas, portadas, aperturas): la imagen real de cada opción, en familias
+ * que se eligen arriba. Es un grupo de botones de opción: cada tarjeta es su etiqueta.
+ */
+function VisualGallery({
+  name,
+  label,
+  families,
+  value,
+  onPick,
+}: {
+  name: string;
+  label: string;
+  families: GalleryFamily[];
+  value: string | null;
+  onPick: (id: string) => void;
+}) {
+  const [family, setFamily] = useState(
+    () => families.find((f) => f.items.some((i) => i.id === value))?.id ?? families[0]!.id,
   );
-  const families = [
-    { id: "papel" as const, label: "Papel y acuarela", ids: ids.filter((id) => !isObject(id)) },
-    { id: "objetos" as const, label: "Objetos", ids: ids.filter((id) => isObject(id)) },
-  ];
-  const shown = families.find((f) => f.id === family)!.ids;
+  const shown = families.find((f) => f.id === family) ?? families[0]!;
   return (
-    <Group
-      title="Plantillas"
-      description="Cada una cambia la invitación entera: papel, portada, sobre y apertura. Después podéis retocar lo que queráis."
-    >
-      <div role="group" aria-label="Familias de plantillas" className="flex flex-wrap gap-2">
-        {families.map((f) => (
-          <button
-            key={f.id}
-            type="button"
-            aria-pressed={family === f.id}
-            onClick={() => setFamily(f.id)}
-            className={clsx(
-              "inline-flex min-h-11 items-center gap-2 rounded-full border px-4 text-[0.875rem] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
-              family === f.id
-                ? "border-ink bg-ink text-paper"
-                : "border-line bg-paper text-ink-soft hover:text-ink",
-            )}
-          >
-            {f.label}
-            <span className={family === f.id ? "text-paper/70" : "text-muted"}>{f.ids.length}</span>
-          </button>
-        ))}
-      </div>
+    <>
+      {families.length > 1 ? (
+        <div role="group" aria-label={`Familias: ${label}`} className="flex flex-wrap gap-2">
+          {families.map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              aria-pressed={family === f.id}
+              onClick={() => setFamily(f.id)}
+              className={clsx(
+                "inline-flex min-h-11 items-center gap-2 rounded-full border px-4 text-[0.875rem] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
+                family === f.id
+                  ? "border-ink bg-ink text-paper"
+                  : "border-line bg-paper text-ink-soft hover:text-ink",
+              )}
+            >
+              {f.label}
+              <span className={family === f.id ? "text-paper/70" : "text-muted"}>
+                {f.items.length}
+              </span>
+            </button>
+          ))}
+        </div>
+      ) : null}
       <div
         role="radiogroup"
-        aria-label="Plantillas"
-        className="mt-5 grid grid-cols-2 gap-x-3 gap-y-5 sm:grid-cols-3"
+        aria-label={label}
+        className={clsx(
+          "grid grid-cols-2 gap-x-3 gap-y-5 sm:grid-cols-3",
+          families.length > 1 && "mt-5",
+        )}
       >
-        {shown.map((id) => {
-          const checked = active === id;
+        {shown.items.map((item) => {
+          const checked = value === item.id;
           return (
-            <label key={id} className="group relative block cursor-pointer">
+            <label key={item.id} className="group relative block cursor-pointer">
               <input
                 type="radio"
-                name="tema-plantilla"
-                value={id}
+                name={name}
+                value={item.id}
                 checked={checked}
-                onChange={() => {
-                  setTheme(applyTemplate(draft.theme, id));
-                  showStage("cover");
-                }}
-                aria-describedby={`plantilla-${id}-desc`}
+                onChange={() => onPick(item.id)}
+                aria-describedby={`${name}-${item.id}-desc`}
                 className="peer sr-only"
               />
               <span
                 className={clsx(
-                  "relative block aspect-[3/4] overflow-hidden rounded-xl bg-cream transition-[box-shadow,transform] duration-200 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ink motion-safe:group-hover:-translate-y-0.5",
+                  "relative grid aspect-[3/4] place-items-center overflow-hidden rounded-xl bg-cream transition-[box-shadow,transform] duration-200 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ink motion-safe:group-hover:-translate-y-0.5",
                   checked
                     ? "shadow-[var(--shadow-lift)] ring-2 ring-ink"
                     : "shadow-[var(--shadow-paper)] ring-1 ring-line",
                 )}
               >
-                <Image
-                  src={
-                    (FEATURED_TEMPLATE_IDS as readonly TemplateId[]).includes(id)
-                      ? `/venta/plantilla-${id}-portada.webp`
-                      : `/venta/plantilla-${id}.webp`
-                  }
-                  alt=""
-                  fill
-                  sizes="(min-width: 1024px) 13rem, (min-width: 640px) 30vw, 45vw"
-                  className="object-cover"
-                />
+                {item.src ? (
+                  <Image
+                    src={item.src}
+                    alt=""
+                    fill
+                    sizes="(min-width: 1024px) 13rem, (min-width: 640px) 30vw, 45vw"
+                    className="object-cover"
+                  />
+                ) : (
+                  <Film aria-hidden className="size-8 text-stone" />
+                )}
+                {item.badge ? (
+                  <span className="absolute top-2 left-2 rounded-full bg-paper/90 px-2 py-0.5 text-[0.6875rem] font-medium text-ink">
+                    {item.badge}
+                  </span>
+                ) : null}
                 {checked ? (
                   <span className="absolute top-2 right-2 grid size-7 place-items-center rounded-full bg-ink text-paper shadow">
                     <Check aria-hidden className="size-4" strokeWidth={2.5} />
@@ -380,21 +401,61 @@ function TemplatesPart() {
                 ) : null}
               </span>
               <span className="mt-2.5 block text-[0.9375rem] leading-tight font-medium text-ink">
-                {TEMPLATES[id].label}
+                {item.label}
               </span>
               <span
-                id={`plantilla-${id}-desc`}
+                id={`${name}-${item.id}-desc`}
                 className="mt-0.5 line-clamp-2 block text-[0.8125rem] leading-snug text-muted"
               >
-                {TEMPLATES[id].description}
+                {item.description}
               </span>
             </label>
           );
         })}
       </div>
-      {active ? null : (
+    </>
+  );
+}
+
+/** Plantillas en galería: la portada real de cada una, en sus dos familias. */
+function TemplatesPart() {
+  const { draft, setTheme, showStage } = useEditor();
+  const active = templateOf(draft.theme);
+  const item = (id: TemplateId): GalleryItem => ({
+    id,
+    label: TEMPLATES[id].label,
+    description: TEMPLATES[id].description,
+    src: `/venta/plantilla-${id}-portada.webp`,
+  });
+  const isObject = (id: TemplateId) => isConceptCover(TEMPLATES[id].look.cover!);
+  const featured = [...FEATURED_TEMPLATE_IDS];
+  return (
+    <Group
+      title="Plantillas"
+      description="Cada una cambia la invitación entera: papel, portada, sobre y apertura. Después podéis retocar lo que queráis."
+    >
+      <VisualGallery
+        name="tema-plantilla"
+        label="Plantillas"
+        value={active}
+        onPick={(id) => {
+          setTheme(applyTemplate(draft.theme, id as TemplateId));
+          showStage("cover");
+        }}
+        families={[
+          {
+            id: "papel",
+            label: "Papel y acuarela",
+            items: featured.filter((id) => !isObject(id)).map(item),
+          },
+          { id: "objetos", label: "Objetos", items: featured.filter(isObject).map(item) },
+        ]}
+      />
+      {active && (FEATURED_TEMPLATE_IDS as readonly TemplateId[]).includes(active) ? null : (
         <p className="mt-4 text-[0.8125rem] text-muted">
-          Estilo personalizado: habéis cambiado detalles de la plantilla.
+          {active
+            ? "Tocad una plantilla para empezar."
+            : "Estilo personalizado: habéis cambiado detalles de la plantilla."}
         </p>
       )}
     </Group>
@@ -532,96 +593,6 @@ function FontsPart() {
   );
 }
 
-/** Esquema de cada apertura: sobre en la mesa, a pantalla completa, díptico, caja o película. */
-function OpeningSample({ opening }: { opening: Theme["opening"] }) {
-  return (
-    <span
-      aria-hidden
-      className="relative block h-14 w-11 shrink-0 overflow-hidden rounded-md bg-ivory ring-1 ring-ink/10"
-    >
-      {opening === "mesa" ? (
-        <span className="absolute inset-x-1.5 top-4 block h-6 rounded-[2px] bg-sand">
-          <span className="absolute inset-x-0 top-0 block h-3.5 bg-taupe/70 [clip-path:polygon(0_0,100%_0,50%_100%)]" />
-        </span>
-      ) : opening === "pantalla" ? (
-        <span className="absolute inset-0 block bg-sand">
-          <span className="absolute inset-x-0 top-0 block h-8 bg-taupe/70 [clip-path:polygon(0_0,100%_0,100%_55%,50%_100%,0_55%)]" />
-          <span className="absolute top-8 left-1/2 block size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-wax" />
-        </span>
-      ) : opening === "diptico" ? (
-        <span className="absolute inset-x-2 inset-y-2 flex gap-px">
-          <span className="block flex-1 rounded-l-[2px] bg-sand" />
-          <span className="block flex-1 rounded-r-[2px] bg-sand" />
-          <span className="absolute top-1/2 left-1/2 block size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-wax" />
-        </span>
-      ) : opening === "sobre3d" ? (
-        <span className="absolute inset-0 block bg-[radial-gradient(90%_70%_at_50%_45%,#f4ede2,#cdbfa8)]">
-          <span className="absolute inset-x-1.5 top-4 block h-6 rounded-[2px] bg-sand shadow-[0_4px_6px_rgb(60_45_25/0.35)]">
-            <span className="absolute inset-x-0 top-0 block h-3.5 bg-[linear-gradient(180deg,#e7dcc9,#bfae8f)] [clip-path:polygon(0_0,100%_0,50%_100%)]" />
-            <span className="absolute top-3.5 left-1/2 block size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_35%_30%,#c55,var(--color-wax-dark))] shadow-[0_1px_2px_rgb(0_0_0/0.4)]" />
-          </span>
-        </span>
-      ) : opening === "ventana" ? (
-        <span
-          className="absolute inset-0 block bg-cover bg-center"
-          style={{ backgroundImage: "url(/aperturas/sobre-ventana/f00.webp)" }}
-        />
-      ) : opening === "pelicula" ? (
-        <span
-          className="absolute inset-0 block bg-cover bg-center"
-          style={{ backgroundImage: "url(/aperturas/sobre-dorado/vertical.webp)" }}
-        />
-      ) : (
-        <span className="absolute inset-x-1.5 inset-y-2.5 block rounded-[3px] bg-sand">
-          <span className="absolute inset-y-0 left-1/2 block w-1 -translate-x-1/2 bg-wax" />
-          <span className="absolute inset-x-0 top-1/2 block h-1 -translate-y-1/2 bg-wax" />
-        </span>
-      )}
-    </span>
-  );
-}
-
-/** Miniatura de cada portada: degradado y un detalle de la escena. */
-const COVER_SAMPLES: Record<Theme["cover"], string> = {
-  foto: "linear-gradient(180deg, #e2a46a, #6b4a3a 60%, #2c2a24)",
-  luces:
-    "radial-gradient(circle at 20% 22%, #ffe3a3 0 2px, transparent 3px), radial-gradient(circle at 50% 28%, #ffe3a3 0 2px, transparent 3px), radial-gradient(circle at 80% 20%, #ffe3a3 0 2px, transparent 3px), radial-gradient(circle at 60% 72%, #6fa0ff 0 4px, transparent 5px), radial-gradient(120% 90% at 50% 30%, #1b2a6b, #070a17)",
-  acuarela:
-    "radial-gradient(circle at 15% 15%, #e9b7c3 0 9px, transparent 12px), radial-gradient(circle at 85% 85%, #f1cdd5 0 11px, transparent 14px), radial-gradient(110% 80% at 50% 40%, #5a3a48, #1c1219)",
-  estrellas:
-    "radial-gradient(circle at 25% 30%, #fff 0 1px, transparent 1.5px), radial-gradient(circle at 70% 18%, #fff 0 1.2px, transparent 2px), radial-gradient(circle at 55% 45%, #fff 0 0.8px, transparent 1.5px), linear-gradient(180deg, #04060f, #1b1830)",
-  herbario:
-    "linear-gradient(135deg, transparent 0 18%, #d8bd80 18% 19.5%, transparent 19.5%), linear-gradient(315deg, transparent 0 18%, #d8bd80 18% 19.5%, transparent 19.5%), radial-gradient(110% 80% at 50% 42%, #25392e, #0b130f)",
-  cine: "linear-gradient(180deg, #000 0 14%, #6b4f37 14% 86%, #000 86%)",
-  video: "linear-gradient(135deg, #2b2b2b, #555)",
-  ramas: "url(/portadas/ramas.webp) center / cover",
-  buganvilla: "url(/portadas/buganvilla.webp) center / cover",
-  medianoche: "url(/portadas/medianoche.webp) center / cover",
-  arcilla: "url(/portadas/arcilla.webp) center / cover",
-  orilla: "url(/portadas/orilla.webp) center / cover",
-  terciopelo: "url(/portadas/terciopelo.webp) center / cover",
-  lavanda: "url(/portadas/lavanda.webp) center / cover",
-  cortijo: "url(/portadas/cortijo.webp) center / cover",
-  lino: "url(/portadas/lino.webp) center / cover",
-  granada: "url(/portadas/granada.webp) center / cover",
-  eucalipto: "url(/portadas/eucalipto.webp) center / cover",
-  gaceta: "url(/venta/portada-gaceta.webp) center / cover",
-  embarque: "url(/venta/portada-embarque.webp) center / cover",
-  premio: "url(/venta/portada-premio.webp) center / cover",
-  telegrama: "url(/venta/portada-telegrama.webp) center / cover",
-  postal: "url(/venta/portada-postal.webp) center / cover",
-  vinilo: "url(/venta/portada-vinilo.webp) center / cover",
-  pasaporte: "url(/venta/portada-pasaporte.webp) center / cover",
-  carta: "url(/venta/portada-carta.webp) center / cover",
-  mapa: "url(/venta/portada-mapa.webp) center / cover",
-  constelacion: "url(/venta/portada-constelacion.webp) center / cover",
-  comic: "url(/venta/portada-comic.webp) center / cover",
-  cosecha: "url(/venta/portada-cosecha.webp) center / cover",
-  tarot: "url(/venta/portada-tarot.webp) center / cover",
-  arcade: "url(/venta/portada-arcade.webp) center / cover",
-  semillas: "url(/venta/portada-semillas.webp) center / cover",
-};
-
 /** Miniatura de cada efecto de portada. */
 const EFFECT_SAMPLES: Record<Theme["coverEffect"], string> = {
   ninguno: "linear-gradient(135deg, #e9e4d8, #cfc8b8)",
@@ -630,26 +601,49 @@ const EFFECT_SAMPLES: Record<Theme["coverEffect"], string> = {
   oro: "radial-gradient(circle at 25% 35%, #f6d98a 0 1px, transparent 2px), radial-gradient(circle at 60% 25%, #f6d98a 0 1.4px, transparent 2.4px), radial-gradient(circle at 70% 70%, #f6d98a 0 1px, transparent 2px), radial-gradient(circle at 35% 75%, #f6d98a 0 1.2px, transparent 2.2px), radial-gradient(120% 90% at 50% 50%, #4a2c12, #120b06)",
 };
 
+const coverItem = (id: CoverId): GalleryItem => ({
+  id,
+  label: COVERS[id].label,
+  description: COVERS[id].description,
+  src: id === "video" ? null : `/venta/portada-${id}.webp`,
+});
+
 function CoverPart() {
-  const { draft } = useEditor();
+  const { draft, setTheme, showStage } = useEditor();
   return (
     <>
       <Group
         title="Portada"
         description="Lo primero que ve el invitado, con vuestros nombres y la fecha."
       >
-        <div role="radiogroup" aria-label="Portada" className="grid gap-3 sm:grid-cols-2">
-          {COVER_IDS.map((id) => (
-            <Choice
-              key={id}
-              name="cover"
-              value={id}
-              label={COVERS[id].label}
-              description={COVERS[id].description}
-              swatch={<Tile background={COVER_SAMPLES[id]} />}
-            />
-          ))}
-        </div>
+        <VisualGallery
+          name="tema-cover"
+          label="Portada"
+          value={draft.theme.cover}
+          onPick={(id) => {
+            setTheme({ ...draft.theme, cover: id as CoverId });
+            showStage("cover");
+          }}
+          families={[
+            {
+              id: "animadas",
+              label: "Con movimiento",
+              items: COVER_IDS.filter((id) => !isPaintedCover(id) && !isConceptCover(id)).map(
+                coverItem,
+              ),
+            },
+            {
+              id: "pintadas",
+              label: "Pintadas",
+              items: COVER_IDS.filter(isPaintedCover).map(coverItem),
+            },
+            {
+              id: "objetos",
+              label: "Objetos",
+              items: COVER_IDS.filter(isConceptCover).map(coverItem),
+            },
+          ]}
+        />
       </Group>
       <Group
         title="Efecto"
@@ -696,26 +690,35 @@ function CoverPart() {
 }
 
 function OpeningPart() {
-  const { draft } = useEditor();
+  const { draft, setTheme, showStage } = useEditor();
   return (
     <>
       <Group
         title="Apertura"
         description="Lo primero que hace el invitado al levantar la portada. Usa el papel, el forro y el lacre del apartado Sobre."
       >
-        <div role="radiogroup" aria-label="Apertura" className="grid gap-3 sm:grid-cols-2">
-          {OPENING_IDS.map((id) => (
-            <Choice
-              key={id}
-              name="opening"
-              value={id}
-              label={OPENINGS[id].label}
-              description={OPENINGS[id].description}
-              badge={OPENINGS[id].premium ? "Premium" : undefined}
-              swatch={<OpeningSample opening={id} />}
-            />
-          ))}
-        </div>
+        <VisualGallery
+          name="tema-opening"
+          label="Apertura"
+          value={draft.theme.opening}
+          onPick={(id) => {
+            setTheme({ ...draft.theme, opening: id as Theme["opening"] });
+            showStage("envelope");
+          }}
+          families={[
+            {
+              id: "aperturas",
+              label: "Aperturas",
+              items: SHOWN_OPENING_IDS.map((id) => ({
+                id,
+                label: OPENINGS[id].label,
+                description: OPENINGS[id].description,
+                src: `/venta/apertura-${id}.webp`,
+                badge: OPENINGS[id].premium ? "Premium" : undefined,
+              })),
+            },
+          ]}
+        />
       </Group>
       {draft.theme.opening === "pelicula" ? (
         <Group

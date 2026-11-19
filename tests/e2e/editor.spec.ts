@@ -22,7 +22,9 @@ test.describe("editor de la invitación", () => {
     await page.goto("/editor/demo");
     const preview = page.frameLocator('iframe[title="Vista previa de la invitación"]');
     await expect(preview.locator("[data-style='mediterraneo']")).toBeAttached();
-    await expect(page.getByRole("radio", { name: /Almendro/ })).toBeChecked();
+    // La plantilla de partida (Almendro) ya no se ofrece: se invita a elegir una.
+    await expect(page.getByRole("radio", { name: /Almendro/ })).toHaveCount(0);
+    await expect(page.getByText("Tocad una plantilla para empezar.")).toBeVisible();
 
     await page.getByRole("radio", { name: /Terciopelo/ }).check({ force: true });
     await expect(preview.locator("[data-style='esmeralda']")).toBeAttached();
