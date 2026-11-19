@@ -75,7 +75,14 @@ export async function fetchClimate(
         )
       : null;
     return climate
-      ? { ok: true, climate }
+      ? {
+          ok: true,
+          climate: {
+            ...climate,
+            lat: Math.round(place.latitude * 1000) / 1000,
+            lon: Math.round(place.longitude * 1000) / 1000,
+          },
+        }
       : { ok: false, error: "No hay datos suficientes de ese lugar." };
   } catch {
     return { ok: false, error: "El servicio del tiempo no responde ahora. Prueba más tarde." };

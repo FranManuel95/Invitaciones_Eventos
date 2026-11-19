@@ -1309,6 +1309,21 @@ estaba cambiando.
   lugares, apaisados), se toca o se suelta una foto encima para subirla y la foto elegida se ve al
   momento, con un indicador mientras se prepara y se sube.
 
+## Ronda 35: el tiempo se calcula solo y pasa a previsión real (19/11/2026)
+
+- **Sin cifras a mano.** Al poner o cambiar la ciudad o la fecha, el editor calcula solo el tiempo
+  habitual (media de diez años, Open-Meteo). Ya no hay campos de mínima, máxima y lluvia. La pareja
+  solo decide si se muestra («No mostrarlo» / «Mostrar el tiempo»). En la demo, sin red, sigue el
+  botón.
+- **Previsión real desde 14 días antes.** El cálculo guarda las coordenadas del lugar. Cuando faltan
+  14 días o menos, la página de la invitación pide en el servidor la previsión de ese día y la
+  enseña («Previsión para el día»), con el icono según la lluvia. Se guarda en la caché de Next
+  3 horas, así se actualiza sola sin que el invitado espere. Si el servicio no responde en 3 s, se
+  ve el tiempo habitual. No se guarda en la base de datos ni sale nada del invitado: solo se envían
+  las coordenadas.
+- Los eventos con tiempo calculado antes (sin coordenadas) lo recalculan solos al abrir el editor.
+- Demo: `?prevision=1` enseña una previsión de ejemplo.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

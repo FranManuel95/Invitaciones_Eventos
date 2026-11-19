@@ -142,8 +142,17 @@ export interface WeddingEvent {
   song?: string | null;
   /** Foto de ambiente del banquete, en la tarjeta de confirmación. */
   banquetPhoto: string | null;
-  /** Tiempo habitual en esas fechas (calculado desde el editor; opcional). */
-  climate?: { max: number; min: number; rainChance: number; place: string } | null;
+  /** Tiempo habitual en esas fechas (lo calcula el editor; null si la pareja lo quita). */
+  climate?: {
+    max: number;
+    min: number;
+    rainChance: number;
+    place: string;
+    lat?: number;
+    lon?: number;
+  } | null;
+  /** Previsión real del día: la pone la invitación cuando faltan dos semanas; no se guarda. */
+  forecast?: { max: number; min: number; rainChance: number } | null;
   /** Teléfono de contacto para el día de la boda (de demostración). */
   contactPhone: string;
 }

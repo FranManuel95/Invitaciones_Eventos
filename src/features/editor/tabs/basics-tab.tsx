@@ -71,7 +71,7 @@ export function BasicsTab() {
           <TextField label="Provincia" path={["region"]} maxLength={80} />
         </div>
       </Group>
-      <Group title="Tiempo habitual">
+      <Group title="El tiempo" shows={{ stage: "content", section: "info" }}>
         <ClimateField />
       </Group>
       <Group title="Respuestas" shows={{ stage: "content", section: "confirmar" }}>

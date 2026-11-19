@@ -1,6 +1,6 @@
-import { ArrowUpRight, CloudSun, MapPin, Navigation, Plus } from "lucide-react";
+import { ArrowUpRight, CloudRain, CloudSun, MapPin, Navigation, Plus, Sun } from "lucide-react";
 import { buttonClasses } from "@/components/ui/button";
-import { climateText } from "@/lib/weather";
+import { climateText, forecastText } from "@/lib/weather";
 import Image from "next/image";
 import type { ReactNode } from "react";
 import type { RsvpResponse, WeddingEvent } from "@/lib/domain/types";
@@ -284,6 +284,26 @@ export function TransportSection({
   );
 }
 
+/** El tiempo: la previsión del día si ya la hay; si no, el tiempo habitual en esas fechas. */
+function WeatherNote({ event, className }: { event: WeddingEvent; className: string }) {
+  const { forecast, climate } = event;
+  const rain = forecast?.rainChance ?? climate?.rainChance ?? 0;
+  const Icon = rain >= 60 ? CloudRain : rain <= 10 && forecast ? Sun : CloudSun;
+  return (
+    <p
+      className={`flex max-w-prose items-start gap-2.5 rounded-[3px] border border-line bg-paper p-3.5 text-[0.9375rem] leading-relaxed text-ink-soft ${className}`}
+    >
+      <Icon aria-hidden className="mt-0.5 size-5 shrink-0 text-gold" />
+      <span>
+        <span className="font-medium text-ink">
+          {forecast ? "Previsión para el día. " : "El tiempo en estas fechas. "}
+        </span>
+        {forecast ? forecastText(forecast) : climate ? climateText(climate) : null}
+      </span>
+    </p>
+  );
+}
+
 export function PracticalSection({ event }: { event: WeddingEvent }) {
   const dress = event.dressCode;
   // La vestimenta se puede dejar vacía (o esconder al grabar): entonces no se pinta.
@@ -303,16 +323,8 @@ export function PracticalSection({ event }: { event: WeddingEvent }) {
               {dress.detail}
             </p>
           ) : null}
-          {event.climate ? (
-            <p
-              className={`flex max-w-prose items-start gap-2.5 rounded-[3px] border border-line bg-paper p-3.5 text-[0.9375rem] leading-relaxed text-ink-soft ${hasDress ? "mt-5" : ""}`}
-            >
-              <CloudSun aria-hidden className="mt-0.5 size-5 shrink-0 text-gold" />
-              <span>
-                <span className="font-medium text-ink">El tiempo en estas fechas. </span>
-                {climateText(event.climate)}
-              </span>
-            </p>
+          {event.forecast || event.climate ? (
+            <WeatherNote event={event} className={hasDress ? "mt-5" : ""} />
           ) : null}
           {dress.palette.length ? (
             <>
