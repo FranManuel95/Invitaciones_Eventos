@@ -8,7 +8,7 @@ import { ListEditor } from "../list-editor";
 export function ExtrasTab() {
   return (
     <div className="grid gap-8">
-      <Group title="Preguntas frecuentes">
+      <Group title="Preguntas frecuentes" shows={{ stage: "content", section: "info" }}>
         <ListEditor<Faq>
           path={["faqs"]}
           max={20}
@@ -36,7 +36,7 @@ export function ExtrasTab() {
           )}
         </ListEditor>
       </Group>
-      <Group title="Alojamiento">
+      <Group title="Alojamiento" shows={{ stage: "content", section: "info" }}>
         <ListEditor<Accommodation>
           path={["accommodation"]}
           max={8}

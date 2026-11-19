@@ -1271,6 +1271,25 @@ estaba hibernado.
   `features/editor/image.ts`). Antes: 2000 px en WebP al 85 %. Sirven para imprimir en A4 o más
   y el zip las da en JPEG. La migración cambia las rutas a `.jpg`. El editor sigue en WebP.
 
+## Ronda 34: el editor enseña la invitación mientras se edita (19/11/2026)
+
+El editor era un formulario largo: en el móvil se editaba a ciegas (la vista previa, tras un
+botón), las 25 plantillas eran una lista de fichas pequeñas y la vista previa no iba a lo que se
+estaba cambiando.
+
+- **La vista previa sigue a lo que se edita.** Cada pestaña lleva a su sitio (Textos a la carta,
+  Programa y lugares a «El día», Autobuses a «Cómo llegar»…) y cada grupo de campos afina el
+  destino al tocarlo (`Group shows={…}`: vestimenta e información a «Antes de venir», menús a
+  «Confirmar», libro de firmas, música…). El mensaje `stage` lleva una `section` opcional y la
+  vista previa baja hasta ella en cuanto existe.
+- **En el móvil, la invitación en miniatura** en una esquina mientras se edita, siempre al día; se
+  aparta al escribir (para no tapar el campo ni el teclado) y al tocarla se ve en grande. Es el
+  mismo iframe, a escala (`PreviewFrame mini`).
+- **Plantillas en galería**: la portada real de cada una (`/venta/plantilla-<id>-portada.webp`),
+  en sus dos familias (Papel y acuarela, Objetos) con su número, dos columnas en el móvil y tres en
+  el ordenador. Al elegir, la vista previa vuelve a la portada.
+- La pestaña queda en la dirección (`?pestana=`): al recargar no se vuelve a Estilo.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

@@ -20,7 +20,12 @@ interface EditorContextValue {
   eventId: string | null;
   /** Lleva la vista previa a una pantalla (p. ej. al sobre mientras se elige el papel). */
   showStage: (stage: Stage) => void;
+  /** Lleva la vista previa a una pantalla y, dentro de la invitación, a una sección. */
+  showTarget: (target: PreviewTarget) => void;
 }
+
+/** Dónde se ve algo en la invitación: la pantalla y, si es la invitación, la sección. */
+export type PreviewTarget = { stage: Stage; section?: string };
 
 export const EditorContext = createContext<EditorContextValue | null>(null);
 
@@ -240,16 +245,23 @@ export function Group({
   description,
   children,
   className,
+  shows,
 }: {
   title: string;
   description?: string;
   children: ReactNode;
   className?: string;
+  /** Dónde se ve en la invitación: al tocar un campo, la vista previa salta ahí. */
+  shows?: PreviewTarget;
 }) {
   const id = useId();
+  const editor = use(EditorContext);
+  const follow = shows && editor ? () => editor.showTarget(shows) : undefined;
   return (
     <section
       aria-labelledby={id}
+      onFocusCapture={follow}
+      onPointerDownCapture={follow}
       className={clsx("border-t border-line pt-8 first:border-t-0 first:pt-0", className)}
     >
       <h3 id={id} className="marca-title text-[1.75rem] leading-tight text-ink">

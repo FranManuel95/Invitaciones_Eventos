@@ -22,7 +22,11 @@ export function ProgramTab() {
   ];
   return (
     <div className="grid gap-8">
-      <Group title="Programa" description="Los actos del día, en orden.">
+      <Group
+        title="Programa"
+        shows={{ stage: "content", section: "programa" }}
+        description="Los actos del día, en orden."
+      >
         <ListEditor<ProgramItem>
           path={["program"]}
           max={12}
@@ -62,7 +66,7 @@ export function ProgramTab() {
           )}
         </ListEditor>
       </Group>
-      <Group title="Lugares">
+      <Group title="Lugares" shows={{ stage: "content", section: "lugares" }}>
         <ListEditor<Venue>
           path={["venues"]}
           max={6}

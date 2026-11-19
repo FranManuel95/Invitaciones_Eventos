@@ -1,7 +1,8 @@
 "use client";
 
 import { clsx } from "clsx";
-import { ArrowDown, ArrowUp, Play, Square } from "lucide-react";
+import { ArrowDown, ArrowUp, Check, Play, Square } from "lucide-react";
+import Image from "next/image";
 import {
   useEffect,
   useId,
@@ -59,6 +60,7 @@ import {
   STYLE_IDS,
   STYLES,
   FEATURED_TEMPLATE_IDS,
+  isConceptCover,
   type TemplateId,
   TEMPLATES,
   templateOf,
@@ -262,76 +264,110 @@ export function StyleTab() {
   );
 }
 
-/** Muestra en miniatura de una plantilla: papel, tinta, sobre y lacre. */
-function TemplateSample({ look }: { look: Theme }) {
-  const p = STYLES[look.style].palette;
-  const env = ENVELOPES[look.envelope];
-  return (
-    <span
-      aria-hidden
-      className="relative block h-16 w-24 shrink-0 overflow-hidden rounded-md ring-1 ring-ink/10"
-      style={{ background: STYLES[look.style].scene[1] }}
-    >
-      <span
-        className="absolute inset-x-3 top-3 bottom-2 block rounded-[2px]"
-        style={{ background: `linear-gradient(180deg, ${env.paper[0]}, ${env.paper[1]})` }}
-      />
-      <span
-        className="absolute inset-x-3 top-3 block h-7"
-        style={{
-          background: `linear-gradient(180deg, ${env.paper[0]}, ${env.paper[1]})`,
-          clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-          filter: "brightness(0.96)",
-        }}
-      />
-      <span
-        className="absolute top-[2.35rem] left-1/2 block size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{ background: look.waxColor ?? WAXES[look.wax].hex }}
-      />
-      <span className="absolute right-1.5 bottom-1.5 flex gap-0.5">
-        <span className="block size-2 rounded-full" style={{ background: p.ink }} />
-        <span className="block size-2 rounded-full" style={{ background: p.gold }} />
-      </span>
-    </span>
-  );
-}
-
+/** Plantillas en galería: la portada real de cada una, en sus dos familias. */
 function TemplatesPart() {
-  const { draft, setTheme } = useEditor();
+  const { draft, setTheme, showStage } = useEditor();
   const active = templateOf(draft.theme);
+  const isObject = (id: TemplateId) => isConceptCover(TEMPLATES[id].look.cover!);
+  // Se ofrecen las veinticinco; si el evento usa una anterior, se sigue viendo.
+  const ids =
+    active && !(FEATURED_TEMPLATE_IDS as readonly TemplateId[]).includes(active)
+      ? [active, ...FEATURED_TEMPLATE_IDS]
+      : [...FEATURED_TEMPLATE_IDS];
+  const [family, setFamily] = useState<"papel" | "objetos">(
+    active && isObject(active) ? "objetos" : "papel",
+  );
+  const families = [
+    { id: "papel" as const, label: "Papel y acuarela", ids: ids.filter((id) => !isObject(id)) },
+    { id: "objetos" as const, label: "Objetos", ids: ids.filter((id) => isObject(id)) },
+  ];
+  const shown = families.find((f) => f.id === family)!.ids;
   return (
     <Group
       title="Plantillas"
-      description="Empieza por una y después cambia lo que quieras en los demás apartados."
+      description="Cada una cambia la invitación entera: papel, portada, sobre y apertura. Después podéis retocar lo que queráis."
     >
-      <div role="radiogroup" aria-label="Plantillas" className="grid gap-3 sm:grid-cols-2">
-        {/* Se ofrecen las cinco plantillas; si el evento usa una anterior, se sigue viendo. */}
-        {(active && !(FEATURED_TEMPLATE_IDS as readonly TemplateId[]).includes(active)
-          ? [active, ...FEATURED_TEMPLATE_IDS]
-          : FEATURED_TEMPLATE_IDS
-        ).map((id) => {
-          const look = applyTemplate(draft.theme, id);
+      <div role="group" aria-label="Familias de plantillas" className="flex flex-wrap gap-2">
+        {families.map((f) => (
+          <button
+            key={f.id}
+            type="button"
+            aria-pressed={family === f.id}
+            onClick={() => setFamily(f.id)}
+            className={clsx(
+              "inline-flex min-h-11 items-center gap-2 rounded-full border px-4 text-[0.875rem] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
+              family === f.id
+                ? "border-ink bg-ink text-paper"
+                : "border-line bg-paper text-ink-soft hover:text-ink",
+            )}
+          >
+            {f.label}
+            <span className={family === f.id ? "text-paper/70" : "text-muted"}>{f.ids.length}</span>
+          </button>
+        ))}
+      </div>
+      <div
+        role="radiogroup"
+        aria-label="Plantillas"
+        className="mt-5 grid grid-cols-2 gap-x-3 gap-y-5 sm:grid-cols-3"
+      >
+        {shown.map((id) => {
+          const checked = active === id;
           return (
-            <ChoiceCard
-              key={id}
-              name="tema-plantilla"
-              value={id}
-              checked={active === id}
-              onChange={() => setTheme(look)}
-              label={
-                <span className="flex items-center justify-between gap-3">
-                  {TEMPLATES[id].label}
-                  <TemplateSample look={look} />
-                </span>
-              }
-              description={TEMPLATES[id].description}
-            />
+            <label key={id} className="group relative block cursor-pointer">
+              <input
+                type="radio"
+                name="tema-plantilla"
+                value={id}
+                checked={checked}
+                onChange={() => {
+                  setTheme(applyTemplate(draft.theme, id));
+                  showStage("cover");
+                }}
+                aria-describedby={`plantilla-${id}-desc`}
+                className="peer sr-only"
+              />
+              <span
+                className={clsx(
+                  "relative block aspect-[3/4] overflow-hidden rounded-xl bg-cream transition-[box-shadow,transform] duration-200 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ink motion-safe:group-hover:-translate-y-0.5",
+                  checked
+                    ? "shadow-[var(--shadow-lift)] ring-2 ring-ink"
+                    : "shadow-[var(--shadow-paper)] ring-1 ring-line",
+                )}
+              >
+                <Image
+                  src={
+                    (FEATURED_TEMPLATE_IDS as readonly TemplateId[]).includes(id)
+                      ? `/venta/plantilla-${id}-portada.webp`
+                      : `/venta/plantilla-${id}.webp`
+                  }
+                  alt=""
+                  fill
+                  sizes="(min-width: 1024px) 13rem, (min-width: 640px) 30vw, 45vw"
+                  className="object-cover"
+                />
+                {checked ? (
+                  <span className="absolute top-2 right-2 grid size-7 place-items-center rounded-full bg-ink text-paper shadow">
+                    <Check aria-hidden className="size-4" strokeWidth={2.5} />
+                  </span>
+                ) : null}
+              </span>
+              <span className="mt-2.5 block text-[0.9375rem] leading-tight font-medium text-ink">
+                {TEMPLATES[id].label}
+              </span>
+              <span
+                id={`plantilla-${id}-desc`}
+                className="mt-0.5 line-clamp-2 block text-[0.8125rem] leading-snug text-muted"
+              >
+                {TEMPLATES[id].description}
+              </span>
+            </label>
           );
         })}
       </div>
       {active ? null : (
-        <p className="mt-3 text-[0.8125rem] text-muted">
-          Estilo personalizado: has cambiado detalles de la plantilla.
+        <p className="mt-4 text-[0.8125rem] text-muted">
+          Estilo personalizado: habéis cambiado detalles de la plantilla.
         </p>
       )}
     </Group>

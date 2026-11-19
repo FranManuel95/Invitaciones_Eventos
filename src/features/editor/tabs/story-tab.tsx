@@ -11,6 +11,7 @@ export function StoryTab() {
     <div className="grid gap-8">
       <Group
         title="Portada"
+        shows={{ stage: "cover" }}
         description="Mejor vertical y sin personas en primer plano: se mueve en 3D al inclinar el móvil."
       >
         <PhotoField label="Foto de portada" path={["coverPhoto"]} depthPath={["coverDepthMap"]} />
@@ -23,7 +24,7 @@ export function StoryTab() {
           path={["banquetPhoto"]}
         />
       </Group>
-      <Group title="Nuestra historia">
+      <Group title="Nuestra historia" shows={{ stage: "content", section: "historia" }}>
         <TextField label="Entradilla" path={["story", "intro"]} multiline maxLength={400} />
         <ListEditor<StoryMoment>
           path={["story", "moments"]}

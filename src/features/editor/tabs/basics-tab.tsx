@@ -13,7 +13,7 @@ export function BasicsTab() {
   const deadline = splitIso(draft.content.rsvpDeadline);
   return (
     <div className="grid gap-8">
-      <Group title="Quién lo celebra">
+      <Group title="Quién lo celebra" shows={{ stage: "cover" }}>
         <SelectField
           label="Qué celebráis"
           path={["kind"]}
@@ -41,7 +41,7 @@ export function BasicsTab() {
           className="max-w-48"
         />
       </Group>
-      <Group title="Cuándo y dónde">
+      <Group title="Cuándo y dónde" shows={{ stage: "cover" }}>
         <div className="grid gap-5 sm:grid-cols-2">
           <Field label="Día" path={["date"]} htmlFor="campo-fecha-dia">
             {(props) => (
@@ -74,7 +74,7 @@ export function BasicsTab() {
       <Group title="Tiempo habitual">
         <ClimateField />
       </Group>
-      <Group title="Respuestas">
+      <Group title="Respuestas" shows={{ stage: "content", section: "confirmar" }}>
         <Field
           label="Último día para confirmar"
           hint="Después de ese día el formulario se cierra."

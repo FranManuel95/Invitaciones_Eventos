@@ -42,6 +42,7 @@ export function TransportTab() {
     <div className="grid gap-8">
       <Group
         title="Autobuses"
+        shows={{ stage: "content", section: "transporte" }}
         description="Cada invitado dirá si los usa y desde qué punto. Sin rutas, no se pregunta."
       >
         <ListEditor<BusRoute>
@@ -83,7 +84,11 @@ export function TransportTab() {
           )}
         </ListEditor>
       </Group>
-      <Group title="Menús" description="Los invitados eligen uno por persona al confirmar.">
+      <Group
+        title="Menús"
+        shows={{ stage: "content", section: "confirmar" }}
+        description="Los invitados eligen uno por persona al confirmar."
+      >
         <div className="grid gap-3">
           {MENUS.map((m) => {
             const index = menu.findIndex((x) => x.id === m.id);
