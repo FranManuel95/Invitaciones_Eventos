@@ -3,7 +3,32 @@
 Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Complementa a
 `CLAUDE.md` (reglas), `PROJECT_SPEC.md` (producto) y `docs/DECISIONS.md` (por qué está hecho así).
 
-## Estado a 19/11/2026 (leer primero)
+## Estado a 21/11/2026, tarde (leer primero)
+
+- **Producción**: `main` con el PR #8 (`acbbc9d`). En `claude/exciting-franklin-43k083`, sin llevar a
+  producción todavía (rondas 36 a 38 de `docs/DECISIONS.md`):
+  1. **Paquetes de precio** en la venta (Invitación 79 €, + álbum 99 €, Todo 149 €, provisionales)
+     y selector en el formulario (`src/lib/sales/plans.ts`). El paquete va al principio del mensaje.
+  2. **Recursos de Higgsfield montados** (ronda 37): 10 vídeos de apertura más (22), 6 forros
+     pintados, pétalos nuevos y luciérnagas, motivos de buganvilla, paniculata y eucalipto con su
+     lacre, 4 portadas compuestas (paniculata, toile, silvestres, selva) y 10 plantillas antiguas
+     renovadas y a la venta. El editor elige vídeo y motivo pintado viendo su imagen.
+  3. **Plantillas de concepto nuevas** (ronda 38): Instantánea, Abanico, Cerillas, Galleta de la
+     suerte, Casete, Mensaje en una botella, Crucigrama, Billete de tren, Receta de la abuela,
+     Entrada de concierto, Cartel de feria, Ficha de biblioteca, Llave de hotel, Partitura,
+     Brújula y Lacre (vídeo). Y la portada en movimiento Tarjeta a la luz con la plantilla Luz de
+     tarde. Ya son **52 plantillas y 53 portadas**. Componentes en
+     `src/features/invitation/cover/concepts-new*.tsx`; cada una con estilo, piel, kit, boda de
+     ejemplo y pruebas en `tests/e2e/conceptos.spec.ts`.
+     Antes de llevarlo a producción: `npm run check` y la batería E2E completa, PR a `main`.
+- **Red del entorno**: esta sesión usa el entorno «invitaciones-eventos», que permite la CDN de
+  Higgsfield (`d8j0ntlcm91z4.cloudfront.net`, `d2ol7oe51mr4n9.cloudfront.net`) y `api.open-meteo.com`.
+  Los recursos se bajan con `curl` desde `show_generations` → `rawUrl`.
+- **Sin usar de Higgsfield**: los lacres de concha, sol y estrella, la segunda acuarela de olivo y
+  el vídeo de la cinta burdeos.
+- **Ideas de conceptos pendientes**: ver «Ideas para la siguiente tanda» en `docs/CONCEPTOS.md`.
+
+## Estado a 19/11/2026
 
 - **Producción**: `main` en `2f8e3a4` (PR #6 fusionado). `invitaciones.efeleeventos.com` ya sirve
   producción (el usuario cambió el dominio en Vercel). En Vercel están puestas `SITE_URL` y los
