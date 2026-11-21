@@ -51,6 +51,9 @@ const CONCEPTS = [
   { id: "poker", names: /Mireia y Joel/, date: "6 de noviembre de 2027", opening: "concepto" },
   { id: "adviento", names: /Laura y Íñigo/, date: "11 de diciembre de 2027", opening: "concepto" },
   { id: "horoscopo", names: /Candela y Rubén/, date: "5 de junio de 2027", opening: "concepto" },
+  { id: "metro", names: /Ainhoa y Raúl/, date: "29 de mayo de 2027", opening: "concepto" },
+  { id: "equipaje", names: /Berta y Nico/, date: "4 de septiembre de 2027", opening: "concepto" },
+  { id: "fidelidad", names: /Gema y Álex/, date: "20 de marzo de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -498,6 +501,33 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await stage.locator("[data-read]").click();
     await expect(stage.locator("[data-read]")).toHaveAttribute("data-read", "si");
     await expect(stage.getByRole("button", { name: "Predicción leída" })).toBeDisabled();
+  });
+
+  test("metro: el tren recorre las paradas del programa", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=metro");
+    const stage = cover(page, "metro");
+    await expect(stage.getByText("Ceremonia")).toBeVisible();
+    await stage.getByRole("button", { name: "Subir al tren" }).click();
+    await expect(stage.locator("[data-metro]")).toHaveAttribute("data-metro", "llegada");
+  });
+
+  test("equipaje: la etiqueta se da la vuelta y enseña la fecha", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=equipaje");
+    const stage = cover(page, "equipaje");
+    const tag = stage.locator("[data-tag]");
+    await tag.click();
+    await expect(tag).toHaveAttribute("data-tag", "detras");
+    await expect(stage).toBeVisible();
+    await stage.getByRole("button", { name: "Ver los pasajeros" }).click();
+    await expect(tag).toHaveAttribute("data-tag", "delante");
+  });
+
+  test("fidelidad: el último sello da la boda gratis", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=fidelidad");
+    const stage = cover(page, "fidelidad");
+    await stage.getByRole("button", { name: "Poner el último sello" }).click();
+    await expect(stage.locator("[data-card]")).toHaveAttribute("data-card", "completa");
+    await expect(stage.getByRole("button", { name: "¡Boda gratis!" })).toBeDisabled();
   });
 
   test("con movimiento reducido las portadas se abren sin esperar animaciones", async ({

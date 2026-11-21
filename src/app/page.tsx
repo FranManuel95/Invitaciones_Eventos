@@ -281,7 +281,7 @@ export default function SalesPage() {
               id="plantillas-title"
               className="v-display max-w-[14ch] text-[clamp(2.6rem,5.2vw,4.5rem)] leading-[0.98]"
             >
-              Cincuenta y cinco plantillas para empezar
+              Cincuenta y ocho plantillas para empezar
             </h2>
             <div className="mt-12">
               <SampleBook families={families()} />

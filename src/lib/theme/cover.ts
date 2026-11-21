@@ -62,6 +62,9 @@ export const COVER_IDS = [
   "poker",
   "adviento",
   "horoscopo",
+  "metro",
+  "equipaje",
+  "fidelidad",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -299,6 +302,19 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Horóscopo",
     description: "La columna del periódico con el signo del día de la boda y su predicción.",
   },
+  metro: {
+    label: "Plano de metro",
+    description:
+      "Una línea con vuestro nombre: las paradas son el programa y el tren llega a la fiesta.",
+  },
+  equipaje: {
+    label: "Etiqueta de equipaje",
+    description: "Pasajeros, destino y contenido frágil; al darle la vuelta, la fecha.",
+  },
+  fidelidad: {
+    label: "Tarjeta de fidelidad",
+    description: "Nueve sellos de café y el décimo, el de la boda gratis, lo pone el invitado.",
+  },
 };
 
 /**
@@ -341,6 +357,9 @@ export const CONCEPT_COVERS = {
   poker: { ink: "#f2e6c9", paper: "#0f3a26", tone: "oscuro" },
   adviento: { ink: "#1f3b5c", paper: "#e7dcc6" },
   horoscopo: { ink: "#1f1d2b", paper: "#e2ddd0" },
+  metro: { ink: "#1f2433", paper: "#e5e6ea" },
+  equipaje: { ink: "#2c2418", paper: "#e7dcc6" },
+  fidelidad: { ink: "#3a2416", paper: "#e6dccb" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -460,6 +479,9 @@ export const MOTIF_IDS = [
   "poker",
   "adviento",
   "horoscopo",
+  "metro",
+  "equipaje",
+  "fidelidad",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -508,4 +530,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   poker: { label: "Casino", kind: "concepto" },
   adviento: { label: "Calendario de puertas", kind: "concepto" },
   horoscopo: { label: "Astros", kind: "concepto" },
+  metro: { label: "Red de metro", kind: "concepto" },
+  equipaje: { label: "Equipaje", kind: "concepto" },
+  fidelidad: { label: "Cafetería", kind: "concepto" },
 };

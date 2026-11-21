@@ -40,6 +40,9 @@ import {
   poker,
   adviento,
   horoscopo,
+  metro,
+  equipaje,
+  fidelidad,
 } from "./template-weddings";
 import { guestbook, type DemoVariant } from "./wedding-builder";
 
@@ -1026,6 +1029,9 @@ const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   poker,
   adviento,
   horoscopo,
+  metro,
+  equipaje,
+  fidelidad,
 };
 
 /** La boda ficticia propia de una plantilla, si la tiene. */

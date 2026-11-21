@@ -16,8 +16,9 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   3. **Plantillas de concepto nuevas** (ronda 38): Instantánea, Abanico, Cerillas, Galleta de la
      suerte, Casete, Mensaje en una botella, Crucigrama, Billete de tren, Receta de la abuela,
      Entrada de concierto, Cartel de feria, Ficha de biblioteca, Llave de hotel, Partitura,
-     Brújula, Lacre (vídeo), Póker, Calendario de puertas y Horóscopo. Y la portada en movimiento
-     Tarjeta a la luz con la plantilla Luz de tarde. Ya son **55 plantillas y 56 portadas**. Componentes en
+     Brújula, Lacre (vídeo), Póker, Calendario de puertas, Horóscopo, Plano de metro, Etiqueta de
+     equipaje y Tarjeta de fidelidad. Y la portada en movimiento Tarjeta a la luz con la plantilla
+     Luz de tarde. Ya son **58 plantillas y 59 portadas**. Componentes en
      `src/features/invitation/cover/concepts-new*.tsx`; cada una con estilo, piel, kit, boda de
      ejemplo y pruebas en `tests/e2e/conceptos.spec.ts`.
      Antes de llevarlo a producción: `npm run check` y la batería E2E completa, PR a `main`.

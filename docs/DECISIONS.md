@@ -1436,7 +1436,13 @@ olivo.
   **Horóscopo** (la columna del periódico con el signo del día de la boda, calculado en hora
   peninsular en `src/lib/zodiac.ts`; amor, salud, dinero y número de la suerte, que se leen al
   tocar; Candela y Rubén, Cuenca). Estilos Tapete, Cuenta atrás y Astros.
-- Ya son 55 plantillas (21 de papel y acuarela, 34 de objetos) y 56 portadas.
+- **Séptima tanda**: **Plano de metro** (una línea con la inicial y el nombre de la pareja; las
+  paradas son «Vuestra casa» y los actos del programa, y el tren las recorre hasta la fiesta;
+  Ainhoa y Raúl, Bilbao), **Etiqueta de equipaje** (pasajeros, destino y «Amor. Frágil»; al
+  darle la vuelta, la fecha grande y la hora de embarque; Berta y Nico, Mahón) y **Tarjeta de
+  fidelidad** (nueve sellos de café y el décimo, «Boda», lo pone el invitado; Gema y Álex,
+  Oviedo). Estilos Suburbano, Maleta y Cafetería.
+- Ya son 58 plantillas (21 de papel y acuarela, 37 de objetos) y 59 portadas.
 
 ## Pendiente para próximas fases
 

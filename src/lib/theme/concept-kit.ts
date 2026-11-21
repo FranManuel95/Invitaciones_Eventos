@@ -290,6 +290,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Los astros nunca se equivocan",
     pass: { kicker: "Carta astral", people: "Signos invitados" },
   },
+  metro: {
+    object: "el plano",
+    carrier: "Línea especial",
+    letterhead: "Aviso a los viajeros",
+    signoff: "Fin de trayecto: ¡a bailar!",
+    pass: { kicker: "Título de transporte", people: "Viajeros", bus: "Correspondencia en autobús" },
+  },
+  equipaje: {
+    object: "la maleta",
+    carrier: "Equipaje de mano",
+    letterhead: "Contenido frágil",
+    signoff: "No doblar: contiene amor",
+    pass: { kicker: "Tarjeta de embarque", people: "Pasajeros" },
+  },
+  fidelidad: {
+    object: "la tarjeta",
+    carrier: "Café del Amor",
+    letterhead: "Pedido de la casa",
+    signoff: "Invita la casa",
+    pass: { kicker: "Cliente habitual", people: "Clientes" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

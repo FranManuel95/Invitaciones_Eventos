@@ -6028,3 +6028,393 @@ export const horoscopo = wedding({
   ],
   songs: ["Starman", "Dancing in the Moonlight", "Hoy", "September", "Valerie", "Dancing Queen"],
 });
+
+export const metro = wedding({
+  id: "evt-demo-ainhoa-raul",
+  first: "Ainhoa",
+  second: "Raúl",
+  date: "2027-05-29T13:00:00+02:00",
+  rsvpDeadline: "2027-04-19T23:59:00+02:00",
+  city: "Bilbao",
+  region: "Bizkaia",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-2.jpg",
+  cardMessage:
+    "Coincidimos cada mañana en el mismo vagón durante un año sin hablarnos. Un día se averió el metro y no paramos de hablar.",
+  welcomeMessage:
+    "Nos casamos en Bilbao, en la ciudad del metro que nos juntó. Aquí tienes el plano y todas las paradas del día.",
+  thankYouMessage:
+    "Gracias por subir a nuestra línea y quedaros hasta el último tren. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Antón",
+      kind: "Ceremonia",
+      address: "Calle Ribera, 1",
+      note: "En el Casco Viejo, junto a la ría. La parada de metro más cercana es Zazpikaleak.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Palacio de la Ría",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Muelle de Uribitarte, 4",
+      note: "A 10 minutos andando por la ría. Los autobuses salen al terminar la ceremonia.",
+      photo: "pista",
+    },
+  ],
+  climate: [21, 12, 40],
+  program: [
+    ["13:00", "Ceremonia", "iglesia", "San Antón", "Con txalaparta a la salida.", "ceremony"],
+    ["14:15", "Aperitivo", "finca", "Junto a la ría", "Pintxos, txakoli y gilda.", "cocktail"],
+    [
+      "16:00",
+      "Comida",
+      "finca",
+      "En el salón del muelle",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "19:30",
+      "Fiesta",
+      "finca",
+      "Última parada",
+      "Barra libre y baile hasta el último metro.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["getxo", "Getxo → Bilbao", "Estación de Algorta", "12:00", ["22:00", "02:00"], 55],
+    ["donostia", "Donostia → Bilbao", "Estación de autobuses, Donostia", "11:00", ["02:00"], 30],
+  ],
+  menu: {
+    carne: "Carrilleras al vino de Rioja",
+    pescado: "Bacalao al pil pil",
+    vegetariano: "Pimientos del piquillo rellenos de setas",
+    vegano: "Porrusalda con verduras",
+  },
+  dressCode: {
+    title: "Primavera en la ría",
+    detail: "Rojo de línea, blanco y gris. Llueve a veces: paraguas a mano.",
+    palette: [
+      { name: "Rojo línea", hex: "#c21b2a" },
+      { name: "Plano", hex: "#f6f6f4" },
+      { name: "Rótulo", hex: "#1f2433" },
+      { name: "Ría", hex: "#4a6a7a" },
+    ],
+    examples: [
+      "Vestido de entretiempo y una gabardina.",
+      "Traje gris o azul; la corbata, opcional.",
+      "Ropa cómoda: habrá trenecito de juguete para ellos.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Ría", "Junto al Casco Viejo", "Habitaciones reservadas hasta el 1 de abril."],
+    ["Pensión Abando", "Junto a la estación", "Para los que vienen en tren."],
+  ],
+  story: {
+    intro: "Un vagón, un año de silencio y una avería. Esta es la versión corta.",
+    moments: [
+      ["2019", "El vagón", "El mismo vagón cada mañana, sin decirnos ni hola.", "terraza"],
+      [
+        "2020",
+        "La avería",
+        "Cuarenta minutos parados en el túnel. Salimos con su número.",
+        "olivos",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En el andén de siempre, con el anillo en el bolsillo del abono.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "Próxima parada: la nuestra. Sube.", "olivar"],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Tokio",
+      "A probar su metro. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Un plano del metro enmarcado", "Para el pasillo.", "70 €"],
+    ["Bicicletas para los dos", "Para cuando no haya metro.", "400 €"],
+    ["Una cafetera italiana", "Para las mañanas antes del metro.", "60 €"],
+  ],
+  kids: "Habrá monitores, trenecito y comida para ellos.",
+  faq: ["¿Se puede ir en metro?", "Sí: la parada Zazpikaleak está a dos minutos de la iglesia."],
+  guestbook: [
+    ["Los del vagón", "Os guardamos el asiento de siempre. Junto a la puerta."],
+    ["Amona Begoña", "Qué bonito, hijos. En metro se conoce gente buena."],
+    ["Unai y Maite", "Nos vemos en la última parada."],
+  ],
+  songs: [
+    "Last Train to London",
+    "Underground",
+    "Txoriak txori",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
+
+export const equipaje = wedding({
+  id: "evt-demo-berta-nico",
+  first: "Berta",
+  second: "Nico",
+  date: "2027-09-04T19:00:00+02:00",
+  rsvpDeadline: "2027-07-26T23:59:00+02:00",
+  city: "Mahón",
+  region: "Menorca",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-2.jpg",
+  cardMessage:
+    "Nos intercambiaron las maletas en un aeropuerto. La de ella tenía su ropa; la de él, un billete a Menorca. Fuimos juntos.",
+  welcomeMessage:
+    "Nos casamos en Menorca, al final del viaje que empezó con una maleta equivocada. Aquí tienes la etiqueta y el itinerario.",
+  thankYouMessage:
+    "Gracias por hacer la maleta y venir hasta la isla. Aquí están vuestras fotos, con arena en los zapatos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María de Mahón",
+      kind: "Ceremonia",
+      address: "Plaça Constitució, 3",
+      note: "En el centro de Mahón. Hay parking en la explanada.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Lloc de la Mar",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camí de Sant Felip, 12",
+      note: "A 15 minutos, junto a una cala. Los autobuses salen al terminar.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [28, 20, 10],
+  program: [
+    [
+      "19:00",
+      "Ceremonia",
+      "iglesia",
+      "Santa María",
+      "Con el órgano grande de la iglesia.",
+      "ceremony",
+    ],
+    [
+      "20:15",
+      "Aperitivo",
+      "finca",
+      "Frente a la cala",
+      "Gin menorquín, queso de Mahón y sobrasada.",
+      "cocktail",
+    ],
+    [
+      "22:00",
+      "Cena",
+      "finca",
+      "En el patio de la finca",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["00:00", "Fiesta", "finca", "Hasta el amanecer", "Barra libre, baile y pomada.", "party"],
+  ],
+  busRoutes: [
+    ["aeropuerto", "Aeropuerto → Mahón", "Aeropuerto de Menorca", "17:30", ["03:00", "05:30"], 55],
+    ["ciutadella-bus", "Ciutadella → Mahón", "Plaça dels Pins", "17:45", ["05:30"], 30],
+  ],
+  menu: {
+    carne: "Cordero con hierbas de la isla",
+    pescado: "Caldereta de langosta",
+    vegetariano: "Oliaigua con higos",
+    vegano: "Tumbet de verduras",
+  },
+  dressCode: {
+    title: "Final de verano en la isla",
+    detail: "Cuero, lino y azul de mar. Hay arena: avarcas o sandalias.",
+    palette: [
+      { name: "Cuero", hex: "#6b4226" },
+      { name: "Cartón", hex: "#e9d7b0" },
+      { name: "Mar", hex: "#2f6a8a" },
+      { name: "Cal", hex: "#f8f1e2" },
+    ],
+    examples: [
+      "Vestido de lino y avarcas.",
+      "Camisa de lino y pantalón claro.",
+      "Ropa de playa: habrá castillos de arena para ellos.",
+    ],
+  },
+  accommodation: [
+    ["Hotel del Puerto", "En el puerto de Mahón", "Habitaciones reservadas hasta el 15 de julio."],
+    ["Casa rural Sant Felip", "Junto a la finca", "Para quedarse al baño del domingo."],
+  ],
+  story: {
+    intro:
+      "Una maleta equivocada, un billete a Menorca y un viaje juntos. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "La maleta",
+        "En la cinta, dos maletas iguales. Nos llevamos la equivocada los dos.",
+        "cala",
+      ],
+      ["2021", "El viaje", "Un año entero con una maleta compartida.", "furgoneta"],
+      [
+        "2026",
+        "La pedida",
+        "En la cala, con el anillo dentro de la maleta de aquel día.",
+        "anilloBarca",
+      ],
+      ["Hoy", "Y ahora, la boda", "Haz la maleta: el destino es Menorca.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Japón", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Dos maletas que no se confundan", "Una de cada color, por favor.", "260 €"],
+    ["Un mapamundi para rascar", "Para ir marcando viajes.", "40 €"],
+    ["Una cámara instantánea", "Para el álbum de viajes.", "120 €"],
+  ],
+  kids: "Habrá monitores, castillos de arena y cena para ellos.",
+  faq: [
+    "¿Cómo se llega a Menorca?",
+    "En avión o en barco desde Barcelona; el autobús de la boda sale del aeropuerto.",
+  ],
+  guestbook: [
+    ["Los del aeropuerto", "Esta vez etiquetad bien las maletas."],
+    ["Iaia Margalida", "Qué bonita la isla para casarse. Traed sombrero."],
+    ["Marc y Júlia", "Maleta hecha. Llegamos el viernes."],
+  ],
+  songs: [
+    "Leaving on a Jet Plane",
+    "Mediterráneo",
+    "Viajando por el mundo",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
+
+export const fidelidad = wedding({
+  id: "evt-demo-gema-alex",
+  first: "Gema",
+  second: "Álex",
+  date: "2027-03-20T12:00:00+01:00",
+  rsvpDeadline: "2027-02-08T23:59:00+01:00",
+  city: "Oviedo",
+  region: "Asturias",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-1.jpg",
+  cardMessage:
+    "Nos conocimos en la cola del café de la esquina. Nueve tarjetas llenas después, la décima es la boda.",
+  welcomeMessage:
+    "Nos casamos en Oviedo, a dos calles del café de siempre. Aquí tienes la tarjeta: el último sello lo pones tú.",
+  thankYouMessage:
+    "Gracias por venir a tomaros algo con nosotros. Esta vez invitó la casa. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Isidoro",
+      kind: "Ceremonia",
+      address: "Plaza de la Constitución, 3",
+      note: "En el centro, junto al Ayuntamiento. Hay parking en la calle Uría.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Café Casa del Reloj",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Calle Gascona, 7",
+      note: "A 5 minutos andando por el bulevar de la sidra.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [14, 6, 45],
+  program: [
+    ["12:00", "Ceremonia", "iglesia", "San Isidoro", "Breve, con gaita a la salida.", "ceremony"],
+    ["13:15", "Aperitivo", "finca", "En la barra", "Café, sidra y pinchos de la casa.", "cocktail"],
+    [
+      "15:00",
+      "Comida",
+      "finca",
+      "En el salón del reloj",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "18:30",
+      "Fiesta",
+      "finca",
+      "Con chocolate y churros",
+      "Barra libre, baile y café para aguantar.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["gijon", "Gijón → Oviedo", "Estación de autobuses, Gijón", "11:00", ["21:00", "01:00"], 55],
+    ["aviles", "Avilés → Oviedo", "Estación de Avilés", "11:00", ["01:00"], 30],
+  ],
+  menu: {
+    carne: "Cachopo de la casa con patatas",
+    pescado: "Merluza a la sidra",
+    vegetariano: "Pote de verduras con queso",
+    vegano: "Fabes con verduras",
+  },
+  dressCode: {
+    title: "Primavera de café",
+    detail: "Crema, marrón café y rojo de sello. Puede llover: paraguas.",
+    palette: [
+      { name: "Café", hex: "#3a2416" },
+      { name: "Crema", hex: "#f6efe2" },
+      { name: "Sello", hex: "#a3402a" },
+      { name: "Verde prado", hex: "#4f6b3a" },
+    ],
+    examples: [
+      "Vestido de entretiempo y gabardina.",
+      "Traje de lana; corbata opcional.",
+      "Chubasquero: habrá taller de galletas para ellos.",
+    ],
+  },
+  accommodation: [
+    ["Hotel de la Reconquista", "En el centro", "Habitaciones reservadas hasta el 1 de febrero."],
+    ["Pensión Gascona", "En el bulevar de la sidra", "Para quedarse al vermú del domingo."],
+  ],
+  story: {
+    intro: "Una cola de café, un vaso cambiado y nueve tarjetas llenas. Esta es la versión corta.",
+    moments: [
+      ["2018", "La cola", "Nos dieron el café cambiado. Ninguno lo devolvió.", "olivos"],
+      ["2021", "La terraza", "Un piso con terraza y una cafetera que no descansa.", "terraza"],
+      ["2026", "La pedida", "En el café de siempre, con el anillo en la taza.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "Falta un sello. Lo pones tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Colombia",
+      "A ver de dónde viene el café. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Una cafetera de las buenas", "La de ahora ya no puede más.", "320 €"],
+    ["Un molinillo de café", "Para hacerlo como en el café.", "90 €"],
+    ["Tazas para doce", "Que siempre faltan.", "60 €"],
+  ],
+  kids: "Habrá monitores, taller de galletas y comida para ellos.",
+  faq: [
+    "¿Habrá café para aguantar?",
+    "Toda la fiesta. Lo pone el café de siempre, que es quien nos presentó.",
+  ],
+  guestbook: [
+    ["Los del café", "Os guardamos la mesa de la ventana. Y la tarjeta número diez."],
+    ["Güelita Maruja", "Qué bonito. Y qué buen café hacen ahí."],
+    ["Pelayo y Coral", "Un cortado para nosotros y un baile para los novios."],
+  ],
+  songs: [
+    "Coffee",
+    "Ojalá que llueva café",
+    "La vie en rose",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
