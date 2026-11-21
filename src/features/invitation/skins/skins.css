@@ -491,6 +491,31 @@
   transform: scale(1) rotate(0deg);
 }
 
+/* La llama de la cerilla (portada Cerillas): núcleo claro, borde naranja y un leve temblor. */
+.match-flame {
+  border-radius: 50% 50% 45% 45% / 62% 62% 38% 38%;
+  background:
+    radial-gradient(ellipse at 50% 72%, #fff6c9 0 18%, transparent 30%),
+    radial-gradient(ellipse at 50% 64%, #ffd25a 0 34%, transparent 52%),
+    radial-gradient(ellipse at 50% 58%, #ff8a2a 0 48%, transparent 70%);
+  filter: drop-shadow(0 0 10px rgb(255 160 60 / 0.75));
+  transform-origin: 50% 90%;
+}
+.match-flame.is-alive {
+  animation: match-flicker 0.9s ease-in-out infinite alternate;
+}
+@keyframes match-flicker {
+  0% {
+    transform: scale(1, 1) rotate(-2deg);
+  }
+  50% {
+    transform: scale(0.92, 1.08) rotate(2deg);
+  }
+  100% {
+    transform: scale(1.04, 0.95) rotate(-1deg);
+  }
+}
+
 /* Lo accesorio de una portada se retira en pantallas bajas (iPhone SE, o Safari con sus
    barras), para que el botón de abrir quede siempre a la vista. */
 @media (max-height: 720px) {
@@ -1041,6 +1066,148 @@
 [data-motif="semillas"] .motif-closing::before {
   content: "Germina en buena compañía";
 }
+/* Instantánea: cada sección es una foto del álbum, con su número escrito a mano. */
+[data-motif="instantanea"] {
+  counter-reset: foto;
+}
+[data-motif="instantanea"] .motif-hero {
+  background: linear-gradient(180deg, var(--scene-2) 0 5.5rem, var(--color-paper) 5.5rem);
+}
+[data-motif="instantanea"] section[id] {
+  counter-increment: foto;
+}
+[data-motif="instantanea"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font:
+    400 1.5rem / 1 var(--font-great-vibes),
+    cursive;
+}
+[data-motif="instantanea"] .motif-sprig::before {
+  content: "";
+  width: 1.6rem;
+  height: 1.9rem;
+  background:
+    linear-gradient(var(--color-sand), var(--color-taupe)) 0.2rem 0.2rem / 1.2rem 1.2rem no-repeat,
+    #fff;
+  box-shadow: 0 3px 6px rgb(0 0 0 / 0.18);
+  transform: rotate(-6deg);
+}
+[data-motif="instantanea"] .motif-sprig::after {
+  content: "Foto " counter(foto);
+}
+[data-motif="instantanea"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font:
+    400 2rem / 1 var(--font-great-vibes),
+    cursive;
+}
+[data-motif="instantanea"] .motif-closing::before {
+  content: "Continuará en el álbum";
+}
+
+/* Abanico: un abanico abierto anuncia cada sección y el fondo lleva encaje. */
+[data-motif="abanico"] {
+  counter-reset: copla;
+}
+[data-motif="abanico"] .motif-hero {
+  background:
+    radial-gradient(
+        circle,
+        color-mix(in oklab, var(--color-gold) 14%, transparent) 0 1.5px,
+        transparent 2px
+      )
+      0 0 / 14px 14px,
+    var(--color-paper);
+}
+[data-motif="abanico"] section[id] {
+  counter-increment: copla;
+}
+[data-motif="abanico"] .motif-sprig {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-gold);
+  font: italic 400 1.0625rem / 1 var(--font-display);
+}
+[data-motif="abanico"] .motif-sprig::before {
+  content: "";
+  width: 2.8rem;
+  height: 1.4rem;
+  border-radius: 2.8rem 2.8rem 0 0;
+  background: repeating-conic-gradient(
+    from -90deg at 50% 100%,
+    var(--color-gold) 0 9deg,
+    color-mix(in oklab, var(--color-gold) 65%, white) 9deg 18deg
+  );
+}
+[data-motif="abanico"] .motif-sprig::after {
+  content: "Copla " counter(copla);
+}
+[data-motif="abanico"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.5rem / 1 var(--font-display);
+}
+[data-motif="abanico"] .motif-closing::before {
+  content: "Con mucho arte";
+}
+
+/* Cerillas: el raspador arriba y una cerilla numerada en cada sección. */
+[data-motif="cerillas"] {
+  counter-reset: cerilla;
+}
+[data-motif="cerillas"] .motif-hero {
+  background:
+    repeating-linear-gradient(90deg, #6b4a2e 0 2px, #8a6440 2px 4px) top / 100% 1.1rem no-repeat,
+    var(--color-paper);
+}
+[data-motif="cerillas"] section[id] {
+  counter-increment: cerilla;
+}
+[data-motif="cerillas"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="cerillas"] .motif-sprig::before {
+  content: "";
+  width: 3rem;
+  height: 0.65rem;
+  background:
+    radial-gradient(ellipse at 100% 50%, var(--color-gold) 0 0.42rem, transparent 0.45rem),
+    linear-gradient(#d8b787, #c9a36c) 0 50% / 2.5rem 0.28rem no-repeat;
+}
+[data-motif="cerillas"] .motif-sprig::after {
+  content: "Cerilla n.º " counter(cerilla);
+}
+[data-motif="cerillas"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: 600 0.875rem / 1.4 var(--font-sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+[data-motif="cerillas"] .motif-closing::before {
+  content: "Frótese con cariño · Manténgase encendida";
+}
+
 /* ── Carta, pase y apertura de las plantillas de concepto ── */
 
 /* Membrete y despedida de la carta: una línea impresa arriba y otra abajo. */
@@ -1356,6 +1523,43 @@
 [data-motif="semillas"] .concept-carrier-label {
   border-color: transparent;
   color: var(--color-paper);
+}
+
+/* Instantánea: el marco blanco de la foto con su margen ancho abajo. */
+[data-motif="instantanea"] .concept-carrier {
+  background:
+    linear-gradient(var(--color-sand), var(--color-taupe)) 0.8rem 0.8rem / calc(100% - 1.6rem)
+      calc(100% - 4.6rem) no-repeat,
+    #fff;
+  border: 0;
+}
+[data-motif="instantanea"] .concept-carrier-label {
+  border-color: transparent;
+  background: #fff;
+  color: var(--color-ink);
+}
+
+/* Abanico: seda roja con encaje. */
+[data-motif="abanico"] .concept-carrier {
+  background:
+    radial-gradient(circle, rgb(255 255 255 / 0.28) 0 1.5px, transparent 2px) 0 0 / 12px 12px,
+    var(--color-gold);
+  border: 0;
+}
+[data-motif="abanico"] .concept-carrier-label {
+  border-color: var(--color-paper);
+  color: var(--color-paper);
+}
+
+/* Cerillas: la funda azul con la etiqueta de borde rojo. */
+[data-motif="cerillas"] .concept-carrier {
+  background: var(--color-ink);
+  border: 0;
+}
+[data-motif="cerillas"] .concept-carrier-label {
+  border: 2px solid var(--color-gold);
+  background: var(--color-paper);
+  color: var(--color-ink);
 }
 
 [data-motif-kind="concepto"] .motif-closing > * {

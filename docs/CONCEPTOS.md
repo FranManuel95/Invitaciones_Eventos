@@ -8,9 +8,10 @@ Rama de trabajo: `claude/tender-franklin-isgz7b` (PR #6 contra `main`, sin fusio
 continuación (Telegrama y Postal, ronda 19) está en `claude/exciting-franklin-43k083`, que parte
 de esa rama y la contiene entera.
 
-**Hechas las quince**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19) y
-las diez restantes (ronda 20): Vinilo, Pasaporte, Carta, Mapa, Constelación, Cómic, Cosecha,
-Tarot, Arcade y Semillas. Las fichas de abajo se conservan como referencia de lo que se
+**Hechas las dieciocho**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
+las diez de la ronda 20 (Vinilo, Pasaporte, Carta, Mapa, Constelación, Cómic, Cosecha, Tarot,
+Arcade y Semillas) e Instantánea, Abanico y Cerillas (ronda 38, en
+`cover/concepts-new.tsx`). Las fichas de abajo se conservan como referencia de lo que se
 construyó; lo que queda es lo de «Pendiente en las que ya existen», que vale para todas.
 
 Dónde está cada cosa ahora: piezas comunes en `cover/concept-kit.tsx`; portadas en
@@ -361,6 +362,19 @@ las pruebas de contraste y ajustar.
   pampa) sirven de ilustración; están recortadas en `public/acuarelas/` (tres) y el resto, en la
   cuenta de Higgsfield. Enlaza con un detalle real: regalar semillas a los invitados.
 - **Dificultad**: media.
+
+## Ideas para la siguiente tanda (después de la ronda 38)
+
+Objetos reconocibles en un segundo y con un gesto que solo tiene sentido en ellos:
+
+1. **Galleta de la suerte**: se parte con el dedo y sale el papelito con la fecha.
+2. **Casete**: se rebobina girando el lápiz; la cara A es la ceremonia, la cara B la fiesta.
+3. **Crucigrama**: los nombres se cruzan; tocar las casillas rellena la fecha.
+4. **Receta de la abuela**: ficha manchada de harina; se tachan los ingredientes («dos novios…»).
+5. **Billete de tren**: se pica con el revisor (tocar hace el agujero); el destino es la ciudad.
+6. **Entrada de concierto**: pulsera que se cierra o código de barras que se escanea.
+7. **Postal en botella**: se descorcha arrastrando el tapón y sale el mensaje enrollado.
+8. **Cartel de feria**: cartel antiguo con farolillos que se encienden al tocarlos.
 
 ## Por dónde empezar
 

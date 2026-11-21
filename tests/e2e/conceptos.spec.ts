@@ -32,6 +32,9 @@ const CONCEPTS = [
     date: "17 de abril de 2027",
     opening: "concepto",
   },
+  { id: "instantanea", names: /Carla & Hugo/, date: "11·09·27", opening: "concepto" },
+  { id: "abanico", names: /Inma y Curro/, date: "24 de abril de 2027", opening: "concepto" },
+  { id: "cerillas", names: /Marta & Quique/, date: "16 de octubre de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -253,6 +256,58 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await stage.getByRole("button", { name: "Sembrar", exact: true }).click();
     await expect(bed).toHaveAttribute("data-sown", "si");
     await expect(stage.getByRole("button", { name: "Sembrado" })).toBeDisabled();
+  });
+
+  test("instantánea: frotar la foto la revela, y también el botón", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=instantanea");
+    const stage = cover(page, "instantanea");
+    const photo = stage.locator("[data-developed]");
+    await expect(photo).toHaveAttribute("data-developed", "no");
+    // Frotar con el dedo no levanta la portada.
+    const box = (await photo.boundingBox())!;
+    await page.mouse.move(box.x + 20, box.y + 20);
+    await page.mouse.down();
+    for (let i = 0; i < 6; i++) {
+      await page.mouse.move(box.x + box.width - 20, box.y + 30 + i * 30, { steps: 4 });
+      await page.mouse.move(box.x + 20, box.y + 45 + i * 30, { steps: 4 });
+    }
+    await page.mouse.up();
+    // Frotando se revela del todo, sin levantar la portada.
+    await expect(photo).toHaveAttribute("data-developed", "si");
+    await expect(stage).toBeVisible();
+    await expect(stage.getByRole("button", { name: "Revelada" })).toBeDisabled();
+    // Sin frotar, el botón hace lo mismo.
+    await page.reload();
+    await cover(page, "instantanea").getByRole("button", { name: "Revelar la foto" }).click();
+    await expect(cover(page, "instantanea").locator("[data-developed]")).toHaveAttribute(
+      "data-developed",
+      "si",
+    );
+  });
+
+  test("abanico: se despliega con el botón y con el dedo", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=abanico");
+    const stage = cover(page, "abanico");
+    const fan = stage.locator("[data-fan]");
+    await expect(fan).toHaveAttribute("data-fan", "cerrado");
+    const box = (await fan.boundingBox())!;
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height * 0.6);
+    await page.mouse.down();
+    await page.mouse.move(box.x + box.width / 2 + 180, box.y + box.height * 0.6, { steps: 10 });
+    await page.mouse.up();
+    await expect(fan).toHaveAttribute("data-fan", "abierto");
+    await expect(stage.getByRole("button", { name: "Abanico abierto" })).toBeDisabled();
+    await expect(stage).toBeVisible();
+  });
+
+  test("cerillas: al sacar una cerilla se enciende", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=cerillas");
+    const stage = cover(page, "cerillas");
+    await expect(stage.locator("[data-box]")).toHaveAttribute("data-box", "cerrada");
+    await stage.getByRole("button", { name: "Sacar una cerilla" }).click();
+    await expect(stage.locator("[data-box]")).toHaveAttribute("data-box", "abierta");
+    await expect(stage.locator("[data-lit]")).toBeAttached();
+    await expect(stage.getByRole("button", { name: "Cerilla encendida" })).toBeDisabled();
   });
 
   test("con movimiento reducido las portadas se abren sin esperar animaciones", async ({

@@ -147,6 +147,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Florece cada aniversario",
     pass: { kicker: "Ficha de vivero", people: "Jardineros" },
   },
+  instantanea: {
+    object: "la foto",
+    carrier: "Revelado instantáneo",
+    letterhead: "Escrito al dorso de la foto",
+    signoff: "Para pegar en el álbum",
+    pass: { kicker: "Foto de grupo", people: "Salen en la foto" },
+  },
+  abanico: {
+    object: "el abanico",
+    carrier: "Abanico de encaje",
+    letterhead: "Pintado en el país del abanico",
+    signoff: "Con mucho arte",
+    pass: { kicker: "Entrada a la caseta", people: "Invitados" },
+  },
+  cerillas: {
+    object: "la caja de cerillas",
+    carrier: "Fósforos de seguridad",
+    letterhead: "Instrucciones de la caja",
+    signoff: "Frótese con cariño",
+    pass: { kicker: "Vale por una noche", people: "Contenido" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

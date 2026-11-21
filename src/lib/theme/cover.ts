@@ -42,6 +42,9 @@ export const COVER_IDS = [
   "tarot",
   "arcade",
   "semillas",
+  "instantanea",
+  "abanico",
+  "cerillas",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -197,6 +200,18 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     description:
       "Un sobre de semillas con vuestra variedad: se siembra y brotan flores alrededor de la fecha.",
   },
+  instantanea: {
+    label: "Instantánea",
+    description: "Una foto instantánea en blanco: al frotarla aparece vuestra foto.",
+  },
+  abanico: {
+    label: "Abanico",
+    description: "Un abanico de encaje rojo que se despliega con la fecha pintada.",
+  },
+  cerillas: {
+    label: "Caja de cerillas",
+    description: "Una caja de fósforos con vuestra marca: se empuja el cajón y se enciende.",
+  },
 };
 
 /**
@@ -220,6 +235,9 @@ export const CONCEPT_COVERS = {
   tarot: { ink: "#f1e7d0", paper: "#1c1630", tone: "oscuro" },
   arcade: { ink: "#f4f4f0", paper: "#12122b", tone: "oscuro" },
   semillas: { ink: "#2b3a23", paper: "#ece0c5" },
+  instantanea: { ink: "#2a221b", paper: "#cdb99a" },
+  abanico: { ink: "#3a1418", paper: "#f4e7d6" },
+  cerillas: { ink: "#1f2433", paper: "#e4d6b8" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -317,6 +335,9 @@ export const MOTIF_IDS = [
   "tarot",
   "arcade",
   "semillas",
+  "instantanea",
+  "abanico",
+  "cerillas",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -346,4 +367,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   tarot: { label: "Arcanos", kind: "concepto" },
   arcade: { label: "Recreativa", kind: "concepto" },
   semillas: { label: "Vivero", kind: "concepto" },
+  instantanea: { label: "Álbum de fotos", kind: "concepto" },
+  abanico: { label: "Abanico y feria", kind: "concepto" },
+  cerillas: { label: "Fósforos", kind: "concepto" },
 };

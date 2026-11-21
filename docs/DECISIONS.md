@@ -1374,6 +1374,26 @@ Sin usar todavía: el lacre que se estampa, la cinta burdeos y la tarjeta con lu
 pensados para la venta o Instagram), los lacres de concha, sol y estrella y la segunda acuarela de
 olivo.
 
+## Ronda 38: tres plantillas de concepto nuevas (21/11/2026)
+
+- **Instantánea**: una foto instantánea sujeta con cinta; sale sin revelar y se revela frotándola
+  con el dedo (o con «Revelar la foto»). La foto es la de portada de la pareja; el margen blanco
+  lleva los nombres y la fecha «a rotulador» (Great Vibes) y una nota adhesiva con la ceremonia
+  (primer acto del programa). Dentro, cada sección es «Foto n», y el cierre, «Continuará en el
+  álbum». Boda de ejemplo: Carla y Hugo, Cadaqués.
+- **Abanico**: un abanico de encaje rojo dibujado en SVG (varillas, país, clavillo y borla) que se
+  despliega deslizando el dedo (o con «Desplegar el abanico»); en el país van los nombres y la fecha
+  con el lugar, siguiendo la curva. Dentro, cada sección es una «Copla» con un abanico abierto.
+  Boda de ejemplo: Inma y Curro, Sevilla.
+- **Cerillas**: una caja de fósforos con vuestra marca («Fósforos de seguridad», «Dos almas · Lote
+  ddmmaa», «Fábrica de <ciudad>»). Se empuja el cajón con el dedo (o «Sacar una cerilla») y una
+  cerilla se enciende (llama en CSS, quieta con movimiento reducido). Debajo, a qué hora «se
+  enciende» la fiesta. Dentro, «Cerilla n.º n» y el raspador en la cabecera. Boda de ejemplo:
+  Marta y Quique, Logroño.
+- Cada una con su estilo de color (Revelado, Sevillana, Fósforo), su kit de carta y pase, su piel
+  interior, su boda de ejemplo y sus pruebas (portada accesible, gesto y botón alternativo). Ya son
+  38 plantillas (18 de objetos) y 39 portadas.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

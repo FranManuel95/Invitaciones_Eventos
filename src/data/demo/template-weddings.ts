@@ -3310,3 +3310,440 @@ export const semillas = wedding({
   ],
   songs: ["Here Comes the Sun", "Hoy", "La flaca", "Contigo", "September", "Valerie"],
 });
+
+export const instantanea = wedding({
+  id: "evt-demo-carla-hugo",
+  first: "Carla",
+  second: "Hugo",
+  date: "2027-09-11T18:00:00+02:00",
+  rsvpDeadline: "2027-07-31T23:59:00+02:00",
+  city: "Cadaqués",
+  region: "Girona",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/portada.jpg",
+  cardMessage:
+    "Llevamos ocho años haciéndonos fotos. Nos falta la más importante, y queremos que salgas en ella.",
+  welcomeMessage:
+    "Ella hace las fotos y él sale movido en todas. Nos casamos junto al mar y aquí está todo lo que necesitas para la foto de grupo.",
+  thankYouMessage:
+    "Gracias por salir en la foto, por los bailes y por las instantáneas del fotomatón. Aquí están todas, sin retocar.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa Maria",
+      kind: "Ceremonia",
+      address: "Carrer Església, s/n",
+      note: "En lo alto del pueblo; se sube andando por las calles empedradas. Calzado cómodo.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Mas de les Oliveres",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camí de Portlligat, 9",
+      note: "A 5 minutos en autobús, sobre la cala. Hay fotomatón con carrete para todos.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [26, 18, 10],
+  program: [
+    ["18:00", "Ceremonia", "iglesia", "Santa Maria", "Breve y con vistas a la bahía.", "ceremony"],
+    [
+      "19:15",
+      "Aperitivo",
+      "finca",
+      "En la terraza",
+      "Anchoas, vermut y la hora dorada para las fotos.",
+      "cocktail",
+    ],
+    [
+      "21:00",
+      "Cena",
+      "finca",
+      "Bajo las guirnaldas",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "23:30",
+      "Fiesta",
+      "finca",
+      "Hasta que se acabe el carrete",
+      "Barra libre, baile y fotomatón.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "figueres",
+      "Figueres → Cadaqués",
+      "Estación de tren, Figueres",
+      "16:45",
+      ["01:30", "03:30"],
+      50,
+    ],
+    ["barcelona", "Barcelona → Cadaqués", "Estació del Nord, Barcelona", "15:00", ["03:30"], 30],
+  ],
+  menu: {
+    carne: "Suquet de ternera con setas",
+    pescado: "Suquet de rape y gambas",
+    vegetariano: "Arroz de verduras de la huerta",
+    vegano: "Escalivada con romesco y pan de coca",
+  },
+  dressCode: {
+    title: "Verano en película",
+    detail: "Colores suaves que salgan bien en foto: crema, coral, azul empolvado. Sin blanco.",
+    palette: [
+      { name: "Crema", hex: "#f3e7d3" },
+      { name: "Coral", hex: "#e07a5f" },
+      { name: "Azul empolvado", hex: "#9fb4c7" },
+      { name: "Óxido", hex: "#a3402a" },
+    ],
+    examples: [
+      "Vestido de lino o de flores pequeñas; sandalia plana para las cuestas.",
+      "Camisa clara y pantalón de lino; chaqueta opcional.",
+      "Ropa fresca: habrá juegos en el jardín y cámaras para ellos.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Llané Petit",
+      "En la playa, a 5 min de la iglesia",
+      "Habitaciones reservadas hasta el 15 de julio.",
+    ],
+    ["Apartamentos Portlligat", "Junto a la finca", "Para grupos; se llega andando a la cena."],
+  ],
+  story: {
+    intro:
+      "Un carrete olvidado, una cámara prestada y ocho años de fotos. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "El carrete",
+        "Hugo se dejó la cámara en un bar. Carla la devolvió con un carrete entero de fotos suyas.",
+        "cala",
+      ],
+      [
+        "2021",
+        "La furgoneta",
+        "Un verano entero por la costa, con dos cámaras y un mapa.",
+        "furgoneta",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En una barca, a la hora dorada. La foto salió movida, como siempre.",
+        "anilloBarca",
+      ],
+      ["Hoy", "Y ahora, la boda", "Falta la foto de grupo. Y sales tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Islandia",
+      "A fotografiar auroras. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Una cámara de las de antes", "Para el álbum de la familia que viene.", "320 €"],
+    ["Revelar todas las fotos de la boda", "En papel, para tocarlas.", "150 €"],
+    ["Un marco grande para el salón", "Para la foto de grupo, claro.", "90 €"],
+  ],
+  kids: "Habrá monitores, cámaras de juguete y cena para ellos.",
+  faq: ["¿Puedo hacer fotos en la ceremonia?", "Mejor no: la haremos nosotros y os la mandaremos."],
+  guestbook: [
+    [
+      "Los del laboratorio",
+      "Os guardamos un carrete del bueno. Que salgáis enfocados por una vez.",
+    ],
+    ["Iaia Montse", "Las fotos de mi nieta son las más bonitas del mundo. Y este chico, también."],
+    ["Ona y Biel", "Prometemos no salir con los ojos cerrados."],
+  ],
+  songs: [
+    "Photograph",
+    "Mediterráneo",
+    "Golden Hour",
+    "La foto de los dos",
+    "September",
+    "Valerie",
+  ],
+});
+
+export const abanico = wedding({
+  id: "evt-demo-inma-curro",
+  first: "Inma",
+  second: "Curro",
+  date: "2027-04-24T19:00:00+02:00",
+  rsvpDeadline: "2027-03-15T23:59:00+01:00",
+  city: "Sevilla",
+  region: "Sevilla",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/portada.jpg",
+  cardMessage:
+    "Nos conocimos bailando la cuarta sevillana y desde entonces no hemos parado. Ven a bailar con nosotros.",
+  welcomeMessage:
+    "Nos casamos en primavera, con azahar en las calles y la feria a la vuelta de la esquina. Aquí tienes todo para acompañarnos.",
+  thankYouMessage:
+    "Gracias por bailar hasta el final, por los abanicos al aire y por las sevillanas a las cinco de la mañana. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Parroquia de Santa Ana",
+      kind: "Ceremonia",
+      address: "Calle Pureza, 80, Triana",
+      note: "En pleno barrio de Triana. Recomendamos venir en taxi: no hay dónde aparcar.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Hacienda Los Naranjos",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Carretera de Dos Hermanas, km 4",
+      note: "A 20 minutos; los autobuses salen al terminar la ceremonia.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [25, 12, 15],
+  program: [
+    ["19:00", "Ceremonia", "iglesia", "Santa Ana", "Con coro rociero a la salida.", "ceremony"],
+    [
+      "20:30",
+      "Aperitivo",
+      "finca",
+      "En el patio de los naranjos",
+      "Jamón, manzanilla y cortador en directo.",
+      "cocktail",
+    ],
+    [
+      "22:00",
+      "Cena",
+      "finca",
+      "Bajo los farolillos",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "00:30",
+      "Fiesta",
+      "finca",
+      "Caseta propia",
+      "Barra libre, sevillanas y lo que pinche el DJ.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["centro", "Sevilla centro → Hacienda", "Puerta de Jerez", "20:00", ["03:00", "06:00"], 55],
+    ["triana", "Triana → Hacienda", "Plaza del Altozano", "20:00", ["06:00"], 30],
+  ],
+  menu: {
+    carne: "Presa ibérica con patatas a lo pobre",
+    pescado: "Lubina a la sal con ajo blanco",
+    vegetariano: "Espinacas con garbanzos y huevo poché",
+    vegano: "Berenjenas con miel de caña (sin miel) y salmorejo",
+  },
+  dressCode: {
+    title: "Primavera en Sevilla",
+    detail: "Colores de azahar y de mantón: crema, rojo, verde naranjo. Se baila mucho.",
+    palette: [
+      { name: "Rojo mantón", hex: "#9b1d2c" },
+      { name: "Crema encaje", hex: "#f4e7d6" },
+      { name: "Verde naranjo", hex: "#4f6b3a" },
+      { name: "Albero", hex: "#d9a441" },
+    ],
+    examples: [
+      "Vestido de flores o de lunares; abanico y cuña para bailar.",
+      "Traje claro, corbata alegre; la chaqueta se puede quitar en la caseta.",
+      "Traje de flamenca bienvenido; habrá clase de sevillanas para ellos.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Triana Río",
+      "Junto a la iglesia",
+      "Habitaciones reservadas hasta el 1 de marzo. Menciona la boda.",
+    ],
+    ["Casa Patio de Santa Cruz", "En el centro, cerca del autobús", "Ideal para grupos de amigos."],
+  ],
+  story: {
+    intro: "Una caseta, una cuarta sevillana y un abanico perdido. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "La feria",
+        "Ella perdió el abanico bailando; él lo encontró y tardó un año en devolverlo.",
+        "olivos",
+      ],
+      ["2021", "El barrio", "Un piso en Triana con un balcón lleno de geranios.", "terraza"],
+      [
+        "2026",
+        "La pedida",
+        "En la Hacienda, bajo un naranjo en flor, con el abanico de vuelta en una caja.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "Solo falta que bailes con nosotros.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a México", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Un mantón de Manila bordado", "Para colgarlo en el salón.", "280 €"],
+    ["Clases de baile para los dos", "Por si algún día aprendemos la quinta.", "150 €"],
+    ["Una vajilla de Cartuja", "La de toda la vida.", "220 €"],
+  ],
+  kids: "Habrá monitores, clase de sevillanas y cena para ellos.",
+  faq: ["¿Hay que saber bailar sevillanas?", "No: a medianoche hay una clase exprés para todos."],
+  guestbook: [
+    ["Las de la academia", "Os tenemos preparada la cuarta. Ensayad un poco, que se nota."],
+    ["Abuela Rocío", "Qué bonitos vais a ir. Llevaos el abanico, que hace calor."],
+    ["Pepe y Sara", "Nos pedimos la primera sevillana con los novios."],
+  ],
+  songs: [
+    "Sevilla tiene un color especial",
+    "Algo se muere en el alma",
+    "Volando voy",
+    "Bulería",
+    "Valerie",
+    "September",
+  ],
+});
+
+export const cerillas = wedding({
+  id: "evt-demo-marta-quique",
+  first: "Marta",
+  second: "Quique",
+  date: "2027-10-16T13:00:00+02:00",
+  rsvpDeadline: "2027-09-10T23:59:00+02:00",
+  city: "Logroño",
+  region: "La Rioja",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-2.jpg",
+  cardMessage:
+    "Saltó la chispa en un concierto y no se ha apagado. Ven a la boda, que la vamos a encender del todo.",
+  welcomeMessage:
+    "Nos casamos en plena vendimia, entre viñas y calados. Aquí tienes todo lo que hace falta para que la fiesta no se apague.",
+  thankYouMessage:
+    "Gracias por mantener la fiesta encendida hasta el amanecer. Aquí están vuestras fotos, con humo y todo.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Concatedral de Santa María de la Redonda",
+      kind: "Ceremonia",
+      address: "Calle Portales, 14",
+      note: "En el casco antiguo. Hay parking en la calle Bretón de los Herreros.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Bodega El Calado",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Camino de la Grajera, 7",
+      note: "A 15 minutos, entre viñas. Los autobuses salen al terminar la ceremonia.",
+      photo: "pista",
+    },
+  ],
+  climate: [19, 8, 25],
+  program: [
+    ["13:00", "Ceremonia", "iglesia", "La Redonda", "Breve, con órgano y campanas.", "ceremony"],
+    [
+      "14:15",
+      "Aperitivo",
+      "finca",
+      "En el calado",
+      "Pinchos de la calle Laurel y vino de la casa.",
+      "cocktail",
+    ],
+    [
+      "16:00",
+      "Comida",
+      "finca",
+      "Entre barricas",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "19:30",
+      "Fiesta",
+      "finca",
+      "Con hoguera en las viñas",
+      "Barra libre, concierto y baile.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["centro", "Logroño → Bodega", "Plaza del Ayuntamiento", "13:45", ["22:00", "02:00"], 55],
+    ["haro", "Haro → Logroño", "Estación de Haro", "11:30", ["02:00"], 30],
+  ],
+  menu: {
+    carne: "Chuletillas al sarmiento con pimientos",
+    pescado: "Bacalao a la riojana",
+    vegetariano: "Patatas a la riojana sin chorizo, con setas",
+    vegano: "Pochas con verduras de la huerta",
+  },
+  dressCode: {
+    title: "Otoño en las viñas",
+    detail: "Rojo vino, azul noche, crema y teja. Se camina por tierra: tacón ancho o plano.",
+    palette: [
+      { name: "Azul etiqueta", hex: "#1f2433" },
+      { name: "Rojo cerilla", hex: "#a82d1d" },
+      { name: "Cartón", hex: "#e0d1b3" },
+      { name: "Teja", hex: "#b5652e" },
+    ],
+    examples: [
+      "Vestido de otoño y una chaqueta para la hoguera.",
+      "Traje oscuro o americana de pana; la corbata, opcional.",
+      "Ropa abrigada: habrá castañas y bengalas (con monitores).",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Calle Mayor",
+      "En el casco antiguo",
+      "Habitaciones reservadas hasta el 1 de septiembre.",
+    ],
+    ["Casa rural Las Viñas", "Junto a la bodega", "Para quien quiera quedarse a la hoguera."],
+  ],
+  story: {
+    intro:
+      "Un concierto, un mechero que no funcionaba y una caja de cerillas. Esta es la versión corta.",
+    moments: [
+      [
+        "2018",
+        "El concierto",
+        "Ella pidió fuego; él solo tenía una caja de cerillas de un bar. Aún la guardamos.",
+        "terraza",
+      ],
+      [
+        "2021",
+        "La vendimia",
+        "Primer otoño juntos cortando uva en la viña de su abuelo.",
+        "olivos",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En la bodega, con el anillo dentro de una caja de cerillas. Casi lo tira.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "Falta encender la fiesta. Contigo.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Japón", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Una chimenea para casa", "Para los inviernos de Logroño.", "450 €"],
+    ["Un tocadiscos", "El de los conciertos de siempre.", "180 €"],
+    ["Una barrica con nuestro nombre", "Para abrirla en el primer aniversario.", "120 €"],
+  ],
+  kids: "Habrá monitores, castañas y comida para ellos.",
+  faq: ["¿Hace frío en la bodega?", "Dentro no; fuera, al caer la tarde, sí. Trae una chaqueta."],
+  guestbook: [
+    ["Los del bar de la calle Laurel", "Os guardamos una caja de cerillas de recuerdo."],
+    ["Aitona Ramón", "En mi viña se conocieron de verdad. Enhorabuena, chavales."],
+    ["Leire y Jon", "Que no se apague nunca. ¡Y que dure la hoguera!"],
+  ],
+  songs: [
+    "Light My Fire",
+    "Fuego",
+    "Ojalá que llueva café",
+    "September",
+    "Valerie",
+    "Mr. Brightside",
+  ],
+});

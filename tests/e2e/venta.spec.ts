@@ -72,9 +72,9 @@ test.describe("página de venta", () => {
     await expect(page.getByLabel("Vuestros nombres")).toBeInViewport();
   });
 
-  test("el muestrario enseña las treinta y cinco plantillas por familias", async ({ page }) => {
+  test("el muestrario enseña las treinta y ocho plantillas por familias", async ({ page }) => {
     await page.goto("/");
-    const book = page.getByRole("region", { name: "Treinta y cinco plantillas para empezar" });
+    const book = page.getByRole("region", { name: "Treinta y ocho plantillas para empezar" });
     const papel = book.getByRole("tab", { name: /Papel y acuarela/ });
     await expect(papel).toHaveAttribute("aria-selected", "true");
     await expect(book.getByRole("tabpanel").getByRole("link")).toHaveCount(20);
@@ -84,7 +84,7 @@ test.describe("página de venta", () => {
     const objetos = book.getByRole("tab", { name: /Objetos/ });
     await expect(objetos).toHaveAttribute("aria-selected", "true");
     await expect(objetos).toBeFocused();
-    await expect(book.getByRole("tabpanel").getByRole("link")).toHaveCount(15);
+    await expect(book.getByRole("tabpanel").getByRole("link")).toHaveCount(18);
     await book.getByRole("link", { name: "Gaceta", exact: true }).click();
     await expect(page).toHaveURL(/plantilla=gaceta/);
   });
@@ -127,23 +127,23 @@ test.describe("página de venta", () => {
     await expect(openings.getByRole("link")).toHaveCount(7);
     // La película se ofrece como apertura premium.
     await expect(openings.getByRole("link", { name: /Sobre de película.*Premium/ })).toBeAttached();
-    // Las portadas, por familias: entre las tres pestañas están las treinta y seis.
-    const covers = page.getByRole("region", { name: "Treinta y seis portadas" });
+    // Las portadas, por familias: entre las tres pestañas están las treinta y nueve.
+    const covers = page.getByRole("region", { name: "Treinta y nueve portadas" });
     const tabs = covers.getByRole("tab");
     await expect(tabs).toHaveCount(3);
     let total = 0;
-    for (const [i, expected] of [6, 15, 15].entries()) {
+    for (const [i, expected] of [6, 15, 18].entries()) {
       await tabs.nth(i).click();
       await expect(tabs.nth(i)).toHaveAttribute("aria-selected", "true");
       await expect(covers.getByRole("tabpanel").getByRole("link")).toHaveCount(expected);
       total += expected;
     }
-    expect(total).toBe(36);
+    expect(total).toBe(39);
     await covers.getByRole("link", { name: "Gaceta", exact: true }).click();
     await expect(page).toHaveURL(/portada=gaceta/);
     await page.goBack();
     // Las plantillas, también por familias y con su apertura asomando.
-    const templates = page.getByRole("region", { name: "Treinta y cinco plantillas" });
+    const templates = page.getByRole("region", { name: "Treinta y ocho plantillas" });
     await expect(templates.getByRole("tabpanel").getByRole("link")).toHaveCount(20);
     await expect(templates.getByText(/^Se abre con:/).first()).toBeAttached();
     // Nada se sale de la página.

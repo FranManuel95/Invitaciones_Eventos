@@ -22,6 +22,7 @@ import {
   yearOf,
   type ConceptProps,
 } from "./concept-kit";
+import { NEW_COVERS } from "./concepts-new";
 import { MAP_COVERS } from "./concepts-play";
 
 /*
@@ -953,4 +954,5 @@ export const MORE_COVERS = {
   cosecha: VintageCover,
   tarot: TarotCover,
   ...MAP_COVERS,
+  ...NEW_COVERS,
 };

@@ -21,6 +21,9 @@ import {
   tarot,
   arcade,
   semillas,
+  instantanea,
+  abanico,
+  cerillas,
 } from "./template-weddings";
 import { guestbook, type DemoVariant } from "./wedding-builder";
 
@@ -988,6 +991,9 @@ const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   tarot,
   arcade,
   semillas,
+  instantanea,
+  abanico,
+  cerillas,
 };
 
 /** La boda ficticia propia de una plantilla, si la tiene. */
