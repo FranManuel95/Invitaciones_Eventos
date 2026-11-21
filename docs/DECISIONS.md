@@ -1413,7 +1413,14 @@ olivo.
   encienden al tocarlos y el programa en el cartel; Macarena y Rafa, Jerez de la Frontera) y
   **Ficha de biblioteca** («Historia de…», la tabla de préstamos de la pareja y la boda, que se
   sella con su fecha al tocar la ficha; Clara y Martín, Alcalá de Henares, el Día del Libro).
-  Estilos Directo, Verbena y Préstamo. Ya son 47 plantillas (27 de objetos) y 48 portadas.
+  Estilos Directo, Verbena y Préstamo.
+- **Quinta tanda**: **Llave de hotel** (llave de latón que gira un cuarto de vuelta en la cerradura
+  con el dedo; la placa granate lleva «Habitación ddmm», los nombres, la entrada y «Salida:
+  nunca»; Julia y Andrés, Donostia), **Partitura** («Marcha nupcial de…» en un pentagrama; cada
+  nota suena al tocarla y el botón toca la melodía entera; la letra son los nombres; Nerea y Pol,
+  Barcelona) y **Brújula** (la aguja se gira con el dedo o busca sola el rumbo; bajo el norte, la
+  ciudad y, si el tiempo se calculó, sus coordenadas; Lara y Diego, Fisterra). Estilos Latón,
+  Pentagrama y Bitácora. Ya son 50 plantillas (30 de objetos) y 51 portadas.
 
 ## Pendiente para próximas fases
 

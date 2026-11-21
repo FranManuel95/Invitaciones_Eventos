@@ -241,6 +241,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Préstamo para toda la vida",
     pass: { kicker: "Carné de lector", people: "Lectores" },
   },
+  llave: {
+    object: "la llave",
+    carrier: "Gran Hotel",
+    letterhead: "Recepción",
+    signoff: "Salida: nunca",
+    pass: { kicker: "Tarjeta de huésped", people: "Huéspedes" },
+  },
+  partitura: {
+    object: "la partitura",
+    carrier: "Op. 1 · Allegro con amore",
+    letterhead: "Notas del programa",
+    signoff: "Fine",
+    pass: { kicker: "Butaca de estreno", people: "Público" },
+  },
+  brujula: {
+    object: "la brújula",
+    carrier: "Cuaderno de bitácora",
+    letterhead: "Rumbo y derrota",
+    signoff: "Puerto de destino: el baile",
+    pass: { kicker: "Rol de tripulantes", people: "Tripulación" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

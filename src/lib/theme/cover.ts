@@ -54,6 +54,9 @@ export const COVER_IDS = [
   "concierto",
   "feria",
   "biblioteca",
+  "llave",
+  "partitura",
+  "brujula",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -257,6 +260,18 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Ficha de biblioteca",
     description: "La ficha de préstamo de vuestra historia: la boda se sella con su fecha.",
   },
+  llave: {
+    label: "Llave de hotel",
+    description: "La llave de latón de la habitación: el número es vuestra fecha y se gira.",
+  },
+  partitura: {
+    label: "Partitura",
+    description: "Vuestra marcha nupcial en un pentagrama: las notas suenan al tocarlas.",
+  },
+  brujula: {
+    label: "Brújula",
+    description: "Una brújula de latón cuya aguja busca el lugar de la boda.",
+  },
 };
 
 /**
@@ -292,6 +307,9 @@ export const CONCEPT_COVERS = {
   concierto: { ink: "#f4f1ea", paper: "#16121f", tone: "oscuro" },
   feria: { ink: "#3a1418", paper: "#f0e2c6" },
   biblioteca: { ink: "#2a2622", paper: "#ddd3bd" },
+  llave: { ink: "#3a2a14", paper: "#e9dcc0" },
+  partitura: { ink: "#2b2620", paper: "#e7dfcc" },
+  brujula: { ink: "#3b2e1c", paper: "#e4d7b8" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -401,6 +419,9 @@ export const MOTIF_IDS = [
   "concierto",
   "feria",
   "biblioteca",
+  "llave",
+  "partitura",
+  "brujula",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -442,4 +463,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   concierto: { label: "Gira en directo", kind: "concepto" },
   feria: { label: "Fiestas del pueblo", kind: "concepto" },
   biblioteca: { label: "Biblioteca", kind: "concepto" },
+  llave: { label: "Gran hotel", kind: "concepto" },
+  partitura: { label: "Partitura", kind: "concepto" },
+  brujula: { label: "Cuaderno de bitácora", kind: "concepto" },
 };

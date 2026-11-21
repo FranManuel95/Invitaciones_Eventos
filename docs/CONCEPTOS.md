@@ -8,12 +8,13 @@ Rama de trabajo: `claude/tender-franklin-isgz7b` (PR #6 contra `main`, sin fusio
 continuación (Telegrama y Postal, ronda 19) está en `claude/exciting-franklin-43k083`, que parte
 de esa rama y la contiene entera.
 
-**Hechas las veintisiete**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
+**Hechas las treinta**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
 las diez de la ronda 20 (Vinilo, Pasaporte, Carta, Mapa, Constelación, Cómic, Cosecha, Tarot,
 Arcade y Semillas) e Instantánea, Abanico, Cerillas, Galleta de la suerte, Casete y Mensaje en una botella (ronda
 38, en `cover/concepts-new.tsx`) y Crucigrama, Billete de tren y Receta de la abuela (ronda 38, en
 `cover/concepts-new2.tsx`) y Entrada de concierto, Cartel de feria y Ficha de biblioteca (ronda
-38, en `cover/concepts-new3.tsx`). Las fichas de abajo se conservan como referencia de lo que se
+38, en `cover/concepts-new3.tsx`) y Llave de hotel, Partitura y Brújula (ronda 38, en
+`cover/concepts-new4.tsx`). Las fichas de abajo se conservan como referencia de lo que se
 construyó; lo que queda es lo de «Pendiente en las que ya existen», que vale para todas.
 
 Dónde está cada cosa ahora: piezas comunes en `cover/concept-kit.tsx`; portadas en
@@ -370,12 +371,13 @@ las pruebas de contraste y ajustar.
 Objetos reconocibles en un segundo y con un gesto que solo tiene sentido en ellos:
 
 Hechas en la ronda 38: Galleta de la suerte, Casete, Crucigrama, Receta, Billete de tren,
-Entrada de concierto, Cartel de feria y Ficha de biblioteca. Quedan por probar:
+Entrada de concierto, Cartel de feria, Ficha de biblioteca, Llave de hotel, Partitura y Brújula.
+Quedan por probar:
 
-1. **Llave de hotel**: llavero de latón con el número de habitación (la fecha); se gira en la cerradura.
-2. **Partitura**: el pentagrama con vuestros nombres; tocar las notas las hace sonar.
-3. **Brújula**: la aguja gira con el móvil (o el dedo) hasta señalar el lugar de la boda.
-4. **Sello de cera**: se derrite la cera y se estampa con el dedo (vídeo `fx-lacre` de Higgsfield).
+1. **Sello de cera**: se derrite la cera y se estampa con el dedo (vídeo `fx-lacre` de Higgsfield).
+2. **Sobre de cartas de póker**: se reparte la mano y la escalera real es la fecha.
+3. **Horóscopo de periódico**: el signo de cada uno y la predicción compartida.
+4. **Calendario de adviento**: se abre la ventanita del día de la boda.
 
 ## Por dónde empezar
 

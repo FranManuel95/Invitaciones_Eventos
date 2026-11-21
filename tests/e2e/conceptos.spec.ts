@@ -44,6 +44,9 @@ const CONCEPTS = [
   { id: "concierto", names: /Vega & Marcos/, date: "10.07.27", opening: "concepto" },
   { id: "feria", names: /Macarena y Rafa/, date: "8 de mayo de 2027", opening: "concepto" },
   { id: "biblioteca", names: /Clara y Martín/, date: "23 de abril de 2027", opening: "concepto" },
+  { id: "llave", names: /Julia y Andrés/, date: "12 de junio de 2027", opening: "concepto" },
+  { id: "partitura", names: /Nerea y Pol/, date: "23 de octubre de 2027", opening: "concepto" },
+  { id: "brujula", names: /Lara y Diego/, date: "14 de agosto de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -422,6 +425,38 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await expect(row).toHaveAttribute("data-stamped", "si");
     await expect(stage.getByRole("button", { name: "Fecha sellada" })).toBeDisabled();
     await expect(stage).toBeVisible();
+  });
+
+  test("llave: se gira en la cerradura con el dedo", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=llave");
+    const stage = cover(page, "llave");
+    const lock = stage.locator("[data-lock]");
+    const box = (await lock.boundingBox())!;
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(box.x + box.width / 2 + 180, box.y + box.height / 2, { steps: 10 });
+    await page.mouse.up();
+    await expect(lock).toHaveAttribute("data-lock", "abierta");
+    await expect(stage.getByRole("button", { name: "Puerta abierta" })).toBeDisabled();
+    await expect(stage).toBeVisible();
+  });
+
+  test("partitura: cada nota suena al tocarla y el botón toca la melodía", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=partitura");
+    const stage = cover(page, "partitura");
+    await stage.locator("[data-note]").first().click();
+    await expect(stage.locator("[data-note]").first()).toHaveAttribute("data-note", "sonada");
+    await stage.getByRole("button", { name: "Tocar la melodía" }).click();
+    await expect(stage.locator("[data-score]")).toHaveAttribute("data-score", "tocada");
+    await expect(stage).toBeVisible();
+  });
+
+  test("brújula: la aguja encuentra el rumbo y enseña las coordenadas", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=brujula");
+    const stage = cover(page, "brujula");
+    await expect(stage.getByText(/42° 53′ N/)).toBeVisible();
+    await stage.getByRole("button", { name: "Buscar el rumbo" }).click();
+    await expect(stage.locator("[data-compass]")).toHaveAttribute("data-compass", "encontrado");
   });
 
   test("con movimiento reducido las portadas se abren sin esperar animaciones", async ({

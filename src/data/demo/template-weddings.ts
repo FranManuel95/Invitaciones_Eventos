@@ -5026,3 +5026,436 @@ export const biblioteca = wedding({
     "Dancing Queen",
   ],
 });
+
+export const llave = wedding({
+  id: "evt-demo-julia-andres",
+  first: "Julia",
+  second: "Andrés",
+  date: "2027-06-12T18:00:00+02:00",
+  rsvpDeadline: "2027-05-03T23:59:00+02:00",
+  city: "Donostia",
+  region: "Gipuzkoa",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-1.jpg",
+  cardMessage:
+    "Nos conocimos en el ascensor de un hotel que se quedó parado entre dos plantas. Esta vez la puerta se abre sola: pasa.",
+  welcomeMessage:
+    "Tenemos reservada la mejor habitación de la ciudad para celebrarlo. Aquí tienes tu llave y todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por alojaros en nuestra boda y por no querer hacer el check-out. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Basílica de Santa María del Coro",
+      kind: "Ceremonia",
+      address: "Calle 31 de Agosto, 46",
+      note: "En la Parte Vieja. Hay parking en el Boulevard.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Gran Hotel de la Concha",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Paseo de la Concha, 2",
+      note: "A 10 minutos andando por el paseo. Salón con vistas a la bahía.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [22, 15, 35],
+  program: [
+    [
+      "18:00",
+      "Ceremonia",
+      "iglesia",
+      "Santa María del Coro",
+      "Con órgano y txistu a la salida.",
+      "ceremony",
+    ],
+    [
+      "19:15",
+      "Aperitivo",
+      "finca",
+      "En la terraza",
+      "Pintxos, txakoli y la bahía al atardecer.",
+      "cocktail",
+    ],
+    [
+      "21:00",
+      "Cena",
+      "finca",
+      "En el salón de baile",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["23:30", "Fiesta", "finca", "Hasta el desayuno", "Barra libre, orquesta y DJ.", "party"],
+  ],
+  busRoutes: [
+    ["bilbao", "Bilbao → Donostia", "Termibus, Bilbao", "16:15", ["02:00", "05:00"], 55],
+    ["hondarribia", "Hondarribia → Donostia", "Plaza de Armas", "17:15", ["05:00"], 30],
+  ],
+  menu: {
+    carne: "Solomillo con foie y reducción de Pedro Ximénez",
+    pescado: "Rodaballo a la brasa con refrito",
+    vegetariano: "Hongos de temporada con yema curada",
+    vegano: "Pochas con verduras y piparras",
+  },
+  dressCode: {
+    title: "Gran hotel",
+    detail: "Elegante de noche: granate, latón y crema. Habrá salón de baile.",
+    palette: [
+      { name: "Terciopelo", hex: "#6e1f2c" },
+      { name: "Latón", hex: "#c9a14a" },
+      { name: "Crema", hex: "#f8f1e2" },
+      { name: "Bahía", hex: "#46627a" },
+    ],
+    examples: [
+      "Vestido largo o de cóctel; zapato cómodo para el salón.",
+      "Traje oscuro o esmoquin; la pajarita, bienvenida.",
+      "Elegantes y cómodos: habrá sala de juegos para ellos.",
+    ],
+  },
+  accommodation: [
+    [
+      "Gran Hotel de la Concha",
+      "Donde es la cena",
+      "Habitaciones reservadas hasta el 1 de mayo. Menciona la boda.",
+    ],
+    ["Pensión La Parte Vieja", "Junto a la basílica", "Más sencilla y en pleno centro."],
+  ],
+  story: {
+    intro: "Un ascensor parado, cuarenta minutos y una conversación. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "El ascensor",
+        "Se quedó parado entre la planta cuatro y la cinco. Salimos con planes para cenar.",
+        "cala",
+      ],
+      ["2021", "Los viajes", "Un hotel distinto cada mes, coleccionando llaves.", "furgoneta"],
+      [
+        "2026",
+        "La pedida",
+        "En la habitación del primer hotel, con el anillo en el llavero.",
+        "anilloBarca",
+      ],
+      ["Hoy", "Y ahora, la boda", "Tu habitación está lista. Solo falta que llegues.", "orilla"],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Viena",
+      "A dormir en un gran hotel de verdad. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Un juego de sábanas de hotel", "Para que casa sea como el hotel.", "180 €"],
+    ["Una cena en el salón de la Concha", "Para el primer aniversario.", "220 €"],
+    ["Un llavero de latón grabado", "Para la llave de casa.", "40 €"],
+  ],
+  kids: "Habrá monitores, sala de juegos y cena para ellos.",
+  faq: [
+    "¿Hay habitaciones en el hotel?",
+    "Sí, con precio especial hasta el 1 de mayo. Menciona la boda.",
+  ],
+  guestbook: [
+    ["Los del ascensor", "Prometemos no quedarnos encerrados esta vez."],
+    ["Amona Josefa", "Qué hotel tan elegante. Ponte la chaqueta, hijo."],
+    ["Mikel y Ane", "Habitación pedida. No pensamos hacer el check-out."],
+  ],
+  songs: [
+    "Hotel California",
+    "La chica de ayer",
+    "Fly Me to the Moon",
+    "September",
+    "Valerie",
+    "Mi gran noche",
+  ],
+});
+
+export const partitura = wedding({
+  id: "evt-demo-nerea-pol",
+  first: "Nerea",
+  second: "Pol",
+  date: "2027-10-23T17:30:00+02:00",
+  rsvpDeadline: "2027-09-13T23:59:00+02:00",
+  city: "Barcelona",
+  region: "Barcelona",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-4.jpg",
+  cardMessage:
+    "Nos conocimos en la orquesta del conservatorio: ella al violín, él desafinando al chelo. Esta es nuestra pieza favorita.",
+  welcomeMessage:
+    "Hemos compuesto el día como una sinfonía en cuatro movimientos. Aquí tienes el programa del estreno.",
+  thankYouMessage:
+    "Gracias por el aplauso más largo de nuestra vida. Aquí están vuestras fotos, con bis incluido.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Basílica de Santa Maria del Mar",
+      kind: "Ceremonia",
+      address: "Plaça de Santa Maria, 1",
+      note: "En el Born. Mejor venir en metro: no hay dónde aparcar.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Casa de la Música",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Carrer de Sant Pere Més Alt, 11",
+      note: "A 10 minutos andando. Habrá cuarteto de cuerda en el aperitivo.",
+      photo: "pista",
+    },
+  ],
+  climate: [21, 14, 30],
+  program: [
+    [
+      "17:30",
+      "Ceremonia",
+      "iglesia",
+      "Santa Maria del Mar",
+      "Con coro y cuarteto de cuerda.",
+      "ceremony",
+    ],
+    [
+      "18:45",
+      "Aperitivo",
+      "finca",
+      "En el claustro",
+      "Cava, tapas y música de cámara.",
+      "cocktail",
+    ],
+    [
+      "20:30",
+      "Cena",
+      "finca",
+      "En el salón de los espejos",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["23:00", "Fiesta", "finca", "Del adagio al rock", "Barra libre, orquesta y DJ.", "party"],
+  ],
+  busRoutes: [
+    [
+      "girona",
+      "Girona → Barcelona",
+      "Estació d'autobusos, Girona",
+      "15:30",
+      ["01:30", "04:30"],
+      55,
+    ],
+    ["sitges", "Sitges → Barcelona", "Estació de Sitges", "16:15", ["04:30"], 30],
+  ],
+  menu: {
+    carne: "Fricandó de ternera con setas",
+    pescado: "Suquet de pescado de roca",
+    vegetariano: "Canelones de setas y espinacas",
+    vegano: "Escalivada con romesco y coca",
+  },
+  dressCode: {
+    title: "Noche de estreno",
+    detail: "Negro de concierto con un toque de rojo. Es una boda de gala, sin exigir esmoquin.",
+    palette: [
+      { name: "Tinta", hex: "#2b2620" },
+      { name: "Papel pautado", hex: "#fbf7ec" },
+      { name: "Nota roja", hex: "#a3402a" },
+      { name: "Madera de violín", hex: "#8a5a2c" },
+    ],
+    examples: [
+      "Vestido de noche o de cóctel; algo de abrigo para el claustro.",
+      "Traje oscuro; corbata o pajarita.",
+      "Elegantes: habrá taller de instrumentos para ellos.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Born", "Junto a la basílica", "Habitaciones reservadas hasta el 15 de septiembre."],
+    ["Apartamentos Sant Pere", "Junto a la Casa de la Música", "Para grupos de amigos."],
+  ],
+  story: {
+    intro: "Un violín, un chelo desafinado y un ensayo eterno. Esta es la versión corta.",
+    moments: [
+      ["2016", "El ensayo", "Él desafinó toda la tarde. Ella le afinó el chelo y la vida.", "cala"],
+      [
+        "2019",
+        "La gira",
+        "Un verano tocando en las plazas de los pueblos de la costa.",
+        "furgoneta",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "Al final de un concierto, con el anillo dentro del estuche del violín.",
+        "anilloBarca",
+      ],
+      ["Hoy", "Y ahora, la boda", "La pieza está escrita. Falta el público.", "orilla"],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Viena",
+      "Al concierto de Año Nuevo. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Un atril de madera", "Para los ensayos en casa.", "120 €"],
+    ["Abono para el Liceu", "Para la temporada que viene.", "300 €"],
+    ["Cuerdas nuevas para todo el año", "Que se rompen mucho.", "80 €"],
+  ],
+  kids: "Habrá monitores, taller de instrumentos y cena para ellos.",
+  faq: [
+    "¿Hay que saber de música?",
+    "No: basta con aplaudir al final de cada movimiento (y no entre medias).",
+  ],
+  guestbook: [
+    ["La orquesta del conservatorio", "Hemos ensayado una sorpresa. Esta vez afinados."],
+    ["Àvia Montserrat", "Qué bonito tocáis los dos. Y qué bonito os queréis."],
+    ["Biel y Laia", "Pedimos el bis desde ya."],
+  ],
+  songs: [
+    "Canon de Pachelbel",
+    "Mediterráneo",
+    "Can't Help Falling in Love",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
+
+export const brujula = wedding({
+  id: "evt-demo-lara-diego",
+  first: "Lara",
+  second: "Diego",
+  date: "2027-08-14T19:00:00+02:00",
+  rsvpDeadline: "2027-07-05T23:59:00+02:00",
+  city: "Fisterra",
+  region: "A Coruña",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-2.jpg",
+  cardMessage:
+    "Llevamos diez años navegando juntos. Esta vez el rumbo es el fin del mundo, y queremos que vengas en el barco.",
+  welcomeMessage:
+    "Nos casamos en Fisterra, donde se acaba el mapa. Aquí tienes la carta de navegación con todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por navegar hasta el fin del mundo con nosotros. Aquí están vuestras fotos, con el faro al fondo.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Faro de Fisterra",
+      kind: "Ceremonia",
+      address: "Cabo Fisterra, s/n",
+      note: "Ceremonia civil junto al faro, al atardecer. Lleva una chaqueta: sopla el viento.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Pazo do Cabo",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Lugar de San Martiño, 3",
+      note: "A 10 minutos en autobús, mirando al mar.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [22, 15, 20],
+  program: [
+    [
+      "19:00",
+      "Ceremonia",
+      "iglesia",
+      "Junto al faro",
+      "Al atardecer, en el fin del mundo.",
+      "ceremony",
+    ],
+    [
+      "20:15",
+      "Aperitivo",
+      "finca",
+      "En el jardín del pazo",
+      "Pulpo, percebes y albariño.",
+      "cocktail",
+    ],
+    [
+      "22:00",
+      "Cena",
+      "finca",
+      "En el hórreo grande",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["00:00", "Fiesta", "finca", "Con queimada", "Barra libre, gaitas y DJ.", "party"],
+  ],
+  busRoutes: [
+    [
+      "santiago",
+      "Santiago → Fisterra",
+      "Praza de Galicia, Santiago",
+      "17:00",
+      ["02:30", "05:30"],
+      55,
+    ],
+    ["coruna", "A Coruña → Fisterra", "Estación de autobuses, A Coruña", "16:45", ["05:30"], 30],
+  ],
+  menu: {
+    carne: "Ternera gallega con patatas",
+    pescado: "Merluza de pincho a la gallega",
+    vegetariano: "Empanada de verduras y grelos",
+    vegano: "Caldo gallego de verduras",
+  },
+  dressCode: {
+    title: "Atardecer en el cabo",
+    detail: "Azul marino, crema y un toque de rojo. Sopla el viento: chaqueta o chal.",
+    palette: [
+      { name: "Rosa de los vientos", hex: "#9b1d2c" },
+      { name: "Carta náutica", hex: "#fbf4e2" },
+      { name: "Latón", hex: "#c9a14a" },
+      { name: "Atlántico", hex: "#2f4a5e" },
+    ],
+    examples: [
+      "Vestido y chal; calzado plano para la roca.",
+      "Traje azul o americana con jersey; sin corbata.",
+      "Ropa de abrigo: habrá búsqueda del tesoro con brújula para ellos.",
+    ],
+  },
+  accommodation: [
+    ["Hotel O Semáforo", "Junto al faro", "Pocas habitaciones: reservad pronto."],
+    ["Casa rural Fin da Terra", "En el pueblo", "Para grupos y para la queimada del domingo."],
+  ],
+  story: {
+    intro:
+      "Una regata, un barco prestado y una brújula que no funcionaba. Esta es la versión corta.",
+    moments: [
+      [
+        "2017",
+        "La regata",
+        "Nos perdimos en la primera regata. La brújula marcaba el sur. Llegamos últimos y juntos.",
+        "cala",
+      ],
+      [
+        "2020",
+        "La costa",
+        "Un verano costeando Galicia en un velero de segunda mano.",
+        "furgoneta",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En el barco, frente al faro, con el anillo dentro de la brújula.",
+        "anilloBarca",
+      ],
+      ["Hoy", "Y ahora, la boda", "El rumbo está fijado: fin del mundo. Sube a bordo.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestra vuelta a las islas Feroe", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Una brújula que funcione", "Para no volver a perdernos.", "90 €"],
+    ["Velas nuevas para el barco", "Que las viejas tienen diez años.", "400 €"],
+    ["Una carta náutica enmarcada", "La de nuestra costa.", "120 €"],
+  ],
+  kids: "Habrá monitores, búsqueda del tesoro y cena para ellos.",
+  faq: ["¿Hace frío en el faro?", "Al atardecer, sí, y sopla. Trae algo de abrigo."],
+  guestbook: [
+    ["La tripulación del velero", "Esta vez la brújula la llevamos nosotros."],
+    ["Avoa Carmiña", "Que el mar os sea siempre bueno, rapaces."],
+    ["Xoán y Uxía", "Nos pedimos la queimada."],
+  ],
+  songs: ["Sailing", "Mediterráneo", "La isla bonita", "September", "Valerie", "Dancing Queen"],
+});
+
+// La brújula enseña las coordenadas del sitio (en una boda real, las del cálculo del tiempo).
+brujula.event.climate = { ...brujula.event.climate!, lat: 42.882, lon: -9.272 };
