@@ -7,7 +7,9 @@ test.describe("página de venta", () => {
     await expect(
       page.getByRole("heading", { level: 1, name: "Una invitación que se abre como una carta" }),
     ).toBeVisible();
-    await expect(page.getByText("129 €", { exact: true })).toBeVisible();
+    for (const price of ["79 €", "99 €", "149 €"]) {
+      await expect(page.getByText(price, { exact: true })).toBeVisible();
+    }
     // La invitación de ejemplo se carga dentro del móvil al tocarlo.
     await page.getByRole("button", { name: "Abrir la invitación aquí" }).click();
     const phone = page.frameLocator('iframe[title="Invitación de ejemplo de María y Daniel"]');
@@ -34,9 +36,19 @@ test.describe("página de venta", () => {
       await expect(journey.getByRole("listitem")).toHaveCount(7);
       await expect(journey.getByRole("heading", { name: "Rompe el lacre" })).toBeVisible();
     }
-    for (const name of ["Y vosotros, la boda en orden", "Un precio, sin letra pequeña"]) {
+    for (const name of ["Y vosotros, la boda en orden", "Elegid lo que necesitáis"]) {
       await expect(page.getByRole("region", { name })).toBeAttached();
     }
+  });
+
+  test("cada paquete deja elegido su opción en el formulario", async ({ page }) => {
+    await page.goto("/");
+    const form = page.locator("#pedir");
+    await expect(form.getByRole("radio", { name: "Aún no lo sé" })).toBeChecked();
+    await page.getByRole("link", { name: "Pedir «Invitación + álbum»" }).click();
+    await expect(form.getByRole("radio", { name: /Invitación \+ álbum · 99 €/ })).toBeChecked();
+    await page.getByRole("link", { name: "Pedir «Todo incluido»" }).click();
+    await expect(form.getByRole("radio", { name: /Todo incluido · 149 €/ })).toBeChecked();
   });
 
   test("la invitación a juego con la decoración lleva a pedirla", async ({ page }) => {
@@ -48,7 +60,7 @@ test.describe("página de venta", () => {
       .evaluateAll((hs) => hs.map((h) => h.textContent?.trim()));
     const at = order.indexOf("A juego con vuestra decoración");
     expect(order[at - 1]).toBe("Y vosotros, la boda en orden");
-    expect(order[at + 1]).toBe("Un precio, sin letra pequeña");
+    expect(order[at + 1]).toBe("Elegid lo que necesitáis");
     await expect(
       decor.getByRole("list", { name: "Tres decoraciones de muestra" }).getByRole("listitem"),
     ).toHaveCount(3);
@@ -90,7 +102,7 @@ test.describe("página de venta", () => {
   test("las preguntas se despliegan", async ({ page }) => {
     await page.goto("/");
     await page.getByText("¿Hay que pagar algo más?").click();
-    await expect(page.getByText(/una sola vez por boda, sin suscripciones/)).toBeVisible();
+    await expect(page.getByText(/una sola vez por boda, desde 79 € según lo que incluya/)).toBeVisible();
   });
 
   test("sin desbordes ni infracciones graves", async ({ page }) => {

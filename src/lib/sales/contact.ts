@@ -5,9 +5,6 @@ import { z } from "zod";
  * invitación. Se guarda en contact_requests (solo se lee desde el panel de Supabase).
  */
 
-/** Precio de partida: pago único por boda. */
-export const PRICE_EUR = 129;
-
 export const contactSchema = z.object({
   names: z.string().trim().min(1, "Escribid vuestros nombres.").max(120, "Es demasiado largo."),
   email: z

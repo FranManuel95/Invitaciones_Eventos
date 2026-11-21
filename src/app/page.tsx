@@ -4,10 +4,11 @@ import Link from "next/link";
 import { ContactForm } from "@/features/sales/contact-form";
 import { HeroFilm } from "@/features/sales/hero-film";
 import { Journey, type JourneyStep } from "@/features/sales/journey";
+import { PlanLink } from "@/features/sales/plan-link";
 import { PhoneDemo } from "@/features/sales/phone-demo";
 import { SampleBook, type SampleFamily } from "@/features/sales/sample-book";
 import { FEATURED_TEMPLATE_IDS, isConceptCover, TEMPLATES } from "@/lib/theme";
-import { PRICE_EUR } from "@/lib/sales/contact";
+import { PLANS, PRICE_FROM_EUR } from "@/lib/sales/plans";
 import { siteUrl } from "@/lib/site";
 import "./venta.css";
 
@@ -17,7 +18,7 @@ export function generateMetadata(): Metadata {
   const url = siteUrl();
   return {
     title: { absolute: "Invitaciones eFeLe: invitaciones de boda que se abren como una carta" },
-    description: `Invitación digital con sobre, lacre y carta, confirmaciones, mesas, menús y lista de regalos. Pago único de ${PRICE_EUR} €.`,
+    description: `Invitación digital con sobre, lacre y carta, confirmaciones, mesas, menús y lista de regalos. Pago único por boda, desde ${PRICE_FROM_EUR} €.`,
     // Solo con dominio propio: las direcciones de prueba de Vercel no deben indexarse.
     ...(url ? { robots: { index: true, follow: true }, alternates: { canonical: url } } : {}),
   };
@@ -103,14 +104,6 @@ const FOR_YOU = [
   ["Álbum con QR", "Los invitados suben sus fotos desde la mesa y vosotros elegís cuáles se ven."],
 ];
 
-const INCLUDED = [
-  "Invitaciones para todos vuestros invitados, sin límite",
-  "Veinticinco plantillas, siete aperturas y todos los colores, letras y lacres",
-  "El panel para organizar la boda hasta el último día",
-  "Cambios ilimitados, también después de enviarla",
-  "Ayuda por correo para dejarla a vuestro gusto",
-];
-
 const FAQS = [
   {
     q: "¿Los invitados tienen que instalar algo?",
@@ -130,7 +123,7 @@ const FAQS = [
   },
   {
     q: "¿Hay que pagar algo más?",
-    a: `No. Son ${PRICE_EUR} € una sola vez por boda, sin suscripciones ni cobros por invitado.`,
+    a: `No. Se paga una sola vez por boda, desde ${PRICE_FROM_EUR} € según lo que incluya, sin suscripciones ni cobros por invitado.`,
   },
 ];
 
@@ -224,7 +217,7 @@ export default function SalesPage() {
               </Link>
             </div>
             <p className="mt-8 text-[0.9375rem] text-[var(--niebla)]">
-              {PRICE_EUR} € una sola vez por boda, para todos vuestros invitados.
+              Desde {PRICE_FROM_EUR} € una sola vez por boda, para todos vuestros invitados.
             </p>
           </div>
 
@@ -487,55 +480,67 @@ export default function SalesPage() {
           </div>
         </section>
 
-        {/* ── Precio: una tarjeta impresa, cerrada con su lacre ── */}
+        {/* ── Precio: tres tarjetas impresas; la completa, cerrada con su lacre ── */}
         <section
           id="precio"
           aria-labelledby="precio-title"
           className="v-ink scroll-mt-4 py-16 sm:py-24 lg:py-32"
         >
-          <div
-            className={`${shell} grid items-center gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]`}
-          >
-            <div>
+          <div className={shell}>
+            <div className="max-w-[44rem]">
               <h2
                 id="precio-title"
                 className="v-display text-[clamp(2.6rem,5.2vw,4.5rem)] leading-[0.98]"
               >
-                Un precio, sin letra pequeña
+                Elegid lo que necesitáis
               </h2>
-              <p className="mt-6 max-w-[40ch] text-[1.0625rem] leading-relaxed text-[var(--niebla)]">
+              <p className="mt-6 max-w-[48ch] text-[1.0625rem] leading-relaxed text-[var(--niebla)]">
                 Se paga una vez por boda. Sin suscripciones y sin cobrar por invitado, invitéis a
                 cuarenta o a cuatrocientos.
               </p>
             </div>
-            <div className="relative mx-auto w-full max-w-[30rem] pt-12 lg:mr-0">
-              <Image
-                src="/venta/lacre-oro.webp"
-                alt=""
-                width={360}
-                height={360}
-                className="absolute top-0 left-1/2 z-10 size-24 -translate-x-1/2 rotate-[-8deg] drop-shadow-[0_10px_14px_rgb(0_0_0/0.35)]"
-              />
-              <div className="v-filete paper-grain rounded-[3px] bg-[var(--papel)] px-8 pt-16 pb-10 text-center text-[var(--tinta)] sm:px-12">
-                <p className="v-num text-[clamp(4.5rem,12vw,6.75rem)] leading-none">
-                  {PRICE_EUR} €
-                </p>
-                <p className="mt-3 text-[0.9375rem] text-[var(--grafito)]">Una sola vez por boda</p>
-                <ul className="mt-8 divide-y divide-[var(--papel-2)] border-y border-[var(--papel-2)] text-left">
-                  {INCLUDED.map((item) => (
-                    <li
-                      key={item}
-                      className="py-3 text-[0.9375rem] leading-snug text-[var(--grafito)]"
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <a href="#pedir" className="v-btn v-btn-lacre mt-9">
-                  Pedir la nuestra
-                </a>
-              </div>
-            </div>
+            <ul className="mt-14 grid items-stretch gap-8 lg:grid-cols-3 lg:gap-6">
+              {PLANS.map((plan) => (
+                <li key={plan.id} className="relative pt-10">
+                  {plan.featured ? (
+                    <Image
+                      src="/venta/lacre-oro.webp"
+                      alt=""
+                      width={360}
+                      height={360}
+                      className="absolute top-0 left-1/2 z-10 size-20 -translate-x-1/2 rotate-[-8deg] drop-shadow-[0_10px_14px_rgb(0_0_0/0.35)]"
+                    />
+                  ) : null}
+                  <div className="v-filete paper-grain flex h-full flex-col rounded-[3px] bg-[var(--papel)] px-7 pt-12 pb-8 text-center text-[var(--tinta)]">
+                    <h3 className="v-display text-[1.75rem] leading-tight">{plan.name}</h3>
+                    <p className="mt-2 text-[0.9375rem] text-[var(--grafito)]">{plan.pitch}</p>
+                    <p className="v-num mt-6 text-[clamp(3.5rem,8vw,4.75rem)] leading-none">
+                      {plan.price} €
+                    </p>
+                    <p className="mt-2 text-[0.875rem] text-[var(--grafito)]">
+                      Una sola vez por boda
+                    </p>
+                    <ul className="mt-6 flex-1 divide-y divide-[var(--papel-2)] border-y border-[var(--papel-2)] text-left">
+                      {plan.includes.map((item) => (
+                        <li
+                          key={item}
+                          className="py-3 text-[0.9375rem] leading-snug text-[var(--grafito)]"
+                        >
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                    <PlanLink plan={plan.id} className="v-btn v-btn-lacre mt-7">
+                      Pedir «{plan.name}»
+                    </PlanLink>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-8 max-w-[60ch] text-[0.9375rem] text-[var(--niebla)]">
+              ¿Dudáis cuál os conviene? Elegid «Aún no lo sé» en el formulario y os ayudamos. Se
+              puede ampliar más adelante.
+            </p>
           </div>
         </section>
 

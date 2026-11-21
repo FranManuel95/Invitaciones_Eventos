@@ -1324,6 +1324,20 @@ estaba cambiando.
 - Los eventos con tiempo calculado antes (sin coordenadas) lo recalculan solos al abrir el editor.
 - Demo: `?prevision=1` enseña una previsión de ejemplo.
 
+## Ronda 36: tres paquetes en la página de venta (21/11/2026)
+
+- **Paquetes provisionales** (`src/lib/sales/plans.ts`, un solo sitio para cambiar nombres, precios
+  y qué incluye): «Invitación» 79 €, «Invitación + álbum» 99 € y «Todo incluido» (con el panel) 149 €.
+  Pago único por boda. Los textos de «desde» (descripción, cabecera, preguntas) salen de
+  `PRICE_FROM_EUR`. «Panel solo» y «álbum solo» no se ofrecen: el panel sin invitación no se
+  sostiene y el álbum suelto compite con apps gratuitas.
+- **El formulario pregunta «¿Qué os interesa?»** (los tres paquetes y «Aún no lo sé»). Pulsar «Pedir»
+  en una tarjeta deja elegido su paquete (evento `elegir-paquete`). La elección se guarda **sin
+  migración**: va al principio del mensaje («Paquete: Invitación + álbum.»), así que se lee en
+  `contact_requests` de Supabase. Si algún día se quiere filtrar, se añade una columna `plan`.
+- **Aún no se limita nada en la app**: todos los eventos siguen teniendo panel y álbum. Venderlo solo
+  (sin intervención) exigiría un paquete por evento y esconder lo no contratado, junto con Stripe.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

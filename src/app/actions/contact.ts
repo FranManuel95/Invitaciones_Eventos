@@ -1,6 +1,7 @@
 "use server";
 
 import { validateContact, type ContactErrors, type ContactInput } from "@/lib/sales/contact";
+import { withPlan } from "@/lib/sales/plans";
 import { createAnonClient } from "@/lib/supabase/server";
 
 export type ContactResult =
@@ -43,7 +44,7 @@ export async function requestContact(
     p_names: valid.data.names,
     p_email: valid.data.email,
     p_wedding_date: valid.data.weddingDate || null,
-    p_message: valid.data.message,
+    p_message: withPlan(valid.data.message, String(form.get("plan") ?? "")),
   });
   if (error) {
     return {
