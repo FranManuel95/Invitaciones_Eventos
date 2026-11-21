@@ -50,6 +50,16 @@ function DiplomaCover({ event, onOpen, reduce }: ConceptProps) {
     <div className="absolute inset-0 overflow-hidden" style={{ fontFamily: SANS }}>
       <div aria-hidden className="paper-grain absolute inset-0 opacity-60" />
       <div className="relative mx-auto flex h-full w-full max-w-[24rem] flex-col items-center px-5 pt-[max(4.5rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))] text-center">
+        <p className="text-[0.75rem] tracking-[0.22em] uppercase">Diploma de</p>
+        <h1
+          id="cover-title"
+          tabIndex={-1}
+          translate="no"
+          className="mt-1 mb-4 text-[clamp(1.9rem,8.8vw,2.5rem)] leading-[1.05] italic outline-none"
+          style={{ fontFamily: PLAYFAIR }}
+        >
+          {names(event)}
+        </h1>
         <Arrive reduce={reduce} tilt={0} className="w-full">
           <div
             data-diploma={open ? "abierto" : "enrollado"}
@@ -83,15 +93,13 @@ function DiplomaCover({ event, onOpen, reduce }: ConceptProps) {
                 <p className="text-[0.625rem] tracking-[0.24em] uppercase">Universidad del Amor</p>
                 <p className="mt-2 text-[0.8125rem] italic">Por cuanto han superado con éxito</p>
                 <p className="text-[0.8125rem] italic">todos los años de convivencia,</p>
-                <h1
-                  id="cover-title"
-                  tabIndex={-1}
-                  translate="no"
-                  className="mt-3 text-[clamp(1.9rem,8.8vw,2.5rem)] leading-[1.05] outline-none"
+                <p
+                  aria-hidden
+                  className="mt-3 text-[clamp(1.9rem,8.8vw,2.5rem)] leading-[1.05]"
                   style={{ fontFamily: PLAYFAIR, fontStyle: "italic" }}
                 >
                   {names(event)}
-                </h1>
+                </p>
                 <p className="mt-3 text-[0.8125rem]">reciben el título de</p>
                 <p
                   className="text-[1.375rem] leading-tight font-bold"
@@ -258,7 +266,7 @@ function StickerPackCover({ event, onOpen, reduce }: ConceptProps) {
             disabled={open}
             className="mt-3 rounded-full bg-[#c21b2a] px-6 py-2.5 text-[0.9375rem] font-medium text-white disabled:opacity-70"
           >
-            {open ? "¡Los tengo todos!" : "Abrir el sobre"}
+            {open ? "¡Los tengo todos!" : "Rasgar el sobre"}
           </button>
           <p className="short-hide mt-1.5 text-[0.8125rem] italic">O rasga la tira con el dedo.</p>
           <OpenHint onOpen={onOpen} />

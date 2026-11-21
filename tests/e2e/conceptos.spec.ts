@@ -553,7 +553,7 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
   test("cromos: al abrir el sobre salen los cromos", async ({ page }) => {
     await page.goto("/i/familia-garcia?plantilla=cromos");
     const stage = cover(page, "cromos");
-    await stage.getByRole("button", { name: "Abrir el sobre" }).click();
+    await stage.getByRole("button", { name: "Rasgar el sobre" }).click();
     await expect(stage.locator("[data-pack]")).toHaveAttribute("data-pack", "abierto");
     await expect(stage.getByRole("button", { name: "¡Los tengo todos!" })).toBeDisabled();
   });
