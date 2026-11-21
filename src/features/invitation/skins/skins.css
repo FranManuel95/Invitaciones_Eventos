@@ -1208,6 +1208,160 @@
   content: "Frótese con cariño · Manténgase encendida";
 }
 
+/* Galleta de la suerte: cada sección es una fortuna; el cierre da los números de la suerte. */
+[data-motif="galleta"] {
+  counter-reset: fortuna;
+}
+[data-motif="galleta"] .motif-hero {
+  background: linear-gradient(180deg, var(--color-gold) 0 0.5rem, var(--color-paper) 0.5rem);
+}
+[data-motif="galleta"] section[id] {
+  counter-increment: fortuna;
+}
+[data-motif="galleta"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-gold);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="galleta"] .motif-sprig::before {
+  content: "";
+  width: 2.2rem;
+  height: 1.1rem;
+  border-radius: 1.1rem 1.1rem 0.3rem 0.3rem;
+  background: radial-gradient(ellipse at 40% 30%, #f6cf86, #c98a3f 70%);
+}
+[data-motif="galleta"] .motif-sprig::after {
+  content: "Fortuna " counter(fortuna);
+}
+[data-motif="galleta"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: 600 0.875rem / 1.4 var(--font-sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+[data-motif="galleta"] .motif-closing::before {
+  content: "Números de la suerte · " var(--motif-stamp);
+}
+
+/* Casete: cada sección es una pista de la cara A. */
+[data-motif="casete"] {
+  counter-reset: pista;
+}
+[data-motif="casete"] .motif-hero {
+  background:
+    linear-gradient(
+        180deg,
+        #e0a63a 0 0.45rem,
+        transparent 0.45rem 0.7rem,
+        var(--color-gold) 0.7rem 1.15rem,
+        transparent 1.15rem
+      )
+      top / 100% 1.15rem no-repeat,
+    var(--color-paper);
+}
+[data-motif="casete"] section[id] {
+  counter-increment: pista;
+}
+[data-motif="casete"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="casete"] .motif-sprig::before {
+  content: "";
+  width: 2.6rem;
+  height: 1.3rem;
+  border-radius: 0.25rem;
+  background:
+    radial-gradient(
+        circle,
+        var(--color-paper) 0 0.22rem,
+        var(--color-ink) 0.24rem 0.42rem,
+        transparent 0.45rem
+      )
+      28% 50% / 1rem 1rem no-repeat,
+    radial-gradient(
+        circle,
+        var(--color-paper) 0 0.22rem,
+        var(--color-ink) 0.24rem 0.42rem,
+        transparent 0.45rem
+      )
+      72% 50% / 1rem 1rem no-repeat,
+    var(--color-sand);
+}
+[data-motif="casete"] .motif-sprig::after {
+  content: "Pista " counter(pista);
+}
+[data-motif="casete"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: 600 0.875rem / 1.4 var(--font-sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+[data-motif="casete"] .motif-closing::before {
+  content: "Fin de la cara A · Dale la vuelta";
+}
+
+/* Botella: la orilla arriba y cada sección, un mensaje con su ola. */
+[data-motif="botella"] {
+  counter-reset: mensaje;
+}
+[data-motif="botella"] .motif-hero {
+  background: linear-gradient(180deg, var(--scene-1) 0 5rem, var(--color-paper) 7rem);
+}
+[data-motif="botella"] section[id] {
+  counter-increment: mensaje;
+}
+[data-motif="botella"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-gold);
+  font: italic 400 1.0625rem / 1 var(--font-display);
+}
+[data-motif="botella"] .motif-sprig::before {
+  content: "";
+  width: 2.6rem;
+  height: 0.7rem;
+  background: radial-gradient(
+      circle at 50% 0,
+      transparent 0.42rem,
+      var(--color-gold) 0.45rem 0.55rem,
+      transparent 0.58rem
+    )
+    0 0 / 0.9rem 0.7rem repeat-x;
+}
+[data-motif="botella"] .motif-sprig::after {
+  content: "Mensaje " counter(mensaje);
+}
+[data-motif="botella"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.375rem / 1.3 var(--font-display);
+}
+[data-motif="botella"] .motif-closing::before {
+  content: "Devuélvase al mar con la respuesta";
+}
+
 /* ── Carta, pase y apertura de las plantillas de concepto ── */
 
 /* Membrete y despedida de la carta: una línea impresa arriba y otra abajo. */
@@ -1560,6 +1714,31 @@
   border: 2px solid var(--color-gold);
   background: var(--color-paper);
   color: var(--color-ink);
+}
+
+/* Galleta: papel de arroz con borde rojo. */
+[data-motif="galleta"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 2px solid var(--color-gold);
+}
+/* Casete: la carcasa negra con la etiqueta crema. */
+[data-motif="casete"] .concept-carrier {
+  background: var(--color-ink);
+  border: 0;
+}
+[data-motif="casete"] .concept-carrier-label {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+/* Botella: vidrio verde. */
+[data-motif="botella"] .concept-carrier {
+  background: linear-gradient(
+    90deg,
+    rgb(90 150 130 / 0.6),
+    rgb(225 245 238 / 0.85) 40%,
+    rgb(90 150 130 / 0.6)
+  );
+  border: 0;
 }
 
 [data-motif-kind="concepto"] .motif-closing > * {

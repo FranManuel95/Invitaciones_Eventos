@@ -45,6 +45,9 @@ export const COVER_IDS = [
   "instantanea",
   "abanico",
   "cerillas",
+  "galleta",
+  "casete",
+  "botella",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -212,6 +215,18 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Caja de cerillas",
     description: "Una caja de fósforos con vuestra marca: se empuja el cajón y se enciende.",
   },
+  galleta: {
+    label: "Galleta de la suerte",
+    description: "Se parte la galleta y sale la fortuna con vuestra fecha.",
+  },
+  casete: {
+    label: "Casete",
+    description: "Una cinta grabada a mano que se rebobina; las canciones son el programa.",
+  },
+  botella: {
+    label: "Mensaje en una botella",
+    description: "Una botella en la orilla: se tira del corcho y sale la carta.",
+  },
 };
 
 /**
@@ -238,6 +253,9 @@ export const CONCEPT_COVERS = {
   instantanea: { ink: "#2a221b", paper: "#cdb99a" },
   abanico: { ink: "#3a1418", paper: "#f4e7d6" },
   cerillas: { ink: "#1f2433", paper: "#e4d6b8" },
+  galleta: { ink: "#2b1a14", paper: "#f3e4cc" },
+  casete: { ink: "#1d1f2b", paper: "#e7dfcf" },
+  botella: { ink: "#1f3a37", paper: "#e9e1cf" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -338,6 +356,9 @@ export const MOTIF_IDS = [
   "instantanea",
   "abanico",
   "cerillas",
+  "galleta",
+  "casete",
+  "botella",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -370,4 +391,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   instantanea: { label: "Álbum de fotos", kind: "concepto" },
   abanico: { label: "Abanico y feria", kind: "concepto" },
   cerillas: { label: "Fósforos", kind: "concepto" },
+  galleta: { label: "Fortuna", kind: "concepto" },
+  casete: { label: "Cinta de casete", kind: "concepto" },
+  botella: { label: "Mensaje en una botella", kind: "concepto" },
 };

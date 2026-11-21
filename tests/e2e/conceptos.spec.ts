@@ -35,6 +35,9 @@ const CONCEPTS = [
   { id: "instantanea", names: /Carla & Hugo/, date: "11·09·27", opening: "concepto" },
   { id: "abanico", names: /Inma y Curro/, date: "24 de abril de 2027", opening: "concepto" },
   { id: "cerillas", names: /Marta & Quique/, date: "16 de octubre de 2027", opening: "concepto" },
+  { id: "galleta", names: /Inés y Bruno/, date: "19 de junio de 2027", opening: "concepto" },
+  { id: "casete", names: /Alba & Darío/, date: "17 de julio de 2027", opening: "concepto" },
+  { id: "botella", names: /Noa y Leo/, date: "28 de agosto de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -308,6 +311,44 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await expect(stage.locator("[data-box]")).toHaveAttribute("data-box", "abierta");
     await expect(stage.locator("[data-lit]")).toBeAttached();
     await expect(stage.getByRole("button", { name: "Cerilla encendida" })).toBeDisabled();
+  });
+
+  test("galleta: se parte con el dedo y aparece la fortuna", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=galleta");
+    const stage = cover(page, "galleta");
+    const cookie = stage.locator("[data-cookie]");
+    await expect(cookie).toHaveAttribute("data-cookie", "entera");
+    const box = (await cookie.boundingBox())!;
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(box.x + box.width / 2 + 200, box.y + box.height / 2, { steps: 10 });
+    await page.mouse.up();
+    await expect(cookie).toHaveAttribute("data-cookie", "partida");
+    await expect(stage.getByText(/Números de la suerte/)).toBeVisible();
+    await expect(stage).toBeVisible();
+  });
+
+  test("casete: se rebobina con el botón y la lista es el programa", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=casete");
+    const stage = cover(page, "casete");
+    await expect(stage.getByText("1. Ceremonia")).toBeAttached();
+    await stage.getByRole("button", { name: "Rebobinar la cinta" }).click();
+    await expect(stage.locator("[data-tape]")).toHaveAttribute("data-tape", "rebobinada");
+    await expect(stage.getByRole("button", { name: "Lista para sonar" })).toBeDisabled();
+  });
+
+  test("botella: al quitar el corcho sale el mensaje", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=botella");
+    const stage = cover(page, "botella");
+    const bottle = stage.locator("[data-bottle]");
+    const box = (await bottle.boundingBox())!;
+    await page.mouse.move(box.x + box.width / 2, box.y + 30);
+    await page.mouse.down();
+    await page.mouse.move(box.x + box.width / 2, box.y - 200, { steps: 10 });
+    await page.mouse.up();
+    await expect(bottle).toHaveAttribute("data-bottle", "abierta");
+    await expect(stage.getByRole("button", { name: "Mensaje leído" })).toBeDisabled();
+    await expect(stage).toBeVisible();
   });
 
   test("con movimiento reducido las portadas se abren sin esperar animaciones", async ({

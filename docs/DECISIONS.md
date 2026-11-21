@@ -1391,8 +1391,14 @@ olivo.
   enciende» la fiesta. Dentro, «Cerilla n.º n» y el raspador en la cabecera. Boda de ejemplo:
   Marta y Quique, Logroño.
 - Cada una con su estilo de color (Revelado, Sevillana, Fósforo), su kit de carta y pase, su piel
-  interior, su boda de ejemplo y sus pruebas (portada accesible, gesto y botón alternativo). Ya son
-  38 plantillas (18 de objetos) y 39 portadas.
+  interior, su boda de ejemplo y sus pruebas (portada accesible, gesto y botón alternativo).
+- **Segunda tanda, el mismo día**: **Galleta de la suerte** (se separan las dos mitades con el dedo
+  y sale la fortuna: fecha, lugar y «números de la suerte» dd · mm · aa; Inés y Bruno, El Saler),
+  **Casete** (una cinta con la etiqueta escrita a mano que se rebobina girando las bobinas; la
+  lista de canciones es el programa del día; Alba y Darío, Gijón) y **Mensaje en una botella**
+  (se tira del corcho hacia arriba y sale la carta desenrollada; una etiqueta en el cuello deja
+  ver nombres y fecha desde el principio; Noa y Leo, Zahara de los Atunes). Estilos Fortuna, Cinta
+  y Marea. Ya son 41 plantillas (21 de objetos) y 42 portadas.
 
 ## Pendiente para próximas fases
 

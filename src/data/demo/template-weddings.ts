@@ -3747,3 +3747,436 @@ export const cerillas = wedding({
     "Mr. Brightside",
   ],
 });
+
+export const galleta = wedding({
+  id: "evt-demo-ines-bruno",
+  first: "Inés",
+  second: "Bruno",
+  date: "2027-06-19T18:30:00+02:00",
+  rsvpDeadline: "2027-05-10T23:59:00+02:00",
+  city: "El Saler",
+  region: "Valencia",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-2.jpg",
+  cardMessage:
+    "La galleta de la suerte de nuestra primera cena decía «Muy pronto, una gran celebración». Tenía razón.",
+  welcomeMessage:
+    "Nos conocimos en un restaurante pequeño y desde entonces leemos juntos todas las fortunas. Aquí tienes la nuestra.",
+  thankYouMessage:
+    "Gracias por venir a cumplir la profecía. Aquí están vuestras fotos, con galleta incluida.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Juan del Hospital",
+      kind: "Ceremonia",
+      address: "Calle Trinquete de Caballeros, 5",
+      note: "En el centro de Valencia, junto al Mercado Central. Mejor venir en metro.",
+      photo: "iglesia",
+      city: "Valencia",
+    },
+    {
+      id: "finca",
+      name: "Alquería del Mar",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camí del Palmar, 12",
+      note: "A 20 minutos, entre arrozales y la playa. Los autobuses salen al terminar.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [29, 20, 5],
+  program: [
+    [
+      "18:30",
+      "Ceremonia",
+      "iglesia",
+      "San Juan del Hospital",
+      "Breve, con cuarteto de cuerda.",
+      "ceremony",
+    ],
+    [
+      "19:45",
+      "Aperitivo",
+      "finca",
+      "Junto a los arrozales",
+      "Horchata, esgarraet y la puesta de sol.",
+      "cocktail",
+    ],
+    ["21:30", "Cena", "finca", "En el jardín", "Con el menú que elijas al confirmar.", "banquet"],
+    [
+      "00:00",
+      "Fiesta",
+      "finca",
+      "Hasta que salga el sol",
+      "Barra libre, baile y galletas de la suerte.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["centro", "Valencia → Alquería", "Plaza del Ayuntamiento", "19:15", ["02:00", "05:00"], 55],
+    ["playa", "La Malvarrosa → Alquería", "Paseo Marítimo", "19:00", ["05:00"], 30],
+  ],
+  menu: {
+    carne: "Arroz al horno con costilla",
+    pescado: "Arroz a banda con alioli",
+    vegetariano: "Paella de verduras de la huerta",
+    vegano: "All i pebre de verduras con boniato",
+  },
+  dressCode: {
+    title: "Noche de verano",
+    detail: "Colores alegres y ligeros. Hay arena cerca: sandalia o alpargata.",
+    palette: [
+      { name: "Rojo laca", hex: "#a8241c" },
+      { name: "Galleta", hex: "#e0a65a" },
+      { name: "Arroz", hex: "#fbf3e6" },
+      { name: "Verde arrozal", hex: "#6b8a4a" },
+    ],
+    examples: [
+      "Vestido de verano; alpargata para el jardín.",
+      "Camisa de lino y pantalón claro.",
+      "Ropa fresca: habrá juegos y piscina pequeña para ellos.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Mercat",
+      "En el centro, a 3 min de la iglesia",
+      "Habitaciones reservadas hasta el 1 de mayo.",
+    ],
+    ["Apartamentos El Saler", "Junto a la playa", "Ideal para quedarse el domingo."],
+  ],
+  story: {
+    intro: "Una cena, una galleta y una fortuna que acertó. Esta es la versión corta.",
+    moments: [
+      [
+        "2020",
+        "La galleta",
+        "«Muy pronto, una gran celebración». Nos reímos mucho. Seis años después, aquí estamos.",
+        "cala",
+      ],
+      [
+        "2022",
+        "La furgoneta",
+        "Un verano entero buscando el mejor arroz de la costa.",
+        "furgoneta",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "El anillo, dentro de una galleta de la suerte. Casi se lo come.",
+        "anilloBarca",
+      ],
+      ["Hoy", "Y ahora, la boda", "Solo falta que la fortuna te traiga a la fiesta.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Japón", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Una paellera de las grandes", "Para las comidas de los domingos.", "90 €"],
+    ["Clases de cocina para dos", "Para dejar de pedir a domicilio.", "160 €"],
+    ["Una vajilla para doce", "Porque los domingos somos muchos.", "240 €"],
+  ],
+  kids: "Habrá monitores, piscina pequeña y cena para ellos.",
+  faq: [
+    "¿Habrá galletas de la suerte?",
+    "Una para cada invitado, con su fortuna. Algunas aciertan.",
+  ],
+  guestbook: [
+    ["Los del restaurante", "La galleta era nuestra. Exigimos invitación a la próxima."],
+    ["Yaya Amparo", "Qué bonita la boda en verano. Llevad abanico."],
+    ["Pau y Clara", "Nuestra fortuna dice que bailaremos hasta el amanecer."],
+  ],
+  songs: ["Lucky", "La Bamba", "Good as Hell", "September", "Valerie", "Dancing Queen"],
+});
+
+export const casete = wedding({
+  id: "evt-demo-alba-dario",
+  first: "Alba",
+  second: "Darío",
+  date: "2027-07-17T19:00:00+02:00",
+  rsvpDeadline: "2027-06-07T23:59:00+02:00",
+  city: "Gijón",
+  region: "Asturias",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-2.jpg",
+  cardMessage:
+    "Nos conocimos grabándonos cintas en el instituto. Esta es la última, y la mejor: la de nuestra boda.",
+  welcomeMessage:
+    "Rebobina con nosotros: catorce años de cintas, conciertos y viajes en coche. Aquí tienes la lista de canciones del gran día.",
+  thankYouMessage:
+    "Gracias por cantar con nosotros hasta quedaros sin voz. Aquí están vuestras fotos, cara A y cara B.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Pedro",
+      kind: "Ceremonia",
+      address: "Campo Valdés, s/n",
+      note: "Frente a la playa de San Lorenzo. Hay parking en El Molinón.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Quinta La Ería",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camino de Cabueñes, 42",
+      note: "A 15 minutos, entre prados. Los autobuses salen al terminar la ceremonia.",
+      photo: "pista",
+    },
+  ],
+  climate: [23, 15, 30],
+  program: [
+    [
+      "19:00",
+      "Ceremonia",
+      "iglesia",
+      "San Pedro",
+      "Con la banda del instituto, reunida para la ocasión.",
+      "ceremony",
+    ],
+    [
+      "20:15",
+      "Aperitivo",
+      "finca",
+      "En el prado",
+      "Sidra escanciada, quesos y croquetas.",
+      "cocktail",
+    ],
+    [
+      "21:45",
+      "Cena",
+      "finca",
+      "En el hórreo grande",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "00:00",
+      "Fiesta",
+      "finca",
+      "Concierto y baile",
+      "Barra libre y la cara B, a todo volumen.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["centro", "Gijón → Quinta", "Plaza del Humedal", "18:30", ["02:00", "05:00"], 55],
+    ["oviedo", "Oviedo → Gijón", "Estación de autobuses, Oviedo", "17:45", ["05:00"], 30],
+  ],
+  menu: {
+    carne: "Cachopo de ternera con patatas",
+    pescado: "Merluza a la sidra",
+    vegetariano: "Fabada de verduras",
+    vegano: "Pote de verduras de la huerta",
+  },
+  dressCode: {
+    title: "Concierto de verano",
+    detail: "Colores de cinta: crema, negro y un toque naranja. Hay prado: calzado plano.",
+    palette: [
+      { name: "Negro cinta", hex: "#1d1f2b" },
+      { name: "Naranja", hex: "#b04a22" },
+      { name: "Mostaza", hex: "#e0a63a" },
+      { name: "Crema etiqueta", hex: "#f3ede2" },
+    ],
+    examples: [
+      "Vestido o mono cómodo; algo de abrigo para la noche.",
+      "Camisa y pantalón chino; la americana, opcional.",
+      "Ropa cómoda: habrá karaoke infantil.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Playa San Lorenzo",
+      "Frente a la iglesia",
+      "Habitaciones reservadas hasta el 1 de junio.",
+    ],
+    ["Casa rural La Ería", "Junto a la quinta", "Para quien quiera quedarse a la última canción."],
+  ],
+  story: {
+    intro: "Una cinta grabada, un walkman compartido y muchas canciones. Esta es la versión corta.",
+    moments: [
+      [
+        "2013",
+        "La cinta",
+        "Él le grabó una cinta con la radio. Ella se la devolvió con la cara B.",
+        "terraza",
+      ],
+      [
+        "2017",
+        "Los conciertos",
+        "Treinta conciertos en dos años, casi todos bajo la lluvia.",
+        "olivos",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En el coche, con una cinta que acababa con la pregunta.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "Falta la última canción. La cantamos contigo.", "olivar"],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Nueva Orleans",
+      "A escuchar jazz. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Un tocadiscos con altavoces", "Para el salón de casa.", "350 €"],
+    ["Entradas para un festival", "El del verano que viene.", "180 €"],
+    ["Una guitarra acústica", "Para las sobremesas largas.", "220 €"],
+  ],
+  kids: "Habrá monitores, karaoke y cena para ellos.",
+  faq: ["¿Se pueden pedir canciones?", "Sí: al confirmar, apunta la tuya en la lista de música."],
+  guestbook: [
+    ["La banda del instituto", "Ensayamos el viernes. Esta vez afinados, prometido."],
+    ["Güela Covadonga", "Qué ilusión. La sidra, con moderación, ¿eh?"],
+    ["Nacho y Lúa", "Nos pedimos la primera balada."],
+  ],
+  songs: [
+    "Mix Tape",
+    "Maldito duende",
+    "Mr. Brightside",
+    "La chica de ayer",
+    "September",
+    "Valerie",
+  ],
+});
+
+export const botella = wedding({
+  id: "evt-demo-noa-leo",
+  first: "Noa",
+  second: "Leo",
+  date: "2027-08-28T19:30:00+02:00",
+  rsvpDeadline: "2027-07-20T23:59:00+02:00",
+  city: "Zahara de los Atunes",
+  region: "Cádiz",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-4.jpg",
+  cardMessage:
+    "Hace diez años tiramos una botella al mar con un deseo dentro. Se cumplió, y esta es la respuesta.",
+  welcomeMessage:
+    "Nos casamos frente al Atlántico, con los pies en la arena. Aquí tienes todo lo que necesitas para llegar a la orilla.",
+  thankYouMessage:
+    "Gracias por venir hasta la orilla, por bailar descalzos y por las promesas al mar. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Playa del Carmen",
+      kind: "Ceremonia",
+      address: "Acceso por la calle Almadraba",
+      note: "Ceremonia civil en la arena: os daremos alpargatas a la entrada.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Chiringuito La Almadraba",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Paseo Marítimo, 2",
+      note: "A 3 minutos andando por la playa. Hay parking municipal en la entrada del pueblo.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [28, 19, 0],
+  program: [
+    [
+      "19:30",
+      "Ceremonia",
+      "iglesia",
+      "En la orilla",
+      "Al atardecer, con los pies en la arena.",
+      "ceremony",
+    ],
+    [
+      "20:30",
+      "Aperitivo",
+      "finca",
+      "Frente al mar",
+      "Atún de almadraba y vino de Jerez.",
+      "cocktail",
+    ],
+    [
+      "22:00",
+      "Cena",
+      "finca",
+      "Bajo las estrellas",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "00:30",
+      "Fiesta",
+      "finca",
+      "Hasta el amanecer",
+      "Barra libre, baile descalzo y hoguera.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["cadiz", "Cádiz → Zahara", "Plaza de Sevilla, Cádiz", "18:00", ["02:30", "06:00"], 55],
+    ["vejer", "Vejer → Zahara", "La Plazuela, Vejer", "18:45", ["06:00"], 30],
+  ],
+  menu: {
+    carne: "Retinto a la brasa con patatas",
+    pescado: "Tataki de atún rojo de almadraba",
+    vegetariano: "Arroz meloso de verduras",
+    vegano: "Tomates de la huerta con aceite y pan de campo",
+  },
+  dressCode: {
+    title: "Orilla al atardecer",
+    detail: "Blancos rotos, arena y azul. Ceremonia en la playa: nada de tacón fino.",
+    palette: [
+      { name: "Vidrio de botella", hex: "#2f6b63" },
+      { name: "Arena", hex: "#e9e1cf" },
+      { name: "Azul orilla", hex: "#8fc0c9" },
+      { name: "Lacre", hex: "#a3402a" },
+    ],
+    examples: [
+      "Vestido ligero y alpargata o sandalia plana.",
+      "Camisa de lino; corbata, mejor no.",
+      "Ropa de playa y un jersey para la noche.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Atlanterra", "Junto a la playa", "Habitaciones reservadas hasta el 15 de julio."],
+    ["Apartamentos La Almadraba", "En el pueblo", "Para grupos; se llega andando a todo."],
+  ],
+  story: {
+    intro: "Una botella al mar, un deseo y diez años de mareas. Esta es la versión corta.",
+    moments: [
+      [
+        "2017",
+        "La botella",
+        "Escribimos un deseo cada uno, sin enseñárnoslo, y lo tiramos al mar.",
+        "cala",
+      ],
+      [
+        "2020",
+        "El viaje",
+        "Una costa entera en furgoneta buscando la playa perfecta.",
+        "furgoneta",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En una barca, con una botella igual que aquella. Dentro, el anillo.",
+        "anilloBarca",
+      ],
+      ["Hoy", "Y ahora, la boda", "Los dos deseos eran el mismo. Ven a verlo cumplirse.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a las Azores", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Una tabla de surf", "Para las mañanas de levante.", "380 €"],
+    ["Una lámina de la costa", "Para el salón de casa.", "120 €"],
+    ["Una noche en un faro", "Para el primer aniversario.", "200 €"],
+  ],
+  kids: "Habrá monitores, castillos de arena y cena para ellos.",
+  faq: [
+    "¿Hay que ir en zapatos a la ceremonia?",
+    "No: os damos alpargatas a la entrada de la playa.",
+  ],
+  guestbook: [
+    ["Los del chiringuito", "Os guardamos la mejor mesa, la de la orilla."],
+    ["Abuela Pepa", "Qué boda tan bonita. Ponte crema, que el sol de Zahara pica."],
+    ["Mar y Teo", "Nuestro deseo: que dure tanto como la marea."],
+  ],
+  songs: ["Mediterráneo", "La playa", "Sea of Love", "September", "Valerie", "Dancing Queen"],
+});

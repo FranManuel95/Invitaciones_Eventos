@@ -168,6 +168,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Frótese con cariño",
     pass: { kicker: "Vale por una noche", people: "Contenido" },
   },
+  galleta: {
+    object: "la galleta",
+    carrier: "Galleta de la suerte",
+    letterhead: "Lo que dice vuestra fortuna",
+    signoff: "La fortuna no falla",
+    pass: { kicker: "Fortuna personal", people: "Afortunados" },
+  },
+  casete: {
+    object: "la cinta",
+    carrier: "Cinta grabada a mano",
+    letterhead: "Notas de la cara A",
+    signoff: "Fin de la cara A · Dale la vuelta",
+    pass: { kicker: "Pase de backstage", people: "En la lista" },
+  },
+  botella: {
+    object: "la botella",
+    carrier: "Mensaje en una botella",
+    letterhead: "Escrito en la orilla",
+    signoff: "Devuélvase al mar con la respuesta",
+    pass: { kicker: "Pasaje de vuelta", people: "Náufragos" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */
