@@ -1,0 +1,53 @@
+name: Calidad del proyecto
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Lint, tipos, pruebas y build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CI: "true"
+    steps:
+      - name: Obtener el código
+        uses: actions/checkout@v4
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias bloqueadas
+        run: npm ci
+
+      # Next genera PageProps/LayoutProps globales a partir de las rutas de la app.
+      - name: Generar tipos de rutas de Next.js
+        run: npx next typegen
+
+      - name: Revisar estilo y errores de lint
+        run: npm run lint
+
+      - name: Comprobar TypeScript
+        run: npm run typecheck
+
+      - name: Ejecutar pruebas unitarias
+        run: npm run test
+
+      - name: Compilar la aplicación
+        run: npm run build
