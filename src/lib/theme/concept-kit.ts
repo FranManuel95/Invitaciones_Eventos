@@ -26,7 +26,10 @@ export interface ConceptKit {
   };
 }
 
-type ConceptMotifId = Exclude<MotifId, "ninguno" | "lavanda" | "pampa" | "olivo">;
+type ConceptMotifId = Exclude<
+  MotifId,
+  "ninguno" | "lavanda" | "pampa" | "olivo" | "buganvilla" | "paniculata" | "eucalipto"
+>;
 
 export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
   gaceta: {

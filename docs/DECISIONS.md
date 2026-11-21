@@ -1338,6 +1338,42 @@ estaba cambiando.
 - **Aún no se limita nada en la app**: todos los eventos siguen teniendo panel y álbum. Venderlo solo
   (sin intervención) exigiría un paquete por evento y esconder lo no contratado, junto con Stripe.
 
+## Ronda 37: los recursos de Higgsfield que faltaban, montados (21/11/2026)
+
+La tanda generada del 15 al 18/11 estaba en la cuenta de Higgsfield sin descargar (el proxy no
+dejaba llegar a su CDN; ahora el entorno «invitaciones-eventos» permite `d8j0ntlcm91z4.cloudfront.net`
+y `d2ol7oe51mr4n9.cloudfront.net`).
+
+- **Diez vídeos de apertura más** (`FILM_IDS`, 22 en total), revisados toma a toma con sus tiempos
+  de vibración y destello en `TIMING`: caja azul noche y caja rosa, díptico azul y burdeos, sobre
+  azul noche a pantalla completa, sobres cenitales con ramita de olivo (azul, rosa, salvia), kraft
+  con lazo salvia y salvia junto a la ventana. **Descartado** el sobre salvia de frente: al abrirse
+  aparece un lacre casi entero en la solapa mientras el roto sigue abajo (lacre duplicado).
+- **El editor elige el vídeo viendo su fotograma**, en tres familias (sobres, cajas, dípticos),
+  con la misma galería que plantillas y portadas.
+- **Seis forros pintados** (`public/forros/`): hojas de olivo, flores silvestres, toile azul,
+  constelaciones, selva y raya diplomática. Se ven en las aperturas dibujadas (mesa, pantalla…).
+- **Efectos de portada**: pétalos nuevos (pequeños y nítidos; sustituyen a los grandes y borrosos)
+  y luciérnagas (puntos de luz, sin insectos).
+- **Tres motivos de acuarela más** con su lacre de verdad: buganvilla (corazón rosa), paniculata
+  (almendro en oro) y eucalipto (hoja salvia). Recortados del fondo blanco por «color a alfa»; la
+  paniculata, por silueta, para que el blanco de las flores quede opaco.
+- **El motivo pintado se elige en el editor** (Estilo → Portada), salvo en las plantillas de
+  concepto. Con un motivo y la foto de portada, la cabecera interior sigue con las fotos: la
+  pintura solo sustituye a las fotos con portadas pintadas o de concepto.
+- **Cuatro portadas pintadas compuestas** con esos recursos: paniculata (ramas sobre salvia
+  pálido), toile, flores silvestres y selva (papel pintado alrededor de una tarjeta lisa que llega
+  hasta debajo de «Desliza o toca para abrir»; los lados se recortan en el móvil).
+- **Diez plantillas antiguas renovadas y de nuevo a la venta** (35 en total): Jardín, Medianoche,
+  Rosa empolvado, Costa, Selva (antes Esmeralda), Gala, Herbario, Luciérnagas, Acuarela y Atelier,
+  cada una con un vídeo nuevo, su forro y, varias, su motivo. Buganvilla y Eucalipto ganan su motivo.
+- **Prueba de recursos** (`tests/unit/recursos.test.ts`): cada vídeo, forro, motivo, portada y
+  efecto tiene sus archivos.
+
+Sin usar todavía: el lacre que se estampa, la cinta burdeos y la tarjeta con luz (vídeos cortos
+pensados para la venta o Instagram), los lacres de concha, sol y estrella y la segunda acuarela de
+olivo.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

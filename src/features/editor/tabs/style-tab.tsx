@@ -36,6 +36,8 @@ import {
   ENVELOPES,
   FILM_IDS,
   FILMS,
+  filmFamily,
+  type FilmId,
   FLAP_IDS,
   flapGeometry,
   FLAPS,
@@ -72,6 +74,8 @@ import {
   WEIGHTS,
   type SectionId,
   type Theme,
+  MOTIF_IDS,
+  MOTIFS,
 } from "@/lib/theme";
 import { isPaintedCover, type CoverId } from "@/lib/theme/cover";
 import { SHOWN_OPENING_IDS } from "@/lib/theme/envelope";
@@ -108,6 +112,7 @@ type ChoiceKey =
   | "film"
   | "cover"
   | "coverEffect"
+  | "motif"
   | "musicStyle"
   | "layout"
   | "edge"
@@ -599,6 +604,8 @@ const EFFECT_SAMPLES: Record<Theme["coverEffect"], string> = {
   petalos:
     "radial-gradient(ellipse at 30% 30%, #fff 0 3px, transparent 4px), radial-gradient(ellipse at 68% 55%, #f3ece2 0 4px, transparent 5px), radial-gradient(ellipse at 40% 80%, #fff 0 2px, transparent 3px), #1c1a1a",
   oro: "radial-gradient(circle at 25% 35%, #f6d98a 0 1px, transparent 2px), radial-gradient(circle at 60% 25%, #f6d98a 0 1.4px, transparent 2.4px), radial-gradient(circle at 70% 70%, #f6d98a 0 1px, transparent 2px), radial-gradient(circle at 35% 75%, #f6d98a 0 1.2px, transparent 2.2px), radial-gradient(120% 90% at 50% 50%, #4a2c12, #120b06)",
+  luciernagas:
+    "radial-gradient(circle at 30% 30%, #ffe7a8 0 1.5px, rgb(255 210 120 / 0.35) 2.5px, transparent 5px), radial-gradient(circle at 70% 45%, #ffe7a8 0 1px, rgb(255 210 120 / 0.3) 2px, transparent 4px), radial-gradient(circle at 45% 75%, #ffe7a8 0 1.2px, rgb(255 210 120 / 0.3) 2.2px, transparent 4.5px), #10152a",
 };
 
 const coverItem = (id: CoverId): GalleryItem => ({
@@ -666,6 +673,33 @@ function CoverPart() {
           ))}
         </div>
       </Group>
+      {MOTIFS[draft.theme.motif].kind === "concepto" ? null : (
+        <Group
+          title="Motivo pintado"
+          description="Una acuarela que acompaña toda la invitación: una ramita en cada sección, una esquina pintada en la carta y un lacre de verdad al final."
+          shows={{ stage: "content" }}
+        >
+          <div role="radiogroup" aria-label="Motivo pintado" className="grid gap-3 sm:grid-cols-2">
+            {MOTIF_IDS.filter((id) => MOTIFS[id].kind !== "concepto").map((id) => (
+              <Choice
+                key={id}
+                name="motif"
+                value={id}
+                label={MOTIFS[id].label}
+                swatch={
+                  <Tile
+                    background={
+                      id === "ninguno"
+                        ? "linear-gradient(135deg, #f3eee4, #e6dfd2)"
+                        : `url(/acuarelas/${id}.webp) center / contain no-repeat, #f3eee4`
+                    }
+                  />
+                }
+              />
+            ))}
+          </div>
+        </Group>
+      )}
       {draft.theme.cover === "video" ? (
         <Group title="Vuestro vídeo">
           {draft.content.coverVideo ? null : (
@@ -723,23 +757,33 @@ function OpeningPart() {
       {draft.theme.opening === "pelicula" ? (
         <Group
           title="Qué se abre en el vídeo"
-          description="La apertura va grabada en vídeo: se elige entre estos sobres, una caja con lazo o un díptico."
+          description="La apertura va grabada en vídeo: elegid un sobre, una caja con lazo o un díptico."
         >
-          <div
-            role="radiogroup"
-            aria-label="Qué se abre en el vídeo"
-            className="grid gap-3 sm:grid-cols-3"
-          >
-            {FILM_IDS.map((id) => (
-              <Choice
-                key={id}
-                name="film"
-                value={id}
-                label={FILMS[id].label}
-                swatch={<Tile background={FILMS[id].hex} />}
-              />
-            ))}
-          </div>
+          <VisualGallery
+            name="tema-film"
+            label="Qué se abre en el vídeo"
+            value={draft.theme.film}
+            onPick={(id) => {
+              setTheme({ ...draft.theme, film: id as FilmId });
+              showStage("envelope");
+            }}
+            families={(
+              [
+                ["sobres", "Sobres"],
+                ["cajas", "Cajas con lazo"],
+                ["dipticos", "Dípticos"],
+              ] as const
+            ).map(([family, familyLabel]) => ({
+              id: family,
+              label: familyLabel,
+              items: FILM_IDS.filter((id) => filmFamily(id) === family).map((id) => ({
+                id,
+                label: FILMS[id].label,
+                description: `${FILMS[id].action}.`,
+                src: `/aperturas/sobre-dorado/${id === "blanco" ? "vertical" : id}.webp`,
+              })),
+            }))}
+          />
         </Group>
       ) : null}
     </>

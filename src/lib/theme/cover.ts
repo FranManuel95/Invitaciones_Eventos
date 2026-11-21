@@ -23,6 +23,10 @@ export const COVER_IDS = [
   "lino",
   "granada",
   "eucalipto",
+  "paniculata",
+  "toile",
+  "silvestres",
+  "selva",
   "gaceta",
   "embarque",
   "premio",
@@ -110,6 +114,22 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
   eucalipto: {
     label: "Eucalipto",
     description: "Ramas de eucalipto sobre verde gris, con un lacre de hoja.",
+  },
+  paniculata: {
+    label: "Paniculata",
+    description: "Ramas de paniculata y eucalipto en acuarela sobre salvia pálido.",
+  },
+  toile: {
+    label: "Toile azul",
+    description: "Papel pintado de pajarillos azules y una tarjeta marfil en el centro.",
+  },
+  silvestres: {
+    label: "Flores silvestres",
+    description: "Florecillas rosa y salvia alrededor de una tarjeta lisa.",
+  },
+  selva: {
+    label: "Selva",
+    description: "Hojas tropicales verdes y una tarjeta esmeralda con filete de oro.",
   },
   gaceta: {
     label: "Gaceta",
@@ -231,6 +251,10 @@ export const PAINTED_COVERS = {
   lino: { tone: "claro", ink: "#3a332c", paper: "#f8f4ec" },
   granada: { tone: "oscuro", ink: "#ffffff", paper: "#3a121b" },
   eucalipto: { tone: "claro", ink: "#22382f", paper: "#e7efe9" },
+  paniculata: { tone: "claro", ink: "#2c3d2f", paper: "#eef1e7" },
+  toile: { tone: "claro", ink: "#24406e", paper: "#f7f3ea" },
+  silvestres: { tone: "claro", ink: "#5e2f3c", paper: "#fbf4f0" },
+  selva: { tone: "oscuro", ink: "#ffffff", paper: "#123326" },
 } as const satisfies Partial<
   Record<CoverId, { tone: "claro" | "oscuro"; ink: string; paper: string }>
 >;
@@ -240,13 +264,17 @@ export function isPaintedCover(id: CoverId): id is PaintedCoverId {
 }
 
 /** Efecto sobre la portada: un vídeo corto en bucle que solo suma luz (se ve en fondos oscuros). */
-export const COVER_EFFECT_IDS = ["ninguno", "petalos", "oro"] as const;
+export const COVER_EFFECT_IDS = ["ninguno", "petalos", "oro", "luciernagas"] as const;
 export type CoverEffectId = (typeof COVER_EFFECT_IDS)[number];
 
 export const COVER_EFFECTS: Record<CoverEffectId, { label: string; description: string }> = {
   ninguno: { label: "Sin efecto", description: "La portada tal cual." },
   petalos: { label: "Pétalos", description: "Pétalos blancos que caen despacio." },
   oro: { label: "Polvo de oro", description: "Motas doradas que flotan y brillan." },
+  luciernagas: {
+    label: "Luciérnagas",
+    description: "Puntos de luz cálida que se encienden y se apagan.",
+  },
 };
 
 /** Generador pseudoaleatorio con semilla (mulberry32): las escenas son iguales en cada carga. */
@@ -271,6 +299,9 @@ export const MOTIF_IDS = [
   "lavanda",
   "pampa",
   "olivo",
+  "buganvilla",
+  "paniculata",
+  "eucalipto",
   "gaceta",
   "embarque",
   "premio",
@@ -297,6 +328,9 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   lavanda: { label: "Lavanda en acuarela", kind: "acuarela" },
   pampa: { label: "Plumeros de la pampa", kind: "acuarela" },
   olivo: { label: "Olivo en oro", kind: "acuarela" },
+  buganvilla: { label: "Buganvilla y lacre de corazón", kind: "acuarela" },
+  paniculata: { label: "Paniculata y lacre de almendro", kind: "acuarela" },
+  eucalipto: { label: "Eucalipto y lacre de hoja", kind: "acuarela" },
   gaceta: { label: "Periódico", kind: "concepto" },
   embarque: { label: "Correo aéreo", kind: "concepto" },
   premio: { label: "Décimo de lotería", kind: "concepto" },

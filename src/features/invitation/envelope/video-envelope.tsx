@@ -39,6 +39,16 @@ const TIMING = {
   granate: { crack: 2.2, glow: 8.4 },
   esmeralda: { crack: 2.6, glow: 8.4 },
   eucalipto: { crack: 3.6, glow: 8.4 },
+  noche: { crack: 2.4, glow: 7.8 },
+  "ramita-azul": { crack: 2.4, glow: 7.6 },
+  "ramita-rosa": { crack: 2.2, glow: 8 },
+  "ramita-salvia": { crack: 2, glow: 7.9 },
+  "ventana-salvia": { crack: 2.8, glow: 7.8 },
+  "kraft-salvia": { crack: 2.8, glow: 8 },
+  "caja-noche": { crack: 3, glow: 8 },
+  "caja-rosa": { crack: 2.8, glow: 8 },
+  "diptico-azul": { crack: 3.4, glow: 7.6 },
+  "diptico-burdeos": { crack: 3.8, glow: 8 },
 } as const;
 
 const WIDE = "(min-aspect-ratio: 1/1)";

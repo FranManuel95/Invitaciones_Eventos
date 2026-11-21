@@ -361,7 +361,12 @@ export function InvitationExperience({
                     onReplay={() => go("cover")}
                     focusOnMount={chosenStage !== null}
                     calendar={theme.calendar}
-                    painted={theme.motif !== "ninguno"}
+                    // La cabecera pintada sustituye a las fotos solo si hay pintura que poner:
+                    // con un motivo de acuarela y vuestra foto de portada, siguen las fotos.
+                    painted={
+                      theme.motif !== "ninguno" &&
+                      (MOTIFS[theme.motif].kind === "concepto" || isPaintedCover(theme.cover))
+                    }
                     hidden={theme.hidden}
                     order={theme.order}
                     phase={phase}

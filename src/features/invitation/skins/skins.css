@@ -19,6 +19,21 @@
   --motif-seal: url("/acuarelas/olivo-lacre.webp");
   --motif-ratio: 1.071;
 }
+[data-motif="buganvilla"] {
+  --motif-art: url("/acuarelas/buganvilla.webp");
+  --motif-seal: url("/acuarelas/buganvilla-lacre.webp");
+  --motif-ratio: 0.941;
+}
+[data-motif="paniculata"] {
+  --motif-art: url("/acuarelas/paniculata.webp");
+  --motif-seal: url("/acuarelas/paniculata-lacre.webp");
+  --motif-ratio: 0.706;
+}
+[data-motif="eucalipto"] {
+  --motif-art: url("/acuarelas/eucalipto.webp");
+  --motif-seal: url("/acuarelas/eucalipto-lacre.webp");
+  --motif-ratio: 0.635;
+}
 /* Cada sección se anuncia con su ramita en lugar de la raya dorada. */
 [data-motif-kind="acuarela"] .motif-sprig {
   display: block;

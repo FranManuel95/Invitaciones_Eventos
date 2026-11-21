@@ -6,7 +6,22 @@
 export const FLAP_IDS = ["pico", "recta", "redonda", "festoneada"] as const;
 export const WEIGHT_IDS = ["ligero", "medio", "grueso"] as const;
 export const TEXTURE_IDS = ["liso", "verjurado", "lino", "acanalado"] as const;
-export const LINER_IDS = ["propio", "rayas", "flores", "lunares", "marmol", "liso"] as const;
+export const LINER_IDS = [
+  "propio",
+  "rayas",
+  "flores",
+  "lunares",
+  "marmol",
+  "liso",
+  "olivo",
+  "silvestres",
+  "toile",
+  "estrellas",
+  "tropical",
+  "diplomatica",
+] as const;
+/** Forros pintados (imagen en `public/forros/<id>.webp`), en vez de dibujados con CSS. */
+const PAINTED_LINERS = ["olivo", "silvestres", "toile", "estrellas", "tropical", "diplomatica"];
 export const SEAL_SHAPE_IDS = ["cera", "goteo", "redondo", "flor"] as const;
 export const OPENING_IDS = [
   "mesa",
@@ -48,6 +63,16 @@ export const FILM_IDS = [
   "esmeralda",
   "diptico",
   "eucalipto",
+  "noche",
+  "ramita-azul",
+  "ramita-rosa",
+  "ramita-salvia",
+  "ventana-salvia",
+  "kraft-salvia",
+  "caja-noche",
+  "caja-rosa",
+  "diptico-azul",
+  "diptico-burdeos",
 ] as const;
 export type FilmId = (typeof FILM_IDS)[number];
 export const FILMS: Record<FilmId, { label: string; hex: string; action: string; name: string }> = {
@@ -123,7 +148,74 @@ export const FILMS: Record<FilmId, { label: string; hex: string; action: string;
     action: "Toca el lacre para abrir la invitación",
     name: "Abrir la invitación",
   },
+  noche: {
+    label: "Sobre azul noche a pantalla completa",
+    hex: "radial-gradient(circle, #c9a14a 0 28%, #1f2a4a 30%)",
+    action: "Toca el lacre para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  "ramita-azul": {
+    label: "Sobre azul con ramita de olivo",
+    hex: "radial-gradient(circle at 50% 45%, #c7c9cc 0 14%, #a9bfd6 16%)",
+    action: "Toca el lacre para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  "ramita-rosa": {
+    label: "Sobre rosa empolvado con ramita de olivo",
+    hex: "radial-gradient(circle at 50% 45%, #c9a14a 0 14%, #dcb8b0 16%)",
+    action: "Toca el lacre para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  "ramita-salvia": {
+    label: "Sobre salvia con ramita de olivo",
+    hex: "radial-gradient(circle at 50% 45%, #c9a14a 0 14%, #a9b79c 16%)",
+    action: "Toca el lacre para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  "ventana-salvia": {
+    label: "Sobre salvia junto a la ventana",
+    hex: "linear-gradient(135deg, #a9b79c 0 70%, #e4e0d8 70%)",
+    action: "Toca el lacre para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  "kraft-salvia": {
+    label: "Sobre kraft con lazo salvia",
+    hex: "linear-gradient(90deg, #c9a77c 0 44%, #8fa18a 44% 56%, #c9a77c 56%)",
+    action: "Toca el lazo para abrir el sobre",
+    name: "Abrir el sobre",
+  },
+  "caja-noche": {
+    label: "Caja azul noche con lazo dorado",
+    hex: "linear-gradient(90deg, #1f2a4a 0 40%, #c9a14a 40% 60%, #1f2a4a 60%)",
+    action: "Toca el lazo para abrir la caja",
+    name: "Abrir la caja",
+  },
+  "caja-rosa": {
+    label: "Caja rosa empolvado con lazo marfil",
+    hex: "linear-gradient(90deg, #d9b3ad 0 40%, #f3ede2 40% 60%, #d9b3ad 60%)",
+    action: "Toca el lazo para abrir la caja",
+    name: "Abrir la caja",
+  },
+  "diptico-azul": {
+    label: "Díptico azul empolvado con lacre plateado",
+    hex: "linear-gradient(90deg, #a9bfd6 0 48%, #c7c9cc 48% 52%, #a9bfd6 52%)",
+    action: "Toca el lacre para abrir la invitación",
+    name: "Abrir la invitación",
+  },
+  "diptico-burdeos": {
+    label: "Díptico burdeos con lacre dorado",
+    hex: "linear-gradient(90deg, #6e1f2c 0 48%, #c9a14a 48% 52%, #6e1f2c 52%)",
+    action: "Toca el lacre para abrir la invitación",
+    name: "Abrir la invitación",
+  },
 };
+
+/** Familia de cada vídeo, para agruparlos en el editor. */
+export function filmFamily(id: FilmId): "sobres" | "cajas" | "dipticos" {
+  if (id === "caja" || id === "esmeralda" || id.startsWith("caja-")) return "cajas";
+  if (id === "diptico" || id === "eucalipto" || id.startsWith("diptico-")) return "dipticos";
+  return "sobres";
+}
 
 /** Cómo se abre la invitación antes de la carta. `premium`: se ofrece como opción de pago superior. */
 export const OPENINGS: Record<
@@ -224,6 +316,12 @@ export const LINERS: Record<LinerId, { label: string; description: string }> = {
   lunares: { label: "Lunares", description: "Puntos pequeños, alegres." },
   marmol: { label: "Mármol", description: "Vetas suaves de luz." },
   liso: { label: "Liso", description: "Un solo color, sin dibujo." },
+  olivo: { label: "Hojas de olivo", description: "Acuarela de hojas verdes sobre marfil." },
+  silvestres: { label: "Flores silvestres", description: "Florecillas rosa y salvia, muy finas." },
+  toile: { label: "Toile azul", description: "Ramas y pajarillos azules, de los clásicos." },
+  estrellas: { label: "Constelaciones", description: "Estrellas doradas sobre azul noche." },
+  tropical: { label: "Selva", description: "Hojas tropicales verdes sobre fondo oscuro." },
+  diplomatica: { label: "Raya diplomática", description: "Rayas doradas finas sobre blanco roto." },
 };
 
 export const SEAL_SHAPES: Record<SealShapeId, { label: string; description: string }> = {
@@ -320,6 +418,9 @@ export function linerBackground(
   liner: LinerId,
   { inside, gold, own }: { inside: string; gold: string; own: string },
 ): string {
+  if (PAINTED_LINERS.includes(liner)) {
+    return `url("/forros/${liner}.webp") center / cover no-repeat, ${inside}`;
+  }
   switch (liner) {
     case "propio":
       return own;
@@ -331,7 +432,7 @@ export function linerBackground(
       return `radial-gradient(circle at 50% 50%, ${gold} 0 1.4px, transparent 1.8px) 0 0 / 12px 12px, ${inside}`;
     case "marmol":
       return `radial-gradient(120% 70% at 15% 20%, rgb(255 255 255 / 0.16), transparent 60%), linear-gradient(118deg, transparent 38%, rgb(255 255 255 / 0.22) 40%, transparent 42.5%, transparent 66%, rgb(255 255 255 / 0.14) 67.5%, transparent 69.5%), linear-gradient(32deg, transparent 55%, ${gold}55 56.5%, transparent 58%), ${inside}`;
-    case "liso":
+    default:
       return inside;
   }
 }

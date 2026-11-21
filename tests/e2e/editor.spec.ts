@@ -60,7 +60,7 @@ test.describe("editor de la invitación", () => {
     await page.getByRole("radio", { name: /Festoneada/ }).check({ force: true });
     await expect(preview.locator("[data-flap-shape='festoneada']")).toBeAttached();
     await page.getByRole("radio", { name: /400 g/ }).check({ force: true });
-    await page.getByRole("radio", { name: /Flores/ }).check({ force: true });
+    await page.getByRole("radio", { name: /^Flores Florecillas/ }).check({ force: true });
     await page.getByRole("radio", { name: /Corazón/ }).check({ force: true });
     if (!isMobile) {
       await expect(page.getByRole("button", { name: "Sobre", pressed: true })).toBeVisible();
