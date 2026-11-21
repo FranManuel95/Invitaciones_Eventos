@@ -84,7 +84,7 @@ test.describe("página de venta", () => {
     const objetos = book.getByRole("tab", { name: /Objetos/ });
     await expect(objetos).toHaveAttribute("aria-selected", "true");
     await expect(objetos).toBeFocused();
-    await expect(book.getByRole("tabpanel").getByRole("link")).toHaveCount(49);
+    await expect(book.getByRole("tabpanel").getByRole("link")).toHaveCount(52);
     await book.getByRole("link", { name: "Gaceta", exact: true }).click();
     await expect(page).toHaveURL(/plantilla=gaceta/);
   });
@@ -132,13 +132,13 @@ test.describe("página de venta", () => {
     const tabs = covers.getByRole("tab");
     await expect(tabs).toHaveCount(3);
     let total = 0;
-    for (const [i, expected] of [6, 16, 49].entries()) {
+    for (const [i, expected] of [6, 16, 52].entries()) {
       await tabs.nth(i).click();
       await expect(tabs.nth(i)).toHaveAttribute("aria-selected", "true");
       await expect(covers.getByRole("tabpanel").getByRole("link")).toHaveCount(expected);
       total += expected;
     }
-    expect(total).toBe(71);
+    expect(total).toBe(74);
     await covers.getByRole("link", { name: "Gaceta", exact: true }).click();
     await expect(page).toHaveURL(/portada=gaceta/);
     await page.goBack();

@@ -77,6 +77,9 @@ export const COVER_IDS = [
   "globo",
   "nieve",
   "brindis",
+  "cometa",
+  "reloj",
+  "faro",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -379,6 +382,18 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Brindis",
     description: "Dos copas con vuestros nombres que chocan al tocarlas: ¡chin, chin!",
   },
+  cometa: {
+    label: "Cometa",
+    description: "Una cometa en la playa: al tirar del hilo sube con vuestros nombres en la cola.",
+  },
+  reloj: {
+    label: "Reloj de arena",
+    description: "Se le da la vuelta y cae la arena hasta llegar a la fecha.",
+  },
+  faro: {
+    label: "Faro",
+    description: "Un faro de noche en la costa: al encenderlo, su haz os guía hasta la boda.",
+  },
 };
 
 /**
@@ -436,6 +451,9 @@ export const CONCEPT_COVERS = {
   globo: { ink: "#2a2a3a", paper: "#cfe0ea" },
   nieve: { ink: "#2f4a5e", paper: "#e6ecef" },
   brindis: { ink: "#f6ecd4", paper: "#141024", tone: "oscuro" },
+  cometa: { ink: "#2a3340", paper: "#d8ecf3" },
+  reloj: { ink: "#3a2616", paper: "#efe4cc" },
+  faro: { ink: "#e9eef6", paper: "#0f1a33", tone: "oscuro" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -570,6 +588,9 @@ export const MOTIF_IDS = [
   "globo",
   "nieve",
   "brindis",
+  "cometa",
+  "reloj",
+  "faro",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -633,4 +654,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   globo: { label: "Vuelo en globo", kind: "concepto" },
   nieve: { label: "Bola de nieve", kind: "concepto" },
   brindis: { label: "Brindis", kind: "concepto" },
+  cometa: { label: "Día de cometas", kind: "concepto" },
+  reloj: { label: "Reloj de arena", kind: "concepto" },
+  faro: { label: "Faro", kind: "concepto" },
 };

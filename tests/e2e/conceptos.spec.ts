@@ -66,6 +66,9 @@ const CONCEPTS = [
   { id: "globo", names: /Eva y Marco/, date: "11 de septiembre de 2027", opening: "concepto" },
   { id: "nieve", names: /Irene y Pau/, date: "23 de enero de 2027", opening: "concepto" },
   { id: "brindis", names: /Lidia y Óscar/, date: "31 de diciembre de 2027", opening: "concepto" },
+  { id: "cometa", names: /Ariadna y Ciro/, date: "12 de junio de 2027", opening: "concepto" },
+  { id: "reloj", names: /Miriam y Saúl/, date: "9 de octubre de 2027", opening: "concepto" },
+  { id: "faro", names: /Estela y Unai/, date: "21 de agosto de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -651,6 +654,34 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     const stage = cover(page, "brindis");
     await stage.getByRole("button", { name: "Brindar" }).click();
     await expect(stage.locator("[data-toast]")).toHaveAttribute("data-toast", "chin-chin");
+  });
+
+  test("cometa: al tirar del hilo, vuela", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=cometa");
+    const stage = cover(page, "cometa");
+    await stage.getByRole("button", { name: "Tirar del hilo" }).click();
+    await expect(stage.locator("[data-kite]")).toHaveAttribute("data-kite", "volando");
+  });
+
+  test("reloj: al darle la vuelta cae la arena", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=reloj");
+    const stage = cover(page, "reloj");
+    await stage.getByRole("button", { name: "Dar la vuelta al reloj" }).click();
+    await expect(stage.locator("[data-hourglass]")).toHaveAttribute("data-hourglass", "vacio", {
+      timeout: 8000,
+    });
+    await expect(stage.getByText("¡Se acabó la espera!")).toBeVisible();
+  });
+
+  test("faro: se enciende", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=faro");
+    const stage = cover(page, "faro");
+    await stage.getByRole("button", { name: "Encender el faro" }).click();
+    await expect(stage.locator("[data-lighthouse]")).toHaveAttribute(
+      "data-lighthouse",
+      "encendido",
+    );
+    await expect(stage.getByText(/Rumbo a Comillas/)).toBeVisible();
   });
 
   test("con movimiento reducido las portadas se abren sin esperar animaciones", async ({

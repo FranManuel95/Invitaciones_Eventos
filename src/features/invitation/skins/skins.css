@@ -2662,6 +2662,142 @@
   content: "¡Chin, chin!";
 }
 
+/* Cometa: cada sección es un lazo de la cola. */
+[data-motif="cometa"] {
+  counter-reset: lazo;
+}
+[data-motif="cometa"] .motif-hero {
+  background: linear-gradient(180deg, #cfe5ef, var(--color-paper) 70%);
+}
+[data-motif="cometa"] section[id] {
+  counter-increment: lazo;
+}
+[data-motif="cometa"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="cometa"] .motif-sprig::before {
+  content: "";
+  width: 1.1rem;
+  height: 1.4rem;
+  background: linear-gradient(180deg, var(--color-gold) 0 45%, #f2c230 45%);
+  clip-path: polygon(50% 0, 100% 40%, 50% 100%, 0 40%);
+}
+[data-motif="cometa"] .motif-sprig::after {
+  content: "Lazo " counter(lazo);
+}
+[data-motif="cometa"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="cometa"] .motif-closing::before {
+  content: "Que no pare el viento";
+}
+
+/* Reloj de arena: cada sección es un grano de tiempo. */
+[data-motif="reloj"] {
+  counter-reset: hora;
+}
+[data-motif="reloj"] .motif-hero {
+  background:
+    radial-gradient(circle, rgb(138 90 28 / 0.12) 0 1px, transparent 1.5px) 0 0 / 9px 9px,
+    var(--color-paper);
+}
+[data-motif="reloj"] section[id] {
+  counter-increment: hora;
+}
+[data-motif="reloj"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="reloj"] .motif-sprig::before {
+  content: "";
+  width: 0.9rem;
+  height: 1.3rem;
+  background: var(--color-gold);
+  clip-path: polygon(0 0, 100% 0, 55% 50%, 100% 100%, 0 100%, 45% 50%);
+}
+[data-motif="reloj"] .motif-sprig::after {
+  content: "Hora " counter(hora);
+}
+[data-motif="reloj"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="reloj"] .motif-closing::before {
+  content: "Grano a grano";
+}
+
+/* Faro: cada sección es un destello. */
+[data-motif="faro"] {
+  counter-reset: destello;
+}
+[data-motif="faro"] .motif-hero {
+  background:
+    radial-gradient(ellipse at 50% 0, rgb(255 217 122 / 0.18), transparent 60%), var(--color-paper);
+}
+[data-motif="faro"] section[id] {
+  counter-increment: destello;
+}
+[data-motif="faro"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="faro"] .motif-sprig::before {
+  content: "";
+  width: 0.8rem;
+  height: 1.4rem;
+  background: repeating-linear-gradient(180deg, var(--color-ink) 0 0.35rem, #c8312b 0.35rem 0.7rem);
+  clip-path: polygon(25% 0, 75% 0, 100% 100%, 0 100%);
+}
+[data-motif="faro"] .motif-sprig::after {
+  content: "Destello " counter(destello);
+}
+[data-motif="faro"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="faro"] .motif-closing::before {
+  content: "Seguid la luz";
+}
+
+@keyframes faro-sweep {
+  0%,
+  100% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+
 @keyframes globe-shake {
   25% {
     transform: rotate(-6deg) translateX(-4px);
@@ -3256,6 +3392,22 @@
 /* Brindis: caja de cava. */
 [data-motif="brindis"] .concept-carrier {
   background: #1d1835;
+  border: 2px solid var(--color-gold);
+}
+
+/* Cometa: sobre de papel de cometa. */
+[data-motif="cometa"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 2px dashed var(--color-gold);
+}
+/* Reloj de arena: estuche de madera. */
+[data-motif="reloj"] .concept-carrier {
+  background: var(--color-cream);
+  border: 3px double var(--color-gold);
+}
+/* Faro: cuaderno del farero. */
+[data-motif="faro"] .concept-carrier {
+  background: #18264a;
   border: 2px solid var(--color-gold);
 }
 

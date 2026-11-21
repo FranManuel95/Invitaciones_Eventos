@@ -395,6 +395,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "¡Chin, chin!",
     pass: { kicker: "Copa reservada", people: "Brindadores" },
   },
+  cometa: {
+    object: "la cometa",
+    carrier: "Correo por el aire",
+    letterhead: "Escrito en la cola de la cometa",
+    signoff: "Que no pare el viento",
+    pass: { kicker: "Pase de playa", people: "Cometeros" },
+  },
+  reloj: {
+    object: "el reloj de arena",
+    carrier: "Tiempo guardado",
+    letterhead: "Grano a grano",
+    signoff: "Nos vemos cuando caiga el último grano",
+    pass: { kicker: "Turno reservado", people: "Invitados" },
+  },
+  faro: {
+    object: "el faro",
+    carrier: "Correo del farero",
+    letterhead: "Desde lo alto del faro",
+    signoff: "Seguid la luz",
+    pass: { kicker: "Pase de embarque", people: "Tripulación", table: "Tu mesa en cubierta" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

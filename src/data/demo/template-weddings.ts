@@ -7989,3 +7989,394 @@ export const brindis = wedding({
   ],
   songs: ["Celebration", "Champagne Supernova", "Hoy", "September", "Valerie", "Dancing Queen"],
 });
+
+export const cometa = wedding({
+  id: "evt-demo-ariadna-ciro",
+  first: "Ariadna",
+  second: "Ciro",
+  date: "2027-06-12T18:30:00+02:00",
+  rsvpDeadline: "2027-05-01T23:59:00+02:00",
+  city: "Tarifa",
+  region: "Cádiz",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-2.jpg",
+  cardMessage:
+    "Nos conocimos enredando nuestras cometas en la playa. Desde entonces no hemos soltado el hilo.",
+  welcomeMessage:
+    "Nos casamos donde sopla el viento. Aquí tienes todo lo que necesitas para volar con nosotros.",
+  thankYouMessage:
+    "Gracias por venir hasta el sur, por aguantar el levante y por bailar descalzos. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Ermita de la Luz",
+      kind: "Ceremonia",
+      address: "Camino de la Ermita, s/n",
+      note: "Frente al mar, a las afueras. Hay sitio para aparcar junto a la ermita.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Chiringuito Las Cometas",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Playa de Valdevaqueros, km 75",
+      note: "En la misma playa, con carpa por si sopla el levante.",
+      photo: "pista",
+    },
+  ],
+  climate: [26, 18, 5],
+  program: [
+    [
+      "18:30",
+      "Ceremonia",
+      "iglesia",
+      "Ermita de la Luz",
+      "Al aire libre, con el mar detrás.",
+      "ceremony",
+    ],
+    [
+      "19:45",
+      "Aperitivo",
+      "finca",
+      "En la arena",
+      "Con cometas para quien quiera echarlas a volar.",
+      "cocktail",
+    ],
+    ["21:30", "Cena", "finca", "Bajo la carpa", "Con el menú que elijas al confirmar.", "banquet"],
+    [
+      "23:30",
+      "Fiesta",
+      "finca",
+      "Hasta que amaine",
+      "Música, hoguera y baile en la arena.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "tarifa",
+      "Tarifa → Valdevaqueros",
+      "Puerta de Jerez, Tarifa",
+      "18:00",
+      ["02:00", "04:30"],
+      15,
+    ],
+    ["algeciras", "Algeciras → Tarifa", "Estación de Algeciras", "17:30", ["04:30"], 30],
+  ],
+  menu: {
+    carne: "Presa ibérica a la brasa",
+    pescado: "Atún rojo de almadraba",
+    vegetariano: "Arroz de verduras de la huerta",
+    vegano: "Tartar de tomate y aguacate",
+  },
+  dressCode: {
+    title: "Playa con viento",
+    detail: "Blanco, azul y un toque rojo. Habrá arena y levante: nada de tacón fino.",
+    palette: [
+      { name: "Cielo", hex: "#9cc9e6" },
+      { name: "Arena", hex: "#d9c79a" },
+      { name: "Cometa", hex: "#e0533d" },
+      { name: "Sol", hex: "#f2c230" },
+    ],
+    examples: [
+      "Vestido fluido que no tema al viento.",
+      "Lino claro y alpargatas.",
+      "Un pañuelo para el pelo: el levante no perdona.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Punta Paloma",
+      "A 3 minutos de la playa",
+      "Habitaciones reservadas hasta el 1 de mayo.",
+    ],
+    ["Hostal del Levante", "En el centro de Tarifa", "Con el autobús de vuelta en la puerta."],
+  ],
+  story: {
+    intro:
+      "Dos cometas enredadas, un hilo que no se soltó y siete veranos de viento. Esta es la versión corta.",
+    moments: [
+      [
+        "2020",
+        "Las cometas",
+        "Se nos enredaron los hilos en la playa y tardamos una hora en soltarlos.",
+        "cala",
+      ],
+      ["2023", "La furgoneta", "Un verano entero buscando viento por la costa.", "furgoneta"],
+      ["2026", "La pedida", "Con el anillo atado a la cola de la cometa.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "La cometa ya está en el aire. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Cabo Verde", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Dos cometas de acrobacia", "Para seguir enredándonos.", "180 €"],
+    ["Un curso de kitesurf", "Para atrevernos con el agua.", "250 €"],
+    ["Una cámara acuática", "Para las fotos desde el mar.", "300 €"],
+  ],
+  kids: "Habrá monitores, castillos de arena y cometas pequeñas para ellos.",
+  faq: ["¿Y si sopla mucho levante?", "Tenemos carpa y plan B en el salón del chiringuito."],
+  guestbook: [
+    ["Los del hilo enredado", "Por fin os casáis: ya era hora de atar ese nudo."],
+    ["Abuela Pepa", "Qué bonito ver volar tantas cometas a la vez."],
+    ["Lucía y Teo", "Nos pedimos el primer baile en la arena."],
+  ],
+  songs: ["Volare", "Sol, arena y mar", "Mediterráneo", "Valerie", "Dancing Queen", "Viva la vida"],
+});
+
+export const reloj = wedding({
+  id: "evt-demo-miriam-saul",
+  first: "Miriam",
+  second: "Saúl",
+  date: "2027-10-09T12:30:00+02:00",
+  rsvpDeadline: "2027-09-01T23:59:00+02:00",
+  city: "Ávila",
+  region: "Ávila",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-2.jpg",
+  cardMessage:
+    "Nos conocimos en una relojería, esperando a que nos arreglaran el mismo reloj. Llevamos nueve años sin mirar la hora.",
+  welcomeMessage:
+    "La cuenta atrás ya ha empezado. Aquí tienes todo lo que necesitas para el día que llevamos esperando.",
+  thankYouMessage:
+    "Gracias por regalarnos vuestro tiempo, por cada baile y por quedaros hasta tarde. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Vicente",
+      kind: "Ceremonia",
+      address: "Plaza de San Vicente, 1",
+      note: "Junto a la muralla. Hay parking en la puerta de San Vicente.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Palacio del Reloj",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Calle de los Caballeros, 9",
+      note: "A 5 minutos andando, en un palacio con patio de piedra.",
+      photo: "pista",
+    },
+  ],
+  climate: [19, 7, 20],
+  program: [
+    ["12:30", "Ceremonia", "iglesia", "San Vicente", "Con cuarteto de cuerda.", "ceremony"],
+    [
+      "13:45",
+      "Aperitivo",
+      "finca",
+      "En el patio",
+      "Al sol de otoño, con vino de la tierra.",
+      "cocktail",
+    ],
+    [
+      "15:00",
+      "Comida",
+      "finca",
+      "En el salón de los relojes",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["18:00", "Fiesta", "finca", "Sin mirar la hora", "Baile, barra libre y recena.", "party"],
+  ],
+  busRoutes: [
+    ["madrid", "Madrid → Ávila", "Moncloa, Madrid", "10:30", ["21:00", "00:30"], 75],
+    ["segovia-bus", "Segovia → Ávila", "Estación de autobuses de Segovia", "11:00", ["00:30"], 60],
+  ],
+  menu: {
+    carne: "Chuletón de Ávila",
+    pescado: "Bacalao confitado",
+    vegetariano: "Judías del Barco con verduras",
+    vegano: "Crema de calabaza y castañas",
+  },
+  dressCode: {
+    title: "Otoño con hora",
+    detail: "Tonos tierra, madera y oro. Hay calles de piedra: tacón ancho mejor.",
+    palette: [
+      { name: "Arena", hex: "#d9a441" },
+      { name: "Nogal", hex: "#7a4a2c" },
+      { name: "Cristal", hex: "#dcecf0" },
+      { name: "Piedra", hex: "#b8a98e" },
+    ],
+    examples: [
+      "Vestido midi en tonos tierra.",
+      "Traje de lana fría con corbata mostaza.",
+      "Una chaqueta: en Ávila refresca al caer la tarde.",
+    ],
+  },
+  accommodation: [
+    [
+      "Parador de Ávila",
+      "Dentro de la muralla",
+      "Habitaciones reservadas hasta el 1 de septiembre.",
+    ],
+    ["Hotel Puerta del Alcázar", "A 5 minutos andando", "Con desayuno tarde para el domingo."],
+  ],
+  story: {
+    intro:
+      "Un reloj roto, una relojería y nueve años de minutos compartidos. Esta es la versión corta.",
+    moments: [
+      [
+        "2018",
+        "La relojería",
+        "Llevábamos el mismo reloj a arreglar. Nos tocó esperar juntos.",
+        "olivos",
+      ],
+      [
+        "2021",
+        "El primer piso",
+        "Un reloj de pared en cada habitación. Ninguno en hora.",
+        "terraza",
+      ],
+      ["2026", "La pedida", "Con el anillo dentro de un reloj de bolsillo.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "Queda poca arena por caer. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Suiza", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Un reloj de pared antiguo", "Que esta vez sí dé la hora.", "200 €"],
+    ["Una vajilla para doce", "Para las comidas largas de domingo.", "180 €"],
+    ["Un fin de semana sin reloj", "Para descansar después de la boda.", "300 €"],
+  ],
+  kids: "Habrá monitores, juegos en el patio y comida para ellos.",
+  faq: [
+    "¿A qué hora acaba?",
+    "Cuando caiga el último grano. Habrá autobús de vuelta a las 21:00 y a las 00:30.",
+  ],
+  guestbook: [
+    ["Los de la relojería", "Nueve años después, el reloj sigue en hora."],
+    ["Tía Maribel", "Qué bien se está sin mirar el reloj."],
+    ["Chema y Rut", "Nos pedimos la última hora de baile."],
+  ],
+  songs: ["Time After Time", "Reloj", "El tiempo", "September", "Valerie", "Dancing Queen"],
+});
+
+export const faro = wedding({
+  id: "evt-demo-estela-unai",
+  first: "Estela",
+  second: "Unai",
+  date: "2027-08-21T19:00:00+02:00",
+  rsvpDeadline: "2027-07-10T23:59:00+02:00",
+  city: "Comillas",
+  region: "Cantabria",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-4.jpg",
+  cardMessage:
+    "Nos conocimos una noche de niebla subiendo al faro. Él llevaba linterna; ella, el mapa.",
+  welcomeMessage:
+    "Nos casamos junto al Cantábrico, a la luz del faro. Aquí tienes todo lo que necesitas para llegar a buen puerto.",
+  thankYouMessage:
+    "Gracias por cruzar el norte para estar con nosotros, por la niebla y por bailar hasta el amanecer. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Cristóbal",
+      kind: "Ceremonia",
+      address: "Plaza de la Iglesia, 2",
+      note: "En lo alto del pueblo. Hay parking junto a la plaza.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Finca El Farero",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camino del Faro, 4",
+      note: "A 10 minutos, en un acantilado con el faro de fondo.",
+      photo: "pista",
+    },
+  ],
+  climate: [23, 15, 25],
+  program: [
+    ["19:00", "Ceremonia", "iglesia", "San Cristóbal", "Con gaita y órgano.", "ceremony"],
+    [
+      "20:15",
+      "Aperitivo",
+      "finca",
+      "En el acantilado",
+      "Al atardecer, con anchoas y sidra.",
+      "cocktail",
+    ],
+    [
+      "21:45",
+      "Cena",
+      "finca",
+      "En la carpa del faro",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "23:45",
+      "Fiesta",
+      "finca",
+      "A la luz del faro",
+      "Baile, hoguera y orujo para la niebla.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "santander",
+      "Santander → Comillas",
+      "Plaza de Alfonso XIII, Santander",
+      "18:00",
+      ["02:30", "05:00"],
+      50,
+    ],
+    [
+      "san-vicente",
+      "San Vicente → Comillas",
+      "Puerto de San Vicente de la Barquera",
+      "18:30",
+      ["05:00"],
+      20,
+    ],
+  ],
+  menu: {
+    carne: "Solomillo de ternera cántabra",
+    pescado: "Merluza del Cantábrico",
+    vegetariano: "Pastel de puerros y queso",
+    vegano: "Pochas con verduras",
+  },
+  dressCode: {
+    title: "Noche en la costa",
+    detail: "Azul marino, blanco y oro. Por la noche refresca: trae chaqueta.",
+    palette: [
+      { name: "Noche", hex: "#0f1a33" },
+      { name: "Luz", hex: "#ffe9a8" },
+      { name: "Faro", hex: "#c8312b" },
+      { name: "Espuma", hex: "#f4efe6" },
+    ],
+    examples: [
+      "Vestido largo en azul noche.",
+      "Traje marino con zapato cómodo para el césped.",
+      "Un chal o chaqueta: el viento del norte sopla de noche.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Marina de Comillas", "En el puerto", "Habitaciones reservadas hasta el 10 de julio."],
+    ["Posada del Faro", "A 5 minutos de la finca", "Con desayuno de domingo con vistas."],
+  ],
+  story: {
+    intro:
+      "Una noche de niebla, un faro y ocho años siguiendo la misma luz. Esta es la versión corta.",
+    moments: [
+      ["2019", "El faro", "Subimos al faro una noche de niebla. Bajamos de la mano.", "cala"],
+      ["2022", "La furgoneta", "Un verano recorriendo los faros del norte.", "furgoneta"],
+      ["2026", "La pedida", "En lo alto del faro, con el haz de luz de testigo.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "El faro ya está encendido. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Islandia", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Una lámpara de faro", "Para el salón de casa.", "150 €"],
+    ["Un velero de alquiler", "Para un día entero en el mar.", "280 €"],
+    ["Dos chubasqueros buenos", "Para el norte, que nunca falla.", "120 €"],
+  ],
+  kids: "Habrá monitores, búsqueda del tesoro y cena para ellos.",
+  faq: ["¿Y si hay niebla?", "Mejor: el faro se ve más. La carpa está cerrada y climatizada."],
+  guestbook: [
+    ["Los de la noche de niebla", "Qué suerte que aquella noche subierais al faro."],
+    ["Aitona Jon", "Nunca había visto un faro tan bonito como esta boda."],
+    ["Ione y Asier", "Nos pedimos el primer baile a la luz del faro."],
+  ],
+  songs: ["Lighthouse", "Mediterráneo", "La luz", "September", "Valerie", "Dancing Queen"],
+});

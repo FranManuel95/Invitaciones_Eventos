@@ -1468,7 +1468,13 @@ olivo.
   Irene y Pau, Jaca, en enero) y **Brindis** (dos copas de cava con los nombres que se inclinan y
   chocan; Lidia y Óscar, Sant Sadurní d'Anoia, en Nochevieja; portada oscura). Estilos Aeróstato,
   Cristal y Burbuja.
-- Ya son 70 plantillas (21 de papel y acuarela, 49 de objetos) y 71 portadas.
+- **Duodécima tanda**: **Cometa** (playa con viento; al tirar del hilo la cometa sube con los
+  nombres en los lazos de la cola; Ariadna y Ciro, Tarifa), **Reloj de arena** (al darle la vuelta
+  la arena cae durante tres segundos y aparece «¡Se acabó la espera!»; Miriam y Saúl, Ávila) y
+  **Faro** (noche en la costa; al encenderlo, el haz barre a los dos lados de la linterna y
+  aparece el rumbo a la ciudad; Estela y Unai, Comillas; portada oscura). Estilos Brisa, Clepsidra
+  y Farero. Con movimiento reducido, la cometa sube y la arena cae sin animación, y el haz no gira.
+- Ya son 73 plantillas (21 de papel y acuarela, 52 de objetos) y 74 portadas.
 
 ## Pendiente para próximas fases
 
