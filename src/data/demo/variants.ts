@@ -30,6 +30,9 @@ import {
   crucigrama,
   tren,
   receta,
+  concierto,
+  feria,
+  biblioteca,
 } from "./template-weddings";
 import { guestbook, type DemoVariant } from "./wedding-builder";
 
@@ -1006,6 +1009,9 @@ const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   crucigrama,
   tren,
   receta,
+  concierto,
+  feria,
+  biblioteca,
 };
 
 /** La boda ficticia propia de una plantilla, si la tiene. */

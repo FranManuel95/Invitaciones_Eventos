@@ -4586,3 +4586,443 @@ export const receta = wedding({
   ],
   songs: ["Sugar", "Itsasoa gara", "Cheek to Cheek", "September", "Valerie", "Dancing Queen"],
 });
+
+export const concierto = wedding({
+  id: "evt-demo-vega-marcos",
+  first: "Vega",
+  second: "Marcos",
+  date: "2027-07-10T18:30:00+02:00",
+  rsvpDeadline: "2027-05-31T23:59:00+02:00",
+  city: "Benicàssim",
+  region: "Castellón",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-2.jpg",
+  cardMessage:
+    "Nos conocimos en primera fila de un festival, empapados y afónicos. Esta es la gira que de verdad nos importa: única fecha.",
+  welcomeMessage:
+    "Diez festivales, cien conciertos y una sola canción que es la nuestra. Aquí tienes tu entrada para el directo más importante.",
+  thankYouMessage:
+    "Gracias por venir al directo, por los bises y por cantar hasta quedaros sin voz. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Villa del Mar",
+      kind: "Ceremonia",
+      address: "Paseo Marítimo Pilar Coloma, 14",
+      note: "Ceremonia civil en el jardín de la villa, frente a la playa.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Escenario Las Palmeras",
+      kind: "Aperitivo, cena y concierto",
+      address: "Avenida de Ferrandis Salvador, 72",
+      note: "A 5 minutos en lanzadera. Hay concierto en directo y DJ hasta el amanecer.",
+      photo: "pista",
+    },
+  ],
+  climate: [30, 21, 5],
+  program: [
+    [
+      "18:30",
+      "Ceremonia",
+      "iglesia",
+      "En el jardín",
+      "Breve, con la banda tocando a la salida.",
+      "ceremony",
+    ],
+    [
+      "19:45",
+      "Aperitivo",
+      "finca",
+      "Junto al escenario",
+      "Vermut, tapas y prueba de sonido.",
+      "cocktail",
+    ],
+    [
+      "21:30",
+      "Cena",
+      "finca",
+      "Bajo las palmeras",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "23:30",
+      "Fiesta",
+      "finca",
+      "Concierto y DJ",
+      "Barra libre, concierto sorpresa y bises.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "castellon",
+      "Castellón → Benicàssim",
+      "Plaza de la Paz, Castellón",
+      "17:45",
+      ["02:30", "05:30"],
+      55,
+    ],
+    ["valencia", "Valencia → Benicàssim", "Estación del Norte, Valencia", "16:30", ["05:30"], 30],
+  ],
+  menu: {
+    carne: "Costillas a baja temperatura con boniato",
+    pescado: "Atún a la plancha con tomate",
+    vegetariano: "Hamburguesa de setas con queso de cabra",
+    vegano: "Tacos de jaca frutal con guacamole",
+  },
+  dressCode: {
+    title: "Festival de verano",
+    detail: "Negro de escenario con un toque neón. Se baila mucho: calzado cómodo.",
+    palette: [
+      { name: "Escenario", hex: "#17131f" },
+      { name: "Foco rosa", hex: "#ff6b8a" },
+      { name: "Foco azul", hex: "#46b4ff" },
+      { name: "Entrada", hex: "#f4f1ea" },
+    ],
+    examples: [
+      "Vestido negro o de lentejuelas; zapatillas permitidas.",
+      "Camisa estampada o camiseta bajo americana.",
+      "Cascos antirruido para ellos: habrá zona de juegos tranquila.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Bonaire", "Frente a la playa", "Habitaciones reservadas hasta el 1 de junio."],
+    ["Camping Bonterra", "A 10 minutos andando", "Para quien quiera vivirlo como un festival."],
+  ],
+  story: {
+    intro: "Una primera fila, un chubasco y una canción a gritos. Esta es la versión corta.",
+    moments: [
+      [
+        "2017",
+        "El festival",
+        "Llovía a mares. Compartimos chubasquero y nos aprendimos la canción a medias.",
+        "cala",
+      ],
+      [
+        "2020",
+        "La furgoneta",
+        "Seis festivales en un verano, durmiendo en la furgoneta.",
+        "furgoneta",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En un concierto, cuando sonó nuestra canción. El grupo lo sabía.",
+        "anilloBarca",
+      ],
+      ["Hoy", "Y ahora, la boda", "Única fecha. No te lo puedes perder.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Glastonbury", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Un tocadiscos de los buenos", "Para los vinilos de la gira.", "320 €"],
+    ["Abono para el festival del año que viene", "Para dos, claro.", "260 €"],
+    ["Una guitarra eléctrica", "Por si algún día montamos grupo.", "240 €"],
+  ],
+  kids: "Habrá monitores, cascos y cena para ellos.",
+  faq: [
+    "¿Habrá concierto de verdad?",
+    "Sí: un grupo sorpresa a las doce y media. No preguntéis cuál.",
+  ],
+  guestbook: [
+    ["Los de la primera fila", "Os guardamos el sitio junto al escenario. Como siempre."],
+    ["Abuela Fina", "No sé qué es un pogo, pero lo bailaré."],
+    ["Hugo y Ane", "Bis, bis, bis."],
+  ],
+  songs: [
+    "Mr. Brightside",
+    "Sweet Child O' Mine",
+    "La flaca",
+    "September",
+    "Valerie",
+    "Wonderwall",
+  ],
+});
+
+export const feria = wedding({
+  id: "evt-demo-macarena-rafa",
+  first: "Macarena",
+  second: "Rafa",
+  date: "2027-05-08T18:00:00+02:00",
+  rsvpDeadline: "2027-03-29T23:59:00+02:00",
+  city: "Jerez de la Frontera",
+  region: "Cádiz",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/portada.jpg",
+  cardMessage:
+    "Nos conocimos en la feria, entre farolillos y rebujito. Esta vez la caseta es nuestra y estás invitado.",
+  welcomeMessage:
+    "Nos casamos en mayo, con los caballos en la calle y los farolillos encendidos. Aquí tienes el programa de nuestras fiestas.",
+  thankYouMessage:
+    "Gracias por bailar en nuestra caseta hasta que se apagaron los farolillos. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Miguel",
+      kind: "Ceremonia",
+      address: "Plaza de San Miguel, s/n",
+      note: "En el barrio de San Miguel. Mejor venir andando o en taxi.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Bodega Los Arcos",
+      kind: "Aperitivo, cena y caseta",
+      address: "Calle Pizarro, 7",
+      note: "A 10 minutos andando. La caseta tiene farolillos, albero y escenario.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [27, 13, 10],
+  program: [
+    ["18:00", "Ceremonia", "iglesia", "San Miguel", "Con coro flamenco a la salida.", "ceremony"],
+    [
+      "19:30",
+      "Aperitivo",
+      "finca",
+      "En el patio de la bodega",
+      "Fino, rebujito y jamón al corte.",
+      "cocktail",
+    ],
+    ["21:30", "Cena", "finca", "Bajo los arcos", "Con el menú que elijas al confirmar.", "banquet"],
+    [
+      "23:30",
+      "Fiesta",
+      "finca",
+      "En nuestra caseta",
+      "Barra libre, sevillanas y rumba hasta el amanecer.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["cadiz", "Cádiz → Jerez", "Plaza de Sevilla, Cádiz", "16:45", ["03:00", "06:00"], 55],
+    ["sevilla", "Sevilla → Jerez", "Plaza de Armas, Sevilla", "16:00", ["06:00"], 30],
+  ],
+  menu: {
+    carne: "Rabo de toro al oloroso",
+    pescado: "Urta a la roteña",
+    vegetariano: "Berza de verduras sin pringá",
+    vegano: "Tagarninas esparragás con pan frito",
+  },
+  dressCode: {
+    title: "Feria de mayo",
+    detail: "Colores de farolillo y de lunares. Hay albero: tacón ancho.",
+    palette: [
+      { name: "Rojo banderín", hex: "#9b1d2c" },
+      { name: "Albero", hex: "#e0b24a" },
+      { name: "Verde caseta", hex: "#2f6b45" },
+      { name: "Cal", hex: "#fbf1dc" },
+    ],
+    examples: [
+      "Traje de flamenca o vestido de lunares; flor en el pelo.",
+      "Traje corto o chaqueta clara; corbata alegre.",
+      "Trajes de feria para ellos, si les apetece; habrá tiovivo.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Casa Palacio",
+      "En el centro de Jerez",
+      "Habitaciones reservadas hasta el 15 de marzo.",
+    ],
+    ["Casa Patio San Miguel", "Junto a la iglesia", "Ideal para grupos de amigos."],
+  ],
+  story: {
+    intro: "Una caseta, un rebujito derramado y una sevillana. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "La feria",
+        "Él le tiró el rebujito encima. Ella le hizo bailar las cuatro sevillanas de castigo.",
+        "olivos",
+      ],
+      ["2022", "El patio", "Un piso con patio de geranios en el barrio de San Miguel.", "terraza"],
+      ["2026", "La pedida", "En la feria, bajo los farolillos de la misma caseta.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "La caseta es nuestra. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Argentina", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Un juego de copas de catavino", "Para el fino de los domingos.", "60 €"],
+    ["Un mantón bordado", "Para la feria del año que viene.", "240 €"],
+    ["Una vajilla de La Cartuja", "La de toda la vida.", "220 €"],
+  ],
+  kids: "Habrá monitores, tiovivo y cena para ellos.",
+  faq: [
+    "¿Se baila mucho?",
+    "Toda la noche. A medianoche hay clase de sevillanas para quien la necesite.",
+  ],
+  guestbook: [
+    ["Los de la caseta", "Os guardamos el farolillo más grande. Que no se apague."],
+    ["Abuela Reme", "Qué bonita mi niña de flamenca. Viva Jerez."],
+    ["Lolo y Triana", "Nos pedimos la rumba de las cuatro."],
+  ],
+  songs: [
+    "Sevillanas del Espolón",
+    "Volando voy",
+    "Amor de San Juan",
+    "September",
+    "Valerie",
+    "Bamboléo",
+  ],
+});
+
+export const biblioteca = wedding({
+  id: "evt-demo-clara-martin",
+  first: "Clara",
+  second: "Martín",
+  date: "2027-04-23T12:30:00+02:00",
+  rsvpDeadline: "2027-03-14T23:59:00+01:00",
+  city: "Alcalá de Henares",
+  region: "Madrid",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-1.jpg",
+  cardMessage:
+    "Nos conocimos pidiendo el mismo libro en la biblioteca. Lo leímos a medias y no lo hemos devuelto nunca.",
+  welcomeMessage:
+    "Nos casamos el Día del Libro, en la ciudad de Cervantes. Aquí tienes todo para el capítulo más bonito.",
+  thankYouMessage:
+    "Gracias por venir a escribir con nosotros este capítulo. Aquí están vuestras fotos, sin multa por retraso.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Capilla de San Ildefonso",
+      kind: "Ceremonia",
+      address: "Plaza de San Diego, s/n",
+      note: "Dentro del Colegio Mayor. Hay parking en la plaza de Cervantes.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Quinta de los Libreros",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Camino de los Afligidos, 9",
+      note: "A 10 minutos. Los autobuses salen al terminar la ceremonia.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [20, 7, 30],
+  program: [
+    [
+      "12:30",
+      "Ceremonia",
+      "iglesia",
+      "San Ildefonso",
+      "Con lectura de un fragmento del Quijote.",
+      "ceremony",
+    ],
+    [
+      "13:45",
+      "Aperitivo",
+      "finca",
+      "En el claustro",
+      "Vino de Madrid y tapas complutenses.",
+      "cocktail",
+    ],
+    [
+      "15:30",
+      "Comida",
+      "finca",
+      "En la biblioteca de la quinta",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "19:00",
+      "Fiesta",
+      "finca",
+      "En el jardín",
+      "Barra libre, baile y libros para llevar.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["centro", "Alcalá → Quinta", "Plaza de Cervantes", "13:15", ["21:00", "01:00"], 55],
+    ["madrid", "Madrid → Alcalá", "Avenida de América, Madrid", "11:15", ["01:00"], 30],
+  ],
+  menu: {
+    carne: "Cordero asado con patatas panaderas",
+    pescado: "Bacalao al ajoarriero",
+    vegetariano: "Pisto manchego con huevo",
+    vegano: "Judiones con verduras",
+  },
+  dressCode: {
+    title: "Primavera de biblioteca",
+    detail: "Tonos de lomo de libro: granate, verde, crema. Hay claustro de piedra: tacón ancho.",
+    palette: [
+      { name: "Sello granate", hex: "#7d1f3a" },
+      { name: "Cartón", hex: "#f3ead2" },
+      { name: "Lomo verde", hex: "#3d6644" },
+      { name: "Tinta", hex: "#2a2622" },
+    ],
+    examples: [
+      "Vestido de día y una chaqueta para el claustro.",
+      "Traje o americana de tweed; la corbata, opcional.",
+      "Ropa cómoda: habrá cuentacuentos para ellos.",
+    ],
+  },
+  accommodation: [
+    [
+      "Parador de Alcalá",
+      "En el centro, junto a la capilla",
+      "Habitaciones reservadas hasta el 1 de marzo.",
+    ],
+    ["Hostal Complutense", "A 5 minutos andando", "Más sencillo y muy céntrico."],
+  ],
+  story: {
+    intro:
+      "Una biblioteca, un mismo libro y un préstamo que nunca devolvimos. Esta es la versión corta.",
+    moments: [
+      [
+        "2018",
+        "El libro",
+        "Los dos pedimos el mismo ejemplar. La bibliotecaria nos hizo compartirlo.",
+        "olivos",
+      ],
+      ["2021", "La estantería", "Un piso pequeño con más libros que platos.", "terraza"],
+      [
+        "2026",
+        "La pedida",
+        "El anillo, dentro de aquel libro, en la página donde nos quedamos.",
+        "anilloMuro",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Empieza un capítulo nuevo. Ven a leerlo con nosotros.",
+        "olivar",
+      ],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Dublín",
+      "A ver la biblioteca del Trinity. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Una estantería de pared", "Ya no caben los libros.", "280 €"],
+    ["Un sillón de lectura", "Para los domingos de lluvia.", "340 €"],
+    ["Una edición antigua del Quijote", "Para empezar la biblioteca familiar.", "150 €"],
+  ],
+  kids: "Habrá monitores, cuentacuentos y comida para ellos.",
+  faq: [
+    "¿Hay que llevar un libro?",
+    "Si quieres, sí: haremos un intercambio de libros en la fiesta.",
+  ],
+  guestbook: [
+    ["Los de la biblioteca", "El libro sigue sin devolver. Lo damos por perdido con mucho gusto."],
+    ["Abuelo Julián", "Que vuestra historia tenga muchos tomos."],
+    ["Bea y Nico", "Nos apuntamos al intercambio de libros."],
+  ],
+  songs: [
+    "Sweet Caroline",
+    "Pongamos que hablo de Madrid",
+    "Book of Love",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});

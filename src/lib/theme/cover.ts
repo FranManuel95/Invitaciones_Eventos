@@ -51,6 +51,9 @@ export const COVER_IDS = [
   "crucigrama",
   "tren",
   "receta",
+  "concierto",
+  "feria",
+  "biblioteca",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -242,6 +245,18 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Receta de la abuela",
     description: "La ficha de cocina de la boda: los ingredientes sois vosotros y se van tachando.",
   },
+  concierto: {
+    label: "Entrada de concierto",
+    description: "La entrada de vuestra gira «Sí, quiero»: el invitado la escanea en la puerta.",
+  },
+  feria: {
+    label: "Cartel de feria",
+    description: "Un cartel de fiestas con farolillos que se encienden al tocarlos.",
+  },
+  biblioteca: {
+    label: "Ficha de biblioteca",
+    description: "La ficha de préstamo de vuestra historia: la boda se sella con su fecha.",
+  },
 };
 
 /**
@@ -274,6 +289,9 @@ export const CONCEPT_COVERS = {
   crucigrama: { ink: "#1b1b1b", paper: "#e4e0d6" },
   tren: { ink: "#1f2b1d", paper: "#e6dcc6" },
   receta: { ink: "#3b2a20", paper: "#eadfca" },
+  concierto: { ink: "#f4f1ea", paper: "#16121f", tone: "oscuro" },
+  feria: { ink: "#3a1418", paper: "#f0e2c6" },
+  biblioteca: { ink: "#2a2622", paper: "#ddd3bd" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -380,6 +398,9 @@ export const MOTIF_IDS = [
   "crucigrama",
   "tren",
   "receta",
+  "concierto",
+  "feria",
+  "biblioteca",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -418,4 +439,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   crucigrama: { label: "Pasatiempos", kind: "concepto" },
   tren: { label: "Ferrocarril", kind: "concepto" },
   receta: { label: "Recetario", kind: "concepto" },
+  concierto: { label: "Gira en directo", kind: "concepto" },
+  feria: { label: "Fiestas del pueblo", kind: "concepto" },
+  biblioteca: { label: "Biblioteca", kind: "concepto" },
 };

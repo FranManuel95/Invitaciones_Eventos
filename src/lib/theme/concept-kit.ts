@@ -215,6 +215,32 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Se sirve con mucho cariño",
     pass: { kicker: "Ficha de comensal", people: "Comensales" },
   },
+  concierto: {
+    object: "la entrada",
+    carrier: "Gira «Sí, quiero»",
+    letterhead: "Notas del concierto",
+    signoff: "Gracias por venir al directo",
+    pass: {
+      kicker: "Pase de backstage",
+      people: "Público",
+      table: "Fila (mesa)",
+      bus: "Lanzadera en autobús",
+    },
+  },
+  feria: {
+    object: "el cartel",
+    carrier: "Gran fiesta",
+    letterhead: "Bando de las fiestas",
+    signoff: "¡Vivan los novios!",
+    pass: { kicker: "Entrada a la caseta", people: "Feriantes" },
+  },
+  biblioteca: {
+    object: "el libro",
+    carrier: "Biblioteca municipal",
+    letterhead: "Capítulo nuevo",
+    signoff: "Préstamo para toda la vida",
+    pass: { kicker: "Carné de lector", people: "Lectores" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

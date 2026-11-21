@@ -8,11 +8,12 @@ Rama de trabajo: `claude/tender-franklin-isgz7b` (PR #6 contra `main`, sin fusio
 continuación (Telegrama y Postal, ronda 19) está en `claude/exciting-franklin-43k083`, que parte
 de esa rama y la contiene entera.
 
-**Hechas las veinticuatro**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
+**Hechas las veintisiete**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
 las diez de la ronda 20 (Vinilo, Pasaporte, Carta, Mapa, Constelación, Cómic, Cosecha, Tarot,
 Arcade y Semillas) e Instantánea, Abanico, Cerillas, Galleta de la suerte, Casete y Mensaje en una botella (ronda
 38, en `cover/concepts-new.tsx`) y Crucigrama, Billete de tren y Receta de la abuela (ronda 38, en
-`cover/concepts-new2.tsx`). Las fichas de abajo se conservan como referencia de lo que se
+`cover/concepts-new2.tsx`) y Entrada de concierto, Cartel de feria y Ficha de biblioteca (ronda
+38, en `cover/concepts-new3.tsx`). Las fichas de abajo se conservan como referencia de lo que se
 construyó; lo que queda es lo de «Pendiente en las que ya existen», que vale para todas.
 
 Dónde está cada cosa ahora: piezas comunes en `cover/concept-kit.tsx`; portadas en
@@ -368,9 +369,13 @@ las pruebas de contraste y ajustar.
 
 Objetos reconocibles en un segundo y con un gesto que solo tiene sentido en ellos:
 
-1. ~~Galleta de la suerte, Casete, Crucigrama, Receta y Billete de tren~~: hechas (ronda 38).
-2. **Entrada de concierto**: pulsera que se cierra o código de barras que se escanea.
-3. **Cartel de feria**: cartel antiguo con farolillos que se encienden al tocarlos.
+Hechas en la ronda 38: Galleta de la suerte, Casete, Crucigrama, Receta, Billete de tren,
+Entrada de concierto, Cartel de feria y Ficha de biblioteca. Quedan por probar:
+
+1. **Llave de hotel**: llavero de latón con el número de habitación (la fecha); se gira en la cerradura.
+2. **Partitura**: el pentagrama con vuestros nombres; tocar las notas las hace sonar.
+3. **Brújula**: la aguja gira con el móvil (o el dedo) hasta señalar el lugar de la boda.
+4. **Sello de cera**: se derrite la cera y se estampa con el dedo (vídeo `fx-lacre` de Higgsfield).
 
 ## Por dónde empezar
 

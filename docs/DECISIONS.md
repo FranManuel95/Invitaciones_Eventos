@@ -1406,7 +1406,14 @@ olivo.
   de la ceremonia; cada toque pica un agujero donde se toca, hasta tres; Paula y Gael, Canfranc) y
   **Receta de la abuela** (ficha de cocina con renglones y margen rojo; los ingredientes son la
   pareja, el pueblo, el día y el baile, y se tachan; Elsa y Mateo, Tolosa). Estilos Pasatiempo,
-  Andén y Recetario. Ya son 44 plantillas (24 de objetos) y 45 portadas.
+  Andén y Recetario.
+- **Cuarta tanda**: **Entrada de concierto** (la gira «Sí, quiero»: puertas a la hora de la
+  ceremonia y el escenario de la fiesta; se escanea el código de barras y pasa a «Válida»; Vega y
+  Marcos, Benicàssim; portada oscura), **Cartel de feria** (farolillos de colores que se
+  encienden al tocarlos y el programa en el cartel; Macarena y Rafa, Jerez de la Frontera) y
+  **Ficha de biblioteca** («Historia de…», la tabla de préstamos de la pareja y la boda, que se
+  sella con su fecha al tocar la ficha; Clara y Martín, Alcalá de Henares, el Día del Libro).
+  Estilos Directo, Verbena y Préstamo. Ya son 47 plantillas (27 de objetos) y 48 portadas.
 
 ## Pendiente para próximas fases
 

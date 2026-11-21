@@ -41,6 +41,9 @@ const CONCEPTS = [
   { id: "crucigrama", names: /Sara y Iván/, date: "15 de mayo de 2027", opening: "concepto" },
   { id: "tren", names: /Paula y Gael/, date: "25/09/27", opening: "concepto" },
   { id: "receta", names: /Elsa y Mateo/, date: "2 de octubre de 2027", opening: "concepto" },
+  { id: "concierto", names: /Vega & Marcos/, date: "10.07.27", opening: "concepto" },
+  { id: "feria", names: /Macarena y Rafa/, date: "8 de mayo de 2027", opening: "concepto" },
+  { id: "biblioteca", names: /Clara y Martín/, date: "23 de abril de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -387,6 +390,38 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await stage.getByRole("button", { name: "Tenerlo todo" }).click();
     await expect(stage.locator("[data-recipe]")).toHaveAttribute("data-recipe", "lista");
     await expect(stage.getByRole("button", { name: "¡Listo para servir!" })).toBeDisabled();
+  });
+
+  test("concierto: la entrada se escanea y queda válida", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=concierto");
+    const stage = cover(page, "concierto");
+    await stage.getByRole("button", { name: "Escanear la entrada" }).click();
+    await expect(stage.locator("[data-scan]")).toHaveAttribute("data-scan", "valida");
+    await expect(stage.getByRole("button", { name: "Entrada válida" })).toBeDisabled();
+  });
+
+  test("feria: cada farolillo se enciende al tocarlo y el botón los enciende todos", async ({
+    page,
+  }) => {
+    await page.goto("/i/familia-garcia?plantilla=feria");
+    const stage = cover(page, "feria");
+    const garland = stage.locator("[data-lit]");
+    await garland.locator("button").first().click();
+    await expect(garland).toHaveAttribute("data-lit", "apagados");
+    await expect(stage).toBeVisible();
+    await stage.getByRole("button", { name: "Encender los farolillos" }).click();
+    await expect(garland).toHaveAttribute("data-lit", "todos");
+  });
+
+  test("biblioteca: tocar la ficha sella la fecha de la boda", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=biblioteca");
+    const stage = cover(page, "biblioteca");
+    const row = stage.locator("[data-stamped]");
+    await expect(row).toHaveAttribute("data-stamped", "no");
+    await stage.getByRole("heading", { level: 1 }).click();
+    await expect(row).toHaveAttribute("data-stamped", "si");
+    await expect(stage.getByRole("button", { name: "Fecha sellada" })).toBeDisabled();
+    await expect(stage).toBeVisible();
   });
 
   test("con movimiento reducido las portadas se abren sin esperar animaciones", async ({
