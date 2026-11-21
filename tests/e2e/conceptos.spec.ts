@@ -63,6 +63,9 @@ const CONCEPTS = [
   { id: "puzle", names: /Ane y Tomás/, date: "19 de junio de 2027", opening: "concepto" },
   { id: "tarta", names: /Rosa y Julián/, date: "22 de mayo de 2027", opening: "concepto" },
   { id: "taquilla", names: /Amaia y Lucas/, date: "20 de noviembre de 2027", opening: "concepto" },
+  { id: "globo", names: /Eva y Marco/, date: "11 de septiembre de 2027", opening: "concepto" },
+  { id: "nieve", names: /Irene y Pau/, date: "23 de enero de 2027", opening: "concepto" },
+  { id: "brindis", names: /Lidia y Óscar/, date: "31 de diciembre de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -624,6 +627,30 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await ticket.click();
     await expect(ticket).toHaveAttribute("data-ticket", "arrancada");
     await expect(stage).toBeVisible();
+  });
+
+  test("globo: al soltar el lastre sube", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=globo");
+    const stage = cover(page, "globo");
+    await stage.getByRole("button", { name: "Soltar el lastre" }).click();
+    await expect(stage.locator("[data-balloon]")).toHaveAttribute("data-balloon", "volando");
+  });
+
+  test("bola de nieve: al agitarla nieva y después se posa", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=nieve");
+    const stage = cover(page, "nieve");
+    const globe = stage.locator("[data-globe]");
+    await globe.click();
+    await expect(globe).toHaveAttribute("data-globe", "nevando");
+    await expect(globe).toHaveAttribute("data-globe", "posada");
+    await expect(stage).toBeVisible();
+  });
+
+  test("brindis: las copas chocan", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=brindis");
+    const stage = cover(page, "brindis");
+    await stage.getByRole("button", { name: "Brindar" }).click();
+    await expect(stage.locator("[data-toast]")).toHaveAttribute("data-toast", "chin-chin");
   });
 
   test("con movimiento reducido las portadas se abren sin esperar animaciones", async ({

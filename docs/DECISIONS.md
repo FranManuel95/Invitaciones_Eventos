@@ -1462,7 +1462,13 @@ olivo.
   la matriz que se arranca al tocar; Amaia y Lucas, Almería; portada oscura). Estilos
   Rompecabezas, Pastelería y Butaca. El botón de los cromos pasa a «Rasgar el sobre», para no
   llamarse igual que el del sobre de la invitación.
-- Ya son 67 plantillas (21 de papel y acuarela, 46 de objetos) y 68 portadas.
+- **Undécima tanda**: **Globo aerostático** (cielo de amanecer; al soltar el lastre el globo sube
+  con la fecha en la cesta; Eva y Marco, Piedrahíta), **Bola de nieve** (al agitarla nieva y, al
+  posarse, la fecha aparece en la puerta de la casita; la fecha está también siempre bajo la base;
+  Irene y Pau, Jaca, en enero) y **Brindis** (dos copas de cava con los nombres que se inclinan y
+  chocan; Lidia y Óscar, Sant Sadurní d'Anoia, en Nochevieja; portada oscura). Estilos Aeróstato,
+  Cristal y Burbuja.
+- Ya son 70 plantillas (21 de papel y acuarela, 49 de objetos) y 71 portadas.
 
 ## Pendiente para próximas fases
 

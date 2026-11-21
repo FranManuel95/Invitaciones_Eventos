@@ -2498,6 +2498,179 @@
   content: "Fin. (O mejor: continuará)";
 }
 
+/* Globo: cada sección es una etapa del vuelo. */
+[data-motif="globo"] {
+  counter-reset: etapa;
+}
+[data-motif="globo"] .motif-hero {
+  background: linear-gradient(180deg, var(--scene-1) 0 4rem, var(--color-paper) 6rem);
+}
+[data-motif="globo"] section[id] {
+  counter-increment: etapa;
+}
+[data-motif="globo"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="globo"] .motif-sprig::before {
+  content: "";
+  width: 1rem;
+  height: 1.3rem;
+  border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
+  background: linear-gradient(
+    90deg,
+    var(--color-gold) 0 30%,
+    #f2c230 30% 70%,
+    var(--color-gold) 70%
+  );
+}
+[data-motif="globo"] .motif-sprig::after {
+  content: "Altitud " counter(etapa);
+}
+[data-motif="globo"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: 600 0.875rem / 1.4 var(--font-sans);
+}
+[data-motif="globo"] .motif-closing::before {
+  content: "Aterrizaje: en la pista de baile";
+}
+
+/* Bola de nieve: cada sección, un copo. */
+[data-motif="nieve"] {
+  counter-reset: copo;
+}
+[data-motif="nieve"] .motif-hero {
+  background:
+    radial-gradient(circle, rgb(47 74 94 / 0.12) 0 1.5px, transparent 2px) 0 0 / 16px 16px,
+    var(--color-paper);
+}
+[data-motif="nieve"] section[id] {
+  counter-increment: copo;
+}
+[data-motif="nieve"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="nieve"] .motif-sprig::before {
+  content: "";
+  width: 1.2rem;
+  height: 1.2rem;
+  background: var(--color-ink);
+  clip-path: polygon(
+    45% 0,
+    55% 0,
+    55% 40%,
+    90% 20%,
+    95% 30%,
+    60% 50%,
+    95% 70%,
+    90% 80%,
+    55% 60%,
+    55% 100%,
+    45% 100%,
+    45% 60%,
+    10% 80%,
+    5% 70%,
+    40% 50%,
+    5% 30%,
+    10% 20%,
+    45% 40%
+  );
+}
+[data-motif="nieve"] .motif-sprig::after {
+  content: "Copo " counter(copo);
+}
+[data-motif="nieve"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.5rem / 1 var(--font-display);
+}
+[data-motif="nieve"] .motif-closing::before {
+  content: "Agítese antes de abrir";
+}
+
+/* Brindis: cada sección es una copa. */
+[data-motif="brindis"] {
+  counter-reset: copa;
+}
+[data-motif="brindis"] .motif-hero {
+  background:
+    radial-gradient(circle, rgb(243 210 122 / 0.2) 0 1.5px, transparent 2px) 0 0 / 20px 20px,
+    var(--color-paper);
+}
+[data-motif="brindis"] section[id] {
+  counter-increment: copa;
+}
+[data-motif="brindis"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="brindis"] .motif-sprig::before {
+  content: "";
+  width: 0.9rem;
+  height: 1.4rem;
+  background:
+    linear-gradient(var(--color-gold), var(--color-gold)) 50% 100% / 0.12rem 45% no-repeat,
+    linear-gradient(var(--color-gold), var(--color-gold)) 50% 0 / 100% 55% no-repeat;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    70% 55%,
+    55% 55%,
+    55% 95%,
+    80% 100%,
+    20% 100%,
+    45% 95%,
+    45% 55%,
+    30% 55%
+  );
+}
+[data-motif="brindis"] .motif-sprig::after {
+  content: "Copa " counter(copa);
+}
+[data-motif="brindis"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="brindis"] .motif-closing::before {
+  content: "¡Chin, chin!";
+}
+
+@keyframes globe-shake {
+  25% {
+    transform: rotate(-6deg) translateX(-4px);
+  }
+  75% {
+    transform: rotate(6deg) translateX(4px);
+  }
+}
+
 /* ── Carta, pase y apertura de las plantillas de concepto ── */
 
 /* Membrete y despedida de la carta: una línea impresa arriba y otra abajo. */
@@ -3065,6 +3238,25 @@
 [data-motif="taquilla"] .concept-carrier-label {
   color: #3a0f16;
   border-color: #3a0f16;
+}
+
+/* Globo: tela de rayas roja y amarilla. */
+[data-motif="globo"] .concept-carrier {
+  background: repeating-linear-gradient(90deg, var(--color-gold) 0 1.2rem, #f2c230 1.2rem 2.4rem);
+  border: 0;
+}
+[data-motif="globo"] .concept-carrier-label {
+  background: var(--color-paper);
+}
+/* Bola de nieve: caja de recuerdo. */
+[data-motif="nieve"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 2px solid var(--color-ink);
+}
+/* Brindis: caja de cava. */
+[data-motif="brindis"] .concept-carrier {
+  background: #1d1835;
+  border: 2px solid var(--color-gold);
 }
 
 [data-motif-kind="concepto"] .motif-closing > * {

@@ -7603,3 +7603,389 @@ export const taquilla = wedding({
   ],
   songs: ["Cinema Italiano", "Moon River", "Hoy", "September", "Valerie", "Dancing Queen"],
 });
+
+export const globo = wedding({
+  id: "evt-demo-eva-marco",
+  first: "Eva",
+  second: "Marco",
+  date: "2027-09-11T12:00:00+02:00",
+  rsvpDeadline: "2027-08-02T23:59:00+02:00",
+  city: "Piedrahíta",
+  region: "Ávila",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-4.jpg",
+  cardMessage:
+    "Nos conocimos en un vuelo en globo al amanecer. Ella tenía miedo a las alturas; él le cogió la mano todo el viaje.",
+  welcomeMessage:
+    "Nos casamos en la sierra, donde despegan los globos. Aquí tienes el plan de vuelo del día.",
+  thankYouMessage:
+    "Gracias por subir con nosotros tan alto. Aquí están vuestras fotos, con vistas.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Ermita de la Virgen de la Sierra",
+      kind: "Ceremonia",
+      address: "Camino de la Ermita, s/n",
+      note: "En lo alto del pueblo; hay aparcamiento junto a la ermita.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Finca El Despegue",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Carretera de la Sierra, km 7",
+      note: "A 10 minutos, en la pradera de donde salen los globos.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [24, 10, 15],
+  program: [
+    ["12:00", "Ceremonia", "iglesia", "La ermita", "Breve, con vistas al valle.", "ceremony"],
+    [
+      "13:15",
+      "Aperitivo",
+      "finca",
+      "En la pradera",
+      "Vino, embutido de la sierra y un globo inflándose.",
+      "cocktail",
+    ],
+    ["15:00", "Cena", "finca", "Bajo la carpa", "Con el menú que elijas al confirmar.", "banquet"],
+    [
+      "18:30",
+      "Fiesta",
+      "finca",
+      "Hasta que anochezca",
+      "Barra libre, baile y vuelos cautivos.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "avila",
+      "Ávila → Piedrahíta",
+      "Estación de autobuses, Ávila",
+      "10:45",
+      ["21:00", "01:00"],
+      55,
+    ],
+    ["madrid", "Madrid → Ávila", "Moncloa, Madrid", "09:00", ["01:00"], 30],
+  ],
+  menu: {
+    carne: "Chuletón de Ávila",
+    pescado: "Truchas del Tormes",
+    vegetariano: "Patatas revolconas con setas",
+    vegano: "Judías del Barco con verduras",
+  },
+  dressCode: {
+    title: "Fin de verano en la sierra",
+    detail: "Rojo y amarillo de globo, verde y crema. Pradera: calzado plano.",
+    palette: [
+      { name: "Rojo globo", hex: "#c8312b" },
+      { name: "Amarillo", hex: "#f2c230" },
+      { name: "Cielo", hex: "#8fb7d8" },
+      { name: "Pradera", hex: "#7ea05a" },
+    ],
+    examples: [
+      "Vestido de lino y chaqueta.",
+      "Traje claro; sin corbata.",
+      "Ropa cómoda: habrá vuelos cautivos para ellos.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Sierra de Gredos", "En el pueblo", "Habitaciones reservadas hasta el 1 de agosto."],
+    ["Casa rural El Despegue", "Junto a la finca", "Para el vuelo del domingo."],
+  ],
+  story: {
+    intro: "Un globo, un amanecer y una mano que no soltó. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "El vuelo",
+        "Ella tenía miedo a las alturas. Él le cogió la mano durante una hora.",
+        "olivos",
+      ],
+      ["2022", "La sierra", "Una casa con vistas a los globos de los domingos.", "terraza"],
+      [
+        "2026",
+        "La pedida",
+        "En la cesta, a mil metros. Ella dijo que sí sin mirar abajo.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "Suelta el lastre: subimos juntos.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Capadocia", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Un vuelo en globo para dos", "Para el primer aniversario.", "300 €"],
+    ["Unos prismáticos", "Para ver los globos desde casa.", "90 €"],
+    ["Una manta de picnic", "Para la pradera.", "50 €"],
+  ],
+  kids: "Habrá monitores, vuelos cautivos y comida para ellos.",
+  faq: [
+    "¿Se puede subir al globo?",
+    "Sí: hay vuelos cautivos, atados al suelo, durante la fiesta.",
+  ],
+  guestbook: [
+    ["Los del primer vuelo", "Esta vez la mano ya va cogida."],
+    ["Abuela Rosario", "Yo me quedo en tierra, pero os veo subir."],
+    ["Dani y Clara", "Nos pedimos el primer vuelo."],
+  ],
+  songs: ["Up Where We Belong", "Volar", "Hoy", "September", "Valerie", "Dancing Queen"],
+});
+
+export const nieve = wedding({
+  id: "evt-demo-irene-pau",
+  first: "Irene",
+  second: "Pau",
+  date: "2027-01-23T13:00:00+01:00",
+  rsvpDeadline: "2026-12-14T23:59:00+01:00",
+  city: "Jaca",
+  region: "Huesca",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-2.jpg",
+  cardMessage:
+    "Nos conocimos en una estación de esquí, atrapados por una ventisca. Desde entonces, el invierno es nuestra estación.",
+  welcomeMessage:
+    "Nos casamos en Jaca, en pleno invierno. Agita la bola: aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir con nieve, frío y ganas de fiesta. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Catedral de Jaca",
+      kind: "Ceremonia",
+      address: "Plaza de San Pedro, 5",
+      note: "En el centro. Llevad abrigo: la catedral es fresca.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Refugio de la Ciudadela",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Avenida del Primer Viernes de Mayo, 2",
+      note: "A 5 minutos andando, con chimenea y vistas a la nieve.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [6, -3, 40],
+  program: [
+    [
+      "13:00",
+      "Ceremonia",
+      "iglesia",
+      "La catedral",
+      "Con coro y villancicos de montaña.",
+      "ceremony",
+    ],
+    ["14:15", "Aperitivo", "finca", "Junto a la chimenea", "Vino caliente y migas.", "cocktail"],
+    [
+      "16:00",
+      "Cena",
+      "finca",
+      "En el salón del refugio",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["19:30", "Fiesta", "finca", "Hasta que nieve", "Barra libre, baile y chocolate.", "party"],
+  ],
+  busRoutes: [
+    ["huesca", "Huesca → Jaca", "Estación de Huesca", "11:30", ["21:00", "01:00"], 55],
+    ["zaragoza", "Zaragoza → Jaca", "Estación Delicias, Zaragoza", "10:30", ["01:00"], 30],
+  ],
+  menu: {
+    carne: "Ternasco al horno con patatas",
+    pescado: "Bacalao con tomate",
+    vegetariano: "Borrajas con patata",
+    vegano: "Potaje de montaña",
+  },
+  dressCode: {
+    title: "Boda de invierno",
+    detail: "Blanco nieve, azul y rojo. Hace frío: abrigo, gorro y botas.",
+    palette: [
+      { name: "Nieve", hex: "#f8fafb" },
+      { name: "Azul invierno", hex: "#2f4a5e" },
+      { name: "Casita roja", hex: "#b02a2a" },
+      { name: "Abeto", hex: "#2f5a43" },
+    ],
+    examples: [
+      "Vestido de manga larga y abrigo; botas permitidas.",
+      "Traje de lana; bufanda.",
+      "Ropa de nieve: habrá trineos para ellos.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Jaca", "En el centro", "Habitaciones reservadas hasta el 1 de diciembre."],
+    ["Albergue de la Ciudadela", "Junto al refugio", "Para quedarse a esquiar."],
+  ],
+  story: {
+    intro: "Una ventisca, una cabaña y una noche de chocolate. Esta es la versión corta.",
+    moments: [
+      [
+        "2018",
+        "La ventisca",
+        "Atrapados en una cabaña de la estación. Dos tazas de chocolate y una conversación larguísima.",
+        "olivos",
+      ],
+      ["2021", "La montaña", "Un piso en Jaca para estar cerca de la nieve.", "terraza"],
+      [
+        "2026",
+        "La pedida",
+        "En lo alto de una pista, con el anillo dentro de un guante.",
+        "anilloMuro",
+      ],
+      [
+        "Hoy",
+        "Y ahora, la boda",
+        "Agita la bola: la fecha aparece cuando se posa la nieve.",
+        "olivar",
+      ],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Noruega", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Unos esquís nuevos", "Para ella.", "300 €"],
+    ["Una chimenea de leña", "Para las tardes de invierno.", "400 €"],
+    ["Una bola de nieve de recuerdo", "Con nuestra foto.", "30 €"],
+  ],
+  kids: "Habrá monitores, trineos y comida para ellos.",
+  faq: ["¿Y si nieva mucho?", "Mejor: los autobuses llevan cadenas y el refugio tiene chimenea."],
+  guestbook: [
+    ["Los de la cabaña", "Esta vez llevad más chocolate."],
+    ["Yaya Pilar", "Abrigaos, que en Jaca hace frío de verdad."],
+    ["Marc y Ona", "Nos pedimos el primer trineo."],
+  ],
+  songs: ["Let It Snow", "Winter Song", "Hoy", "September", "Valerie", "Dancing Queen"],
+});
+
+export const brindis = wedding({
+  id: "evt-demo-lidia-oscar",
+  first: "Lidia",
+  second: "Óscar",
+  date: "2027-12-31T19:00:00+01:00",
+  rsvpDeadline: "2027-11-21T23:59:00+01:00",
+  city: "Sant Sadurní d'Anoia",
+  region: "Barcelona",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-1.jpg",
+  cardMessage:
+    "Nos conocimos brindando por error con la copa del otro. Llevamos ocho años brindando por aquel error.",
+  welcomeMessage:
+    "Nos casamos en Nochevieja, entre bodegas de cava. Aquí tienes todo lo que necesitas para el brindis más largo.",
+  thankYouMessage:
+    "Gracias por empezar el año brindando con nosotros. Aquí están vuestras fotos, con burbujas.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Sant Sadurní",
+      kind: "Ceremonia",
+      address: "Plaça de l'Església, 1",
+      note: "En el centro del pueblo. Hay parking junto a la estación.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Caves del Brindis",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Carrer de les Caves, 12",
+      note: "A 5 minutos, en una bodega de cava con salón de baile.",
+      photo: "pista",
+    },
+  ],
+  climate: [12, 2, 15],
+  program: [
+    ["19:00", "Ceremonia", "iglesia", "Sant Sadurní", "Con coro y órgano.", "ceremony"],
+    [
+      "20:15",
+      "Aperitivo",
+      "finca",
+      "En la cava",
+      "Visita a la bodega y cava de la casa.",
+      "cocktail",
+    ],
+    [
+      "21:45",
+      "Cena",
+      "finca",
+      "En el salón de las barricas",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "23:30",
+      "Fiesta",
+      "finca",
+      "Hasta el año que viene",
+      "Uvas a medianoche, brindis y baile hasta el amanecer.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "barcelona",
+      "Barcelona → Sant Sadurní",
+      "Plaça Espanya, Barcelona",
+      "17:45",
+      ["03:00", "06:00"],
+      55,
+    ],
+    ["vilafranca", "Vilafranca → Sant Sadurní", "Estació de Vilafranca", "18:15", ["06:00"], 30],
+  ],
+  menu: {
+    carne: "Canelones de Nochevieja",
+    pescado: "Lubina con salsa de cava",
+    vegetariano: "Risotto de setas al cava",
+    vegano: "Verduras asadas con romesco",
+  },
+  dressCode: {
+    title: "Nochevieja de gala",
+    detail: "Oro, negro y lentejuelas. Es la noche más larga: zapatos cómodos.",
+    palette: [
+      { name: "Cava", hex: "#f3d27a" },
+      { name: "Noche", hex: "#141024" },
+      { name: "Lentejuela", hex: "#c9c2d8" },
+      { name: "Burdeos", hex: "#7a1f2a" },
+    ],
+    examples: [
+      "Vestido de fiesta, lentejuelas bienvenidas.",
+      "Esmoquin o traje oscuro.",
+      "De fiesta: habrá campanadas de mentira para ellos.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel de les Caves",
+      "Junto a la bodega",
+      "Habitaciones reservadas hasta el 15 de noviembre.",
+    ],
+    ["Hotel Vilafranca", "A 10 minutos", "Con traslado de vuelta incluido."],
+  ],
+  story: {
+    intro:
+      "Una copa cambiada, un brindis por error y ocho años de burbujas. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "La copa",
+        "Brindamos con la copa del otro sin darnos cuenta. Nos dio la risa.",
+        "cala",
+      ],
+      ["2022", "La vendimia", "Un otoño entero en el Penedès, entre viñas.", "furgoneta"],
+      ["2026", "La pedida", "En la cava, con el anillo dentro de la copa.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "Las copas están servidas. Solo falta la tuya.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Champaña", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Copas de cristal tallado", "Para los brindis de casa.", "120 €"],
+    ["Una caja de cava de reserva", "Para el primer aniversario.", "90 €"],
+    ["Una nevera de vinos", "Para guardar las botellas.", "350 €"],
+  ],
+  kids: "Habrá monitores, campanadas de mentira y cena para ellos.",
+  faq: ["¿Habrá uvas?", "Sí: doce, a medianoche, con las campanadas en la pantalla de la cava."],
+  guestbook: [
+    ["Los de la copa cambiada", "Esta vez cada uno con la suya. O no."],
+    ["Àvia Núria", "Qué boda tan bonita para empezar el año."],
+    ["Martí y Aina", "Nos pedimos el primer brindis del año."],
+  ],
+  songs: ["Celebration", "Champagne Supernova", "Hoy", "September", "Valerie", "Dancing Queen"],
+});

@@ -74,6 +74,9 @@ export const COVER_IDS = [
   "puzle",
   "tarta",
   "taquilla",
+  "globo",
+  "nieve",
+  "brindis",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -363,6 +366,19 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     description:
       "Estreno de «Felices para siempre»: sesión, sala y butaca, y se arranca la matriz.",
   },
+  globo: {
+    label: "Globo aerostático",
+    description:
+      "Un globo listo para despegar: al soltar el lastre, sube con la fecha en la cesta.",
+  },
+  nieve: {
+    label: "Bola de nieve",
+    description: "Un recuerdo de cristal: al agitarlo nieva y, al posarse, aparece la fecha.",
+  },
+  brindis: {
+    label: "Brindis",
+    description: "Dos copas con vuestros nombres que chocan al tocarlas: ¡chin, chin!",
+  },
 };
 
 /**
@@ -417,6 +433,9 @@ export const CONCEPT_COVERS = {
   puzle: { ink: "#2d2a26", paper: "#e9e4da" },
   tarta: { ink: "#4a2a33", paper: "#f6ece6" },
   taquilla: { ink: "#f3dfc0", paper: "#2a0b10", tone: "oscuro" },
+  globo: { ink: "#2a2a3a", paper: "#cfe0ea" },
+  nieve: { ink: "#2f4a5e", paper: "#e6ecef" },
+  brindis: { ink: "#f6ecd4", paper: "#141024", tone: "oscuro" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -548,6 +567,9 @@ export const MOTIF_IDS = [
   "puzle",
   "tarta",
   "taquilla",
+  "globo",
+  "nieve",
+  "brindis",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -608,4 +630,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   puzle: { label: "Rompecabezas", kind: "concepto" },
   tarta: { label: "Pastelería", kind: "concepto" },
   taquilla: { label: "Sala de cine", kind: "concepto" },
+  globo: { label: "Vuelo en globo", kind: "concepto" },
+  nieve: { label: "Bola de nieve", kind: "concepto" },
+  brindis: { label: "Brindis", kind: "concepto" },
 };

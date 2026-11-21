@@ -374,6 +374,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Fin. (O mejor: continuará)",
     pass: { kicker: "Butaca de honor", people: "Espectadores", table: "Fila (mesa)" },
   },
+  globo: {
+    object: "la cesta",
+    carrier: "Vuelo especial",
+    letterhead: "Cuaderno de vuelo",
+    signoff: "Aterrizaje: en la pista de baile",
+    pass: { kicker: "Pasaje de globo", people: "Pasajeros" },
+  },
+  nieve: {
+    object: "la bola de nieve",
+    carrier: "Recuerdo de la boda",
+    letterhead: "Dentro de la bola",
+    signoff: "Agítese antes de abrir",
+    pass: { kicker: "Recuerdo de cristal", people: "Invitados" },
+  },
+  brindis: {
+    object: "la botella",
+    carrier: "Reserva especial",
+    letterhead: "Unas palabras antes del brindis",
+    signoff: "¡Chin, chin!",
+    pass: { kicker: "Copa reservada", people: "Brindadores" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */
