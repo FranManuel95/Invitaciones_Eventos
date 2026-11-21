@@ -27,6 +27,7 @@ export const COVER_IDS = [
   "toile",
   "silvestres",
   "selva",
+  "tarjeta",
   "gaceta",
   "embarque",
   "premio",
@@ -57,6 +58,7 @@ export const COVER_IDS = [
   "llave",
   "partitura",
   "brujula",
+  "lacre",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -145,6 +147,11 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
   selva: {
     label: "Selva",
     description: "Hojas tropicales verdes y una tarjeta esmeralda con filete de oro.",
+  },
+  tarjeta: {
+    label: "Tarjeta a la luz",
+    description:
+      "Vuestros nombres en una tarjeta entre paniculata, con la luz de la tarde (vídeo).",
   },
   gaceta: {
     label: "Gaceta",
@@ -272,6 +279,11 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Brújula",
     description: "Una brújula de latón cuya aguja busca el lugar de la boda.",
   },
+  lacre: {
+    label: "Lacre",
+    description:
+      "Un sello de latón sobre cera burdeos: el invitado lo estampa con el dedo (vídeo).",
+  },
 };
 
 /**
@@ -310,6 +322,7 @@ export const CONCEPT_COVERS = {
   llave: { ink: "#3a2a14", paper: "#e9dcc0" },
   partitura: { ink: "#2b2620", paper: "#e7dfcc" },
   brujula: { ink: "#3b2e1c", paper: "#e4d7b8" },
+  lacre: { ink: "#2e1a16", paper: "#e9dcc6" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -345,10 +358,13 @@ export const PAINTED_COVERS = {
   toile: { tone: "claro", ink: "#24406e", paper: "#f7f3ea" },
   silvestres: { tone: "claro", ink: "#5e2f3c", paper: "#fbf4f0" },
   selva: { tone: "oscuro", ink: "#ffffff", paper: "#123326" },
+  tarjeta: { tone: "claro", ink: "#3d3226", paper: "#efe6d6" },
 } as const satisfies Partial<
   Record<CoverId, { tone: "claro" | "oscuro"; ink: string; paper: string }>
 >;
 export type PaintedCoverId = keyof typeof PAINTED_COVERS;
+/** Fondos pintados que se mueven: un bucle en `public/portadas/<id>.mp4` y `.webm`. */
+export const MOVING_PAINTED_COVERS: readonly PaintedCoverId[] = ["tarjeta"];
 export function isPaintedCover(id: CoverId): id is PaintedCoverId {
   return id in PAINTED_COVERS;
 }
@@ -422,6 +438,7 @@ export const MOTIF_IDS = [
   "llave",
   "partitura",
   "brujula",
+  "lacre",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -466,4 +483,5 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   llave: { label: "Gran hotel", kind: "concepto" },
   partitura: { label: "Partitura", kind: "concepto" },
   brujula: { label: "Cuaderno de bitácora", kind: "concepto" },
+  lacre: { label: "Sello y lacre", kind: "concepto" },
 };

@@ -10,6 +10,7 @@ import type { WeddingEvent } from "@/lib/domain/types";
 import {
   CONCEPT_COVERS,
   isConceptCover,
+  MOVING_PAINTED_COVERS,
   isPaintedCover,
   PAINTED_COVERS,
   type CoverEffectId,
@@ -184,6 +185,44 @@ export function CoverStage({
                 const Scene = SCENES[scene];
                 return <Scene />;
               })()
+            ) : isPaintedCover(scene) && MOVING_PAINTED_COVERS.includes(scene) ? (
+              <>
+                {/* Fondo pintado que se mueve (la luz de la tarde sobre la tarjeta): bucle sin
+                    sonido. Con movimiento reducido, su primer fotograma. */}
+                {reduceMarkup ? (
+                  <Image
+                    src={`/portadas/${scene}.webp`}
+                    alt=""
+                    fill
+                    priority
+                    sizes="100vw"
+                    className="object-cover"
+                  />
+                ) : (
+                  <video
+                    className="absolute inset-0 size-full object-cover"
+                    poster={`/portadas/${scene}.webp`}
+                    muted
+                    playsInline
+                    loop
+                    autoPlay
+                    preload="auto"
+                    aria-hidden
+                  >
+                    <source src={`/portadas/${scene}.mp4`} type="video/mp4" />
+                    <source src={`/portadas/${scene}.webm`} type="video/webm" />
+                  </video>
+                )}
+                {/* Abajo se aclara con el color del papel para que «Desliza o toca para abrir» se
+                    lea sobre las sombras. */}
+                <div
+                  aria-hidden
+                  className="absolute inset-x-0 bottom-0 h-[28%]"
+                  style={{
+                    background: `linear-gradient(0deg, ${PAINTED_COVERS[scene].paper} 25%, transparent)`,
+                  }}
+                />
+              </>
             ) : isPaintedCover(scene) ? (
               <Image
                 src={`/portadas/${scene}.webp`}

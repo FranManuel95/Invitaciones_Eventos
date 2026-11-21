@@ -1779,6 +1779,48 @@
   content: "Puerto de destino: el baile";
 }
 
+/* Lacre: cada sección va sellada con un lacre burdeos numerado. */
+[data-motif="lacre"] {
+  counter-reset: sello;
+}
+[data-motif="lacre"] .motif-hero {
+  background:
+    radial-gradient(circle at 50% 0, rgb(125 26 38 / 0.12) 0 6rem, transparent 6.1rem),
+    var(--color-paper);
+}
+[data-motif="lacre"] section[id] {
+  counter-increment: sello;
+}
+[data-motif="lacre"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: italic 400 1.0625rem / 1 var(--font-display);
+}
+[data-motif="lacre"] .motif-sprig::before {
+  content: "";
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #a83242, var(--color-gold) 60%, #4a0f18);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.25);
+}
+[data-motif="lacre"] .motif-sprig::after {
+  content: "Pliego " counter(sello);
+}
+[data-motif="lacre"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.5rem / 1 var(--font-display);
+}
+[data-motif="lacre"] .motif-closing::before {
+  content: "Lacrado con cariño";
+}
+
 /* ── Carta, pase y apertura de las plantillas de concepto ── */
 
 /* Membrete y despedida de la carta: una línea impresa arriba y otra abajo. */
@@ -2224,6 +2266,19 @@
 [data-motif="brujula"] .concept-carrier {
   background: var(--color-ivory);
   border: 2px solid var(--color-ink);
+}
+
+/* Lacre: papel de carta con un gran lacre burdeos. */
+[data-motif="lacre"] .concept-carrier {
+  background:
+    radial-gradient(
+      circle at 50% 70%,
+      #a83242 0 1.6rem,
+      var(--color-gold) 1.7rem 2.2rem,
+      transparent 2.3rem
+    ),
+    var(--color-ivory);
+  border: 0;
 }
 
 [data-motif-kind="concepto"] .motif-closing > * {

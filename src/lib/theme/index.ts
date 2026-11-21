@@ -63,6 +63,7 @@ export const STYLE_IDS = [
   "laton",
   "pentagrama",
   "bitacora",
+  "sello",
 ] as const;
 export const ENVELOPE_IDS = [
   "olivo",
@@ -1279,6 +1280,29 @@ export const STYLES: Record<StyleId, StyleDef> = {
     },
     scene: ["#efe4c6", "#e3d3ab", "#d2bc8c", "#bba06a"],
   },
+  sello: {
+    label: "Sello",
+    description: "Papel de carta, cera burdeos y el brillo del latón.",
+    dark: false,
+    palette: {
+      paper: "#f7f0e4",
+      ivory: "#eee2cd",
+      cream: "#e4d4b8",
+      sand: "#d1bc98",
+      taupe: "#a99472",
+      stone: "#74624a",
+      ink: "#2e1a16",
+      inkSoft: "#432a24",
+      muted: "#5f463e",
+      line: "#e1d0b3",
+      gold: "#7d1a26",
+      goldSoft: "#d9a0aa",
+      success: "#3d6644",
+      danger: "#9a3328",
+      warning: "#77510f",
+    },
+    scene: ["#f1e5cf", "#e6d4b5", "#d6bf97", "#c2a575"],
+  },
 };
 
 /** Color de la cera. En los estilos oscuros el acento del texto se aclara para que se lea. */
@@ -1555,6 +1579,7 @@ export function themeVars(theme: Theme): CSSProperties {
  * detalle por separado. Aplicar una plantilla cambia el aspecto, pero no las secciones ni la música.
  */
 export const TEMPLATE_IDS = [
+  "tarde",
   "almendro",
   "atelier",
   "medianoche",
@@ -1609,6 +1634,7 @@ export const TEMPLATE_IDS = [
   "llave",
   "partitura",
   "brujula",
+  "lacre",
 ] as const;
 export type TemplateId = (typeof TEMPLATE_IDS)[number];
 
@@ -1637,6 +1663,7 @@ export const FEATURED_TEMPLATE_IDS = [
   "luciernagas",
   "acuarela",
   "atelier",
+  "tarde",
   "gaceta",
   "embarque",
   "premio",
@@ -1667,6 +1694,7 @@ export const FEATURED_TEMPLATE_IDS = [
   "llave",
   "partitura",
   "brujula",
+  "lacre",
 ] as const satisfies readonly TemplateId[];
 
 type Look = Omit<Theme, "hidden" | "order" | "music">;
@@ -1675,6 +1703,29 @@ export const TEMPLATES: Record<
   TemplateId,
   { label: string; description: string; look: Partial<Look> }
 > = {
+  tarde: {
+    label: "Luz de tarde",
+    description:
+      "Vuestros nombres en una tarjeta entre paniculata, con la luz de la tarde en movimiento.",
+    look: {
+      style: "lino",
+      envelope: "salvia",
+      wax: "oro",
+      calendar: "minimal",
+      font: "romantica",
+      opening: "pelicula",
+      film: "ramita-salvia",
+      cover: "tarjeta",
+      motif: "paniculata",
+      flap: "festoneada",
+      texture: "lino",
+      liner: "olivo",
+      sealMark: "almendro",
+      layout: "foto",
+      ornament: "eucalipto",
+      musicStyle: "piano",
+    },
+  },
   almendro: {
     label: "Almendro",
     description: "Mediterránea, con forro de olivo y lacre burdeos.",
@@ -2807,6 +2858,30 @@ export const TEMPLATES: Record<
       edge: "barba",
       ornament: "ninguno",
       musicStyle: "guitarra",
+    },
+  },
+  lacre: {
+    label: "Lacre",
+    description:
+      "Un sello de latón sobre cera burdeos, en vídeo: el invitado lo estampa con el dedo.",
+    look: {
+      style: "sello",
+      envelope: "algodon",
+      wax: "burdeos",
+      calendar: "mano",
+      font: "clasica",
+      opening: "pantalla",
+      cover: "lacre",
+      motif: "lacre",
+      flap: "pico",
+      texture: "verjurado",
+      liner: "diplomatica",
+      sealShape: "goteo",
+      sealMark: "monograma",
+      layout: "clasica",
+      edge: "barba",
+      ornament: "almendro",
+      musicStyle: "cuerdas",
     },
   },
   dorada: {

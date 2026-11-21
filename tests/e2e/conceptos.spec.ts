@@ -47,6 +47,7 @@ const CONCEPTS = [
   { id: "llave", names: /Julia y Andrés/, date: "12 de junio de 2027", opening: "concepto" },
   { id: "partitura", names: /Nerea y Pol/, date: "23 de octubre de 2027", opening: "concepto" },
   { id: "brujula", names: /Lara y Diego/, date: "14 de agosto de 2027", opening: "concepto" },
+  { id: "lacre", names: /Aurora y Gonzalo/, date: "18 de septiembre de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -457,6 +458,16 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await expect(stage.getByText(/42° 53′ N/)).toBeVisible();
     await stage.getByRole("button", { name: "Buscar el rumbo" }).click();
     await expect(stage.locator("[data-compass]")).toHaveAttribute("data-compass", "encontrado");
+  });
+
+  test("lacre: el sello se estampa con el vídeo y quedan las iniciales", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=lacre");
+    const stage = cover(page, "lacre");
+    const wax = stage.locator("[data-stamp]");
+    await expect(wax).toHaveAttribute("data-stamp", "listo");
+    await stage.getByRole("button", { name: "Estampar el sello" }).click();
+    await expect(wax).toHaveAttribute("data-stamp", "sellado", { timeout: 15_000 });
+    await expect(stage.getByRole("button", { name: "Carta sellada" })).toBeDisabled();
   });
 
   test("con movimiento reducido las portadas se abren sin esperar animaciones", async ({

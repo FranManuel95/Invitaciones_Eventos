@@ -1420,7 +1420,16 @@ olivo.
   nota suena al tocarla y el botón toca la melodía entera; la letra son los nombres; Nerea y Pol,
   Barcelona) y **Brújula** (la aguja se gira con el dedo o busca sola el rumbo; bajo el norte, la
   ciudad y, si el tiempo se calculó, sus coordenadas; Lara y Diego, Fisterra). Estilos Latón,
-  Pentagrama y Bitácora. Ya son 50 plantillas (30 de objetos) y 51 portadas.
+  Pentagrama y Bitácora.
+- **Los dos vídeos de Higgsfield que quedaban, montados**: el sello que se estampa en la cera es
+  el concepto **Lacre** (el vídeo en un marco; al tocar la cera o «Estampar el sello» se reproduce
+  con su sonido, que respeta el silencio; al acabar quedan las iniciales; con movimiento reducido,
+  el último fotograma; Aurora y Gonzalo, Segovia), y la tarjeta entre paniculata con luz de tarde
+  es la portada pintada en movimiento **Tarjeta a la luz** (bucle sin salto, `MOVING_PAINTED_COVERS`
+  en `cover.ts`; abajo, un degradado del color del papel para que se lea «Desliza o toca para
+  abrir») y la plantilla **Luz de tarde** (con el sobre salvia de ramita y el motivo de
+  paniculata). La cinta burdeos no se usa: no aporta a ninguna plantilla.
+- Ya son 52 plantillas (21 de papel y acuarela, 31 de objetos) y 53 portadas.
 
 ## Pendiente para próximas fases
 

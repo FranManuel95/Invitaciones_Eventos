@@ -5459,3 +5459,140 @@ export const brujula = wedding({
 
 // La brújula enseña las coordenadas del sitio (en una boda real, las del cálculo del tiempo).
 brujula.event.climate = { ...brujula.event.climate!, lat: 42.882, lon: -9.272 };
+
+export const lacre = wedding({
+  id: "evt-demo-aurora-gonzalo",
+  first: "Aurora",
+  second: "Gonzalo",
+  date: "2027-09-18T17:00:00+02:00",
+  rsvpDeadline: "2027-08-09T23:59:00+02:00",
+  city: "Segovia",
+  region: "Segovia",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/portada.jpg",
+  cardMessage:
+    "Nos escribimos cartas durante un año entero, cada una con su lacre. Esta es la última, y la más importante.",
+  welcomeMessage:
+    "Nos casamos bajo el acueducto, en una ciudad de piedra y cartas. Aquí tienes todo lo que necesitas, bajo sello.",
+  thankYouMessage:
+    "Gracias por venir a abrir nuestra carta más importante. Aquí están vuestras fotos, lacradas con cariño.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Martín",
+      kind: "Ceremonia",
+      address: "Plaza de Medina del Campo, 1",
+      note: "En el centro, junto a la calle Real. Mejor dejar el coche fuera de la muralla.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Palacio de los Lacres",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camino del Parral, 4",
+      note: "A 10 minutos, con vistas al Alcázar. Los autobuses salen al terminar la ceremonia.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [23, 9, 15],
+  program: [
+    ["17:00", "Ceremonia", "iglesia", "San Martín", "Con lectura de nuestras cartas.", "ceremony"],
+    [
+      "18:15",
+      "Aperitivo",
+      "finca",
+      "En el jardín del palacio",
+      "Vino de Rueda y ponche segoviano.",
+      "cocktail",
+    ],
+    [
+      "20:00",
+      "Cena",
+      "finca",
+      "En el salón de los escudos",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "22:30",
+      "Fiesta",
+      "finca",
+      "Hasta la madrugada",
+      "Barra libre, baile y cartas a los novios.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["centro", "Segovia → Palacio", "Plaza del Azoguejo", "16:30", ["01:00", "04:00"], 55],
+    ["madrid", "Madrid → Segovia", "Moncloa, Madrid", "15:00", ["04:00"], 30],
+  ],
+  menu: {
+    carne: "Cochinillo asado a la segoviana",
+    pescado: "Lubina con judiones de La Granja",
+    vegetariano: "Judiones con verduras",
+    vegano: "Sopa castellana de verduras",
+  },
+  dressCode: {
+    title: "Otoño castellano",
+    detail: "Burdeos, crema y oro viejo. Hay calles de piedra: tacón ancho.",
+    palette: [
+      { name: "Lacre", hex: "#7d1a26" },
+      { name: "Papel de carta", hex: "#f7f0e4" },
+      { name: "Latón", hex: "#c9a14a" },
+      { name: "Piedra", hex: "#b9ab92" },
+    ],
+    examples: [
+      "Vestido de otoño y abrigo ligero.",
+      "Traje oscuro; corbata o pajarita.",
+      "Ropa de abrigo: habrá taller de lacre para ellos.",
+    ],
+  },
+  accommodation: [
+    [
+      "Parador de Segovia",
+      "Con vistas a la ciudad",
+      "Habitaciones reservadas hasta el 1 de agosto.",
+    ],
+    ["Hotel Real Acueducto", "Junto al acueducto", "Céntrico y cerca de la iglesia."],
+  ],
+  story: {
+    intro: "Un año de cartas, cien lacres y un buzón muy usado. Esta es la versión corta.",
+    moments: [
+      [
+        "2020",
+        "La primera carta",
+        "Él le escribió a mano porque no tenía su teléfono. Ella contestó con lacre.",
+        "olivos",
+      ],
+      [
+        "2022",
+        "El escritorio",
+        "Un piso con un escritorio grande y un cajón lleno de cartas.",
+        "terraza",
+      ],
+      ["2026", "La pedida", "En una carta lacrada, con el anillo bajo el sello.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "Esta carta es para ti. Ábrela.", "olivar"],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Florencia",
+      "A comprar papel de carta. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Un juego de lacre y sello", "Con nuestras iniciales.", "70 €"],
+    ["Un escritorio de madera", "Para seguir escribiéndonos.", "380 €"],
+    ["Papel de algodón para un año", "Para las cartas que vendrán.", "90 €"],
+  ],
+  kids: "Habrá monitores, taller de lacre y cena para ellos.",
+  faq: [
+    "¿Podemos dejaros una carta?",
+    "Sí, por favor: habrá un buzón en la fiesta y lacre para sellarla.",
+  ],
+  guestbook: [
+    ["Los del buzón", "Os dejamos la carta lacrada en el buzón de la fiesta."],
+    ["Abuela Pilar", "Qué bonito escribirse cartas. Seguid haciéndolo."],
+    ["Óscar y Jimena", "Nos pedimos el lacre dorado."],
+  ],
+  songs: ["Contigo", "Cartas amarillas", "La vie en rose", "September", "Valerie", "Dancing Queen"],
+});

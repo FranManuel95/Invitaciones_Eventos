@@ -262,6 +262,13 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Puerto de destino: el baile",
     pass: { kicker: "Rol de tripulantes", people: "Tripulación" },
   },
+  lacre: {
+    object: "la carta lacrada",
+    carrier: "Sellado a mano",
+    letterhead: "Bajo sello de cera",
+    signoff: "Lacrado con cariño",
+    pass: { kicker: "Salvoconducto", people: "Portadores" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

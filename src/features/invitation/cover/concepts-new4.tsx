@@ -5,7 +5,7 @@ import { useRef, useState, type PointerEvent } from "react";
 import type { WeddingEvent } from "@/lib/domain/types";
 import { hostNames, hostsOf } from "@/lib/event-kind";
 import { formatLongDate, isoDay } from "@/lib/format";
-import { haptic, playNotes, playTick } from "../effects/sound";
+import { haptic, isMuted, playNotes, playTick } from "../effects/sound";
 import {
   After,
   Arrive,
@@ -421,8 +421,120 @@ function CompassCover({ event, onOpen, reduce }: ConceptProps) {
   );
 }
 
+/* ─────────────── Lacre: el sello de latón se estampa en la cera (vídeo) ─────────────── */
+
+function WaxSealCover({ event, onOpen, reduce }: ConceptProps) {
+  const video = useRef<HTMLVideoElement>(null);
+  const [state, setState] = useState<"listo" | "sellando" | "sellado">("listo");
+  const hosts = hostsOf(event);
+  const initials = [hosts.first[0], hosts.second?.[0]].filter(Boolean).join(" & ");
+
+  const seal = async () => {
+    if (state !== "listo") return;
+    const el = video.current;
+    if (reduce || !el) {
+      setState("sellado");
+      haptic(20);
+      return;
+    }
+    setState("sellando");
+    el.muted = isMuted();
+    try {
+      await el.play();
+    } catch {
+      el.muted = true;
+      await el.play().catch(() => setState("sellado"));
+    }
+  };
+
+  return (
+    <div className="absolute inset-0 overflow-hidden" style={{ fontFamily: SANS }}>
+      <div aria-hidden className="paper-grain absolute inset-0 opacity-60" />
+      <div className="relative mx-auto flex h-full w-full max-w-[24rem] flex-col items-center px-6 pt-[max(4.5rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))] text-center">
+        <p className="text-[0.75rem] tracking-[0.22em] uppercase">Sellado a mano para</p>
+        <h1
+          id="cover-title"
+          tabIndex={-1}
+          translate="no"
+          className="mt-1 text-[clamp(2rem,9vw,2.6rem)] leading-[1.02] italic outline-none"
+          style={{ fontFamily: PLAYFAIR }}
+        >
+          {names(event)}
+        </h1>
+        <Arrive reduce={reduce} tilt={0} className="relative mt-4 w-[min(64vw,14.5rem)]">
+          <div
+            data-stamp={state}
+            onPointerDown={(e) => {
+              stop(e);
+              void seal();
+            }}
+            className="relative aspect-[9/14] w-full cursor-pointer overflow-hidden rounded-[4px] shadow-[0_22px_40px_-18px_rgb(60_20_20/0.6)]"
+          >
+            {/* El vídeo real: el sello baja, presiona la cera y se levanta. Al acabar queda
+                el lacre estampado; con movimiento reducido se ve ya sellado. */}
+            {reduce && state === "sellado" ? (
+              // eslint-disable-next-line @next/next/no-img-element -- fotograma fijo, ya optimizado
+              <img
+                src="/portadas/lacre-final.webp"
+                alt=""
+                className="absolute inset-0 size-full object-cover"
+              />
+            ) : (
+              <video
+                ref={video}
+                poster="/portadas/lacre.webp"
+                playsInline
+                preload="auto"
+                aria-hidden
+                onEnded={() => {
+                  setState("sellado");
+                  haptic([30, 20, 10]);
+                }}
+                className="absolute inset-0 size-full object-cover object-[50%_70%]"
+              >
+                <source src="/portadas/lacre.mp4" type="video/mp4" />
+                <source src="/portadas/lacre.webm" type="video/webm" />
+              </video>
+            )}
+            {state === "sellado" ? (
+              <span
+                aria-hidden
+                className="absolute inset-x-0 bottom-[18%] text-center text-[1.35rem] text-[#f3d9a8] italic drop-shadow-[0_1px_2px_rgb(0_0_0/0.7)]"
+                style={{ fontFamily: PLAYFAIR }}
+              >
+                {initials}
+              </span>
+            ) : null}
+          </div>
+        </Arrive>
+        <After reduce={reduce} className="mt-4 text-[0.9375rem]">
+          <time dateTime={isoDay(event.date)}>{formatLongDate(event.date)}</time> · {event.city}
+        </After>
+        <div className="mt-auto flex w-full flex-col items-center">
+          <button
+            type="button"
+            onPointerDown={stop}
+            onClick={() => void seal()}
+            disabled={state !== "listo"}
+            className="mt-3 rounded-full bg-[#6b1e2a] px-6 py-2.5 text-[0.9375rem] font-medium text-[#f6efe4] disabled:opacity-70"
+          >
+            {state === "sellado"
+              ? "Carta sellada"
+              : state === "sellando"
+                ? "Sellando…"
+                : "Estampar el sello"}
+          </button>
+          <p className="short-hide mt-1.5 text-[0.8125rem] italic">O toca la cera.</p>
+          <OpenHint onOpen={onOpen} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export const FOURTH_NEW_COVERS = {
   llave: HotelKeyCover,
   partitura: ScoreCover,
   brujula: CompassCover,
+  lacre: WaxSealCover,
 };
