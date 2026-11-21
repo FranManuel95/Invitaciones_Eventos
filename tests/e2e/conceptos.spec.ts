@@ -48,6 +48,9 @@ const CONCEPTS = [
   { id: "partitura", names: /Nerea y Pol/, date: "23 de octubre de 2027", opening: "concepto" },
   { id: "brujula", names: /Lara y Diego/, date: "14 de agosto de 2027", opening: "concepto" },
   { id: "lacre", names: /Aurora y Gonzalo/, date: "18 de septiembre de 2027", opening: "concepto" },
+  { id: "poker", names: /Mireia y Joel/, date: "6 de noviembre de 2027", opening: "concepto" },
+  { id: "adviento", names: /Laura y Íñigo/, date: "11 de diciembre de 2027", opening: "concepto" },
+  { id: "horoscopo", names: /Candela y Rubén/, date: "5 de junio de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -468,6 +471,33 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await stage.getByRole("button", { name: "Estampar el sello" }).click();
     await expect(wax).toHaveAttribute("data-stamp", "sellado", { timeout: 15_000 });
     await expect(stage.getByRole("button", { name: "Carta sellada" })).toBeDisabled();
+  });
+
+  test("póker: se destapan las cartas y sale escalera de color", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=poker");
+    const stage = cover(page, "poker");
+    await stage.getByRole("button", { name: "Destapar las cartas" }).click();
+    await expect(stage.locator("[data-hand]")).toHaveAttribute("data-hand", "escalera");
+    await expect(stage.getByRole("button", { name: "¡Escalera de color!" })).toBeDisabled();
+  });
+
+  test("calendario de puertas: se abre la puerta del día de la boda", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=adviento");
+    const stage = cover(page, "adviento");
+    const doors = stage.locator("[data-door]");
+    await doors.locator("button").first().click();
+    await expect(stage).toBeVisible();
+    await stage.getByRole("button", { name: "Abrir la puerta del 11" }).click();
+    await expect(doors).toHaveAttribute("data-door", "abierta");
+  });
+
+  test("horóscopo: el signo es el del día y la predicción se lee al tocarla", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=horoscopo");
+    const stage = cover(page, "horoscopo");
+    await expect(stage.getByText("Géminis")).toBeVisible();
+    await stage.locator("[data-read]").click();
+    await expect(stage.locator("[data-read]")).toHaveAttribute("data-read", "si");
+    await expect(stage.getByRole("button", { name: "Predicción leída" })).toBeDisabled();
   });
 
   test("con movimiento reducido las portadas se abren sin esperar animaciones", async ({

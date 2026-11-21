@@ -5596,3 +5596,435 @@ export const lacre = wedding({
   ],
   songs: ["Contigo", "Cartas amarillas", "La vie en rose", "September", "Valerie", "Dancing Queen"],
 });
+
+export const poker = wedding({
+  id: "evt-demo-mireia-joel",
+  first: "Mireia",
+  second: "Joel",
+  date: "2027-11-06T18:00:00+01:00",
+  rsvpDeadline: "2027-09-27T23:59:00+02:00",
+  city: "Peralada",
+  region: "Girona",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-1.jpg",
+  cardMessage:
+    "Nos lo jugamos todo a una carta hace siete años y ganamos. Esta es la última mano: ven a verla.",
+  welcomeMessage:
+    "Nos casamos en un castillo con casino, entre viñas y tapetes verdes. Aquí tienes todas las reglas de la casa.",
+  thankYouMessage:
+    "Gracias por apostar por nosotros y por la última mano a las cinco de la mañana. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia del Carmen",
+      kind: "Ceremonia",
+      address: "Plaça del Carme, 1",
+      note: "Dentro del recinto del castillo. Hay parking junto a la entrada.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Castillo de Peralada",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Carrer Sant Joan, s/n",
+      note: "En el mismo recinto: del claustro al salón del casino, andando.",
+      photo: "pista",
+    },
+  ],
+  climate: [17, 7, 25],
+  program: [
+    ["18:00", "Ceremonia", "iglesia", "El Carmen", "Breve, con cuarteto de cuerda.", "ceremony"],
+    ["19:15", "Aperitivo", "finca", "En el claustro", "Cava del Empordà y tapas.", "cocktail"],
+    [
+      "21:00",
+      "Cena",
+      "finca",
+      "En el salón de los espejos",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "23:30",
+      "Fiesta",
+      "finca",
+      "Con mesas de juego",
+      "Barra libre, ruleta (sin dinero) y DJ.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "figueres",
+      "Figueres → Peralada",
+      "Estación de tren, Figueres",
+      "17:15",
+      ["02:00", "05:00"],
+      55,
+    ],
+    ["girona", "Girona → Peralada", "Estació d'autobusos, Girona", "16:30", ["05:00"], 30],
+  ],
+  menu: {
+    carne: "Mar i muntanya de pollo y gambas",
+    pescado: "Lubina con suquet",
+    vegetariano: "Risotto de setas del Empordà",
+    vegano: "Escalivada con romesco y pan de coca",
+  },
+  dressCode: {
+    title: "Noche de casino",
+    detail: "Verde tapete, negro y oro. Etiqueta, sin exagerar.",
+    palette: [
+      { name: "Tapete", hex: "#1f6b46" },
+      { name: "Corazones", hex: "#b3192c" },
+      { name: "Marfil de carta", hex: "#f2e6c9" },
+      { name: "Ficha dorada", hex: "#e8c25f" },
+    ],
+    examples: [
+      "Vestido largo o de cóctel; algo de abrigo.",
+      "Esmoquin o traje oscuro; pajarita bienvenida.",
+      "Elegantes: tendrán su propia mesa de juegos de cartas.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Peralada", "Junto al castillo", "Habitaciones reservadas hasta el 15 de septiembre."],
+    ["Hotel Empordà", "En Figueres", "A 10 minutos en coche."],
+  ],
+  story: {
+    intro: "Una partida de cartas, un farol y una apuesta ganada. Esta es la versión corta.",
+    moments: [
+      [
+        "2020",
+        "El farol",
+        "Ella le ganó al póker con una pareja de doses. Él aún no se lo cree.",
+        "cala",
+      ],
+      [
+        "2022",
+        "La furgoneta",
+        "Un verano de festivales jugando a las cartas en la furgoneta.",
+        "furgoneta",
+      ],
+      ["2026", "La pedida", "Con el anillo escondido en el bote de una partida.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "Todo al rojo. Ven a ver la última mano.", "orilla"],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Las Vegas",
+      "Cualquier aportación nos acerca (sin apostarla).",
+      "Lo que queráis",
+    ],
+    ["Una mesa de juego plegable", "Para las partidas de los viernes.", "180 €"],
+    ["Un maletín de fichas de póker", "Del bueno, con su baraja.", "90 €"],
+    ["Una cena en el castillo", "Para el primer aniversario.", "220 €"],
+  ],
+  kids: "Habrá monitores, juegos de mesa y cena para ellos.",
+  faq: [
+    "¿Se juega con dinero?",
+    "No: las fichas son de la casa y el premio es un baile con los novios.",
+  ],
+  guestbook: [
+    [
+      "Los de la partida de los viernes",
+      "Os guardamos la silla de siempre. Ya no hay farol que valga.",
+    ],
+    ["Àvia Rosa", "Nunca me gustaron las cartas, pero esta mano sí."],
+    ["Pol y Aina", "Vamos con todo. Al rojo."],
+  ],
+  songs: [
+    "Poker Face",
+    "Luck Be a Lady",
+    "Viva Las Vegas",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
+
+export const adviento = wedding({
+  id: "evt-demo-laura-inigo",
+  first: "Laura",
+  second: "Íñigo",
+  date: "2027-12-11T13:00:00+01:00",
+  rsvpDeadline: "2027-11-01T23:59:00+01:00",
+  city: "Ezcaray",
+  region: "La Rioja",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-2.jpg",
+  cardMessage:
+    "Llevamos un año contando los días con un calendario de puertas en la nevera. Ya solo queda una: la nuestra.",
+  welcomeMessage:
+    "Nos casamos en diciembre, con chimenea, mantas y quizá nieve. Aquí tienes la cuenta atrás y todo lo demás.",
+  thankYouMessage:
+    "Gracias por venir en pleno invierno y por el calor de la fiesta. Aquí están vuestras fotos, con nieve incluida.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María la Mayor",
+      kind: "Ceremonia",
+      address: "Plaza de la Iglesia, 1",
+      note: "En el centro del pueblo. Llevad abrigo: la iglesia es fresca.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Casona del Oja",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Camino de Valdezcaray, 2",
+      note: "A 5 minutos, junto al río. Hay chimenea y mantas para todos.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [7, -1, 40],
+  program: [
+    [
+      "13:00",
+      "Ceremonia",
+      "iglesia",
+      "Santa María la Mayor",
+      "Con coro y villancicos a la salida.",
+      "ceremony",
+    ],
+    [
+      "14:15",
+      "Aperitivo",
+      "finca",
+      "Junto a la chimenea",
+      "Vino caliente, castañas y queso.",
+      "cocktail",
+    ],
+    [
+      "16:00",
+      "Comida",
+      "finca",
+      "En el salón del río",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "19:30",
+      "Fiesta",
+      "finca",
+      "Hasta que nieve",
+      "Barra libre, baile y chocolate a medianoche.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "logrono",
+      "Logroño → Ezcaray",
+      "Plaza del Ayuntamiento, Logroño",
+      "11:45",
+      ["21:00", "01:00"],
+      55,
+    ],
+    ["santo-domingo", "Santo Domingo → Ezcaray", "Plaza de España", "12:30", ["01:00"], 30],
+  ],
+  menu: {
+    carne: "Cordero asado con patatas",
+    pescado: "Bacalao a la riojana",
+    vegetariano: "Caparrones de verduras",
+    vegano: "Potaje de alubias con verduras",
+  },
+  dressCode: {
+    title: "Boda de invierno",
+    detail: "Azul noche, crema y oro. Hace frío: abrigo, chal y calzado de suela gruesa.",
+    palette: [
+      { name: "Azul calendario", hex: "#1f3b5c" },
+      { name: "Oro de ventanita", hex: "#c9a14a" },
+      { name: "Crema", hex: "#f7f1e3" },
+      { name: "Verde abeto", hex: "#2f5a43" },
+    ],
+    examples: [
+      "Vestido de manga larga y abrigo; botas permitidas.",
+      "Traje de lana o tweed; bufanda bienvenida.",
+      "Abrigo y gorro: habrá muñeco de nieve si nieva.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Echaurren",
+      "En el centro de Ezcaray",
+      "Habitaciones reservadas hasta el 1 de noviembre.",
+    ],
+    ["Casa rural El Oja", "Junto a la casona", "Para quedarse al chocolate del domingo."],
+  ],
+  story: {
+    intro:
+      "Un calendario de puertas, un invierno y muchas cuentas atrás. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "La nevada",
+        "Nos quedamos atrapados por la nieve en el mismo refugio. Dos días.",
+        "olivos",
+      ],
+      [
+        "2022",
+        "La casa",
+        "Un piso con chimenea y un calendario de puertas cada diciembre.",
+        "terraza",
+      ],
+      ["2026", "La pedida", "Detrás de la puerta 24, el anillo.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "Queda una puerta. Ábrela con nosotros.", "olivar"],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Laponia",
+      "A ver auroras. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Una manta de lana grande", "Para las tardes de chimenea.", "120 €"],
+    ["Unos esquís para ella", "Que los de él ya los tiene.", "300 €"],
+    ["Un calendario de puertas hecho a mano", "Para el primer aniversario.", "60 €"],
+  ],
+  kids: "Habrá monitores, taller de adornos y comida para ellos.",
+  faq: ["¿Y si nieva?", "Mejor: los autobuses llevan cadenas y la casona tiene chimenea."],
+  guestbook: [
+    ["Los del refugio", "Esta vez llevamos provisiones para dos días, por si acaso."],
+    ["Abuela Teresa", "Qué ilusión una boda en Navidad. Abrigaos mucho."],
+    ["Asier y Nahia", "Nos pedimos el chocolate de medianoche."],
+  ],
+  songs: [
+    "Let It Snow",
+    "All I Want for Christmas Is You",
+    "Hoy",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
+
+export const horoscopo = wedding({
+  id: "evt-demo-candela-ruben",
+  first: "Candela",
+  second: "Rubén",
+  date: "2027-06-05T12:30:00+02:00",
+  rsvpDeadline: "2027-04-26T23:59:00+02:00",
+  city: "Cuenca",
+  region: "Cuenca",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-4.jpg",
+  cardMessage:
+    "Su horóscopo decía «conocerás a alguien que te hará reír». El de él, «cuidado con los tropiezos». Los dos acertaron.",
+  welcomeMessage:
+    "Los astros dicen que el 5 de junio es un gran día para casarse. Les hemos hecho caso. Aquí tienes todo lo demás.",
+  thankYouMessage:
+    "Gracias por venir a cumplir la predicción. Aquí están vuestras fotos; los astros, encantados.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Pedro",
+      kind: "Ceremonia",
+      address: "Calle del Trabuco, 1",
+      note: "En lo alto del casco antiguo, junto a las casas colgadas. Calzado cómodo.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Parador de las Hoces",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Subida a San Pablo, s/n",
+      note: "Al otro lado del puente de San Pablo: se cruza andando con vistas a la hoz.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [26, 12, 15],
+  program: [
+    ["12:30", "Ceremonia", "iglesia", "San Pedro", "Breve, con coro.", "ceremony"],
+    [
+      "13:45",
+      "Aperitivo",
+      "finca",
+      "En el claustro",
+      "Morteruelo, zarajos y vino de la Manchuela.",
+      "cocktail",
+    ],
+    [
+      "15:30",
+      "Comida",
+      "finca",
+      "Mirando a la hoz",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "19:00",
+      "Fiesta",
+      "finca",
+      "Bajo las estrellas",
+      "Barra libre, baile y telescopio en la terraza.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["centro", "Cuenca → Parador", "Plaza de España", "13:15", ["21:00", "01:00"], 55],
+    ["madrid", "Madrid → Cuenca", "Estación Sur, Madrid", "10:00", ["01:00"], 30],
+  ],
+  menu: {
+    carne: "Cordero asado con pisto",
+    pescado: "Trucha a la conquense",
+    vegetariano: "Pisto con huevo y pan de pueblo",
+    vegano: "Ajoarriero de verduras",
+  },
+  dressCode: {
+    title: "Noche de estrellas",
+    detail: "Azul noche, violeta y crema. Tarde fresca en el parador: chaqueta.",
+    palette: [
+      { name: "Bola de cristal", hex: "#5b3b8a" },
+      { name: "Tinta", hex: "#1f1d2b" },
+      { name: "Papel", hex: "#f4f0e6" },
+      { name: "Estrella", hex: "#e8c25f" },
+    ],
+    examples: [
+      "Vestido de verano y una chaqueta para la noche.",
+      "Traje ligero; corbata opcional.",
+      "Ropa cómoda: habrá telescopio y mapa del cielo para ellos.",
+    ],
+  },
+  accommodation: [
+    ["Parador de Cuenca", "Donde es la comida", "Habitaciones reservadas hasta el 15 de abril."],
+    ["Posada de San José", "En el casco antiguo", "Con vistas a la hoz del Huécar."],
+  ],
+  story: {
+    intro: "Dos horóscopos, un tropiezo y una carcajada. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "El tropiezo",
+        "Él tropezó en las casas colgadas y ella no podía parar de reír. Así empezó.",
+        "olivos",
+      ],
+      ["2022", "El balcón", "Un piso con balcón para ver las estrellas.", "terraza"],
+      [
+        "2026",
+        "La pedida",
+        "En la terraza del parador, con un telescopio apuntando a su signo.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "Los astros ya han hablado. Faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a La Palma",
+      "A ver las estrellas. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Un telescopio", "Para el balcón.", "260 €"],
+    ["Una noche en un observatorio", "Para el primer aniversario.", "180 €"],
+    ["Un mapa del cielo del día de la boda", "Enmarcado, para el salón.", "70 €"],
+  ],
+  kids: "Habrá monitores, telescopio y comida para ellos.",
+  faq: [
+    "¿De verdad creéis en el horóscopo?",
+    "No. Pero esta vez acertó, así que le damos la razón.",
+  ],
+  guestbook: [
+    ["Los de las casas colgadas", "Esta vez cuidado con los escalones, Rubén."],
+    ["Abuela Encarna", "Yo ya lo sabía sin horóscopo."],
+    ["Sergio y Alma", "Géminis los dos. Peligro en la pista de baile."],
+  ],
+  songs: ["Starman", "Dancing in the Moonlight", "Hoy", "September", "Valerie", "Dancing Queen"],
+});

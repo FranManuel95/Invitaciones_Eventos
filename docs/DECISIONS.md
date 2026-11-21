@@ -1429,7 +1429,14 @@ olivo.
   en `cover.ts`; abajo, un degradado del color del papel para que se lea «Desliza o toca para
   abrir») y la plantilla **Luz de tarde** (con el sobre salvia de ramita y el motivo de
   paniculata). La cinta burdeos no se usa: no aporta a ninguna plantilla.
-- Ya son 52 plantillas (21 de papel y acuarela, 31 de objetos) y 53 portadas.
+- **Sexta tanda**: **Póker** (tapete verde; se destapan las cinco cartas y sale escalera de
+  color de corazones: la J y la Q llevan las iniciales y el As, el día; Mireia y Joel, Peralada;
+  portada oscura), **Calendario de puertas** (la cuenta atrás del mes de la boda con las puertas
+  barajadas con semilla; se abre la del día; Laura e Íñigo, Ezcaray, en diciembre) y
+  **Horóscopo** (la columna del periódico con el signo del día de la boda, calculado en hora
+  peninsular en `src/lib/zodiac.ts`; amor, salud, dinero y número de la suerte, que se leen al
+  tocar; Candela y Rubén, Cuenca). Estilos Tapete, Cuenta atrás y Astros.
+- Ya son 55 plantillas (21 de papel y acuarela, 34 de objetos) y 56 portadas.
 
 ## Pendiente para próximas fases
 

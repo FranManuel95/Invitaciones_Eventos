@@ -8,13 +8,14 @@ Rama de trabajo: `claude/tender-franklin-isgz7b` (PR #6 contra `main`, sin fusio
 continuación (Telegrama y Postal, ronda 19) está en `claude/exciting-franklin-43k083`, que parte
 de esa rama y la contiene entera.
 
-**Hechas las treinta y una**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
+**Hechas las treinta y cuatro**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
 las diez de la ronda 20 (Vinilo, Pasaporte, Carta, Mapa, Constelación, Cómic, Cosecha, Tarot,
 Arcade y Semillas) e Instantánea, Abanico, Cerillas, Galleta de la suerte, Casete y Mensaje en una botella (ronda
 38, en `cover/concepts-new.tsx`) y Crucigrama, Billete de tren y Receta de la abuela (ronda 38, en
 `cover/concepts-new2.tsx`) y Entrada de concierto, Cartel de feria y Ficha de biblioteca (ronda
 38, en `cover/concepts-new3.tsx`) y Llave de hotel, Partitura, Brújula y Lacre (ronda 38, en
-`cover/concepts-new4.tsx`). Las fichas de abajo se conservan como referencia de lo que se
+`cover/concepts-new4.tsx`) y Póker, Calendario de puertas y Horóscopo (ronda 38, en
+`cover/concepts-new5.tsx`). Las fichas de abajo se conservan como referencia de lo que se
 construyó; lo que queda es lo de «Pendiente en las que ya existen», que vale para todas.
 
 Dónde está cada cosa ahora: piezas comunes en `cover/concept-kit.tsx`; portadas en
@@ -374,9 +375,10 @@ Hechas en la ronda 38: Galleta de la suerte, Casete, Crucigrama, Receta, Billete
 Entrada de concierto, Cartel de feria, Ficha de biblioteca, Llave de hotel, Partitura y Brújula.
 Quedan por probar:
 
-1. **Sobre de cartas de póker**: se reparte la mano y la escalera real es la fecha.
-2. **Horóscopo de periódico**: el signo de cada uno y la predicción compartida.
-3. **Calendario de adviento**: se abre la ventanita del día de la boda.
+1. **Mapa del metro**: las paradas son el programa; se sigue la línea hasta «Boda».
+2. **Etiqueta de equipaje**: se ata a la maleta; el destino es la ciudad.
+3. **Diploma**: título de «Licenciados en quererse», con sello que se estampa.
+4. **Tarjeta de fidelidad**: se van sellando las casillas hasta la gratis (la boda).
 
 ## Por dónde empezar
 

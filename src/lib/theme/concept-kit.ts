@@ -269,6 +269,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Lacrado con cariño",
     pass: { kicker: "Salvoconducto", people: "Portadores" },
   },
+  poker: {
+    object: "la baraja",
+    carrier: "Mano ganadora",
+    letterhead: "Reglas de la casa",
+    signoff: "La banca siempre gana: vosotros",
+    pass: { kicker: "Ficha de la mesa", people: "Jugadores", table: "Mesa de juego (mesa)" },
+  },
+  adviento: {
+    object: "el calendario",
+    carrier: "Cuenta atrás",
+    letterhead: "Detrás de la puerta",
+    signoff: "Quedan pocas puertas",
+    pass: { kicker: "Puerta reservada", people: "Invitados" },
+  },
+  horoscopo: {
+    object: "el periódico",
+    carrier: "Horóscopo · Por Madame Amor",
+    letterhead: "Lo que dicen los astros",
+    signoff: "Los astros nunca se equivocan",
+    pass: { kicker: "Carta astral", people: "Signos invitados" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

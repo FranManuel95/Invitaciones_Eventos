@@ -59,6 +59,9 @@ export const COVER_IDS = [
   "partitura",
   "brujula",
   "lacre",
+  "poker",
+  "adviento",
+  "horoscopo",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -284,6 +287,18 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     description:
       "Un sello de latón sobre cera burdeos: el invitado lo estampa con el dedo (vídeo).",
   },
+  poker: {
+    label: "Póker",
+    description: "Una mano en el tapete: al destaparla, escalera de color con vuestras iniciales.",
+  },
+  adviento: {
+    label: "Calendario de puertas",
+    description: "La cuenta atrás del mes de la boda: se abre la ventanita de vuestro día.",
+  },
+  horoscopo: {
+    label: "Horóscopo",
+    description: "La columna del periódico con el signo del día de la boda y su predicción.",
+  },
 };
 
 /**
@@ -323,6 +338,9 @@ export const CONCEPT_COVERS = {
   partitura: { ink: "#2b2620", paper: "#e7dfcc" },
   brujula: { ink: "#3b2e1c", paper: "#e4d7b8" },
   lacre: { ink: "#2e1a16", paper: "#e9dcc6" },
+  poker: { ink: "#f2e6c9", paper: "#0f3a26", tone: "oscuro" },
+  adviento: { ink: "#1f3b5c", paper: "#e7dcc6" },
+  horoscopo: { ink: "#1f1d2b", paper: "#e2ddd0" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -439,6 +457,9 @@ export const MOTIF_IDS = [
   "partitura",
   "brujula",
   "lacre",
+  "poker",
+  "adviento",
+  "horoscopo",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -484,4 +505,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   partitura: { label: "Partitura", kind: "concepto" },
   brujula: { label: "Cuaderno de bitácora", kind: "concepto" },
   lacre: { label: "Sello y lacre", kind: "concepto" },
+  poker: { label: "Casino", kind: "concepto" },
+  adviento: { label: "Calendario de puertas", kind: "concepto" },
+  horoscopo: { label: "Astros", kind: "concepto" },
 };
