@@ -23,6 +23,7 @@ import {
   type ConceptProps,
 } from "./concept-kit";
 import { NEW_COVERS } from "./concepts-new";
+import { MORE_NEW_COVERS } from "./concepts-new2";
 import { MAP_COVERS } from "./concepts-play";
 
 /*
@@ -955,4 +956,5 @@ export const MORE_COVERS = {
   tarot: TarotCover,
   ...MAP_COVERS,
   ...NEW_COVERS,
+  ...MORE_NEW_COVERS,
 };

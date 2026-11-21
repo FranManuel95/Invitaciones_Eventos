@@ -38,6 +38,9 @@ const CONCEPTS = [
   { id: "galleta", names: /Inés y Bruno/, date: "19 de junio de 2027", opening: "concepto" },
   { id: "casete", names: /Alba & Darío/, date: "17 de julio de 2027", opening: "concepto" },
   { id: "botella", names: /Noa y Leo/, date: "28 de agosto de 2027", opening: "concepto" },
+  { id: "crucigrama", names: /Sara y Iván/, date: "15 de mayo de 2027", opening: "concepto" },
+  { id: "tren", names: /Paula y Gael/, date: "25/09/27", opening: "concepto" },
+  { id: "receta", names: /Elsa y Mateo/, date: "2 de octubre de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -349,6 +352,41 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await expect(bottle).toHaveAttribute("data-bottle", "abierta");
     await expect(stage.getByRole("button", { name: "Mensaje leído" })).toBeDisabled();
     await expect(stage).toBeVisible();
+  });
+
+  test("crucigrama: tocar una casilla escribe su letra y resolver da los nombres", async ({
+    page,
+  }) => {
+    await page.goto("/i/familia-garcia?plantilla=crucigrama");
+    const stage = cover(page, "crucigrama");
+    const grid = stage.locator("[data-solved]");
+    await grid.locator("button").first().click();
+    await expect(grid.locator("button").first()).not.toHaveText("");
+    await stage.getByRole("button", { name: "Resolver el crucigrama" }).click();
+    await expect(grid).toHaveAttribute("data-solved", "si");
+    await expect(stage.getByRole("heading", { level: 1, name: "Sara y Iván" })).toBeVisible();
+  });
+
+  test("tren: cada toque pica el billete, sin levantar la portada", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=tren");
+    const stage = cover(page, "tren");
+    const ticket = stage.locator("[data-punched]");
+    await ticket.click({ position: { x: 40, y: 40 } });
+    await expect(ticket).toHaveAttribute("data-punched", "1");
+    await expect(stage).toBeVisible();
+    await stage.getByRole("button", { name: "Picar el billete" }).click();
+    await expect(ticket).toHaveAttribute("data-punched", "3");
+    await expect(stage.getByRole("button", { name: "Billete picado" })).toBeDisabled();
+  });
+
+  test("receta: se tachan los ingredientes y queda lista", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=receta");
+    const stage = cover(page, "receta");
+    await stage.getByRole("checkbox", { name: /Dos novios/ }).check();
+    await expect(stage.getByRole("checkbox", { name: /Dos novios/ })).toBeChecked();
+    await stage.getByRole("button", { name: "Tenerlo todo" }).click();
+    await expect(stage.locator("[data-recipe]")).toHaveAttribute("data-recipe", "lista");
+    await expect(stage.getByRole("button", { name: "¡Listo para servir!" })).toBeDisabled();
   });
 
   test("con movimiento reducido las portadas se abren sin esperar animaciones", async ({

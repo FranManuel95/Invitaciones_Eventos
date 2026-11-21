@@ -4180,3 +4180,409 @@ export const botella = wedding({
   ],
   songs: ["Mediterráneo", "La playa", "Sea of Love", "September", "Valerie", "Dancing Queen"],
 });
+
+export const crucigrama = wedding({
+  id: "evt-demo-sara-ivan",
+  first: "Sara",
+  second: "Iván",
+  date: "2027-05-15T12:00:00+02:00",
+  rsvpDeadline: "2027-04-05T23:59:00+02:00",
+  city: "Salamanca",
+  region: "Salamanca",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-1.jpg",
+  cardMessage:
+    "Nos conocimos peleándonos por el último crucigrama del periódico de la biblioteca. Ella ganó. Él sigue sin aceptarlo.",
+  welcomeMessage:
+    "Seis letras, horizontal: «lo que vamos a celebrar». Si lo has adivinado, aquí tienes todo lo demás.",
+  thankYouMessage:
+    "Gracias por resolver con nosotros el crucigrama más difícil. Aquí están vuestras fotos, sin pistas.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Clerecía de Salamanca",
+      kind: "Ceremonia",
+      address: "Calle Compañía, 5",
+      note: "En el centro histórico. Hay parking en la plaza de Santa Eulalia.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Finca Los Arapiles",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Carretera de Arapiles, km 3",
+      note: "A 15 minutos, entre encinas. Los autobuses salen al terminar la ceremonia.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [21, 7, 25],
+  program: [
+    ["12:00", "Ceremonia", "iglesia", "La Clerecía", "Con coro universitario.", "ceremony"],
+    [
+      "13:30",
+      "Aperitivo",
+      "finca",
+      "Bajo las encinas",
+      "Ibéricos, hornazo y vino de la tierra.",
+      "cocktail",
+    ],
+    [
+      "15:00",
+      "Comida",
+      "finca",
+      "En el salón de la finca",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "18:30",
+      "Fiesta",
+      "finca",
+      "Con tuna incluida",
+      "Barra libre, baile y la tuna a las ocho.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["centro", "Salamanca → Finca", "Plaza Mayor (calle Toro)", "13:00", ["21:00", "01:00"], 55],
+    ["madrid", "Madrid → Salamanca", "Estación Sur, Madrid", "08:45", ["01:00"], 30],
+  ],
+  menu: {
+    carne: "Lechazo asado con ensalada",
+    pescado: "Bacalao confitado con pimientos",
+    vegetariano: "Patatas meneás con setas",
+    vegano: "Lentejas de la Armuña con verduras",
+  },
+  dressCode: {
+    title: "Primavera en la meseta",
+    detail: "Blanco y negro de periódico, con un toque de rojo. Mañana templada; tarde fresca.",
+    palette: [
+      { name: "Tinta", hex: "#1b1b1b" },
+      { name: "Papel", hex: "#f5f3ee" },
+      { name: "Lápiz rojo", hex: "#b02a2a" },
+      { name: "Piedra de Villamayor", hex: "#d9b77a" },
+    ],
+    examples: [
+      "Vestido de día; una chaqueta para la tarde.",
+      "Traje gris o azul; la corbata, a elegir.",
+      "Ropa cómoda: tendrán pasatiempos y juegos en el jardín.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Plaza Mayor",
+      "En el centro, a 3 min de la Clerecía",
+      "Habitaciones reservadas hasta el 1 de abril.",
+    ],
+    ["Casa rural Arapiles", "Junto a la finca", "Para quedarse a la tuna."],
+  ],
+  story: {
+    intro: "Una biblioteca, un periódico y un crucigrama a medias. Esta es la versión corta.",
+    moments: [
+      [
+        "2018",
+        "El crucigrama",
+        "Los dos queríamos el periódico. Lo resolvimos juntos, a medias y discutiendo.",
+        "olivos",
+      ],
+      [
+        "2021",
+        "La terraza",
+        "Un piso con terraza y un periódico cada domingo, sin falta.",
+        "terraza",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En el crucigrama del domingo: once letras, «¿quieres casarte?».",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "Falta la última palabra. La escribes con nosotros.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Escocia", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Una estantería para la biblioteca", "Ya no caben los libros.", "260 €"],
+    ["La suscripción al periódico", "Por los crucigramas, claro.", "120 €"],
+    ["Un sillón de lectura", "Para los domingos.", "340 €"],
+  ],
+  kids: "Habrá monitores, sopas de letras y comida para ellos.",
+  faq: ["¿Habrá tuna?", "Sí, a las ocho. No hay escapatoria."],
+  guestbook: [
+    ["Los de la biblioteca", "Os guardamos el periódico del día. El crucigrama, sin hacer."],
+    ["Abuela Charo", "Diez letras: «enhorabuena». Os quiero."],
+    ["Dani y Marta", "Horizontal, cuatro letras: «baile». Nos vemos en la pista."],
+  ],
+  songs: ["Clavelitos", "Hoy", "Sweet Caroline", "September", "Valerie", "Mi gran noche"],
+});
+
+export const tren = wedding({
+  id: "evt-demo-paula-gael",
+  first: "Paula",
+  second: "Gael",
+  date: "2027-09-25T17:00:00+02:00",
+  rsvpDeadline: "2027-08-16T23:59:00+02:00",
+  city: "Canfranc",
+  region: "Huesca",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-2.jpg",
+  cardMessage:
+    "Nos conocimos en un tren que llegó cuatro horas tarde. Fue el mejor retraso de nuestra vida. Sube a este, que sale puntual.",
+  welcomeMessage:
+    "Nos casamos en una estación de montaña, entre túneles y hayedos. Aquí tienes el billete y todos los horarios.",
+  thankYouMessage:
+    "Gracias por subir al tren con nosotros y por bailar en el andén. Aquí están vuestras fotos, con humo de locomotora.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Estación Internacional de Canfranc",
+      kind: "Ceremonia",
+      address: "Plaza Aragón, s/n",
+      note: "Ceremonia civil en el vestíbulo de la estación. Hay parking en la explanada.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Hotel del Andén",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Andén principal, 1",
+      note: "En la misma estación: se cruza el andén andando.",
+      photo: "pista",
+    },
+  ],
+  climate: [17, 6, 35],
+  program: [
+    [
+      "17:00",
+      "Ceremonia",
+      "iglesia",
+      "En el vestíbulo",
+      "Bajo el reloj de la estación.",
+      "ceremony",
+    ],
+    [
+      "18:15",
+      "Aperitivo",
+      "finca",
+      "En el andén",
+      "Con las montañas de fondo y vino del Somontano.",
+      "cocktail",
+    ],
+    [
+      "20:00",
+      "Cena",
+      "finca",
+      "En el salón de los viajeros",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "22:30",
+      "Fiesta",
+      "finca",
+      "Última parada: la pista",
+      "Barra libre y baile hasta el último tren.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["jaca", "Jaca → Canfranc", "Estación de autobuses, Jaca", "16:00", ["01:00", "04:00"], 55],
+    ["zaragoza", "Zaragoza → Canfranc", "Estación Delicias, Zaragoza", "13:30", ["04:00"], 30],
+  ],
+  menu: {
+    carne: "Ternasco de Aragón asado",
+    pescado: "Trucha del Pirineo con jamón",
+    vegetariano: "Borrajas con patata y setas",
+    vegano: "Migas de pastor con verduras",
+  },
+  dressCode: {
+    title: "Otoño en la montaña",
+    detail: "Verde billete, gris piedra y crema. Hace fresco: chaqueta o chal.",
+    palette: [
+      { name: "Verde billete", hex: "#2f6a35" },
+      { name: "Cartón", hex: "#cfe0c3" },
+      { name: "Hierro", hex: "#1f2b1d" },
+      { name: "Haya en otoño", hex: "#b5652e" },
+    ],
+    examples: [
+      "Vestido de otoño y un abrigo ligero.",
+      "Traje o americana de lana; corbata opcional.",
+      "Ropa de abrigo: habrá tren de juguete para ellos.",
+    ],
+  },
+  accommodation: [
+    ["Hotel del Andén", "En la misma estación", "Habitaciones reservadas hasta el 1 de agosto."],
+    ["Albergue Canfranc Pueblo", "A 5 minutos en coche", "Para grupos y para madrugar al monte."],
+  ],
+  story: {
+    intro: "Un tren con cuatro horas de retraso y dos asientos juntos. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "El retraso",
+        "Cuatro horas parados en un túnel. Nos dio tiempo a contarnos la vida entera.",
+        "olivos",
+      ],
+      [
+        "2022",
+        "La terraza",
+        "Un piso con vistas a las vías, para no olvidar de dónde venimos.",
+        "terraza",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En el mismo tren, en el mismo túnel. Esta vez el retraso fue a propósito.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "Próxima estación: la nuestra. Sube.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje en el Transiberiano", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Una maqueta de tren", "Para la sobremesa de los domingos.", "180 €"],
+    ["Un mapa ferroviario antiguo", "Enmarcado, para el pasillo.", "90 €"],
+    ["Una noche en un coche cama", "Para el primer aniversario.", "220 €"],
+  ],
+  kids: "Habrá monitores, un tren de juguete y cena para ellos.",
+  faq: [
+    "¿Hay tren hasta Canfranc?",
+    "Sí, desde Zaragoza; pero mejor el autobús de la boda, que vuelve de noche.",
+  ],
+  guestbook: [
+    ["Los del vagón 4", "Os guardamos el asiento de la ventanilla. Para siempre."],
+    ["Yaya Pilar", "Qué bonito casarse en la estación. Abrigaos, que en Canfranc refresca."],
+    ["Íñigo y Laia", "Billete picado. Llegamos puntuales, prometido."],
+  ],
+  songs: [
+    "Locomotion",
+    "Último tren a Zaragoza",
+    "Midnight Train to Georgia",
+    "September",
+    "Valerie",
+    "Mr. Brightside",
+  ],
+});
+
+export const receta = wedding({
+  id: "evt-demo-elsa-mateo",
+  first: "Elsa",
+  second: "Mateo",
+  date: "2027-10-02T13:00:00+02:00",
+  rsvpDeadline: "2027-08-23T23:59:00+02:00",
+  city: "Tolosa",
+  region: "Gipuzkoa",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-4.jpg",
+  cardMessage:
+    "La abuela dice que la receta del amor lleva paciencia, buena compañía y fuego lento. Ven a probarla.",
+  welcomeMessage:
+    "Nos conocimos en la cocina de un restaurante y desde entonces no hemos parado de cocinar juntos. Aquí tienes la receta del día.",
+  thankYouMessage:
+    "Gracias por venir a comer, a brindar y a pedir la receta de la tarta. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María de Tolosa",
+      kind: "Ceremonia",
+      address: "Plaza de Santa María, 1",
+      note: "En el casco viejo. Hay parking junto al mercado del Tinglado.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Caserío Etxeberri",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Barrio Usabal, 12",
+      note: "A 10 minutos, entre prados. Los autobuses salen al terminar la ceremonia.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [20, 10, 40],
+  program: [
+    ["13:00", "Ceremonia", "iglesia", "Santa María", "Con txistu a la salida.", "ceremony"],
+    ["14:15", "Aperitivo", "finca", "En la campa", "Pintxos, sidra y queso Idiazabal.", "cocktail"],
+    [
+      "16:00",
+      "Comida",
+      "finca",
+      "En el caserío",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "19:30",
+      "Fiesta",
+      "finca",
+      "Con la tarta de la abuela",
+      "Barra libre y baile hasta la noche.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["centro", "Tolosa → Caserío", "Plaza Zaharra", "13:50", ["22:00", "01:30"], 55],
+    ["donostia", "Donostia → Tolosa", "Estación de autobuses, Donostia", "11:45", ["01:30"], 30],
+  ],
+  menu: {
+    carne: "Chuletón con pimientos de Gernika",
+    pescado: "Merluza en salsa verde",
+    vegetariano: "Alubias de Tolosa con verduras",
+    vegano: "Porrusalda con patata y puerro",
+  },
+  dressCode: {
+    title: "Domingo de caserío",
+    detail: "Colores de cocina: crema, rojo y verde prado. Hay campa: calzado cómodo.",
+    palette: [
+      { name: "Rojo pimiento", hex: "#a3402a" },
+      { name: "Ficha", hex: "#fffaf0" },
+      { name: "Verde prado", hex: "#4f6b3a" },
+      { name: "Harina", hex: "#ecdcbf" },
+    ],
+    examples: [
+      "Vestido de día y algo de abrigo; cuña o plano para la campa.",
+      "Traje o americana; la corbata, opcional.",
+      "Ropa cómoda: habrá taller de galletas para ellos.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Oria", "En el centro de Tolosa", "Habitaciones reservadas hasta el 15 de agosto."],
+    ["Agroturismo Usabal", "Junto al caserío", "Para quedarse al desayuno del domingo."],
+  ],
+  story: {
+    intro: "Una cocina, un delantal prestado y una receta de la abuela. Esta es la versión corta.",
+    moments: [
+      [
+        "2018",
+        "La cocina",
+        "Ella era jefa de partida y él el nuevo. Se le quemó el arroz el primer día.",
+        "olivos",
+      ],
+      ["2021", "La terraza", "Un piso con una cocina enorme y un balcón con tomateras.", "terraza"],
+      [
+        "2026",
+        "La pedida",
+        "El anillo, escondido en un pastel de la receta de la abuela.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "La receta está lista. Solo faltas tú en la mesa.", "olivar"],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Italia",
+      "A aprender a hacer pasta. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Una cazuela de hierro", "Para los guisos de toda la vida.", "180 €"],
+    ["Un curso de cocina para dos", "Para no dejar de aprender.", "160 €"],
+    ["El recetario de la abuela, impreso", "Para que no se pierda.", "60 €"],
+  ],
+  kids: "Habrá monitores, taller de galletas y comida para ellos.",
+  faq: ["¿Habrá tarta de la abuela?", "Sí: a las siete y media, con la receta en cada mesa."],
+  guestbook: [
+    ["Los del restaurante", "Os guardamos los delantales. Esta vez, sin arroz quemado."],
+    ["Amama Mari", "Mi receta, en vuestra boda. No se puede pedir más."],
+    ["Jon e Irati", "Nos apuntamos a repetir postre."],
+  ],
+  songs: ["Sugar", "Itsasoa gara", "Cheek to Cheek", "September", "Valerie", "Dancing Queen"],
+});

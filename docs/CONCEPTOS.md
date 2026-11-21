@@ -8,10 +8,11 @@ Rama de trabajo: `claude/tender-franklin-isgz7b` (PR #6 contra `main`, sin fusio
 continuación (Telegrama y Postal, ronda 19) está en `claude/exciting-franklin-43k083`, que parte
 de esa rama y la contiene entera.
 
-**Hechas las veintiuna**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
+**Hechas las veinticuatro**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
 las diez de la ronda 20 (Vinilo, Pasaporte, Carta, Mapa, Constelación, Cómic, Cosecha, Tarot,
 Arcade y Semillas) e Instantánea, Abanico, Cerillas, Galleta de la suerte, Casete y Mensaje en una botella (ronda
-38, en `cover/concepts-new.tsx`). Las fichas de abajo se conservan como referencia de lo que se
+38, en `cover/concepts-new.tsx`) y Crucigrama, Billete de tren y Receta de la abuela (ronda 38, en
+`cover/concepts-new2.tsx`). Las fichas de abajo se conservan como referencia de lo que se
 construyó; lo que queda es lo de «Pendiente en las que ya existen», que vale para todas.
 
 Dónde está cada cosa ahora: piezas comunes en `cover/concept-kit.tsx`; portadas en
@@ -367,12 +368,9 @@ las pruebas de contraste y ajustar.
 
 Objetos reconocibles en un segundo y con un gesto que solo tiene sentido en ellos:
 
-1. ~~Galleta de la suerte~~ y ~~Casete~~: hechas (ronda 38).
-2. **Crucigrama**: los nombres se cruzan; tocar las casillas rellena la fecha.
-3. **Receta de la abuela**: ficha manchada de harina; se tachan los ingredientes («dos novios…»).
-4. **Billete de tren**: se pica con el revisor (tocar hace el agujero); el destino es la ciudad.
-5. **Entrada de concierto**: pulsera que se cierra o código de barras que se escanea.
-6. **Cartel de feria**: cartel antiguo con farolillos que se encienden al tocarlos.
+1. ~~Galleta de la suerte, Casete, Crucigrama, Receta y Billete de tren~~: hechas (ronda 38).
+2. **Entrada de concierto**: pulsera que se cierra o código de barras que se escanea.
+3. **Cartel de feria**: cartel antiguo con farolillos que se encienden al tocarlos.
 
 ## Por dónde empezar
 

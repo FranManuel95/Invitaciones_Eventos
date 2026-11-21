@@ -48,6 +48,9 @@ export const COVER_IDS = [
   "galleta",
   "casete",
   "botella",
+  "crucigrama",
+  "tren",
+  "receta",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -227,6 +230,18 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Mensaje en una botella",
     description: "Una botella en la orilla: se tira del corcho y sale la carta.",
   },
+  crucigrama: {
+    label: "Crucigrama",
+    description: "Vuestros nombres cruzados en la cuadrícula; la fecha y el lugar son las pistas.",
+  },
+  tren: {
+    label: "Billete de tren",
+    description: "Un billete de cartón con destino a vuestra boda que el invitado pica.",
+  },
+  receta: {
+    label: "Receta de la abuela",
+    description: "La ficha de cocina de la boda: los ingredientes sois vosotros y se van tachando.",
+  },
 };
 
 /**
@@ -256,6 +271,9 @@ export const CONCEPT_COVERS = {
   galleta: { ink: "#2b1a14", paper: "#f3e4cc" },
   casete: { ink: "#1d1f2b", paper: "#e7dfcf" },
   botella: { ink: "#1f3a37", paper: "#e9e1cf" },
+  crucigrama: { ink: "#1b1b1b", paper: "#e4e0d6" },
+  tren: { ink: "#1f2b1d", paper: "#e6dcc6" },
+  receta: { ink: "#3b2a20", paper: "#eadfca" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -359,6 +377,9 @@ export const MOTIF_IDS = [
   "galleta",
   "casete",
   "botella",
+  "crucigrama",
+  "tren",
+  "receta",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -394,4 +415,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   galleta: { label: "Fortuna", kind: "concepto" },
   casete: { label: "Cinta de casete", kind: "concepto" },
   botella: { label: "Mensaje en una botella", kind: "concepto" },
+  crucigrama: { label: "Pasatiempos", kind: "concepto" },
+  tren: { label: "Ferrocarril", kind: "concepto" },
+  receta: { label: "Recetario", kind: "concepto" },
 };

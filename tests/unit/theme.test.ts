@@ -137,7 +137,7 @@ describe("plantillas de concepto: carta, pase y apertura", () => {
     const { MOTIF_IDS, MOTIFS, TEMPLATES } = await import("@/lib/theme");
     const { conceptKit } = await import("@/lib/theme/concept-kit");
     const concepts = MOTIF_IDS.filter((id) => MOTIFS[id].kind === "concepto");
-    expect(concepts.length).toBe(21);
+    expect(concepts.length).toBe(24);
     for (const id of concepts) {
       const kit = conceptKit(id);
       expect(kit, id).not.toBeNull();

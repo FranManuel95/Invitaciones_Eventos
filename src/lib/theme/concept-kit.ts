@@ -189,6 +189,32 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Devuélvase al mar con la respuesta",
     pass: { kicker: "Pasaje de vuelta", people: "Náufragos" },
   },
+  crucigrama: {
+    object: "el periódico",
+    carrier: "Pasatiempos · Edición especial",
+    letterhead: "Solución del crucigrama",
+    signoff: "Soluciones en la próxima edición",
+    pass: { kicker: "Autodefinido", people: "Jugadores" },
+  },
+  tren: {
+    object: "el billete",
+    carrier: "Ferrocarril de la boda",
+    letterhead: "Aviso a los viajeros",
+    signoff: "Próxima parada: el baile",
+    pass: {
+      kicker: "Billete de ida",
+      people: "Viajeros",
+      table: "Coche (mesa)",
+      bus: "Enlace en autobús",
+    },
+  },
+  receta: {
+    object: "el recetario",
+    carrier: "Recetas de la abuela",
+    letterhead: "Elaboración",
+    signoff: "Se sirve con mucho cariño",
+    pass: { kicker: "Ficha de comensal", people: "Comensales" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

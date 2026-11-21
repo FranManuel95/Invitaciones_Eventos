@@ -1398,7 +1398,15 @@ olivo.
   lista de canciones es el programa del día; Alba y Darío, Gijón) y **Mensaje en una botella**
   (se tira del corcho hacia arriba y sale la carta desenrollada; una etiqueta en el cuello deja
   ver nombres y fecha desde el principio; Noa y Leo, Zahara de los Atunes). Estilos Fortuna, Cinta
-  y Marea. Ya son 41 plantillas (21 de objetos) y 42 portadas.
+  y Marea.
+- **Tercera tanda**: **Crucigrama** (los nombres se cruzan por la primera letra común, en
+  mayúsculas y sin tildes; se tocan las casillas o «Resolver»; la fecha y el lugar son las
+  pistas; la lógica está en `src/lib/crossword.ts` con sus pruebas; Sara e Iván, Salamanca),
+  **Billete de tren** (cartón verde con origen «Vuestra casa», destino la ciudad, salida a la hora
+  de la ceremonia; cada toque pica un agujero donde se toca, hasta tres; Paula y Gael, Canfranc) y
+  **Receta de la abuela** (ficha de cocina con renglones y margen rojo; los ingredientes son la
+  pareja, el pueblo, el día y el baile, y se tachan; Elsa y Mateo, Tolosa). Estilos Pasatiempo,
+  Andén y Recetario. Ya son 44 plantillas (24 de objetos) y 45 portadas.
 
 ## Pendiente para próximas fases
 
