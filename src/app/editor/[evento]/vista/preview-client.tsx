@@ -20,7 +20,10 @@ export function PreviewClient({
 }) {
   const [content, setContent] = useState(initialContent);
   const [theme, setTheme] = useState(initialTheme);
-  const [stage, setStage] = useState<{ stage: Stage; n: number }>({ stage: "cover", n: 0 });
+  const [stage, setStage] = useState<{ stage: Stage; section?: string; n: number }>({
+    stage: "cover",
+    n: 0,
+  });
 
   useEffect(() => {
     const onMessage = (e: MessageEvent<ToPreview>) => {
@@ -32,7 +35,7 @@ export function PreviewClient({
         if (nextContent.success) setContent(nextContent.data);
         if (nextTheme.success) setTheme(nextTheme.data);
       } else if (data?.type === "stage") {
-        setStage((s) => ({ stage: data.stage, n: s.n + 1 }));
+        setStage((s) => ({ stage: data.stage, section: data.section, n: s.n + 1 }));
       } else if (data?.type === "hello") {
         // El editor puede haber empezado a escuchar después de nuestro primer aviso.
         window.parent.postMessage({ type: "ready" } satisfies FromPreview, window.location.origin);
@@ -43,6 +46,19 @@ export function PreviewClient({
     window.parent.postMessage({ type: "ready" } satisfies FromPreview, window.location.origin);
     return () => window.removeEventListener("message", onMessage);
   }, []);
+
+  // Si el editor pide una sección (lo que se está editando), se baja hasta ella en cuanto existe.
+  useEffect(() => {
+    const id = stage.section;
+    if (!id) return;
+    let tries = 0;
+    const timer = window.setInterval(() => {
+      const el = document.getElementById(id);
+      if (el || ++tries > 40) window.clearInterval(timer);
+      el?.scrollIntoView({ block: "start", behavior: "instant" });
+    }, 100);
+    return () => window.clearInterval(timer);
+  }, [stage]);
 
   return (
     <InvitationExperience

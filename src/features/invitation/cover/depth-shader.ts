@@ -117,6 +117,9 @@ export async function createDepthScene(
 
   const resize = () => {
     const { clientWidth: w, clientHeight: h } = container;
+    // Oculta (p. ej. dentro de un iframe escondido) mide 0: con tamaño 0 la proporción sale NaN
+    // y la foto se pinta como franjas. Se espera a que tenga tamaño (el observador vuelve a llamar).
+    if (!w || !h) return;
     renderer.setSize(w, h);
     program.uniforms.uResolution.value = [gl.canvas.width, gl.canvas.height];
   };

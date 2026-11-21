@@ -12,10 +12,14 @@ export function TextsTab() {
   const { draft, set } = useEditor();
   return (
     <div className="grid gap-8">
-      <Group title="La carta" description="Lo primero que leen al abrir el sobre.">
+      <Group
+        title="La carta"
+        shows={{ stage: "letter" }}
+        description="Lo primero que leen al abrir el sobre."
+      >
         <TextField label="Mensaje de la carta" path={["cardMessage"]} multiline maxLength={400} />
       </Group>
-      <Group title="Bienvenida">
+      <Group title="Bienvenida" shows={{ stage: "content" }}>
         <TextField
           label="Texto de bienvenida"
           path={["welcomeMessage"]}
@@ -38,6 +42,7 @@ export function TextsTab() {
       <>
         <Group
           title="Código de vestimenta"
+          shows={{ stage: "content", section: "info" }}
           description="Empieza apagado: no se ve en la invitación hasta que lo encendáis."
         >
           <ChoiceCard
@@ -108,6 +113,7 @@ export function TextsTab() {
       <>
         <Group
           title="Regalo"
+          shows={{ stage: "content", section: "regalo" }}
           description="La sección «Regalo» empieza oculta: se enciende en Estilo → Secciones."
         >
           <TextField label="Mensaje" path={["gift", "message"]} multiline maxLength={600} />
@@ -130,6 +136,7 @@ export function TextsTab() {
       </>
       <Group
         title="Libro de firmas"
+        shows={{ stage: "content", section: "firmas-title" }}
         description="Los invitados dejan un mensaje que ven los demás. Podéis ocultar cualquiera desde el panel."
       >
         <ChoiceCard
@@ -142,6 +149,7 @@ export function TextsTab() {
       </Group>
       <Group
         title="Música de la fiesta"
+        shows={{ stage: "content", section: "musica-title" }}
         description="Si tenéis una lista colaborativa (Spotify, Apple Music, YouTube…), los invitados podrán abrirla y añadir canciones."
       >
         <TextField
@@ -153,6 +161,7 @@ export function TextsTab() {
       </Group>
       <Group
         title="Lista de regalos"
+        shows={{ stage: "content", section: "regalo" }}
         description="Cada invitación puede reservar un regalo para que no se repita. Los compartidos admiten a varias invitaciones."
       >
         <ListEditor<GiftItem>

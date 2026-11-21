@@ -1271,6 +1271,59 @@ estaba hibernado.
   `features/editor/image.ts`). Antes: 2000 px en WebP al 85 %. Sirven para imprimir en A4 o más
   y el zip las da en JPEG. La migración cambia las rutas a `.jpg`. El editor sigue en WebP.
 
+## Ronda 34: el editor enseña la invitación mientras se edita (19/11/2026)
+
+El editor era un formulario largo: en el móvil se editaba a ciegas (la vista previa, tras un
+botón), las 25 plantillas eran una lista de fichas pequeñas y la vista previa no iba a lo que se
+estaba cambiando.
+
+- **La vista previa sigue a lo que se edita.** Cada pestaña lleva a su sitio (Textos a la carta,
+  Programa y lugares a «El día», Autobuses a «Cómo llegar»…) y cada grupo de campos afina el
+  destino al tocarlo (`Group shows={…}`: vestimenta e información a «Antes de venir», menús a
+  «Confirmar», libro de firmas, música…). El mensaje `stage` lleva una `section` opcional y la
+  vista previa baja hasta ella en cuanto existe.
+- **En el móvil, la invitación en miniatura** en una esquina mientras se edita, siempre al día; se
+  aparta al escribir (para no tapar el campo ni el teclado) y al tocarla se ve en grande. Es el
+  mismo iframe, a escala (`PreviewFrame mini`).
+- **Plantillas en galería**: la portada real de cada una (`/venta/plantilla-<id>-portada.webp`),
+  en sus dos familias (Papel y acuarela, Objetos) con su número, dos columnas en el móvil y tres en
+  el ordenador. Al elegir, la vista previa vuelve a la portada.
+- La pestaña queda en la dirección (`?pestana=`): al recargar no se vuelve a Estilo.
+- **Qué está hecho** (`src/lib/editor/progress.ts`, con pruebas): cada pestaña se compara con el
+  contenido con el que nace el evento (`buildNewEventContent`, calculado en el servidor para no
+  cargar la plantilla en el navegador). Las pestañas hechas llevan una marca dorada, la cabecera
+  dice «Lo imprescindible: 3 de 5 hecho» y cada pestaña abre con «Por hacer: …», «Hecho» u
+  «Opcional» (autobuses y preguntas no hacen falta en todas las bodas). En la demo casi todo sale
+  por hacer: es la plantilla sin tocar.
+- **Portadas y aperturas también en galería** (`VisualGallery` en `style-tab.tsx`, común a
+  plantillas, portadas y aperturas): las 32 portadas con su imagen real
+  (`/venta/portada-<id>.webp`) en tres familias (Con movimiento, Pintadas, Objetos; «Vuestro vídeo»
+  sin imagen, con un icono) y las siete aperturas con su fotograma y la marca Premium. Al elegir,
+  la vista previa salta a la portada o al sobre.
+- **Almendro ya no se ofrece**: solo las 25 plantillas del muestrario. Un evento que siga con la
+  de partida ve «Tocad una plantilla para empezar».
+- **Menos opciones a la vista en Estilo**: en el sobre quedan papel, forro y forma del lacre; la
+  solapa, el gramaje, la textura y el grabado van plegados en «Más ajustes del sobre». En la carta,
+  el borde del papel en «Más ajustes de la carta».
+- **Fotos**: la miniatura tiene la forma del hueco (la portada, vertical; el banquete y los
+  lugares, apaisados), se toca o se suelta una foto encima para subirla y la foto elegida se ve al
+  momento, con un indicador mientras se prepara y se sube.
+
+## Ronda 35: el tiempo se calcula solo y pasa a previsión real (19/11/2026)
+
+- **Sin cifras a mano.** Al poner o cambiar la ciudad o la fecha, el editor calcula solo el tiempo
+  habitual (media de diez años, Open-Meteo). Ya no hay campos de mínima, máxima y lluvia. La pareja
+  solo decide si se muestra («No mostrarlo» / «Mostrar el tiempo»). En la demo, sin red, sigue el
+  botón.
+- **Previsión real desde 14 días antes.** El cálculo guarda las coordenadas del lugar. Cuando faltan
+  14 días o menos, la página de la invitación pide en el servidor la previsión de ese día y la
+  enseña («Previsión para el día»), con el icono según la lluvia. Se guarda en la caché de Next
+  3 horas, así se actualiza sola sin que el invitado espere. Si el servicio no responde en 3 s, se
+  ve el tiempo habitual. No se guarda en la base de datos ni sale nada del invitado: solo se envían
+  las coordenadas.
+- Los eventos con tiempo calculado antes (sin coordenadas) lo recalculan solos al abrir el editor.
+- Demo: `?prevision=1` enseña una previsión de ejemplo.
+
 ## Pendiente para próximas fases
 
 1. Modelo de negocio y pagos (venta a parejas o servicio de organización).

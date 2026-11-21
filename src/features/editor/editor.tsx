@@ -9,6 +9,8 @@ import {
   CalendarHeart,
   Images,
   MapPin,
+  Check,
+  Maximize2,
   Palette,
   PenLine,
   type LucideIcon,
@@ -28,6 +30,8 @@ import { saveDraft } from "@/app/editor/actions";
 import { publishEvent } from "@/app/panel/actions";
 import { Button } from "@/components/ui/button";
 import type { EventMeta } from "@/lib/data/repository";
+import type { EventContent } from "@/lib/domain/event-schema";
+import { editorProgress, progressCount } from "@/lib/editor/progress";
 import { setIn, validateDraft, type Draft, type Path } from "@/lib/editor/draft";
 import type { Theme } from "@/lib/theme";
 import type { Stage } from "@/features/invitation/experience";
@@ -53,6 +57,8 @@ type Tab = {
   Panel: () => ReactNode;
   /** Partes del borrador que se editan aquí (para contar los errores de cada pestaña). */
   roots: readonly string[];
+  /** Dónde se ve en la invitación: la vista previa salta ahí al abrir la pestaña. */
+  shows: { stage: Stage; section?: string };
 };
 
 // Primero el aspecto; después el contenido, en el orden en que suele rellenarse.
@@ -65,6 +71,7 @@ const TABS = [
     icon: Palette,
     Panel: StyleTab,
     roots: ["theme", "coverVideo", "song"],
+    shows: { stage: "cover" },
   },
   {
     id: "datos",
@@ -84,6 +91,7 @@ const TABS = [
       "hashtag",
       "contactPhone",
     ],
+    shows: { stage: "cover" },
   },
   {
     id: "historia",
@@ -93,6 +101,7 @@ const TABS = [
     icon: Images,
     Panel: StoryTab,
     roots: ["coverPhoto", "coverDepthMap", "banquetPhoto", "story"],
+    shows: { stage: "content", section: "historia" },
   },
   {
     id: "textos",
@@ -102,6 +111,7 @@ const TABS = [
     icon: PenLine,
     Panel: TextsTab,
     roots: ["cardMessage", "welcomeMessage", "thankYouMessage", "dressCode", "gift"],
+    shows: { stage: "letter" },
   },
   {
     id: "programa",
@@ -111,6 +121,7 @@ const TABS = [
     icon: MapPin,
     Panel: ProgramTab,
     roots: ["program", "venues"],
+    shows: { stage: "content", section: "programa" },
   },
   {
     id: "transporte",
@@ -120,6 +131,7 @@ const TABS = [
     icon: Bus,
     Panel: TransportTab,
     roots: ["busRoutes", "menu"],
+    shows: { stage: "content", section: "transporte" },
   },
   {
     id: "extras",
@@ -129,6 +141,7 @@ const TABS = [
     icon: BedDouble,
     Panel: ExtrasTab,
     roots: ["faqs", "accommodation"],
+    shows: { stage: "content", section: "info" },
   },
 ] as const satisfies readonly Tab[];
 
@@ -154,16 +167,28 @@ export function Editor({
   eventKey,
   initial,
   meta,
+  initialTab,
+  baseline,
 }: {
   eventKey: string;
   initial: Draft;
+  /** El contenido con el que nace el evento: lo que sigue igual aún está «por hacer». */
+  baseline: EventContent;
+  /** Pestaña de la dirección (?pestana=): al recargar se vuelve a la misma. */
+  initialTab?: string;
   meta?: EventMeta & { unpublishedChanges: boolean };
 }) {
   const eventId = meta?.id ?? null;
   const [{ draft, version }, dispatch] = useReducer(reducer, { draft: initial, version: 0 });
   // Pantalla de la vista previa: la eligen sus botones o el apartado del estilo que se edita.
-  const [stage, setStage] = useState<Stage>("cover");
-  const [tab, setTab] = useState<TabId>("estilo");
+  // y, al abrir una pestaña, la sección de la invitación donde se ve lo que se edita.
+  const startTab = TABS.find((t) => t.id === initialTab) ?? TABS[0];
+  const [target, setTarget] = useState<{ stage: Stage; section?: string }>(startTab.shows);
+  const setStage = useCallback((stage: Stage) => setTarget({ stage }), []);
+  // Móvil: la vista previa, en miniatura mientras se edita; se esconde al escribir (teclado).
+  const [narrow, setNarrow] = useState(false);
+  const [typing, setTyping] = useState(false);
+  const [tab, setTab] = useState<TabId>(startTab.id);
   const [view, setView] = useState<"editar" | "vista">("editar");
   const [savedVersion, setSavedVersion] = useState(0);
   const [saving, setSaving] = useState(false);
@@ -177,7 +202,20 @@ export function Editor({
   const tabRefs = useRef(new Map<string, HTMLButtonElement>());
   const main = useRef<HTMLElement>(null);
 
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 1023.98px)");
+    const update = () => setNarrow(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+
   const check = useMemo(() => validateDraft(draft), [draft]);
+  const progress = useMemo(
+    () => editorProgress(draft.content, draft.theme, baseline),
+    [draft, baseline],
+  );
+  const counted = progressCount(progress);
   const errors = useMemo(() => (check.ok ? new Map<string, string>() : check.errors), [check]);
   const set = useCallback(
     (path: Path, value: unknown) => dispatch({ type: "set", path, value }),
@@ -253,8 +291,18 @@ export function Editor({
     [...errors.keys()].filter((k) => roots.some((r) => k === r || k.startsWith(`${r}.`))).length;
 
   /** Cambia de pestaña y vuelve al principio de los ajustes. */
+  // La pestaña queda en la dirección (?pestana=), sin añadir pasos al historial.
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (tab === TABS[0].id) url.searchParams.delete("pestana");
+    else url.searchParams.set("pestana", tab);
+    window.history.replaceState(window.history.state, "", url);
+  }, [tab]);
+
   const openTab = (id: TabId) => {
     setTab(id);
+    const shows = TABS.find((t) => t.id === id)?.shows;
+    if (shows) setTarget(shows);
     main.current?.scrollTo({ top: 0 });
     if (window.matchMedia("(max-width: 1023.98px)").matches) window.scrollTo({ top: 0 });
   };
@@ -271,6 +319,7 @@ export function Editor({
     const next = TABS[(index + delta + TABS.length) % TABS.length];
     if (!next) return;
     setTab(next.id);
+    setTarget(next.shows);
     const el = tabRefs.current.get(next.id);
     el?.focus();
     el?.scrollIntoView({ block: "nearest", inline: "nearest" });
@@ -292,7 +341,9 @@ export function Editor({
   const canPublish = eventId !== null && check.ok && !publishing && (published.pending || unsaved);
 
   return (
-    <EditorContext value={{ draft, set, setTheme, errors, eventId, showStage: setStage }}>
+    <EditorContext
+      value={{ draft, set, setTheme, errors, eventId, showStage: setStage, showTarget: setTarget }}
+    >
       <div
         className={clsx(
           "marca editor flex flex-col lg:grid lg:h-dvh lg:grid-cols-[15rem_minmax(0,1fr)_minmax(21rem,36%)] xl:grid-cols-[17rem_minmax(0,1fr)_minmax(24rem,38%)]",
@@ -360,6 +411,11 @@ export function Editor({
                   />
                   <span className="min-w-0">{status.text}</span>
                 </p>
+                <p className="mt-1 hidden text-[0.8125rem] text-muted lg:block">
+                  {counted.done === counted.total
+                    ? "Lo imprescindible, hecho."
+                    : `Lo imprescindible: ${counted.done} de ${counted.total} hecho.`}
+                </p>
               </div>
             </div>
           </header>
@@ -419,12 +475,24 @@ export function Editor({
                         className="hidden text-[0.75rem] leading-snug text-muted lg:mt-0.5 lg:block"
                       >
                         {t.hint}
+                        {progress[t.id].done ? <span className="sr-only">. Hecho.</span> : null}
                       </span>
                     </span>
                     {count ? (
                       <span className="rounded-full bg-[#9a2b2b] px-1.5 text-[0.6875rem] leading-4 font-semibold text-white lg:mt-1">
                         {count}
                         <span className="sr-only"> por revisar</span>
+                      </span>
+                    ) : progress[t.id].done ? (
+                      <span
+                        className={clsx(
+                          "grid size-5 shrink-0 place-items-center rounded-full lg:mt-0.5",
+                          selected
+                            ? "bg-gold text-ink max-lg:bg-ivory/20 max-lg:text-ivory"
+                            : "bg-gold/20 text-gold",
+                        )}
+                      >
+                        <Check aria-hidden className="size-3" strokeWidth={3} />
                       </span>
                     ) : null}
                   </button>
@@ -487,6 +555,8 @@ export function Editor({
 
         <main
           ref={main}
+          onFocus={(e) => setTyping(/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName))}
+          onBlur={() => setTyping(false)}
           className={clsx(
             "min-w-0 flex-1 lg:h-dvh lg:overflow-y-auto",
             view === "vista" && "hidden lg:block",
@@ -497,7 +567,7 @@ export function Editor({
             id="ajustes"
             aria-labelledby={`pestana-${current.id}`}
             tabIndex={-1}
-            className="mx-auto max-w-2xl px-4 pt-6 pb-16 outline-none sm:px-6 lg:px-8 lg:pt-10"
+            className="mx-auto max-w-2xl px-4 pt-6 pb-16 outline-none max-lg:pb-72 sm:px-6 lg:px-8 lg:pt-10"
           >
             <header className="mb-8">
               <h2 className="marca-title text-[2.25rem] leading-none text-ink sm:text-[2.75rem]">
@@ -505,6 +575,30 @@ export function Editor({
               </h2>
               <p className="mt-2.5 max-w-[56ch] text-[0.9375rem] leading-relaxed text-muted">
                 {current.intro}
+              </p>
+              <p
+                className={clsx(
+                  "mt-4 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[0.8125rem]",
+                  progress[current.id].done
+                    ? "bg-success/10 text-success"
+                    : progress[current.id].optional
+                      ? "bg-cream text-ink-soft"
+                      : "bg-gold/15 text-ink",
+                )}
+              >
+                {progress[current.id].done ? (
+                  <>
+                    <Check aria-hidden className="size-3.5" strokeWidth={3} />
+                    Hecho
+                  </>
+                ) : progress[current.id].optional ? (
+                  "Opcional: solo si os hace falta"
+                ) : (
+                  <>
+                    <span aria-hidden className="size-1.5 rounded-full bg-gold" />
+                    Por hacer: {progress[current.id].todo}
+                  </>
+                )}
               </p>
             </header>
             <current.Panel />
@@ -532,14 +626,34 @@ export function Editor({
           aria-label="Vista previa"
           className={clsx(
             "min-h-0 border-line bg-cream lg:block lg:h-dvh lg:border-l lg:px-6 lg:py-6",
-            view === "editar" ? "hidden" : "flex-1 px-3 pt-3 pb-3",
+            view === "vista"
+              ? "flex-1 px-3 pt-3 pb-3"
+              : // Móvil editando: la invitación en miniatura, en una esquina, siempre al día.
+                clsx(
+                  "max-lg:fixed max-lg:right-3 max-lg:bottom-[calc(5rem+env(safe-area-inset-bottom))] max-lg:z-30 max-lg:h-[12.5rem] max-lg:w-[5.8rem] max-lg:overflow-hidden max-lg:rounded-xl max-lg:bg-ink max-lg:shadow-[var(--shadow-lift)] max-lg:ring-2 max-lg:ring-paper max-lg:transition-opacity",
+                  typing && "max-lg:pointer-events-none max-lg:opacity-0",
+                ),
           )}
         >
+          {view === "editar" ? (
+            <button
+              type="button"
+              onClick={() => showView("vista")}
+              className="absolute inset-0 z-10 flex items-end justify-end rounded-xl p-1.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink lg:hidden"
+            >
+              <span className="grid size-7 place-items-center rounded-full bg-ink/70 text-paper">
+                <Maximize2 aria-hidden className="size-3.5" />
+              </span>
+              <span className="sr-only">Ampliar la invitación</span>
+            </button>
+          ) : null}
           <PreviewFrame
             src={`/editor/${eventKey}/vista`}
             draft={check.ok ? check.draft : null}
-            stage={stage}
+            stage={target.stage}
+            section={target.section}
             onStage={setStage}
+            mini={narrow && view === "editar"}
           />
         </aside>
       </div>

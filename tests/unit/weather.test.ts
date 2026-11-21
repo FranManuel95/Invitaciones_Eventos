@@ -1,5 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { climateText, summarizeClimate, type DailyArchive } from "@/lib/weather";
+import {
+  climateText,
+  daysUntil,
+  forecastDue,
+  forecastText,
+  pickForecast,
+  summarizeClimate,
+  type DailyArchive,
+} from "@/lib/weather";
 
 /** Diez años de mayo: 20–24 °C de máxima, 10 de mínima y lluvia los días 5, 10, 15… */
 function archive(): DailyArchive {
@@ -51,5 +59,34 @@ describe("tiempo habitual", () => {
       "Suele hacer entre 12 y 26 °C. Llueve más o menos uno de cada diez días.",
     );
     expect(climateText({ max: 30, min: 18, rainChance: 0, place: "" })).toMatch(/Casi nunca/);
+  });
+});
+
+describe("previsión del día", () => {
+  it("se enseña desde 14 días antes hasta el mismo día", () => {
+    expect(daysUntil("2028-06-10T18:00:00+02:00", "2028-06-01")).toBe(9);
+    expect(forecastDue("2028-06-10", "2028-05-26")).toBe(false);
+    expect(forecastDue("2028-06-10", "2028-05-27")).toBe(true);
+    expect(forecastDue("2028-06-10", "2028-06-10")).toBe(true);
+    expect(forecastDue("2028-06-10", "2028-06-11")).toBe(false);
+  });
+
+  it("saca el día del evento y redondea", () => {
+    const daily = {
+      time: ["2028-06-09", "2028-06-10"],
+      temperature_2m_max: [30, 25.6],
+      temperature_2m_min: [18, 13.4],
+      precipitation_probability_max: [0, 23],
+    };
+    expect(pickForecast(daily, "2028-06-10T18:00")).toEqual({ max: 26, min: 13, rainChance: 25 });
+    expect(pickForecast(daily, "2028-06-11")).toBeNull();
+  });
+
+  it("lo cuenta según la lluvia", () => {
+    expect(forecastText({ max: 26, min: 13, rainChance: 5 })).toBe(
+      "Entre 13 y 26 °C. Sin lluvia a la vista.",
+    );
+    expect(forecastText({ max: 20, min: 12, rainChance: 35 })).toContain("35 % de probabilidad");
+    expect(forecastText({ max: 18, min: 11, rainChance: 80 })).toContain("mejor traed paraguas");
   });
 });

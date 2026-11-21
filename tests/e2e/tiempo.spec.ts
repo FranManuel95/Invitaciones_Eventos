@@ -9,13 +9,22 @@ test.describe("tiempo habitual", () => {
     ).toBeAttached();
   });
 
-  test("en el editor se puede retocar o dejar de mostrar", async ({ page }) => {
+  test("cuando falta poco, enseña la previsión del día", async ({ page }) => {
+    await page.goto("/i/carlos-ruiz?prevision=1");
+    await page.getByRole("button", { name: "Saltar intro" }).click();
+    await expect(page.locator("#info").getByText("Previsión para el día.")).toBeAttached();
+    await expect(
+      page.locator("#info").getByText("Entre 13 y 24 °C. Sin lluvia a la vista."),
+    ).toBeAttached();
+  });
+
+  test("en el editor se ve, sin cifras a mano, y se puede dejar de mostrar", async ({ page }) => {
     await page.goto("/editor/demo");
     await page.getByRole("tab", { name: "Pareja y fecha" }).click();
-    await expect(page.getByLabel("Máxima (°C)")).toHaveValue("24");
-    await page.getByLabel("Máxima (°C)").fill("27");
-    await expect(page.getByText("Suele hacer entre 11 y 27 °C.", { exact: false })).toBeVisible();
+    await expect(page.getByText("Suele hacer entre 11 y 24 °C.", { exact: false })).toBeVisible();
+    await expect(page.getByLabel("Máxima (°C)")).toHaveCount(0);
+    await expect(page.getByText("la invitación pasa a enseñar la previsión real")).toBeVisible();
     await page.getByRole("button", { name: "No mostrarlo" }).click();
-    await expect(page.getByRole("button", { name: "Calcular el tiempo habitual" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Mostrar el tiempo" })).toBeVisible();
   });
 });

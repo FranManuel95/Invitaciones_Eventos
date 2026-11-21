@@ -7,6 +7,7 @@ import { applyTemplate, TEMPLATE_IDS, type TemplateId } from "@/lib/theme";
 import { parseTheme } from "@/lib/theme/schema";
 import { demoVariant } from "@/data/demo/variants";
 import { forRecording } from "@/lib/recording";
+import { getForecast } from "@/lib/forecast";
 
 // Las invitaciones reales viven en la base de datos (y su respuesta puede cambiar), así que se
 // pintan en cada petición. Los tokens desconocidos devuelven 404.
@@ -66,7 +67,14 @@ export default async function InvitationPage(props: PageProps<"/i/[token]">) {
   // Algunas plantillas de la demo traen su propia boda ficticia (otra pareja, otro sitio).
   const variant = invitation.group.persisted ? null : demoVariant(template);
   const recording = !invitation.group.persisted && pick("grabar") === "1";
-  const shownEvent = variant?.event ?? invitation.event;
+  // Cuando faltan dos semanas, la previsión real del día sustituye al tiempo habitual. La demo va
+  // sin red: con ?prevision=1 enseña una previsión de ejemplo.
+  const forecast = invitation.group.persisted
+    ? await getForecast(invitation.event)
+    : pick("prevision") === "1"
+      ? { max: 24, min: 13, rainChance: 10 }
+      : null;
+  const shownEvent = { ...(variant?.event ?? invitation.event), forecast };
   return (
     <InvitationExperience
       event={recording ? forRecording(shownEvent) : shownEvent}

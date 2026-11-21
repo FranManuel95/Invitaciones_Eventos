@@ -17,14 +17,20 @@ export function PreviewFrame({
   src,
   draft,
   stage,
+  section,
   onStage,
+  mini = false,
 }: {
   src: string;
   /** Borrador válido, o null mientras haya campos con errores (la vista previa queda en pausa). */
   draft: Draft | null;
   /** Pantalla que se ve; el editor la cambia al elegir un apartado (p. ej. el sobre). */
   stage: Stage;
+  /** Sección de la invitación a la que bajar (lo que se está editando). */
+  section?: string;
   onStage: (stage: Stage) => void;
+  /** En miniatura (el móvil mientras se edita): sin botones ni marco, a escala. */
+  mini?: boolean;
 }) {
   const paused = draft === null;
   const frame = useRef<HTMLIFrameElement>(null);
@@ -34,7 +40,8 @@ export function PreviewFrame({
   const [ready, setReady] = useState(0);
   const [scale, setScale] = useState(0.7);
   // En el móvil (pantallas sin columna para la vista previa), la invitación ocupa todo el hueco, sin dibujar un móvil.
-  const [fill, setFill] = useState(false);
+  const [narrow, setNarrow] = useState(false);
+  const fill = narrow && !mini;
 
   const post = (message: ToPreview) =>
     frame.current?.contentWindow?.postMessage(message, window.location.origin);
@@ -77,8 +84,8 @@ export function PreviewFrame({
 
   // Al cambiar de pantalla (desde los botones o desde el editor), la vista previa salta a ella.
   useEffect(() => {
-    if (ready) post({ type: "stage", stage });
-  }, [ready, stage]);
+    if (ready) post({ type: "stage", stage, section });
+  }, [ready, stage, section]);
 
   // El móvil se escala para caber en el hueco disponible.
   useEffect(() => {
@@ -88,8 +95,8 @@ export function PreviewFrame({
       if (!entry) return;
       const { width, height } = entry.contentRect;
       if (!width || !height) return;
-      setFill(window.innerWidth < 1024);
-      setScale(Math.max(0.35, Math.min(1, width / PHONE.width, height / PHONE.height)));
+      setNarrow(window.innerWidth < 1024);
+      setScale(Math.max(0.2, Math.min(1, width / PHONE.width, height / PHONE.height)));
     });
     observer.observe(el);
     return () => observer.disconnect();
@@ -98,6 +105,7 @@ export function PreviewFrame({
   return (
     <div className="flex h-full min-h-0 flex-col items-center gap-3 lg:gap-5">
       <div
+        hidden={mini}
         role="group"
         aria-label="Pantalla de la vista previa"
         className="flex max-w-full shrink-0 [scrollbar-width:none] gap-0.5 overflow-x-auto rounded-full bg-paper p-1 shadow-[var(--shadow-paper)] ring-1 ring-line"
@@ -121,7 +129,7 @@ export function PreviewFrame({
         role="status"
         className={clsx(
           "max-w-[34ch] text-center text-[0.8125rem] font-medium text-danger",
-          !paused && "sr-only",
+          (!paused || mini) && "sr-only",
         )}
       >
         {paused ? "La vista previa está en pausa: revisa los campos marcados en rojo." : ""}
@@ -132,7 +140,9 @@ export function PreviewFrame({
             "relative shrink-0 overflow-hidden bg-ink",
             fill
               ? "size-full rounded-2xl shadow-[var(--shadow-paper)] ring-1 ring-line"
-              : "rounded-[2.25rem] shadow-[var(--shadow-lift)] ring-[6px] ring-ink",
+              : mini
+                ? ""
+                : "rounded-[2.25rem] shadow-[var(--shadow-lift)] ring-[6px] ring-ink",
           )}
           style={fill ? undefined : { width: PHONE.width * scale, height: PHONE.height * scale }}
         >
@@ -140,6 +150,7 @@ export function PreviewFrame({
             ref={frame}
             src={src}
             title="Vista previa de la invitación"
+            tabIndex={mini ? -1 : undefined}
             className="absolute top-0 left-0 origin-top-left border-0 bg-ivory"
             style={
               fill

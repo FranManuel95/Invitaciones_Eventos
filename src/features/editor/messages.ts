@@ -8,7 +8,8 @@ import type { GuestGroup } from "@/lib/domain/types";
 
 export type ToPreview =
   | { type: "draft"; content: unknown; theme: unknown }
-  | { type: "stage"; stage: Stage }
+  // Pantalla que se ve y, en la invitación, la sección a la que bajar (p. ej. «programa»).
+  | { type: "stage"; stage: Stage; section?: string }
   // «¿Estás ahí?»: el editor lo repite hasta que la vista previa contesta con «ready».
   | { type: "hello" };
 

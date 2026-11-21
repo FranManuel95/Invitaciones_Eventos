@@ -22,7 +22,9 @@ test.describe("editor de la invitación", () => {
     await page.goto("/editor/demo");
     const preview = page.frameLocator('iframe[title="Vista previa de la invitación"]');
     await expect(preview.locator("[data-style='mediterraneo']")).toBeAttached();
-    await expect(page.getByRole("radio", { name: /Almendro/ })).toBeChecked();
+    // La plantilla de partida (Almendro) ya no se ofrece: se invita a elegir una.
+    await expect(page.getByRole("radio", { name: /Almendro/ })).toHaveCount(0);
+    await expect(page.getByText("Tocad una plantilla para empezar.")).toBeVisible();
 
     await page.getByRole("radio", { name: /Terciopelo/ }).check({ force: true });
     await expect(preview.locator("[data-style='esmeralda']")).toBeAttached();
@@ -52,6 +54,9 @@ test.describe("editor de la invitación", () => {
     await page.getByRole("tab", { name: "Sobre", exact: true }).click();
     // El apartado lleva la vista previa al sobre.
     await expect(preview.locator("[data-flap-shape='pico']")).toBeAttached();
+    // Lo esencial (papel, forro, lacre) a la vista; la solapa y lo demás, en «Más ajustes».
+    await expect(page.getByRole("radio", { name: /Festoneada/ })).toBeHidden();
+    await page.getByText("Más ajustes del sobre").click();
     await page.getByRole("radio", { name: /Festoneada/ }).check({ force: true });
     await expect(preview.locator("[data-flap-shape='festoneada']")).toBeAttached();
     await page.getByRole("radio", { name: /400 g/ }).check({ force: true });
