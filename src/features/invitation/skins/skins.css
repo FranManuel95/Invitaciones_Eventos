@@ -2364,6 +2364,140 @@
   }
 }
 
+/* Puzle: cada sección es una pieza. */
+[data-motif="puzle"] {
+  counter-reset: pieza;
+}
+[data-motif="puzle"] .motif-hero {
+  background: linear-gradient(180deg, var(--color-gold) 0 0.35rem, var(--color-paper) 0.35rem);
+}
+[data-motif="puzle"] section[id] {
+  counter-increment: pieza;
+}
+[data-motif="puzle"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="puzle"] .motif-sprig::before {
+  content: "";
+  width: 1.3rem;
+  height: 1.3rem;
+  background:
+    radial-gradient(circle at 100% 50%, var(--color-gold) 0 0.25rem, transparent 0.27rem),
+    linear-gradient(var(--color-gold), var(--color-gold)) 0 0 / 80% 100% no-repeat;
+}
+[data-motif="puzle"] .motif-sprig::after {
+  content: "Pieza " counter(pieza);
+}
+[data-motif="puzle"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.5rem / 1 var(--font-display);
+}
+[data-motif="puzle"] .motif-closing::before {
+  content: "Todo encaja";
+}
+
+/* Tarta: cada sección es un piso de la tarta. */
+[data-motif="tarta"] {
+  counter-reset: piso;
+}
+[data-motif="tarta"] .motif-hero {
+  background:
+    radial-gradient(circle at 50% 0, #fff 0 0.35rem, transparent 0.37rem) 0 0 / 0.7rem 0.5rem
+      repeat-x,
+    var(--color-paper);
+}
+[data-motif="tarta"] section[id] {
+  counter-increment: piso;
+}
+[data-motif="tarta"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="tarta"] .motif-sprig::before {
+  content: "";
+  width: 1.5rem;
+  height: 1.2rem;
+  background:
+    linear-gradient(var(--color-gold-soft), var(--color-gold-soft)) 50% 0 / 50% 40% no-repeat,
+    linear-gradient(var(--color-cream), var(--color-cream)) 50% 100% / 100% 55% no-repeat;
+}
+[data-motif="tarta"] .motif-sprig::after {
+  content: "Piso " counter(piso);
+}
+[data-motif="tarta"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.5rem / 1 var(--font-display);
+}
+[data-motif="tarta"] .motif-closing::before {
+  content: "Que aproveche";
+}
+
+/* Cine: cada sección es una escena de la película. */
+[data-motif="taquilla"] {
+  counter-reset: escena;
+}
+[data-motif="taquilla"] .motif-hero {
+  background:
+    radial-gradient(70% 50% at 50% 0%, rgb(255 220 150 / 0.2), transparent), var(--color-paper);
+}
+[data-motif="taquilla"] section[id] {
+  counter-increment: escena;
+}
+[data-motif="taquilla"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="taquilla"] .motif-sprig::before {
+  content: "";
+  width: 1.6rem;
+  height: 1.1rem;
+  border-radius: 2px;
+  background:
+    repeating-linear-gradient(90deg, var(--color-paper) 0 0.18rem, transparent 0.18rem 0.36rem) 0
+      0 / 100% 0.22rem no-repeat,
+    repeating-linear-gradient(90deg, var(--color-paper) 0 0.18rem, transparent 0.18rem 0.36rem) 0
+      100% / 100% 0.22rem no-repeat,
+    var(--color-gold);
+}
+[data-motif="taquilla"] .motif-sprig::after {
+  content: "Escena " counter(escena);
+}
+[data-motif="taquilla"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.375rem / 1.3 var(--font-display);
+}
+[data-motif="taquilla"] .motif-closing::before {
+  content: "Fin. (O mejor: continuará)";
+}
+
 /* ── Carta, pase y apertura de las plantillas de concepto ── */
 
 /* Membrete y despedida de la carta: una línea impresa arriba y otra abajo. */
@@ -2910,6 +3044,27 @@
 [data-motif="maquina"] .concept-carrier {
   background: var(--color-paper);
   border: 1px solid var(--color-line);
+}
+
+/* Puzle: caja de cartón. */
+[data-motif="puzle"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 2px solid var(--color-ink);
+}
+/* Tarta: caja de pastelería con lazo. */
+[data-motif="tarta"] .concept-carrier {
+  background:
+    linear-gradient(90deg, transparent 45%, var(--color-gold) 45% 55%, transparent 55%), #fff;
+  border: 0;
+}
+/* Cine: entrada de color crema. */
+[data-motif="taquilla"] .concept-carrier {
+  background: #f3dfc0;
+  border: 0;
+}
+[data-motif="taquilla"] .concept-carrier-label {
+  color: #3a0f16;
+  border-color: #3a0f16;
 }
 
 [data-motif-kind="concepto"] .motif-closing > * {

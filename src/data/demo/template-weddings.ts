@@ -7227,3 +7227,379 @@ export const maquina = wedding({
     "Dancing Queen",
   ],
 });
+
+export const puzle = wedding({
+  id: "evt-demo-vera-tomas",
+  first: "Ane",
+  second: "Tomás",
+  date: "2027-06-19T12:30:00+02:00",
+  rsvpDeadline: "2027-05-10T23:59:00+02:00",
+  city: "Vitoria-Gasteiz",
+  region: "Álava",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/portada.jpg",
+  cardMessage:
+    "Nos conocimos haciendo un puzle de mil piezas en una casa rural. Nos sobró una pieza y nos faltó otra. Ahora encajamos.",
+  welcomeMessage:
+    "Nos casamos en Vitoria, en verano, entre jardines. Aquí están todas las piezas del día.",
+  thankYouMessage:
+    "Gracias por ser una pieza imprescindible de nuestro día. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Catedral de Santa María",
+      kind: "Ceremonia",
+      address: "Plaza de Santa María, s/n",
+      note: "En el casco medieval. Mejor venir andando o en tranvía.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Palacio de los Jardines",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Paseo de la Senda, 3",
+      note: "A 10 minutos, entre jardines. Los autobuses salen al terminar.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [24, 12, 30],
+  program: [
+    ["12:30", "Ceremonia", "iglesia", "Santa María", "Con coro y txistu.", "ceremony"],
+    ["13:45", "Aperitivo", "finca", "En el jardín", "Pintxos y vino de Rioja Alavesa.", "cocktail"],
+    [
+      "15:30",
+      "Cena",
+      "finca",
+      "En el salón de los espejos",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "19:00",
+      "Fiesta",
+      "finca",
+      "Hasta la noche",
+      "Barra libre, baile y un puzle gigante para todos.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["bilbao", "Bilbao → Vitoria", "Termibus, Bilbao", "11:00", ["22:00", "01:00"], 55],
+    ["donostia", "Donostia → Vitoria", "Estación de autobuses, Donostia", "10:45", ["01:00"], 30],
+  ],
+  menu: {
+    carne: "Carrilleras al vino tinto",
+    pescado: "Bacalao al pil pil",
+    vegetariano: "Pimientos rellenos de setas",
+    vegano: "Pochas con verduras",
+  },
+  dressCode: {
+    title: "Verano en el jardín",
+    detail: "Azul cielo, gris y crema. Hay jardín: calzado cómodo.",
+    palette: [
+      { name: "Cielo", hex: "#2f5f8a" },
+      { name: "Cartón", hex: "#ece7dd" },
+      { name: "Carbón", hex: "#2d2a26" },
+      { name: "Verde jardín", hex: "#4f6b3a" },
+    ],
+    examples: [
+      "Vestido de verano; algo de abrigo por la tarde.",
+      "Traje claro; corbata opcional.",
+      "Ropa cómoda: habrá puzles para ellos.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Silken Ciudad", "En el centro", "Habitaciones reservadas hasta el 1 de mayo."],
+    ["Casa rural Senda", "Junto al palacio", "Para quedarse al domingo."],
+  ],
+  story: {
+    intro: "Un puzle de mil piezas, una casa rural y una pieza de más. Esta es la versión corta.",
+    moments: [
+      [
+        "2018",
+        "El puzle",
+        "Mil piezas, una mesa y dos desconocidos. Nos sobró una pieza y nos faltó otra.",
+        "olivos",
+      ],
+      ["2021", "La casa", "Un salón entero dedicado a los puzles.", "terraza"],
+      [
+        "2026",
+        "La pedida",
+        "En un puzle de nuestra foto, con el anillo en la última pieza.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "Falta la última pieza: tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Japón", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Un puzle de cinco mil piezas", "Para el próximo invierno.", "60 €"],
+    ["Una mesa de puzles", "Con cajones y luz.", "180 €"],
+    ["Un marco grande", "Para el puzle de nuestra foto.", "70 €"],
+  ],
+  kids: "Habrá monitores, puzles y comida para ellos.",
+  faq: [
+    "¿Qué es el puzle gigante?",
+    "Una foto nuestra en cien piezas: cada invitado pone la suya en la fiesta.",
+  ],
+  guestbook: [
+    ["Los de la casa rural", "Encontramos la pieza que os faltaba. Os la llevamos."],
+    ["Amona Itziar", "Qué bien encajáis los dos."],
+    ["Iker y Leire", "Nos pedimos una esquina del puzle gigante."],
+  ],
+  songs: ["Piece by Piece", "Together", "Hoy", "September", "Valerie", "Dancing Queen"],
+});
+
+export const tarta = wedding({
+  id: "evt-demo-rosa-julian",
+  first: "Rosa",
+  second: "Julián",
+  date: "2027-05-22T13:00:00+02:00",
+  rsvpDeadline: "2027-04-12T23:59:00+02:00",
+  city: "Astorga",
+  region: "León",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-4.jpg",
+  cardMessage:
+    "Nos conocimos en un concurso de tartas. Ella ganó; él se comió la suya entera. Esta es la tarta que haremos juntos.",
+  welcomeMessage:
+    "Nos casamos en Astorga, la ciudad del chocolate y los mantecados. Aquí tienes todos los pisos del día.",
+  thankYouMessage:
+    "Gracias por venir a probar nuestra tarta. Aquí están vuestras fotos, con nata incluida.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Catedral de Astorga",
+      kind: "Ceremonia",
+      address: "Plaza de la Catedral, s/n",
+      note: "En el centro, junto al palacio de Gaudí. Mejor venir andando.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Obrador de la Muralla",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Calle de la Muralla, 12",
+      note: "A 5 minutos andando, junto a la muralla romana.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [19, 6, 25],
+  program: [
+    ["13:00", "Ceremonia", "iglesia", "La catedral", "Con coro y órgano.", "ceremony"],
+    [
+      "14:15",
+      "Aperitivo",
+      "finca",
+      "En el patio del obrador",
+      "Cecina, mantecadas y vino del Bierzo.",
+      "cocktail",
+    ],
+    [
+      "16:00",
+      "Cena",
+      "finca",
+      "En el salón de la muralla",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "19:00",
+      "Fiesta",
+      "finca",
+      "Con la tarta",
+      "Barra libre, baile y la tarta de tres pisos.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["leon", "León → Astorga", "Estación de autobuses, León", "11:45", ["21:00", "01:00"], 55],
+    ["ponferrada", "Ponferrada → Astorga", "Estación de Ponferrada", "11:30", ["01:00"], 30],
+  ],
+  menu: {
+    carne: "Cocido maragato",
+    pescado: "Bacalao al ajoarriero",
+    vegetariano: "Pimientos asados del Bierzo con queso",
+    vegano: "Garbanzos con verduras",
+  },
+  dressCode: {
+    title: "Primavera de pastelería",
+    detail: "Rosa de flor de azúcar, nata y bizcocho. Mañana fresca: chaqueta.",
+    palette: [
+      { name: "Flor de azúcar", hex: "#d98aa0" },
+      { name: "Nata", hex: "#fffaf6" },
+      { name: "Bizcocho", hex: "#e9c7a0" },
+      { name: "Chocolate", hex: "#4a2a33" },
+    ],
+    examples: [
+      "Vestido de primavera y chaqueta.",
+      "Traje claro; corbata opcional.",
+      "Ropa cómoda: habrá taller de magdalenas para ellos.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Gaudí", "Frente al palacio", "Habitaciones reservadas hasta el 1 de abril."],
+    ["Hostal La Peseta", "En el centro", "Famoso por su cocido."],
+  ],
+  story: {
+    intro: "Un concurso de tartas, un premio y una tarta comida entera. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "El concurso",
+        "Ella ganó con una tarta de tres pisos. Él se comió la suya antes de que la juzgaran.",
+        "olivos",
+      ],
+      ["2022", "El obrador", "Un obrador pequeño junto a la muralla.", "terraza"],
+      ["2026", "La pedida", "En una tarta, con el anillo en el piso de arriba.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "La tarta está lista. Solo falta cortarla contigo.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Viena", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Una batidora de las buenas", "Para el obrador de casa.", "300 €"],
+    ["Moldes de tres pisos", "Para las tartas de los domingos.", "80 €"],
+    ["Un curso de pastelería", "Para él.", "150 €"],
+  ],
+  kids: "Habrá monitores, taller de magdalenas y comida para ellos.",
+  faq: ["¿Habrá tarta de verdad?", "De tres pisos, hecha por la novia. Se corta a las siete."],
+  guestbook: [
+    ["Los del concurso", "Esta vez dejad tarta para los demás."],
+    ["Abuela Celia", "Qué dulces sois los dos."],
+    ["Rubén y Ana", "Nos pedimos el piso de chocolate."],
+  ],
+  songs: ["Sugar", "Cake by the Ocean", "Hoy", "September", "Valerie", "Dancing Queen"],
+});
+
+export const taquilla = wedding({
+  id: "evt-demo-lucas-amaia",
+  first: "Amaia",
+  second: "Lucas",
+  date: "2027-11-20T18:00:00+01:00",
+  rsvpDeadline: "2027-10-11T23:59:00+02:00",
+  city: "Almería",
+  region: "Almería",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-2.jpg",
+  cardMessage:
+    "Nos conocimos en un cine de verano, en la última fila. La película era malísima; la compañía, no.",
+  welcomeMessage:
+    "Nos casamos en Almería, tierra de películas. Aquí tienes tu entrada para el estreno.",
+  thankYouMessage:
+    "Gracias por venir al estreno y aplaudir al final. Aquí están vuestras fotos, sin cortes.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Catedral de Almería",
+      kind: "Ceremonia",
+      address: "Plaza de la Catedral, 8",
+      note: "En el centro. Hay parking en la Rambla.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Antiguo Cine Imperial",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Paseo de Almería, 45",
+      note: "A 5 minutos andando, en el antiguo cine restaurado.",
+      photo: "pista",
+    },
+  ],
+  climate: [22, 14, 10],
+  program: [
+    ["18:00", "Ceremonia", "iglesia", "La catedral", "Con coro y órgano.", "ceremony"],
+    [
+      "19:15",
+      "Aperitivo",
+      "finca",
+      "En el vestíbulo del cine",
+      "Palomitas, tapas y vino de la tierra.",
+      "cocktail",
+    ],
+    [
+      "21:00",
+      "Cena",
+      "finca",
+      "En el patio de butacas",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "23:30",
+      "Fiesta",
+      "finca",
+      "En la gran pantalla",
+      "Barra libre, baile y la película de nuestra historia.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "roquetas",
+      "Roquetas → Almería",
+      "Plaza de la Constitución, Roquetas",
+      "17:00",
+      ["02:00", "05:00"],
+      55,
+    ],
+    ["granada", "Granada → Almería", "Estación de autobuses, Granada", "15:00", ["05:00"], 30],
+  ],
+  menu: {
+    carne: "Cordero segureño con patatas",
+    pescado: "Gallineta a la almeriense",
+    vegetariano: "Gurullos con verduras",
+    vegano: "Trigo con verduras de la huerta",
+  },
+  dressCode: {
+    title: "Noche de estreno",
+    detail: "Granate de butaca, crema y dorado. Alfombra roja opcional.",
+    palette: [
+      { name: "Butaca", hex: "#3a0f16" },
+      { name: "Entrada", hex: "#f3dfc0" },
+      { name: "Proyector", hex: "#e8b866" },
+      { name: "Pantalla", hex: "#f6f2ea" },
+    ],
+    examples: [
+      "Vestido de noche o de cóctel.",
+      "Traje oscuro o esmoquin.",
+      "Elegantes: habrá sesión de dibujos para ellos.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Catedral", "Junto a la catedral", "Habitaciones reservadas hasta el 15 de octubre."],
+    ["Hotel Paseo", "Frente al cine", "Para salir del estreno andando."],
+  ],
+  story: {
+    intro: "Un cine de verano, una película malísima y la última fila. Esta es la versión corta.",
+    moments: [
+      [
+        "2018",
+        "La última fila",
+        "Una película malísima y dos risas que no paraban. Nos echaron.",
+        "cala",
+      ],
+      ["2021", "Los rodajes", "Un verano recorriendo los decorados del desierto.", "furgoneta"],
+      [
+        "2026",
+        "La pedida",
+        "En el cine de verano, con el anillo en el cubo de palomitas.",
+        "anilloBarca",
+      ],
+      ["Hoy", "Y ahora, la boda", "Estreno mundial. Tu butaca te espera.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Hollywood", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Un proyector para casa", "Para las sesiones de los domingos.", "350 €"],
+    ["Una máquina de palomitas", "Imprescindible.", "80 €"],
+    ["Abono para el festival de cine", "Para los dos.", "120 €"],
+  ],
+  kids: "Habrá monitores, sesión de dibujos y cena para ellos.",
+  faq: ["¿Habrá película?", "Sí: la de nuestra historia, en la pantalla del cine, a las doce."],
+  guestbook: [
+    ["Los del cine de verano", "Os guardamos la última fila. Esta vez, sin risas."],
+    ["Abuela Encarna", "Qué bonito todo, como en las películas."],
+    ["Pablo y Sara", "Pedimos palomitas dulces."],
+  ],
+  songs: ["Cinema Italiano", "Moon River", "Hoy", "September", "Valerie", "Dancing Queen"],
+});

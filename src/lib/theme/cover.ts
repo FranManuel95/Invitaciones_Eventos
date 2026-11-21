@@ -71,6 +71,9 @@ export const COVER_IDS = [
   "telefono",
   "radio",
   "maquina",
+  "puzle",
+  "tarta",
+  "taquilla",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -347,6 +350,19 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Máquina de escribir",
     description: "Una carta en el rodillo: al teclear, se escriben vuestros nombres.",
   },
+  puzle: {
+    label: "Puzle",
+    description: "Vuestra foto en nueve piezas revueltas: se giran hasta que encaja.",
+  },
+  tarta: {
+    label: "Tarta nupcial",
+    description: "Una tarta de tres pisos: al cortar la porción, cada piso dice un dato del día.",
+  },
+  taquilla: {
+    label: "Entrada de cine",
+    description:
+      "Estreno de «Felices para siempre»: sesión, sala y butaca, y se arranca la matriz.",
+  },
 };
 
 /**
@@ -398,6 +414,9 @@ export const CONCEPT_COVERS = {
   telefono: { ink: "#3a1418", paper: "#eadfca" },
   radio: { ink: "#2c1a0c", paper: "#e6d8bc" },
   maquina: { ink: "#1f2a27", paper: "#e3dfd3" },
+  puzle: { ink: "#2d2a26", paper: "#e9e4da" },
+  tarta: { ink: "#4a2a33", paper: "#f6ece6" },
+  taquilla: { ink: "#f3dfc0", paper: "#2a0b10", tone: "oscuro" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -526,6 +545,9 @@ export const MOTIF_IDS = [
   "telefono",
   "radio",
   "maquina",
+  "puzle",
+  "tarta",
+  "taquilla",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -583,4 +605,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   telefono: { label: "Centralita", kind: "concepto" },
   radio: { label: "Radio Amor", kind: "concepto" },
   maquina: { label: "Mecanografía", kind: "concepto" },
+  puzle: { label: "Rompecabezas", kind: "concepto" },
+  tarta: { label: "Pastelería", kind: "concepto" },
+  taquilla: { label: "Sala de cine", kind: "concepto" },
 };

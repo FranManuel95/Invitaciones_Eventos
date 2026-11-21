@@ -1455,7 +1455,14 @@ olivo.
   «Por la presente os comunicamos que se casan…» y los nombres se teclean; el título completo
   está siempre para lectores de pantalla; Carmen y Lluís, Tarragona). Estilos Baquelita, Onda
   media y Mecanógrafo.
-- Ya son 64 plantillas (21 de papel y acuarela, 43 de objetos) y 65 portadas.
+- **Décima tanda**: **Puzle** (la foto de portada en nueve piezas giradas; se tocan hasta que
+  encajan y el tablero pierde las juntas; Ane y Tomás, Vitoria-Gasteiz), **Tarta nupcial** (tres
+  pisos; al cortar la porción se leen los «pisos»: fecha, lugar y ceremonia; Rosa y Julián,
+  Astorga) y **Entrada de cine** (el estreno de «Felices para siempre» con sesión, sala y fila, y
+  la matriz que se arranca al tocar; Amaia y Lucas, Almería; portada oscura). Estilos
+  Rompecabezas, Pastelería y Butaca. El botón de los cromos pasa a «Rasgar el sobre», para no
+  llamarse igual que el del sobre de la invitación.
+- Ya son 67 plantillas (21 de papel y acuarela, 46 de objetos) y 68 portadas.
 
 ## Pendiente para próximas fases
 

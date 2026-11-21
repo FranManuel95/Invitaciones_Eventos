@@ -49,6 +49,9 @@ import {
   telefono,
   radio,
   maquina,
+  puzle,
+  tarta,
+  taquilla,
 } from "./template-weddings";
 import { guestbook, type DemoVariant } from "./wedding-builder";
 
@@ -1044,6 +1047,9 @@ const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   telefono,
   radio,
   maquina,
+  puzle,
+  tarta,
+  taquilla,
 };
 
 /** La boda ficticia propia de una plantilla, si la tiene. */

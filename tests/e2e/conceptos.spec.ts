@@ -60,6 +60,9 @@ const CONCEPTS = [
   { id: "telefono", names: /Pilar y Héctor/, date: "10 de abril de 2027", opening: "concepto" },
   { id: "radio", names: /Silvia y Javier/, date: "9 de octubre de 2027", opening: "concepto" },
   { id: "maquina", names: /Carmen y Lluís/, date: "1 de mayo de 2027", opening: "concepto" },
+  { id: "puzle", names: /Ane y Tomás/, date: "19 de junio de 2027", opening: "concepto" },
+  { id: "tarta", names: /Rosa y Julián/, date: "22 de mayo de 2027", opening: "concepto" },
+  { id: "taquilla", names: /Amaia y Lucas/, date: "20 de noviembre de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -593,6 +596,34 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await stage.getByRole("button", { name: "Escribir los nombres" }).click();
     await expect(title).toHaveAttribute("data-typed", "si");
     await expect(title).toHaveText(/Carmen y Lluís/);
+  });
+
+  test("puzle: girar las piezas las encaja", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=puzle");
+    const stage = cover(page, "puzle");
+    const board = stage.locator("[data-puzzle]");
+    await board.locator("button").first().click();
+    await expect(board).toHaveAttribute("data-puzzle", "revuelto");
+    await stage.getByRole("button", { name: "Encajar las piezas" }).click();
+    await expect(board).toHaveAttribute("data-puzzle", "completo");
+    await expect(stage).toBeVisible();
+  });
+
+  test("tarta: al cortar la porción se leen los pisos", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=tarta");
+    const stage = cover(page, "tarta");
+    await stage.getByRole("button", { name: "Cortar la tarta" }).click();
+    await expect(stage.locator("[data-cake]")).toHaveAttribute("data-cake", "servida");
+    await expect(stage.getByText("Astorga")).toBeVisible();
+  });
+
+  test("cine: tocar la entrada arranca la matriz", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=taquilla");
+    const stage = cover(page, "taquilla");
+    const ticket = stage.locator("[data-ticket]");
+    await ticket.click();
+    await expect(ticket).toHaveAttribute("data-ticket", "arrancada");
+    await expect(stage).toBeVisible();
   });
 
   test("con movimiento reducido las portadas se abren sin esperar animaciones", async ({

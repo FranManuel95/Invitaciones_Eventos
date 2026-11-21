@@ -353,6 +353,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Atentamente, los novios",
     pass: { kicker: "Copia en papel carbón", people: "Destinatarios" },
   },
+  puzle: {
+    object: "la caja del puzle",
+    carrier: "Puzle de 9 piezas",
+    letterhead: "La pieza que faltaba",
+    signoff: "Todo encaja",
+    pass: { kicker: "Pieza n.º 1", people: "Piezas" },
+  },
+  tarta: {
+    object: "la caja de la tarta",
+    carrier: "Pastelería del Sí",
+    letterhead: "La receta de la tarta",
+    signoff: "Que aproveche",
+    pass: { kicker: "Porción reservada", people: "Comensales" },
+  },
+  taquilla: {
+    object: "la entrada",
+    carrier: "Cine Amor · Estreno",
+    letterhead: "Sinopsis",
+    signoff: "Fin. (O mejor: continuará)",
+    pass: { kicker: "Butaca de honor", people: "Espectadores", table: "Fila (mesa)" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */
