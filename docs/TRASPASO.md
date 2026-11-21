@@ -10,39 +10,34 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   datos legales (`LEGAL_TITULAR`, `LEGAL_NIF`, `LEGAL_DOMICILIO` = «Sevilla», `LEGAL_EMAIL`). **Los
   datos personales viven solo en Vercel: nunca en el repositorio.** `/aviso-legal` está
   comprobado. El usuario aún no vende por la web.
-- **Rama de trabajo**: `claude/exciting-franklin-43k083`, 6 commits por delante de `main`, **sin
-  llevar a producción**. El usuario los está probando en la vista previa:
-  `https://invitaciones-eventos-git-claude-e-51ba32-franmanuel95s-projects.vercel.app` (la URL de
-  rama se mantiene en cada push). Cuando diga «pásalo a producción»: `npm run check`, batería E2E
-  completa, PR a `main` con el MCP de GitHub y fusionarlo (como el #6), y comprobar en Vercel que
-  el despliegue de producción está `READY`.
-  Lo que traen esos commits (detalle en las rondas 34 y 35 de `docs/DECISIONS.md`):
+- **Rama de trabajo**: `claude/exciting-franklin-43k083`. El PR #7 está fusionado en `main`
+  (`cafc97b`, 19/11/2026) y Vercel lo desplegó en producción. Todo lo de las rondas 34 y 35 de
+  `docs/DECISIONS.md` ya está en `invitaciones.efeleeventos.com`:
   1. **El editor enseña la invitación mientras se edita**. Cada pestaña y cada grupo llevan la
      vista previa a su pantalla y su sección (`shows`, mensaje `stage` con `section`). En el
      móvil hay una miniatura flotante que se oculta al escribir. `?pestana=` abre una pestaña.
   2. **El editor dice qué falta**: `src/lib/editor/progress.ts` compara con el contenido de
-     partida (`baseline`). Hay marca dorada en las pestañas hechas, «Lo imprescindible: X de Y» y
-     una píldora «Hecho / Opcional / Por hacer». Los ajustes finos del sobre y la carta van plegados
-     («Más ajustes…»). Las fotos admiten arrastrar, con vista previa local y forma
-     vertical/horizontal.
+     partida (`baseline`). Marca dorada en las pestañas hechas, «Lo imprescindible: X de Y» y
+     una píldora «Hecho / Opcional / Por hacer». Los ajustes finos del sobre y la carta van
+     plegados («Más ajustes…»). Las fotos admiten arrastrar, con vista previa local.
   3. **Arreglo**: la portada en 3D (`depth-shader.ts`) ya no pinta una cortina oscura con tamaño 0.
-  4. **Galerías visuales** en Estilo (`VisualGallery` en `style-tab.tsx`):
-     - Plantillas: solo las 25 del muestrario. **Almendro ya no se ofrece**, por petición del
-       usuario.
-     - Portadas: 32 con imagen, en grupos «Con movimiento / Pintadas / Objetos».
-     - Aperturas: 7 con fotograma y la marca Premium.
-       Las miniaturas están en `public/venta/`.
+  4. **Galerías visuales** en Estilo (`VisualGallery` en `style-tab.tsx`): las 25 plantillas del
+     muestrario (**Almendro ya no se ofrece**, a petición del usuario), 32 portadas y 7 aperturas,
+     con miniaturas en `public/venta/`.
   5. **El tiempo, automático**. El editor lo calcula solo al poner la ciudad o la fecha y guarda
-     las coordenadas, sin cifras a mano. Desde 14 días antes, `/i/[token]` pide en el servidor la
-     previsión real de Open-Meteo (`src/lib/forecast.ts`, caché de 3 h, 3 s de espera máxima;
-     si falla, sale la media). En la demo, `?prevision=1` enseña una previsión de ejemplo. **Falta
-     verla con un evento real**: el sandbox no llega a `api.open-meteo.com` y se probó con
-     respuestas simuladas. Los eventos antiguos recalculan el tiempo al abrir el editor y deben
-     publicar otra vez.
+     las coordenadas. Desde 14 días antes, `/i/[token]` pide en el servidor la previsión real de
+     Open-Meteo (`src/lib/forecast.ts`, caché de 3 h, 3 s de espera máxima; si falla, sale la
+     media). En la demo, `?prevision=1` enseña una previsión de ejemplo. **Falta verla con un
+     evento real**: el sandbox no llega a `api.open-meteo.com` y se probó con respuestas
+     simuladas. Los eventos antiguos recalculan el tiempo al abrir el editor y deben publicar
+     otra vez.
+- **Comprobación automática**: `.github/workflows/quality.yml` (lint, tipos, unitarias y build)
+  corre en cada PR a `main` y en cada subida a `main`. Viene de `codex/premium-envelope-polish`.
 - **Álbum** (ronda 33, en producción): las fotos se suben a su calidad completa (JPEG 0,92, hasta
   4096 px). El interruptor «Publicar las fotos al momento» (`events.album_auto_approve`) evita
   aprobar las fotos una a una. La migración `20261118100000_album_sin_revision.sql` **está
-  aplicada** en Supabase y los avisos no han cambiado. Demo: `/album/<token>?al-momento=1`.
+  aplicada** en Supabase y los avisos no han cambiado. El 21/11 el MCP de Supabase daba «connection
+  timeout» (proyecto «ACTIVE_HEALTHY» pero dormido): releer `list_migrations` para confirmarla. Demo: `/album/<token>?al-momento=1`.
 - **Capturas para Instagram**: están en Google Drive, subidas desde esta sesión (RSVP, panel en
   móvil y PC, álbum). Las ramas `capturas/*` solo tienen los scripts. Pendiente si se pide: rehacer
   las del panel con «Regalos» visible.
@@ -59,9 +54,10 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 - **No hacer sin permiso**: no tocar el evento real `fm-y-lucia-2030-915f24`; preguntar antes de
   escribir en Supabase; no abrir PR ni subir a otras ramas sin que lo pida; no crear vídeos
   nuevos con Higgsfield.
-- **Pruebas** (19/11): 685 unitarias, y las E2E del editor y del tiempo en verde. La batería E2E
-  completa se pasó por última vez antes de la ronda 34: hay que repetirla antes de llevar todo a
-  producción.
+- **Pruebas** (21/11, antes del PR #7): 685 unitarias y 375 E2E en verde (5 se saltan).
+- **Ramas** (21/11): quedan `main`, `claude/exciting-franklin-43k083` (la de trabajo),
+  `capturas/*` (solo scripts de las capturas de Instagram, no unir) y
+  `codex/premium-envelope-polish` (antigua; solo se aprovechó su `quality.yml`).
 
 ## Historial (lo de antes, por si hace falta)
 
