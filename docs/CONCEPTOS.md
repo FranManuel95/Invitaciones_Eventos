@@ -8,7 +8,7 @@ Rama de trabajo: `claude/tender-franklin-isgz7b` (PR #6 contra `main`, sin fusio
 continuación (Telegrama y Postal, ronda 19) está en `claude/exciting-franklin-43k083`, que parte
 de esa rama y la contiene entera.
 
-**Hechas las treinta y siete**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
+**Hechas las cuarenta y tres**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
 las diez de la ronda 20 (Vinilo, Pasaporte, Carta, Mapa, Constelación, Cómic, Cosecha, Tarot,
 Arcade y Semillas) e Instantánea, Abanico, Cerillas, Galleta de la suerte, Casete y Mensaje en una botella (ronda
 38, en `cover/concepts-new.tsx`) y Crucigrama, Billete de tren y Receta de la abuela (ronda 38, en
@@ -16,7 +16,9 @@ Arcade y Semillas) e Instantánea, Abanico, Cerillas, Galleta de la suerte, Case
 38, en `cover/concepts-new3.tsx`) y Llave de hotel, Partitura, Brújula y Lacre (ronda 38, en
 `cover/concepts-new4.tsx`) y Póker, Calendario de puertas y Horóscopo (ronda 38, en
 `cover/concepts-new5.tsx`) y Plano de metro, Etiqueta de equipaje y Tarjeta de fidelidad (ronda
-38, en `cover/concepts-new6.tsx`). Las fichas de abajo se conservan como referencia de lo que se
+38, en `cover/concepts-new6.tsx`) y Diploma, Sobre de cromos y Caja de bombones (ronda 38, en
+`cover/concepts-new7.tsx`) y Teléfono de disco, Radio antigua y Máquina de escribir (ronda 38, en
+`cover/concepts-new8.tsx`). Las fichas de abajo se conservan como referencia de lo que se
 construyó; lo que queda es lo de «Pendiente en las que ya existen», que vale para todas.
 
 Dónde está cada cosa ahora: piezas comunes en `cover/concept-kit.tsx`; portadas en
@@ -376,9 +378,7 @@ Hechas en la ronda 38: Galleta de la suerte, Casete, Crucigrama, Receta, Billete
 Entrada de concierto, Cartel de feria, Ficha de biblioteca, Llave de hotel, Partitura y Brújula.
 Quedan por probar:
 
-1. **Diploma**: título de «Licenciados en quererse», con sello que se estampa.
-2. **Sobre de cromos**: se rasga el sobre y salen los cromos de la pareja y los padrinos.
-3. **Ticket de cine**: sesión, sala y butaca; se arranca la matriz.
+1. **Ticket de cine**: sesión, sala y butaca; se arranca la matriz.
 
 ## Por dónde empezar
 

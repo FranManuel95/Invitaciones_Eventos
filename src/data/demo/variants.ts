@@ -43,6 +43,12 @@ import {
   metro,
   equipaje,
   fidelidad,
+  diploma,
+  cromos,
+  bombones,
+  telefono,
+  radio,
+  maquina,
 } from "./template-weddings";
 import { guestbook, type DemoVariant } from "./wedding-builder";
 
@@ -1032,6 +1038,12 @@ const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   metro,
   equipaje,
   fidelidad,
+  diploma,
+  cromos,
+  bombones,
+  telefono,
+  radio,
+  maquina,
 };
 
 /** La boda ficticia propia de una plantilla, si la tiene. */

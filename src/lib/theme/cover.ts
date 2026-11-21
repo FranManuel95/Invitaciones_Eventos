@@ -65,6 +65,12 @@ export const COVER_IDS = [
   "metro",
   "equipaje",
   "fidelidad",
+  "diploma",
+  "cromos",
+  "bombones",
+  "telefono",
+  "radio",
+  "maquina",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -315,6 +321,32 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Tarjeta de fidelidad",
     description: "Nueve sellos de café y el décimo, el de la boda gratis, lo pone el invitado.",
   },
+  diploma: {
+    label: "Diploma",
+    description:
+      "Un título enrollado: «Licenciados en quererse», que se desenrolla tirando del rodillo.",
+  },
+  cromos: {
+    label: "Sobre de cromos",
+    description:
+      "Un sobre de la colección de la boda: se rasga y salen vuestros cromos y el de la fecha.",
+  },
+  bombones: {
+    label: "Caja de bombones",
+    description: "Seis bombones y, en cada uno, un dato del día: fecha, lugar, hora y fiesta.",
+  },
+  telefono: {
+    label: "Teléfono de disco",
+    description: "Un teléfono antiguo: el invitado marca vuestra fecha girando el disco.",
+  },
+  radio: {
+    label: "Radio antigua",
+    description: "Una radio de madera que se sintoniza en la emisora de vuestra boda.",
+  },
+  maquina: {
+    label: "Máquina de escribir",
+    description: "Una carta en el rodillo: al teclear, se escriben vuestros nombres.",
+  },
 };
 
 /**
@@ -360,6 +392,12 @@ export const CONCEPT_COVERS = {
   metro: { ink: "#1f2433", paper: "#e5e6ea" },
   equipaje: { ink: "#2c2418", paper: "#e7dcc6" },
   fidelidad: { ink: "#3a2416", paper: "#e6dccb" },
+  diploma: { ink: "#3a2a1a", paper: "#e6dcc6" },
+  cromos: { ink: "#1d1f2b", paper: "#e9e3d6" },
+  bombones: { ink: "#3b1f17", paper: "#efe3d2" },
+  telefono: { ink: "#3a1418", paper: "#eadfca" },
+  radio: { ink: "#2c1a0c", paper: "#e6d8bc" },
+  maquina: { ink: "#1f2a27", paper: "#e3dfd3" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -482,6 +520,12 @@ export const MOTIF_IDS = [
   "metro",
   "equipaje",
   "fidelidad",
+  "diploma",
+  "cromos",
+  "bombones",
+  "telefono",
+  "radio",
+  "maquina",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -533,4 +577,10 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   metro: { label: "Red de metro", kind: "concepto" },
   equipaje: { label: "Equipaje", kind: "concepto" },
   fidelidad: { label: "Cafetería", kind: "concepto" },
+  diploma: { label: "Universidad del Amor", kind: "concepto" },
+  cromos: { label: "Álbum de cromos", kind: "concepto" },
+  bombones: { label: "Bombonería", kind: "concepto" },
+  telefono: { label: "Centralita", kind: "concepto" },
+  radio: { label: "Radio Amor", kind: "concepto" },
+  maquina: { label: "Mecanografía", kind: "concepto" },
 };

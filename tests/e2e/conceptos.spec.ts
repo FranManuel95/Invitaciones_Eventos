@@ -54,6 +54,12 @@ const CONCEPTS = [
   { id: "metro", names: /Ainhoa y Raúl/, date: "29 de mayo de 2027", opening: "concepto" },
   { id: "equipaje", names: /Berta y Nico/, date: "4 de septiembre de 2027", opening: "concepto" },
   { id: "fidelidad", names: /Gema y Álex/, date: "20 de marzo de 2027", opening: "concepto" },
+  { id: "diploma", names: /Marina y Adrián/, date: "26 de junio de 2027", opening: "concepto" },
+  { id: "cromos", names: /Cris y Dani/, date: "3 de julio de 2027", opening: "concepto" },
+  { id: "bombones", names: /Olga y Sergi/, date: "13 de febrero de 2027", opening: "concepto" },
+  { id: "telefono", names: /Pilar y Héctor/, date: "10 de abril de 2027", opening: "concepto" },
+  { id: "radio", names: /Silvia y Javier/, date: "9 de octubre de 2027", opening: "concepto" },
+  { id: "maquina", names: /Carmen y Lluís/, date: "1 de mayo de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -528,6 +534,65 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await stage.getByRole("button", { name: "Poner el último sello" }).click();
     await expect(stage.locator("[data-card]")).toHaveAttribute("data-card", "completa");
     await expect(stage.getByRole("button", { name: "¡Boda gratis!" })).toBeDisabled();
+  });
+
+  test("diploma: se desenrolla tirando del rodillo", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=diploma");
+    const stage = cover(page, "diploma");
+    const scroll = stage.locator("[data-diploma]");
+    const box = (await scroll.boundingBox())!;
+    await page.mouse.move(box.x + box.width / 2, box.y + 10);
+    await page.mouse.down();
+    await page.mouse.move(box.x + box.width / 2, box.y + 330, { steps: 10 });
+    await page.mouse.up();
+    await expect(scroll).toHaveAttribute("data-diploma", "abierto");
+    await expect(stage.getByText("Licenciados en quererse")).toBeVisible();
+    await expect(stage).toBeVisible();
+  });
+
+  test("cromos: al abrir el sobre salen los cromos", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=cromos");
+    const stage = cover(page, "cromos");
+    await stage.getByRole("button", { name: "Abrir el sobre" }).click();
+    await expect(stage.locator("[data-pack]")).toHaveAttribute("data-pack", "abierto");
+    await expect(stage.getByRole("button", { name: "¡Los tengo todos!" })).toBeDisabled();
+  });
+
+  test("bombones: cada bombón dice un dato del día", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=bombones");
+    const stage = cover(page, "bombones");
+    const box = stage.locator("[data-box]");
+    await box.locator("button").nth(1).click();
+    await expect(stage.getByText("Relleno de lugar")).toBeVisible();
+    await expect(stage.getByText("Vic", { exact: true })).toBeVisible();
+    await expect(stage).toBeVisible();
+  });
+
+  test("teléfono: se marca la fecha en el disco", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=telefono");
+    const stage = cover(page, "telefono");
+    await stage.getByRole("button", { name: "Marcar la fecha" }).click();
+    await expect(stage.locator("[data-phone]")).toHaveAttribute("data-phone", "llamando", {
+      timeout: 15_000,
+    });
+  });
+
+  test("radio: la aguja se sintoniza en la emisora de la boda", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=radio");
+    const stage = cover(page, "radio");
+    await stage.getByRole("button", { name: /^Sintonizar/ }).click();
+    await expect(stage.locator("[data-radio]")).toHaveAttribute("data-radio", "sintonizada");
+    await expect(stage.getByText(/En antena: la boda de Silvia y Javier/)).toBeVisible();
+  });
+
+  test("máquina de escribir: las teclas escriben los nombres", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=maquina");
+    const stage = cover(page, "maquina");
+    const title = stage.getByRole("heading", { level: 1 });
+    await expect(title).toHaveAttribute("data-typed", "no");
+    await stage.getByRole("button", { name: "Escribir los nombres" }).click();
+    await expect(title).toHaveAttribute("data-typed", "si");
+    await expect(title).toHaveText(/Carmen y Lluís/);
   });
 
   test("con movimiento reducido las portadas se abren sin esperar animaciones", async ({

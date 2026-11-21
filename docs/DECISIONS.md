@@ -1442,7 +1442,20 @@ olivo.
   darle la vuelta, la fecha grande y la hora de embarque; Berta y Nico, Mahón) y **Tarjeta de
   fidelidad** (nueve sellos de café y el décimo, «Boda», lo pone el invitado; Gema y Álex,
   Oviedo). Estilos Suburbano, Maleta y Cafetería.
-- Ya son 58 plantillas (21 de papel y acuarela, 37 de objetos) y 59 portadas.
+- **Octava tanda**: **Diploma** (un pergamino enrollado entre dos rodillos con lazo; se
+  desenrolla tirando hacia abajo y dice «Licenciados en quererse, con matrícula de honor»; Marina
+  y Adrián, Santiago de Compostela), **Sobre de cromos** (se rasga la tira de arriba y salen en
+  abanico los cromos de la pareja y el de la ciudad con la fecha; Cris y Dani, Zaragoza) y **Caja
+  de bombones** (seis bombones; al tocar cada uno, la guía de la caja dice su «relleno»: fecha,
+  lugar, hora, fiesta…; Olga y Sergi, Vic). Estilos Academia, Colección y Chocolate.
+- **Novena tanda**: **Teléfono de disco** (se marca la fecha ddmmaa girando el disco: cada
+  número da su vuelta y vuelve; Pilar y Héctor, Teruel), **Radio antigua** (se mueve la aguja
+  del dial hasta la emisora de la boda, una frecuencia que sale de la fecha; sintonizada, «En
+  antena: la boda…»; Silvia y Javier, Soria) y **Máquina de escribir** (una carta en el rodillo:
+  «Por la presente os comunicamos que se casan…» y los nombres se teclean; el título completo
+  está siempre para lectores de pantalla; Carmen y Lluís, Tarragona). Estilos Baquelita, Onda
+  media y Mecanógrafo.
+- Ya son 64 plantillas (21 de papel y acuarela, 43 de objetos) y 65 portadas.
 
 ## Pendiente para próximas fases
 

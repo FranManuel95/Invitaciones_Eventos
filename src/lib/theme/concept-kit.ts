@@ -311,6 +311,48 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Invita la casa",
     pass: { kicker: "Cliente habitual", people: "Clientes" },
   },
+  diploma: {
+    object: "el diploma",
+    carrier: "Universidad del Amor",
+    letterhead: "Discurso de graduación",
+    signoff: "Con matrícula de honor",
+    pass: { kicker: "Invitación al acto de graduación", people: "Claustro" },
+  },
+  cromos: {
+    object: "el sobre",
+    carrier: "Colección oficial",
+    letterhead: "Ficha del cromo",
+    signoff: "¡Colección completa!",
+    pass: { kicker: "Cromo de invitado", people: "Coleccionistas" },
+  },
+  bombones: {
+    object: "la caja",
+    carrier: "Selección especial",
+    letterhead: "Guía de la caja",
+    signoff: "Hecho a mano con cariño",
+    pass: { kicker: "Tarjeta de cata", people: "Golosos" },
+  },
+  telefono: {
+    object: "el teléfono",
+    carrier: "Centralita del amor",
+    letterhead: "Conferencia de los novios",
+    signoff: "Cuelgue y vuelva a llamar el día de la boda",
+    pass: { kicker: "Guía telefónica", people: "Abonados" },
+  },
+  radio: {
+    object: "la radio",
+    carrier: "Radio Amor",
+    letterhead: "Boletín informativo",
+    signoff: "Seguimos en antena",
+    pass: { kicker: "Oyente de honor", people: "Oyentes" },
+  },
+  maquina: {
+    object: "la carta",
+    carrier: "Escrito a máquina",
+    letterhead: "Por la presente",
+    signoff: "Atentamente, los novios",
+    pass: { kicker: "Copia en papel carbón", people: "Destinatarios" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

@@ -17,8 +17,9 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
      suerte, Casete, Mensaje en una botella, Crucigrama, Billete de tren, Receta de la abuela,
      Entrada de concierto, Cartel de feria, Ficha de biblioteca, Llave de hotel, Partitura,
      Brújula, Lacre (vídeo), Póker, Calendario de puertas, Horóscopo, Plano de metro, Etiqueta de
-     equipaje y Tarjeta de fidelidad. Y la portada en movimiento Tarjeta a la luz con la plantilla
-     Luz de tarde. Ya son **58 plantillas y 59 portadas**. Componentes en
+     equipaje, Tarjeta de fidelidad, Diploma, Sobre de cromos, Caja de bombones, Teléfono de
+     disco, Radio antigua y Máquina de escribir. Y la portada en movimiento Tarjeta a la luz con la
+     plantilla Luz de tarde. Ya son **64 plantillas y 65 portadas**. Componentes en
      `src/features/invitation/cover/concepts-new*.tsx`; cada una con estilo, piel, kit, boda de
      ejemplo y pruebas en `tests/e2e/conceptos.spec.ts`.
      Antes de llevarlo a producción: `npm run check` y la batería E2E completa, PR a `main`.

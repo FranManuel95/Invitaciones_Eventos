@@ -6418,3 +6418,812 @@ export const fidelidad = wedding({
     "Dancing Queen",
   ],
 });
+
+export const diploma = wedding({
+  id: "evt-demo-marina-adrian",
+  first: "Marina",
+  second: "Adrián",
+  date: "2027-06-26T18:00:00+02:00",
+  rsvpDeadline: "2027-05-17T23:59:00+02:00",
+  city: "Santiago de Compostela",
+  region: "A Coruña",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-1.jpg",
+  cardMessage:
+    "Nos conocimos en primero de carrera, compartiendo apuntes y nervios. Ahora nos graduamos en lo más difícil.",
+  welcomeMessage:
+    "Nos casamos en la ciudad donde estudiamos. Aquí tienes todo para el acto de graduación más bonito.",
+  thankYouMessage:
+    "Gracias por venir a nuestra graduación y por la tuna a la una de la mañana. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Martín Pinario",
+      kind: "Ceremonia",
+      address: "Praza da Inmaculada, 3",
+      note: "En la zona vieja, junto a la catedral. Mejor venir andando.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Pazo de Fonseca",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Rúa do Franco, s/n",
+      note: "A 5 minutos andando. El claustro de la antigua universidad.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [24, 13, 25],
+  program: [
+    ["18:00", "Ceremonia", "iglesia", "San Martín Pinario", "Con coro universitario.", "ceremony"],
+    ["19:15", "Aperitivo", "finca", "En el claustro", "Pulpo, empanada y albariño.", "cocktail"],
+    [
+      "21:00",
+      "Cena",
+      "finca",
+      "En el aula magna",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["23:30", "Fiesta", "finca", "Con tuna", "Barra libre, tuna y baile hasta tarde.", "party"],
+  ],
+  busRoutes: [
+    [
+      "coruna",
+      "A Coruña → Santiago",
+      "Estación de autobuses, A Coruña",
+      "16:30",
+      ["02:00", "05:00"],
+      55,
+    ],
+    ["vigo", "Vigo → Santiago", "Estación de Vigo-Urzaiz", "16:00", ["05:00"], 30],
+  ],
+  menu: {
+    carne: "Ternera gallega asada",
+    pescado: "Lubina con ajada",
+    vegetariano: "Empanada de verduras y queso de tetilla",
+    vegano: "Caldo gallego de verduras",
+  },
+  dressCode: {
+    title: "Acto de graduación",
+    detail: "Granate, crema y oro. Hay calles de piedra: tacón ancho.",
+    palette: [
+      { name: "Lazo granate", hex: "#7d1f2e" },
+      { name: "Pergamino", hex: "#f9f2e0" },
+      { name: "Sello de oro", hex: "#c99a3e" },
+      { name: "Piedra", hex: "#8f8b80" },
+    ],
+    examples: [
+      "Vestido de cóctel y un chal para el claustro.",
+      "Traje oscuro; la beca, opcional.",
+      "Elegantes: habrá orla de recuerdo para ellos.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hostal dos Reis Católicos",
+      "En la plaza del Obradoiro",
+      "Habitaciones reservadas hasta el 1 de mayo.",
+    ],
+    ["Pensión Franco", "Junto al pazo", "Céntrica y sencilla."],
+  ],
+  story: {
+    intro: "Unos apuntes compartidos, una biblioteca y muchos exámenes. Esta es la versión corta.",
+    moments: [
+      [
+        "2015",
+        "Primero de carrera",
+        "Ella le dejó los apuntes de Historia. Él nunca se los devolvió.",
+        "olivos",
+      ],
+      [
+        "2019",
+        "La graduación",
+        "Nos graduamos el mismo día. Él tropezó al subir a por el título.",
+        "terraza",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En el claustro de Fonseca, con el anillo dentro de un rollo de diploma.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "Falta la última asignatura. Ven a vernos aprobar.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Oxford", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Una estantería para los libros de carrera", "Que no caben.", "220 €"],
+    ["Una pluma estilográfica para cada uno", "Para firmar el acta.", "120 €"],
+    ["Un marco para el diploma", "Este, claro.", "60 €"],
+  ],
+  kids: "Habrá monitores, orla de recuerdo y cena para ellos.",
+  faq: ["¿Habrá tuna?", "Sí, a medianoche. Es tradición en Santiago y no hay forma de evitarla."],
+  guestbook: [
+    ["Los de la residencia", "Os guardamos los apuntes de primero. Sin subrayar."],
+    ["Avoa Lola", "Qué orgullo, rapaces. Matrícula de honor."],
+    ["Brais y Noa", "Nos pedimos la canción de la tuna."],
+  ],
+  songs: ["Gaudeamus igitur", "Clavelitos", "Hoy", "September", "Valerie", "Dancing Queen"],
+});
+
+export const cromos = wedding({
+  id: "evt-demo-cris-dani",
+  first: "Cris",
+  second: "Dani",
+  date: "2027-07-03T19:00:00+02:00",
+  rsvpDeadline: "2027-05-24T23:59:00+02:00",
+  city: "Zaragoza",
+  region: "Zaragoza",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-1.jpg",
+  cardMessage:
+    "Nos conocimos cambiando cromos en el patio del colegio. Ella tenía el que le faltaba a él. Treinta años después, colección completa.",
+  welcomeMessage:
+    "Nos casamos en Zaragoza, donde empezó la colección. Aquí tienes el sobre con todos los cromos del día.",
+  thankYouMessage:
+    "Gracias por completar nuestra colección. Aquí están vuestras fotos; las repetidas, también.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Pablo",
+      kind: "Ceremonia",
+      address: "Calle San Pablo, 42",
+      note: "En el barrio de San Pablo. Mejor venir en tranvía.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Finca La Alfranca",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camino de la Alfranca, s/n",
+      note: "A 15 minutos, junto al Ebro. Los autobuses salen al terminar la ceremonia.",
+      photo: "pista",
+    },
+  ],
+  climate: [33, 19, 5],
+  program: [
+    ["19:00", "Ceremonia", "iglesia", "San Pablo", "Con jota a la salida.", "ceremony"],
+    [
+      "20:15",
+      "Aperitivo",
+      "finca",
+      "Junto al Ebro",
+      "Ternasco en pinchos y vino de Cariñena.",
+      "cocktail",
+    ],
+    ["22:00", "Cena", "finca", "En el jardín", "Con el menú que elijas al confirmar.", "banquet"],
+    [
+      "00:00",
+      "Fiesta",
+      "finca",
+      "Con intercambio de cromos",
+      "Barra libre, baile y álbum para firmar.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["centro", "Zaragoza → Finca", "Plaza de España", "18:30", ["02:00", "05:00"], 55],
+    ["huesca", "Huesca → Zaragoza", "Estación de Huesca", "17:00", ["05:00"], 30],
+  ],
+  menu: {
+    carne: "Ternasco de Aragón con patatas",
+    pescado: "Bacalao ajoarriero",
+    vegetariano: "Borrajas con almejas (sin almejas)",
+    vegano: "Pochas con verduras",
+  },
+  dressCode: {
+    title: "Verano de colección",
+    detail: "Colores de cromo: amarillo, rojo y blanco. Hace calor: ropa ligera.",
+    palette: [
+      { name: "Sobre rojo", hex: "#c21b2a" },
+      { name: "Cromo", hex: "#ffd23f" },
+      { name: "Álbum", hex: "#f7f4ec" },
+      { name: "Naranja", hex: "#ff8a3d" },
+    ],
+    examples: [
+      "Vestido de verano con un toque de color.",
+      "Camisa de lino; la corbata, opcional.",
+      "Ropa fresca: habrá sobres de cromos para ellos.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Pilar", "Junto a la basílica", "Habitaciones reservadas hasta el 15 de mayo."],
+    ["Albergue Alfranca", "Junto a la finca", "Para quedarse al día siguiente."],
+  ],
+  story: {
+    intro: "Un patio de colegio, un cromo repetido y un cambio. Esta es la versión corta.",
+    moments: [
+      [
+        "1996",
+        "El cambio",
+        "Él tenía tres repetidos; ella, el que le faltaba. Se lo cambió por los tres.",
+        "cala",
+      ],
+      [
+        "2015",
+        "El reencuentro",
+        "Nos volvimos a ver en una feria de coleccionistas. Ella aún tenía los tres.",
+        "furgoneta",
+      ],
+      ["2026", "La pedida", "En un sobre de cromos, con el anillo dentro.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "Colección completa. Solo faltas tú en el álbum.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Japón", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Un mueble para los álbumes", "Que ocupan media casa.", "260 €"],
+    ["La colección de este año", "Sobres para los dos.", "60 €"],
+    ["Un marco para el primer cromo", "El del patio.", "40 €"],
+  ],
+  kids: "Habrá monitores, sobres de cromos y cena para ellos.",
+  faq: ["¿Habrá cromos de verdad?", "Sí: cada invitado recibe un sobre con los cromos de la boda."],
+  guestbook: [
+    ["Los del patio", "Seguimos teniendo repetidos. Os los cambiamos por un baile."],
+    ["Yaya Pili", "Qué bonito, chiquetes. Ya era hora."],
+    ["Jorge y Lucía", "Nos pedimos el cromo de los novios."],
+  ],
+  songs: ["La chica de ayer", "Cuéntame", "Mi gran noche", "September", "Valerie", "Dancing Queen"],
+});
+
+export const bombones = wedding({
+  id: "evt-demo-olga-sergi",
+  first: "Olga",
+  second: "Sergi",
+  date: "2027-02-13T13:00:00+01:00",
+  rsvpDeadline: "2027-01-04T23:59:00+01:00",
+  city: "Vic",
+  region: "Barcelona",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-4.jpg",
+  cardMessage:
+    "Ella hacía bombones y él se comía los que salían feos. Nunca hubo tantos bombones feos como aquel invierno.",
+  welcomeMessage:
+    "Nos casamos la víspera de San Valentín, en Vic, con chocolate caliente y mantas. Aquí tienes la caja con todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a probar nuestra caja más especial. Aquí están vuestras fotos, con chocolate incluido.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Catedral de Vic",
+      kind: "Ceremonia",
+      address: "Plaça de la Catedral, s/n",
+      note: "En el centro histórico. Hay parking junto al mercado.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Mas de la Xocolata",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Camí de Sant Bartomeu, 8",
+      note: "A 10 minutos, entre campos. Hay chimenea y mantas.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [11, 0, 15],
+  program: [
+    ["13:00", "Ceremonia", "iglesia", "La catedral", "Con coro y órgano.", "ceremony"],
+    [
+      "14:15",
+      "Aperitivo",
+      "finca",
+      "Junto a la chimenea",
+      "Fuet de Vic, coca y vermut.",
+      "cocktail",
+    ],
+    [
+      "16:00",
+      "Comida",
+      "finca",
+      "En el salón de piedra",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "19:00",
+      "Fiesta",
+      "finca",
+      "Con fuente de chocolate",
+      "Barra libre, baile y bombones.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "barcelona",
+      "Barcelona → Vic",
+      "Estació del Nord, Barcelona",
+      "11:30",
+      ["21:00", "01:00"],
+      55,
+    ],
+    ["manlleu", "Manlleu → Vic", "Plaça Fra Bernadí", "12:15", ["01:00"], 30],
+  ],
+  menu: {
+    carne: "Civet de jabalí con setas",
+    pescado: "Bacalao con samfaina",
+    vegetariano: "Canelones de setas con bechamel de trufa",
+    vegano: "Escudella de verduras",
+  },
+  dressCode: {
+    title: "Invierno de chocolate",
+    detail: "Marrón chocolate, crema y dorado. Hace frío: abrigo y chal.",
+    palette: [
+      { name: "Chocolate", hex: "#3b1f17" },
+      { name: "Crema", hex: "#f3e6d0" },
+      { name: "Papel dorado", hex: "#d9b25e" },
+      { name: "Frambuesa", hex: "#9b2c46" },
+    ],
+    examples: [
+      "Vestido de manga larga y abrigo.",
+      "Traje de lana; bufanda bienvenida.",
+      "Abrigo: habrá taller de bombones para ellos.",
+    ],
+  },
+  accommodation: [
+    ["Parador de Vic-Sau", "Junto al pantano", "Habitaciones reservadas hasta el 1 de enero."],
+    ["Hotel Vic Centre", "En la plaza Mayor", "Céntrico, a 5 minutos de la catedral."],
+  ],
+  story: {
+    intro: "Un obrador, muchos bombones feos y un invierno largo. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "El obrador",
+        "Él entró a comprar una caja y salió con trabajo de catador.",
+        "olivos",
+      ],
+      [
+        "2021",
+        "La casa",
+        "Un piso encima del obrador, que huele a chocolate todo el año.",
+        "terraza",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En una caja de bombones, con el anillo en el hueco del praliné.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "La caja está lista. Ven a probarla.", "olivar"],
+    ],
+  },
+  gifts: [
+    [
+      "Nuestro viaje a Bélgica",
+      "A aprender de los maestros. Cualquier aportación nos acerca.",
+      "Lo que queráis",
+    ],
+    ["Moldes nuevos para el obrador", "Que los viejos ya no dan más.", "180 €"],
+    ["Una fuente de chocolate", "Para las fiestas de casa.", "120 €"],
+    ["Un curso de chocolatería", "Para él, que solo sabe comérselos.", "200 €"],
+  ],
+  kids: "Habrá monitores, taller de bombones y comida para ellos.",
+  faq: ["¿Habrá bombones para llevar?", "Sí: una cajita para cada invitado, hecha en el obrador."],
+  guestbook: [
+    ["Los del obrador", "Os guardamos los bombones feos. Son los más ricos."],
+    ["Àvia Carme", "Qué boda tan dulce. Abrigaos, que en Vic hace frío."],
+    ["Arnau y Mar", "Nos pedimos la fuente de chocolate."],
+  ],
+  songs: ["Sugar", "Chocolate", "Contigo", "September", "Valerie", "Dancing Queen"],
+});
+
+export const telefono = wedding({
+  id: "evt-demo-pilar-hector",
+  first: "Pilar",
+  second: "Héctor",
+  date: "2027-04-10T17:30:00+02:00",
+  rsvpDeadline: "2027-03-01T23:59:00+01:00",
+  city: "Teruel",
+  region: "Teruel",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-1.jpg",
+  cardMessage:
+    "Nos conocimos por una llamada equivocada. Él quería pedir una pizza; ella le convenció para cenar con ella.",
+  welcomeMessage:
+    "Nos casamos en Teruel, la ciudad de los amantes. Marca nuestro número: aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por responder a nuestra llamada. Aquí están vuestras fotos; no cuelgues todavía.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Pedro",
+      kind: "Ceremonia",
+      address: "Calle Hartzenbusch, 1",
+      note: "Junto al mausoleo de los Amantes. Mejor venir andando.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Palacio de los Marcilla",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Plaza del Torico, 6",
+      note: "A 5 minutos andando por el centro.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [17, 4, 25],
+  program: [
+    [
+      "17:30",
+      "Ceremonia",
+      "iglesia",
+      "San Pedro",
+      "Con lectura de la leyenda de los Amantes.",
+      "ceremony",
+    ],
+    [
+      "18:45",
+      "Aperitivo",
+      "finca",
+      "En el patio",
+      "Jamón de Teruel y vino del Matarraña.",
+      "cocktail",
+    ],
+    [
+      "20:30",
+      "Cena",
+      "finca",
+      "En el salón principal",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "23:00",
+      "Fiesta",
+      "finca",
+      "Hasta la madrugada",
+      "Barra libre, baile y centralita de mensajes.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "zaragoza",
+      "Zaragoza → Teruel",
+      "Estación Delicias, Zaragoza",
+      "15:00",
+      ["02:00", "05:00"],
+      55,
+    ],
+    ["valencia", "Valencia → Teruel", "Estación del Norte, Valencia", "15:00", ["05:00"], 30],
+  ],
+  menu: {
+    carne: "Ternasco con patatas a lo pobre",
+    pescado: "Bacalao con ajoarriero",
+    vegetariano: "Migas con verduras",
+    vegano: "Guiso de judías con verduras",
+  },
+  dressCode: {
+    title: "Primavera de los Amantes",
+    detail: "Rojo de teléfono, crema y gris. Tarde fresca: chaqueta.",
+    palette: [
+      { name: "Rojo baquelita", hex: "#7a1f2a" },
+      { name: "Crema", hex: "#f8f1e4" },
+      { name: "Metal", hex: "#b9b2a4" },
+      { name: "Mudéjar", hex: "#2f6b6a" },
+    ],
+    examples: [
+      "Vestido de entretiempo y chaqueta.",
+      "Traje oscuro; corbata opcional.",
+      "Abrigo: habrá teléfonos de juguete para ellos.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Torico Plaza", "En el centro", "Habitaciones reservadas hasta el 1 de marzo."],
+    ["Hostal Mudéjar", "Junto a la torre", "Sencillo y céntrico."],
+  ],
+  story: {
+    intro:
+      "Una llamada equivocada, una pizza que nunca llegó y una cena. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "La llamada",
+        "Marcó un número equivocado y ella contestó. Hablaron una hora.",
+        "olivos",
+      ],
+      ["2021", "La casa", "Un piso con un teléfono antiguo que suena de verdad.", "terraza"],
+      [
+        "2026",
+        "La pedida",
+        "Por teléfono, desde la otra habitación. Ella dijo que sí antes de colgar.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "Marca el número: es nuestra fecha.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Italia", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Un teléfono antiguo restaurado", "Para el recibidor.", "150 €"],
+    ["Una cena para dos", "Sin pizza.", "90 €"],
+    ["Una vajilla de Teruel", "La de cerámica de siempre.", "220 €"],
+  ],
+  kids: "Habrá monitores, teléfonos de juguete y cena para ellos.",
+  faq: [
+    "¿Por qué un teléfono?",
+    "Porque nos conocimos por una llamada equivocada. Y porque marcar la fecha es más bonito.",
+  ],
+  guestbook: [
+    ["La pizzería", "Aún esperamos aquel pedido. Enhorabuena."],
+    ["Abuela Carmen", "Qué bonito, hijos. Llamad más a menudo."],
+    ["Iván y Rut", "Nos pedimos la primera llamada después de la boda."],
+  ],
+  songs: ["Call Me Maybe", "Hello", "Te llamo", "September", "Valerie", "Dancing Queen"],
+});
+
+export const radio = wedding({
+  id: "evt-demo-silvia-javier",
+  first: "Silvia",
+  second: "Javier",
+  date: "2027-10-09T18:00:00+02:00",
+  rsvpDeadline: "2027-08-30T23:59:00+02:00",
+  city: "Soria",
+  region: "Soria",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-2.jpg",
+  cardMessage:
+    "Nos conocimos en una radio local: ella leía las noticias y él ponía la música. Esta es nuestra emisión más importante.",
+  welcomeMessage:
+    "Nos casamos en Soria, en otoño, entre chopos dorados. Sintoniza nuestra emisora: aquí tienes toda la programación.",
+  thankYouMessage:
+    "Gracias por quedaros en antena hasta el final. Aquí están vuestras fotos, con música de fondo.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Juan de Rabanera",
+      kind: "Ceremonia",
+      address: "Calle Caballeros, 1",
+      note: "En el centro de Soria. Hay parking en la plaza de Mariano Granados.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "La Dehesa de la Radio",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Paseo de San Prudencio, 14",
+      note: "A 10 minutos, junto al Duero. Los autobuses salen al terminar.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [18, 5, 30],
+  program: [
+    [
+      "18:00",
+      "Ceremonia",
+      "iglesia",
+      "San Juan de Rabanera",
+      "Con la sintonía de la radio a la salida.",
+      "ceremony",
+    ],
+    [
+      "19:15",
+      "Aperitivo",
+      "finca",
+      "Junto al Duero",
+      "Torreznos, mantequilla de Soria y ribera.",
+      "cocktail",
+    ],
+    [
+      "21:00",
+      "Cena",
+      "finca",
+      "En el salón de la dehesa",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "23:30",
+      "Fiesta",
+      "finca",
+      "En antena hasta el amanecer",
+      "Barra libre, DJ y dedicatorias en directo.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["centro", "Soria → Dehesa", "Plaza Mayor", "17:30", ["02:00", "05:00"], 55],
+    ["madrid", "Madrid → Soria", "Avenida de América, Madrid", "14:30", ["05:00"], 30],
+  ],
+  menu: {
+    carne: "Asado de cordero con patatas",
+    pescado: "Truchas a la soriana",
+    vegetariano: "Revuelto de setas de Soria",
+    vegano: "Guiso de setas y patatas",
+  },
+  dressCode: {
+    title: "Otoño en el Duero",
+    detail: "Madera, crema y rojo de aguja. Tarde fría: abrigo.",
+    palette: [
+      { name: "Madera", hex: "#8a5a2c" },
+      { name: "Tela de altavoz", hex: "#d9c39a" },
+      { name: "Aguja", hex: "#c21b2a" },
+      { name: "Chopo dorado", hex: "#d9a441" },
+    ],
+    examples: [
+      "Vestido de otoño y abrigo.",
+      "Traje de lana o pana.",
+      "Abrigo: habrá taller de radio para ellos.",
+    ],
+  },
+  accommodation: [
+    [
+      "Parador de Soria",
+      "Con vistas al Duero",
+      "Habitaciones reservadas hasta el 1 de septiembre.",
+    ],
+    ["Hotel Leonor", "En el centro", "A 5 minutos de la iglesia."],
+  ],
+  story: {
+    intro:
+      "Una emisora local, un micrófono compartido y muchas canciones dedicadas. Esta es la versión corta.",
+    moments: [
+      [
+        "2017",
+        "La emisora",
+        "Ella leía las noticias; él le dedicaba una canción cada día.",
+        "terraza",
+      ],
+      ["2020", "El programa", "Un programa juntos los sábados por la mañana.", "olivos"],
+      ["2026", "La pedida", "En directo, en mitad del programa. Media Soria lo oyó.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "Sintoniza la emisora: estamos en antena.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Londres", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Una radio antigua restaurada", "Para el salón.", "180 €"],
+    ["Un tocadiscos", "Para la música que no sale en la radio.", "220 €"],
+    ["Unos auriculares buenos", "Para las madrugadas.", "140 €"],
+  ],
+  kids: "Habrá monitores, taller de radio y cena para ellos.",
+  faq: [
+    "¿Se pueden dedicar canciones?",
+    "Sí: en la fiesta hay un micrófono para dedicatorias en directo.",
+  ],
+  guestbook: [
+    ["Los de la emisora", "Os guardamos la sintonía. Seguimos en antena."],
+    ["Abuelo Teodoro", "Os oía todos los sábados. Enhorabuena."],
+    ["Rober y Marta", "Pedimos la canción del verano."],
+  ],
+  songs: [
+    "Video Killed the Radio Star",
+    "Radio Ga Ga",
+    "La radio",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
+
+export const maquina = wedding({
+  id: "evt-demo-carmen-lluis",
+  first: "Carmen",
+  second: "Lluís",
+  date: "2027-05-01T12:00:00+02:00",
+  rsvpDeadline: "2027-03-22T23:59:00+01:00",
+  city: "Tarragona",
+  region: "Tarragona",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-4.jpg",
+  cardMessage:
+    "Nos escribíamos cartas a máquina desde dos ciudades. Él tecleaba con dos dedos; ella le corregía las faltas.",
+  welcomeMessage:
+    "Nos casamos en Tarragona, frente al Mediterráneo. Aquí tienes la carta, escrita a máquina, con todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por leernos hasta el final. Aquí están vuestras fotos, sin una sola falta.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Catedral de Tarragona",
+      kind: "Ceremonia",
+      address: "Pla de la Seu, s/n",
+      note: "En lo alto de la Part Alta. Mejor venir andando.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Villa del Balcón",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Passeig de les Palmeres, 2",
+      note: "A 10 minutos andando, con vistas al mar.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [21, 13, 20],
+  program: [
+    ["12:00", "Ceremonia", "iglesia", "La catedral", "Con coro y órgano.", "ceremony"],
+    ["13:15", "Aperitivo", "finca", "En el balcón", "Vermut, anchoas y vistas al mar.", "cocktail"],
+    [
+      "15:00",
+      "Cena",
+      "finca",
+      "En el salón de la villa",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["18:30", "Fiesta", "finca", "Hasta la noche", "Barra libre, baile y castells.", "party"],
+  ],
+  busRoutes: [
+    [
+      "barcelona",
+      "Barcelona → Tarragona",
+      "Estació de Sants, Barcelona",
+      "10:30",
+      ["21:00", "01:00"],
+      55,
+    ],
+    ["reus", "Reus → Tarragona", "Estació de Reus", "11:15", ["01:00"], 30],
+  ],
+  menu: {
+    carne: "Fricandó con setas",
+    pescado: "Romesco de pescado",
+    vegetariano: "Calçots con salsa romesco",
+    vegano: "Escalivada con pan de coca",
+  },
+  dressCode: {
+    title: "Primavera mediterránea",
+    detail: "Verde máquina, crema y azul mar. Hay escaleras: calzado cómodo.",
+    palette: [
+      { name: "Verde máquina", hex: "#2f4f4a" },
+      { name: "Papel", hex: "#fbf8f0" },
+      { name: "Tinta", hex: "#1f1f1f" },
+      { name: "Mediterráneo", hex: "#2f6a8a" },
+    ],
+    examples: [
+      "Vestido de primavera; algo de abrigo para el balcón.",
+      "Traje claro; corbata opcional.",
+      "Ropa cómoda: habrá taller de cartas para ellos.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Imperial Tarraco",
+      "Junto al balcón del Mediterráneo",
+      "Habitaciones reservadas hasta el 15 de marzo.",
+    ],
+    ["Hotel Part Alta", "Junto a la catedral", "Céntrico y tranquilo."],
+  ],
+  story: {
+    intro: "Dos ciudades, una máquina de escribir y muchas cartas. Esta es la versión corta.",
+    moments: [
+      [
+        "2018",
+        "La primera carta",
+        "Él le escribió a máquina para pedirle un libro. Ella le devolvió la carta corregida.",
+        "cala",
+      ],
+      [
+        "2021",
+        "La mudanza",
+        "Por fin en la misma ciudad, con la máquina en el salón.",
+        "furgoneta",
+      ],
+      ["2026", "La pedida", "En una carta a máquina, sin faltas por primera vez.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "La carta está escrita. Falta tu respuesta.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Irlanda", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Cintas nuevas para la máquina", "Que la de ahora ya no marca.", "40 €"],
+    ["Papel de carta para un año", "Para seguir escribiéndonos.", "60 €"],
+    ["Un escritorio de madera", "Para la máquina.", "320 €"],
+  ],
+  kids: "Habrá monitores, taller de cartas y comida para ellos.",
+  faq: [
+    "¿Podemos escribiros una carta?",
+    "Sí: habrá una máquina de escribir en la fiesta para dejarnos un mensaje.",
+  ],
+  guestbook: [
+    ["Los de la oficina de correos", "Echaremos de menos vuestras cartas. Enhorabuena."],
+    ["Àvia Montse", "Qué bonito escribís los dos. Y qué bien os queréis."],
+    ["Jan y Laia", "Os dejamos carta a máquina. Con faltas, para que la corrijas."],
+  ],
+  songs: [
+    "Please Mr. Postman",
+    "Mediterráneo",
+    "Cartas amarillas",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
