@@ -1584,6 +1584,7 @@ olivo.
   flambeado** (la crêpe se flambea y, al apagarse la llama, empieza la fiesta; Noemí y Elías,
   Puebla de Sanabria; portada oscura). Estilos Tiovivo, Ilusionista y Sobremesa. Ya son 113
   plantillas (91 de objetos) y 114 portadas.
+- **Batería E2E completa** con todo hasta Pizarra: 669 pruebas bien y 5 omitidas.
 
 ## Pendiente para próximas fases
 

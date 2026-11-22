@@ -176,7 +176,11 @@ function MagicHatCover({ event, onOpen, reduce }: ConceptProps) {
           {/* El conejo sube del sombrero con un cartel en las patas. */}
           <div
             className="absolute left-1/2 flex -translate-x-1/2 flex-col items-center transition-[bottom] duration-700"
-            style={{ bottom: done ? "38%" : "8%", transitionDuration: reduce ? "0ms" : undefined }}
+            style={{
+              bottom: done ? "46%" : "8%",
+              visibility: done ? "visible" : "hidden",
+              transitionDuration: reduce ? "0ms" : undefined,
+            }}
           >
             <svg viewBox="0 0 60 70" aria-hidden className="w-16">
               <ellipse cx="22" cy="18" rx="6" ry="18" fill="#fbf7f2" />
@@ -189,7 +193,7 @@ function MagicHatCover({ event, onOpen, reduce }: ConceptProps) {
               <circle cx="30" cy="50" r="2.4" fill="#f2b8c6" />
             </svg>
             <span className="-mt-1 rounded-[3px] bg-[#fbf7f2] px-2 py-0.5 text-[0.75rem] font-semibold text-[#1e0a14]">
-              <time dateTime={isoDay(event.date)}>{formatLongDate(event.date)}</time>
+              ¡Sí, quiero!
             </span>
           </div>
           {/* El sombrero de copa, por delante del conejo. */}
@@ -227,6 +231,9 @@ function MagicHatCover({ event, onOpen, reduce }: ConceptProps) {
           {done
             ? `¡Tachán! Y el gran final será en ${event.city}.`
             : "Toca el sombrero con la varita."}
+          <span className="block text-[1.0625rem] font-semibold">
+            <time dateTime={isoDay(event.date)}>{formatLongDate(event.date)}</time>
+          </span>
         </After>
         <div className="mt-auto flex w-full flex-col items-center">
           <button
