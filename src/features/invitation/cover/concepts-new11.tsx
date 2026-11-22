@@ -114,7 +114,7 @@ function KiteCover({ event, onOpen, reduce }: ConceptProps) {
             onPointerDown={stop}
             onClick={pull}
             disabled={flying}
-            className="mt-3 rounded-full bg-[#e0533d] px-6 py-2.5 text-[0.9375rem] font-medium text-white disabled:opacity-70"
+            className="mt-3 rounded-full bg-[#b03a28] px-6 py-2.5 text-[0.9375rem] font-medium text-white disabled:opacity-70"
           >
             {flying ? "¡Vuela!" : "Tirar del hilo"}
           </button>
