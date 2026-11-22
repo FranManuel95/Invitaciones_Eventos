@@ -714,6 +714,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "¡Sube, sube!",
     pass: { kicker: "Llave del portal", people: "Vecinos" },
   },
+  trenecito: {
+    object: "el trenecito",
+    carrier: "Caja de juguetes",
+    letterhead: "Próxima parada",
+    signoff: "¡Chu, chu!",
+    pass: { kicker: "Billete del trenecito", people: "Viajeros", bus: "Tu autobús de la boda" },
+  },
+  tarro: {
+    object: "el tarro",
+    carrier: "Tarro de cristal",
+    letterhead: "Una noche de verano",
+    signoff: "Que no se apague la luz",
+    pass: { kicker: "Pase de la noche", people: "Invitados" },
+  },
+  caleidoscopio: {
+    object: "el caleidoscopio",
+    carrier: "Tubo de cristales",
+    letterhead: "Todas las piezas encajan",
+    signoff: "Gíralo otra vez",
+    pass: { kicker: "Pase de colores", people: "Invitados" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

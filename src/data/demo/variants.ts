@@ -100,6 +100,9 @@ import {
   acuario,
   huerto,
   portero,
+  trenecito,
+  tarro,
+  caleidoscopio,
 } from "./template-weddings";
 import { guestbook, type DemoVariant } from "./wedding-builder";
 
@@ -1146,6 +1149,9 @@ const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   acuario,
   huerto,
   portero,
+  trenecito,
+  tarro,
+  caleidoscopio,
 };
 
 /** La boda ficticia propia de una plantilla, si la tiene. */

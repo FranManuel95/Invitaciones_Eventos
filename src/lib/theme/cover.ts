@@ -123,6 +123,9 @@ export const COVER_IDS = [
   "acuario",
   "huerto",
   "portero",
+  "trenecito",
+  "tarro",
+  "caleidoscopio",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -628,6 +631,21 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     description:
       "El telefonillo del portal con vuestro piso: se llama al 1.º B y contestáis con la invitación.",
   },
+  trenecito: {
+    label: "Trenecito",
+    description:
+      "Un tren de juguete con vuestros nombres en los vagones: da la vuelta al circuito y para en la estación.",
+  },
+  tarro: {
+    label: "Tarro de luciérnagas",
+    description:
+      "Un tarro de cristal en una noche de verano: se abre y las luciérnagas salen a volar.",
+  },
+  caleidoscopio: {
+    label: "Caleidoscopio",
+    description:
+      "Se mira por el caleidoscopio y se gira tres veces hasta que los cristales forman una flor.",
+  },
 };
 
 /**
@@ -730,6 +748,9 @@ export const CONCEPT_COVERS = {
   acuario: { ink: "#14303c", paper: "#f1ece2" },
   huerto: { ink: "#22301c", paper: "#eaf3e0" },
   portero: { ink: "#1f1a14", paper: "#f3ece0" },
+  trenecito: { ink: "#1f2a36", paper: "#eef4f8" },
+  tarro: { ink: "#f4f1df", paper: "#0d1a24", tone: "oscuro" },
+  caleidoscopio: { ink: "#f6effc", paper: "#120c1c", tone: "oscuro" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -910,6 +931,9 @@ export const MOTIF_IDS = [
   "acuario",
   "huerto",
   "portero",
+  "trenecito",
+  "tarro",
+  "caleidoscopio",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -1018,4 +1042,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   acuario: { label: "Acuario", kind: "concepto" },
   huerto: { label: "Huerto", kind: "concepto" },
   portero: { label: "Portal", kind: "concepto" },
+  trenecito: { label: "Trenecito", kind: "concepto" },
+  tarro: { label: "Luciérnagas", kind: "concepto" },
+  caleidoscopio: { label: "Caleidoscopio", kind: "concepto" },
 };

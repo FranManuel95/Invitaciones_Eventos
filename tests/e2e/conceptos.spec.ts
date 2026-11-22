@@ -126,6 +126,9 @@ const CONCEPTS = [
   { id: "acuario", names: /Diana y Gorka/, date: "31 de julio de 2027", opening: "concepto" },
   { id: "huerto", names: /Ainara y Mario/, date: "5 de junio de 2027", opening: "concepto" },
   { id: "portero", names: /Valle y Teo/, date: "23 de octubre de 2027", opening: "concepto" },
+  { id: "trenecito", names: /Alexia y Iago/, date: "1 de mayo de 2027", opening: "concepto" },
+  { id: "tarro", names: /Elba y Félix/, date: "10 de julio de 2027", opening: "concepto" },
+  { id: "caleidoscopio", names: /Mía y Nil/, date: "21 de agosto de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -1096,6 +1099,37 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
       "contestado",
     );
     await expect(stage.getByText(/Sube, sube/)).toBeVisible();
+  });
+
+  test("trenecito: da la vuelta al circuito", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=trenecito");
+    const stage = cover(page, "trenecito");
+    await stage.getByRole("button", { name: "Poner en marcha" }).click();
+    await expect(stage.locator("[data-trenecito]")).toHaveAttribute(
+      "data-trenecito",
+      "en-la-estacion",
+      { timeout: 8000 },
+    );
+  });
+
+  test("tarro: las luciérnagas salen a volar", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=tarro");
+    const stage = cover(page, "tarro");
+    await stage.getByRole("button", { name: "Abrir el tarro" }).click();
+    await expect(stage.locator("[data-tarro]")).toHaveAttribute("data-tarro", "abierto");
+    await expect(stage.getByText(/escriben la fecha en la noche/)).toBeVisible();
+  });
+
+  test("caleidoscopio: tres giros y sale la flor", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=caleidoscopio");
+    const stage = cover(page, "caleidoscopio");
+    for (const n of [0, 1, 2]) {
+      await stage.getByRole("button", { name: `Girar (${n}/3)` }).click();
+    }
+    await expect(stage.locator("[data-caleidoscopio]")).toHaveAttribute(
+      "data-caleidoscopio",
+      "flor",
+    );
   });
 
   test("faro: se enciende", async ({ page }) => {

@@ -13342,3 +13342,361 @@ export const portero = wedding({
   ],
   songs: ["Hello", "Llámame", "Call Me Maybe", "September", "Valerie", "Dancing Queen"],
 });
+
+export const trenecito = wedding({
+  id: "evt-demo-alexia-iago",
+  first: "Alexia",
+  second: "Iago",
+  date: "2027-05-01T12:30:00+02:00",
+  rsvpDeadline: "2027-03-25T23:59:00+01:00",
+  city: "Medina del Campo",
+  region: "Valladolid",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-2.jpg",
+  cardMessage:
+    "Nos conocimos en una feria de maquetas de tren. Montamos el mismo circuito sin conocernos.",
+  welcomeMessage:
+    "El tren sale a su hora y para en nuestra boda. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Medina del Campo y por subir al trenecito. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Colegiata de San Antolín",
+      kind: "Ceremonia",
+      address: "Plaza Mayor de la Hispanidad, 1",
+      note: "En la plaza Mayor. Hay parking junto a la estación.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Antigua Estación de la Mota",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Avenida de la Estación, 2",
+      note: "A 10 minutos, en una estación antigua con jardín y un tren de juguete de verdad.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [20, 6, 25],
+  program: [
+    ["12:30", "Ceremonia", "iglesia", "San Antolín", "Con coro castellano.", "ceremony"],
+    [
+      "13:45",
+      "Aperitivo",
+      "finca",
+      "En el andén",
+      "Con lechazo en tapa y vino de Rueda.",
+      "cocktail",
+    ],
+    [
+      "15:00",
+      "Comida",
+      "finca",
+      "En la sala de espera",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["18:00", "Fiesta", "finca", "Última estación", "Baile y trenecito para los niños.", "party"],
+  ],
+  busRoutes: [
+    [
+      "valladolid",
+      "Valladolid → Medina",
+      "Estación Campo Grande, Valladolid",
+      "11:15",
+      ["21:00", "00:30"],
+      40,
+    ],
+    ["tordesillas", "Tordesillas → Medina", "Plaza Mayor, Tordesillas", "11:45", ["00:30"], 25],
+  ],
+  menu: {
+    carne: "Lechazo asado",
+    pescado: "Bacalao con pimientos",
+    vegetariano: "Sopa castellana de verduras",
+    vegano: "Lentejas con verduras",
+  },
+  dressCode: {
+    title: "Primavera castellana",
+    detail: "Azul, rojo y crema. Hay andén y piedra: zapato cómodo.",
+    palette: [
+      { name: "Locomotora", hex: "#1f4a7a" },
+      { name: "Vagón", hex: "#e4572e" },
+      { name: "Maqueta", hex: "#cfe3c4" },
+      { name: "Vía", hex: "#8a6a46" },
+    ],
+    examples: [
+      "Vestido midi y chaqueta.",
+      "Traje con pajarita roja.",
+      "Una gorra de maquinista, si te animas.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Villa de Ferias",
+      "En el centro de Medina",
+      "Habitaciones reservadas hasta el 25 de marzo.",
+    ],
+    ["Hostal de la Estación", "Junto a la finca", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro:
+      "Una feria de maquetas, un circuito a medias y siete años de vías. Esta es la versión corta.",
+    moments: [
+      ["2020", "La feria", "Montábamos el mismo circuito sin saberlo.", "olivos"],
+      ["2022", "La maqueta", "Construimos una maqueta del pueblo en el salón.", "terraza"],
+      ["2026", "La pedida", "El anillo viajaba en el último vagón.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "El tren ya sale. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje en el Transcantábrico", "Un tren de verdad.", "Lo que queráis"],
+    ["Una locomotora de colección", "Para la maqueta.", "150 €"],
+    ["Un juego de vías nuevo", "Para ampliar el circuito.", "80 €"],
+    ["Una noche en un tren hotel", "Para el aniversario.", "200 €"],
+  ],
+  kids: "Habrá monitores, un trenecito de verdad y comida para ellos.",
+  faq: ["¿Se puede subir al tren?", "Sí: el trenecito del jardín da vueltas toda la tarde."],
+  guestbook: [
+    ["Los de la feria", "Aquel circuito acabó en boda."],
+    ["Abuelo Teodoro", "Qué boda tan bonita, y qué tren."],
+    ["Paula y Diego", "Hemos dado diez vueltas en el trenecito."],
+  ],
+  songs: ["Locomotion", "El tren", "Train", "September", "Valerie", "Dancing Queen"],
+});
+
+export const tarro = wedding({
+  id: "evt-demo-elba-felix",
+  first: "Elba",
+  second: "Félix",
+  date: "2027-07-10T21:00:00+02:00",
+  rsvpDeadline: "2027-06-01T23:59:00+02:00",
+  city: "Pedraza",
+  region: "Segovia",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-4.jpg",
+  cardMessage:
+    "Nos conocimos una noche de verano, cazando luciérnagas con un tarro en el mismo prado.",
+  welcomeMessage:
+    "Nos casamos al anochecer, en el pueblo de las velas. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Pedraza y por llenar la noche de luces. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Juan",
+      kind: "Ceremonia",
+      address: "Plaza Mayor, 1",
+      note: "En la plaza Mayor. Hay parking fuera de la muralla.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Prado de las Luciérnagas",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camino del Castillo, km 1",
+      note: "A 5 minutos, un prado bajo el castillo con miles de luces.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [29, 12, 10],
+  program: [
+    [
+      "21:00",
+      "Ceremonia",
+      "iglesia",
+      "San Juan",
+      "Al anochecer, a la luz de las velas.",
+      "ceremony",
+    ],
+    [
+      "22:15",
+      "Aperitivo",
+      "finca",
+      "En el prado",
+      "Con cochinillo en tapa y vino de Rueda.",
+      "cocktail",
+    ],
+    ["23:30", "Cena", "finca", "Bajo las luces", "Con el menú que elijas al confirmar.", "banquet"],
+    ["01:30", "Fiesta", "finca", "Hasta el alba", "Baile entre luciérnagas.", "party"],
+  ],
+  busRoutes: [
+    [
+      "segovia-p",
+      "Segovia → Pedraza",
+      "Estación de autobuses de Segovia",
+      "19:45",
+      ["04:00", "06:30"],
+      40,
+    ],
+    ["madrid-p", "Madrid → Pedraza", "Moncloa, Madrid", "18:45", ["06:30"], 105],
+  ],
+  menu: {
+    carne: "Cochinillo asado",
+    pescado: "Trucha con jamón",
+    vegetariano: "Judiones de la Granja con verduras",
+    vegano: "Crema de calabacín y menta",
+  },
+  dressCode: {
+    title: "Noche de verano",
+    detail: "Colores oscuros con algo que brille. De noche refresca: chaqueta.",
+    palette: [
+      { name: "Noche", hex: "#13212a" },
+      { name: "Luciérnaga", hex: "#f6f08a" },
+      { name: "Prado", hex: "#24402c" },
+      { name: "Cristal", hex: "#cfe0e6" },
+    ],
+    examples: [
+      "Vestido largo oscuro con brillo.",
+      "Traje azul noche.",
+      "Una chaqueta para el prado.",
+    ],
+  },
+  accommodation: [
+    ["Hostería de Pedraza", "En la plaza Mayor", "Habitaciones reservadas hasta el 1 de junio."],
+    ["Casa rural del Castillo", "Junto al prado", "Con desayuno tarde."],
+  ],
+  story: {
+    intro: "Un prado, dos tarros y una noche de luciérnagas. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "El prado",
+        "Cazábamos luciérnagas en el mismo prado. Las soltamos juntos.",
+        "olivos",
+      ],
+      ["2022", "Las noches", "Cada verano volvemos al prado.", "terraza"],
+      ["2026", "La pedida", "Con el anillo dentro de un tarro iluminado.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "El tarro está abierto. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Japón", "Para ver las luciérnagas de Kioto.", "Lo que queráis"],
+    ["Un telescopio", "Para las noches de verano.", "250 €"],
+    ["Una manta de pícnic", "Para el prado.", "60 €"],
+    ["Una noche en el castillo", "Para el aniversario.", "200 €"],
+  ],
+  kids: "Habrá monitores, tarros con luces y cena para ellos.",
+  faq: [
+    "¿Habrá luciérnagas de verdad?",
+    "Si tenemos suerte, sí. Si no, habrá miles de luces en el prado.",
+  ],
+  guestbook: [
+    ["Los del prado", "Aquella noche se encendió algo más."],
+    ["Abuela Asun", "Qué noche más bonita."],
+    ["Irene y Sergio", "Bailamos entre las luces hasta el alba."],
+  ],
+  songs: ["Fireflies", "Luces de verano", "Yellow", "September", "Valerie", "Dancing Queen"],
+});
+
+export const caleidoscopio = wedding({
+  id: "evt-demo-mia-nil",
+  first: "Mía",
+  second: "Nil",
+  date: "2027-08-21T19:00:00+02:00",
+  rsvpDeadline: "2027-07-10T23:59:00+02:00",
+  city: "Puigcerdà",
+  region: "Girona",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-1.jpg",
+  cardMessage:
+    "Nos conocimos en un taller de vidrieras: nos tocó montar el mismo rosetón, cristal a cristal.",
+  welcomeMessage: "Todas las piezas han encajado. Aquí tienes todo lo que necesitas para la boda.",
+  thankYouMessage:
+    "Gracias por venir a la Cerdanya y por llenar la boda de colores. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Campanar de Santa Maria",
+      kind: "Ceremonia",
+      address: "Plaça de Santa Maria, 1",
+      note: "En el centro. Hay parking junto al lago.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Mas dels Vitralls",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camí del Llac, km 2",
+      note: "A 10 minutos, con vidrieras de colores y vistas a los Pirineos.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [25, 11, 25],
+  program: [
+    ["19:00", "Ceremonia", "iglesia", "Santa Maria", "Con luz de vidriera.", "ceremony"],
+    ["20:15", "Aperitivo", "finca", "Junto al lago", "Con embutidos de la Cerdanya.", "cocktail"],
+    [
+      "21:45",
+      "Cena",
+      "finca",
+      "Bajo las vidrieras",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["00:00", "Fiesta", "finca", "Hasta tarde", "Baile y barra libre.", "party"],
+  ],
+  busRoutes: [
+    [
+      "barcelona-p",
+      "Barcelona → Puigcerdà",
+      "Estació del Nord, Barcelona",
+      "15:30",
+      ["02:00", "04:30"],
+      150,
+    ],
+    ["la-seu", "La Seu d'Urgell → Puigcerdà", "Plaça de la Seu", "17:30", ["04:30"], 50],
+  ],
+  menu: {
+    carne: "Trinxat con costilla",
+    pescado: "Trucha del Segre",
+    vegetariano: "Trinxat de col y patata",
+    vegano: "Escudella de verduras",
+  },
+  dressCode: {
+    title: "Verano de colores",
+    detail: "Cualquier color, cuantos más mejor. En la montaña refresca: chaqueta.",
+    palette: [
+      { name: "Rubí", hex: "#e4572e" },
+      { name: "Ámbar", hex: "#ffc93c" },
+      { name: "Turquesa", hex: "#4cc9f0" },
+      { name: "Violeta", hex: "#b388ff" },
+    ],
+    examples: [
+      "Vestido estampado o de color vivo.",
+      "Camisa de color con chaqueta.",
+      "Algo de abrigo para la noche.",
+    ],
+  },
+  accommodation: [
+    ["Hotel del Llac", "Junto al lago", "Habitaciones reservadas hasta el 10 de julio."],
+    ["Hostal de la Cerdanya", "En el centro", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro: "Un rosetón a medias, mil cristales y siete años de colores. Esta es la versión corta.",
+    moments: [
+      ["2020", "El taller", "Montamos el mismo rosetón, cristal a cristal.", "olivos"],
+      ["2022", "La vidriera", "Hicimos una vidriera para nuestra ventana.", "terraza"],
+      [
+        "2026",
+        "La pedida",
+        "Dentro de un caleidoscopio, con el anillo entre los cristales.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "Las piezas han encajado. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Estambul", "Para ver los mosaicos.", "Lo que queráis"],
+    ["Un caleidoscopio antiguo", "Para la estantería.", "70 €"],
+    ["Un curso de vidriera", "Para seguir aprendiendo.", "180 €"],
+    ["Una lámpara de cristales", "Para el salón.", "150 €"],
+  ],
+  kids: "Habrá monitores, caleidoscopios de cartón y cena para ellos.",
+  faq: ["¿Qué hay que llevar?", "Color. Mucho color."],
+  guestbook: [
+    ["Los del taller", "Ese rosetón quedó precioso, y vosotros también."],
+    ["Àvia Núria", "Quina boda més plena de colors."],
+    ["Martina y Oriol", "Hemos girado el caleidoscopio cien veces."],
+  ],
+  songs: ["Colors", "Todos los colores", "Viva la vida", "September", "Valerie", "Dancing Queen"],
+});

@@ -8,7 +8,7 @@ Rama de trabajo: `claude/tender-franklin-isgz7b` (PR #6 contra `main`, sin fusio
 continuación (Telegrama y Postal, ronda 19) está en `claude/exciting-franklin-43k083`, que parte
 de esa rama y la contiene entera.
 
-**Hechas las noventa y cuatro**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
+**Hechas las noventa y siete**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
 las diez de la ronda 20 (Vinilo, Pasaporte, Carta, Mapa, Constelación, Cómic, Cosecha, Tarot,
 Arcade y Semillas) e Instantánea, Abanico, Cerillas, Galleta de la suerte, Casete y Mensaje en una botella (ronda
 38, en `cover/concepts-new.tsx`) y Crucigrama, Billete de tren y Receta de la abuela (ronda 38, en
@@ -35,7 +35,8 @@ en `cover/concepts-new15.tsx`) y Piñata, Lluvia de arroz y Vela (ronda 38, en
 `cover/concepts-new22.tsx`) y Persiana, Reloj de cuco y Pizarra (ronda 38, en
 `cover/concepts-new23.tsx`) y Noria, Sombrero de mago y Postre flambeado (ronda 38, en
 `cover/concepts-new24.tsx`) y Acuario, Huerto y Telefonillo (ronda 38, en
-`cover/concepts-new25.tsx`). Las fichas de abajo se conservan como referencia de lo que se
+`cover/concepts-new25.tsx`) y Trenecito, Tarro de luciérnagas y Caleidoscopio (ronda 38, en
+`cover/concepts-new26.tsx`). Las fichas de abajo se conservan como referencia de lo que se
 construyó; lo que queda es lo de «Pendiente en las que ya existen», que vale para todas.
 
 Dónde está cada cosa ahora: piezas comunes en `cover/concept-kit.tsx`; portadas en
@@ -399,11 +400,11 @@ sellos, Bola de discoteca, Cuaderno de viaje, Piñata, Lluvia de arroz, Vela, Co
 Paraguas, Cascanueces, Hamaca, Cesta de pícnic, Molinillo de viento, Candado del amor, Gramola,
 Huellas en la arena, Nevera, Tetera, Pompas de jabón, Herradura, Grulla de papel, Campanas, Hilo
 rojo, Pajarera, Persiana, Reloj de cuco, Pizarra, Noria, Sombrero de mago, Postre flambeado,
-Acuario, Huerto y Telefonillo. Quedan por probar:
+Acuario, Huerto, Telefonillo, Trenecito, Tarro de luciérnagas y Caleidoscopio. Quedan por probar:
 
-1. **Tren de juguete**: da la vuelta al circuito y el vagón de cola lleva la fecha.
-2. **Luciérnagas en un tarro**: se abre la tapa y escriben la fecha en la noche.
-3. **Mapa de constelaciones de la mano**: descartada (ya hay Constelación); buscar otra de noche.
+1. **Ramo de globos**: se suelta un globo y sube con la fecha atada al cordel.
+2. **Peonza**: se lanza y, al pararse, la cara de arriba lleva la fecha.
+3. **Sobre lacrado con sello de cera que se derrite**: probar con el vídeo del lacre que se estampa.
 
 ## Por dónde empezar
 

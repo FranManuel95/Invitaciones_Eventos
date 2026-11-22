@@ -1591,6 +1591,12 @@ olivo.
   llama al 1.º B, que es el de los novios, y contestan; Valle y Teo, Lleida; su id es `portero`).
   Estilos Pecera, Hortelano y Portal. Ya son 116 plantillas (94 de objetos) y 117 portadas.
 - **Batería E2E completa** con todo hasta Postre flambeado: 681 pruebas bien y 5 omitidas.
+- **Vigesimoséptima tanda**: **Trenecito** (circuito elíptico con la estación en el centro; la
+  locomotora y el vagón llevan los nombres y dan la vuelta entera; Alexia y Iago, Medina del Campo),
+  **Tarro de luciérnagas** (noche de verano; se abre el tarro y las luces se dispersan por la
+  pantalla; Elba y Félix, Pedraza; portada oscura) y **Caleidoscopio** (tres giros reordenan los
+  cristales hasta formar una flor; Mía y Nil, Puigcerdà; portada oscura). Estilos Maqueta, Estival
+  y Prisma. Ya son 119 plantillas (97 de objetos) y 120 portadas.
 
 ## Pendiente para próximas fases
 
