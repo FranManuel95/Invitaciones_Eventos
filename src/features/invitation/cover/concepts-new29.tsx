@@ -83,7 +83,7 @@ function ClotheslineCover({ event, onOpen, reduce }: ConceptProps) {
                     className="flex h-28 w-24 flex-col items-center justify-center rounded-[3px] bg-[#fffaf0] p-2 shadow-[0_6px_12px_-6px_rgb(0_0_0/0.3)] ring-4 ring-white transition-transform duration-500"
                     style={{
                       transform: down
-                        ? `translateY(90px) rotate(${c.rot * 2}deg)`
+                        ? `translateY(56px) rotate(${c.rot * 2}deg)`
                         : `rotate(${c.rot}deg)`,
                       transitionDuration: reduce ? "0ms" : undefined,
                     }}
@@ -286,7 +286,7 @@ function DartboardCover({ event, onOpen, reduce }: ConceptProps) {
             style={{
               transform: hit
                 ? "rotate(-30deg) translate(0, -50%)"
-                : "translate(110px, 170px) rotate(-30deg)",
+                : "translate(96px, 70px) rotate(-30deg)",
               transitionDuration: reduce ? "0ms" : undefined,
             }}
           >

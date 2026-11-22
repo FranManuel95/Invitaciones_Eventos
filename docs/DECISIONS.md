@@ -1616,6 +1616,7 @@ olivo.
   sale la bola del «¡Sí!»; Gloria y Quino, Calatayud) y **Diana** (el dardo vuela y se clava en el
   centro; Paloma y Toni, Antequera; portada oscura; su id es `dardos`). Estilos Colada, Golosina y
   Taberna. Ya son 128 plantillas (106 de objetos) y 129 portadas.
+- **Batería E2E completa** con todo hasta Termómetro del amor: 729 pruebas bien y 5 omitidas.
 
 ## Pendiente para próximas fases
 
