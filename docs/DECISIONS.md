@@ -1577,6 +1577,7 @@ olivo.
   escribe con tiza la fecha, el lugar y «Deberes: venir y bailar»; Victoria y Telmo, Morella;
   portada oscura; su id es `tiza` porque ya hay un estilo `pizarra`). Estilos Alba, Relojero y
   Aula. Ya son 110 plantillas (88 de objetos) y 111 portadas.
+- **Batería E2E completa** con todo hasta Pajarera: 657 pruebas bien y 5 omitidas.
 
 ## Pendiente para próximas fases
 
