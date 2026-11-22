@@ -1590,6 +1590,7 @@ olivo.
   un corazón; Ainara y Mario, Tudela) y **Telefonillo** (panel de latón con los pisos del portal; se
   llama al 1.º B, que es el de los novios, y contestan; Valle y Teo, Lleida; su id es `portero`).
   Estilos Pecera, Hortelano y Portal. Ya son 116 plantillas (94 de objetos) y 117 portadas.
+- **Batería E2E completa** con todo hasta Postre flambeado: 681 pruebas bien y 5 omitidas.
 
 ## Pendiente para próximas fases
 
