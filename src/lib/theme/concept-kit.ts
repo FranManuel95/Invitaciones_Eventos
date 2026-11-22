@@ -609,6 +609,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Otra tacita",
     pass: { kicker: "Invitación al té", people: "Invitados" },
   },
+  pompas: {
+    object: "las pompas",
+    carrier: "Bote de pompas",
+    letterhead: "Dentro de cada pompa",
+    signoff: "¡No las explotes!",
+    pass: { kicker: "Pase al jardín", people: "Invitados" },
+  },
+  herradura: {
+    object: "la herradura",
+    carrier: "Saco de la suerte",
+    letterhead: "Para la buena suerte",
+    signoff: "Que no se escape la suerte",
+    pass: { kicker: "Pase de la cuadra", people: "Jinetes" },
+  },
+  grulla: {
+    object: "la grulla",
+    carrier: "Papel doblado",
+    letterhead: "Pliegue a pliegue",
+    signoff: "Que se cumpla el deseo",
+    pass: { kicker: "Pase del deseo", people: "Invitados" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

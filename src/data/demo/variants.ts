@@ -85,6 +85,9 @@ import {
   huellas,
   nevera,
   tetera,
+  pompas,
+  herradura,
+  grulla,
 } from "./template-weddings";
 import { guestbook, type DemoVariant } from "./wedding-builder";
 
@@ -1116,6 +1119,9 @@ const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   huellas,
   nevera,
   tetera,
+  pompas,
+  herradura,
+  grulla,
 };
 
 /** La boda ficticia propia de una plantilla, si la tiene. */

@@ -1558,6 +1558,12 @@ olivo.
   insuficiente en el botón del Molinillo, corregido.
 - **Batería E2E completa** con todo hasta Gramola (sin la accesibilidad de esas seis): 609 bien.
 - **Batería E2E completa** con todo, hasta Tetera: 633 pruebas bien y 5 omitidas.
+- **Vigesimosegunda tanda**: **Pompas de jabón** (se sopla por el aro y salen tres pompas: la
+  fecha, el lugar y «¡Sí, quiero!»; Abigail y Fausto, Pals), **Herradura** (se cuelga sobre la
+  puerta con las puntas hacia arriba y llueven tréboles; Yolanda y Ángel, Sanlúcar de Barrameda) y
+  **Grulla de papel** (un papel rojo que se dobla en tres pliegues hasta la grulla de los mil
+  deseos; Miren y Rómulo, Aínsa). Estilos Burbujas, Establo y Origami. Ya son 104 plantillas (82 de
+  objetos) y 105 portadas; la venta dice «Ciento cuatro plantillas» y «Ciento cinco portadas».
 
 ## Pendiente para próximas fases
 

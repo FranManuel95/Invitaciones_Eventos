@@ -108,6 +108,9 @@ export const COVER_IDS = [
   "huellas",
   "nevera",
   "tetera",
+  "pompas",
+  "herradura",
+  "grulla",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -544,6 +547,19 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Tetera",
     description: "Una tetera de porcelana que sirve el té: en los posos de la taza se lee la boda.",
   },
+  pompas: {
+    label: "Pompas de jabón",
+    description: "Se sopla por el aro y salen pompas con la fecha, el lugar y el «sí, quiero».",
+  },
+  herradura: {
+    label: "Herradura",
+    description: "Una herradura de la suerte que se cuelga sobre la puerta y hace llover tréboles.",
+  },
+  grulla: {
+    label: "Grulla de papel",
+    description:
+      "Un papel rojo que se dobla en tres pliegues hasta ser una grulla que trae la fecha.",
+  },
 };
 
 /**
@@ -631,6 +647,9 @@ export const CONCEPT_COVERS = {
   huellas: { ink: "#3a2c1c", paper: "#f2e6cc" },
   nevera: { ink: "#1f2e2a", paper: "#e7f1ee" },
   tetera: { ink: "#3a2416", paper: "#fbf1e6" },
+  pompas: { ink: "#263040", paper: "#eef4fa" },
+  herradura: { ink: "#2a2618", paper: "#f3efe2" },
+  grulla: { ink: "#2c2420", paper: "#f7f2ea" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -796,6 +815,9 @@ export const MOTIF_IDS = [
   "huellas",
   "nevera",
   "tetera",
+  "pompas",
+  "herradura",
+  "grulla",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -889,4 +911,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   huellas: { label: "Huellas", kind: "concepto" },
   nevera: { label: "Nevera", kind: "concepto" },
   tetera: { label: "Hora del té", kind: "concepto" },
+  pompas: { label: "Pompas", kind: "concepto" },
+  herradura: { label: "Herradura", kind: "concepto" },
+  grulla: { label: "Origami", kind: "concepto" },
 };

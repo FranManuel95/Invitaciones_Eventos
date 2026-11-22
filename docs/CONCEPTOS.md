@@ -8,7 +8,7 @@ Rama de trabajo: `claude/tender-franklin-isgz7b` (PR #6 contra `main`, sin fusio
 continuación (Telegrama y Postal, ronda 19) está en `claude/exciting-franklin-43k083`, que parte
 de esa rama y la contiene entera.
 
-**Hechas las setenta y nueve**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
+**Hechas las ochenta y dos**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
 las diez de la ronda 20 (Vinilo, Pasaporte, Carta, Mapa, Constelación, Cómic, Cosecha, Tarot,
 Arcade y Semillas) e Instantánea, Abanico, Cerillas, Galleta de la suerte, Casete y Mensaje en una botella (ronda
 38, en `cover/concepts-new.tsx`) y Crucigrama, Billete de tren y Receta de la abuela (ronda 38, en
@@ -30,7 +30,8 @@ en `cover/concepts-new15.tsx`) y Piñata, Lluvia de arroz y Vela (ronda 38, en
 `cover/concepts-new17.tsx`) y Cascanueces, Hamaca y Cesta de pícnic (ronda 38, en
 `cover/concepts-new18.tsx`) y Molinillo de viento, Candado del amor y Gramola (ronda 38, en
 `cover/concepts-new19.tsx`) y Huellas en la arena, Nevera y Tetera (ronda 38, en
-`cover/concepts-new20.tsx`). Las fichas de abajo se conservan como referencia de lo que se
+`cover/concepts-new20.tsx`) y Pompas de jabón, Herradura y Grulla de papel (ronda 38, en
+`cover/concepts-new21.tsx`). Las fichas de abajo se conservan como referencia de lo que se
 construyó; lo que queda es lo de «Pendiente en las que ya existen», que vale para todas.
 
 Dónde está cada cosa ahora: piezas comunes en `cover/concept-kit.tsx`; portadas en
@@ -392,11 +393,12 @@ Cometa, Reloj de arena, Faro, Caja de música, Farolillo de papel, Barco de pape
 Cartas atadas, Ramo de novia, Estuche de anillos, Carné de baile, Cápsula del tiempo, Pliego de
 sellos, Bola de discoteca, Cuaderno de viaje, Piñata, Lluvia de arroz, Vela, Columpio, Semáforo y
 Paraguas, Cascanueces, Hamaca, Cesta de pícnic, Molinillo de viento, Candado del amor, Gramola,
-Huellas en la arena, Nevera y Tetera. Quedan por probar:
+Huellas en la arena, Nevera, Tetera, Pompas de jabón, Herradura y Grulla de papel. Quedan por
+probar:
 
-1. **Tocadiscos de maleta**: se abre la maleta, baja la aguja y gira el single de la boda.
-2. **Pompas de jabón**: se soplan y cada pompa lleva un dato hasta que explota.
-3. **Herradura de la suerte**: se cuelga sobre la puerta y cae una lluvia de tréboles.
+1. **Abanico de naipes**: se despliega la baraja y cada carta es un momento del día.
+2. **Bola de cristal de feria**: se pasan las manos y aparece el futuro (la fecha).
+3. **Campanas de boda**: se tira de la cuerda y repican con los nombres grabados.
 
 ## Por dónde empezar
 

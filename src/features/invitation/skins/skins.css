@@ -4047,6 +4047,141 @@
 [data-motif="tetera"] .motif-closing::before {
   content: "Otra tacita";
 }
+/* Pompas de jabón: cada sección es una pompa. */
+[data-motif="pompas"] {
+  counter-reset: pompa;
+}
+[data-motif="pompas"] .motif-hero {
+  background:
+    radial-gradient(circle, rgb(179 48 106 / 0.08) 0 6px, transparent 7px) 0 0 / 60px 60px,
+    var(--color-paper);
+}
+[data-motif="pompas"] section[id] {
+  counter-increment: pompa;
+}
+[data-motif="pompas"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="pompas"] .motif-sprig::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-gold);
+  background: radial-gradient(circle at 30% 25%, #fff, rgb(200 225 250 / 0.6) 60%);
+}
+[data-motif="pompas"] .motif-sprig::after {
+  content: "Pompa " counter(pompa);
+}
+[data-motif="pompas"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="pompas"] .motif-closing::before {
+  content: "¡No las explotes!";
+}
+/* Herradura: cada sección es un trébol. */
+[data-motif="herradura"] {
+  counter-reset: trebol;
+}
+[data-motif="herradura"] .motif-hero {
+  background: linear-gradient(180deg, #f3efe2, var(--color-paper) 70%);
+}
+[data-motif="herradura"] section[id] {
+  counter-increment: trebol;
+}
+[data-motif="herradura"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="herradura"] .motif-sprig::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  background:
+    radial-gradient(circle at 50% 25%, var(--color-gold) 0 0.22rem, transparent 0.24rem),
+    radial-gradient(circle at 25% 50%, var(--color-gold) 0 0.22rem, transparent 0.24rem),
+    radial-gradient(circle at 75% 50%, var(--color-gold) 0 0.22rem, transparent 0.24rem),
+    radial-gradient(circle at 50% 75%, var(--color-gold) 0 0.22rem, transparent 0.24rem);
+}
+[data-motif="herradura"] .motif-sprig::after {
+  content: "Trébol " counter(trebol);
+}
+[data-motif="herradura"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="herradura"] .motif-closing::before {
+  content: "Que no se escape la suerte";
+}
+/* Grulla de papel: cada sección es un pliegue. */
+[data-motif="grulla"] {
+  counter-reset: doblez;
+}
+[data-motif="grulla"] .motif-hero {
+  background: linear-gradient(180deg, #f7f2ea, var(--color-paper) 70%);
+}
+[data-motif="grulla"] section[id] {
+  counter-increment: doblez;
+}
+[data-motif="grulla"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="grulla"] .motif-sprig::before {
+  content: "";
+  width: 1.3rem;
+  height: 1rem;
+  background: var(--color-gold);
+  clip-path: polygon(0 40%, 38% 50%, 50% 0, 62% 50%, 100% 40%, 58% 62%, 50% 100%, 42% 62%);
+}
+[data-motif="grulla"] .motif-sprig::after {
+  content: "Pliegue " counter(doblez);
+}
+[data-motif="grulla"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="grulla"] .motif-closing::before {
+  content: "Que se cumpla el deseo";
+}
+@keyframes bubble-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -10px;
+  }
+}
 @keyframes musicbox-spin {
   to {
     transform: rotateY(360deg);
@@ -4827,6 +4962,22 @@
 [data-motif="tetera"] .concept-carrier {
   background: var(--color-ivory);
   border: 3px double var(--color-gold);
+}
+
+/* Pompas de jabón: bote de pompas. */
+[data-motif="pompas"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 2px solid var(--color-gold);
+}
+/* Herradura: saco de la suerte. */
+[data-motif="herradura"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 3px double var(--color-gold);
+}
+/* Grulla de papel: papel doblado. */
+[data-motif="grulla"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 2px solid var(--color-gold);
 }
 
 [data-motif-kind="concepto"] .motif-closing > * {

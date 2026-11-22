@@ -106,6 +106,14 @@ const CONCEPTS = [
   { id: "huellas", names: /Ariana y Enzo/, date: "12 de junio de 2027", opening: "concepto" },
   { id: "nevera", names: /Natalia y Lucio/, date: "17 de abril de 2027", opening: "concepto" },
   { id: "tetera", names: /Esther y Pelayo/, date: "30 de octubre de 2027", opening: "concepto" },
+  { id: "pompas", names: /Abigail y Fausto/, date: "22 de mayo de 2027", opening: "concepto" },
+  {
+    id: "herradura",
+    names: /Yolanda y Ángel/,
+    date: "25 de septiembre de 2027",
+    opening: "concepto",
+  },
+  { id: "grulla", names: /Miren y Rómulo/, date: "10 de abril de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -944,6 +952,32 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await stage.getByRole("button", { name: "Servir el té" }).click();
     await expect(stage.locator("[data-tetera]")).toHaveAttribute("data-tetera", "servida");
     await expect(stage.getByText(/Los posos no mienten/)).toBeVisible();
+  });
+
+  test("pompas: salen con los datos de la boda", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=pompas");
+    const stage = cover(page, "pompas");
+    await stage.getByRole("button", { name: "Soplar pompas" }).click();
+    await expect(stage.locator("[data-pompas]")).toHaveAttribute("data-pompas", "en-el-aire");
+    await expect(stage.getByText("¡Sí, quiero!")).toBeVisible();
+  });
+
+  test("herradura: se cuelga sobre la puerta", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=herradura");
+    const stage = cover(page, "herradura");
+    await stage.getByRole("button", { name: "Colgar la herradura" }).click();
+    await expect(stage.locator("[data-herradura]")).toHaveAttribute("data-herradura", "colgada");
+    await expect(stage.getByText(/la suerte no se escapa/)).toBeVisible();
+  });
+
+  test("grulla: tres pliegues y vuela", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=grulla");
+    const stage = cover(page, "grulla");
+    for (const n of [0, 1, 2]) {
+      await stage.getByRole("button", { name: `Doblar (${n}/3)` }).click();
+    }
+    await expect(stage.locator("[data-grulla]")).toHaveAttribute("data-grulla", "doblada");
+    await expect(stage.getByText(/mil grullas cumplen un deseo/)).toBeVisible();
   });
 
   test("faro: se enciende", async ({ page }) => {

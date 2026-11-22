@@ -11606,3 +11606,327 @@ export const tetera = wedding({
   ],
   songs: ["Tea for Two", "Té para tres", "La vie en rose", "September", "Valerie", "Dancing Queen"],
 });
+
+export const pompas = wedding({
+  id: "evt-demo-abigail-fausto",
+  first: "Abigail",
+  second: "Fausto",
+  date: "2027-05-22T18:00:00+02:00",
+  rsvpDeadline: "2027-04-15T23:59:00+02:00",
+  city: "Pals",
+  region: "Girona",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-1.jpg",
+  cardMessage:
+    "Nos conocimos en un festival de pompas gigantes. Una nos envolvió a los dos y explotó con la risa.",
+  welcomeMessage:
+    "Nos casamos entre pompas de jabón y arrozales. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir al Empordà y por las pompas a la salida. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Sant Pere de Pals",
+      kind: "Ceremonia",
+      address: "Carrer del Castell, 3",
+      note: "En lo alto del pueblo medieval. Hay parking a la entrada.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Mas de les Bombolles",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camí dels Arrossars, km 2",
+      note: "A 10 minutos, entre arrozales y con jardín junto a la playa.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [23, 13, 15],
+  program: [
+    ["18:00", "Ceremonia", "iglesia", "Sant Pere", "Y a la salida, pompas de jabón.", "ceremony"],
+    [
+      "19:15",
+      "Aperitivo",
+      "finca",
+      "En el jardín",
+      "Con cava del Empordà y pompas gigantes.",
+      "cocktail",
+    ],
+    [
+      "20:45",
+      "Cena",
+      "finca",
+      "Entre arrozales",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["23:00", "Fiesta", "finca", "Hasta tarde", "Baile y barra libre.", "party"],
+  ],
+  busRoutes: [
+    ["girona", "Girona → Pals", "Estació de Girona", "16:30", ["02:00", "04:30"], 50],
+    ["begur", "Begur → Pals", "Plaça de Begur", "17:15", ["04:30"], 15],
+  ],
+  menu: {
+    carne: "Mar y montaña del Empordà",
+    pescado: "Arroz de Pals con gambas",
+    vegetariano: "Arroz de verduras de la huerta",
+    vegano: "Escalivada con pan de coca",
+  },
+  dressCode: {
+    title: "Primavera irisada",
+    detail: "Colores pastel y algo que brille. Hay jardín: tacón ancho.",
+    palette: [
+      { name: "Cielo", hex: "#e9f4fb" },
+      { name: "Irisado", hex: "#f5c2d8" },
+      { name: "Jabón", hex: "#ffffff" },
+      { name: "Frambuesa", hex: "#b3306a" },
+    ],
+    examples: [
+      "Vestido pastel con vuelo.",
+      "Traje claro con pajarita rosa.",
+      "Manos libres a la salida: habrá pompas.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Mas de Pals", "Junto al pueblo", "Habitaciones reservadas hasta el 15 de abril."],
+    ["Hostal de Begur", "A 5 minutos", "Con desayuno hasta las 12:00."],
+  ],
+  story: {
+    intro:
+      "Una pompa gigante, dos personas dentro y seis primaveras juntos. Esta es la versión corta.",
+    moments: [
+      ["2021", "La pompa", "Una pompa gigante nos envolvió a los dos.", "cala"],
+      ["2023", "La furgoneta", "Un verano de festivales por toda Europa.", "furgoneta"],
+      ["2026", "La pedida", "Dentro de otra pompa gigante, antes de que explotara.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "El aro está listo. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Islandia", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Una máquina de pompas", "Para las fiestas de casa.", "60 €"],
+    ["Un globo aerostático", "Un paseo, claro.", "250 €"],
+    ["Una cena en Begur", "Para el aniversario.", "90 €"],
+  ],
+  kids: "Habrá monitores, pompas gigantes y cena para ellos.",
+  faq: ["¿Se puede llevar arroz?", "Mejor pompas: os daremos un bote a la salida."],
+  guestbook: [
+    ["Los del festival", "Aquella pompa tenía buen ojo."],
+    ["Àvia Rosa", "Quines bombolles més boniques."],
+    ["Laia y Pol", "Hemos hecho la pompa más grande."],
+  ],
+  songs: ["Bubbles", "Burbujas de amor", "Pompas", "September", "Valerie", "Dancing Queen"],
+});
+
+export const herradura = wedding({
+  id: "evt-demo-yolanda-angel",
+  first: "Yolanda",
+  second: "Ángel",
+  date: "2027-09-25T18:30:00+02:00",
+  rsvpDeadline: "2027-08-15T23:59:00+02:00",
+  city: "Sanlúcar de Barrameda",
+  region: "Cádiz",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-4.jpg",
+  cardMessage:
+    "Nos conocimos en las carreras de caballos de la playa. Ella encontró una herradura; él, a ella.",
+  welcomeMessage:
+    "Hemos colgado la herradura sobre la puerta, con las puntas hacia arriba. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Sanlúcar, por la manzanilla y por traernos tanta suerte. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Basílica de la Caridad",
+      kind: "Ceremonia",
+      address: "Plaza de San Roque, 1",
+      note: "En el centro. Hay parking junto a la playa de Bajo de Guía.",
+      photo: "ermitaOlivos",
+    },
+    {
+      id: "finca",
+      name: "Yeguada de la Suerte",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Carretera de Chipiona, km 4",
+      note: "A 10 minutos, entre caballos y con patio de herraduras.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [28, 18, 10],
+  program: [
+    ["18:30", "Ceremonia", "iglesia", "La Caridad", "Con coro rociero.", "ceremony"],
+    ["19:45", "Aperitivo", "finca", "En el patio", "Con manzanilla y langostinos.", "cocktail"],
+    [
+      "21:15",
+      "Cena",
+      "finca",
+      "En la cuadra grande",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["23:30", "Fiesta", "finca", "Hasta tarde", "Sevillanas y baile.", "party"],
+  ],
+  busRoutes: [
+    ["jerez-s", "Jerez → Sanlúcar", "Estación de Jerez", "17:30", ["02:00", "04:30"], 30],
+    ["chipiona", "Chipiona → Sanlúcar", "Plaza de Chipiona", "18:00", ["04:30"], 15],
+  ],
+  menu: {
+    carne: "Carrillada al oloroso",
+    pescado: "Langostinos de Sanlúcar y urta a la roteña",
+    vegetariano: "Tortillitas de verduras",
+    vegano: "Berza de verduras",
+  },
+  dressCode: {
+    title: "Feria de otoño",
+    detail: "Verde, tierra y crema. Hay albero: zapato cómodo.",
+    palette: [
+      { name: "Trébol", hex: "#2f6b3a" },
+      { name: "Hierro", hex: "#9aa0a8" },
+      { name: "Albero", hex: "#d9b26a" },
+      { name: "Cuadra", hex: "#6b4a2a" },
+    ],
+    examples: [
+      "Vestido de flamenca o vestido largo.",
+      "Traje corto o chaqueta de campo.",
+      "Un trébol en el ojal, para la suerte.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Bajo de Guía", "Junto a la playa", "Habitaciones reservadas hasta el 15 de agosto."],
+    ["Hostal Barrio Alto", "En el centro", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro:
+      "Una herradura en la arena, unas carreras de caballos y nueve años de suerte. Esta es la versión corta.",
+    moments: [
+      ["2018", "La herradura", "Ella la encontró en la playa, en las carreras.", "olivos"],
+      ["2021", "La yegua", "Adoptamos una yegua vieja. Se llama Suerte.", "terraza"],
+      [
+        "2026",
+        "La pedida",
+        "Con el anillo colgado de la herradura, sobre la puerta.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "La herradura ya está colgada. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Irlanda", "Para buscar tréboles.", "Lo que queráis"],
+    ["Una silla de montar", "Para Suerte.", "300 €"],
+    ["Clases de doma", "Para los dos.", "150 €"],
+    ["Una caja de manzanilla", "Para el aniversario.", "60 €"],
+  ],
+  kids: "Habrá monitores, paseos en poni y cena para ellos.",
+  faq: ["¿Puedo llevar a mi caballo?", "Mejor no, pero en la yeguada hay de sobra para verlos."],
+  guestbook: [
+    ["Los de las carreras", "Esa herradura ha traído mucha suerte."],
+    ["Abuela Rocío", "Qué boda tan bonita, con tanto caballo."],
+    ["Macarena y Curro", "Os traemos un trébol de cuatro hojas."],
+  ],
+  songs: [
+    "Sevillanas de la suerte",
+    "Lucky",
+    "Caballo viejo",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
+
+export const grulla = wedding({
+  id: "evt-demo-miren-romulo",
+  first: "Miren",
+  second: "Rómulo",
+  date: "2027-04-10T12:30:00+02:00",
+  rsvpDeadline: "2027-03-01T23:59:00+01:00",
+  city: "Aínsa",
+  region: "Huesca",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-2.jpg",
+  cardMessage:
+    "Nos conocimos en un taller de origami: a los dos se nos rompió la grulla en el mismo pliegue.",
+  welcomeMessage:
+    "Llevamos un año doblando mil grullas para este día. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Aínsa y por doblar vuestra grulla. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María de Aínsa",
+      kind: "Ceremonia",
+      address: "Plaza Mayor, 1",
+      note: "En la plaza medieval. Hay parking bajo la muralla.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Casa de las Mil Grullas",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Camino del Cinca, km 3",
+      note: "A 10 minutos, con mil grullas colgadas del techo y vistas al Pirineo.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [17, 4, 35],
+  program: [
+    ["12:30", "Ceremonia", "iglesia", "Santa María", "Con cuarteto de cuerda.", "ceremony"],
+    ["13:45", "Aperitivo", "finca", "Bajo las grullas", "Con vino del Somontano.", "cocktail"],
+    ["15:00", "Comida", "finca", "En el salón", "Con el menú que elijas al confirmar.", "banquet"],
+    ["18:00", "Fiesta", "finca", "Hasta tarde", "Baile y taller de grullas.", "party"],
+  ],
+  busRoutes: [
+    ["barbastro", "Barbastro → Aínsa", "Estación de Barbastro", "11:00", ["21:00", "00:30"], 60],
+    ["boltana", "Boltaña → Aínsa", "Plaza de Boltaña", "11:45", ["00:30"], 15],
+  ],
+  menu: {
+    carne: "Ternasco con patatas a lo pobre",
+    pescado: "Bacalao con borrajas",
+    vegetariano: "Crema de borrajas y setas",
+    vegano: "Guiso de garbanzos y verduras del Pirineo",
+  },
+  dressCode: {
+    title: "Primavera de papel",
+    detail: "Rojo, blanco y tinta. Hay piedra y montaña: zapato cómodo y chaqueta.",
+    palette: [
+      { name: "Grulla", hex: "#d94f4f" },
+      { name: "Washi", hex: "#f9f5ee" },
+      { name: "Tinta", hex: "#241c18" },
+      { name: "Bambú", hex: "#b8a892" },
+    ],
+    examples: [
+      "Vestido midi blanco o rojo.",
+      "Traje oscuro con pañuelo rojo.",
+      "Una chaqueta: en el Pirineo refresca.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Plaza Mayor", "En la plaza de Aínsa", "Habitaciones reservadas hasta el 1 de marzo."],
+    ["Casa rural del Cinca", "Junto a la finca", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro:
+      "Un taller de origami, dos grullas rotas y mil grullas después. Esta es la versión corta.",
+    moments: [
+      ["2019", "El taller", "Se nos rompió la grulla en el mismo pliegue.", "olivos"],
+      ["2022", "Las mil grullas", "Empezamos a doblar una grulla cada día.", "terraza"],
+      ["2026", "La pedida", "La grulla número mil llevaba el anillo.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "Las mil grullas están colgadas. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Kioto", "Para ver los templos.", "Lo que queráis"],
+    ["Papel washi de verdad", "Para las próximas mil.", "50 €"],
+    ["Una lámpara de papel", "Para el salón.", "90 €"],
+    ["Clases de caligrafía", "Para los dos.", "120 €"],
+  ],
+  kids: "Habrá monitores, taller de origami y comida para ellos.",
+  faq: [
+    "¿Qué son las mil grullas?",
+    "Dicen que quien dobla mil grullas ve cumplido un deseo. El nuestro es veros allí.",
+  ],
+  guestbook: [
+    ["Los del taller", "Ese pliegue roto acabó en boda."],
+    ["Yaya Concha", "Qué boda tan bonita, con tanto pájaro de papel."],
+    ["Aitana y Biel", "Hemos doblado la grulla mil uno."],
+  ],
+  songs: ["Paper Planes", "Mil pájaros", "Grullas", "September", "Valerie", "Dancing Queen"],
+});
