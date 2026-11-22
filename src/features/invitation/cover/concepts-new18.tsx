@@ -245,7 +245,11 @@ function PicnicCover({ event, onOpen, reduce }: ConceptProps) {
       {/* El mantel de cuadros sobre la hierba. */}
       <div
         aria-hidden
-        className="absolute inset-0 bg-[repeating-linear-gradient(0deg,rgb(200_50_50/0.18)_0_24px,transparent_24px_48px),repeating-linear-gradient(90deg,rgb(200_50_50/0.18)_0_24px,transparent_24px_48px),#fbf5ea]"
+        className="absolute inset-0"
+        style={{
+          background:
+            "repeating-linear-gradient(0deg, rgb(200 50 50 / 0.16) 0 24px, transparent 24px 48px), repeating-linear-gradient(90deg, rgb(200 50 50 / 0.16) 0 24px, transparent 24px 48px), #fbf5ea",
+        }}
       />
       <div className="relative mx-auto flex h-full w-full max-w-[24rem] flex-col items-center px-6 pt-[max(4.5rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))] text-center text-[#3a2416]">
         <p className="rounded-full bg-[#fbf5ea] px-3 text-[0.75rem] tracking-[0.22em] uppercase">

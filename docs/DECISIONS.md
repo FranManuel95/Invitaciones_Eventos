@@ -1538,6 +1538,7 @@ olivo.
   Ulises, Nerja) y **Cesta de pícnic** (mantel de cuadros; se levanta la tapa de mimbre y dentro
   están los platos del menú de la boda; Mónica y Aitor, Llanes). Estilos Invernal, Palmeral y
   Pradera. Ya son 95 plantillas (73 de objetos) y 96 portadas.
+- **Batería E2E completa** con todo hasta Paraguas: 597 pruebas bien y 5 omitidas.
 
 ## Pendiente para próximas fases
 
