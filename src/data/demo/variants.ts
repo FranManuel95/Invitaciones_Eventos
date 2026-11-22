@@ -61,6 +61,9 @@ import {
   musica,
   farolillo,
   barco,
+  prensado,
+  cartas,
+  ramo,
 } from "./template-weddings";
 import { guestbook, type DemoVariant } from "./wedding-builder";
 
@@ -1068,6 +1071,9 @@ const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   musica,
   farolillo,
   barco,
+  prensado,
+  cartas,
+  ramo,
 };
 
 /** La boda ficticia propia de una plantilla, si la tiene. */

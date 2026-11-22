@@ -72,6 +72,9 @@ const CONCEPTS = [
   { id: "musica", names: /Celia y Bosco/, date: "24 de abril de 2027", opening: "concepto" },
   { id: "farolillo", names: /Lorena y Iñaki/, date: "17 de julio de 2027", opening: "concepto" },
   { id: "barco", names: /Maite y Fermín/, date: "25 de septiembre de 2027", opening: "concepto" },
+  { id: "prensado", names: /Noelia y Arturo/, date: "23 de octubre de 2027", opening: "concepto" },
+  { id: "cartas", names: /Ruth y Gabriel/, date: "15 de mayo de 2027", opening: "concepto" },
+  { id: "ramo", names: /Patricia y Simón/, date: "26 de junio de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -704,6 +707,32 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
       timeout: 8000,
     });
     await expect(stage.getByText(/Ha llegado a Combarro/)).toBeVisible();
+  });
+
+  test("rama prensada: al pasar la tapa se lee la etiqueta", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=prensado");
+    const stage = cover(page, "prensado");
+    await stage.getByRole("button", { name: "Pasar la tapa" }).click();
+    await expect(stage.locator("[data-prensado]")).toHaveAttribute("data-prensado", "abierto");
+    await expect(stage.getByText("Baena")).toBeVisible();
+  });
+
+  test("cartas: al tirar del lazo se abren en abanico", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=cartas");
+    const stage = cover(page, "cartas");
+    await stage.getByRole("button", { name: "Tirar del lazo" }).click();
+    await expect(stage.locator("[data-cartas]")).toHaveAttribute("data-cartas", "sueltas");
+    await expect(stage.getByText(/A las 18:00, en Catedral de Sigüenza/)).toBeVisible();
+  });
+
+  test("ramo: se lanza y lo coges", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=ramo");
+    const stage = cover(page, "ramo");
+    await stage.getByRole("button", { name: "Lanzar el ramo" }).click();
+    await expect(stage.locator("[data-ramo]")).toHaveAttribute("data-ramo", "cogido", {
+      timeout: 8000,
+    });
+    await expect(stage.getByText(/Lo has cogido/)).toBeVisible();
   });
 
   test("faro: se enciende", async ({ page }) => {

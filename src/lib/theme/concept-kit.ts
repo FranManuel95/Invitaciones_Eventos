@@ -437,6 +437,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Rumbo a la boda",
     pass: { kicker: "Pase de embarque", people: "Grumetes", table: "Tu mesa en el muelle" },
   },
+  prensado: {
+    object: "el herbario",
+    carrier: "Pliego del herbario",
+    letterhead: "Recogido y prensado",
+    signoff: "Guardado para siempre",
+    pass: { kicker: "Ficha de recolección", people: "Invitados" },
+  },
+  cartas: {
+    object: "el fajo de cartas",
+    carrier: "Correo de amor",
+    letterhead: "Querida familia, queridos amigos",
+    signoff: "Con todo nuestro cariño",
+    pass: { kicker: "Carta de invitación", people: "Destinatarios" },
+  },
+  ramo: {
+    object: "el ramo",
+    carrier: "Envuelto con cinta",
+    letterhead: "Antes de lanzar el ramo",
+    signoff: "¡Que lo coja alguien!",
+    pass: { kicker: "Pase al baile", people: "Invitados" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

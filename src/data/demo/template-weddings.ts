@@ -8731,3 +8731,364 @@ export const barco = wedding({
   ],
   songs: ["Sailing", "Mar adentro", "Mediterráneo", "September", "Valerie", "Dancing Queen"],
 });
+
+export const prensado = wedding({
+  id: "evt-demo-noelia-arturo",
+  first: "Noelia",
+  second: "Arturo",
+  date: "2027-10-23T12:30:00+02:00",
+  rsvpDeadline: "2027-09-15T23:59:00+02:00",
+  city: "Baena",
+  region: "Córdoba",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-3.jpg",
+  cardMessage:
+    "Nos conocimos en una recogida de aceituna. Ella guardó una rama en un libro; él, el número de ella.",
+  welcomeMessage:
+    "Nos casamos en plena cosecha, entre olivos centenarios. Aquí tienes todo lo que necesitas para acompañarnos.",
+  thankYouMessage:
+    "Gracias por venir al olivar, por probar el aceite nuevo y por bailar hasta tarde. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María la Mayor",
+      kind: "Ceremonia",
+      address: "Calle Santa María, 3",
+      note: "En lo alto del pueblo. Hay parking en el paseo.",
+      photo: "ermitaOlivos",
+    },
+    {
+      id: "finca",
+      name: "Cortijo del Herbario",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Carretera de Zuheros, km 6",
+      note: "A 10 minutos, con almazara antigua y patio entre olivos.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [21, 9, 20],
+  program: [
+    ["12:30", "Ceremonia", "iglesia", "Santa María la Mayor", "Con coro rociero.", "ceremony"],
+    [
+      "14:00",
+      "Aperitivo",
+      "finca",
+      "En el patio",
+      "Cata de aceite nuevo y vino de Montilla.",
+      "cocktail",
+    ],
+    [
+      "15:30",
+      "Comida",
+      "finca",
+      "En la almazara",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["18:30", "Fiesta", "finca", "Entre olivos", "Baile, barra libre y recena.", "party"],
+  ],
+  busRoutes: [
+    [
+      "cordoba",
+      "Córdoba → Baena",
+      "Paseo de la Victoria, Córdoba",
+      "11:15",
+      ["21:00", "00:30"],
+      60,
+    ],
+    ["lucena", "Lucena → Baena", "Plaza Nueva, Lucena", "11:45", ["00:30"], 35],
+  ],
+  menu: {
+    carne: "Rabo de toro",
+    pescado: "Bacalao con aceite de oliva virgen",
+    vegetariano: "Salmorejo y berenjenas con miel",
+    vegano: "Remojón de naranja y aceituna",
+  },
+  dressCode: {
+    title: "Otoño en el olivar",
+    detail: "Verde oliva, tierra y crema. Hay tierra y césped: mejor tacón ancho.",
+    palette: [
+      { name: "Oliva", hex: "#4f6145" },
+      { name: "Aceituna", hex: "#3c3550" },
+      { name: "Pliego", hex: "#fbf8ef" },
+      { name: "Sepia", hex: "#6b5a3c" },
+    ],
+    examples: [
+      "Vestido midi en verde o tierra.",
+      "Traje de lino o lana fría.",
+      "Una chaqueta para la tarde.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Casa Grande",
+      "En el centro de Baena",
+      "Habitaciones reservadas hasta el 15 de septiembre.",
+    ],
+    ["Casa rural Los Olivos", "Junto a la finca", "Con desayuno de aceite y pan."],
+  ],
+  story: {
+    intro:
+      "Una rama de olivo guardada en un libro y ocho cosechas juntos. Esta es la versión corta.",
+    moments: [
+      ["2019", "La recogida", "Una mañana de aceituna, con las manos negras de vareo.", "olivos"],
+      ["2022", "El cuaderno", "Empezamos un herbario con cada sitio al que viajábamos.", "terraza"],
+      ["2026", "La pedida", "Con el anillo prensado entre dos hojas del cuaderno.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "La rama sigue en el libro. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Creta", "Para ver olivos milenarios.", "Lo que queráis"],
+    ["Un olivo para el jardín", "Que crezca con nosotros.", "120 €"],
+    ["Una prensa de flores", "Para seguir llenando el herbario.", "60 €"],
+    ["Una cata de aceites", "Para aprender de lo nuestro.", "90 €"],
+  ],
+  kids: "Habrá monitores, un taller de herbario y comida para ellos.",
+  faq: ["¿Habrá aceite para llevar?", "Sí: una botella de aceite nuevo para cada familia."],
+  guestbook: [
+    ["Los de la recogida", "Quién os iba a decir que esa rama acabaría en boda."],
+    ["Abuelo Rafael", "El mejor aceite y la mejor boda del pueblo."],
+    ["Pilar y Andrés", "Nos pedimos una rama para nuestro herbario."],
+  ],
+  songs: ["Olivo", "La bien pagá", "Corazón contento", "September", "Valerie", "Dancing Queen"],
+});
+
+export const cartas = wedding({
+  id: "evt-demo-ruth-gabriel",
+  first: "Ruth",
+  second: "Gabriel",
+  date: "2027-05-15T18:00:00+02:00",
+  rsvpDeadline: "2027-04-01T23:59:00+02:00",
+  city: "Sigüenza",
+  region: "Guadalajara",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/pareja.jpg",
+  cardMessage:
+    "Durante un año nos escribimos cartas sin conocernos. La primera vez que nos vimos ya sabíamos todo.",
+  welcomeMessage:
+    "Esta es nuestra última carta antes de la boda. Aquí tienes todo lo que necesitas para venir.",
+  thankYouMessage:
+    "Gracias por venir a Sigüenza y por escribirnos en el libro de firmas. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Catedral de Sigüenza",
+      kind: "Ceremonia",
+      address: "Plaza Mayor, s/n",
+      note: "En el centro. Hay parking en la Alameda.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Casona del Escribano",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Travesaña Alta, 14",
+      note: "A 5 minutos andando, con jardín y salón de piedra.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [20, 7, 30],
+  program: [
+    ["18:00", "Ceremonia", "iglesia", "La catedral", "Con órgano y lectura de cartas.", "ceremony"],
+    [
+      "19:30",
+      "Aperitivo",
+      "finca",
+      "En el jardín",
+      "Con buzón para cartas a los novios.",
+      "cocktail",
+    ],
+    [
+      "21:00",
+      "Cena",
+      "finca",
+      "En el salón de piedra",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["23:30", "Fiesta", "finca", "Hasta el último sello", "Baile y barra libre.", "party"],
+  ],
+  busRoutes: [
+    ["madrid", "Madrid → Sigüenza", "Avenida de América, Madrid", "16:00", ["01:30", "04:00"], 105],
+    ["guadalajara", "Guadalajara → Sigüenza", "Estación de Guadalajara", "16:45", ["04:00"], 60],
+  ],
+  menu: {
+    carne: "Cabrito asado",
+    pescado: "Trucha escabechada",
+    vegetariano: "Migas de pastor con huevo",
+    vegano: "Pisto manchego",
+  },
+  dressCode: {
+    title: "Tarde de primavera",
+    detail: "Papel, sepia y burdeos. Hay calles empedradas: tacón ancho.",
+    palette: [
+      { name: "Papel", hex: "#faf5ec" },
+      { name: "Sepia", hex: "#6b5a3c" },
+      { name: "Lacre", hex: "#7a1f2a" },
+      { name: "Tinta", hex: "#2e2116" },
+    ],
+    examples: [
+      "Vestido de flores pequeñas.",
+      "Traje con chaleco.",
+      "Una chaqueta: en Sigüenza refresca al caer la tarde.",
+    ],
+  },
+  accommodation: [
+    ["Parador de Sigüenza", "En el castillo", "Habitaciones reservadas hasta el 1 de abril."],
+    ["Hostal de la Alameda", "A 5 minutos andando", "Con desayuno tarde para el domingo."],
+  ],
+  story: {
+    intro:
+      "Ciento doce cartas, un año sin vernos y una estación de tren. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "La primera carta",
+        "Un intercambio de cartas entre desconocidos. Nos tocó juntos.",
+        "olivos",
+      ],
+      [
+        "2020",
+        "La estación",
+        "Nos vimos por primera vez en el andén. Ya lo sabíamos todo.",
+        "terraza",
+      ],
+      ["2026", "La pedida", "En la carta número ciento doce.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "Esta es la última carta. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Edimburgo", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Una pluma estilográfica", "Para las cartas que quedan.", "120 €"],
+    ["Un escritorio antiguo", "Para escribirlas.", "300 €"],
+    ["Papel de carta y sellos", "Para un año entero.", "50 €"],
+  ],
+  kids: "Habrá monitores, un taller de cartas y cena para ellos.",
+  faq: [
+    "¿Qué es el buzón?",
+    "Escribidnos una carta en el aperitivo: la abriremos en nuestro primer aniversario.",
+  ],
+  guestbook: [
+    ["Los del intercambio", "Sabíamos que esas cartas acabarían así."],
+    ["Tía Consuelo", "Qué bonito leer vuestras cartas en la ceremonia."],
+    ["Bea y Óliver", "Os escribimos la carta más larga del buzón."],
+  ],
+  songs: [
+    "Please Mr. Postman",
+    "Te escribo desde el tren",
+    "Cartas amarillas",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
+
+export const ramo = wedding({
+  id: "evt-demo-patricia-simon",
+  first: "Patricia",
+  second: "Simón",
+  date: "2027-06-26T19:30:00+02:00",
+  rsvpDeadline: "2027-05-15T23:59:00+02:00",
+  city: "Sóller",
+  region: "Mallorca",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/portada.jpg",
+  cardMessage:
+    "Ella cogió el ramo en la boda de su prima. Él estaba justo detrás, intentando esquivarlo.",
+  welcomeMessage:
+    "Esta vez el ramo es nuestro, y ya sabemos a quién se lo vamos a lanzar. Aquí tienes todo para venir.",
+  thankYouMessage:
+    "Gracias por venir a Sóller, por los naranjos y por pelearos por el ramo. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Sant Bartomeu",
+      kind: "Ceremonia",
+      address: "Plaça de la Constitució, 1",
+      note: "En la plaza. Hay parking junto a la estación del tren.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Finca dels Tarongers",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camí de Sa Figuera, 5",
+      note: "A 10 minutos, entre naranjos y con vistas al valle.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [28, 18, 5],
+  program: [
+    ["19:30", "Ceremonia", "iglesia", "Sant Bartomeu", "Con cuarteto de cuerda.", "ceremony"],
+    ["20:45", "Aperitivo", "finca", "Entre naranjos", "Con zumo de Sóller y cava.", "cocktail"],
+    ["22:00", "Cena", "finca", "En la terraza", "Con el menú que elijas al confirmar.", "banquet"],
+    ["00:00", "Fiesta", "finca", "Lanzamiento del ramo", "Y baile hasta que amanezca.", "party"],
+  ],
+  busRoutes: [
+    ["palma", "Palma → Sóller", "Plaça d'Espanya, Palma", "18:30", ["02:30", "05:00"], 35],
+    [
+      "port",
+      "Port de Sóller → Sóller",
+      "Parada del tranvía, Port de Sóller",
+      "19:00",
+      ["05:00"],
+      10,
+    ],
+  ],
+  menu: {
+    carne: "Cordero mallorquín",
+    pescado: "Gallo de San Pedro con sobrasada",
+    vegetariano: "Tumbet",
+    vegano: "Coca de trampó",
+  },
+  dressCode: {
+    title: "Verano entre naranjos",
+    detail: "Blanco roto, rosa y verde. Hay césped: sandalias planas mejor.",
+    palette: [
+      { name: "Azahar", hex: "#fffaf7" },
+      { name: "Peonía", hex: "#e8a7b3" },
+      { name: "Tallo", hex: "#a9c09a" },
+      { name: "Frambuesa", hex: "#9c3a4c" },
+    ],
+    examples: [
+      "Vestido largo y fluido.",
+      "Traje de lino claro.",
+      "Manos libres a medianoche: se lanza el ramo.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Ses Tarongers",
+      "En el centro de Sóller",
+      "Habitaciones reservadas hasta el 15 de mayo.",
+    ],
+    ["Hostal del Port", "En el Port de Sóller", "Con el tranvía a la puerta."],
+  ],
+  story: {
+    intro:
+      "Un ramo cogido al vuelo, un esquive fallido y seis años juntos. Esta es la versión corta.",
+    moments: [
+      ["2021", "El ramo", "Ella lo cogió; él se lo llevó en la cara.", "cala"],
+      ["2023", "La casa", "Un piso con naranjo en el patio.", "furgoneta"],
+      ["2026", "La pedida", "Con el anillo atado al ramo de aquella boda, seco.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "El ramo ya está listo. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Japón", "Para ver los cerezos.", "Lo que queráis"],
+    ["Un naranjo para el patio", "El segundo.", "90 €"],
+    ["Clases de cerámica", "Para hacer nuestros jarrones.", "150 €"],
+    ["Un ramo cada aniversario", "Durante cinco años.", "200 €"],
+  ],
+  kids: "Habrá monitores, una búsqueda de flores y cena para ellos.",
+  faq: [
+    "¿Quién puede coger el ramo?",
+    "Cualquiera que se atreva. Hay ramo de repuesto, por si acaso.",
+  ],
+  guestbook: [
+    ["La prima del ramo", "De nada, de verdad."],
+    ["Padrina Aina", "Quina boda més bonica."],
+    ["Rocío y Dani", "Esta vez nos ponemos delante."],
+  ],
+  songs: ["Flowers", "Bailando", "La flor de la canela", "September", "Valerie", "Dancing Queen"],
+});

@@ -1494,6 +1494,15 @@ olivo.
   sin salto) y algo aclarado para que los nombres se lean. Con ella, la plantilla **Seda** (de papel,
   no de objeto): estilo Lino, sobre burdeos en vídeo y lacre burdeos. Los textos de la venta pasan
   a «Setenta y siete plantillas» y «Setenta y ocho portadas».
+- **Decimocuarta tanda**: **Rama prensada** (cuaderno de herbario de tela verde; al pasar la tapa,
+  la segunda acuarela de olivo de Higgsfield, la última sin usar, con su etiqueta de especie, fecha y
+  lugar; Noelia y Arturo, Baena; se llama así porque ya existía la portada Herbario), **Cartas
+  atadas** (un fajo con cinta burdeos; al tirar del lazo, las tres cartas caen escalonadas: la
+  fecha, la hora y el lugar de la ceremonia, y «¿Vienes?»; Ruth y Gabriel, Sigüenza) y **Ramo de
+  novia** (se lanza, da una vuelta en el aire y cae en tus manos; Patricia y Simón, Sóller; lleva
+  el corazón rosa). Estilos Herbolario, Correspondencia y Azahar. Ya son 80 plantillas (22 de papel
+  y acuarela, 58 de objetos) y 81 portadas; la venta dice «Ochenta plantillas» y «Ochenta y una
+  portadas».
 
 ## Pendiente para próximas fases
 

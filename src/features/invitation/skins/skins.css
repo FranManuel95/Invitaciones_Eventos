@@ -2915,6 +2915,141 @@
   content: "Rumbo a la boda";
 }
 
+/* Rama prensada: cada sección es un pliego del herbario. */
+[data-motif="prensado"] {
+  counter-reset: pliego;
+}
+[data-motif="prensado"] .motif-hero {
+  background:
+    radial-gradient(circle, rgb(79 97 69 / 0.1) 0 1px, transparent 1.5px) 0 0 / 10px 10px,
+    var(--color-paper);
+}
+[data-motif="prensado"] section[id] {
+  counter-increment: pliego;
+}
+[data-motif="prensado"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="prensado"] .motif-sprig::before {
+  content: "";
+  width: 1.4rem;
+  height: 1.4rem;
+  background: url("/acuarelas/olivo-herbario.webp") center / contain no-repeat;
+}
+[data-motif="prensado"] .motif-sprig::after {
+  content: "Pliego " counter(pliego);
+}
+[data-motif="prensado"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="prensado"] .motif-closing::before {
+  content: "Guardado para siempre";
+}
+
+/* Cartas atadas: cada sección es una carta. */
+[data-motif="cartas"] {
+  counter-reset: carta;
+}
+[data-motif="cartas"] .motif-hero {
+  background:
+    repeating-linear-gradient(180deg, transparent 0 27px, rgb(122 31 42 / 0.08) 27px 28px),
+    var(--color-paper);
+}
+[data-motif="cartas"] section[id] {
+  counter-increment: carta;
+}
+[data-motif="cartas"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="cartas"] .motif-sprig::before {
+  content: "";
+  width: 1.3rem;
+  height: 0.9rem;
+  border: 1.5px solid var(--color-ink);
+  background:
+    linear-gradient(35deg, transparent 47%, var(--color-ink) 48% 52%, transparent 53%) 0 0 / 50%
+      100% no-repeat,
+    linear-gradient(-35deg, transparent 47%, var(--color-ink) 48% 52%, transparent 53%) 100% 0 / 50%
+      100% no-repeat;
+}
+[data-motif="cartas"] .motif-sprig::after {
+  content: "Carta " counter(carta);
+}
+[data-motif="cartas"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="cartas"] .motif-closing::before {
+  content: "Con todo nuestro cariño";
+}
+
+/* Ramo de novia: cada sección es una flor del ramo. */
+[data-motif="ramo"] {
+  counter-reset: flor;
+}
+[data-motif="ramo"] .motif-hero {
+  background: radial-gradient(circle at 50% 0, #fbe9e4, var(--color-paper) 70%);
+}
+[data-motif="ramo"] section[id] {
+  counter-increment: flor;
+}
+[data-motif="ramo"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="ramo"] .motif-sprig::before {
+  content: "";
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 50%, var(--color-gold) 0 22%, transparent 24%),
+    radial-gradient(circle at 50% 18%, #f0bcc6 0 26%, transparent 28%),
+    radial-gradient(circle at 18% 60%, #f0bcc6 0 26%, transparent 28%),
+    radial-gradient(circle at 82% 60%, #f0bcc6 0 26%, transparent 28%),
+    radial-gradient(circle at 50% 84%, #f0bcc6 0 26%, transparent 28%);
+}
+[data-motif="ramo"] .motif-sprig::after {
+  content: "Flor " counter(flor);
+}
+[data-motif="ramo"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="ramo"] .motif-closing::before {
+  content: "¡Que lo coja alguien!";
+}
+
 @keyframes musicbox-spin {
   to {
     transform: rotateY(360deg);
@@ -3567,6 +3702,22 @@
 [data-motif="barco"] .concept-carrier {
   background: var(--color-ivory);
   border: 2px solid var(--color-ink);
+}
+
+/* Rama prensada: pliego de herbario. */
+[data-motif="prensado"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 2px solid #6b5a3c;
+}
+/* Cartas atadas: sobre de correo. */
+[data-motif="cartas"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 2px dashed var(--color-gold);
+}
+/* Ramo de novia: papel de floristería. */
+[data-motif="ramo"] .concept-carrier {
+  background: var(--color-cream);
+  border: 2px solid var(--color-gold);
 }
 
 [data-motif-kind="concepto"] .motif-closing > * {

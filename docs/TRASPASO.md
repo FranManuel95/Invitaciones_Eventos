@@ -19,16 +19,17 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
      Brújula, Lacre (vídeo), Póker, Calendario de puertas, Horóscopo, Plano de metro, Etiqueta de
      equipaje, Tarjeta de fidelidad, Diploma, Sobre de cromos, Caja de bombones, Teléfono de
      disco, Radio antigua, Máquina de escribir, Puzle, Tarta nupcial, Entrada de cine, Globo
-     aerostático, Bola de nieve, Brindis, Cometa, Reloj de arena, Faro, Caja de música, Farolillo de papel y Barco de
-     papel. Y la portada en movimiento Tarjeta a la luz con la
-     plantilla Luz de tarde. Ya son **77 plantillas y 78 portadas** (con Seda y Cinta de seda). Componentes en
+     aerostático, Bola de nieve, Brindis, Cometa, Reloj de arena, Faro, Caja de música, Farolillo de papel, Barco de
+     papel, Rama prensada, Cartas atadas y Ramo de novia. Y la portada en movimiento Tarjeta a la luz con la
+     plantilla Luz de tarde. Ya son **80 plantillas y 81 portadas** (con Seda y Cinta de seda). Componentes en
      `src/features/invitation/cover/concepts-new*.tsx`; cada una con estilo, piel, kit, boda de
      ejemplo y pruebas en `tests/e2e/conceptos.spec.ts`.
      Antes de llevarlo a producción: `npm run check` y la batería E2E completa, PR a `main`.
 - **Red del entorno**: esta sesión usa el entorno «invitaciones-eventos», que permite la CDN de
   Higgsfield (`d8j0ntlcm91z4.cloudfront.net`, `d2ol7oe51mr4n9.cloudfront.net`) y `api.open-meteo.com`.
   Los recursos se bajan con `curl` desde `show_generations` → `rawUrl`.
-- **Sin usar de Higgsfield**: la segunda acuarela de olivo (casi igual a la primera). Los lacres de
+- **Sin usar de Higgsfield**: nada de lo generado. La segunda acuarela de olivo es la rama de la
+  portada Rama prensada (`public/acuarelas/olivo-herbario.webp`). Los lacres de
   concha, sol, estrella y corazón ya son «lacres de verdad» en el editor y la cinta burdeos es la
   portada en movimiento «Cinta de seda» (plantilla Seda).
 - **Ideas de conceptos pendientes**: ver «Ideas para la siguiente tanda» en `docs/CONCEPTOS.md`.

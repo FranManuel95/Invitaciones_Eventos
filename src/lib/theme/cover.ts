@@ -84,6 +84,9 @@ export const COVER_IDS = [
   "musica",
   "farolillo",
   "barco",
+  "prensado",
+  "cartas",
+  "ramo",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -415,6 +418,18 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Barco de papel",
     description: "Se suelta en el agua y navega hasta el muelle del lugar de la boda.",
   },
+  prensado: {
+    label: "Rama prensada",
+    description: "Un cuaderno de herbario: al pasar la tapa, una rama de olivo con su etiqueta.",
+  },
+  cartas: {
+    label: "Cartas atadas",
+    description: "Un fajo de cartas con cinta burdeos: se tira del lazo y se abren en abanico.",
+  },
+  ramo: {
+    label: "Ramo de novia",
+    description: "El ramo se lanza, vuela por la pantalla y cae en tus manos.",
+  },
 };
 
 /**
@@ -478,6 +493,9 @@ export const CONCEPT_COVERS = {
   musica: { ink: "#4a1f2a", paper: "#f3dde2" },
   farolillo: { ink: "#f6ead8", paper: "#1c1436", tone: "oscuro" },
   barco: { ink: "#1f3b44", paper: "#eee7d8" },
+  prensado: { ink: "#2f3a28", paper: "#f1ecdc" },
+  cartas: { ink: "#3a2a1c", paper: "#ebe0cc" },
+  ramo: { ink: "#4a2230", paper: "#f8ece6" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -619,6 +637,9 @@ export const MOTIF_IDS = [
   "musica",
   "farolillo",
   "barco",
+  "prensado",
+  "cartas",
+  "ramo",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -688,4 +709,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   musica: { label: "Caja de música", kind: "concepto" },
   farolillo: { label: "Farolillos", kind: "concepto" },
   barco: { label: "Barco de papel", kind: "concepto" },
+  prensado: { label: "Herbario de campo", kind: "concepto" },
+  cartas: { label: "Cartas de amor", kind: "concepto" },
+  ramo: { label: "Ramo de novia", kind: "concepto" },
 };
