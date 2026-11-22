@@ -1557,6 +1557,7 @@ olivo.
   encontró la línea, que Prettier había partido). Ya están, y la prueba destapó un contraste
   insuficiente en el botón del Molinillo, corregido.
 - **Batería E2E completa** con todo hasta Gramola (sin la accesibilidad de esas seis): 609 bien.
+- **Batería E2E completa** con todo, hasta Tetera: 633 pruebas bien y 5 omitidas.
 
 ## Pendiente para próximas fases
 
