@@ -12655,3 +12655,354 @@ export const tiza = wedding({
     "Dancing Queen",
   ],
 });
+
+export const noria = wedding({
+  id: "evt-demo-selene-bernardo",
+  first: "Selene",
+  second: "Bernardo",
+  date: "2027-08-14T20:00:00+02:00",
+  rsvpDeadline: "2027-07-01T23:59:00+02:00",
+  city: "Cambrils",
+  region: "Tarragona",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-2.jpg",
+  cardMessage:
+    "Nos tocó la misma cabina de la noria en las fiestas del pueblo. Se paró arriba diez minutos.",
+  welcomeMessage:
+    "Nos casamos en plenas fiestas, con noria y verbena. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Cambrils y por subir a la noria con nosotros. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María de Cambrils",
+      kind: "Ceremonia",
+      address: "Plaça de l'Església, 1",
+      note: "En el centro. Hay parking junto al puerto.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Mas de la Fira",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camí del Mar, km 2",
+      note: "A 10 minutos, con una noria pequeña en el jardín y vistas al mar.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [30, 22, 5],
+  program: [
+    ["20:00", "Ceremonia", "iglesia", "Santa María", "Al atardecer, con el mar cerca.", "ceremony"],
+    [
+      "21:15",
+      "Aperitivo",
+      "finca",
+      "En el jardín",
+      "Con vermut, algodón de azúcar y noria.",
+      "cocktail",
+    ],
+    [
+      "22:30",
+      "Cena",
+      "finca",
+      "Bajo las luces de feria",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["00:30", "Fiesta", "finca", "Verbena", "Orquesta y baile hasta el amanecer.", "party"],
+  ],
+  busRoutes: [
+    ["tarragona", "Tarragona → Cambrils", "Estació de Tarragona", "18:45", ["03:00", "05:30"], 25],
+    ["reus", "Reus → Cambrils", "Plaça del Mercadal, Reus", "19:00", ["05:30"], 20],
+  ],
+  menu: {
+    carne: "Fideuá de costilla",
+    pescado: "Suquet de rape",
+    vegetariano: "Arroz de verduras del Camp",
+    vegano: "Calçots y escalivada con romesco",
+  },
+  dressCode: {
+    title: "Noche de feria",
+    detail: "Colores de verbena y algo que brille. Habrá baile: zapato cómodo.",
+    palette: [
+      { name: "Cabina", hex: "#ff5d8f" },
+      { name: "Atardecer", hex: "#f29e7a" },
+      { name: "Noche", hex: "#2a1e4a" },
+      { name: "Bombilla", hex: "#ffc93c" },
+    ],
+    examples: [
+      "Vestido de color con vuelo.",
+      "Camisa estampada y pantalón claro.",
+      "Zapatillas para la verbena.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel del Port",
+      "Junto al puerto de Cambrils",
+      "Habitaciones reservadas hasta el 1 de julio.",
+    ],
+    ["Hostal de la Fira", "En el centro", "Con desayuno hasta las 13:00."],
+  ],
+  story: {
+    intro:
+      "Una cabina compartida, diez minutos arriba y ocho veranos de fiestas. Esta es la versión corta.",
+    moments: [
+      ["2019", "La noria", "Nos tocó la misma cabina. Se paró arriba.", "cala"],
+      ["2022", "Las fiestas", "Recorrimos todas las fiestas de la costa.", "furgoneta"],
+      ["2026", "La pedida", "En lo alto de la noria, otra vez parada.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "La cabina rosa está arriba. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Viena", "Para subir a la noria del Prater.", "Lo que queráis"],
+    ["Una máquina de algodón de azúcar", "Para las fiestas de casa.", "60 €"],
+    ["Una guirnalda de bombillas", "Para la terraza.", "40 €"],
+    ["Una cena frente al mar", "Para el aniversario.", "90 €"],
+  ],
+  kids: "Habrá monitores, tómbola y cena para ellos.",
+  faq: ["¿La noria es de verdad?", "Pequeña, pero sí. Sube de dos en dos."],
+  guestbook: [
+    ["Los de las fiestas", "Esa noria tenía buen ojo."],
+    ["Iaia Montse", "Quina festa més bonica."],
+    ["Anna y Jordi", "Hemos subido a la noria cinco veces."],
+  ],
+  songs: ["Feria", "La noria", "Waterloo", "September", "Valerie", "Dancing Queen"],
+});
+
+export const mago = wedding({
+  id: "evt-demo-oriana-octavio",
+  first: "Oriana",
+  second: "Octavio",
+  date: "2027-11-06T18:00:00+01:00",
+  rsvpDeadline: "2027-10-01T23:59:00+02:00",
+  city: "Haro",
+  region: "La Rioja",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-4.jpg",
+  cardMessage:
+    "Ella era la ayudante de un mago; él, un espectador que subió al escenario. El truco salió mal y todo lo demás, bien.",
+  welcomeMessage:
+    "Nuestro último truco es una boda. Aquí tienes todo lo que necesitas para verlo en primera fila.",
+  thankYouMessage:
+    "Gracias por venir a Haro y por aplaudir todos los trucos. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Basílica de la Vega",
+      kind: "Ceremonia",
+      address: "Plaza de la Vega, 1",
+      note: "En el centro. Hay parking en la plaza de toros.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Teatro Bodega del Ilusionista",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Barrio de la Estación, 7",
+      note: "A 5 minutos, una bodega centenaria con teatro.",
+      photo: "pista",
+    },
+  ],
+  climate: [14, 4, 35],
+  program: [
+    ["18:00", "Ceremonia", "iglesia", "La Vega", "Con anillos que aparecen.", "ceremony"],
+    [
+      "19:15",
+      "Aperitivo",
+      "finca",
+      "En el vestíbulo",
+      "Con magia de cerca y vino de Haro.",
+      "cocktail",
+    ],
+    ["20:45", "Cena", "finca", "En el teatro", "Con el menú que elijas al confirmar.", "banquet"],
+    ["23:00", "Fiesta", "finca", "El gran final", "Espectáculo de magia y baile.", "party"],
+  ],
+  busRoutes: [
+    ["logrono-h", "Logroño → Haro", "Estación de Logroño", "16:45", ["02:00", "04:30"], 45],
+    ["miranda", "Miranda de Ebro → Haro", "Estación de Miranda", "17:15", ["04:30"], 25],
+  ],
+  menu: {
+    carne: "Chuletillas al sarmiento",
+    pescado: "Merluza a la riojana",
+    vegetariano: "Pimientos rellenos de setas",
+    vegano: "Patatas a la riojana de verduras",
+  },
+  dressCode: {
+    title: "Noche de teatro",
+    detail: "Negro, burdeos y oro. Etiqueta de estreno.",
+    palette: [
+      { name: "Chistera", hex: "#1a1a1a" },
+      { name: "Telón", hex: "#8a1f3a" },
+      { name: "Varita", hex: "#ffd97a" },
+      { name: "Conejo", hex: "#fbf7f2" },
+    ],
+    examples: [
+      "Vestido largo en negro o burdeos.",
+      "Esmoquin o traje oscuro.",
+      "Una chistera, si te atreves.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Los Agustinos",
+      "En el centro de Haro",
+      "Habitaciones reservadas hasta el 1 de octubre.",
+    ],
+    ["Hostal de la Estación", "Junto a las bodegas", "Con desayuno tarde para el domingo."],
+  ],
+  story: {
+    intro: "Un truco que salió mal, un escenario y nueve años de magia. Esta es la versión corta.",
+    moments: [
+      ["2018", "El truco", "Él subió al escenario. La carta no era la suya.", "olivos"],
+      ["2021", "La gira", "Un año de teatros por toda España.", "terraza"],
+      ["2026", "La pedida", "El anillo apareció dentro de una baraja.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "El conejo ya ha salido. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Las Vegas", "Para ver a los grandes.", "Lo que queráis"],
+    ["Una chistera de verdad", "Para el próximo truco.", "120 €"],
+    ["Clases de magia", "Para él, que aún falla.", "150 €"],
+    ["Una caja de vino de Haro", "Para el aniversario.", "90 €"],
+  ],
+  kids: "Habrá monitores, un mago para ellos y cena.",
+  faq: [
+    "¿Habrá espectáculo?",
+    "Sí: después de la cena hay magia. Prometemos que el conejo es de peluche.",
+  ],
+  guestbook: [
+    ["Los del teatro", "Ese truco fallido fue el mejor de la gira."],
+    ["Abuela Mercedes", "Qué boda tan bonita, y qué magia."],
+    ["Noelia y Javier", "Todavía no sabemos cómo lo hicisteis."],
+  ],
+  songs: ["Magic", "Abracadabra", "It's a Kind of Magic", "September", "Valerie", "Dancing Queen"],
+});
+
+export const flambeado = wedding({
+  id: "evt-demo-noemi-elias",
+  first: "Noemí",
+  second: "Elías",
+  date: "2027-03-20T13:30:00+01:00",
+  rsvpDeadline: "2027-02-15T23:59:00+01:00",
+  city: "Puebla de Sanabria",
+  region: "Zamora",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/banquete.jpg",
+  cardMessage:
+    "Nos conocimos en una escuela de cocina: a los dos se nos fue de las manos el mismo flambeado.",
+  welcomeMessage:
+    "Hemos preparado el banquete nosotros, con ayuda. Aquí tienes todo lo que necesitas para venir con hambre.",
+  thankYouMessage:
+    "Gracias por venir a Sanabria y por no dejar ni las migas. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Nuestra Señora del Azogue",
+      kind: "Ceremonia",
+      address: "Plaza Mayor, 1",
+      note: "Junto al castillo. Hay parking a la entrada del pueblo.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Posada del Fogón",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Camino del Lago, km 3",
+      note: "A 10 minutos, junto al lago de Sanabria y con cocina abierta.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [14, 1, 40],
+  program: [
+    ["13:30", "Ceremonia", "iglesia", "El Azogue", "Con coro sanabrés.", "ceremony"],
+    [
+      "14:45",
+      "Aperitivo",
+      "finca",
+      "Junto al fogón",
+      "Con pulpo, empanada y vino de Toro.",
+      "cocktail",
+    ],
+    [
+      "16:00",
+      "Comida",
+      "finca",
+      "En el salón de la posada",
+      "Con el menú que elijas al confirmar y postre flambeado en la mesa.",
+      "banquet",
+    ],
+    ["19:00", "Fiesta", "finca", "Junto al lago", "Baile y orujo para el frío.", "party"],
+  ],
+  busRoutes: [
+    [
+      "zamora",
+      "Zamora → Puebla de Sanabria",
+      "Estación de Zamora",
+      "11:45",
+      ["21:30", "00:30"],
+      75,
+    ],
+    [
+      "benavente",
+      "Benavente → Puebla de Sanabria",
+      "Plaza Mayor, Benavente",
+      "12:15",
+      ["00:30"],
+      60,
+    ],
+  ],
+  menu: {
+    carne: "Ternera de Aliste asada",
+    pescado: "Trucha del lago",
+    vegetariano: "Habones de Sanabria con verduras",
+    vegano: "Guiso de setas y castañas",
+  },
+  dressCode: {
+    title: "Primavera en la sierra",
+    detail: "Tonos cálidos y chaqueta: en marzo hace frío en Sanabria.",
+    palette: [
+      { name: "Llama", hex: "#ff9a3c" },
+      { name: "Mantel", hex: "#f6efe4" },
+      { name: "Caramelo", hex: "#c98a3a" },
+      { name: "Penumbra", hex: "#1c120c" },
+    ],
+    examples: [
+      "Vestido midi y abrigo.",
+      "Traje de lana con bufanda.",
+      "Calzado cómodo para el camino del lago.",
+    ],
+  },
+  accommodation: [
+    [
+      "Parador de Puebla de Sanabria",
+      "Junto al castillo",
+      "Habitaciones reservadas hasta el 15 de febrero.",
+    ],
+    ["Posada del Lago", "Junto al lago", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro:
+      "Un flambeado descontrolado, una escuela de cocina y siete años de fogones. Esta es la versión corta.",
+    moments: [
+      ["2020", "La escuela", "Nos saltó la llama del mismo flambeado.", "olivos"],
+      ["2022", "El restaurante", "Abrimos un pequeño restaurante en Zamora.", "terraza"],
+      ["2026", "La pedida", "El anillo apareció en el plato al apagarse la llama.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "El postre ya está en llamas. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Lyon", "Para comer bien.", "Lo que queráis"],
+    ["Un soplete de cocina", "Para las cremas.", "40 €"],
+    ["Una sartén de cobre", "Para los flambeados.", "120 €"],
+    ["Una cena en un restaurante con estrella", "Para el aniversario.", "250 €"],
+  ],
+  kids: "Habrá monitores, taller de galletas y comida para ellos.",
+  faq: ["¿El postre se flambea de verdad?", "Sí, en cada mesa y con cuidado. Lo haremos nosotros."],
+  guestbook: [
+    ["Los de la escuela de cocina", "Esta vez no saltó la llama."],
+    ["Abuela Josefa", "Qué banquete, hijos."],
+    ["Elena y Carlos", "Repetimos postre dos veces."],
+  ],
+  songs: ["Hot Stuff", "Fuego", "Great Balls of Fire", "September", "Valerie", "Dancing Queen"],
+});

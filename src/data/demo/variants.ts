@@ -94,6 +94,9 @@ import {
   persiana,
   cuco,
   tiza,
+  noria,
+  mago,
+  flambeado,
 } from "./template-weddings";
 import { guestbook, type DemoVariant } from "./wedding-builder";
 
@@ -1134,6 +1137,9 @@ const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   persiana,
   cuco,
   tiza,
+  noria,
+  mago,
+  flambeado,
 };
 
 /** La boda ficticia propia de una plantilla, si la tiene. */

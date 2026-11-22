@@ -120,6 +120,9 @@ const CONCEPTS = [
   { id: "persiana", names: /Lorea y Rafael/, date: "19 de junio de 2027", opening: "concepto" },
   { id: "cuco", names: /Sabela y Ezequiel/, date: "4 de septiembre de 2027", opening: "concepto" },
   { id: "tiza", names: /Victoria y Telmo/, date: "17 de julio de 2027", opening: "concepto" },
+  { id: "noria", names: /Selene y Bernardo/, date: "14 de agosto de 2027", opening: "concepto" },
+  { id: "mago", names: /Oriana y Octavio/, date: "6 de noviembre de 2027", opening: "concepto" },
+  { id: "flambeado", names: /Noemí y Elías/, date: "20 de marzo de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -1035,6 +1038,32 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await stage.getByRole("button", { name: "Escribir con tiza" }).click();
     await expect(stage.locator("[data-pizarra]")).toHaveAttribute("data-pizarra", "escrita");
     await expect(stage.getByText("Lugar: Morella")).toBeVisible();
+  });
+
+  test("noria: gira hasta dejar arriba la cabina rosa", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=noria");
+    const stage = cover(page, "noria");
+    await stage.getByRole("button", { name: "Girar la noria" }).click();
+    await expect(stage.locator("[data-noria]")).toHaveAttribute("data-noria", "arriba", {
+      timeout: 8000,
+    });
+  });
+
+  test("sombrero de mago: sale el conejo", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=mago");
+    const stage = cover(page, "mago");
+    await stage.getByRole("button", { name: "Agitar la varita" }).click();
+    await expect(stage.locator("[data-mago]")).toHaveAttribute("data-mago", "conejo");
+    await expect(stage.getByText(/Tachán! Y el gran final será en Haro/)).toBeVisible();
+  });
+
+  test("postre flambeado: se apaga la llama", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=flambeado");
+    const stage = cover(page, "flambeado");
+    await stage.getByRole("button", { name: "Flambear el postre" }).click();
+    await expect(stage.locator("[data-flambeado]")).toHaveAttribute("data-flambeado", "listo", {
+      timeout: 8000,
+    });
   });
 
   test("faro: se enciende", async ({ page }) => {

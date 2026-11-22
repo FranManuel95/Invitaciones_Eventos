@@ -1578,6 +1578,12 @@ olivo.
   portada oscura; su id es `tiza` porque ya hay un estilo `pizarra`). Estilos Alba, Relojero y
   Aula. Ya son 110 plantillas (88 de objetos) y 111 portadas.
 - **Batería E2E completa** con todo hasta Pajarera: 657 pruebas bien y 5 omitidas.
+- **Vigesimoquinta tanda**: **Noria** (atardecer de feria; la noria da vuelta y media hasta dejar
+  arriba la cabina rosa; Selene y Bernardo, Cambrils; portada oscura), **Sombrero de mago** (un
+  toque de varita y sale el conejo con la fecha; Oriana y Octavio, Haro; portada oscura) y **Postre
+  flambeado** (la crêpe se flambea y, al apagarse la llama, empieza la fiesta; Noemí y Elías,
+  Puebla de Sanabria; portada oscura). Estilos Tiovivo, Ilusionista y Sobremesa. Ya son 113
+  plantillas (91 de objetos) y 114 portadas.
 
 ## Pendiente para próximas fases
 

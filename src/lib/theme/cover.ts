@@ -117,6 +117,9 @@ export const COVER_IDS = [
   "persiana",
   "cuco",
   "tiza",
+  "noria",
+  "mago",
+  "flambeado",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -594,6 +597,20 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     description:
       "Una pizarra de escuela: con la tiza se escriben la fecha, el lugar y los deberes.",
   },
+  noria: {
+    label: "Noria",
+    description:
+      "Una noria de feria al atardecer: gira hasta dejar arriba la cabina rosa de los novios.",
+  },
+  mago: {
+    label: "Sombrero de mago",
+    description: "Un sombrero de copa y una varita: con un toque sale el conejo con la fecha.",
+  },
+  flambeado: {
+    label: "Postre flambeado",
+    description:
+      "Una crêpe en el plato: se flambea, la llama baila y, al apagarse, empieza la fiesta.",
+  },
 };
 
 /**
@@ -690,6 +707,9 @@ export const CONCEPT_COVERS = {
   persiana: { ink: "#2e2418", paper: "#f4ece0" },
   cuco: { ink: "#2f1f12", paper: "#efe3cc" },
   tiza: { ink: "#f2efe6", paper: "#1a2b22", tone: "oscuro" },
+  noria: { ink: "#fff4ea", paper: "#2a1e4a", tone: "oscuro" },
+  mago: { ink: "#fbefe4", paper: "#1e0a14", tone: "oscuro" },
+  flambeado: { ink: "#fbefe0", paper: "#140c08", tone: "oscuro" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -864,6 +884,9 @@ export const MOTIF_IDS = [
   "persiana",
   "cuco",
   "tiza",
+  "noria",
+  "mago",
+  "flambeado",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -966,4 +989,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   persiana: { label: "Amanecer", kind: "concepto" },
   cuco: { label: "Cucú", kind: "concepto" },
   tiza: { label: "Escuela", kind: "concepto" },
+  noria: { label: "Feria", kind: "concepto" },
+  mago: { label: "Magia", kind: "concepto" },
+  flambeado: { label: "Sobremesa", kind: "concepto" },
 };
