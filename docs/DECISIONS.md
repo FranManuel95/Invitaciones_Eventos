@@ -1597,6 +1597,7 @@ olivo.
   pantalla; Elba y Félix, Pedraza; portada oscura) y **Caleidoscopio** (tres giros reordenan los
   cristales hasta formar una flor; Mía y Nil, Puigcerdà; portada oscura). Estilos Maqueta, Estival
   y Prisma. Ya son 119 plantillas (97 de objetos) y 120 portadas.
+- **Batería E2E completa** con todo hasta Telefonillo: 693 pruebas bien y 5 omitidas.
 
 ## Pendiente para próximas fases
 

@@ -37,7 +37,8 @@ function ToyTrainCover({ event, onOpen, reduce }: ConceptProps) {
   const angle = lap * Math.PI * 2 + Math.PI / 2;
   const x = 50 + Math.cos(angle) * 40;
   const y = 50 + Math.sin(angle) * 36;
-  const heading = (angle * 180) / Math.PI + 90;
+  // Se gira para que, parado en la estación (abajo), los vagones se lean derechos.
+  const heading = (angle * 180) / Math.PI - 90;
 
   return (
     <div className="absolute inset-0 overflow-hidden" style={{ fontFamily: SANS }}>
@@ -116,7 +117,7 @@ function ToyTrainCover({ event, onOpen, reduce }: ConceptProps) {
               {hosts.first}
             </span>
             <span
-              className="flex h-6 w-12 items-center justify-center rounded-[4px] bg-[#e4572e] text-[0.5625rem] font-semibold text-white"
+              className="flex h-6 w-12 items-center justify-center rounded-[4px] bg-[#b3361a] text-[0.5625rem] font-semibold text-white"
               translate="no"
             >
               {hosts.second}
