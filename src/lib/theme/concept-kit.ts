@@ -542,6 +542,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Ya ha salido el sol",
     pass: { kicker: "Pase a cubierto", people: "Invitados" },
   },
+  cascanueces: {
+    object: "el cascanueces",
+    carrier: "Caja de juguetes",
+    letterhead: "Érase una vez, en invierno",
+    signoff: "Y fueron felices",
+    pass: { kicker: "Entrada al cuento", people: "Invitados" },
+  },
+  hamaca: {
+    object: "la hamaca",
+    carrier: "Postal de la playa",
+    letterhead: "Desde la hamaca",
+    signoff: "Sin prisa",
+    pass: { kicker: "Pase a la playa", people: "Invitados" },
+  },
+  picnic: {
+    object: "la cesta de pícnic",
+    carrier: "Envuelto en el mantel",
+    letterhead: "Para comer en el campo",
+    signoff: "¡Que aproveche!",
+    pass: { kicker: "Sitio en el mantel", people: "Comensales", table: "Tu mesa en la pradera" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

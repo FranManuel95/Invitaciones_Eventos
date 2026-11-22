@@ -3656,6 +3656,145 @@
   }
 }
 
+/* Cascanueces: cada sección es un capítulo del cuento. */
+[data-motif="cascanueces"] {
+  counter-reset: capitulo;
+}
+[data-motif="cascanueces"] .motif-hero {
+  background:
+    radial-gradient(circle, rgb(255 255 255 / 0.12) 0 1.5px, transparent 2px) 0 0 / 34px 34px,
+    var(--color-paper);
+}
+[data-motif="cascanueces"] section[id] {
+  counter-increment: capitulo;
+}
+[data-motif="cascanueces"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="cascanueces"] .motif-sprig::before {
+  content: "";
+  width: 1rem;
+  height: 0.9rem;
+  border-radius: 45%;
+  background: radial-gradient(circle at 35% 30%, #b07a42, #6b4320);
+}
+[data-motif="cascanueces"] .motif-sprig::after {
+  content: "Capítulo " counter(capitulo);
+}
+[data-motif="cascanueces"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="cascanueces"] .motif-closing::before {
+  content: "Y fueron felices";
+}
+
+/* Hamaca: cada sección es una siesta. */
+[data-motif="hamaca"] {
+  counter-reset: siesta;
+}
+[data-motif="hamaca"] .motif-hero {
+  background: linear-gradient(180deg, #ffd7a8, var(--color-paper) 70%);
+}
+[data-motif="hamaca"] section[id] {
+  counter-increment: siesta;
+}
+[data-motif="hamaca"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="hamaca"] .motif-sprig::before {
+  content: "";
+  width: 1.4rem;
+  height: 0.6rem;
+  border-radius: 0 0 999px 999px;
+  background: var(--color-gold);
+}
+[data-motif="hamaca"] .motif-sprig::after {
+  content: "Siesta " counter(siesta);
+}
+[data-motif="hamaca"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="hamaca"] .motif-closing::before {
+  content: "Sin prisa";
+}
+
+/* Cesta de pícnic: cada sección es un bocado. */
+[data-motif="picnic"] {
+  counter-reset: bocado;
+}
+[data-motif="picnic"] .motif-hero {
+  background:
+    repeating-linear-gradient(0deg, rgb(200 50 50 / 0.07) 0 24px, transparent 24px 48px),
+    repeating-linear-gradient(90deg, rgb(200 50 50 / 0.07) 0 24px, transparent 24px 48px),
+    var(--color-paper);
+}
+[data-motif="picnic"] section[id] {
+  counter-increment: bocado;
+}
+[data-motif="picnic"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="picnic"] .motif-sprig::before {
+  content: "";
+  width: 1.1rem;
+  height: 1.1rem;
+  background:
+    repeating-linear-gradient(0deg, var(--color-gold) 0 3px, transparent 3px 6px),
+    repeating-linear-gradient(90deg, rgb(168 36 58 / 0.5) 0 3px, transparent 3px 6px);
+}
+[data-motif="picnic"] .motif-sprig::after {
+  content: "Bocado " counter(bocado);
+}
+[data-motif="picnic"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="picnic"] .motif-closing::before {
+  content: "¡Que aproveche!";
+}
+
+@keyframes hammock-rock {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
 @keyframes musicbox-spin {
   to {
     transform: rotateY(360deg);
@@ -4388,6 +4527,22 @@
 [data-motif="paraguas"] .concept-carrier {
   background: var(--color-ivory);
   border: 2px solid var(--color-gold);
+}
+
+/* Cascanueces: caja de juguetes. */
+[data-motif="cascanueces"] .concept-carrier {
+  background: #1b3527;
+  border: 2px solid var(--color-gold);
+}
+/* Hamaca: postal de playa. */
+[data-motif="hamaca"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 2px dashed var(--color-gold);
+}
+/* Cesta de pícnic: mantel de cuadros. */
+[data-motif="picnic"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 3px double var(--color-gold);
 }
 
 [data-motif-kind="concepto"] .motif-closing > * {

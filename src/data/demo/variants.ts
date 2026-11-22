@@ -76,6 +76,9 @@ import {
   columpio,
   semaforo,
   paraguas,
+  cascanueces,
+  hamaca,
+  picnic,
 } from "./template-weddings";
 import { guestbook, type DemoVariant } from "./wedding-builder";
 
@@ -1098,6 +1101,9 @@ const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   columpio,
   semaforo,
   paraguas,
+  cascanueces,
+  hamaca,
+  picnic,
 };
 
 /** La boda ficticia propia de una plantilla, si la tiene. */

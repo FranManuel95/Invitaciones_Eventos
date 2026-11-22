@@ -1532,6 +1532,12 @@ olivo.
   rojo y sale el sol; Carolina y Damián, Lugo). Estilos Arboleda, Cruce y Aguacero. Ya son 92
   plantillas (70 de objetos) y 93 portadas.
 - **Batería E2E completa** con todo hasta Vela: 585 pruebas bien y 5 omitidas.
+- **Decimonovena tanda**: **Cascanueces** (escaparate de invierno; el soldadito baja la mandíbula,
+  la nuez se parte y dentro viene «¡Sí!» con la fecha; Adela y Gil, Benasque; portada oscura),
+  **Hamaca** (atardecer entre dos palmeras; la hamaca con los nombres se mece al tocarla; Begoña y
+  Ulises, Nerja) y **Cesta de pícnic** (mantel de cuadros; se levanta la tapa de mimbre y dentro
+  están los platos del menú de la boda; Mónica y Aitor, Llanes). Estilos Invernal, Palmeral y
+  Pradera. Ya son 95 plantillas (73 de objetos) y 96 portadas.
 
 ## Pendiente para próximas fases
 

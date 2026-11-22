@@ -857,6 +857,32 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await expect(stage.getByText(/Ya no llueve/)).toBeVisible();
   });
 
+  test("cascanueces: parte la nuez", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=cascanueces");
+    const stage = cover(page, "cascanueces");
+    await stage.getByRole("button", { name: "Partir la nuez" }).click();
+    await expect(stage.locator("[data-cascanueces]")).toHaveAttribute(
+      "data-cascanueces",
+      "abierta",
+    );
+    await expect(stage.getByText(/Dentro de la nuez/)).toBeVisible();
+  });
+
+  test("hamaca: se mece", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=hamaca");
+    const stage = cover(page, "hamaca");
+    await stage.getByRole("button", { name: "Mecer la hamaca" }).click();
+    await expect(stage.locator("[data-hamaca]")).toHaveAttribute("data-hamaca", "meciendose");
+  });
+
+  test("cesta de pícnic: dentro está el menú", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=picnic");
+    const stage = cover(page, "picnic");
+    await stage.getByRole("button", { name: "Levantar la tapa" }).click();
+    await expect(stage.locator("[data-picnic]")).toHaveAttribute("data-picnic", "abierta");
+    await expect(stage.getByText("Bonito en escabeche")).toBeVisible();
+  });
+
   test("faro: se enciende", async ({ page }) => {
     await page.goto("/i/familia-garcia?plantilla=faro");
     const stage = cover(page, "faro");

@@ -99,6 +99,9 @@ export const COVER_IDS = [
   "columpio",
   "semaforo",
   "paraguas",
+  "cascanueces",
+  "hamaca",
+  "picnic",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -493,6 +496,21 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Paraguas",
     description: "Llueve sobre la pantalla: se abre el paraguas, sale el sol y aparece la fecha.",
   },
+  cascanueces: {
+    label: "Cascanueces",
+    description:
+      "Un soldadito cascanueces: parte la nuez y dentro viene la fecha. Para el invierno.",
+  },
+  hamaca: {
+    label: "Hamaca",
+    description:
+      "Una hamaca entre dos palmeras al atardecer, con vuestros nombres: se mece al tocarla.",
+  },
+  picnic: {
+    label: "Cesta de pícnic",
+    description:
+      "Una cesta de mimbre sobre el mantel de cuadros: se levanta la tapa y sale el menú.",
+  },
 };
 
 /**
@@ -571,6 +589,9 @@ export const CONCEPT_COVERS = {
   columpio: { ink: "#26331f", paper: "#eef2e6" },
   semaforo: { ink: "#f1f2f4", paper: "#1a1d24", tone: "oscuro" },
   paraguas: { ink: "#1f2a33", paper: "#e6ecef" },
+  cascanueces: { ink: "#f4ead6", paper: "#122319", tone: "oscuro" },
+  hamaca: { ink: "#3a2416", paper: "#ffd7a8" },
+  picnic: { ink: "#3a2416", paper: "#fbf5ea" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -727,6 +748,9 @@ export const MOTIF_IDS = [
   "columpio",
   "semaforo",
   "paraguas",
+  "cascanueces",
+  "hamaca",
+  "picnic",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -811,4 +835,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   columpio: { label: "Columpio", kind: "concepto" },
   semaforo: { label: "Semáforo", kind: "concepto" },
   paraguas: { label: "Paraguas", kind: "concepto" },
+  cascanueces: { label: "Cuento de invierno", kind: "concepto" },
+  hamaca: { label: "Hamaca", kind: "concepto" },
+  picnic: { label: "Pícnic", kind: "concepto" },
 };

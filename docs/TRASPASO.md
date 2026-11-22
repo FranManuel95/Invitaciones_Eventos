@@ -21,9 +21,9 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
      disco, Radio antigua, Máquina de escribir, Puzle, Tarta nupcial, Entrada de cine, Globo
      aerostático, Bola de nieve, Brindis, Cometa, Reloj de arena, Faro, Caja de música, Farolillo de papel, Barco de
      papel, Rama prensada, Cartas atadas, Ramo de novia, Estuche de anillos, Carné de
-     baile, Cápsula del tiempo, Pliego de sellos, Bola de discoteca, Cuaderno de viaje, Piñata, Lluvia de arroz, Vela, Columpio, Semáforo y
-     Paraguas. Y la portada en movimiento Tarjeta a la luz con la
-     plantilla Luz de tarde. Ya son **92 plantillas y 93 portadas** (con Seda y Cinta de seda). Componentes en
+     baile, Cápsula del tiempo, Pliego de sellos, Bola de discoteca, Cuaderno de viaje, Piñata, Lluvia de arroz, Vela, Columpio, Semáforo,
+     Paraguas, Cascanueces, Hamaca y Cesta de pícnic. Y la portada en movimiento Tarjeta a la luz con la
+     plantilla Luz de tarde. Ya son **95 plantillas y 96 portadas** (con Seda y Cinta de seda). Componentes en
      `src/features/invitation/cover/concepts-new*.tsx`; cada una con estilo, piel, kit, boda de
      ejemplo y pruebas en `tests/e2e/conceptos.spec.ts`.
      Antes de llevarlo a producción: `npm run check` y la batería E2E completa, PR a `main`.

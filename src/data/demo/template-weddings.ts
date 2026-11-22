@@ -10518,3 +10518,375 @@ export const paraguas = wedding({
     "Dancing Queen",
   ],
 });
+
+export const cascanueces = wedding({
+  id: "evt-demo-adela-gil",
+  first: "Adela",
+  second: "Gil",
+  date: "2027-12-18T17:00:00+01:00",
+  rsvpDeadline: "2027-11-10T23:59:00+01:00",
+  city: "Benasque",
+  region: "Huesca",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-2.jpg",
+  cardMessage:
+    "Nos conocimos en un ensayo de El Cascanueces: ella era Clara; él, el ratón que perdía la batalla.",
+  welcomeMessage:
+    "Nos casamos en pleno invierno, entre montañas nevadas. Aquí tienes todo lo que necesitas para el cuento.",
+  thankYouMessage:
+    "Gracias por subir al Pirineo en diciembre y por bailar el vals de las flores. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María de Benasque",
+      kind: "Ceremonia",
+      address: "Plaza de la Iglesia, 1",
+      note: "En el centro del pueblo. Hay parking a la entrada; lleva cadenas.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Refugio del Soldadito",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camino de Cerler, km 3",
+      note: "A 10 minutos, con chimenea y ventanales a la montaña.",
+      photo: "pista",
+    },
+  ],
+  climate: [4, -6, 40],
+  program: [
+    [
+      "17:00",
+      "Ceremonia",
+      "iglesia",
+      "Santa María",
+      "Con coro y el vals de las flores.",
+      "ceremony",
+    ],
+    [
+      "18:15",
+      "Aperitivo",
+      "finca",
+      "Junto a la chimenea",
+      "Con vino caliente y castañas.",
+      "cocktail",
+    ],
+    [
+      "19:45",
+      "Cena",
+      "finca",
+      "En el salón de la montaña",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "22:00",
+      "Fiesta",
+      "finca",
+      "Hasta tarde",
+      "Baile y chocolate con churros a medianoche.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["huesca", "Huesca → Benasque", "Estación de Huesca", "14:30", ["01:00", "03:30"], 135],
+    ["graus", "Graus → Benasque", "Plaza Mayor, Graus", "15:30", ["03:30"], 60],
+  ],
+  menu: {
+    carne: "Ternasco de Aragón al horno",
+    pescado: "Bacalao con setas",
+    vegetariano: "Crema de castañas y setas",
+    vegano: "Guiso de alubias y verduras de invierno",
+  },
+  dressCode: {
+    title: "Cuento de invierno",
+    detail: "Verde abeto, rojo y oro. Hace mucho frío: abrigo, botas y guantes.",
+    palette: [
+      { name: "Abeto", hex: "#1f3a2c" },
+      { name: "Soldadito", hex: "#b8232f" },
+      { name: "Oro", hex: "#d4af37" },
+      { name: "Nieve", hex: "#f4ead6" },
+    ],
+    examples: [
+      "Vestido largo de terciopelo y abrigo.",
+      "Traje de lana con bufanda roja.",
+      "Botas de nieve para el camino.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel de la Montaña",
+      "En el centro de Benasque",
+      "Habitaciones reservadas hasta el 10 de noviembre.",
+    ],
+    ["Apartamentos Cerler", "Junto a la finca", "Con desayuno de domingo y forfait con descuento."],
+  ],
+  story: {
+    intro: "Una Clara, un ratón derrotado y ocho inviernos juntos. Esta es la versión corta.",
+    moments: [
+      ["2019", "El ensayo", "Ella bailaba; él perdía la batalla cada tarde.", "olivos"],
+      ["2022", "La montaña", "Un invierno entero en una cabaña del Pirineo.", "terraza"],
+      ["2026", "La pedida", "Con el anillo dentro de una nuez, en Nochebuena.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "La nuez ya está partida. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Viena", "Para ver El Cascanueces de verdad.", "Lo que queráis"],
+    ["Un cascanueces de madera", "Para la repisa.", "60 €"],
+    ["Raquetas de nieve", "Para las excursiones.", "150 €"],
+    ["Un fin de semana en un balneario", "Para descongelarnos.", "200 €"],
+  ],
+  kids: "Habrá monitores, trineos y cena para ellos.",
+  faq: [
+    "¿Y si nieva mucho?",
+    "Habrá autobús con cadenas desde Huesca y Graus. Consultad el parte.",
+  ],
+  guestbook: [
+    ["La compañía de ballet", "El ratón por fin gana algo."],
+    ["Yaya Pilar", "Qué boda tan bonita, entre la nieve."],
+    ["Marina y Josan", "Nos pedimos el vals de las flores."],
+  ],
+  songs: [
+    "Vals de las flores",
+    "Let It Snow",
+    "Blanca Navidad",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
+
+export const hamaca = wedding({
+  id: "evt-demo-begona-ulises",
+  first: "Begoña",
+  second: "Ulises",
+  date: "2027-08-28T20:00:00+02:00",
+  rsvpDeadline: "2027-07-15T23:59:00+02:00",
+  city: "Nerja",
+  region: "Málaga",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/portada.jpg",
+  cardMessage:
+    "Nos conocimos peleando por la última hamaca de un chiringuito. Acabamos compartiéndola.",
+  welcomeMessage:
+    "Nos casamos al atardecer, sin prisa y junto al mar. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Nerja, por el atardecer y por bailar descalzos. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de El Salvador",
+      kind: "Ceremonia",
+      address: "Plaza Balcón de Europa, 1",
+      note: "Junto al Balcón de Europa. Hay parking en el centro.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Chiringuito Las Palmeras",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Playa de Burriana, s/n",
+      note: "A 10 minutos, sobre la arena, con hamacas para todos.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [31, 22, 5],
+  program: [
+    ["20:00", "Ceremonia", "iglesia", "El Salvador", "Al atardecer, sobre el mar.", "ceremony"],
+    ["21:15", "Aperitivo", "finca", "En las hamacas", "Con espetos y tinto de verano.", "cocktail"],
+    ["22:30", "Cena", "finca", "Sobre la arena", "Con el menú que elijas al confirmar.", "banquet"],
+    ["00:30", "Fiesta", "finca", "Descalzos", "Música y baile hasta el amanecer.", "party"],
+  ],
+  busRoutes: [
+    [
+      "malaga-bus",
+      "Málaga → Nerja",
+      "Estación de autobuses de Málaga",
+      "18:45",
+      ["03:00", "05:30"],
+      60,
+    ],
+    ["frigiliana", "Frigiliana → Nerja", "Plaza de Frigiliana", "19:15", ["05:30"], 15],
+  ],
+  menu: {
+    carne: "Presa ibérica al carbón",
+    pescado: "Espeto de sardinas y fritura",
+    vegetariano: "Ajoblanco y berenjenas con miel",
+    vegano: "Gazpacho y ensalada malagueña",
+  },
+  dressCode: {
+    title: "Atardecer en la playa",
+    detail: "Tonos de atardecer, lino y descalzos. Hay arena: nada de tacón.",
+    palette: [
+      { name: "Atardecer", hex: "#ffb38a" },
+      { name: "Hamaca", hex: "#e4572e" },
+      { name: "Sol", hex: "#ffd166" },
+      { name: "Palmera", hex: "#2f6b3f" },
+    ],
+    examples: [
+      "Vestido largo de lino.",
+      "Camisa de lino y bermudas elegantes.",
+      "Descalzos en la arena: habrá zapatillas.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Balcón de Europa", "Junto al mirador", "Habitaciones reservadas hasta el 15 de julio."],
+    ["Hostal Burriana", "Junto a la playa", "Con desayuno hasta las 13:00."],
+  ],
+  story: {
+    intro:
+      "Una hamaca disputada, un chiringuito y siete veranos sin prisa. Esta es la versión corta.",
+    moments: [
+      ["2020", "La hamaca", "Quedaba una. Acabamos compartiéndola.", "cala"],
+      ["2022", "La furgoneta", "Un verano de calas por toda la costa.", "furgoneta"],
+      ["2026", "La pedida", "En la misma hamaca, al atardecer.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "La hamaca está colgada. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Bali", "Más hamacas.", "Lo que queráis"],
+    ["Una hamaca doble para la terraza", "La nuestra.", "120 €"],
+    ["Un kayak", "Para las calas.", "300 €"],
+    ["Una cena en el Balcón de Europa", "Para el aniversario.", "90 €"],
+  ],
+  kids: "Habrá monitores, castillos de arena y cena para ellos.",
+  faq: [
+    "¿Hay que llevar algo para la playa?",
+    "Solo ganas de descalzarse. Habrá toallas y zapatillas.",
+  ],
+  guestbook: [
+    ["Los del chiringuito", "Aquella hamaca dio para mucho."],
+    ["Abuela Rosario", "Qué atardecer más bonito."],
+    ["Paula y Rubén", "Nos pedimos la hamaca de al lado."],
+  ],
+  songs: ["Sin prisa", "La playa", "Bailando", "September", "Valerie", "Dancing Queen"],
+});
+
+export const picnic = wedding({
+  id: "evt-demo-monica-aitor",
+  first: "Mónica",
+  second: "Aitor",
+  date: "2027-06-19T13:00:00+02:00",
+  rsvpDeadline: "2027-05-10T23:59:00+02:00",
+  city: "Llanes",
+  region: "Asturias",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/banquete.jpg",
+  cardMessage:
+    "Nos conocimos en un pícnic de amigos: ella llevó la tortilla; él, el mantel. Desde entonces, a medias.",
+  welcomeMessage:
+    "Nos casamos en el prado, con mantel de cuadros y cesta. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Llanes, por el pícnic en el prado y por bailar entre las mantas. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Basílica de Santa María del Concejo",
+      kind: "Ceremonia",
+      address: "Calle Mayor, 2",
+      note: "En el casco antiguo. Hay parking junto al puerto.",
+      photo: "ermitaOlivos",
+    },
+    {
+      id: "finca",
+      name: "Prado de los Cuadros",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Camino de los Bufones, km 1",
+      note: "A 10 minutos, un prado frente al mar con mantas y cestas para todos.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [21, 13, 30],
+  program: [
+    [
+      "13:00",
+      "Ceremonia",
+      "iglesia",
+      "Santa María del Concejo",
+      "Con gaita a la salida.",
+      "ceremony",
+    ],
+    ["14:15", "Aperitivo", "finca", "En el prado", "Con sidra escanciada y quesos.", "cocktail"],
+    [
+      "15:30",
+      "Comida",
+      "finca",
+      "Sobre las mantas",
+      "Una cesta de pícnic por mesa, con el menú que elijas.",
+      "banquet",
+    ],
+    ["18:30", "Fiesta", "finca", "Al atardecer", "Baile en el prado y hoguera.", "party"],
+  ],
+  busRoutes: [
+    [
+      "oviedo-llanes",
+      "Oviedo → Llanes",
+      "Estación de autobuses de Oviedo",
+      "11:15",
+      ["21:00", "00:30"],
+      90,
+    ],
+    ["ribadesella", "Ribadesella → Llanes", "Puerto de Ribadesella", "12:00", ["00:30"], 35],
+  ],
+  menu: {
+    carne: "Empanada de carne y pastel de cabracho",
+    pescado: "Bonito en escabeche",
+    vegetariano: "Tortilla de patatas y ensalada de huerta",
+    vegano: "Hummus de fabas y verduras asadas",
+  },
+  dressCode: {
+    title: "Pícnic en el prado",
+    detail: "Cuadros, flores y colores de campo. Hay hierba: zapato plano.",
+    palette: [
+      { name: "Cuadros", hex: "#a8243a" },
+      { name: "Mimbre", hex: "#c99a5b" },
+      { name: "Prado", hex: "#c9d9a8" },
+      { name: "Mantel", hex: "#fbf5ea" },
+    ],
+    examples: [
+      "Vestido de flores o de cuadros.",
+      "Camisa de lino y tirantes.",
+      "Una chaqueta: el norte refresca por la tarde.",
+    ],
+  },
+  accommodation: [
+    ["Hotel del Puerto", "En el puerto de Llanes", "Habitaciones reservadas hasta el 10 de mayo."],
+    ["Casa rural Los Bufones", "Junto al prado", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro: "Una tortilla, un mantel de cuadros y siete años de pícnics. Esta es la versión corta.",
+    moments: [
+      ["2020", "El pícnic", "Ella trajo la tortilla; él, el mantel.", "olivos"],
+      [
+        "2022",
+        "La cesta",
+        "Nos regalamos una cesta de mimbre. La hemos usado cien veces.",
+        "terraza",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "Con el anillo dentro de la cesta, entre las servilletas.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "El mantel ya está puesto. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a la Provenza", "Pícnics entre lavanda.", "Lo que queráis"],
+    ["Una cesta de pícnic completa", "Para cuatro.", "90 €"],
+    ["Una manta grande de lana", "Para los prados.", "70 €"],
+    ["Un curso de cocina asturiana", "Para mejorar la tortilla.", "120 €"],
+  ],
+  kids: "Habrá monitores, juegos en el prado y comida para ellos.",
+  faq: [
+    "¿Se come en el suelo?",
+    "Hay mantas y cojines, pero también mesas bajas para quien lo prefiera.",
+  ],
+  guestbook: [
+    ["Los del primer pícnic", "La tortilla sigue siendo la mejor."],
+    ["Güelo Pepe", "Qué boda tan bonita, en el prado."],
+    ["Nerea y Xuan", "Nos pedimos la cesta de los postres."],
+  ],
+  songs: ["Picnic", "Soleá", "Here Comes the Sun", "September", "Valerie", "Dancing Queen"],
+});
