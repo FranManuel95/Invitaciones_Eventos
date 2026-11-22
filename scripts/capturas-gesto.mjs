@@ -6,6 +6,8 @@
  *   node scripts/capturas-gesto.mjs <plantilla> <selector> recta <dx> <dy>
  *   node scripts/capturas-gesto.mjs <plantilla> <selector> giro <grados>
  *
+ * En el entorno en la nube hay que indicar el navegador: CHROMIUM_PATH=/opt/pw-browsers/chromium.
+ *
  * Ejemplos:
  *   node scripts/capturas-gesto.mjs persiana ".cursor-grab" recta 0 200
  *   node scripts/capturas-gesto.mjs noria "[data-noria]" giro 180
@@ -26,7 +28,8 @@ if (!id || !sel || !["recta", "giro"].includes(mode)) {
 const base = process.env.BASE ?? "http://localhost:3124";
 const out = (n) => path.join(os.tmpdir(), `gesto-${id}-${n}.png`);
 
-const browser = await chromium.launch();
+// En el entorno en la nube: CHROMIUM_PATH=/opt/pw-browsers/chromium.
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined });
 const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
 await page.goto(`${base}/i/familia-garcia?plantilla=${id}`);
 await page.waitForTimeout(4000);

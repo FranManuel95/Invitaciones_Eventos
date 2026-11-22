@@ -50,7 +50,7 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   3. Al soltar: si pasa del umbral, `animate` hasta el final; si no, vuelve atrás.
   4. Mantener el botón (mismo nombre, las pruebas lo usan), el atributo `data-<id>` con sus valores,
      `h1#cover-title`, la fecha en `<time>` y `reduce` (sin animación).
-  5. Revisar con `node scripts/capturas-gesto.mjs <id> <selector> recta|giro …` sobre
+  5. Revisar con `CHROMIUM_PATH=/opt/pw-browsers/chromium node scripts/capturas-gesto.mjs <id> <selector> recta|giro …` sobre
      `npx next dev -p 3124` y mirar las tres capturas; añadir la prueba E2E del gesto; rehacer las
      imágenes de venta con `node scripts/capturas-venta.mjs` (o solo las de esa plantilla).
   6. `npm run check` y `npm run test:e2e` antes de subir; anotarlo en `docs/DECISIONS.md`.
