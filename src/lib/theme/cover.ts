@@ -111,6 +111,9 @@ export const COVER_IDS = [
   "pompas",
   "herradura",
   "grulla",
+  "campanas",
+  "hilo",
+  "pajarera",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -560,6 +563,19 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     description:
       "Un papel rojo que se dobla en tres pliegues hasta ser una grulla que trae la fecha.",
   },
+  campanas: {
+    label: "Campanas",
+    description:
+      "Dos campanas con vuestros nombres en la espadaña: se tira de la cuerda y repican.",
+  },
+  hilo: {
+    label: "Hilo rojo",
+    description: "Dos meñiques y el hilo rojo del destino que los une al atarlo.",
+  },
+  pajarera: {
+    label: "Pajarera",
+    description: "Una pajarera dorada: se abre la puerta y salen volando dos pájaros juntos.",
+  },
 };
 
 /**
@@ -650,6 +666,9 @@ export const CONCEPT_COVERS = {
   pompas: { ink: "#263040", paper: "#eef4fa" },
   herradura: { ink: "#2a2618", paper: "#f3efe2" },
   grulla: { ink: "#2c2420", paper: "#f7f2ea" },
+  campanas: { ink: "#2a2618", paper: "#eef0ee" },
+  hilo: { ink: "#3a1a1e", paper: "#fbf3ee" },
+  pajarera: { ink: "#1f2d26", paper: "#f2f5ee" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -818,6 +837,9 @@ export const MOTIF_IDS = [
   "pompas",
   "herradura",
   "grulla",
+  "campanas",
+  "hilo",
+  "pajarera",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -914,4 +936,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   pompas: { label: "Pompas", kind: "concepto" },
   herradura: { label: "Herradura", kind: "concepto" },
   grulla: { label: "Origami", kind: "concepto" },
+  campanas: { label: "Campanario", kind: "concepto" },
+  hilo: { label: "Hilo rojo", kind: "concepto" },
+  pajarera: { label: "Pajarera", kind: "concepto" },
 };

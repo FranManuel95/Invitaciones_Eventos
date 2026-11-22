@@ -630,6 +630,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Que se cumpla el deseo",
     pass: { kicker: "Pase del deseo", people: "Invitados" },
   },
+  campanas: {
+    object: "las campanas",
+    carrier: "Pregón del campanario",
+    letterhead: "Tocan a boda",
+    signoff: "¡Din, don!",
+    pass: { kicker: "Pase a la plaza", people: "Vecinos" },
+  },
+  hilo: {
+    object: "el hilo rojo",
+    carrier: "Ovillo de hilo rojo",
+    letterhead: "Unidos por el hilo",
+    signoff: "Atados para siempre",
+    pass: { kicker: "Pase del destino", people: "Invitados" },
+  },
+  pajarera: {
+    object: "la pajarera",
+    carrier: "Jaula abierta",
+    letterhead: "Volamos juntos",
+    signoff: "Libres y juntos",
+    pass: { kicker: "Pase al jardín", people: "Invitados" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

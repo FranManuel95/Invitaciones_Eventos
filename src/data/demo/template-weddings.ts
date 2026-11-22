@@ -11930,3 +11930,357 @@ export const grulla = wedding({
   ],
   songs: ["Paper Planes", "Mil pájaros", "Grullas", "September", "Valerie", "Dancing Queen"],
 });
+
+export const campanas = wedding({
+  id: "evt-demo-iris-matias",
+  first: "Iris",
+  second: "Matías",
+  date: "2027-10-09T12:00:00+02:00",
+  rsvpDeadline: "2027-09-01T23:59:00+02:00",
+  city: "Trujillo",
+  region: "Cáceres",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/portada.jpg",
+  cardMessage:
+    "Nos conocimos subiendo al campanario a ver las cigüeñas. Justo entonces tocaron a mediodía.",
+  welcomeMessage:
+    "Las campanas de la plaza ya están avisadas. Aquí tienes todo lo que necesitas para la boda.",
+  thankYouMessage:
+    "Gracias por venir a Trujillo y por quedaros hasta el último repique. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Martín",
+      kind: "Ceremonia",
+      address: "Plaza Mayor, 1",
+      note: "En la plaza Mayor. Hay parking a la entrada del casco histórico.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Palacio de las Campanas",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Calle Ballesteros, 6",
+      note: "A 5 minutos andando, con patio porticado y vistas al castillo.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [24, 11, 20],
+  program: [
+    [
+      "12:00",
+      "Ceremonia",
+      "iglesia",
+      "San Martín",
+      "Las campanas repican a la salida.",
+      "ceremony",
+    ],
+    [
+      "13:15",
+      "Aperitivo",
+      "finca",
+      "En el patio",
+      "Con torta del Casar y jamón ibérico.",
+      "cocktail",
+    ],
+    [
+      "14:30",
+      "Comida",
+      "finca",
+      "En el salón del palacio",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["18:00", "Fiesta", "finca", "Hasta tarde", "Baile y recena.", "party"],
+  ],
+  busRoutes: [
+    [
+      "caceres",
+      "Cáceres → Trujillo",
+      "Estación de autobuses de Cáceres",
+      "10:45",
+      ["21:00", "00:30"],
+      45,
+    ],
+    ["merida", "Mérida → Trujillo", "Estación de Mérida", "10:30", ["00:30"], 75],
+  ],
+  menu: {
+    carne: "Cochinillo asado",
+    pescado: "Bacalao con pimientos de la Vera",
+    vegetariano: "Migas extremeñas con setas",
+    vegano: "Pisto con pimentón de la Vera",
+  },
+  dressCode: {
+    title: "Otoño en la plaza",
+    detail: "Ocre, bronce y piedra. Hay empedrado: tacón ancho.",
+    palette: [
+      { name: "Bronce", hex: "#d4a536" },
+      { name: "Piedra", hex: "#c9bda4" },
+      { name: "Cielo", hex: "#e9eef4" },
+      { name: "Cuerda", hex: "#8a6a4a" },
+    ],
+    examples: [
+      "Vestido midi en tonos ocre.",
+      "Traje de lana con pañuelo dorado.",
+      "Una chaqueta: en octubre refresca.",
+    ],
+  },
+  accommodation: [
+    [
+      "Parador de Trujillo",
+      "En el antiguo convento",
+      "Habitaciones reservadas hasta el 1 de septiembre.",
+    ],
+    ["Hostal de la Plaza", "Junto a la plaza Mayor", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro: "Un campanario, unas cigüeñas y las doce en punto. Esta es la versión corta.",
+    moments: [
+      ["2019", "El campanario", "Subimos a ver las cigüeñas y tocaron las doce.", "olivos"],
+      ["2022", "La plaza", "Nos mudamos a una casa con vistas a la plaza.", "terraza"],
+      ["2026", "La pedida", "En lo alto del campanario, a las doce en punto.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "Las campanas esperan. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Italia", "Para ver más campanarios.", "Lo que queráis"],
+    ["Una campana de bronce", "Para la puerta de casa.", "80 €"],
+    ["Prismáticos para las cigüeñas", "Para el balcón.", "120 €"],
+    ["Una noche en el parador", "Para el aniversario.", "200 €"],
+  ],
+  kids: "Habrá monitores, un taller de campanillas y comida para ellos.",
+  faq: ["¿Repican de verdad?", "Sí: el campanero del pueblo tocará a la salida de la ceremonia."],
+  guestbook: [
+    ["Los del campanario", "Qué puntuales fueron aquellas campanas."],
+    ["Abuela Leonor", "Qué boda tan bonita, con la plaza llena."],
+    ["Pilar y Chema", "Os hemos tocado las campanas en la puerta."],
+  ],
+  songs: [
+    "Campanas de boda",
+    "Wedding Bells",
+    "Ding Dong",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
+
+export const hilo = wedding({
+  id: "evt-demo-greta-eneko",
+  first: "Greta",
+  second: "Eneko",
+  date: "2027-06-26T19:00:00+02:00",
+  rsvpDeadline: "2027-05-15T23:59:00+02:00",
+  city: "Olite",
+  region: "Navarra",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/pareja.jpg",
+  cardMessage:
+    "Nacimos el mismo día en el mismo hospital. Nos conocimos treinta años después: el hilo rojo ya estaba atado.",
+  welcomeMessage:
+    "Dicen que un hilo rojo une a quienes están destinados. Aquí tienes todo lo que necesitas para verlo atado.",
+  thankYouMessage:
+    "Gracias por venir a Olite y por atar vuestro hilo al nuestro. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María la Real",
+      kind: "Ceremonia",
+      address: "Plaza de Carlos III, 1",
+      note: "Junto al palacio real. Hay parking a la entrada del pueblo.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Bodega del Hilo Rojo",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camino de Tafalla, km 2",
+      note: "A 5 minutos, entre viñedos y con jardín.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [29, 15, 10],
+  program: [
+    [
+      "19:00",
+      "Ceremonia",
+      "iglesia",
+      "Santa María la Real",
+      "Con la ceremonia del hilo rojo.",
+      "ceremony",
+    ],
+    ["20:15", "Aperitivo", "finca", "En el jardín", "Con rosado de Navarra.", "cocktail"],
+    ["21:45", "Cena", "finca", "Entre barricas", "Con el menú que elijas al confirmar.", "banquet"],
+    ["00:00", "Fiesta", "finca", "Hasta tarde", "Baile y barra libre.", "party"],
+  ],
+  busRoutes: [
+    [
+      "pamplona-o",
+      "Pamplona → Olite",
+      "Estación de autobuses de Pamplona",
+      "17:45",
+      ["02:30", "05:00"],
+      40,
+    ],
+    ["tafalla", "Tafalla → Olite", "Plaza de Navarra, Tafalla", "18:15", ["05:00"], 10],
+  ],
+  menu: {
+    carne: "Cordero al chilindrón",
+    pescado: "Bacalao al ajoarriero",
+    vegetariano: "Menestra de verduras de la Ribera",
+    vegano: "Pimientos del piquillo rellenos de verduras",
+  },
+  dressCode: {
+    title: "Verano entre viñas",
+    detail: "Rosa, crema y un toque rojo. Hay viñedo: tacón ancho.",
+    palette: [
+      { name: "Hilo", hex: "#c8102e" },
+      { name: "Seda", hex: "#fbf3ee" },
+      { name: "Rosado", hex: "#e9c9bd" },
+      { name: "Viña", hex: "#6b5a3c" },
+    ],
+    examples: [
+      "Vestido midi en rosa o crema.",
+      "Traje claro con pañuelo rojo.",
+      "Un hilo rojo en la muñeca: os lo daremos.",
+    ],
+  },
+  accommodation: [
+    ["Parador de Olite", "En el palacio", "Habitaciones reservadas hasta el 15 de mayo."],
+    ["Hotel Merindad de Olite", "En la muralla", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro: "El mismo día, el mismo hospital y treinta años de hilo rojo. Esta es la versión corta.",
+    moments: [
+      ["1997", "El hospital", "Nacimos el mismo día, a dos habitaciones.", "olivos"],
+      ["2023", "El encuentro", "Nos presentaron en una cata. Era el mismo cumpleaños.", "terraza"],
+      [
+        "2026",
+        "La pedida",
+        "Con un hilo rojo atado al meñique y el anillo al final.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "El hilo ya está atado. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Japón", "Donde nació la leyenda del hilo rojo.", "Lo que queráis"],
+    ["Una tarta de cumpleaños para dos", "Cada año.", "40 €"],
+    ["Una vajilla roja", "Para las cenas de casa.", "180 €"],
+    ["Una noche en el parador", "Para el aniversario.", "200 €"],
+  ],
+  kids: "Habrá monitores, pulseras de hilo rojo y cena para ellos.",
+  faq: [
+    "¿Qué es la ceremonia del hilo rojo?",
+    "Al final, ataremos un hilo rojo de un meñique al otro. Dura un minuto.",
+  ],
+  guestbook: [
+    ["Los de la cata", "Sabíamos que no era casualidad."],
+    ["Amatxo Josefina", "Qué boda tan bonita, entre viñas."],
+    ["Uxue y Pello", "Nos hemos atado el hilo rojo también."],
+  ],
+  songs: ["Red", "El hilo rojo", "Destino", "September", "Valerie", "Dancing Queen"],
+});
+
+export const pajarera = wedding({
+  id: "evt-demo-alma-jaime",
+  first: "Alma",
+  second: "Jaime",
+  date: "2027-05-15T18:00:00+02:00",
+  rsvpDeadline: "2027-04-05T23:59:00+02:00",
+  city: "Sos del Rey Católico",
+  region: "Zaragoza",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-1.jpg",
+  cardMessage:
+    "Nos conocimos en un refugio de aves, soltando a dos jilgueros curados. Volaron juntos y nosotros también.",
+  welcomeMessage:
+    "Abrimos la pajarera y salimos volando juntos. Aquí tienes todo lo que necesitas para la boda.",
+  thankYouMessage:
+    "Gracias por venir a Sos y por soltar vuestros deseos con nosotros. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Esteban",
+      kind: "Ceremonia",
+      address: "Calle de la Iglesia, 1",
+      note: "En lo alto del pueblo. Hay parking a la entrada.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Jardín de la Pajarera",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camino de Sangüesa, km 3",
+      note: "A 10 minutos, con un jardín lleno de pajareras antiguas.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [22, 9, 25],
+  program: [
+    ["18:00", "Ceremonia", "iglesia", "San Esteban", "Con canto de pájaros y cuerda.", "ceremony"],
+    ["19:15", "Aperitivo", "finca", "En el jardín", "Con vino de Campo de Borja.", "cocktail"],
+    [
+      "20:45",
+      "Cena",
+      "finca",
+      "Bajo las pajareras",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["23:00", "Fiesta", "finca", "Hasta tarde", "Baile y barra libre.", "party"],
+  ],
+  busRoutes: [
+    ["zaragoza", "Zaragoza → Sos", "Estación Delicias, Zaragoza", "16:00", ["01:30", "04:00"], 105],
+    ["sanguesa", "Sangüesa → Sos", "Plaza de Sangüesa", "17:15", ["04:00"], 20],
+  ],
+  menu: {
+    carne: "Ternasco asado",
+    pescado: "Bacalao con tomate",
+    vegetariano: "Borrajas con patata y setas",
+    vegano: "Crema de verduras de la huerta",
+  },
+  dressCode: {
+    title: "Primavera en el jardín",
+    detail: "Verde, azul y oro. Hay jardín y piedra: zapato cómodo.",
+    palette: [
+      { name: "Jardín", hex: "#3a6a54" },
+      { name: "Pájaro", hex: "#5a8fb0" },
+      { name: "Alambre", hex: "#c9a65d" },
+      { name: "Lino", hex: "#f8f3e8" },
+    ],
+    examples: [
+      "Vestido de flores con vuelo.",
+      "Traje claro con pajarita azul.",
+      "Una chaqueta para el atardecer.",
+    ],
+  },
+  accommodation: [
+    ["Parador de Sos", "En lo alto del pueblo", "Habitaciones reservadas hasta el 5 de abril."],
+    ["Casa rural del Jardín", "Junto a la finca", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro:
+      "Dos jilgueros curados, un refugio de aves y siete primaveras juntos. Esta es la versión corta.",
+    moments: [
+      ["2020", "El refugio", "Soltamos a dos jilgueros curados. Volaron juntos.", "olivos"],
+      ["2022", "El jardín", "Colgamos nuestra primera pajarera, siempre abierta.", "terraza"],
+      ["2026", "La pedida", "Con el anillo dentro de una pajarera de juguete.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "La puerta está abierta. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Doñana", "Para ver aves.", "Lo que queráis"],
+    ["Unos prismáticos buenos", "Para los paseos.", "150 €"],
+    ["Una donación al refugio", "Donde empezó todo.", "Lo que queráis"],
+    ["Una pajarera de madera", "Para el jardín.", "60 €"],
+  ],
+  kids: "Habrá monitores, comederos de pájaros para pintar y cena para ellos.",
+  faq: ["¿Habrá pájaros de verdad?", "Solo los del jardín. Ningún animal estará encerrado."],
+  guestbook: [
+    ["Los del refugio", "Aquellos jilgueros sabían lo que hacían."],
+    ["Abuela Pilar", "Qué boda tan bonita, entre pájaros."],
+    ["Carmen y Álex", "Hemos colgado una pajarera en vuestro honor."],
+  ],
+  songs: ["Blackbird", "Pájaros de barro", "Vuela", "September", "Valerie", "Dancing Queen"],
+});

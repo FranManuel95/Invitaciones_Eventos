@@ -114,6 +114,9 @@ const CONCEPTS = [
     opening: "concepto",
   },
   { id: "grulla", names: /Miren y Rómulo/, date: "10 de abril de 2027", opening: "concepto" },
+  { id: "campanas", names: /Iris y Matías/, date: "9 de octubre de 2027", opening: "concepto" },
+  { id: "hilo", names: /Greta y Eneko/, date: "26 de junio de 2027", opening: "concepto" },
+  { id: "pajarera", names: /Alma y Jaime/, date: "15 de mayo de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -978,6 +981,31 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     }
     await expect(stage.locator("[data-grulla]")).toHaveAttribute("data-grulla", "doblada");
     await expect(stage.getByText(/mil grullas cumplen un deseo/)).toBeVisible();
+  });
+
+  test("campanas: repican al tirar de la cuerda", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=campanas");
+    const stage = cover(page, "campanas");
+    await stage.getByRole("button", { name: "Tirar de la cuerda" }).click();
+    await expect(stage.locator("[data-campanas]")).toHaveAttribute("data-campanas", "repicando");
+    await expect(stage.getByText(/Din, don/)).toBeVisible();
+  });
+
+  test("hilo rojo: se ata de un meñique al otro", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=hilo");
+    const stage = cover(page, "hilo");
+    await stage.getByRole("button", { name: "Atar el hilo" }).click();
+    await expect(stage.locator("[data-hilo]")).toHaveAttribute("data-hilo", "unido", {
+      timeout: 8000,
+    });
+  });
+
+  test("pajarera: se abre y salen los pájaros", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=pajarera");
+    const stage = cover(page, "pajarera");
+    await stage.getByRole("button", { name: "Abrir la pajarera" }).click();
+    await expect(stage.locator("[data-pajarera]")).toHaveAttribute("data-pajarera", "abierta");
+    await expect(stage.getByText(/Libres y juntos/)).toBeVisible();
   });
 
   test("faro: se enciende", async ({ page }) => {

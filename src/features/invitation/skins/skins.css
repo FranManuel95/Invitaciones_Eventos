@@ -4182,6 +4182,155 @@
     translate: 0 -10px;
   }
 }
+/* Campanas: cada sección es un repique. */
+[data-motif="campanas"] {
+  counter-reset: repique;
+}
+[data-motif="campanas"] .motif-hero {
+  background: linear-gradient(180deg, #e9eef4, var(--color-paper) 70%);
+}
+[data-motif="campanas"] section[id] {
+  counter-increment: repique;
+}
+[data-motif="campanas"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="campanas"] .motif-sprig::before {
+  content: "";
+  width: 1rem;
+  height: 1.1rem;
+  background: var(--color-gold);
+  clip-path: polygon(
+    40% 0,
+    60% 0,
+    62% 12%,
+    85% 30%,
+    92% 85%,
+    100% 100%,
+    0 100%,
+    8% 85%,
+    15% 30%,
+    38% 12%
+  );
+}
+[data-motif="campanas"] .motif-sprig::after {
+  content: "Repique " counter(repique);
+}
+[data-motif="campanas"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="campanas"] .motif-closing::before {
+  content: "¡Din, don!";
+}
+/* Hilo rojo: cada sección es un nudo. */
+[data-motif="hilo"] {
+  counter-reset: nudo;
+}
+[data-motif="hilo"] .motif-hero {
+  background: linear-gradient(180deg, #fbf3ee, var(--color-paper) 70%);
+}
+[data-motif="hilo"] section[id] {
+  counter-increment: nudo;
+}
+[data-motif="hilo"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="hilo"] .motif-sprig::before {
+  content: "";
+  width: 1.4rem;
+  height: 0.6rem;
+  border-bottom: 2px solid var(--color-gold);
+  border-radius: 0 0 50% 50%;
+}
+[data-motif="hilo"] .motif-sprig::after {
+  content: "Nudo " counter(nudo);
+}
+[data-motif="hilo"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="hilo"] .motif-closing::before {
+  content: "Atados para siempre";
+}
+/* Pajarera: cada sección es un vuelo. */
+[data-motif="pajarera"] {
+  counter-reset: vuelo;
+}
+[data-motif="pajarera"] .motif-hero {
+  background: linear-gradient(180deg, #eef5f0, var(--color-paper) 70%);
+}
+[data-motif="pajarera"] section[id] {
+  counter-increment: vuelo;
+}
+[data-motif="pajarera"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="pajarera"] .motif-sprig::before {
+  content: "";
+  width: 1.2rem;
+  height: 0.7rem;
+  background: var(--color-gold);
+  clip-path: polygon(0 60%, 40% 40%, 55% 0, 65% 40%, 100% 20%, 70% 70%, 30% 100%);
+}
+[data-motif="pajarera"] .motif-sprig::after {
+  content: "Vuelo " counter(vuelo);
+}
+[data-motif="pajarera"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="pajarera"] .motif-closing::before {
+  content: "Libres y juntos";
+}
+@keyframes bell-left {
+  0%,
+  100% {
+    transform: rotate(-14deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+@keyframes bell-right {
+  0%,
+  100% {
+    transform: rotate(14deg);
+  }
+  50% {
+    transform: rotate(-10deg);
+  }
+}
 @keyframes musicbox-spin {
   to {
     transform: rotateY(360deg);
@@ -4976,6 +5125,22 @@
 }
 /* Grulla de papel: papel doblado. */
 [data-motif="grulla"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 2px solid var(--color-gold);
+}
+
+/* Campanas: pregón del campanario. */
+[data-motif="campanas"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 3px double var(--color-gold);
+}
+/* Hilo rojo: ovillo de hilo. */
+[data-motif="hilo"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 2px solid var(--color-gold);
+}
+/* Pajarera: jaula abierta. */
+[data-motif="pajarera"] .concept-carrier {
   background: var(--color-ivory);
   border: 2px solid var(--color-gold);
 }

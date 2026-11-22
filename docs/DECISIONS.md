@@ -1564,6 +1564,12 @@ olivo.
   **Grulla de papel** (un papel rojo que se dobla en tres pliegues hasta la grulla de los mil
   deseos; Miren y Rómulo, Aínsa). Estilos Burbujas, Establo y Origami. Ya son 104 plantillas (82 de
   objetos) y 105 portadas; la venta dice «Ciento cuatro plantillas» y «Ciento cinco portadas».
+- **Vigesimotercera tanda**: **Campanas** (espadaña con dos campanas con los nombres; al tirar de la
+  cuerda repican; Iris y Matías, Trujillo), **Hilo rojo** (dos meñiques y el hilo del destino que se
+  dibuja de uno a otro; Greta y Eneko, Olite) y **Pajarera** (jaula dorada; se abre la puerta y
+  salen dos pájaros juntos; Alma y Jaime, Sos del Rey Católico). Estilos Espadaña, Destino y
+  Aviario. Se descartan los naipes y la bola de cristal por parecerse a Póker, Tarot y Horóscopo. Ya
+  son 107 plantillas (85 de objetos) y 108 portadas.
 
 ## Pendiente para próximas fases
 
