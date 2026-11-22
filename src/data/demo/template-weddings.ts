@@ -14364,3 +14364,301 @@ export const termometro = wedding({
   ],
   songs: ["Fever", "Calor", "Burning Love", "September", "Valerie", "Dancing Queen"],
 });
+
+export const tendedero = wedding({
+  id: "evt-demo-yaiza-fabian",
+  first: "Yaiza",
+  second: "Fabián",
+  date: "2027-06-26T13:00:00+02:00",
+  rsvpDeadline: "2027-05-15T23:59:00+02:00",
+  city: "Betanzos",
+  region: "A Coruña",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-2.jpg",
+  cardMessage:
+    "Teníamos los tendederos enfrente, patio con patio. Un día se voló una camisa suya y la devolví yo.",
+  welcomeMessage: "Hemos tendido toda la información al sol. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Betanzos y por llenar el patio. Aquí están vuestras fotos, recién tendidas.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María do Azougue",
+      kind: "Ceremonia",
+      address: "Rúa do Azougue, 1",
+      note: "En el casco viejo. Hay parking junto al río Mandeo.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Pazo do Tendal",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Camiño do Mandeo, km 3",
+      note: "A 10 minutos, con un patio lleno de tendederos de flores.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [24, 13, 30],
+  program: [
+    ["13:00", "Ceremonia", "iglesia", "Santa María do Azougue", "Con gaita.", "ceremony"],
+    ["14:15", "Aperitivo", "finca", "En el patio", "Con tortilla de Betanzos y vino.", "cocktail"],
+    [
+      "15:30",
+      "Comida",
+      "finca",
+      "Bajo los tendederos",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["18:30", "Fiesta", "finca", "Hasta tarde", "Baile y queimada.", "party"],
+  ],
+  busRoutes: [
+    ["coruna-b", "A Coruña → Betanzos", "Estación de A Coruña", "12:00", ["21:00", "00:30"], 30],
+    ["ferrol", "Ferrol → Betanzos", "Estación de Ferrol", "11:45", ["00:30"], 40],
+  ],
+  menu: {
+    carne: "Ternera gallega al horno",
+    pescado: "Pulpo á feira y merluza",
+    vegetariano: "Tortilla de Betanzos y pimientos de Padrón",
+    vegano: "Grelos y pimientos de Padrón",
+  },
+  dressCode: {
+    title: "Verano en el patio",
+    detail: "Blanco, azul y un toque de color. Puede llover: chaqueta.",
+    palette: [
+      { name: "Cielo", hex: "#dcefff" },
+      { name: "Sábana", hex: "#fffaf0" },
+      { name: "Pinza", hex: "#c9a24f" },
+      { name: "Azul", hex: "#2f5a78" },
+    ],
+    examples: [
+      "Vestido de algodón.",
+      "Camisa blanca y pantalón claro.",
+      "Un paraguas, por si acaso.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Garelos", "En el centro de Betanzos", "Habitaciones reservadas hasta el 15 de mayo."],
+    ["Casa rural do Mandeo", "Junto a la finca", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro:
+      "Dos tendederos enfrente, una camisa voladora y seis años juntos. Esta es la versión corta.",
+    moments: [
+      ["2021", "La camisa", "Se le voló una camisa. Se la devolví yo.", "cala"],
+      ["2022", "El patio", "Juntamos los dos patios en uno.", "furgoneta"],
+      ["2026", "La pedida", "Una sábana tendida con letras: «¿Te casas conmigo?».", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "Todo está tendido. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Portugal", "Más patios.", "Lo que queráis"],
+    ["Ropa de cama de lino", "Para tender al sol.", "120 €"],
+    ["Una lavadora nueva", "La nuestra se rompe.", "400 €"],
+    ["Una cena en Betanzos", "Para el aniversario.", "90 €"],
+  ],
+  kids: "Habrá monitores, pinzas para jugar y comida para ellos.",
+  faq: ["¿Y si llueve?", "Recogemos las fotos y nos metemos en el pazo."],
+  guestbook: [
+    ["Los vecinos del patio", "Esa camisa voló con intención."],
+    ["Avoa Pura", "Que boda máis bonita."],
+    ["Lúa y Xurxo", "Hemos tendido una foto para vosotros."],
+  ],
+  songs: ["Here Comes the Sun", "Bajo el sol", "Sunny", "September", "Valerie", "Dancing Queen"],
+});
+
+export const chicles = wedding({
+  id: "evt-demo-gloria-quino",
+  first: "Gloria",
+  second: "Quino",
+  date: "2027-08-28T19:30:00+02:00",
+  rsvpDeadline: "2027-07-15T23:59:00+02:00",
+  city: "Calatayud",
+  region: "Zaragoza",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-1.jpg",
+  cardMessage:
+    "Nos conocimos en las fiestas, delante de una máquina de chicles: los dos con la última moneda.",
+  welcomeMessage:
+    "Nos casamos en plenas fiestas, con chuches y verbena. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Calatayud y por endulzarnos la fiesta. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Colegiata de Santa María",
+      kind: "Ceremonia",
+      address: "Plaza de Santa María, 1",
+      note: "En el casco antiguo. Hay parking junto al paseo.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Huerta de las Chuches",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camino del Jalón, km 2",
+      note: "A 10 minutos, con jardín y barra de golosinas.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [32, 16, 5],
+  program: [
+    ["19:30", "Ceremonia", "iglesia", "Santa María", "Con jota a la salida.", "ceremony"],
+    ["20:45", "Aperitivo", "finca", "En el jardín", "Con vino de Calatayud y chuches.", "cocktail"],
+    ["22:00", "Cena", "finca", "Bajo las luces", "Con el menú que elijas al confirmar.", "banquet"],
+    ["00:00", "Fiesta", "finca", "Verbena", "Baile y barra de golosinas.", "party"],
+  ],
+  busRoutes: [
+    [
+      "zaragoza-c",
+      "Zaragoza → Calatayud",
+      "Estación Delicias, Zaragoza",
+      "18:15",
+      ["03:00", "05:30"],
+      60,
+    ],
+    ["daroca", "Daroca → Calatayud", "Plaza de España, Daroca", "18:30", ["05:30"], 40],
+  ],
+  menu: {
+    carne: "Ternasco al horno",
+    pescado: "Bacalao con tomate",
+    vegetariano: "Borrajas con almejas vegetales",
+    vegano: "Pisto del Jalón",
+  },
+  dressCode: {
+    title: "Verbena de colores",
+    detail: "Colores de chuche. Hay jardín y baile: zapato cómodo.",
+    palette: [
+      { name: "Fresa", hex: "#ff5d8f" },
+      { name: "Limón", hex: "#ffc93c" },
+      { name: "Menta", hex: "#7bd389" },
+      { name: "Máquina", hex: "#c62848" },
+    ],
+    examples: ["Vestido de color chuche.", "Camisa estampada.", "Una moneda para la máquina."],
+  },
+  accommodation: [
+    ["Hotel Monasterio de Piedra", "A 20 minutos", "Habitaciones reservadas hasta el 15 de julio."],
+    ["Hostal Bílbilis", "En el centro", "Con desayuno hasta las 12:00."],
+  ],
+  story: {
+    intro:
+      "Una máquina de chicles, la última moneda y ocho fiestas juntos. Esta es la versión corta.",
+    moments: [
+      ["2019", "La máquina", "Los dos con la última moneda. Compartimos la bola.", "olivos"],
+      ["2021", "Las fiestas", "Cada agosto, la misma máquina.", "terraza"],
+      ["2026", "La pedida", "El anillo salió de la máquina, dentro de una bola.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "La bola ya ha salido. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Nueva York", "Para la tienda de chuches gigante.", "Lo que queráis"],
+    ["Una máquina de chicles para casa", "Con monedas incluidas.", "80 €"],
+    ["Una caja de dulces de Calatayud", "Para el aniversario.", "40 €"],
+    ["Una escapada al Monasterio de Piedra", "Para descansar.", "200 €"],
+  ],
+  kids: "Habrá monitores, barra de chuches y cena para ellos.",
+  faq: ["¿Hay barra de chuches?", "Sí, para todos, no solo para los niños."],
+  guestbook: [
+    ["Los de las fiestas", "Esa última moneda valió la pena."],
+    ["Abuela Pilarín", "Qué boda más dulce."],
+    ["Ana y Toni", "Nos hemos comido diez bolas."],
+  ],
+  songs: ["Sugar Sugar", "Dulce", "Bubblegum", "September", "Valerie", "Dancing Queen"],
+});
+
+export const dardos = wedding({
+  id: "evt-demo-paloma-toni",
+  first: "Paloma",
+  second: "Toni",
+  date: "2027-11-20T18:30:00+01:00",
+  rsvpDeadline: "2027-10-10T23:59:00+02:00",
+  city: "Antequera",
+  region: "Málaga",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-3.jpg",
+  cardMessage:
+    "Nos conocimos en una taberna jugando a los dardos. Ella dio en el centro; él, en el corazón.",
+  welcomeMessage: "Hemos dado en el blanco. Aquí tienes todo lo que necesitas para la boda.",
+  thankYouMessage:
+    "Gracias por venir a Antequera y por las partidas de dardos. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Real Colegiata de Santa María",
+      kind: "Ceremonia",
+      address: "Plaza de los Escribanos, 1",
+      note: "Junto a la Alcazaba. Hay parking en la plaza de toros.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Taberna de la Diana",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Calle Infante Don Fernando, 30",
+      note: "A 5 minutos, una antigua taberna con patio y dianas.",
+      photo: "pista",
+    },
+  ],
+  climate: [18, 7, 30],
+  program: [
+    ["18:30", "Ceremonia", "iglesia", "Santa María", "Con coro y guitarra.", "ceremony"],
+    ["19:45", "Aperitivo", "finca", "En el patio", "Con mollete, porra y vino.", "cocktail"],
+    ["21:15", "Cena", "finca", "En la taberna", "Con el menú que elijas al confirmar.", "banquet"],
+    ["23:30", "Fiesta", "finca", "Torneo de dardos", "Y baile hasta tarde.", "party"],
+  ],
+  busRoutes: [
+    ["malaga-a", "Málaga → Antequera", "Paseo del Parque, Málaga", "17:00", ["02:00", "04:30"], 50],
+    ["archidona", "Archidona → Antequera", "Plaza Ochavada, Archidona", "17:45", ["04:30"], 20],
+  ],
+  menu: {
+    carne: "Choto en salsa",
+    pescado: "Bacalao con tomate",
+    vegetariano: "Porra antequerana y espárragos",
+    vegano: "Porra antequerana sin huevo",
+  },
+  dressCode: {
+    title: "Noche de taberna",
+    detail: "Madera, rojo y verde. Hay patio: chaqueta en noviembre.",
+    palette: [
+      { name: "Diana", hex: "#c62828" },
+      { name: "Fieltro", hex: "#2f7a4f" },
+      { name: "Madera", hex: "#3a2a1e" },
+      { name: "Oro", hex: "#d4af37" },
+    ],
+    examples: ["Vestido rojo o verde.", "Traje marrón con chaleco.", "Buena puntería."],
+  },
+  accommodation: [
+    ["Parador de Antequera", "Junto al parque", "Habitaciones reservadas hasta el 10 de octubre."],
+    ["Hostal de la Alcazaba", "En el centro", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro: "Una taberna, un dardo en el centro y ocho años de partidas. Esta es la versión corta.",
+    moments: [
+      ["2019", "La partida", "Ella dio en el centro. Él perdió y pagó la ronda.", "olivos"],
+      ["2022", "La liga", "Ganamos la liga de dardos del barrio.", "terraza"],
+      ["2026", "La pedida", "El anillo, clavado en el centro de la diana.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "Ya hemos dado en el blanco. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Dublín", "Para jugar en los pubs.", "Lo que queráis"],
+    ["Una diana profesional", "Para casa.", "120 €"],
+    ["Dardos de tungsteno", "Para los dos.", "80 €"],
+    ["Una noche en el parador", "Para el aniversario.", "180 €"],
+  ],
+  kids: "Habrá monitores, dianas de velcro y cena para ellos.",
+  faq: ["¿Hay torneo de dardos?", "Sí, después de la cena. El premio es una botella de vino."],
+  guestbook: [
+    ["Los de la taberna", "Esa puntería venía de lejos."],
+    ["Abuelo Antonio", "Qué boda tan bonita, y qué tino."],
+    ["Lola y Pepe", "Ganamos el torneo."],
+  ],
+  songs: [
+    "Bullseye",
+    "Dardos",
+    "Hit Me with Your Best Shot",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});

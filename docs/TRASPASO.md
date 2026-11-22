@@ -25,9 +25,9 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
      Paraguas, Cascanueces, Hamaca, Cesta de pícnic, Molinillo de viento,
      Candado del amor, Gramola, Huellas en la arena, Nevera, Tetera, Pompas de jabón, Herradura, Grulla de papel, Campanas, Hilo rojo, Pajarera, Persiana, Reloj de cuco,
      Pizarra, Noria, Sombrero de mago, Postre flambeado, Acuario, Huerto, Telefonillo, Trenecito, Tarro de
-     luciérnagas, Caleidoscopio, Ramo de globos, Peonza, Castillo de arena, Cámara de carrete, Buzón y
-     Termómetro del amor. Y la portada en movimiento Tarjeta a la luz con la
-     plantilla Luz de tarde. Ya son **125 plantillas y 126 portadas** (103 de concepto) (con Seda y Cinta de seda). Componentes en
+     luciérnagas, Caleidoscopio, Ramo de globos, Peonza, Castillo de arena, Cámara de carrete, Buzón,
+     Termómetro del amor, Tendedero, Máquina de chicles y Diana. Y la portada en movimiento Tarjeta a la luz con la
+     plantilla Luz de tarde. Ya son **128 plantillas y 129 portadas** (106 de concepto) (con Seda y Cinta de seda). Componentes en
      `src/features/invitation/cover/concepts-new*.tsx`; cada una con estilo, piel, kit, boda de
      ejemplo y pruebas en `tests/e2e/conceptos.spec.ts`.
      Antes de llevarlo a producción: `npm run check` y la batería E2E completa, PR a `main`.

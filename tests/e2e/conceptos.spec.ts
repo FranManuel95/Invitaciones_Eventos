@@ -135,6 +135,9 @@ const CONCEPTS = [
   { id: "carrete", names: /Rosana y Hernando/, date: "29 de mayo de 2027", opening: "concepto" },
   { id: "buzon", names: /Ximena y Benito/, date: "2 de octubre de 2027", opening: "concepto" },
   { id: "termometro", names: /Tania y Andoni/, date: "13 de febrero de 2027", opening: "concepto" },
+  { id: "tendedero", names: /Yaiza y Fabián/, date: "26 de junio de 2027", opening: "concepto" },
+  { id: "chicles", names: /Gloria y Quino/, date: "28 de agosto de 2027", opening: "concepto" },
+  { id: "dardos", names: /Paloma y Toni/, date: "20 de noviembre de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -1191,6 +1194,29 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await expect(stage.locator("[data-termometro]")).toHaveAttribute("data-termometro", "boda", {
       timeout: 8000,
     });
+  });
+
+  test("tendedero: se recogen las tres fotos", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=tendedero");
+    const stage = cover(page, "tendedero");
+    for (const n of [0, 1, 2]) {
+      await stage.getByRole("button", { name: `Quitar una pinza (${n}/3)` }).click();
+    }
+    await expect(stage.locator("[data-tendedero]")).toHaveAttribute("data-tendedero", "recogido");
+  });
+
+  test("máquina de chicles: sale la bola", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=chicles");
+    const stage = cover(page, "chicles");
+    await stage.getByRole("button", { name: "Girar la manivela" }).click();
+    await expect(stage.locator("[data-chicles]")).toHaveAttribute("data-chicles", "bola-fuera");
+  });
+
+  test("diana: el dardo da en el centro", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=dardos");
+    const stage = cover(page, "dardos");
+    await stage.getByRole("button", { name: "Lanzar el dardo" }).click();
+    await expect(stage.locator("[data-diana]")).toHaveAttribute("data-diana", "en-el-centro");
   });
 
   test("faro: se enciende", async ({ page }) => {

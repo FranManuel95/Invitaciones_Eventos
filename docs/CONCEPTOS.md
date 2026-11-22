@@ -8,7 +8,7 @@ Rama de trabajo: `claude/tender-franklin-isgz7b` (PR #6 contra `main`, sin fusio
 continuación (Telegrama y Postal, ronda 19) está en `claude/exciting-franklin-43k083`, que parte
 de esa rama y la contiene entera.
 
-**Hechas las ciento tres**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
+**Hechas las ciento seis**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
 las diez de la ronda 20 (Vinilo, Pasaporte, Carta, Mapa, Constelación, Cómic, Cosecha, Tarot,
 Arcade y Semillas) e Instantánea, Abanico, Cerillas, Galleta de la suerte, Casete y Mensaje en una botella (ronda
 38, en `cover/concepts-new.tsx`) y Crucigrama, Billete de tren y Receta de la abuela (ronda 38, en
@@ -38,7 +38,8 @@ en `cover/concepts-new15.tsx`) y Piñata, Lluvia de arroz y Vela (ronda 38, en
 `cover/concepts-new25.tsx`) y Trenecito, Tarro de luciérnagas y Caleidoscopio (ronda 38, en
 `cover/concepts-new26.tsx`) y Ramo de globos, Peonza y Castillo de arena (ronda 38, en
 `cover/concepts-new27.tsx`) y Cámara de carrete, Buzón y Termómetro del amor (ronda 38, en
-`cover/concepts-new28.tsx`). Las fichas de abajo se conservan como referencia de lo que se
+`cover/concepts-new28.tsx`) y Tendedero, Máquina de chicles y Diana (ronda 38, en
+`cover/concepts-new29.tsx`). Las fichas de abajo se conservan como referencia de lo que se
 construyó; lo que queda es lo de «Pendiente en las que ya existen», que vale para todas.
 
 Dónde está cada cosa ahora: piezas comunes en `cover/concept-kit.tsx`; portadas en
@@ -406,11 +407,12 @@ Acuario, Huerto, Telefonillo, Trenecito, Tarro de luciérnagas, Caleidoscopio, R
 Peonza y Castillo de arena. El vídeo del lacre que se estampa ya es la portada Lacre. Quedan por
 probar:
 
-Hechas también Cámara de carrete, Buzón y Termómetro del amor. Siguientes:
+Hechas también Cámara de carrete, Buzón, Termómetro del amor, Tendedero, Máquina de chicles y
+Diana (el barco en una botella se descarta por parecerse a Mensaje en una botella). Siguientes:
 
-1. **Barquito en una botella**: se inclina la botella y el barco navega hasta el puerto de la boda.
-2. **Cuerda de tender**: se tiran de las pinzas y caen las fotos con los datos del día.
-3. **Máquina de chicles**: se gira la manivela y sale una bola con la fecha.
+1. **Linterna de bolsillo**: se enciende en una habitación a oscuras y el haz descubre la fecha.
+2. **Cerradura de candado de números**: se giran las ruedas hasta la fecha y se abre.
+3. **Patines**: se dan tres impulsos y se llega a la pista de baile.
 
 ## Por dónde empezar
 

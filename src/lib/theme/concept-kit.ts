@@ -777,6 +777,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Sin remedio",
     pass: { kicker: "Receta del amor", people: "Pacientes" },
   },
+  tendedero: {
+    object: "el tendedero",
+    carrier: "Cesta de la colada",
+    letterhead: "Tendido al sol",
+    signoff: "Recogido y planchado",
+    pass: { kicker: "Pase al patio", people: "Vecinos" },
+  },
+  chicles: {
+    object: "la máquina de chicles",
+    carrier: "Bolsa de chuches",
+    letterhead: "Una moneda por",
+    signoff: "Otra bola, por favor",
+    pass: { kicker: "Ficha de la máquina", people: "Golosos" },
+  },
+  dardos: {
+    object: "la diana",
+    carrier: "Caja de dardos",
+    letterhead: "Justo en el centro",
+    signoff: "¡Diana!",
+    pass: { kicker: "Ficha de la taberna", people: "Jugadores" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

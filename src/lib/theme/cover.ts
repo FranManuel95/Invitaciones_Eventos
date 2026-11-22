@@ -132,6 +132,9 @@ export const COVER_IDS = [
   "carrete",
   "buzon",
   "termometro",
+  "tendedero",
+  "chicles",
+  "dardos",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -680,6 +683,20 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Termómetro del amor",
     description: "Un termómetro con bulbo de corazón: se frota y sube de «Tibio» a «¡Boda!».",
   },
+  tendedero: {
+    label: "Tendedero",
+    description:
+      "Tres fotos colgadas con pinzas al sol: se descuelgan y dicen cuándo, dónde y a qué hora.",
+  },
+  chicles: {
+    label: "Máquina de chicles",
+    description:
+      "Una máquina de chicles de feria: se gira la manivela y sale una bola con un «¡Sí!».",
+  },
+  dardos: {
+    label: "Diana",
+    description: "Una diana de bar: se lanza el dardo y se clava justo en el centro.",
+  },
 };
 
 /**
@@ -791,6 +808,9 @@ export const CONCEPT_COVERS = {
   carrete: { ink: "#1e1a16", paper: "#f3ede2" },
   buzon: { ink: "#1f2328", paper: "#eef0f2" },
   termometro: { ink: "#3a1620", paper: "#fbe3e6" },
+  tendedero: { ink: "#1f2a33", paper: "#eef5fb" },
+  chicles: { ink: "#3a1624", paper: "#fbe9ee" },
+  dardos: { ink: "#f6eedc", paper: "#1a120c", tone: "oscuro" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -980,6 +1000,9 @@ export const MOTIF_IDS = [
   "carrete",
   "buzon",
   "termometro",
+  "tendedero",
+  "chicles",
+  "dardos",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -1097,4 +1120,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   carrete: { label: "Carrete", kind: "concepto" },
   buzon: { label: "Correos", kind: "concepto" },
   termometro: { label: "Termómetro", kind: "concepto" },
+  tendedero: { label: "Tendedero", kind: "concepto" },
+  chicles: { label: "Chicles", kind: "concepto" },
+  dardos: { label: "Diana", kind: "concepto" },
 };

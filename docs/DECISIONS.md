@@ -1611,6 +1611,11 @@ olivo.
   Tania y Andoni, Guadalupe, la víspera de San Valentín). Estilos Analógica, Correos y Fiebre. Ya
   son 125 plantillas (103 de objetos) y 126 portadas.
 - **Batería E2E completa** con todo hasta Castillo de arena: 717 pruebas bien y 5 omitidas.
+- **Trigésima tanda**: **Tendedero** (tres fotos con pinzas: cuándo, dónde y a qué hora; se
+  descuelgan una a una; Yaiza y Fabián, Betanzos), **Máquina de chicles** (se gira la manivela y
+  sale la bola del «¡Sí!»; Gloria y Quino, Calatayud) y **Diana** (el dardo vuela y se clava en el
+  centro; Paloma y Toni, Antequera; portada oscura; su id es `dardos`). Estilos Colada, Golosina y
+  Taberna. Ya son 128 plantillas (106 de objetos) y 129 portadas.
 
 ## Pendiente para próximas fases
 

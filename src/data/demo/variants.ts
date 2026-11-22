@@ -109,6 +109,9 @@ import {
   carrete,
   buzon,
   termometro,
+  tendedero,
+  chicles,
+  dardos,
 } from "./template-weddings";
 import { guestbook, type DemoVariant } from "./wedding-builder";
 
@@ -1164,6 +1167,9 @@ const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   carrete,
   buzon,
   termometro,
+  tendedero,
+  chicles,
+  dardos,
 };
 
 /** La boda ficticia propia de una plantilla, si la tiene. */
