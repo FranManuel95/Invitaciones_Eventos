@@ -33,11 +33,6 @@ function SwingCover({ event, onOpen, reduce }: ConceptProps) {
         aria-hidden
         className="absolute inset-0 bg-[linear-gradient(180deg,#e4f0f4,#f4f1e4_70%,#c9d9a8)]"
       />
-      {/* La rama del árbol, de la que cuelga el columpio. */}
-      <span
-        aria-hidden
-        className="absolute top-[30%] left-[-10%] h-4 w-[120%] rotate-[-3deg] rounded-full bg-[#6b4f35]"
-      />
       <div className="relative mx-auto flex h-full w-full max-w-[24rem] flex-col items-center px-6 pt-[max(4.5rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))] text-center text-[#26331f]">
         <p className="text-[0.75rem] tracking-[0.22em] uppercase">Columpiándose hacia el sí</p>
         <h1
@@ -57,6 +52,11 @@ function SwingCover({ event, onOpen, reduce }: ConceptProps) {
           }}
           className="relative mt-10 h-56 w-full cursor-pointer"
         >
+          {/* La rama del árbol, de la que cuelga el columpio. */}
+          <span
+            aria-hidden
+            className="absolute -top-2 left-[-30%] h-4 w-[160%] rotate-[-3deg] rounded-full bg-[#6b4f35]"
+          />
           <div
             className={`absolute top-0 left-1/2 flex h-52 origin-top -translate-x-1/2 flex-col items-center ${swinging && !reduce ? "animate-[swing-arc_2.6s_ease-in-out_infinite]" : ""}`}
             style={swinging && reduce ? { transform: "rotate(18deg)" } : undefined}
@@ -65,7 +65,7 @@ function SwingCover({ event, onOpen, reduce }: ConceptProps) {
               <span aria-hidden className="w-0.5 bg-[#8a7a5a]" />
               <span aria-hidden className="w-0.5 bg-[#8a7a5a]" />
             </div>
-            <div className="flex h-9 w-40 items-center justify-center rounded-[4px] bg-[#a8764a] text-[0.8125rem] font-semibold text-[#fff8ea] shadow-[0_8px_14px_-8px_rgb(60_40_20/0.6)]">
+            <div className="flex h-9 w-40 items-center justify-center rounded-[4px] bg-[#7a4f2c] text-[0.8125rem] font-semibold text-[#fff8ea] shadow-[0_8px_14px_-8px_rgb(60_40_20/0.6)]">
               <span translate="no">
                 {hosts.first} ♥ {hosts.second}
               </span>

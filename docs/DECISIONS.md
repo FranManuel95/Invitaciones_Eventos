@@ -1531,6 +1531,7 @@ olivo.
   Pamplona; portada oscura) y **Paraguas** (llueve sobre la pantalla hasta que se abre el paraguas
   rojo y sale el sol; Carolina y Damián, Lugo). Estilos Arboleda, Cruce y Aguacero. Ya son 92
   plantillas (70 de objetos) y 93 portadas.
+- **Batería E2E completa** con todo hasta Vela: 585 pruebas bien y 5 omitidas.
 
 ## Pendiente para próximas fases
 
