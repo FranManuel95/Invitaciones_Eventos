@@ -1570,6 +1570,7 @@ olivo.
   salen dos pájaros juntos; Alma y Jaime, Sos del Rey Católico). Estilos Espadaña, Destino y
   Aviario. Se descartan los naipes y la bola de cristal por parecerse a Póker, Tarot y Horóscopo. Ya
   son 107 plantillas (85 de objetos) y 108 portadas.
+- **Batería E2E completa** con todo hasta Grulla de papel: 645 pruebas bien y 5 omitidas.
 
 ## Pendiente para próximas fases
 
