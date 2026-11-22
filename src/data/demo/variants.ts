@@ -67,6 +67,9 @@ import {
   anillos,
   baile,
   capsula,
+  sellos,
+  disco,
+  cuaderno,
 } from "./template-weddings";
 import { guestbook, type DemoVariant } from "./wedding-builder";
 
@@ -1080,6 +1083,9 @@ const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   anillos,
   baile,
   capsula,
+  sellos,
+  disco,
+  cuaderno,
 };
 
 /** La boda ficticia propia de una plantilla, si la tiene. */

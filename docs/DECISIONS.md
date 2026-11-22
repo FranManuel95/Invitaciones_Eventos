@@ -1510,6 +1510,14 @@ olivo.
   Ismael, Burgos) y **Cápsula del tiempo** (una lata «No abrir hasta» el año de la boda que sube de
   la tierra; Elisa y Jacobo, Ronda). Estilos Estuche, Salón y Hojalata. Ya son 83 plantillas (61 de
   objetos) y 84 portadas.
+- **Decimosexta tanda**: **Pliego de sellos** (cuatro sellos con las iniciales; al arrancar uno,
+  sale con el matasellos de la ciudad y la fecha; Nora y Fidel, Ourense), **Bola de discoteca**
+  (sala a oscuras; al encender la bola gira y aparecen los reflejos; con movimiento reducido, los
+  reflejos quietos; Valentina y Joaquín, Benidorm; portada oscura) y **Cuaderno de viaje**
+  (billetes y mapas pegados a la izquierda; a la derecha, cuatro páginas: la historia, el destino,
+  la fecha y «Te esperamos»; Ángela y Hernán, Cádiz). Estilos Filatelia, Discoteca y Diario de
+  viaje. Ya son 86 plantillas (64 de objetos) y 87 portadas.
+- **Batería E2E completa** con todo hasta Cápsula del tiempo: 549 pruebas bien y 5 omitidas.
 
 ## Pendiente para próximas fases
 

@@ -78,6 +78,9 @@ const CONCEPTS = [
   { id: "anillos", names: /Alicia y Ramiro/, date: "13 de noviembre de 2027", opening: "concepto" },
   { id: "baile", names: /Mar y Ismael/, date: "12 de febrero de 2027", opening: "concepto" },
   { id: "capsula", names: /Elisa y Jacobo/, date: "29 de mayo de 2027", opening: "concepto" },
+  { id: "sellos", names: /Nora y Fidel/, date: "4 de septiembre de 2027", opening: "concepto" },
+  { id: "disco", names: /Valentina y Joaquín/, date: "7 de agosto de 2027", opening: "concepto" },
+  { id: "cuaderno", names: /Ángela y Hernán/, date: "2 de octubre de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -763,6 +766,32 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
       timeout: 8000,
     });
     await expect(stage.getByText(/nos vemos en Ronda/)).toBeVisible();
+  });
+
+  test("sellos: se arranca uno y lleva el matasellos", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=sellos");
+    const stage = cover(page, "sellos");
+    await stage.getByRole("button", { name: "Arrancar un sello" }).click();
+    await expect(stage.locator("[data-sellos]")).toHaveAttribute("data-sellos", "arrancado");
+    await expect(stage.getByText(/Matasellado en Ourense/)).toBeVisible();
+  });
+
+  test("bola de discoteca: se enciende", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=disco");
+    const stage = cover(page, "disco");
+    await stage.getByRole("button", { name: "Encender la bola" }).click();
+    await expect(stage.locator("[data-disco]")).toHaveAttribute("data-disco", "encendida");
+    await expect(stage.getByText("¡A la pista!")).toBeVisible();
+  });
+
+  test("cuaderno de viaje: se hojea hasta el destino", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=cuaderno");
+    const stage = cover(page, "cuaderno");
+    for (const n of [1, 2, 3]) {
+      await stage.getByRole("button", { name: `Pasar página (${n}/4)` }).click();
+    }
+    await expect(stage.locator("[data-cuaderno]")).toHaveAttribute("data-cuaderno", "llegada");
+    await expect(stage.getByText("Te esperamos")).toBeVisible();
   });
 
   test("faro: se enciende", async ({ page }) => {

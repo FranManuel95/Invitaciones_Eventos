@@ -9467,3 +9467,324 @@ export const capsula = wedding({
     "Dancing Queen",
   ],
 });
+
+export const sellos = wedding({
+  id: "evt-demo-nora-fidel",
+  first: "Nora",
+  second: "Fidel",
+  date: "2027-09-04T17:00:00+02:00",
+  rsvpDeadline: "2027-07-20T23:59:00+02:00",
+  city: "Ourense",
+  region: "Ourense",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-1.jpg",
+  cardMessage:
+    "Nos conocimos en un mercadillo de sellos, peleando por el mismo. Al final lo pegamos en la misma carta.",
+  welcomeMessage:
+    "Esta carta va certificada y con sello propio. Aquí tienes todo lo que necesitas para llegar a la boda.",
+  thankYouMessage:
+    "Gracias por venir a Ourense, por las termas y por cada baile. Aquí están vuestras fotos, con matasellos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa Eufemia",
+      kind: "Ceremonia",
+      address: "Rúa de Santo Domingo, 4",
+      note: "En el casco viejo. Hay parking en la praza Maior.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Pazo do Correo",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camiño das Burgas, 7",
+      note: "A 10 minutos, junto al río y con jardín de camelias.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [27, 14, 15],
+  program: [
+    ["17:00", "Ceremonia", "iglesia", "Santa Eufemia", "Con gaita a la salida.", "ceremony"],
+    ["18:15", "Aperitivo", "finca", "En el jardín", "Con pulpo, empanada y ribeiro.", "cocktail"],
+    [
+      "19:45",
+      "Cena",
+      "finca",
+      "En el salón del pazo",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["22:30", "Fiesta", "finca", "Hasta el último sello", "Baile y queimada.", "party"],
+  ],
+  busRoutes: [
+    ["vigo", "Vigo → Ourense", "Praza de América, Vigo", "15:45", ["01:30", "04:00"], 75],
+    ["santiago", "Santiago → Ourense", "Estación de Santiago", "15:30", ["04:00"], 90],
+  ],
+  menu: {
+    carne: "Ternera gallega",
+    pescado: "Merluza a la gallega",
+    vegetariano: "Empanada de verduras",
+    vegano: "Castañas con setas",
+  },
+  dressCode: {
+    title: "Fin de verano",
+    detail: "Azul correos, crema y un toque rojo. Puede llover: lleva chaqueta.",
+    palette: [
+      { name: "Correos", hex: "#2c5a7a" },
+      { name: "Matasellos", hex: "#b23a2e" },
+      { name: "Sello", hex: "#f7efe0" },
+      { name: "Tinta", hex: "#1d2a37" },
+    ],
+    examples: [
+      "Vestido midi y chaqueta ligera.",
+      "Traje azul con corbata roja.",
+      "Un paraguas, por si acaso.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Termas", "Junto a las Burgas", "Habitaciones reservadas hasta el 20 de julio."],
+    ["Pensión do Correo", "En el casco viejo", "Con desayuno tarde para el domingo."],
+  ],
+  story: {
+    intro:
+      "Un sello que querían los dos, una carta compartida y siete años de correo. Esta es la versión corta.",
+    moments: [
+      ["2020", "El mercadillo", "Los dos queríamos el mismo sello de 1950.", "cala"],
+      ["2022", "La colección", "Juntamos nuestras colecciones en un solo álbum.", "furgoneta"],
+      ["2026", "La pedida", "En una carta con un sello hecho a medida.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "El sello ya está pegado. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Islandia", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Un álbum de sellos de piel", "Para la colección.", "120 €"],
+    ["Una lupa de filatelista", "Para los detalles.", "45 €"],
+    ["Una escapada a las termas", "Para descansar.", "150 €"],
+  ],
+  kids: "Habrá monitores, un taller de sellos y cena para ellos.",
+  faq: ["¿Habrá sellos para llevar?", "Sí: un pliego de nuestro sello para cada familia."],
+  guestbook: [
+    ["Los del mercadillo", "Al final el sello fue de los dos."],
+    ["Avó Manolo", "Que boda tan bonita, e que sellos!"],
+    ["Iria y Xoán", "Os mandamos una carta con vuestro sello."],
+  ],
+  songs: [
+    "Please Mr. Postman",
+    "Escríbeme",
+    "Sign, Sealed, Delivered",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
+
+export const disco = wedding({
+  id: "evt-demo-valentina-joaquin",
+  first: "Valentina",
+  second: "Joaquín",
+  date: "2027-08-07T20:00:00+02:00",
+  rsvpDeadline: "2027-06-30T23:59:00+02:00",
+  city: "Benidorm",
+  region: "Alicante",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/pareja.jpg",
+  cardMessage:
+    "Nos conocimos en una discoteca de los setenta, los dos con pantalón de campana. Seguimos bailando.",
+  welcomeMessage:
+    "La bola de espejos ya cuelga. Aquí tienes todo lo que necesitas para no parar de bailar.",
+  thankYouMessage:
+    "Gracias por quemar la pista con nosotros hasta el amanecer. Aquí están vuestras fotos, con brillos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Jaime",
+      kind: "Ceremonia",
+      address: "Plaza de Castelar, 1",
+      note: "En el casco antiguo, sobre el mar. Hay parking en la calle Alameda.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Sala Espejos",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Avenida del Mediterráneo, 45",
+      note: "A 10 minutos, con terraza al mar y pista con bola de espejos.",
+      photo: "pista",
+    },
+  ],
+  climate: [31, 23, 5],
+  program: [
+    ["20:00", "Ceremonia", "iglesia", "San Jaime", "Al atardecer, con el mar detrás.", "ceremony"],
+    ["21:15", "Aperitivo", "finca", "En la terraza", "Con cócteles de colores.", "cocktail"],
+    ["22:30", "Cena", "finca", "Bajo la bola", "Con el menú que elijas al confirmar.", "banquet"],
+    ["00:30", "Fiesta", "finca", "Sala Espejos", "Música disco hasta el amanecer.", "party"],
+  ],
+  busRoutes: [
+    [
+      "alicante",
+      "Alicante → Benidorm",
+      "Plaza de los Luceros, Alicante",
+      "18:45",
+      ["03:30", "06:00"],
+      45,
+    ],
+    ["altea", "Altea → Benidorm", "Paseo de Altea", "19:15", ["06:00"], 15],
+  ],
+  menu: {
+    carne: "Solomillo con salsa de vino",
+    pescado: "Arroz a banda",
+    vegetariano: "Arroz de verduras",
+    vegano: "Coca de verduras",
+  },
+  dressCode: {
+    title: "Noche disco",
+    detail: "Brillos, lentejuelas y colores. Zapatos para bailar toda la noche.",
+    palette: [
+      { name: "Neón", hex: "#ff7ad9" },
+      { name: "Espejo", hex: "#cfd2dc" },
+      { name: "Cian", hex: "#7ae0ff" },
+      { name: "Noche", hex: "#0d0818" },
+    ],
+    examples: [
+      "Lentejuelas o lamé, sin miedo.",
+      "Camisa de seda y pantalón de campana.",
+      "Zapato cómodo: se baila hasta el amanecer.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Levante Playa", "Frente al mar", "Habitaciones reservadas hasta el 30 de junio."],
+    ["Hostal del Castell", "En el casco antiguo", "Con desayuno hasta las 13:00."],
+  ],
+  story: {
+    intro:
+      "Una discoteca, dos pantalones de campana y nueve años sin parar de bailar. Esta es la versión corta.",
+    moments: [
+      ["2018", "La pista", "Una fiesta de los setenta. Nos tocó la misma baldosa.", "cala"],
+      ["2021", "El concurso", "Ganamos un concurso de baile en la playa.", "furgoneta"],
+      ["2026", "La pedida", "Bajo una bola de espejos, en mitad de una canción.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "La bola ya gira. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Nueva York", "Para bailar en Manhattan.", "Lo que queráis"],
+    ["Una bola de espejos para casa", "Para el salón, claro.", "80 €"],
+    ["Un tocadiscos con vinilos de disco", "Para seguir bailando.", "250 €"],
+    ["Clases de baile", "Para el próximo concurso.", "150 €"],
+  ],
+  kids: "Habrá monitores, mini disco y cena para ellos.",
+  faq: [
+    "¿Hasta qué hora es la fiesta?",
+    "Hasta el amanecer. Hay autobús de vuelta a las 03:30 y a las 06:00.",
+  ],
+  guestbook: [
+    ["Los de la baldosa", "Seguís bailando igual de mal y de bien."],
+    ["Tía Encarna", "Qué fiesta. Me duelen los pies de bailar."],
+    ["Noelia y Marcos", "Nos pedimos la bola de espejos."],
+  ],
+  songs: ["Stayin' Alive", "I Will Survive", "Dancing Queen", "September", "Valerie", "Le Freak"],
+});
+
+export const cuaderno = wedding({
+  id: "evt-demo-angela-hernan",
+  first: "Ángela",
+  second: "Hernán",
+  date: "2027-10-02T18:00:00+02:00",
+  rsvpDeadline: "2027-08-31T23:59:00+02:00",
+  city: "Cádiz",
+  region: "Cádiz",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-2.jpg",
+  cardMessage:
+    "Nos conocimos en un tren nocturno, los dos con un cuaderno de viaje. Desde entonces escribimos en el mismo.",
+  welcomeMessage:
+    "La última etapa del cuaderno es nuestra boda. Aquí tienes todo lo que necesitas para el viaje.",
+  thankYouMessage:
+    "Gracias por viajar hasta Cádiz con nosotros y por firmar en el cuaderno. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa Cruz",
+      kind: "Ceremonia",
+      address: "Calle Obispo José María Rancés, 1",
+      note: "En el barrio del Pópulo. Hay parking en el puerto.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Baluarte de los Viajeros",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Paseo de Santa Bárbara, 2",
+      note: "A 10 minutos andando, sobre la muralla y frente al mar.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [26, 18, 15],
+  program: [
+    ["18:00", "Ceremonia", "iglesia", "Santa Cruz", "Con coro y guitarra.", "ceremony"],
+    ["19:15", "Aperitivo", "finca", "Sobre la muralla", "Con atardecer y pescaíto.", "cocktail"],
+    ["20:45", "Cena", "finca", "En el baluarte", "Con el menú que elijas al confirmar.", "banquet"],
+    ["23:00", "Fiesta", "finca", "Última etapa", "Baile, chirigota y barra libre.", "party"],
+  ],
+  busRoutes: [
+    ["sevilla", "Sevilla → Cádiz", "Estación de Santa Justa", "16:00", ["02:30", "05:00"], 105],
+    ["jerez", "Jerez → Cádiz", "Estación de Jerez", "17:00", ["05:00"], 40],
+  ],
+  menu: {
+    carne: "Retinto con patatas",
+    pescado: "Atún de almadraba encebollado",
+    vegetariano: "Tortillitas de verduras",
+    vegano: "Ensalada de tomate de Conil",
+  },
+  dressCode: {
+    title: "Otoño en el sur",
+    detail: "Cuero, crema y teja. Hay brisa de mar: lleva algo de abrigo.",
+    palette: [
+      { name: "Cuero", hex: "#7a4a2c" },
+      { name: "Papel", hex: "#fbf6ea" },
+      { name: "Billete", hex: "#f5d9c8" },
+      { name: "Mapa", hex: "#cfe0d6" },
+    ],
+    examples: [
+      "Vestido fluido en tonos tierra.",
+      "Traje de lino con zapato cómodo.",
+      "Un chal: de noche sopla el levante.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Playa Victoria", "Frente a la playa", "Habitaciones reservadas hasta el 31 de agosto."],
+    ["Hostal del Pópulo", "En el casco antiguo", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro: "Un tren nocturno, dos cuadernos y diez países juntos. Esta es la versión corta.",
+    moments: [
+      ["2019", "El tren", "Compartimos litera y lápiz. Ella dibujaba; él escribía.", "cala"],
+      ["2022", "El viaje largo", "Seis meses con la furgoneta por Europa.", "furgoneta"],
+      ["2026", "La pedida", "En la última página del cuaderno, escrita a lápiz.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "La última etapa es Cádiz. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Japón", "La próxima etapa.", "Lo que queráis"],
+    ["Un cuaderno de cuero", "Para el siguiente viaje.", "60 €"],
+    ["Una mochila para dos", "Para no separarnos.", "150 €"],
+    ["Una noche en un tren", "El que vosotros elijáis.", "200 €"],
+  ],
+  kids: "Habrá monitores, pasaportes para sellar y cena para ellos.",
+  faq: [
+    "¿Qué es lo de firmar en el cuaderno?",
+    "En el aperitivo habrá un cuaderno de viaje para que nos dejéis una página.",
+  ],
+  guestbook: [
+    ["Los del tren nocturno", "Sabíamos que esa litera daría para mucho."],
+    ["Abuela Remedios", "Qué boda tan bonita, y qué viajeros."],
+    ["Carlota y Nacho", "Os hemos dejado un mapa en el cuaderno."],
+  ],
+  songs: [
+    "Mediterráneo",
+    "Viajando por el mundo",
+    "Cádiz",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});

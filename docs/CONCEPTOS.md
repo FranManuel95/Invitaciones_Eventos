@@ -8,7 +8,7 @@ Rama de trabajo: `claude/tender-franklin-isgz7b` (PR #6 contra `main`, sin fusio
 continuación (Telegrama y Postal, ronda 19) está en `claude/exciting-franklin-43k083`, que parte
 de esa rama y la contiene entera.
 
-**Hechas las sesenta y una**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
+**Hechas las sesenta y cuatro**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
 las diez de la ronda 20 (Vinilo, Pasaporte, Carta, Mapa, Constelación, Cómic, Cosecha, Tarot,
 Arcade y Semillas) e Instantánea, Abanico, Cerillas, Galleta de la suerte, Casete y Mensaje en una botella (ronda
 38, en `cover/concepts-new.tsx`) y Crucigrama, Billete de tren y Receta de la abuela (ronda 38, en
@@ -24,7 +24,8 @@ Arcade y Semillas) e Instantánea, Abanico, Cerillas, Galleta de la suerte, Case
 `cover/concepts-new11.tsx`) y Caja de música, Farolillo de papel y Barco de papel (ronda 38, en
 `cover/concepts-new12.tsx`) y Rama prensada, Cartas atadas y Ramo de novia (ronda 38, en
 `cover/concepts-new13.tsx`) y Estuche de anillos, Carné de baile y Cápsula del tiempo (ronda 38,
-en `cover/concepts-new14.tsx`). Las fichas de abajo se conservan como referencia de lo que se
+en `cover/concepts-new14.tsx`) y Pliego de sellos, Bola de discoteca y Cuaderno de viaje (ronda 38,
+en `cover/concepts-new15.tsx`). Las fichas de abajo se conservan como referencia de lo que se
 construyó; lo que queda es lo de «Pendiente en las que ya existen», que vale para todas.
 
 Dónde está cada cosa ahora: piezas comunes en `cover/concept-kit.tsx`; portadas en
@@ -383,12 +384,12 @@ Objetos reconocibles en un segundo y con un gesto que solo tiene sentido en ello
 Hechas en la ronda 38: Galleta de la suerte, Casete, Crucigrama, Receta, Billete de tren,
 Entrada de concierto, Cartel de feria, Ficha de biblioteca, Llave de hotel, Partitura, Brújula,
 Cometa, Reloj de arena, Faro, Caja de música, Farolillo de papel, Barco de papel, Rama prensada,
-Cartas atadas, Ramo de novia, Estuche de anillos, Carné de baile y Cápsula del tiempo. Quedan por
-probar:
+Cartas atadas, Ramo de novia, Estuche de anillos, Carné de baile, Cápsula del tiempo, Pliego de
+sellos, Bola de discoteca y Cuaderno de viaje. Quedan por probar:
 
-1. **Sello de correos**: un pliego de sellos con vuestra cara; se arranca uno por el troquel.
-2. **Bola de discoteca**: se enciende y los reflejos dibujan la fecha por la pantalla.
-3. **Cuaderno de viaje**: se pasan las páginas pegadas con billetes y mapas hasta el destino.
+1. **Piñata**: se golpea tres veces y caen caramelos con la fecha.
+2. **Lluvia de arroz**: se agita el cucurucho y el arroz cae sobre los nombres.
+3. **Vela de cumpleaños**: se sopla (o se toca) y se apaga dejando la fecha en el humo.
 
 ## Por dónde empezar
 
