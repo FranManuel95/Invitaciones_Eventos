@@ -93,6 +93,9 @@ export const COVER_IDS = [
   "sellos",
   "disco",
   "cuaderno",
+  "pinata",
+  "arroz",
+  "vela",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -463,6 +466,18 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Cuaderno de viaje",
     description: "Un cuaderno con billetes y mapas pegados: se pasan las páginas hasta el destino.",
   },
+  pinata: {
+    label: "Piñata",
+    description: "Una piñata de estrella: tres golpes y se rompe en una lluvia de caramelos.",
+  },
+  arroz: {
+    label: "Lluvia de arroz",
+    description: "Un cucurucho de papel: se lanza el arroz y cae sobre vuestros nombres.",
+  },
+  vela: {
+    label: "Vela",
+    description: "Una vela encendida: se sopla, se pide un deseo y queda la fecha.",
+  },
 };
 
 /**
@@ -535,6 +550,9 @@ export const CONCEPT_COVERS = {
   sellos: { ink: "#22303f", paper: "#efe7d8" },
   disco: { ink: "#f7eefc", paper: "#0d0818", tone: "oscuro" },
   cuaderno: { ink: "#2f2418", paper: "#e8dcc6" },
+  pinata: { ink: "#3a1f2c", paper: "#fff0d4" },
+  arroz: { ink: "#2f2a22", paper: "#f0ece2" },
+  vela: { ink: "#f6ead8", paper: "#1e140c", tone: "oscuro" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -685,6 +703,9 @@ export const MOTIF_IDS = [
   "sellos",
   "disco",
   "cuaderno",
+  "pinata",
+  "arroz",
+  "vela",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -763,4 +784,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   sellos: { label: "Filatelia", kind: "concepto" },
   disco: { label: "Discoteca", kind: "concepto" },
   cuaderno: { label: "Cuaderno de viaje", kind: "concepto" },
+  pinata: { label: "Piñata", kind: "concepto" },
+  arroz: { label: "Lluvia de arroz", kind: "concepto" },
+  vela: { label: "Vela", kind: "concepto" },
 };

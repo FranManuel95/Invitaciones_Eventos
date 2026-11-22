@@ -9788,3 +9788,370 @@ export const cuaderno = wedding({
     "Dancing Queen",
   ],
 });
+
+export const pinata = wedding({
+  id: "evt-demo-jimena-mauro",
+  first: "Jimena",
+  second: "Mauro",
+  date: "2027-07-03T19:30:00+02:00",
+  rsvpDeadline: "2027-05-25T23:59:00+02:00",
+  city: "Mojácar",
+  region: "Almería",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-4.jpg",
+  cardMessage:
+    "Nos conocimos en un cumpleaños, rompiendo la misma piñata. Ella dio el golpe final; él recogió los caramelos.",
+  welcomeMessage:
+    "Esta boda viene con piñata, caramelos y mucha fiesta. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Mojácar, por los golpes a la piñata y por bailar hasta el alba. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María de Mojácar",
+      kind: "Ceremonia",
+      address: "Plaza del Parterre, 1",
+      note: "En lo alto del pueblo blanco. Hay parking a la entrada.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Cortijo de los Caramelos",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camino de la Playa, km 4",
+      note: "A 10 minutos, con terraza sobre el mar y una piñata gigante.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [31, 21, 5],
+  program: [
+    [
+      "19:30",
+      "Ceremonia",
+      "iglesia",
+      "Santa María",
+      "Al atardecer, con el pueblo de fondo.",
+      "ceremony",
+    ],
+    [
+      "20:45",
+      "Aperitivo",
+      "finca",
+      "En la terraza",
+      "Con limonada y tapas del Levante.",
+      "cocktail",
+    ],
+    ["22:00", "Cena", "finca", "Junto al mar", "Con el menú que elijas al confirmar.", "banquet"],
+    ["00:00", "Fiesta", "finca", "La piñata", "A medianoche se rompe la piñata gigante.", "party"],
+  ],
+  busRoutes: [
+    [
+      "almeria",
+      "Almería → Mojácar",
+      "Estación Intermodal de Almería",
+      "18:00",
+      ["03:00", "05:30"],
+      75,
+    ],
+    ["garrucha", "Garrucha → Mojácar", "Puerto de Garrucha", "19:00", ["05:30"], 10],
+  ],
+  menu: {
+    carne: "Choto al ajillo",
+    pescado: "Gamba roja de Garrucha",
+    vegetariano: "Gurullos de verduras",
+    vegano: "Trigo con hinojo y verduras",
+  },
+  dressCode: {
+    title: "Fiesta de colores",
+    detail: "Colores vivos, sin miedo. Hay terraza y arena: calzado cómodo.",
+    palette: [
+      { name: "Fucsia", hex: "#ff5d8f" },
+      { name: "Mango", hex: "#ffc93c" },
+      { name: "Turquesa", hex: "#4cc9f0" },
+      { name: "Menta", hex: "#7bd389" },
+    ],
+    examples: [
+      "Vestido de color, cuanto más vivo mejor.",
+      "Camisa estampada y pantalón claro.",
+      "Manos libres a medianoche: hay piñata.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Mojácar Playa", "Frente al mar", "Habitaciones reservadas hasta el 25 de mayo."],
+    ["Hostal del Parterre", "En el pueblo", "Con desayuno hasta las 13:00."],
+  ],
+  story: {
+    intro:
+      "Una piñata compartida, un golpe certero y seis años de fiesta. Esta es la versión corta.",
+    moments: [
+      ["2021", "La piñata", "Ella dio el golpe; él se llevó los caramelos y su teléfono.", "cala"],
+      ["2023", "La furgoneta", "Un verano entero de pueblo en pueblo.", "furgoneta"],
+      ["2026", "La pedida", "Con el anillo dentro de una piñata pequeñita.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "La piñata ya cuelga. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a México", "Para ver piñatas de verdad.", "Lo que queráis"],
+    ["Una hamaca doble", "Para la terraza.", "120 €"],
+    ["Una máquina de helados", "Para el verano.", "150 €"],
+    ["Una cena en la playa", "Para el aniversario.", "90 €"],
+  ],
+  kids: "Habrá monitores, su propia piñata y cena para ellos.",
+  faq: ["¿Quién rompe la piñata?", "A medianoche, por turnos. Los niños, antes, con la suya."],
+  guestbook: [
+    ["Los del cumpleaños", "Ese golpe fue el principio de todo."],
+    ["Tía Maruja", "Qué fiesta, y qué piñata más grande."],
+    ["Laura y Pepe", "Nos pedimos el siguiente golpe."],
+  ],
+  songs: ["La bamba", "Despacito", "Vivir mi vida", "September", "Valerie", "Dancing Queen"],
+});
+
+export const arroz = wedding({
+  id: "evt-demo-raquel-eloy",
+  first: "Raquel",
+  second: "Eloy",
+  date: "2027-09-18T12:30:00+02:00",
+  rsvpDeadline: "2027-08-01T23:59:00+02:00",
+  city: "Laguardia",
+  region: "Álava",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-1.jpg",
+  cardMessage:
+    "Nos conocimos a la salida de una boda, con los bolsillos llenos de arroz. Nos lo tiramos el uno al otro.",
+  welcomeMessage:
+    "Prepara el cucurucho: esta vez el arroz es para nosotros. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Laguardia y por la lluvia de arroz más grande de la Rioja. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María de los Reyes",
+      kind: "Ceremonia",
+      address: "Calle Mayor, 1",
+      note: "Dentro de la muralla. Hay parking a la entrada del pueblo.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Bodega del Cucurucho",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Carretera de Elciego, km 2",
+      note: "A 5 minutos, entre viñedos y con calados antiguos.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [24, 11, 15],
+  program: [
+    ["12:30", "Ceremonia", "iglesia", "Santa María", "Y a la salida, lluvia de arroz.", "ceremony"],
+    ["13:45", "Aperitivo", "finca", "En el viñedo", "Con vino de la casa y pinchos.", "cocktail"],
+    [
+      "15:00",
+      "Comida",
+      "finca",
+      "En los calados",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["18:00", "Fiesta", "finca", "Entre barricas", "Baile y barra libre.", "party"],
+  ],
+  busRoutes: [
+    ["logrono", "Logroño → Laguardia", "Estación de Logroño", "11:30", ["21:00", "00:30"], 30],
+    ["vitoria", "Vitoria → Laguardia", "Estación de Vitoria-Gasteiz", "11:15", ["00:30"], 50],
+  ],
+  menu: {
+    carne: "Chuletillas al sarmiento",
+    pescado: "Bacalao a la riojana",
+    vegetariano: "Menestra de verduras",
+    vegano: "Patatas a la riojana con verduras",
+  },
+  dressCode: {
+    title: "Vendimia",
+    detail: "Blanco roto, vino y oro viejo. Hay viñedo: tacón ancho mejor.",
+    palette: [
+      { name: "Arroz", hex: "#fbf9f4" },
+      { name: "Oro viejo", hex: "#c9a65d" },
+      { name: "Tempranillo", hex: "#6b1e2a" },
+      { name: "Sarmiento", hex: "#6b5a3c" },
+    ],
+    examples: [
+      "Vestido midi en tonos vino o crema.",
+      "Traje de lana fría con corbata granate.",
+      "Un bolsillo libre para el arroz.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Villa de Laguardia",
+      "Junto a la muralla",
+      "Habitaciones reservadas hasta el 1 de agosto.",
+    ],
+    ["Casa rural Los Calados", "Junto a la bodega", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro:
+      "Un bolsillo lleno de arroz, una boda ajena y siete vendimias juntos. Esta es la versión corta.",
+    moments: [
+      ["2020", "El arroz", "A la salida de una boda nos lo tiramos el uno al otro.", "olivos"],
+      ["2022", "La vendimia", "Un otoño entero vendimiando en la Rioja.", "terraza"],
+      ["2026", "La pedida", "Con el anillo escondido en un cucurucho de arroz.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "El arroz ya está en los cucuruchos. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Burdeos", "Para seguir con las bodegas.", "Lo que queráis"],
+    ["Una cava de vinos", "Para casa.", "300 €"],
+    ["Una paellera grande", "Que el arroz siga.", "60 €"],
+    ["Una cata para dos", "En la Rioja Alavesa.", "90 €"],
+  ],
+  kids: "Habrá monitores, cucuruchos para pintar y comida para ellos.",
+  faq: [
+    "¿Podemos lanzar arroz?",
+    "Sí: os daremos cucuruchos a la salida. Arroz de verdad, nada de confeti.",
+  ],
+  guestbook: [
+    ["Los de la otra boda", "Seguís teniendo arroz en los bolsillos."],
+    ["Amama Josefa", "Qué boda tan bonita entre viñas."],
+    ["Miren y Unax", "Hemos tirado arroz para tres bodas más."],
+  ],
+  songs: ["Arroz con leche", "Vino tinto", "Sarandonga", "September", "Valerie", "Dancing Queen"],
+});
+
+export const vela = wedding({
+  id: "evt-demo-sonia-tristan",
+  first: "Sonia",
+  second: "Tristán",
+  date: "2027-12-11T18:00:00+01:00",
+  rsvpDeadline: "2027-11-01T23:59:00+01:00",
+  city: "Cangas de Onís",
+  region: "Asturias",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-4.jpg",
+  cardMessage:
+    "Nos conocimos en un apagón, en un refugio de montaña. Solo había una vela y la compartimos toda la noche.",
+  welcomeMessage:
+    "Nos casamos a la luz de las velas, en pleno invierno. Aquí tienes todo lo que necesitas para acompañarnos.",
+  thankYouMessage:
+    "Gracias por venir a Asturias en diciembre y por encender vuestra vela. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María",
+      kind: "Ceremonia",
+      address: "Avenida de Covadonga, 1",
+      note: "En el centro, junto al puente romano. Hay parking en el mercado.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Palacio de las Velas",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camino del Sella, 8",
+      note: "A 5 minutos, junto al río, con mil velas encendidas.",
+      photo: "pista",
+    },
+  ],
+  climate: [11, 3, 50],
+  program: [
+    ["18:00", "Ceremonia", "iglesia", "Santa María", "A la luz de las velas.", "ceremony"],
+    [
+      "19:15",
+      "Aperitivo",
+      "finca",
+      "Junto a la chimenea",
+      "Con sidra y quesos asturianos.",
+      "cocktail",
+    ],
+    [
+      "20:45",
+      "Cena",
+      "finca",
+      "En el salón de las velas",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["23:00", "Fiesta", "finca", "Hasta tarde", "Baile, gaita y orujo para el frío.", "party"],
+  ],
+  busRoutes: [
+    [
+      "oviedo",
+      "Oviedo → Cangas de Onís",
+      "Estación de autobuses de Oviedo",
+      "16:45",
+      ["02:00", "04:30"],
+      70,
+    ],
+    ["arriondas", "Arriondas → Cangas de Onís", "Puente de Arriondas", "17:30", ["04:30"], 15],
+  ],
+  menu: {
+    carne: "Cachopo de ternera asturiana",
+    pescado: "Merluza a la sidra",
+    vegetariano: "Fabada de verduras",
+    vegano: "Pote de berzas y patatas",
+  },
+  dressCode: {
+    title: "Invierno a la luz de las velas",
+    detail: "Oro, crema y tonos cálidos. Hace frío: abrigo y botas bonitas.",
+    palette: [
+      { name: "Llama", hex: "#ffc24a" },
+      { name: "Cera", hex: "#fffaf0" },
+      { name: "Penumbra", hex: "#1e140c" },
+      { name: "Brasa", hex: "#ff7a1a" },
+    ],
+    examples: [
+      "Vestido largo de terciopelo.",
+      "Traje de lana con bufanda.",
+      "Botas: hay piedra mojada.",
+    ],
+  },
+  accommodation: [
+    [
+      "Parador de Cangas de Onís",
+      "En el monasterio",
+      "Habitaciones reservadas hasta el 1 de noviembre.",
+    ],
+    ["Hotel del Sella", "Junto al río", "Con desayuno tarde para el domingo."],
+  ],
+  story: {
+    intro: "Un apagón, un refugio y una sola vela para los dos. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "El refugio",
+        "Se fue la luz y solo quedó una vela. Hablamos hasta que se gastó.",
+        "olivos",
+      ],
+      [
+        "2022",
+        "La cabaña",
+        "Una cabaña en los Picos con chimenea y velas en cada ventana.",
+        "terraza",
+      ],
+      ["2026", "La pedida", "A la luz de una vela, en el mismo refugio.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "La vela ya está encendida. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Noruega", "Para ver la aurora.", "Lo que queráis"],
+    ["Un candelabro antiguo", "Para la mesa de casa.", "120 €"],
+    ["Una noche en el refugio", "Donde todo empezó.", "100 €"],
+    ["Una manta de lana", "Para el invierno.", "80 €"],
+  ],
+  kids: "Habrá monitores, farolillos de papel y cena para ellos.",
+  faq: [
+    "¿Qué es lo de encender una vela?",
+    "A la entrada, cada invitado enciende una vela con un deseo para nosotros.",
+  ],
+  guestbook: [
+    ["Los del refugio", "Qué suerte que aquella noche se fue la luz."],
+    ["Güela Covadonga", "Qué boda más bonita, y qué luz."],
+    ["Xana y Pelayo", "Encendimos la vela más grande."],
+  ],
+  songs: [
+    "Candle in the Wind",
+    "Asturias, patria querida",
+    "La luz",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});

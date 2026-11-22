@@ -3340,6 +3340,176 @@
   }
 }
 
+/* Piñata: cada sección es un caramelo. */
+[data-motif="pinata"] {
+  counter-reset: caramelo;
+}
+[data-motif="pinata"] .motif-hero {
+  background:
+    radial-gradient(circle, rgb(255 93 143 / 0.25) 0 2px, transparent 2.5px) 0 0 / 24px 24px,
+    radial-gradient(circle, rgb(76 201 240 / 0.25) 0 2px, transparent 2.5px) 12px 12px / 24px 24px,
+    var(--color-paper);
+}
+[data-motif="pinata"] section[id] {
+  counter-increment: caramelo;
+}
+[data-motif="pinata"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="pinata"] .motif-sprig::before {
+  content: "";
+  width: 1.2rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ffc93c 0 33%, var(--color-gold) 33% 66%, #4cc9f0 66%);
+}
+[data-motif="pinata"] .motif-sprig::after {
+  content: "Caramelo " counter(caramelo);
+}
+[data-motif="pinata"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="pinata"] .motif-closing::before {
+  content: "¡Otro golpe!";
+}
+
+/* Lluvia de arroz: cada sección es un puñado. */
+[data-motif="arroz"] {
+  counter-reset: punado;
+}
+[data-motif="arroz"] .motif-hero {
+  background:
+    radial-gradient(ellipse 1.5px 3px, rgb(107 90 60 / 0.18) 90%, transparent) 0 0 / 18px 22px,
+    var(--color-paper);
+}
+[data-motif="arroz"] section[id] {
+  counter-increment: punado;
+}
+[data-motif="arroz"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="arroz"] .motif-sprig::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  background:
+    radial-gradient(ellipse 2px 4px at 30% 30%, var(--color-gold) 90%, transparent),
+    radial-gradient(ellipse 2px 4px at 70% 40%, var(--color-gold) 90%, transparent),
+    radial-gradient(ellipse 2px 4px at 45% 75%, var(--color-gold) 90%, transparent);
+}
+[data-motif="arroz"] .motif-sprig::after {
+  content: "Puñado " counter(punado);
+}
+[data-motif="arroz"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="arroz"] .motif-closing::before {
+  content: "¡Vivan los novios!";
+}
+
+/* Vela: cada sección es una llama. */
+[data-motif="vela"] {
+  counter-reset: llama;
+}
+[data-motif="vela"] .motif-hero {
+  background:
+    radial-gradient(circle at 50% 0, rgb(255 194 74 / 0.18), transparent 60%), var(--color-paper);
+}
+[data-motif="vela"] section[id] {
+  counter-increment: llama;
+}
+[data-motif="vela"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="vela"] .motif-sprig::before {
+  content: "";
+  width: 0.7rem;
+  height: 1.1rem;
+  border-radius: 50% 50% 45% 45%;
+  background: radial-gradient(ellipse at 50% 75%, #fffbe0, var(--color-gold) 50%, #ff7a1a);
+  box-shadow: 0 0 10px 2px rgb(255 180 80 / 0.45);
+}
+[data-motif="vela"] .motif-sprig::after {
+  content: "Llama " counter(llama);
+}
+[data-motif="vela"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="vela"] .motif-closing::before {
+  content: "Que se cumpla el deseo";
+}
+
+@keyframes candy-fall {
+  from {
+    translate: 0 -260px;
+    opacity: 0;
+  }
+  to {
+    translate: 0 0;
+    opacity: 1;
+  }
+}
+@keyframes rice-fall {
+  from {
+    translate: 0 -10px;
+  }
+  to {
+    translate: 0 105svh;
+  }
+}
+@keyframes flame-flicker {
+  0%,
+  100% {
+    transform: scaleY(1) rotate(-2deg);
+  }
+  50% {
+    transform: scaleY(1.12) rotate(2deg);
+  }
+}
+@keyframes smoke-rise {
+  from {
+    translate: 0 0;
+    opacity: 0.9;
+  }
+  to {
+    translate: 0 -60px;
+    opacity: 0;
+  }
+}
+
 @keyframes musicbox-spin {
   to {
     transform: rotateY(360deg);
@@ -4040,6 +4210,22 @@
 [data-motif="cuaderno"] .concept-carrier {
   background: var(--color-cream);
   border: 3px solid var(--color-gold);
+}
+
+/* Piñata: bolsa de caramelos. */
+[data-motif="pinata"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 2px dashed var(--color-gold);
+}
+/* Lluvia de arroz: cucurucho de papel. */
+[data-motif="arroz"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 2px solid var(--color-gold);
+}
+/* Vela: caja de cerillas. */
+[data-motif="vela"] .concept-carrier {
+  background: #271b12;
+  border: 2px solid var(--color-gold);
 }
 
 [data-motif-kind="concepto"] .motif-closing > * {

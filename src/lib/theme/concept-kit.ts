@@ -500,6 +500,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Nos vemos en el destino",
     pass: { kicker: "Billete del viaje", people: "Viajeros" },
   },
+  pinata: {
+    object: "la piñata",
+    carrier: "Bolsa de caramelos",
+    letterhead: "Lo que había dentro",
+    signoff: "¡Otro golpe!",
+    pass: { kicker: "Pase a la fiesta", people: "Invitados" },
+  },
+  arroz: {
+    object: "el cucurucho de arroz",
+    carrier: "Cucurucho de papel",
+    letterhead: "Para la salida de los novios",
+    signoff: "¡Vivan los novios!",
+    pass: { kicker: "Pase a la salida", people: "Invitados" },
+  },
+  vela: {
+    object: "la vela",
+    carrier: "Caja de cerillas",
+    letterhead: "A la luz de la vela",
+    signoff: "Que se cumpla el deseo",
+    pass: { kicker: "Pase de la noche", people: "Invitados" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

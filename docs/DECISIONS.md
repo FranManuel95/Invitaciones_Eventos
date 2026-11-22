@@ -1517,7 +1517,14 @@ olivo.
   (billetes y mapas pegados a la izquierda; a la derecha, cuatro páginas: la historia, el destino,
   la fecha y «Te esperamos»; Ángela y Hernán, Cádiz). Estilos Filatelia, Discoteca y Diario de
   viaje. Ya son 86 plantillas (64 de objetos) y 87 portadas.
-- **Batería E2E completa** con todo hasta Cápsula del tiempo: 549 pruebas bien y 5 omitidas.
+- **Batería E2E completa** con todo hasta Ramo de novia: 549 pruebas bien y 5 omitidas.
+- **Decimoséptima tanda**: **Piñata** (estrella de papel; tres golpes y se parte en dos con una
+  lluvia de caramelos; Jimena y Mauro, Mojácar), **Lluvia de arroz** (el cucurucho de la salida se
+  vuelca y llueve arroz sobre la pantalla; con movimiento reducido, sin lluvia; Raquel y Eloy,
+  Laguardia) y **Vela** (penumbra cálida; al soplarla, la llama se apaga, sube el humo y queda la
+  fecha; Sonia y Tristán, Cangas de Onís; portada oscura). Estilos Confeti, Arroz y Candela. Ya son
+  89 plantillas (67 de objetos) y 90 portadas; la venta dice «Ochenta y nueve plantillas» y
+  «Noventa portadas».
 
 ## Pendiente para próximas fases
 

@@ -81,6 +81,9 @@ const CONCEPTS = [
   { id: "sellos", names: /Nora y Fidel/, date: "4 de septiembre de 2027", opening: "concepto" },
   { id: "disco", names: /Valentina y Joaquín/, date: "7 de agosto de 2027", opening: "concepto" },
   { id: "cuaderno", names: /Ángela y Hernán/, date: "2 de octubre de 2027", opening: "concepto" },
+  { id: "pinata", names: /Jimena y Mauro/, date: "3 de julio de 2027", opening: "concepto" },
+  { id: "arroz", names: /Raquel y Eloy/, date: "18 de septiembre de 2027", opening: "concepto" },
+  { id: "vela", names: /Sonia y Tristán/, date: "11 de diciembre de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -792,6 +795,32 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     }
     await expect(stage.locator("[data-cuaderno]")).toHaveAttribute("data-cuaderno", "llegada");
     await expect(stage.getByText("Te esperamos")).toBeVisible();
+  });
+
+  test("piñata: tres golpes y se rompe", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=pinata");
+    const stage = cover(page, "pinata");
+    for (const n of [0, 1, 2]) {
+      await stage.getByRole("button", { name: `Golpear la piñata (${n}/3)` }).click();
+    }
+    await expect(stage.locator("[data-pinata]")).toHaveAttribute("data-pinata", "rota");
+    await expect(stage.getByText(/Recoge tu caramelo/)).toBeVisible();
+  });
+
+  test("lluvia de arroz: se lanza", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=arroz");
+    const stage = cover(page, "arroz");
+    await stage.getByRole("button", { name: "Lanzar el arroz" }).click();
+    await expect(stage.locator("[data-arroz]")).toHaveAttribute("data-arroz", "lanzado");
+    await expect(stage.getByText(/Arroz para los novios/)).toBeVisible();
+  });
+
+  test("vela: se sopla y se pide un deseo", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=vela");
+    const stage = cover(page, "vela");
+    await stage.getByRole("button", { name: "Soplar la vela" }).click();
+    await expect(stage.locator("[data-vela]")).toHaveAttribute("data-vela", "apagada");
+    await expect(stage.getByText(/Deseo pedido/)).toBeVisible();
   });
 
   test("faro: se enciende", async ({ page }) => {
