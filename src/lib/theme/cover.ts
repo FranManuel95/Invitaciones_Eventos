@@ -135,6 +135,9 @@ export const COVER_IDS = [
   "tendedero",
   "chicles",
   "dardos",
+  "linterna",
+  "cajafuerte",
+  "patines",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -697,6 +700,20 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Diana",
     description: "Una diana de bar: se lanza el dardo y se clava justo en el centro.",
   },
+  linterna: {
+    label: "Linterna",
+    description:
+      "Una habitación a oscuras: se enciende la linterna y el haz descubre la sorpresa en la pared.",
+  },
+  cajafuerte: {
+    label: "Caja fuerte",
+    description:
+      "Una caja fuerte de combinación: la combinación es la fecha y dentro está la invitación.",
+  },
+  patines: {
+    label: "Patines",
+    description: "Dos patines con vuestros nombres: tres impulsos y llegan a la pista de baile.",
+  },
 };
 
 /**
@@ -811,6 +828,9 @@ export const CONCEPT_COVERS = {
   tendedero: { ink: "#1f2a33", paper: "#eef5fb" },
   chicles: { ink: "#3a1624", paper: "#fbe9ee" },
   dardos: { ink: "#f6eedc", paper: "#1a120c", tone: "oscuro" },
+  linterna: { ink: "#eef1f6", paper: "#0b0d12", tone: "oscuro" },
+  cajafuerte: { ink: "#eef1f6", paper: "#171a20", tone: "oscuro" },
+  patines: { ink: "#2e1838", paper: "#ffe3ef" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -1003,6 +1023,9 @@ export const MOTIF_IDS = [
   "tendedero",
   "chicles",
   "dardos",
+  "linterna",
+  "cajafuerte",
+  "patines",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -1123,4 +1146,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   tendedero: { label: "Tendedero", kind: "concepto" },
   chicles: { label: "Chicles", kind: "concepto" },
   dardos: { label: "Diana", kind: "concepto" },
+  linterna: { label: "Linterna", kind: "concepto" },
+  cajafuerte: { label: "Caja fuerte", kind: "concepto" },
+  patines: { label: "Patines", kind: "concepto" },
 };

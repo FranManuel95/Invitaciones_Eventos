@@ -138,6 +138,9 @@ const CONCEPTS = [
   { id: "tendedero", names: /Yaiza y Fabián/, date: "26 de junio de 2027", opening: "concepto" },
   { id: "chicles", names: /Gloria y Quino/, date: "28 de agosto de 2027", opening: "concepto" },
   { id: "dardos", names: /Paloma y Toni/, date: "20 de noviembre de 2027", opening: "concepto" },
+  { id: "linterna", names: /Sandra y Víctor/, date: "30 de octubre de 2027", opening: "concepto" },
+  { id: "cajafuerte", names: /Judith y Jon/, date: "24 de abril de 2027", opening: "concepto" },
+  { id: "patines", names: /Olaya y Gerardo/, date: "3 de julio de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -1217,6 +1220,32 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     const stage = cover(page, "dardos");
     await stage.getByRole("button", { name: "Lanzar el dardo" }).click();
     await expect(stage.locator("[data-diana]")).toHaveAttribute("data-diana", "en-el-centro");
+  });
+
+  test("linterna: se enciende y aparece la sorpresa", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=linterna");
+    const stage = cover(page, "linterna");
+    await stage.getByRole("button", { name: "Encender la linterna" }).click();
+    await expect(stage.locator("[data-linterna]")).toHaveAttribute("data-linterna", "encendida");
+  });
+
+  test("caja fuerte: la combinación es la fecha", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=cajafuerte");
+    const stage = cover(page, "cajafuerte");
+    for (const n of [0, 1, 2]) {
+      await stage.getByRole("button", { name: `Girar la rueda (${n}/3)` }).click();
+    }
+    await expect(stage.locator("[data-cajafuerte]")).toHaveAttribute("data-cajafuerte", "abierta");
+    await expect(stage.getByText("Una invitación")).toBeVisible();
+  });
+
+  test("patines: tres impulsos hasta la pista", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=patines");
+    const stage = cover(page, "patines");
+    for (const n of [0, 1, 2]) {
+      await stage.getByRole("button", { name: `Dar impulso (${n}/3)` }).click();
+    }
+    await expect(stage.locator("[data-patines]")).toHaveAttribute("data-patines", "en-la-pista");
   });
 
   test("faro: se enciende", async ({ page }) => {

@@ -798,6 +798,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "¡Diana!",
     pass: { kicker: "Ficha de la taberna", people: "Jugadores" },
   },
+  linterna: {
+    object: "la linterna",
+    carrier: "Caja de pilas",
+    letterhead: "Buscad bien",
+    signoff: "Que no se apague",
+    pass: { kicker: "Pase de la búsqueda", people: "Exploradores" },
+  },
+  cajafuerte: {
+    object: "la caja fuerte",
+    carrier: "Expediente secreto",
+    letterhead: "Alto secreto",
+    signoff: "Combinación guardada",
+    pass: { kicker: "Pase de seguridad", people: "Agentes" },
+  },
+  patines: {
+    object: "los patines",
+    carrier: "Bolsa de patinar",
+    letterhead: "Sobre ruedas",
+    signoff: "¡A la pista!",
+    pass: { kicker: "Entrada a la pista", people: "Patinadores" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

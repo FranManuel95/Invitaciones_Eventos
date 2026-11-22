@@ -14662,3 +14662,316 @@ export const dardos = wedding({
     "Dancing Queen",
   ],
 });
+
+export const linterna = wedding({
+  id: "evt-demo-sandra-victor",
+  first: "Sandra",
+  second: "Víctor",
+  date: "2027-10-30T19:00:00+02:00",
+  rsvpDeadline: "2027-09-20T23:59:00+02:00",
+  city: "Ponferrada",
+  region: "León",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-4.jpg",
+  cardMessage:
+    "Nos conocimos en una visita nocturna al castillo, con una linterna para los dos cuando se fue la luz.",
+  welcomeMessage:
+    "Nos casamos al anochecer, junto al castillo templario. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Ponferrada y por iluminar la noche. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Basílica de la Encina",
+      kind: "Ceremonia",
+      address: "Plaza de la Encina, 1",
+      note: "En el casco antiguo. Hay parking junto al castillo.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Bodega de la Linterna",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camino de Toral, km 3",
+      note: "A 10 minutos, entre viñedos del Bierzo.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [17, 6, 35],
+  program: [
+    ["19:00", "Ceremonia", "iglesia", "La Encina", "A la luz de las velas.", "ceremony"],
+    ["20:15", "Aperitivo", "finca", "En la bodega", "Con botillo en tapa y mencía.", "cocktail"],
+    ["21:45", "Cena", "finca", "Entre barricas", "Con el menú que elijas al confirmar.", "banquet"],
+    ["00:00", "Fiesta", "finca", "A oscuras", "Baile con luces de linterna.", "party"],
+  ],
+  busRoutes: [
+    ["leon-p", "León → Ponferrada", "Estación de León", "17:15", ["02:00", "04:30"], 75],
+    ["astorga", "Astorga → Ponferrada", "Plaza Mayor, Astorga", "17:45", ["04:30"], 45],
+  ],
+  menu: {
+    carne: "Botillo del Bierzo",
+    pescado: "Bacalao con pimientos asados",
+    vegetariano: "Pimientos asados del Bierzo con castañas",
+    vegano: "Castañas y setas guisadas",
+  },
+  dressCode: {
+    title: "Noche de otoño",
+    detail: "Tonos oscuros con un punto de luz. En el Bierzo refresca: abrigo.",
+    palette: [
+      { name: "Noche", hex: "#12151c" },
+      { name: "Haz", hex: "#fff3c4" },
+      { name: "Piedra", hex: "#9aa1b2" },
+      { name: "Mencía", hex: "#6b1e2a" },
+    ],
+    examples: ["Vestido largo oscuro.", "Traje gris marengo.", "Un abrigo para la noche."],
+  },
+  accommodation: [
+    ["Hotel del Temple", "Junto al castillo", "Habitaciones reservadas hasta el 20 de septiembre."],
+    ["Hostal de la Encina", "En el casco antiguo", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro:
+      "Un apagón en el castillo, una linterna para dos y siete años con luz. Esta es la versión corta.",
+    moments: [
+      ["2020", "El apagón", "Se fue la luz en la visita. Él tenía linterna.", "olivos"],
+      ["2022", "La casa", "Una casa con muchas lámparas, por si acaso.", "terraza"],
+      ["2026", "La pedida", "Con la linterna apuntando a un cartel en la muralla.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "La linterna está encendida. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Escocia", "Castillos y más castillos.", "Lo que queráis"],
+    ["Una lámpara de pie", "Para el salón.", "150 €"],
+    ["Una cata de vino del Bierzo", "Para los dos.", "80 €"],
+    ["Una noche en un parador", "Para el aniversario.", "180 €"],
+  ],
+  kids: "Habrá monitores, búsqueda del tesoro con linternas y cena para ellos.",
+  faq: ["¿Hay que llevar linterna?", "No: os daremos una a la entrada de la fiesta."],
+  guestbook: [
+    ["Los de la visita nocturna", "Ese apagón tenía intención."],
+    ["Abuela Benita", "Qué boda tan bonita, y qué luz."],
+    ["Elena y Rober", "Bailamos a oscuras hasta tarde."],
+  ],
+  songs: [
+    "Light My Fire",
+    "Luz de luna",
+    "Dancing in the Dark",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
+
+export const cajafuerte = wedding({
+  id: "evt-demo-judith-jon",
+  first: "Judith",
+  second: "Jon",
+  date: "2027-04-24T13:00:00+02:00",
+  rsvpDeadline: "2027-03-15T23:59:00+01:00",
+  city: "Mérida",
+  region: "Badajoz",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/pareja.jpg",
+  cardMessage:
+    "Nos conocimos en un juego de escape: la última caja fuerte la abrimos juntos, con la fecha del día.",
+  welcomeMessage:
+    "La combinación de esta caja es nuestra fecha. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Mérida y por guardar nuestro secreto hasta el final. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Concatedral de Santa María",
+      kind: "Ceremonia",
+      address: "Plaza de España, 1",
+      note: "En la plaza de España. Hay parking junto al río.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Casa del Tesoro Romano",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Calle Romero Leal, 18",
+      note: "A 5 minutos andando, con patio y restos romanos.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [24, 10, 20],
+  program: [
+    ["13:00", "Ceremonia", "iglesia", "Santa María", "Con coro.", "ceremony"],
+    [
+      "14:15",
+      "Aperitivo",
+      "finca",
+      "En el patio",
+      "Con jamón ibérico y vino de la Tierra de Barros.",
+      "cocktail",
+    ],
+    ["15:30", "Comida", "finca", "En el salón", "Con el menú que elijas al confirmar.", "banquet"],
+    ["18:30", "Fiesta", "finca", "Juego de escape", "Baile y un enigma por mesa.", "party"],
+  ],
+  busRoutes: [
+    ["badajoz", "Badajoz → Mérida", "Estación de Badajoz", "11:45", ["21:00", "00:30"], 50],
+    ["caceres-m", "Cáceres → Mérida", "Estación de autobuses de Cáceres", "11:30", ["00:30"], 60],
+  ],
+  menu: {
+    carne: "Presa ibérica con migas",
+    pescado: "Bacalao con pimientos de la Vera",
+    vegetariano: "Torta del Casar con verduras",
+    vegano: "Gazpacho extremeño y espárragos",
+  },
+  dressCode: {
+    title: "Primavera de misterio",
+    detail: "Gris acero, oro y negro. Hay calles de piedra: tacón ancho.",
+    palette: [
+      { name: "Acero", hex: "#5a6272" },
+      { name: "Oro", hex: "#ffd97a" },
+      { name: "Noche", hex: "#171a20" },
+      { name: "Marfil", hex: "#f4f0e6" },
+    ],
+    examples: [
+      "Vestido midi gris o negro.",
+      "Traje oscuro con gemelos.",
+      "Ganas de resolver enigmas.",
+    ],
+  },
+  accommodation: [
+    [
+      "Parador de Mérida",
+      "En el antiguo convento",
+      "Habitaciones reservadas hasta el 15 de marzo.",
+    ],
+    ["Hostal Emerita", "En el centro", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro: "Un juego de escape, una caja fuerte y siete años de enigmas. Esta es la versión corta.",
+    moments: [
+      ["2020", "El juego", "Abrimos la última caja juntos, con la fecha del día.", "olivos"],
+      ["2022", "Los enigmas", "Hacemos un juego de escape cada mes.", "terraza"],
+      ["2026", "La pedida", "La combinación de la caja era la fecha de la pedida.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "La caja está abierta. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Praga", "Para los juegos de escape de allí.", "Lo que queráis"],
+    ["Una caja fuerte de verdad", "Para guardar los recuerdos.", "120 €"],
+    ["Un juego de escape para casa", "Para las cenas con amigos.", "60 €"],
+    ["Una noche en el parador", "Para el aniversario.", "180 €"],
+  ],
+  kids: "Habrá monitores, búsqueda del tesoro y comida para ellos.",
+  faq: [
+    "¿Qué es el enigma por mesa?",
+    "Un acertijo en cada mesa: la que lo resuelva primero elige la primera canción.",
+  ],
+  guestbook: [
+    ["Los del juego de escape", "Sabíamos que abriríais esa caja juntos."],
+    ["Abuela Fernanda", "Qué boda tan bonita, y qué misterio."],
+    ["Laura y Pablo", "Nuestra mesa resolvió el enigma."],
+  ],
+  songs: ["Secret", "El secreto", "Mission Impossible", "September", "Valerie", "Dancing Queen"],
+});
+
+export const patines = wedding({
+  id: "evt-demo-olaya-gerardo",
+  first: "Olaya",
+  second: "Gerardo",
+  date: "2027-07-03T19:00:00+02:00",
+  rsvpDeadline: "2027-05-25T23:59:00+02:00",
+  city: "Avilés",
+  region: "Asturias",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/pareja.jpg",
+  cardMessage:
+    "Nos conocimos en una pista de patinaje: ella patinaba hacia atrás y él se cayó delante.",
+  welcomeMessage: "Llegamos a la boda sobre ruedas. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Avilés y por patinar con nosotros hasta tarde. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Nicolás de Bari",
+      kind: "Ceremonia",
+      address: "Calle San Francisco, 1",
+      note: "En el casco antiguo. Hay parking junto a la ría.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Pista del Muelle",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Avenida de la Ría, 20",
+      note: "A 10 minutos, una nave junto a la ría con pista de patinaje.",
+      photo: "pista",
+    },
+  ],
+  climate: [22, 14, 30],
+  program: [
+    ["19:00", "Ceremonia", "iglesia", "San Nicolás", "Con gaita a la salida.", "ceremony"],
+    ["20:15", "Aperitivo", "finca", "Junto a la ría", "Con sidra y quesos asturianos.", "cocktail"],
+    ["21:45", "Cena", "finca", "En la nave", "Con el menú que elijas al confirmar.", "banquet"],
+    ["00:00", "Fiesta", "finca", "Sobre ruedas", "Pista de patinaje y baile.", "party"],
+  ],
+  busRoutes: [
+    [
+      "oviedo-a",
+      "Oviedo → Avilés",
+      "Estación de autobuses de Oviedo",
+      "17:45",
+      ["02:30", "05:00"],
+      30,
+    ],
+    ["gijon-a", "Gijón → Avilés", "Estación de Gijón", "18:00", ["05:00"], 30],
+  ],
+  menu: {
+    carne: "Cachopo",
+    pescado: "Merluza a la sidra",
+    vegetariano: "Pastel de cabracho vegetal",
+    vegano: "Fabes con verduras",
+  },
+  dressCode: {
+    title: "Fiesta sobre ruedas",
+    detail: "Rosa, violeta y algo que brille. Habrá patines: ropa cómoda.",
+    palette: [
+      { name: "Pista", hex: "#ffd1e3" },
+      { name: "Violeta", hex: "#7a2a8a" },
+      { name: "Rueda", hex: "#f4c542" },
+      { name: "Azul", hex: "#5a8fd6" },
+    ],
+    examples: [
+      "Vestido corto con vuelo.",
+      "Pantalón cómodo y camisa de color.",
+      "Calcetines gordos: hay patines de tu talla.",
+    ],
+  },
+  accommodation: [
+    ["Hotel de la Ría", "Junto al puerto", "Habitaciones reservadas hasta el 25 de mayo."],
+    ["Hostal del Casco", "En el casco antiguo", "Con desayuno hasta las 12:00."],
+  ],
+  story: {
+    intro:
+      "Una pista de patinaje, una caída a tiempo y siete años sobre ruedas. Esta es la versión corta.",
+    moments: [
+      ["2020", "La caída", "Ella patinaba hacia atrás. Él se cayó delante.", "cala"],
+      ["2022", "La furgoneta", "Un verano de pistas por todo el norte.", "furgoneta"],
+      ["2026", "La pedida", "En la pista, con el anillo en el cordón del patín.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "Los patines están atados. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Ámsterdam", "Para patinar en los canales.", "Lo que queráis"],
+    ["Patines nuevos", "Para los dos.", "200 €"],
+    ["Clases de patinaje artístico", "Para él, sobre todo.", "120 €"],
+    ["Una cena junto a la ría", "Para el aniversario.", "90 €"],
+  ],
+  kids: "Habrá monitores, patines de su talla y cena para ellos.",
+  faq: [
+    "¿Hay que saber patinar?",
+    "No: habrá monitores y barandilla. Y también baile sin patines.",
+  ],
+  guestbook: [
+    ["Los de la pista", "Esa caída fue la mejor de su vida."],
+    ["Güela Mari", "Qué boda tan divertida."],
+    ["Lucía y Hugo", "No nos caímos ni una vez."],
+  ],
+  songs: ["Roller Disco", "Patinando", "Celebration", "September", "Valerie", "Dancing Queen"],
+});

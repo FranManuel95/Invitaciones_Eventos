@@ -1617,6 +1617,13 @@ olivo.
   centro; Paloma y Toni, Antequera; portada oscura; su id es `dardos`). Estilos Colada, Golosina y
   Taberna. Ya son 128 plantillas (106 de objetos) y 129 portadas.
 - **Batería E2E completa** con todo hasta Termómetro del amor: 729 pruebas bien y 5 omitidas.
+- **Trigesimoprimera tanda** (la última de cantidad): **Linterna** (habitación a oscuras; al
+  encenderla, el haz descubre «¡Sí, quiero!» en la pared; Sandra y Víctor, Ponferrada; portada
+  oscura), **Caja fuerte** (tres giros de rueda: la combinación es la fecha y dentro está la
+  invitación; Judith y Jon, Mérida; portada oscura; su id es `cajafuerte`) y **Patines** (tres
+  impulsos hasta la pista; Olaya y Gerardo, Avilés). Estilos Sótano, Acero y Pista. Ya son 131
+  plantillas (109 de objetos) y 132 portadas.
+- **Batería E2E completa** con todo hasta Diana: 741 pruebas bien y 5 omitidas.
 
 ## Pendiente para próximas fases
 
