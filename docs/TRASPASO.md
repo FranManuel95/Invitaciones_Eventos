@@ -3,7 +3,59 @@
 Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Complementa a
 `CLAUDE.md` (reglas), `PROJECT_SPEC.md` (producto) y `docs/DECISIONS.md` (por qué está hecho así).
 
-## Estado a 21/11/2026, tarde (leer primero)
+## Estado a 22/11/2026 (leer primero): calidad de las plantillas de concepto
+
+- **Rama**: `claude/exciting-franklin-43k083` (último commit con este trabajo: `0b351a2` más el de
+  esta documentación). Nada de esto está en producción (`main`); llevarlo allí es un PR que solo se
+  abre si lo pide el usuario.
+- **Vista previa de Vercel** (pide entrar con la cuenta de Vercel):
+  `https://invitaciones-eventos-nzaxz0tns-franmanuel95s-projects.vercel.app/i/familia-garcia?plantilla=<id>`.
+  Cada push a la rama crea otra; la última se busca con `list_deployments` del conector de Vercel
+  filtrando por la rama (equipo `team_GvAJNTVypF3BbTNlU3EQFP1V`).
+- **Por qué**: el usuario vio que las últimas tandas de concepto no estaban al nivel de las
+  primeras: mismo esqueleto, gesto de solo botón, dibujo plano, interior genérico y sin aplicar las
+  skills de diseño. Se acordó **dejar de añadir cantidad**, ocultar las flojas y pulir las mejores.
+- **Hecho**:
+  1. **Criba** (`e5a97e8`): 35 plantillas ocultas del muestrario de venta, de `/ejemplos` y de las
+     galerías del editor. Lista en `HIDDEN_CONCEPT_COVERS` (`src/lib/theme/cover.ts`, con
+     `isShownCover`) y fuera de `FEATURED_TEMPLATE_IDS` (`src/lib/theme/index.ts`). No se borran:
+     abren con `?plantilla=`/`?portada=` y en los eventos que las usen; el editor enseña la portada
+     oculta si es la del evento. A la vista: **96 plantillas y 97 portadas** (textos en
+     `src/app/page.tsx`, `src/app/ejemplos/page.tsx`, `src/lib/sales/plans.ts`; recuentos en
+     `tests/e2e/venta.spec.ts` y `tests/unit/theme.test.ts`). Para volver a enseñar una, se quita de
+     `HIDDEN_CONCEPT_COVERS`, se vuelve a poner en `FEATURED_TEMPLATE_IDS` y se ajustan esos números.
+  2. **Pulido con gesto de verdad** (`c2c1991`, `0b351a2`), detalle en `docs/DECISIONS.md`
+     («Pulido de las que se quedan»):
+     - **Persiana** (`concepts-new23.tsx`): se tira del cordón; abre lamas y luego sube.
+     - **Noria** (`concepts-new24.tsx`): se gira la rueda alrededor del eje; se asienta arriba sola.
+     - **Caleidoscopio** (`concepts-new26.tsx`): doce cuñas en espejo; tres giros de 120° y flor.
+     - **Buzón** (`concepts-new28.tsx`): la carta se arrastra a la ranura; sin la marca «Correos».
+     - **Paraguas** (`concepts-new17.tsx`): se empuja el corredor; gajos en cúpula.
+       Cada una con prueba E2E del gesto en `tests/e2e/conceptos.spec.ts` y sus imágenes de venta
+       rehechas (`public/venta/plantilla-<id>-portada.webp`, `portada-<id>.webp`).
+- **Comprobado**: unitarias (2184) bien; batería E2E completa 759 bien y 5 omitidas (con todo menos
+  el último retoque de Paraguas, cuyas pruebas se pasaron aparte).
+- **Siguiente (en este orden)**: las otras 20 de las 25 nuevas que quedan a la vista siguen
+  abriéndose solo con botón. Empezar por **Faro** (girar la linterna / barrer el haz), **Gramola**
+  (arrastrar la moneda a la ranura), **Cartas atadas** (tirar del lazo), **Farolillo** (soltarlo
+  hacia arriba) y **Vela** (soplar: arrastrar sobre la llama). Después: Caja de música (dar cuerda
+  girando), Rama prensada, Carné de baile, Cápsula, Pliego de sellos, Bola de discoteca, Cuaderno de
+  viaje, Semáforo, Cascanueces, Cesta de pícnic, Tetera, Campanas, Pajarera, Reloj de cuco y
+  Sombrero de mago. No añadir plantillas nuevas hasta terminar.
+- **Cómo se pule una** (el patrón de las cinco hechas):
+  1. Aplicar `frontend-design` antes de tocar: plan corto de paleta, gesto y dibujo; revisarlo.
+  2. Estado continuo (0 a 1 o grados) en vez de un booleano; `useRef` para el arrastre con
+     `setPointerCapture`, `touch-none` y `e.stopPropagation()` en `onPointerDown`/`onPointerMove`
+     (si no, el gesto abre la invitación). Un toque sin arrastrar hace lo mismo que el botón.
+  3. Al soltar: si pasa del umbral, `animate` hasta el final; si no, vuelve atrás.
+  4. Mantener el botón (mismo nombre, las pruebas lo usan), el atributo `data-<id>` con sus valores,
+     `h1#cover-title`, la fecha en `<time>` y `reduce` (sin animación).
+  5. Revisar con `node scripts/capturas-gesto.mjs <id> <selector> recta|giro …` sobre
+     `npx next dev -p 3124` y mirar las tres capturas; añadir la prueba E2E del gesto; rehacer las
+     imágenes de venta con `node scripts/capturas-venta.mjs` (o solo las de esa plantilla).
+  6. `npm run check` y `npm run test:e2e` antes de subir; anotarlo en `docs/DECISIONS.md`.
+
+## Estado a 21/11/2026, tarde
 
 - **Producción**: `main` con el PR #8 (`acbbc9d`). En `claude/exciting-franklin-43k083`, sin llevar a
   producción todavía (rondas 36 a 38 de `docs/DECISIONS.md`):
