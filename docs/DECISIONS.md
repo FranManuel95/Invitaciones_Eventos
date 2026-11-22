@@ -1545,6 +1545,7 @@ olivo.
   de neón y disco; al echar una moneda se enciende y suena «El primer baile»; la gramola no sabe las
   canciones de la pareja, así que lleva tres huecos con nombre; Rebeca y Nacho, Peñíscola; portada
   oscura). Estilos Molino, Puente y Rocola. Ya son 98 plantillas (76 de objetos) y 99 portadas.
+- **Batería E2E completa** con todo hasta Cesta de pícnic: 603 pruebas bien y 5 omitidas.
 
 ## Pendiente para próximas fases
 
