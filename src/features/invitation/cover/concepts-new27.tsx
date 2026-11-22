@@ -105,7 +105,7 @@ function BalloonsCover({ event, onOpen, reduce }: ConceptProps) {
           {/* El rojo, con la fecha atada al cordel, que se escapa hacia arriba. */}
           <div
             className="absolute flex flex-col items-center"
-            style={{ left: `${44 + rise * 10}%`, top: `${26 - rise * 34}%` }}
+            style={{ left: `${44 + rise * 10}%`, top: `${26 - rise * 22}%` }}
           >
             {balloon("#e4572e")}
             <span aria-hidden className="block h-10 w-px bg-[#8a8a8a]" />

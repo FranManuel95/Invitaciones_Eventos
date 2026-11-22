@@ -1603,6 +1603,7 @@ olivo.
   y Pepe, Salobreña) y **Castillo de arena** (tres cubos levantan las torres y aparece la bandera
   con las iniciales; Amparo y Julen, Isla Cristina). Estilos Algarabía, Trompo y Arenisca. Ya son
   122 plantillas (100 de objetos) y 123 portadas.
+- **Batería E2E completa** con todo hasta Caleidoscopio: 705 pruebas bien y 5 omitidas.
 
 ## Pendiente para próximas fases
 
