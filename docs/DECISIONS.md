@@ -1546,6 +1546,17 @@ olivo.
   canciones de la pareja, así que lleva tres huecos con nombre; Rebeca y Nacho, Peñíscola; portada
   oscura). Estilos Molino, Puente y Rocola. Ya son 98 plantillas (76 de objetos) y 99 portadas.
 - **Batería E2E completa** con todo hasta Cesta de pícnic: 603 pruebas bien y 5 omitidas.
+- **Vigesimoprimera tanda**: **Huellas en la arena** (dos caminos de huellas que suben juntos y la
+  fecha, escrita en la orilla, se aclara al llegar; Ariana y Enzo, Ciudadela), **Nevera** (nevera
+  retro con la nota de la compra; dentro, la tarta de dos pisos con la fecha; Natalia y Lucio,
+  Zarautz) y **Tetera** (porcelana con flores; al servir, los posos dicen «boda»; Esther y Pelayo,
+  Ribadeo). Estilos Arenal, Frigorífico y Porcelana. Ya son 101 plantillas (79 de objetos) y 102
+  portadas; la venta dice «Ciento una plantillas» y «Ciento dos portadas».
+- **Cobertura recuperada**: Cascanueces, Hamaca, Cesta de pícnic, Molinillo, Candado y Gramola no
+  estaban en la lista de la prueba de accesibilidad de `conceptos.spec.ts` (el reemplazo no
+  encontró la línea, que Prettier había partido). Ya están, y la prueba destapó un contraste
+  insuficiente en el botón del Molinillo, corregido.
+- **Batería E2E completa** con todo hasta Gramola (sin la accesibilidad de esas seis): 609 bien.
 
 ## Pendiente para próximas fases
 

@@ -105,6 +105,9 @@ export const COVER_IDS = [
   "molinillo",
   "candado",
   "gramola",
+  "huellas",
+  "nevera",
+  "tetera",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -527,6 +530,20 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     description:
       "Una gramola con luces: se echa una moneda, gira el disco y suena el primer baile.",
   },
+  huellas: {
+    label: "Huellas en la arena",
+    description:
+      "Dos pares de huellas que caminan juntas por la arena hasta la fecha escrita en la orilla.",
+  },
+  nevera: {
+    label: "Nevera",
+    description:
+      "Una nevera retro con una nota de la compra: se abre y dentro está la tarta de boda.",
+  },
+  tetera: {
+    label: "Tetera",
+    description: "Una tetera de porcelana que sirve el té: en los posos de la taza se lee la boda.",
+  },
 };
 
 /**
@@ -611,6 +628,9 @@ export const CONCEPT_COVERS = {
   molinillo: { ink: "#1f2d33", paper: "#eef6f2" },
   candado: { ink: "#2c1c1c", paper: "#f6d7c3" },
   gramola: { ink: "#fbeee6", paper: "#14080f", tone: "oscuro" },
+  huellas: { ink: "#3a2c1c", paper: "#f2e6cc" },
+  nevera: { ink: "#1f2e2a", paper: "#e7f1ee" },
+  tetera: { ink: "#3a2416", paper: "#fbf1e6" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -773,6 +793,9 @@ export const MOTIF_IDS = [
   "molinillo",
   "candado",
   "gramola",
+  "huellas",
+  "nevera",
+  "tetera",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -863,4 +886,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   molinillo: { label: "Molinillo", kind: "concepto" },
   candado: { label: "Candado del amor", kind: "concepto" },
   gramola: { label: "Gramola", kind: "concepto" },
+  huellas: { label: "Huellas", kind: "concepto" },
+  nevera: { label: "Nevera", kind: "concepto" },
+  tetera: { label: "Hora del té", kind: "concepto" },
 };

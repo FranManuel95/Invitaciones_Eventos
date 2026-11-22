@@ -8,7 +8,7 @@ Rama de trabajo: `claude/tender-franklin-isgz7b` (PR #6 contra `main`, sin fusio
 continuación (Telegrama y Postal, ronda 19) está en `claude/exciting-franklin-43k083`, que parte
 de esa rama y la contiene entera.
 
-**Hechas las setenta y seis**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
+**Hechas las setenta y nueve**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
 las diez de la ronda 20 (Vinilo, Pasaporte, Carta, Mapa, Constelación, Cómic, Cosecha, Tarot,
 Arcade y Semillas) e Instantánea, Abanico, Cerillas, Galleta de la suerte, Casete y Mensaje en una botella (ronda
 38, en `cover/concepts-new.tsx`) y Crucigrama, Billete de tren y Receta de la abuela (ronda 38, en
@@ -29,7 +29,8 @@ en `cover/concepts-new15.tsx`) y Piñata, Lluvia de arroz y Vela (ronda 38, en
 `cover/concepts-new16.tsx`) y Columpio, Semáforo y Paraguas (ronda 38, en
 `cover/concepts-new17.tsx`) y Cascanueces, Hamaca y Cesta de pícnic (ronda 38, en
 `cover/concepts-new18.tsx`) y Molinillo de viento, Candado del amor y Gramola (ronda 38, en
-`cover/concepts-new19.tsx`). Las fichas de abajo se conservan como referencia de lo que se
+`cover/concepts-new19.tsx`) y Huellas en la arena, Nevera y Tetera (ronda 38, en
+`cover/concepts-new20.tsx`). Las fichas de abajo se conservan como referencia de lo que se
 construyó; lo que queda es lo de «Pendiente en las que ya existen», que vale para todas.
 
 Dónde está cada cosa ahora: piezas comunes en `cover/concept-kit.tsx`; portadas en
@@ -390,12 +391,12 @@ Entrada de concierto, Cartel de feria, Ficha de biblioteca, Llave de hotel, Part
 Cometa, Reloj de arena, Faro, Caja de música, Farolillo de papel, Barco de papel, Rama prensada,
 Cartas atadas, Ramo de novia, Estuche de anillos, Carné de baile, Cápsula del tiempo, Pliego de
 sellos, Bola de discoteca, Cuaderno de viaje, Piñata, Lluvia de arroz, Vela, Columpio, Semáforo y
-Paraguas, Cascanueces, Hamaca, Cesta de pícnic, Molinillo de viento, Candado del amor y Gramola.
-Quedan por probar:
+Paraguas, Cascanueces, Hamaca, Cesta de pícnic, Molinillo de viento, Candado del amor, Gramola,
+Huellas en la arena, Nevera y Tetera. Quedan por probar:
 
-1. **Huellas en la arena**: dos pares de pasos que avanzan juntos hasta la fecha escrita en la orilla.
-2. **Pastel de bodas en la nevera**: se abre la puerta y la tarta lleva la fecha (con humor).
-3. **Tetera**: se sirve el té y en la taza aparecen los posos con la fecha.
+1. **Tocadiscos de maleta**: se abre la maleta, baja la aguja y gira el single de la boda.
+2. **Pompas de jabón**: se soplan y cada pompa lleva un dato hasta que explota.
+3. **Herradura de la suerte**: se cuelga sobre la puerta y cae una lluvia de tréboles.
 
 ## Por dónde empezar
 

@@ -11257,3 +11257,352 @@ export const gramola = wedding({
     "Dancing Queen",
   ],
 });
+
+export const huellas = wedding({
+  id: "evt-demo-ariana-enzo",
+  first: "Ariana",
+  second: "Enzo",
+  date: "2027-06-12T19:30:00+02:00",
+  rsvpDeadline: "2027-05-01T23:59:00+02:00",
+  city: "Ciudadela",
+  region: "Menorca",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-4.jpg",
+  cardMessage:
+    "Nos conocimos siguiendo las mismas huellas en una cala vacía. Al final del camino estaba el otro.",
+  welcomeMessage:
+    "Nos casamos junto al mar, descalzos. Aquí tienes todo lo que necesitas para caminar con nosotros.",
+  thankYouMessage:
+    "Gracias por venir a Menorca y por dejar vuestras huellas junto a las nuestras. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Catedral de Ciudadela",
+      kind: "Ceremonia",
+      address: "Plaça de la Catedral, 1",
+      note: "En el centro antiguo. Hay parking junto al puerto.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Cala de las Huellas",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camí de Cavalls, km 12",
+      note: "A 15 minutos, en una finca sobre una cala de arena blanca.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [27, 18, 5],
+  program: [
+    ["19:30", "Ceremonia", "iglesia", "La catedral", "Con guitarra y violín.", "ceremony"],
+    [
+      "20:45",
+      "Aperitivo",
+      "finca",
+      "En la arena",
+      "Descalzos, con pomada y queso de Mahón.",
+      "cocktail",
+    ],
+    ["22:00", "Cena", "finca", "Sobre la cala", "Con el menú que elijas al confirmar.", "banquet"],
+    ["00:00", "Fiesta", "finca", "Hasta el amanecer", "Baile junto al mar.", "party"],
+  ],
+  busRoutes: [
+    ["mao", "Maó → Ciudadela", "Estació de Maó", "18:15", ["03:00", "05:30"], 50],
+    ["ferreries", "Ferreries → Ciudadela", "Plaça de Ferreries", "18:45", ["05:30"], 25],
+  ],
+  menu: {
+    carne: "Cordero menorquín",
+    pescado: "Caldereta de langosta",
+    vegetariano: "Berenjenas rellenas a la menorquina",
+    vegano: "Tumbet de verduras",
+  },
+  dressCode: {
+    title: "Descalzos en la arena",
+    detail: "Blanco, arena y azul. Habrá arena: descalzos o sandalia plana.",
+    palette: [
+      { name: "Arena", hex: "#e3d2ae" },
+      { name: "Mar", hex: "#bfe3ea" },
+      { name: "Concha", hex: "#fbf6ea" },
+      { name: "Huella", hex: "#6b4a2a" },
+    ],
+    examples: [
+      "Vestido largo y suelto.",
+      "Lino blanco con abarcas.",
+      "Descalzos en la cala: guardamos los zapatos.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel del Port",
+      "Junto al puerto de Ciudadela",
+      "Habitaciones reservadas hasta el 1 de mayo.",
+    ],
+    ["Agroturismo Sa Cala", "Junto a la finca", "Con desayuno de ensaimadas."],
+  ],
+  story: {
+    intro:
+      "Dos caminos de huellas en una cala vacía y siete veranos juntos. Esta es la versión corta.",
+    moments: [
+      ["2020", "Las huellas", "Seguimos las mismas huellas y nos encontramos al final.", "cala"],
+      ["2022", "La furgoneta", "Un verano entero por el Camí de Cavalls.", "furgoneta"],
+      [
+        "2026",
+        "La pedida",
+        "Escrita con el dedo en la arena, antes de que llegara la ola.",
+        "anilloBarca",
+      ],
+      ["Hoy", "Y ahora, la boda", "Las huellas llegan a la orilla. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a las Maldivas", "Más arena.", "Lo que queráis"],
+    ["Una tabla de paddle surf", "Para las calas.", "350 €"],
+    ["Una cámara de fotos", "Para las huellas que vengan.", "250 €"],
+    ["Una noche en un faro", "Para el aniversario.", "200 €"],
+  ],
+  kids: "Habrá monitores, castillos de arena y cena para ellos.",
+  faq: [
+    "¿Se puede ir descalzo?",
+    "Se recomienda. Guardaremos vuestros zapatos a la entrada de la cala.",
+  ],
+  guestbook: [
+    ["Los de la cala", "Esas huellas acabaron en boda."],
+    ["Àvia Margalida", "Quina boda més bonica, vora la mar."],
+    ["Joana y Toni", "Hemos dejado nuestras huellas al lado."],
+  ],
+  songs: ["Mediterráneo", "La playa", "Ocean Eyes", "September", "Valerie", "Dancing Queen"],
+});
+
+export const nevera = wedding({
+  id: "evt-demo-natalia-lucio",
+  first: "Natalia",
+  second: "Lucio",
+  date: "2027-04-17T13:00:00+02:00",
+  rsvpDeadline: "2027-03-10T23:59:00+01:00",
+  city: "Zarautz",
+  region: "Gipuzkoa",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-3.jpg",
+  cardMessage:
+    "Compartimos piso y nevera tres años sin decirnos nada. Un día dejó una nota en la puerta. Esta es la última.",
+  welcomeMessage:
+    "La nota de la nevera dice: «Boda. No faltes». Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Zarautz y por no tocar la tarta antes de tiempo. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María la Real",
+      kind: "Ceremonia",
+      address: "Kale Nagusia, 1",
+      note: "En el centro. Hay parking junto al paseo.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Caserío de la Nevera",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Camino de Getaria, km 2",
+      note: "A 10 minutos, con viñedo de txakoli y vistas al mar.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [18, 10, 40],
+  program: [
+    ["13:00", "Ceremonia", "iglesia", "Santa María la Real", "Con coro y txistu.", "ceremony"],
+    ["14:15", "Aperitivo", "finca", "Entre viñas", "Con txakoli y pintxos.", "cocktail"],
+    [
+      "15:30",
+      "Comida",
+      "finca",
+      "En el caserío",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "18:30",
+      "Fiesta",
+      "finca",
+      "La tarta",
+      "A las siete se abre la nevera y sale la tarta.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["donostia", "Donostia → Zarautz", "Plaza Gipuzkoa, Donostia", "12:00", ["21:00", "00:30"], 30],
+    ["getaria", "Getaria → Zarautz", "Puerto de Getaria", "12:30", ["00:30"], 10],
+  ],
+  menu: {
+    carne: "Chuletón a la brasa",
+    pescado: "Merluza en salsa verde",
+    vegetariano: "Pimientos de Gernika y tortilla",
+    vegano: "Porrusalda con verduras",
+  },
+  dressCode: {
+    title: "Primavera en la costa",
+    detail: "Verde menta, rosa y crema. En la costa vasca puede llover: chaqueta.",
+    palette: [
+      { name: "Menta", hex: "#9fd3c7" },
+      { name: "Tarta", hex: "#e8a7b3" },
+      { name: "Nota", hex: "#fff7a8" },
+      { name: "Cromo", hex: "#cfe3dd" },
+    ],
+    examples: [
+      "Vestido midi en tonos pastel.",
+      "Traje claro con corbata menta.",
+      "Una chaqueta: el norte es el norte.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel de la Playa",
+      "Frente al mar de Zarautz",
+      "Habitaciones reservadas hasta el 10 de marzo.",
+    ],
+    ["Agroturismo Getaria", "Junto al caserío", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro:
+      "Una nevera compartida, cien notas en la puerta y ocho años juntos. Esta es la versión corta.",
+    moments: [
+      ["2019", "El piso", "Compartíamos nevera y nos escribíamos notas.", "olivos"],
+      ["2021", "La nota", "«¿Cenamos?», decía una nota. Cenamos.", "terraza"],
+      ["2026", "La pedida", "En una nota pegada con imán: «¿Te casas conmigo?».", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "La tarta ya está en la nevera. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Japón", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Una nevera retro", "Menta, claro.", "500 €"],
+    ["Imanes de todo el mundo", "Para la puerta.", "30 €"],
+    ["Un curso de repostería", "Para la próxima tarta.", "120 €"],
+  ],
+  kids: "Habrá monitores, magdalenas para decorar y comida para ellos.",
+  faq: ["¿Qué pasa con la tarta?", "Sale de la nevera a las siete. Hasta entonces, no se toca."],
+  guestbook: [
+    ["Los compañeros de piso", "Por fin sabemos qué decían esas notas."],
+    ["Amama Josune", "Qué tarta más rica y qué boda más bonita."],
+    ["Maialen y Iker", "Os hemos dejado una nota en la nevera."],
+  ],
+  songs: ["Cake by the Ocean", "Sugar", "Dulce", "September", "Valerie", "Dancing Queen"],
+});
+
+export const tetera = wedding({
+  id: "evt-demo-esther-pelayo",
+  first: "Esther",
+  second: "Pelayo",
+  date: "2027-10-30T17:00:00+02:00",
+  rsvpDeadline: "2027-09-20T23:59:00+02:00",
+  city: "Ribadeo",
+  region: "Lugo",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-3.jpg",
+  cardMessage:
+    "Nos conocimos en una casa de té, pidiendo la misma tetera. La camarera nos sirvió dos tazas de la misma.",
+  welcomeMessage:
+    "Os invitamos a tomar el té con nosotros, y a casarnos de paso. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Ribadeo y por quedaros a la última tacita. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María del Campo",
+      kind: "Ceremonia",
+      address: "Rúa de Santa María, 4",
+      note: "En el casco antiguo. Hay parking junto a la ría.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Casa de Indianos do Té",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Avenida de Galicia, 22",
+      note: "A 5 minutos, una casa de indianos con jardín y salón de té.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [17, 9, 50],
+  program: [
+    [
+      "17:00",
+      "Ceremonia",
+      "iglesia",
+      "Santa María do Campo",
+      "Con cuarteto de cuerda.",
+      "ceremony",
+    ],
+    [
+      "18:15",
+      "Aperitivo",
+      "finca",
+      "Té en el jardín",
+      "Té, pastas y vino de la Ribeira Sacra.",
+      "cocktail",
+    ],
+    [
+      "19:45",
+      "Cena",
+      "finca",
+      "En el salón de té",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["22:30", "Fiesta", "finca", "Última tacita", "Baile y queimada.", "party"],
+  ],
+  busRoutes: [
+    ["lugo-r", "Lugo → Ribadeo", "Estación de autobuses de Lugo", "15:15", ["01:30", "04:00"], 90],
+    ["luarca", "Luarca → Ribadeo", "Puerto de Luarca", "15:45", ["04:00"], 50],
+  ],
+  menu: {
+    carne: "Ternera gallega al vino",
+    pescado: "Merluza de pincho con almejas",
+    vegetariano: "Pastel de setas y castañas",
+    vegano: "Crema de calabaza y castañas",
+  },
+  dressCode: {
+    title: "Té de otoño",
+    detail: "Azul porcelana, crema y rosa. Es otoño en Galicia: paraguas y chaqueta.",
+    palette: [
+      { name: "Porcelana", hex: "#3f5f8a" },
+      { name: "Taza", hex: "#fdfbf6" },
+      { name: "Flor", hex: "#e8a7b3" },
+      { name: "Té", hex: "#b5652a" },
+    ],
+    examples: [
+      "Vestido midi de flores pequeñas.",
+      "Traje de tweed con chaleco.",
+      "Un paraguas bonito, por si acaso.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Casa dos Indianos",
+      "Junto a la finca",
+      "Habitaciones reservadas hasta el 20 de septiembre.",
+    ],
+    ["Pensión da Ría", "Junto a la ría", "Con desayuno de domingo con té."],
+  ],
+  story: {
+    intro: "Una tetera para dos, una casa de té y ocho otoños juntos. Esta es la versión corta.",
+    moments: [
+      ["2019", "La tetera", "Pedimos la misma. Nos sirvieron dos tazas de ella.", "cala"],
+      ["2022", "El viaje", "Un mes por las casas de té de Inglaterra.", "furgoneta"],
+      ["2026", "La pedida", "En los posos de una taza: «¿Te casas conmigo?».", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "El té ya está servido. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Japón", "Para la ceremonia del té.", "Lo que queráis"],
+    ["Una tetera de porcelana", "Con flores azules.", "80 €"],
+    ["Una caja de tés del mundo", "Para un año.", "60 €"],
+    ["Una vajilla de té para doce", "Para las tardes de domingo.", "200 €"],
+  ],
+  kids: "Habrá monitores, merienda y cena para ellos.",
+  faq: ["¿Habrá café?", "También. Pero el té es obligatorio a las seis."],
+  guestbook: [
+    ["Los de la casa de té", "Aquella tetera tenía mucho que decir."],
+    ["Avoa Dolores", "Que boda máis bonita, e que té máis rico."],
+    ["Uxía y Martín", "Nos tomamos la última tacita."],
+  ],
+  songs: ["Tea for Two", "Té para tres", "La vie en rose", "September", "Valerie", "Dancing Queen"],
+});

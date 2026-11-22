@@ -82,6 +82,9 @@ import {
   molinillo,
   candado,
   gramola,
+  huellas,
+  nevera,
+  tetera,
 } from "./template-weddings";
 import { guestbook, type DemoVariant } from "./wedding-builder";
 
@@ -1110,6 +1113,9 @@ const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   molinillo,
   candado,
   gramola,
+  huellas,
+  nevera,
+  tetera,
 };
 
 /** La boda ficticia propia de una plantilla, si la tiene. */

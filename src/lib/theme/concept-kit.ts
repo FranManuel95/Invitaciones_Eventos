@@ -588,6 +588,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
       table: "Tu mesa junto a la pista",
     },
   },
+  huellas: {
+    object: "las huellas",
+    carrier: "Escrito en la arena",
+    letterhead: "Paso a paso",
+    signoff: "Juntos hasta la orilla",
+    pass: { kicker: "Pase a la playa", people: "Caminantes" },
+  },
+  nevera: {
+    object: "la nevera",
+    carrier: "Nota con imán",
+    letterhead: "Pegado en la nevera",
+    signoff: "No tocar la tarta",
+    pass: { kicker: "Ticket de la compra", people: "Invitados" },
+  },
+  tetera: {
+    object: "la tetera",
+    carrier: "Caja de té",
+    letterhead: "A la hora del té",
+    signoff: "Otra tacita",
+    pass: { kicker: "Invitación al té", people: "Invitados" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

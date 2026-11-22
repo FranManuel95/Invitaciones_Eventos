@@ -41,6 +41,7 @@ import { SIXTEENTH_NEW_COVERS } from "./concepts-new16";
 import { SEVENTEENTH_NEW_COVERS } from "./concepts-new17";
 import { EIGHTEENTH_NEW_COVERS } from "./concepts-new18";
 import { NINETEENTH_NEW_COVERS } from "./concepts-new19";
+import { TWENTIETH_NEW_COVERS } from "./concepts-new20";
 import { MAP_COVERS } from "./concepts-play";
 
 /*
@@ -991,4 +992,5 @@ export const MORE_COVERS = {
   ...SEVENTEENTH_NEW_COVERS,
   ...EIGHTEENTH_NEW_COVERS,
   ...NINETEENTH_NEW_COVERS,
+  ...TWENTIETH_NEW_COVERS,
 };

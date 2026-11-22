@@ -23,8 +23,8 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
      papel, Rama prensada, Cartas atadas, Ramo de novia, Estuche de anillos, Carné de
      baile, Cápsula del tiempo, Pliego de sellos, Bola de discoteca, Cuaderno de viaje, Piñata, Lluvia de arroz, Vela, Columpio, Semáforo,
      Paraguas, Cascanueces, Hamaca, Cesta de pícnic, Molinillo de viento,
-     Candado del amor y Gramola. Y la portada en movimiento Tarjeta a la luz con la
-     plantilla Luz de tarde. Ya son **98 plantillas y 99 portadas** (con Seda y Cinta de seda). Componentes en
+     Candado del amor, Gramola, Huellas en la arena, Nevera y Tetera. Y la portada en movimiento Tarjeta a la luz con la
+     plantilla Luz de tarde. Ya son **101 plantillas y 102 portadas** (con Seda y Cinta de seda). Componentes en
      `src/features/invitation/cover/concepts-new*.tsx`; cada una con estilo, piel, kit, boda de
      ejemplo y pruebas en `tests/e2e/conceptos.spec.ts`.
      Antes de llevarlo a producción: `npm run check` y la batería E2E completa, PR a `main`.
@@ -35,6 +35,10 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
   portada Rama prensada (`public/acuarelas/olivo-herbario.webp`). Los lacres de
   concha, sol, estrella y corazón ya son «lacres de verdad» en el editor y la cinta burdeos es la
   portada en movimiento «Cinta de seda» (plantilla Seda).
+- **Registro de tandas de concepto**: el guion `register.py` del scratchpad de la sesión no está en
+  el repositorio; el patrón está en «Plantillas de concepto» (`docs/CONCEPTOS.md`). Ojo con los
+  reemplazos de texto sobre ficheros que Prettier ha reformateado: comprobad siempre con `assert`
+  que el ancla existe (así se perdieron seis entradas de la lista de `conceptos.spec.ts`).
 - **Ideas de conceptos pendientes**: ver «Ideas para la siguiente tanda» en `docs/CONCEPTOS.md`.
 
 ## Estado a 19/11/2026

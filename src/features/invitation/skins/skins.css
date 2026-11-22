@@ -3926,6 +3926,127 @@
   }
 }
 
+/* Huellas en la arena: cada sección es un paso. */
+[data-motif="huellas"] {
+  counter-reset: paso;
+}
+[data-motif="huellas"] .motif-hero {
+  background: linear-gradient(180deg, #bfe3ea, var(--color-paper) 40%);
+}
+[data-motif="huellas"] section[id] {
+  counter-increment: paso;
+}
+[data-motif="huellas"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="huellas"] .motif-sprig::before {
+  content: "";
+  width: 0.7rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  background: var(--color-gold);
+}
+[data-motif="huellas"] .motif-sprig::after {
+  content: "Paso " counter(paso);
+}
+[data-motif="huellas"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="huellas"] .motif-closing::before {
+  content: "Juntos hasta la orilla";
+}
+/* Nevera: cada sección es una balda. */
+[data-motif="nevera"] {
+  counter-reset: balda;
+}
+[data-motif="nevera"] .motif-hero {
+  background: linear-gradient(180deg, #e7f1ee, var(--color-paper) 70%);
+}
+[data-motif="nevera"] section[id] {
+  counter-increment: balda;
+}
+[data-motif="nevera"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="nevera"] .motif-sprig::before {
+  content: "";
+  width: 0.9rem;
+  height: 1.2rem;
+  border-radius: 4px;
+  background: var(--color-gold);
+  box-shadow: inset 0 0.45rem 0 -0.35rem #fff;
+}
+[data-motif="nevera"] .motif-sprig::after {
+  content: "Balda " counter(balda);
+}
+[data-motif="nevera"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="nevera"] .motif-closing::before {
+  content: "No tocar la tarta";
+}
+/* Tetera: cada sección es una taza. */
+[data-motif="tetera"] {
+  counter-reset: taza;
+}
+[data-motif="tetera"] .motif-hero {
+  background: radial-gradient(circle at 50% 0, #fbf1e6, var(--color-paper) 70%);
+}
+[data-motif="tetera"] section[id] {
+  counter-increment: taza;
+}
+[data-motif="tetera"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="tetera"] .motif-sprig::before {
+  content: "";
+  width: 1.1rem;
+  height: 0.8rem;
+  border-radius: 0 0 999px 999px;
+  background: var(--color-gold);
+}
+[data-motif="tetera"] .motif-sprig::after {
+  content: "Taza " counter(taza);
+}
+[data-motif="tetera"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="tetera"] .motif-closing::before {
+  content: "Otra tacita";
+}
 @keyframes musicbox-spin {
   to {
     transform: rotateY(360deg);
@@ -4690,6 +4811,22 @@
 [data-motif="gramola"] .concept-carrier {
   background: #26121c;
   border: 2px solid var(--color-gold);
+}
+
+/* Huellas en la arena: concha de la orilla. */
+[data-motif="huellas"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 2px dashed var(--color-gold);
+}
+/* Nevera: nota con imán. */
+[data-motif="nevera"] .concept-carrier {
+  background: #fff7a8;
+  border: 2px solid var(--color-gold);
+}
+/* Tetera: caja de té. */
+[data-motif="tetera"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 3px double var(--color-gold);
 }
 
 [data-motif-kind="concepto"] .motif-closing > * {

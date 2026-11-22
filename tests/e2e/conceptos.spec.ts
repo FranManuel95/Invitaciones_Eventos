@@ -92,6 +92,20 @@ const CONCEPTS = [
     date: "16 de octubre de 2027",
     opening: "concepto",
   },
+  { id: "cascanueces", names: /Adela y Gil/, date: "18 de diciembre de 2027", opening: "concepto" },
+  { id: "hamaca", names: /Begoña y Ulises/, date: "28 de agosto de 2027", opening: "concepto" },
+  { id: "picnic", names: /Mónica y Aitor/, date: "19 de junio de 2027", opening: "concepto" },
+  { id: "molinillo", names: /Celeste y Lisandro/, date: "8 de mayo de 2027", opening: "concepto" },
+  {
+    id: "candado",
+    names: /Marisa y Germán/,
+    date: "11 de septiembre de 2027",
+    opening: "concepto",
+  },
+  { id: "gramola", names: /Rebeca y Nacho/, date: "24 de julio de 2027", opening: "concepto" },
+  { id: "huellas", names: /Ariana y Enzo/, date: "12 de junio de 2027", opening: "concepto" },
+  { id: "nevera", names: /Natalia y Lucio/, date: "17 de abril de 2027", opening: "concepto" },
+  { id: "tetera", names: /Esther y Pelayo/, date: "30 de octubre de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -904,6 +918,32 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await stage.getByRole("button", { name: "Echar una moneda" }).click();
     await expect(stage.locator("[data-gramola]")).toHaveAttribute("data-gramola", "sonando");
     await expect(stage.getByText(/Suena «El primer baile»/)).toBeVisible();
+  });
+
+  test("huellas: caminan juntas hasta la orilla", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=huellas");
+    const stage = cover(page, "huellas");
+    await stage.getByRole("button", { name: "Echar a andar" }).click();
+    await expect(stage.locator("[data-huellas]")).toHaveAttribute("data-huellas", "en-la-orilla", {
+      timeout: 8000,
+    });
+    await expect(stage.getByText(/Hasta la orilla de Ciudadela/)).toBeVisible();
+  });
+
+  test("nevera: dentro está la tarta", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=nevera");
+    const stage = cover(page, "nevera");
+    await stage.getByRole("button", { name: "Abrir la nevera" }).click();
+    await expect(stage.locator("[data-nevera]")).toHaveAttribute("data-nevera", "abierta");
+    await expect(stage.getByText(/La tarta ya está lista/)).toBeVisible();
+  });
+
+  test("tetera: se sirve el té y hablan los posos", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=tetera");
+    const stage = cover(page, "tetera");
+    await stage.getByRole("button", { name: "Servir el té" }).click();
+    await expect(stage.locator("[data-tetera]")).toHaveAttribute("data-tetera", "servida");
+    await expect(stage.getByText(/Los posos no mienten/)).toBeVisible();
   });
 
   test("faro: se enciende", async ({ page }) => {

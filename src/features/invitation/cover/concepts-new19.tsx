@@ -84,7 +84,7 @@ function PinwheelCover({ event, onOpen, reduce }: ConceptProps) {
             onPointerDown={stop}
             onClick={blow}
             disabled={spinning}
-            className="mt-3 rounded-full bg-[#118ab2] px-6 py-2.5 text-[0.9375rem] font-medium text-white disabled:opacity-70"
+            className="mt-3 rounded-full bg-[#0b6a8a] px-6 py-2.5 text-[0.9375rem] font-medium text-white disabled:opacity-70"
           >
             {spinning ? "Girando…" : "Soplar el molinillo"}
           </button>
