@@ -78,6 +78,8 @@ function FilmCameraCover({ event, onOpen, reduce }: ConceptProps) {
             className="mt-4 flex gap-1 overflow-hidden rounded-[2px] bg-[#3a2a1a] px-2 py-3 transition-[max-width] duration-700"
             style={{
               maxWidth: shot ? "18rem" : "0rem",
+              paddingInline: shot ? undefined : 0,
+              visibility: shot ? "visible" : "hidden",
               transitionDuration: reduce ? "0ms" : undefined,
             }}
           >

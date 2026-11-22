@@ -1610,6 +1610,7 @@ olivo.
   Tarazona) y **Termómetro del amor** (bulbo de corazón; se frota y sube de «Tibio» a «¡Boda!»;
   Tania y Andoni, Guadalupe, la víspera de San Valentín). Estilos Analógica, Correos y Fiebre. Ya
   son 125 plantillas (103 de objetos) y 126 portadas.
+- **Batería E2E completa** con todo hasta Castillo de arena: 717 pruebas bien y 5 omitidas.
 
 ## Pendiente para próximas fases
 
