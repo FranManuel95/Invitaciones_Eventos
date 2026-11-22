@@ -73,6 +73,9 @@ import {
   pinata,
   arroz,
   vela,
+  columpio,
+  semaforo,
+  paraguas,
 } from "./template-weddings";
 import { guestbook, type DemoVariant } from "./wedding-builder";
 
@@ -1092,6 +1095,9 @@ const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   pinata,
   arroz,
   vela,
+  columpio,
+  semaforo,
+  paraguas,
 };
 
 /** La boda ficticia propia de una plantilla, si la tiene. */

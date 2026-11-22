@@ -84,6 +84,14 @@ const CONCEPTS = [
   { id: "pinata", names: /Jimena y Mauro/, date: "3 de julio de 2027", opening: "concepto" },
   { id: "arroz", names: /Raquel y Eloy/, date: "18 de septiembre de 2027", opening: "concepto" },
   { id: "vela", names: /Sonia y Tristán/, date: "11 de diciembre de 2027", opening: "concepto" },
+  { id: "columpio", names: /Leonor y Teodoro/, date: "5 de junio de 2027", opening: "concepto" },
+  { id: "semaforo", names: /Irati y Mikel/, date: "10 de julio de 2027", opening: "concepto" },
+  {
+    id: "paraguas",
+    names: /Carolina y Damián/,
+    date: "16 de octubre de 2027",
+    opening: "concepto",
+  },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -821,6 +829,32 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await stage.getByRole("button", { name: "Soplar la vela" }).click();
     await expect(stage.locator("[data-vela]")).toHaveAttribute("data-vela", "apagada");
     await expect(stage.getByText(/Deseo pedido/)).toBeVisible();
+  });
+
+  test("columpio: se empuja", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=columpio");
+    const stage = cover(page, "columpio");
+    await stage.getByRole("button", { name: "Empujar el columpio" }).click();
+    await expect(stage.locator("[data-columpio]")).toHaveAttribute("data-columpio", "en-marcha");
+  });
+
+  test("semáforo: de rojo a verde", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=semaforo");
+    const stage = cover(page, "semaforo");
+    await expect(stage.getByText("Guarda la fecha")).toBeVisible();
+    await stage.getByRole("button", { name: "Cambiar de color" }).click();
+    await expect(stage.getByText("Confirma que vienes")).toBeVisible();
+    await stage.getByRole("button", { name: "Cambiar de color" }).click();
+    await expect(stage.locator("[data-semaforo]")).toHaveAttribute("data-semaforo", "verde");
+    await expect(stage.getByText("¡A la fiesta!")).toBeVisible();
+  });
+
+  test("paraguas: se abre y deja de llover", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=paraguas");
+    const stage = cover(page, "paraguas");
+    await stage.getByRole("button", { name: "Abrir el paraguas" }).click();
+    await expect(stage.locator("[data-paraguas]")).toHaveAttribute("data-paraguas", "abierto");
+    await expect(stage.getByText(/Ya no llueve/)).toBeVisible();
   });
 
   test("faro: se enciende", async ({ page }) => {

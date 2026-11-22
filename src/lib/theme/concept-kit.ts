@@ -521,6 +521,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Que se cumpla el deseo",
     pass: { kicker: "Pase de la noche", people: "Invitados" },
   },
+  columpio: {
+    object: "el columpio",
+    carrier: "Colgado de la rama",
+    letterhead: "Desde lo más alto",
+    signoff: "¡Más alto!",
+    pass: { kicker: "Pase al jardín", people: "Invitados" },
+  },
+  semaforo: {
+    object: "el semáforo",
+    carrier: "Señal de tráfico",
+    letterhead: "Vía libre",
+    signoff: "¡En verde, a la fiesta!",
+    pass: { kicker: "Permiso de paso", people: "Conductores", bus: "Tu autobús de la boda" },
+  },
+  paraguas: {
+    object: "el paraguas",
+    carrier: "Por si llueve",
+    letterhead: "Llueva o haga sol",
+    signoff: "Ya ha salido el sol",
+    pass: { kicker: "Pase a cubierto", people: "Invitados" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

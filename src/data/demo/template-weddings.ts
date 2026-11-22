@@ -10155,3 +10155,366 @@ export const vela = wedding({
     "Dancing Queen",
   ],
 });
+
+export const columpio = wedding({
+  id: "evt-demo-leonor-teodoro",
+  first: "Leonor",
+  second: "Teodoro",
+  date: "2027-06-05T18:30:00+02:00",
+  rsvpDeadline: "2027-04-30T23:59:00+02:00",
+  city: "Hervás",
+  region: "Cáceres",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-3.jpg",
+  cardMessage:
+    "De pequeños nos peleábamos por el columpio del castaño del pueblo. Ahora lo compartimos.",
+  welcomeMessage:
+    "El columpio del castaño sigue ahí y nosotros también. Aquí tienes todo lo que necesitas para venir.",
+  thankYouMessage:
+    "Gracias por venir al valle del Ambroz y por columpiaros con nosotros. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María de Aguas Vivas",
+      kind: "Ceremonia",
+      address: "Calle de la Iglesia, 1",
+      note: "En lo alto del barrio judío. Hay parking junto al río.",
+      photo: "ermitaOlivos",
+    },
+    {
+      id: "finca",
+      name: "Finca del Castaño",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camino de la Garganta, km 2",
+      note: "A 10 minutos, con un castaño centenario y su columpio.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [27, 13, 15],
+  program: [
+    ["18:30", "Ceremonia", "iglesia", "Aguas Vivas", "Con coro del valle.", "ceremony"],
+    [
+      "19:45",
+      "Aperitivo",
+      "finca",
+      "Bajo el castaño",
+      "Con cerezas del Jerte y vino de pitarra.",
+      "cocktail",
+    ],
+    ["21:15", "Cena", "finca", "En el prado", "Con el menú que elijas al confirmar.", "banquet"],
+    ["23:30", "Fiesta", "finca", "Hasta tarde", "Baile, columpio y barra libre.", "party"],
+  ],
+  busRoutes: [
+    [
+      "plasencia",
+      "Plasencia → Hervás",
+      "Estación de autobuses de Plasencia",
+      "17:30",
+      ["02:00", "04:30"],
+      40,
+    ],
+    ["bejar", "Béjar → Hervás", "Plaza Mayor, Béjar", "17:45", ["04:30"], 25],
+  ],
+  menu: {
+    carne: "Cabrito de la sierra",
+    pescado: "Trucha del Ambroz",
+    vegetariano: "Patatas revolconas con setas",
+    vegano: "Ensalada de cerezas y pimientos",
+  },
+  dressCode: {
+    title: "Jardín de junio",
+    detail: "Verdes, cereza y crema. Hay prado: nada de tacón fino.",
+    palette: [
+      { name: "Prado", hex: "#c9d9a8" },
+      { name: "Castaño", hex: "#6b4f35" },
+      { name: "Cereza", hex: "#a8243a" },
+      { name: "Cielo", hex: "#e4f0f4" },
+    ],
+    examples: [
+      "Vestido de flores con vuelo.",
+      "Traje claro con alpargatas.",
+      "Algo con lo que columpiarse a gusto.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel El Jardín del Convento",
+      "En el centro de Hervás",
+      "Habitaciones reservadas hasta el 30 de abril.",
+    ],
+    ["Casa rural El Castaño", "Junto a la finca", "Con desayuno de cerezas."],
+  ],
+  story: {
+    intro:
+      "Un columpio disputado, un castaño y veinte veranos en el pueblo. Esta es la versión corta.",
+    moments: [
+      ["2005", "El columpio", "Nos peleábamos por él cada verano. Ganaba ella.", "olivos"],
+      [
+        "2019",
+        "El reencuentro",
+        "Volvimos al pueblo el mismo verano. El columpio, también.",
+        "terraza",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "En el columpio del castaño, con el anillo atado a la cuerda.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "El columpio está listo. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Japón", "Para ver los cerezos en flor.", "Lo que queráis"],
+    ["Un columpio para el jardín", "El nuestro.", "150 €"],
+    ["Un cerezo joven", "Para plantarlo juntos.", "60 €"],
+    ["Una hamaca de madera", "Para las siestas.", "120 €"],
+  ],
+  kids: "Habrá monitores, columpios y cena para ellos.",
+  faq: ["¿Se puede subir al columpio?", "Sí, por turnos y sin empujones fuertes."],
+  guestbook: [
+    ["Los del pueblo", "Por fin os ponéis de acuerdo con el columpio."],
+    ["Abuela Petra", "Qué bonito el castaño lleno de luces."],
+    ["Elena y Sergio", "Nos pedimos el columpio a medianoche."],
+  ],
+  songs: ["Columpio", "La flaca", "Lady Madrid", "September", "Valerie", "Dancing Queen"],
+});
+
+export const semaforo = wedding({
+  id: "evt-demo-irati-mikel",
+  first: "Irati",
+  second: "Mikel",
+  date: "2027-07-10T18:00:00+02:00",
+  rsvpDeadline: "2027-06-01T23:59:00+02:00",
+  city: "Pamplona",
+  region: "Navarra",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/pareja.jpg",
+  cardMessage:
+    "Nos conocimos parados en un semáforo en rojo, cada uno en su bici. Cuando se puso verde, seguimos juntos.",
+  welcomeMessage:
+    "Rojo: guarda la fecha. Ámbar: confirma. Verde: ¡a la fiesta! Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Pamplona y por saltaros todos los semáforos de la pista. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Saturnino",
+      kind: "Ceremonia",
+      address: "Calle Ansoleaga, 2",
+      note: "En el casco viejo. Hay parking en la plaza del Castillo.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Jardín de la Vía Verde",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Paseo de la Taconera, 6",
+      note: "A 10 minutos andando, con jardín junto a la muralla.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [28, 14, 15],
+  program: [
+    ["18:00", "Ceremonia", "iglesia", "San Saturnino", "Con txistu a la salida.", "ceremony"],
+    ["19:15", "Aperitivo", "finca", "En el jardín", "Con pinchos y vino navarro.", "cocktail"],
+    [
+      "21:00",
+      "Cena",
+      "finca",
+      "Bajo la muralla",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "23:30",
+      "Fiesta",
+      "finca",
+      "Luz verde",
+      "Baile y barra libre hasta que cambie el semáforo.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["tudela", "Tudela → Pamplona", "Estación de Tudela", "16:45", ["02:30", "05:00"], 60],
+    ["estella", "Estella → Pamplona", "Plaza de los Fueros, Estella", "17:15", ["05:00"], 40],
+  ],
+  menu: {
+    carne: "Cordero al chilindrón",
+    pescado: "Trucha a la navarra",
+    vegetariano: "Menestra de Tudela",
+    vegano: "Pochas con verduras",
+  },
+  dressCode: {
+    title: "Verano en verde",
+    detail: "Un toque de rojo, ámbar o verde: elige tu luz. Hay jardín: calzado cómodo.",
+    palette: [
+      { name: "Rojo", hex: "#ff4b3e" },
+      { name: "Ámbar", hex: "#ffb627" },
+      { name: "Verde", hex: "#3ddc84" },
+      { name: "Asfalto", hex: "#1d2027" },
+    ],
+    examples: [
+      "Algo rojo, ámbar o verde.",
+      "Traje oscuro con pañuelo de color.",
+      "Zapatillas para la pista, si quieres.",
+    ],
+  },
+  accommodation: [
+    ["Hotel La Perla", "En la plaza del Castillo", "Habitaciones reservadas hasta el 1 de junio."],
+    ["Hostal de la Taconera", "Junto al jardín", "Con desayuno tarde para el domingo."],
+  ],
+  story: {
+    intro: "Un semáforo en rojo, dos bicis y nueve años en verde. Esta es la versión corta.",
+    moments: [
+      ["2018", "El semáforo", "Un rojo eterno. Hablamos hasta que se puso verde.", "olivos"],
+      ["2021", "La ruta", "El Camino de Santiago en bici, de Roncesvalles a Fisterra.", "terraza"],
+      ["2026", "La pedida", "En el mismo cruce, con el semáforo en verde.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "Luz verde. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Ámsterdam", "En bici, claro.", "Lo que queráis"],
+    ["Dos bicis de paseo", "Para seguir rodando.", "400 €"],
+    ["Un tándem", "Para no separarnos nunca.", "300 €"],
+    ["Una ruta guiada por Navarra", "Para el aniversario.", "120 €"],
+  ],
+  kids: "Habrá monitores, circuito de bicis y cena para ellos.",
+  faq: ["¿Cómo llego?", "En verde, por supuesto. Hay autobús desde Tudela y Estella."],
+  guestbook: [
+    ["Los del cruce", "Menudo semáforo más largo aquel."],
+    ["Amatxi Miren", "Qué boda tan bonita, y qué colores."],
+    ["Ane y Gorka", "En verde hasta el final."],
+  ],
+  songs: [
+    "Semáforo",
+    "Rojo, amarillo y verde",
+    "Highway to Hell",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
+
+export const paraguas = wedding({
+  id: "evt-demo-carolina-damian",
+  first: "Carolina",
+  second: "Damián",
+  date: "2027-10-16T17:00:00+02:00",
+  rsvpDeadline: "2027-09-01T23:59:00+02:00",
+  city: "Lugo",
+  region: "Lugo",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-3.jpg",
+  cardMessage:
+    "Nos conocimos bajo el mismo paraguas, en la muralla, en un día de aguacero. Ninguno quiso soltarlo.",
+  welcomeMessage:
+    "Llueva o haga sol, nos casamos. Aquí tienes todo lo que necesitas (y un paraguas, por si acaso).",
+  thankYouMessage:
+    "Gracias por venir a Lugo, por los paraguas de colores y por bailar bajo la lluvia. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Pedro",
+      kind: "Ceremonia",
+      address: "Rúa de San Pedro, 3",
+      note: "Dentro de la muralla. Hay parking en la praza Maior.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Pazo da Chuvia",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camiño do Miño, 12",
+      note: "A 10 minutos, junto al río y con carpa por si llueve.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [18, 9, 55],
+  program: [
+    [
+      "17:00",
+      "Ceremonia",
+      "iglesia",
+      "San Pedro",
+      "Con gaita y paraguas de colores a la salida.",
+      "ceremony",
+    ],
+    [
+      "18:15",
+      "Aperitivo",
+      "finca",
+      "Bajo la carpa",
+      "Con pulpo, queso de Arzúa y ribeiro.",
+      "cocktail",
+    ],
+    [
+      "19:45",
+      "Cena",
+      "finca",
+      "En el salón del pazo",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["22:30", "Fiesta", "finca", "Llueva o no", "Baile y queimada.", "party"],
+  ],
+  busRoutes: [
+    ["coruna", "A Coruña → Lugo", "Estación de A Coruña", "15:30", ["01:30", "04:00"], 75],
+    ["ourense-bus", "Ourense → Lugo", "Estación de autobuses de Ourense", "15:30", ["04:00"], 75],
+  ],
+  menu: {
+    carne: "Lacón con grelos",
+    pescado: "Bacalao a la gallega",
+    vegetariano: "Empanada de verduras y setas",
+    vegano: "Caldo gallego de verduras",
+  },
+  dressCode: {
+    title: "Otoño gallego",
+    detail: "Lo que quieras, pero con un paraguas bonito. Habrá barro: calzado sensato.",
+    palette: [
+      { name: "Paraguas", hex: "#c8312b" },
+      { name: "Lluvia", hex: "#8d9aa6" },
+      { name: "Cielo", hex: "#cfe6f2" },
+      { name: "Piedra", hex: "#6b7984" },
+    ],
+    examples: [
+      "Vestido midi y chaqueta impermeable bonita.",
+      "Traje de lana con botas.",
+      "Tu paraguas de colores: los mejores salen en las fotos.",
+    ],
+  },
+  accommodation: [
+    ["Hotel da Muralla", "Junto a la muralla", "Habitaciones reservadas hasta el 1 de septiembre."],
+    ["Pensión do Miño", "Junto al río", "Con desayuno tarde para el domingo."],
+  ],
+  story: {
+    intro: "Un aguacero, un solo paraguas y ocho otoños gallegos. Esta es la versión corta.",
+    moments: [
+      ["2019", "El aguacero", "Paseando por la muralla. Solo él llevaba paraguas.", "cala"],
+      ["2022", "La furgoneta", "Un verano lloviendo por toda Galicia.", "furgoneta"],
+      ["2026", "La pedida", "Bajo el mismo paraguas, en la muralla, lloviendo.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "Llueva o no, solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Escocia", "Más lluvia, por favor.", "Lo que queráis"],
+    ["Dos paraguas buenos", "De los que no se dan la vuelta.", "90 €"],
+    ["Una chimenea de leña", "Para los días de lluvia.", "400 €"],
+    ["Botas de agua a juego", "Para los paseos.", "70 €"],
+  ],
+  kids: "Habrá monitores, charcos permitidos y cena para ellos.",
+  faq: ["¿Y si llueve?", "Lloverá. Hay carpa, paraguas para todos y queimada para el frío."],
+  guestbook: [
+    ["Los de la muralla", "Ese paraguas ha dado mucho de sí."],
+    ["Avoa Lola", "Que boda tan bonita, e choveu pouco!"],
+    ["Antía y Breixo", "Bailamos bajo la lluvia hasta el final."],
+  ],
+  songs: [
+    "Singin' in the Rain",
+    "Bajo la lluvia",
+    "Umbrella",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});

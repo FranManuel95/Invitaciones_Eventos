@@ -8,7 +8,7 @@ Rama de trabajo: `claude/tender-franklin-isgz7b` (PR #6 contra `main`, sin fusio
 continuación (Telegrama y Postal, ronda 19) está en `claude/exciting-franklin-43k083`, que parte
 de esa rama y la contiene entera.
 
-**Hechas las sesenta y siete**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
+**Hechas las setenta**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
 las diez de la ronda 20 (Vinilo, Pasaporte, Carta, Mapa, Constelación, Cómic, Cosecha, Tarot,
 Arcade y Semillas) e Instantánea, Abanico, Cerillas, Galleta de la suerte, Casete y Mensaje en una botella (ronda
 38, en `cover/concepts-new.tsx`) y Crucigrama, Billete de tren y Receta de la abuela (ronda 38, en
@@ -26,7 +26,8 @@ Arcade y Semillas) e Instantánea, Abanico, Cerillas, Galleta de la suerte, Case
 `cover/concepts-new13.tsx`) y Estuche de anillos, Carné de baile y Cápsula del tiempo (ronda 38,
 en `cover/concepts-new14.tsx`) y Pliego de sellos, Bola de discoteca y Cuaderno de viaje (ronda 38,
 en `cover/concepts-new15.tsx`) y Piñata, Lluvia de arroz y Vela (ronda 38, en
-`cover/concepts-new16.tsx`). Las fichas de abajo se conservan como referencia de lo que se
+`cover/concepts-new16.tsx`) y Columpio, Semáforo y Paraguas (ronda 38, en
+`cover/concepts-new17.tsx`). Las fichas de abajo se conservan como referencia de lo que se
 construyó; lo que queda es lo de «Pendiente en las que ya existen», que vale para todas.
 
 Dónde está cada cosa ahora: piezas comunes en `cover/concept-kit.tsx`; portadas en
@@ -386,11 +387,12 @@ Hechas en la ronda 38: Galleta de la suerte, Casete, Crucigrama, Receta, Billete
 Entrada de concierto, Cartel de feria, Ficha de biblioteca, Llave de hotel, Partitura, Brújula,
 Cometa, Reloj de arena, Faro, Caja de música, Farolillo de papel, Barco de papel, Rama prensada,
 Cartas atadas, Ramo de novia, Estuche de anillos, Carné de baile, Cápsula del tiempo, Pliego de
-sellos, Bola de discoteca, Cuaderno de viaje, Piñata, Lluvia de arroz y Vela. Quedan por probar:
+sellos, Bola de discoteca, Cuaderno de viaje, Piñata, Lluvia de arroz, Vela, Columpio, Semáforo y
+Paraguas. Quedan por probar:
 
-1. **Columpio**: se empuja y, en lo más alto, se ve la fecha entre las ramas.
-2. **Semáforo de la boda**: rojo (guarda la fecha), ámbar (confirma) y verde (¡a la fiesta!).
-3. **Prensa de vino**: se gira la manivela y cae el vino con la añada de la boda.
+1. **Cascanueces de Navidad**: se gira la manivela y la nuez se abre con la fecha (bodas de invierno).
+2. **Hamaca**: se mece al tocarla, entre dos palmeras, con el atardecer.
+3. **Cesta de pícnic**: se levanta el mantel y dentro está el menú de la boda.
 
 ## Por dónde empezar
 

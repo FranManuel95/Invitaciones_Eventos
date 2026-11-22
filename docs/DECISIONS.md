@@ -1525,6 +1525,12 @@ olivo.
   fecha; Sonia y Tristán, Cangas de Onís; portada oscura). Estilos Confeti, Arroz y Candela. Ya son
   89 plantillas (67 de objetos) y 90 portadas; la venta dice «Ochenta y nueve plantillas» y
   «Noventa portadas».
+- **Decimoctava tanda**: **Columpio** (cuelga de una rama con los nombres en la tabla; al empujarlo
+  va y viene; con movimiento reducido, se queda inclinado; Leonor y Teodoro, Hervás), **Semáforo**
+  (rojo «Guarda la fecha», ámbar «Confirma que vienes», verde «¡A la fiesta!»; Irati y Mikel,
+  Pamplona; portada oscura) y **Paraguas** (llueve sobre la pantalla hasta que se abre el paraguas
+  rojo y sale el sol; Carolina y Damián, Lugo). Estilos Arboleda, Cruce y Aguacero. Ya son 92
+  plantillas (70 de objetos) y 93 portadas.
 
 ## Pendiente para próximas fases
 

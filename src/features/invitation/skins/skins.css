@@ -3510,6 +3510,152 @@
   }
 }
 
+/* Columpio: cada sección es un vaivén. */
+[data-motif="columpio"] {
+  counter-reset: vaiven;
+}
+[data-motif="columpio"] .motif-hero {
+  background: linear-gradient(180deg, #e4f0f4, var(--color-paper) 70%);
+}
+[data-motif="columpio"] section[id] {
+  counter-increment: vaiven;
+}
+[data-motif="columpio"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="columpio"] .motif-sprig::before {
+  content: "";
+  width: 1.2rem;
+  height: 1rem;
+  border-inline: 1.5px solid var(--color-ink);
+  border-bottom: 4px solid #a8764a;
+}
+[data-motif="columpio"] .motif-sprig::after {
+  content: "Vaivén " counter(vaiven);
+}
+[data-motif="columpio"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="columpio"] .motif-closing::before {
+  content: "¡Más alto!";
+}
+
+/* Semáforo: cada sección es un cruce. */
+[data-motif="semaforo"] {
+  counter-reset: cruce;
+}
+[data-motif="semaforo"] .motif-hero {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 40px, rgb(241 242 244 / 0.05) 40px 60px),
+    var(--color-paper);
+}
+[data-motif="semaforo"] section[id] {
+  counter-increment: cruce;
+}
+[data-motif="semaforo"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="semaforo"] .motif-sprig::before {
+  content: "";
+  width: 0.6rem;
+  height: 1.3rem;
+  border-radius: 3px;
+  background:
+    radial-gradient(circle at 50% 18%, #ff4b3e 0 0.16rem, transparent 0.18rem),
+    radial-gradient(circle at 50% 50%, #ffb627 0 0.16rem, transparent 0.18rem),
+    radial-gradient(circle at 50% 82%, #3ddc84 0 0.16rem, transparent 0.18rem), #111317;
+}
+[data-motif="semaforo"] .motif-sprig::after {
+  content: "Cruce " counter(cruce);
+}
+[data-motif="semaforo"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="semaforo"] .motif-closing::before {
+  content: "¡En verde, a la fiesta!";
+}
+
+/* Paraguas: cada sección es un chaparrón. */
+[data-motif="paraguas"] {
+  counter-reset: chaparron;
+}
+[data-motif="paraguas"] .motif-hero {
+  background: linear-gradient(180deg, #cfe6f2, var(--color-paper) 70%);
+}
+[data-motif="paraguas"] section[id] {
+  counter-increment: chaparron;
+}
+[data-motif="paraguas"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="paraguas"] .motif-sprig::before {
+  content: "";
+  width: 1.3rem;
+  height: 0.8rem;
+  border-radius: 999px 999px 0 0;
+  background: var(--color-gold);
+}
+[data-motif="paraguas"] .motif-sprig::after {
+  content: "Chaparrón " counter(chaparron);
+}
+[data-motif="paraguas"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="paraguas"] .motif-closing::before {
+  content: "Ya ha salido el sol";
+}
+
+@keyframes swing-arc {
+  0%,
+  100% {
+    transform: rotate(-22deg);
+  }
+  50% {
+    transform: rotate(22deg);
+  }
+}
+@keyframes rain-fall {
+  from {
+    translate: 0 -20px;
+  }
+  to {
+    translate: 0 105svh;
+  }
+}
+
 @keyframes musicbox-spin {
   to {
     transform: rotateY(360deg);
@@ -4225,6 +4371,22 @@
 /* Vela: caja de cerillas. */
 [data-motif="vela"] .concept-carrier {
   background: #271b12;
+  border: 2px solid var(--color-gold);
+}
+
+/* Columpio: tabla de madera. */
+[data-motif="columpio"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 2px solid #a8764a;
+}
+/* Semáforo: señal de tráfico. */
+[data-motif="semaforo"] .concept-carrier {
+  background: #252931;
+  border: 2px solid var(--color-gold);
+}
+/* Paraguas: funda de paraguas. */
+[data-motif="paraguas"] .concept-carrier {
+  background: var(--color-ivory);
   border: 2px solid var(--color-gold);
 }
 

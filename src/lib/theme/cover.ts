@@ -96,6 +96,9 @@ export const COVER_IDS = [
   "pinata",
   "arroz",
   "vela",
+  "columpio",
+  "semaforo",
+  "paraguas",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -478,6 +481,18 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Vela",
     description: "Una vela encendida: se sopla, se pide un deseo y queda la fecha.",
   },
+  columpio: {
+    label: "Columpio",
+    description: "Un columpio con vuestros nombres colgado de una rama: se empuja y vuela.",
+  },
+  semaforo: {
+    label: "Semáforo",
+    description: "Rojo: guarda la fecha. Ámbar: confirma. Verde: ¡a la fiesta!",
+  },
+  paraguas: {
+    label: "Paraguas",
+    description: "Llueve sobre la pantalla: se abre el paraguas, sale el sol y aparece la fecha.",
+  },
 };
 
 /**
@@ -553,6 +568,9 @@ export const CONCEPT_COVERS = {
   pinata: { ink: "#3a1f2c", paper: "#fff0d4" },
   arroz: { ink: "#2f2a22", paper: "#f0ece2" },
   vela: { ink: "#f6ead8", paper: "#1e140c", tone: "oscuro" },
+  columpio: { ink: "#26331f", paper: "#eef2e6" },
+  semaforo: { ink: "#f1f2f4", paper: "#1a1d24", tone: "oscuro" },
+  paraguas: { ink: "#1f2a33", paper: "#e6ecef" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -706,6 +724,9 @@ export const MOTIF_IDS = [
   "pinata",
   "arroz",
   "vela",
+  "columpio",
+  "semaforo",
+  "paraguas",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -787,4 +808,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   pinata: { label: "Piñata", kind: "concepto" },
   arroz: { label: "Lluvia de arroz", kind: "concepto" },
   vela: { label: "Vela", kind: "concepto" },
+  columpio: { label: "Columpio", kind: "concepto" },
+  semaforo: { label: "Semáforo", kind: "concepto" },
+  paraguas: { label: "Paraguas", kind: "concepto" },
 };
