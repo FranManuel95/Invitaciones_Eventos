@@ -1,7 +1,7 @@
 "use client";
 
 import { animate } from "motion/react";
-import { useState, type PointerEvent } from "react";
+import { useRef, useState, type PointerEvent } from "react";
 import type { WeddingEvent } from "@/lib/domain/types";
 import { hostNames, hostsOf } from "@/lib/event-kind";
 import { formatLongDate, isoDay } from "@/lib/format";
@@ -19,31 +19,71 @@ const stop = (e: PointerEvent) => e.stopPropagation();
 /* ─────────────── Noria: gira hasta que vuestra cabina queda arriba ─────────────── */
 
 const CABINS = 8;
+const BULBS = 32;
+
+/** Ángulo (en grados) del puntero alrededor del centro de la rueda. */
+function pointerAngle(e: PointerEvent, el: Element) {
+  const r = el.getBoundingClientRect();
+  return (
+    (Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180) /
+    Math.PI
+  );
+}
 
 function FerrisWheelCover({ event, onOpen, reduce }: ConceptProps) {
-  const [turn, setTurn] = useState(0);
-  const top = turn >= 0.99;
-  const spin = () => {
-    if (turn > 0) return;
-    playNotes([523, 659, 784, 659, 523], "triangle", 0.18);
-    const done = () => haptic([10, 30, 10]);
+  // `rot` es lo que ha girado la rueda: vuestra cabina empieza abajo (180°) y sube a 0°.
+  const [rot, setRot] = useState(0);
+  const [top, setTop] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const drag = useRef<{ a: number; start: number; moved: number } | null>(null);
+  const done = () => {
+    setTop(true);
+    setBusy(false);
+    haptic([10, 30, 10]);
+    playNotes([523, 659, 784, 1046], "triangle", 0.16);
+  };
+  /** Lleva la rueda hasta `to` grados y, al llegar, la cabina queda arriba. */
+  const settle = (from: number, to: number, duration: number) => {
+    setBusy(true);
     if (reduce) {
-      setTurn(1);
+      setRot(to);
       done();
       return;
     }
-    animate(0.001, 1, { duration: 2.6, ease: "easeInOut", onUpdate: setTurn, onComplete: done });
+    animate(from, to, { duration, ease: "easeInOut", onUpdate: setRot, onComplete: done });
   };
-  // La cabina de los novios empieza abajo (180°) y acaba arriba (0°): media vuelta más una entera.
-  const rotation = turn * 540;
+  const spin = () => {
+    if (busy || top) return;
+    playNotes([523, 659, 784, 659, 523], "triangle", 0.18);
+    settle(rot, rot + 540 - (((rot % 360) + 360) % 360), 2.6);
+  };
+  // Lo que le falta a vuestra cabina para estar arriba, entre -180° y 180°.
+  const offTop = ((((180 + rot) % 360) + 540) % 360) - 180;
+  const lit = top ? BULBS : Math.round((1 - Math.abs(offTop) / 180) * BULBS);
   const colors = ["#e4572e", "#ffc93c", "#4cc9f0", "#7bd389"];
 
   return (
     <div className="absolute inset-0 overflow-hidden" style={{ fontFamily: SANS }}>
       <div
         aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(180deg,#2a1e4a,#6a3a6e_55%,#f29e7a)]"
+        className="absolute inset-0 bg-[linear-gradient(180deg,#22183f,#5a3266_55%,#e48f73)]"
       />
+      {/* Estrellas y una guirnalda de bombillas de feria cruzando el cielo. */}
+      <svg aria-hidden viewBox="0 0 390 300" className="absolute inset-x-0 top-0 w-full">
+        {[
+          [30, 40],
+          [80, 120],
+          [140, 30],
+          [250, 50],
+          [330, 110],
+          [360, 30],
+          [200, 140],
+          [60, 200],
+          [345, 210],
+        ].map(([x, y], k) => (
+          <circle key={k} cx={x} cy={y} r={k % 3 ? 1 : 1.6} fill="#fff4ea" opacity={0.7} />
+        ))}
+      </svg>
       <div className="relative mx-auto flex h-full w-full max-w-[24rem] flex-col items-center px-6 pt-[max(4.5rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))] text-center text-[#fff4ea]">
         <p className="text-[0.75rem] tracking-[0.22em] uppercase">En lo más alto</p>
         <h1
@@ -56,66 +96,124 @@ function FerrisWheelCover({ event, onOpen, reduce }: ConceptProps) {
           {names(event)}
         </h1>
         <div
-          data-noria={top ? "arriba" : turn > 0 ? "girando" : "parada"}
+          data-noria={top ? "arriba" : busy || rot !== 0 ? "girando" : "parada"}
           onPointerDown={(e) => {
             stop(e);
-            spin();
+            if (busy || top) return;
+            drag.current = { a: pointerAngle(e, e.currentTarget), start: rot, moved: 0 };
+            e.currentTarget.setPointerCapture(e.pointerId);
           }}
-          className="relative mt-4 size-64 cursor-pointer"
+          onPointerMove={(e) => {
+            const d = drag.current;
+            if (!d) return;
+            e.stopPropagation();
+            const a = pointerAngle(e, e.currentTarget);
+            let delta = a - d.a;
+            if (delta > 180) delta -= 360;
+            if (delta < -180) delta += 360;
+            d.a = a;
+            d.moved += Math.abs(delta);
+            setRot((r) => r + delta);
+          }}
+          onPointerUp={() => {
+            const d = drag.current;
+            drag.current = null;
+            if (!d) return;
+            // Un toque sin arrastrar hace girar la noria sola.
+            if (d.moved < 6) return spin();
+            // Si vuestra cabina ha quedado cerca de arriba, la rueda se asienta allí.
+            if (Math.abs(offTop) < 25) settle(rot, rot - offTop, 0.5);
+          }}
+          className="relative mt-8 size-64 cursor-grab touch-none active:cursor-grabbing"
         >
+          {/* Las patas, detrás de la rueda, para que no tapen ninguna cabina. */}
+          <svg
+            viewBox="0 0 200 200"
+            aria-hidden
+            className="absolute inset-0 size-full overflow-visible"
+          >
+            <path
+              d="M100 100 52 232M100 100l48 132M70 182h60"
+              stroke="#c9a6c9"
+              strokeWidth="5"
+              strokeLinecap="round"
+            />
+          </svg>
           {/* La rueda gira; cada cabina se contrarresta para quedar siempre derecha. */}
-          <div className="absolute inset-0" style={{ transform: `rotate(${rotation}deg)` }}>
+          <div className="absolute inset-0" style={{ transform: `rotate(${rot}deg)` }}>
             <svg viewBox="0 0 200 200" aria-hidden className="absolute inset-0 size-full">
               <circle cx="100" cy="100" r="86" fill="none" stroke="#fff4ea" strokeWidth="3" />
-              <circle
-                cx="100"
-                cy="100"
-                r="60"
-                fill="none"
-                stroke="#fff4ea"
-                strokeWidth="1.5"
-                opacity="0.6"
-              />
-              {Array.from({ length: CABINS }, (_, i) => (
-                <path
-                  key={i}
-                  d="M100 100V14"
-                  stroke="#fff4ea"
-                  strokeWidth="1.5"
-                  transform={`rotate(${(i * 360) / CABINS} 100 100)`}
-                />
+              <circle cx="100" cy="100" r="80" fill="none" stroke="#fff4ea" strokeWidth="1" />
+              {Array.from({ length: CABINS }, (_, k) => (
+                <g key={k} transform={`rotate(${(k * 360) / CABINS} 100 100)`}>
+                  <path d="M97 100 98.5 14M103 100l-1.5-86" stroke="#fff4ea" strokeWidth="1" />
+                  <path d="M98 70h4M98.5 42h3" stroke="#fff4ea" strokeWidth="1" />
+                </g>
               ))}
-              <circle cx="100" cy="100" r="8" fill="#ffc93c" />
+              {Array.from({ length: BULBS }, (_, k) => {
+                const a = (k * 2 * Math.PI) / BULBS;
+                return (
+                  <circle
+                    key={k}
+                    cx={100 + 86 * Math.sin(a)}
+                    cy={100 - 86 * Math.cos(a)}
+                    r="2.2"
+                    fill={k < lit ? "#ffe08a" : "#7a5a7e"}
+                  />
+                );
+              })}
+              <circle cx="100" cy="100" r="10" fill="#ffc93c" stroke="#fff4ea" strokeWidth="2" />
             </svg>
-            {Array.from({ length: CABINS }, (_, i) => {
-              const angle = 180 + (i * 360) / CABINS;
-              const ours = i === 0;
+            {Array.from({ length: CABINS }, (_, k) => {
+              const angle = 180 + (k * 360) / CABINS;
+              const ours = k === 0;
               return (
                 <span
-                  key={i}
+                  key={k}
                   className="absolute top-1/2 left-1/2 block"
                   style={{
-                    transform: `rotate(${angle}deg) translateY(-118px) rotate(${-angle - rotation}deg)`,
+                    transform: `rotate(${angle}deg) translateY(-110px) rotate(${-angle - rot}deg)`,
                   }}
                 >
-                  <span
+                  {/* La cabina cuelga de su eje: un gancho, el techo y la cesta. */}
+                  <svg
+                    viewBox="0 0 40 36"
                     aria-hidden
-                    className={`-mt-3 -ml-4 block h-6 w-8 rounded-b-[10px] border-2 border-[#fff4ea] ${ours ? "bg-[#ff5d8f] shadow-[0_0_14px_4px_rgb(255_93_143/0.6)]" : ""}`}
-                    style={ours ? undefined : { background: colors[i % colors.length] }}
-                  />
+                    className="-mt-1 -ml-[1.125rem] block w-9 overflow-visible"
+                  >
+                    <path d="M20 0v6" stroke="#fff4ea" strokeWidth="2" />
+                    <path
+                      d="M6 10q14-8 28 0z"
+                      fill={ours ? "#ff5d8f" : colors[k % colors.length]}
+                      stroke="#fff4ea"
+                      strokeWidth="1.5"
+                    />
+                    <path d="M9 10v8M31 10v8" stroke="#fff4ea" strokeWidth="1.5" />
+                    <path
+                      d="M5 18h30v6q0 8-8 8H13q-8 0-8-8z"
+                      fill={ours ? "#ff5d8f" : colors[k % colors.length]}
+                      stroke="#fff4ea"
+                      strokeWidth="1.5"
+                    />
+                    {ours ? (
+                      <path
+                        d="M20 29c-4-3-6-5-6-7a3 3 0 0 1 6-1 3 3 0 0 1 6 1c0 2-2 4-6 7z"
+                        fill="#fff4ea"
+                      />
+                    ) : null}
+                  </svg>
+                  {ours && top ? (
+                    <span className="absolute -top-2 left-1/2 block size-16 -translate-x-1/2 -translate-y-1/3 rounded-full bg-[radial-gradient(circle,rgb(255_93_143/0.5),transparent_70%)]" />
+                  ) : null}
                 </span>
               );
             })}
           </div>
-          <span
-            aria-hidden
-            className="absolute bottom-[-2rem] left-1/2 block h-20 w-36 -translate-x-1/2 bg-[#2a1e4a] [clip-path:polygon(45%_0,55%_0,100%_100%,0_100%)]"
-          />
         </div>
-        <After reduce={reduce} className="mt-10 text-[0.9375rem]">
+        <After reduce={reduce} className="mt-12 text-[0.9375rem]">
           {top
             ? "Nuestra cabina, la rosa, ya está arriba. Desde aquí se ve el"
-            : "Da vueltas a la noria hasta subir la cabina rosa."}
+            : "Gira la rueda con el dedo hasta subir la cabina rosa."}
           <span className="block text-[1.0625rem] font-semibold">
             <time dateTime={isoDay(event.date)}>{formatLongDate(event.date)}</time>, en {event.city}
           </span>
@@ -125,10 +223,10 @@ function FerrisWheelCover({ event, onOpen, reduce }: ConceptProps) {
             type="button"
             onPointerDown={stop}
             onClick={spin}
-            disabled={turn > 0}
+            disabled={busy || top}
             className="mt-3 rounded-full bg-[#ff5d8f] px-6 py-2.5 text-[0.9375rem] font-medium text-[#2a0a18] disabled:opacity-70"
           >
-            {top ? "¡Arriba!" : turn > 0 ? "Girando…" : "Girar la noria"}
+            {top ? "¡Arriba!" : busy ? "Girando…" : "Girar la noria"}
           </button>
           <OpenHint onOpen={onOpen} />
         </div>

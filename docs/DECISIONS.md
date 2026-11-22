@@ -1631,6 +1631,17 @@ olivo.
   con `FEATURED_TEMPLATE_IDS` y `HIDDEN_CONCEPT_COVERS` (`isShownCover`). No se borran: siguen
   abriéndose con `?plantilla=`/`?portada=` y en los eventos que ya las usan, y el editor enseña la
   portada oculta si es la que tiene el evento. Quedan 96 plantillas y 97 portadas a la vista.
+- **Pulido de las que se quedan (primera pasada)**: cuatro de las 25 nuevas que siguen a la vista
+  ganan un gesto de verdad con el dedo (el botón sigue ahí para quien no pueda arrastrar) y un
+  dibujo con más oficio. **Persiana**: se tira del cordón; el primer tramo abre las lamas y deja
+  pasar rayas de luz, luego sube, el sol asoma sobre los tejados y la luz entra en la habitación;
+  si se suelta pronto, vuelve a caer. **Noria**: se gira la rueda con el dedo alrededor del eje,
+  las bombillas se encienden según se acerca la cabina rosa arriba y, cerca, se asienta sola;
+  antes la cabina empezaba tapada por la base, ahora son patas detrás de la rueda. **Caleidoscopio**:
+  doce cuñas en espejo cuyos cristales se mueven con cada grado de giro del aro de latón y, en el
+  tercer giro, se juntan en una flor. **Buzón**: la carta se arrastra hasta la ranura, se cuela y la
+  respuesta asoma por la misma ranura; el rótulo «Correos» (marca real) pasa a «Cartas» con una
+  trompa dibujada a mano. Pruebas E2E nuevas para cada gesto.
 
 ## Pendiente para próximas fases
 

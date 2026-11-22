@@ -1,7 +1,7 @@
 "use client";
 
 import { animate } from "motion/react";
-import { useState, type PointerEvent } from "react";
+import { useRef, useState, type PointerEvent } from "react";
 import type { WeddingEvent } from "@/lib/domain/types";
 import { hostNames, hostsOf } from "@/lib/event-kind";
 import { formatLongDate, isoDay } from "@/lib/format";
@@ -245,17 +245,71 @@ function FireflyJarCover({ event, onOpen, reduce }: ConceptProps) {
 
 /* ─────────────── Caleidoscopio: se gira y aparece el dibujo ─────────────── */
 
+/** Lo que hay que girar el caleidoscopio (en grados) para cada uno de los tres giros. */
+const TWIST = 120;
+/** Los cristalitos de una cuña: radio, ángulo dentro de la cuña, tamaño, color y forma. */
+const SHARDS = [
+  { r: 12, a: 0.3, s: 5, c: 0, d: "M0-1L1 0 0 1-1 0Z" },
+  { r: 20, a: 0.7, s: 4, c: 1, d: "M0-1L.9.6-.9.6Z" },
+  { r: 28, a: 0.4, s: 6, c: 2, d: "M0-1L1 0 0 1-1 0Z" },
+  { r: 35, a: 0.8, s: 3.5, c: 3, d: "M-1-1H1V1H-1Z" },
+  { r: 40, a: 0.2, s: 5, c: 4, d: "M0-1L.9.6-.9.6Z" },
+  { r: 24, a: 0.1, s: 3, c: 5, d: "M0-1L1 0 0 1-1 0Z" },
+];
+const KALEIDO_COLORS = ["#ff5d8f", "#ffc93c", "#4cc9f0", "#b388ff", "#7bd389", "#ff8a3d"];
+
+/** Ángulo (en grados) del puntero alrededor del centro de un elemento. */
+function angleAround(e: PointerEvent, el: Element) {
+  const r = el.getBoundingClientRect();
+  return (
+    (Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180) /
+    Math.PI
+  );
+}
+
 function KaleidoscopeCover({ event, onOpen, reduce }: ConceptProps) {
-  const [turns, setTurns] = useState(0);
+  // `spun` es todo lo que se ha girado, en cualquier sentido; cada 120° cuenta como un giro.
+  const [spun, setSpun] = useState(0);
+  const drag = useRef<{ a: number } | null>(null);
+  const turns = Math.min(3, Math.floor(spun / TWIST + 0.001));
   const done = turns >= 3;
+  const f = Math.min(1, spun / (TWIST * 3));
+  const advance = (next: number) => {
+    const before = Math.min(3, Math.floor(spun / TWIST + 0.001));
+    const after = Math.min(3, Math.floor(next / TWIST + 0.001));
+    if (after > before) {
+      playPaper(0.15);
+      haptic(8);
+      if (after >= 3) playNotes([659, 880, 1046], "sine", 0.12);
+    }
+    setSpun(Math.min(TWIST * 3, next));
+  };
   const twist = () => {
     if (done) return;
-    setTurns(turns + 1);
+    const to = (turns + 1) * TWIST;
+    if (reduce) return advance(to);
     playPaper(0.15);
     haptic(8);
     if (turns + 1 >= 3) playNotes([659, 880, 1046], "sine", 0.12);
+    animate(spun, to, { duration: 0.6, ease: "easeOut", onUpdate: setSpun });
   };
-  const palette = ["#e4572e", "#ffc93c", "#4cc9f0", "#b388ff", "#7bd389", "#ff5d8f"];
+  const phase = (spun * Math.PI) / 180;
+
+  // Una cuña de 30°: los cristales se mueven con el giro y, al final, se juntan en un pétalo.
+  const wedge = SHARDS.map((sh, k) => {
+    const wobble = Math.sin(phase * 1.3 + k * 1.7);
+    const r = sh.r + 6 * wobble * (1 - f);
+    const a = ((sh.a + 0.25 * Math.sin(phase + k)) * (1 - f) + 0.5 * f) * 30;
+    const rad = ((a - 90) * Math.PI) / 180;
+    return {
+      x: r * Math.cos(rad),
+      y: r * Math.sin(rad),
+      rot: spun * (k % 2 ? 1 : -1) + k * 40,
+      s: sh.s * (1 - f * 0.4),
+      d: sh.d,
+      c: KALEIDO_COLORS[(sh.c + turns) % KALEIDO_COLORS.length],
+    };
+  });
 
   return (
     <div className="absolute inset-0 overflow-hidden" style={{ fontFamily: SANS }}>
@@ -274,46 +328,78 @@ function KaleidoscopeCover({ event, onOpen, reduce }: ConceptProps) {
         >
           {names(event)}
         </h1>
+        {/* El aro de latón estriado se coge con el dedo y se gira. */}
         <div
           data-caleidoscopio={done ? "flor" : `giro-${turns}`}
           onPointerDown={(e) => {
             stop(e);
-            twist();
+            if (done) return;
+            drag.current = { a: angleAround(e, e.currentTarget) };
+            e.currentTarget.setPointerCapture(e.pointerId);
           }}
-          className="relative mt-6 size-64 cursor-pointer rounded-full border-[10px] border-[#3a2c52] shadow-[0_0_0_3px_#c9a65d]"
+          onPointerMove={(e) => {
+            const d = drag.current;
+            if (!d) return;
+            e.stopPropagation();
+            const a = angleAround(e, e.currentTarget);
+            let delta = a - d.a;
+            if (delta > 180) delta -= 360;
+            if (delta < -180) delta += 360;
+            d.a = a;
+            advance(spun + Math.abs(delta));
+          }}
+          onPointerUp={() => {
+            drag.current = null;
+          }}
+          className="relative mt-6 size-64 cursor-grab touch-none rounded-full bg-[repeating-conic-gradient(#c9a65d_0_4deg,#8a6d32_4deg_8deg)] p-3 shadow-[0_0_0_2px_#5a4520,0_20px_40px_-12px_rgb(0_0_0/0.7)] active:cursor-grabbing"
         >
-          {/* Seis espejos: cada giro reordena los cristales; al tercero forman una flor. */}
           <svg
             viewBox="-50 -50 100 100"
             aria-hidden
-            className="size-full rounded-full transition-transform duration-500"
-            style={{
-              transform: `rotate(${turns * 40}deg)`,
-              transitionDuration: reduce ? "0ms" : undefined,
-            }}
+            className="size-full rounded-full bg-[#1b1428] shadow-[inset_0_0_18px_6px_rgb(0_0_0/0.8)]"
           >
-            {Array.from({ length: 6 }, (_, i) => (
-              <g key={i} transform={`rotate(${i * 60})`}>
-                <path
-                  d={done ? "M0 0L-10 -40Q0 -48 10 -40Z" : "M0 0L-18 -44L18 -44Z"}
-                  fill={palette[(i + turns) % palette.length]}
-                  opacity="0.85"
-                />
-                <circle
-                  cx={done ? 0 : 8}
-                  cy={done ? -22 : -30}
-                  r={done ? 4 : 6}
-                  fill={palette[(i + turns + 2) % palette.length]}
-                />
+            <defs>
+              <clipPath id="kaleido-wedge">
+                <path d="M0 0L0-50A50 50 0 0 1 25-43.3Z" />
+              </clipPath>
+              <radialGradient id="kaleido-shade">
+                <stop offset="0.6" stopColor="#000" stopOpacity="0" />
+                <stop offset="1" stopColor="#000" stopOpacity="0.65" />
+              </radialGradient>
+            </defs>
+            {/* Doce cuñas: las pares tal cual y las impares en espejo, como en un caleidoscopio. */}
+            {Array.from({ length: 12 }, (_, k) => (
+              <g
+                key={k}
+                transform={`rotate(${Math.floor(k / 2) * 60 + (k % 2 ? 60 : 0)}) scale(${k % 2 ? -1 : 1} 1)`}
+              >
+                <g clipPath="url(#kaleido-wedge)">
+                  {wedge.map((sh, n) => (
+                    <path
+                      key={n}
+                      d={sh.d}
+                      fill={sh.c}
+                      opacity="0.88"
+                      transform={`translate(${sh.x} ${sh.y}) rotate(${sh.rot}) scale(${sh.s})`}
+                    />
+                  ))}
+                  {/* El pétalo de la flor, que se va formando con el último giro. */}
+                  <path
+                    d="M0 0C4-14 10-30 6.5-42C3-44-3-44 0 0Z"
+                    fill="#ff5d8f"
+                    opacity={Math.max(0, f * 3 - 2) * 0.9}
+                  />
+                </g>
               </g>
             ))}
-            <circle r={done ? 9 : 5} fill="#ffd97a" />
+            <circle r={4 + f * 6} fill="#ffd97a" />
+            <circle r="50" fill="url(#kaleido-shade)" />
           </svg>
         </div>
         <After reduce={reduce} className="mt-5 text-[0.9375rem]">
           {done
             ? "Todas las piezas encajan. Nos vemos el"
-            : "Gíralo tres veces hasta que salga la flor."}
+            : "Gira el aro tres veces hasta que salga la flor."}
           <span className="block text-[1.0625rem] font-semibold">
             <time dateTime={isoDay(event.date)}>{formatLongDate(event.date)}</time>, en {event.city}
           </span>

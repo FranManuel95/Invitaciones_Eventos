@@ -1187,7 +1187,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   peonza: { label: "Peonza", kind: "concepto" },
   castillo: { label: "Castillo de arena", kind: "concepto" },
   carrete: { label: "Carrete", kind: "concepto" },
-  buzon: { label: "Correos", kind: "concepto" },
+  buzon: { label: "Buzón", kind: "concepto" },
   termometro: { label: "Termómetro", kind: "concepto" },
   tendedero: { label: "Tendedero", kind: "concepto" },
   chicles: { label: "Chicles", kind: "concepto" },

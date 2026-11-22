@@ -1,7 +1,7 @@
 "use client";
 
 import { animate } from "motion/react";
-import { useState, type PointerEvent } from "react";
+import { useRef, useState, type PointerEvent } from "react";
 import type { WeddingEvent } from "@/lib/domain/types";
 import { hostNames, hostsOf } from "@/lib/event-kind";
 import { formatLongDate, formatNumericDate, isoDay } from "@/lib/format";
@@ -119,25 +119,70 @@ function FilmCameraCover({ event, onOpen, reduce }: ConceptProps) {
 
 /* ─────────────── Buzón rojo: se echa la carta y vuelve con la respuesta ─────────────── */
 
+/** Dónde está la carta al empezar, respecto al centro del buzón, y dónde está la ranura. */
+const LETTER_HOME = { x: -96, y: 6, tilt: -9 };
+const SLOT_TOP = 166;
+const LETTER_H = 64;
+
 function MailboxCover({ event, onOpen, reduce }: ConceptProps) {
   const [step, setStep] = useState<"en-la-mano" | "echada" | "respuesta">("en-la-mano");
+  // Dónde está la carta mientras se arrastra (respecto a su sitio) y cuánto se ha hundido.
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [sink, setSink] = useState(0);
+  const drag = useRef<{ x: number; y: number; moved: boolean } | null>(null);
+  const [dragging, setDragging] = useState(false);
+  const answer = () => {
+    setStep("respuesta");
+    playNotes([659, 880], "sine", 0.15);
+    haptic([10, 30, 10]);
+    if (reduce) return setSink(0);
+    // La respuesta asoma por la misma ranura.
+    animate(1, 0, { duration: 0.8, ease: "easeOut", onUpdate: setSink });
+  };
   const post = () => {
     if (step !== "en-la-mano") return;
     setStep("echada");
+    // La carta se coloca sobre la ranura y se cuela dentro.
+    setPos({ x: -LETTER_HOME.x, y: SLOT_TOP - LETTER_H - LETTER_HOME.y });
     playPaper(0.4);
     haptic(10);
-    window.setTimeout(
-      () => {
-        setStep("respuesta");
-        playNotes([659, 880], "sine", 0.15);
-      },
-      reduce ? 0 : 1400,
-    );
+    if (reduce) {
+      setSink(1);
+      answer();
+      return;
+    }
+    animate(0, 1, {
+      duration: 0.7,
+      delay: 0.35,
+      ease: [0.5, 0, 0.8, 0.6],
+      onUpdate: setSink,
+      onComplete: () => window.setTimeout(answer, 700),
+    });
   };
+  const atSlot = (p: { x: number; y: number }) =>
+    Math.abs(LETTER_HOME.x + p.x) < 60 && Math.abs(LETTER_HOME.y + p.y + LETTER_H - SLOT_TOP) < 56;
+  const goHome = () => {
+    if (reduce) return setPos({ x: 0, y: 0 });
+    const from = pos;
+    animate(1, 0, {
+      duration: 0.35,
+      ease: "easeOut",
+      onUpdate: (t) => setPos({ x: from.x * t, y: from.y * t }),
+    });
+  };
+  const moving = step !== "en-la-mano" || dragging;
+  const x = LETTER_HOME.x + pos.x;
+  const y = step === "respuesta" ? SLOT_TOP - LETTER_H : LETTER_HOME.y + pos.y;
+  const tilt = step === "en-la-mano" && !dragging ? LETTER_HOME.tilt : 0;
 
   return (
     <div className="absolute inset-0 overflow-hidden" style={{ fontFamily: SANS }}>
       <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,#eef0f2,#dfe3e6)]" />
+      {/* La acera: unas baldosas en perspectiva bajo el buzón. */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-[38%] bg-[repeating-linear-gradient(90deg,#cfd4d8_0_46px,#c3c9ce_46px_48px)] [mask-image:linear-gradient(180deg,transparent,#000_30%)]"
+      />
       <div className="relative mx-auto flex h-full w-full max-w-[24rem] flex-col items-center px-6 pt-[max(4.5rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))] text-center text-[#1f2328]">
         <p className="text-[0.75rem] tracking-[0.22em] uppercase">Por correo ordinario</p>
         <h1
@@ -149,44 +194,96 @@ function MailboxCover({ event, onOpen, reduce }: ConceptProps) {
         >
           {names(event)}
         </h1>
-        <div
-          data-buzon={step}
-          onPointerDown={(e) => {
-            stop(e);
-            post();
-          }}
-          className="relative mt-6 h-72 w-full cursor-pointer"
-        >
-          {/* El buzón de columna, rojo, con la ranura. */}
-          <div className="absolute bottom-0 left-1/2 flex w-32 -translate-x-1/2 flex-col items-center">
-            <span aria-hidden className="block h-8 w-36 rounded-t-[50%] bg-[#a11d1d]" />
-            <div className="flex h-44 w-32 flex-col items-center bg-[#c62828] pt-3 text-[#ffe9a8]">
-              <span aria-hidden className="block h-2 w-20 rounded-full bg-[#3a0a0a]" />
-              <span className="mt-3 text-[0.6875rem] font-semibold tracking-[0.16em] uppercase">
-                Correos
+        <div data-buzon={step} className="relative mt-4 h-[22rem] w-full">
+          {/* El buzón de columna: sombrerete, ranura con su visera, placa y puerta de recogida. */}
+          <div className="absolute bottom-0 left-1/2 flex w-36 -translate-x-1/2 flex-col items-center">
+            <span
+              aria-hidden
+              className="block h-9 w-40 rounded-t-[50%] bg-[radial-gradient(ellipse_at_40%_20%,#d43a3a,#8f1818_70%)]"
+            />
+            <span aria-hidden className="block h-2 w-38 bg-[#7a1414]" />
+            <div className="relative flex h-48 w-36 flex-col items-center bg-[linear-gradient(90deg,#9e1c1c,#d33434_35%,#c62828_60%,#8f1818)] pt-3 text-[#ffe9a8]">
+              <span aria-hidden className="block h-1.5 w-24 rounded-[2px] bg-[#7a1414]" />
+              <span aria-hidden className="block h-2.5 w-20 rounded-b-[3px] bg-[#1d0606]" />
+              {/* La trompa de correos, dibujada a mano, sin marcas reales. */}
+              <svg viewBox="0 0 40 24" aria-hidden className="mt-3 w-10">
+                <g fill="none" stroke="#ffe9a8" strokeWidth="2" strokeLinejoin="round">
+                  <circle cx="14" cy="12" r="6" />
+                  <path d="M20 12h5l10-8v16l-10-8M8 12H2" />
+                </g>
+              </svg>
+              <span className="mt-1 text-[0.6875rem] font-semibold tracking-[0.16em] uppercase">
+                Cartas
               </span>
-              <span className="mt-1 text-[0.625rem]">
+              <span className="mt-2 rounded-[2px] bg-[#fff7df] px-2 py-0.5 text-[0.625rem] text-[#5a1010]">
                 Recogida: {formatNumericDate(event.date)}
               </span>
+              <span
+                aria-hidden
+                className="absolute inset-x-5 bottom-4 block h-12 rounded-[3px] border-2 border-[#8f1818]"
+              >
+                <span className="absolute top-1/2 right-2 block size-2 rounded-full bg-[#e8c66a]" />
+              </span>
             </div>
-            <span aria-hidden className="block h-3 w-36 bg-[#7a1414]" />
+            <span aria-hidden className="block h-3 w-40 rounded-[2px] bg-[#5a0e0e]" />
           </div>
-          {/* La carta: entra por la ranura y vuelve como respuesta. */}
+          {/* La carta: se arrastra hasta la ranura, se cuela y vuelve como respuesta. */}
           <div
-            className="absolute left-1/2 flex h-16 w-28 -translate-x-1/2 items-center justify-center rounded-[3px] border border-[#c9b89a] bg-[#fffaf0] text-[0.6875rem] text-[#3a2a1c] shadow-[0_6px_12px_-6px_rgb(0_0_0/0.3)] transition-[top] duration-700"
+            onPointerDown={(e) => {
+              stop(e);
+              if (step !== "en-la-mano") return;
+              drag.current = { x: e.clientX - pos.x, y: e.clientY - pos.y, moved: false };
+              setDragging(true);
+              e.currentTarget.setPointerCapture(e.pointerId);
+            }}
+            onPointerMove={(e) => {
+              const d = drag.current;
+              if (!d) return;
+              e.stopPropagation();
+              const next = { x: e.clientX - d.x, y: e.clientY - d.y };
+              if (Math.hypot(next.x - pos.x, next.y - pos.y) > 2) d.moved = true;
+              setPos(next);
+            }}
+            onPointerUp={() => {
+              const d = drag.current;
+              drag.current = null;
+              setDragging(false);
+              if (!d) return;
+              // Un toque sin arrastrar también la echa.
+              if (!d.moved || atSlot(pos)) return post();
+              goHome();
+            }}
+            className={`absolute left-1/2 z-10 h-16 w-32 touch-none ${step === "en-la-mano" ? "cursor-grab active:cursor-grabbing" : ""}`}
             style={{
-              top: step === "echada" ? "28%" : step === "respuesta" ? "0%" : "6%",
-              visibility: step === "echada" ? "hidden" : "visible",
-              transitionDuration: reduce ? "0ms" : undefined,
+              top: y,
+              transform: `translateX(calc(-50% + ${x}px)) translateY(${sink * LETTER_H}px) rotate(${tilt}deg)`,
+              clipPath: `inset(0 -20px ${sink * 100}% -20px)`,
+              transition: moving || reduce ? "none" : "transform 0.3s ease",
             }}
           >
-            {step === "respuesta" ? "Respuesta: ¡Sí, quiero!" : "Para: los novios"}
+            <div className="relative flex size-full flex-col items-start justify-end rounded-[3px] border border-[#c9b89a] bg-[#fffaf0] py-2 pr-10 pl-2.5 text-left text-[0.6875rem] text-[#3a2a1c] shadow-[0_6px_12px_-6px_rgb(0_0_0/0.3)]">
+              {/* El sello y el matasellos con la fecha. */}
+              <span
+                aria-hidden
+                className="absolute top-1.5 right-1.5 flex h-7 w-6 items-center justify-center bg-[#ff5d8f] text-[0.625rem] text-white outline-1 outline-offset-1 outline-[#ff5d8f] outline-dashed"
+              >
+                ♥
+              </span>
+              {step === "respuesta" ? (
+                <span className="font-semibold">Respuesta: ¡Sí, quiero!</span>
+              ) : (
+                <>
+                  <span>Para: los novios</span>
+                  <span className="text-[0.625rem]">{event.city}</span>
+                </>
+              )}
+            </div>
           </div>
         </div>
         <After reduce={reduce} className="mt-3 text-[0.9375rem]">
           {step === "respuesta"
             ? "Ha llegado la respuesta. Nos vemos el"
-            : "Echa la carta al buzón."}
+            : "Lleva la carta hasta la ranura del buzón."}
           <span className="block text-[1.0625rem] font-semibold">
             <time dateTime={isoDay(event.date)}>{formatLongDate(event.date)}</time>, en {event.city}
           </span>

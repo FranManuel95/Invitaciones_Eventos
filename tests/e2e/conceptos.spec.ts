@@ -1042,6 +1042,58 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await expect(stage.getByText(/Amanece el día de nuestra boda/)).toBeVisible();
   });
 
+  test("persiana: también se sube tirando del cordón", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=persiana");
+    const stage = cover(page, "persiana");
+    const cord = stage.locator(".cursor-grab");
+    const box = (await cord.boundingBox())!;
+    const x = box.x + box.width / 2;
+    await page.mouse.move(x, box.y + 160);
+    await page.mouse.down();
+    await page.mouse.move(x, box.y + 360, { steps: 12 });
+    await page.mouse.up();
+    await expect(stage.locator("[data-persiana]")).toHaveAttribute("data-persiana", "subida", {
+      timeout: 8000,
+    });
+  });
+
+  test("noria y caleidoscopio: se giran con el dedo", async ({ page }) => {
+    for (const [id, attr, deg, end] of [
+      ["noria", "data-noria", 180, "arriba"],
+      ["caleidoscopio", "data-caleidoscopio", 380, "flor"],
+    ] as const) {
+      await page.goto(`/i/familia-garcia?plantilla=${id}`);
+      const wheel = cover(page, id).locator(`[${attr}]`);
+      const box = (await wheel.boundingBox())!;
+      const cx = box.x + box.width / 2;
+      const cy = box.y + box.height / 2;
+      const r = box.width * 0.4;
+      const at = (a: number) =>
+        [cx + r * Math.cos((a * Math.PI) / 180), cy + r * Math.sin((a * Math.PI) / 180)] as const;
+      await page.mouse.move(...at(0));
+      await page.mouse.down();
+      for (let a = 5; a <= deg; a += 5) await page.mouse.move(...at(a));
+      await page.mouse.up();
+      await expect(wheel).toHaveAttribute(attr, end, { timeout: 8000 });
+    }
+  });
+
+  test("buzón: la carta se arrastra hasta la ranura", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=buzon");
+    const stage = cover(page, "buzon");
+    const letter = stage.locator("[data-buzon] .cursor-grab");
+    const box = (await letter.boundingBox())!;
+    const x = box.x + box.width / 2;
+    const y = box.y + box.height / 2;
+    await page.mouse.move(x, y);
+    await page.mouse.down();
+    await page.mouse.move(x + 96, y + 150, { steps: 12 });
+    await page.mouse.up();
+    await expect(stage.locator("[data-buzon]")).toHaveAttribute("data-buzon", "respuesta", {
+      timeout: 8000,
+    });
+  });
+
   test("reloj de cuco: canta la hora de la ceremonia", async ({ page }) => {
     await page.goto("/i/familia-garcia?plantilla=cuco");
     const stage = cover(page, "cuco");
