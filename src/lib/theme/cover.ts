@@ -28,6 +28,7 @@ export const COVER_IDS = [
   "silvestres",
   "selva",
   "tarjeta",
+  "cinta",
   "gaceta",
   "embarque",
   "premio",
@@ -176,6 +177,10 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Tarjeta a la luz",
     description:
       "Vuestros nombres en una tarjeta entre paniculata, con la luz de la tarde (vídeo).",
+  },
+  cinta: {
+    label: "Cinta de seda",
+    description: "Una cinta burdeos sobre mantel de lino, con la luz de la ventana (vídeo).",
   },
   gaceta: {
     label: "Gaceta",
@@ -509,12 +514,13 @@ export const PAINTED_COVERS = {
   silvestres: { tone: "claro", ink: "#5e2f3c", paper: "#fbf4f0" },
   selva: { tone: "oscuro", ink: "#ffffff", paper: "#123326" },
   tarjeta: { tone: "claro", ink: "#3d3226", paper: "#efe6d6" },
+  cinta: { tone: "claro", ink: "#4a1a22", paper: "#efe4d8" },
 } as const satisfies Partial<
   Record<CoverId, { tone: "claro" | "oscuro"; ink: string; paper: string }>
 >;
 export type PaintedCoverId = keyof typeof PAINTED_COVERS;
 /** Fondos pintados que se mueven: un bucle en `public/portadas/<id>.mp4` y `.webm`. */
-export const MOVING_PAINTED_COVERS: readonly PaintedCoverId[] = ["tarjeta"];
+export const MOVING_PAINTED_COVERS: readonly PaintedCoverId[] = ["tarjeta", "cinta"];
 export function isPaintedCover(id: CoverId): id is PaintedCoverId {
   return id in PAINTED_COVERS;
 }

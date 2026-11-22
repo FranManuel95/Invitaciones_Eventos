@@ -2156,6 +2156,7 @@ export function themeVars(theme: Theme): CSSProperties {
  */
 export const TEMPLATE_IDS = [
   "tarde",
+  "seda",
   "almendro",
   "atelier",
   "medianoche",
@@ -2264,6 +2265,7 @@ export const FEATURED_TEMPLATE_IDS = [
   "acuarela",
   "atelier",
   "tarde",
+  "seda",
   "gaceta",
   "embarque",
   "premio",
@@ -2348,6 +2350,28 @@ export const TEMPLATES: Record<
       layout: "foto",
       ornament: "eucalipto",
       musicStyle: "piano",
+    },
+  },
+  seda: {
+    label: "Cinta de seda",
+    description:
+      "Una cinta burdeos que se mueve con la luz sobre un mantel de lino, y el sobre burdeos en vídeo.",
+    look: {
+      style: "lino",
+      envelope: "rosa",
+      wax: "burdeos",
+      calendar: "mano",
+      font: "clasica",
+      opening: "pelicula",
+      film: "burdeos",
+      cover: "cinta",
+      flap: "pico",
+      texture: "lino",
+      liner: "rayas",
+      sealMark: "monograma",
+      layout: "clasica",
+      ornament: "ninguno",
+      musicStyle: "cuerdas",
     },
   },
   almendro: {

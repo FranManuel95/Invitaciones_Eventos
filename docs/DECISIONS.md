@@ -1489,6 +1489,11 @@ olivo.
   en la ría y navega hasta el muelle con el nombre del lugar; Maite y Fermín, Combarro; lleva la
   concha). Estilos Bailarina, Deseo y Papiroflexia. Ya son 76 plantillas (55 de objetos) y 77
   portadas.
+- **Cinta de seda** (portada pintada en movimiento, la segunda tras Tarjeta a la luz): el vídeo de
+  la cinta burdeos sobre lino que quedaba sin usar, montado de ida y vuelta (`cinta.mp4/webm`, 12 s,
+  sin salto) y algo aclarado para que los nombres se lean. Con ella, la plantilla **Seda** (de papel,
+  no de objeto): estilo Lino, sobre burdeos en vídeo y lacre burdeos. Los textos de la venta pasan
+  a «Setenta y siete plantillas» y «Setenta y ocho portadas».
 
 ## Pendiente para próximas fases
 
