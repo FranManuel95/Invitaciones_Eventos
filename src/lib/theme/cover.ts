@@ -120,6 +120,9 @@ export const COVER_IDS = [
   "noria",
   "mago",
   "flambeado",
+  "acuario",
+  "huerto",
+  "portero",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -611,6 +614,20 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     description:
       "Una crêpe en el plato: se flambea, la llama baila y, al apagarse, empieza la fiesta.",
   },
+  acuario: {
+    label: "Acuario",
+    description: "Una pecera con dos peces con vuestros nombres: se echa comida y suben juntos.",
+  },
+  huerto: {
+    label: "Huerto",
+    description:
+      "Un huerto recién sembrado: se riega y brotan tres plantas con vuestras iniciales.",
+  },
+  portero: {
+    label: "Telefonillo",
+    description:
+      "El telefonillo del portal con vuestro piso: se llama al 1.º B y contestáis con la invitación.",
+  },
 };
 
 /**
@@ -710,6 +727,9 @@ export const CONCEPT_COVERS = {
   noria: { ink: "#fff4ea", paper: "#2a1e4a", tone: "oscuro" },
   mago: { ink: "#fbefe4", paper: "#1e0a14", tone: "oscuro" },
   flambeado: { ink: "#fbefe0", paper: "#140c08", tone: "oscuro" },
+  acuario: { ink: "#14303c", paper: "#f1ece2" },
+  huerto: { ink: "#22301c", paper: "#eaf3e0" },
+  portero: { ink: "#1f1a14", paper: "#f3ece0" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -887,6 +907,9 @@ export const MOTIF_IDS = [
   "noria",
   "mago",
   "flambeado",
+  "acuario",
+  "huerto",
+  "portero",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -992,4 +1015,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   noria: { label: "Feria", kind: "concepto" },
   mago: { label: "Magia", kind: "concepto" },
   flambeado: { label: "Sobremesa", kind: "concepto" },
+  acuario: { label: "Acuario", kind: "concepto" },
+  huerto: { label: "Huerto", kind: "concepto" },
+  portero: { label: "Portal", kind: "concepto" },
 };

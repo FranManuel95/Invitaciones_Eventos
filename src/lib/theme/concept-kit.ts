@@ -693,6 +693,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "¡Que aproveche!",
     pass: { kicker: "Reserva de mesa", people: "Comensales", table: "Tu mesa del banquete" },
   },
+  acuario: {
+    object: "la pecera",
+    carrier: "Bolsa de agua",
+    letterhead: "Como pez en el agua",
+    signoff: "Nadando juntos",
+    pass: { kicker: "Pase al acuario", people: "Visitantes" },
+  },
+  huerto: {
+    object: "el huerto",
+    carrier: "Cesta de la cosecha",
+    letterhead: "De nuestra huerta",
+    signoff: "Buena cosecha",
+    pass: { kicker: "Pase a la huerta", people: "Hortelanos" },
+  },
+  portero: {
+    object: "el telefonillo",
+    carrier: "Buzón del portal",
+    letterhead: "Desde el 1.º B",
+    signoff: "¡Sube, sube!",
+    pass: { kicker: "Llave del portal", people: "Vecinos" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

@@ -123,6 +123,9 @@ const CONCEPTS = [
   { id: "noria", names: /Selene y Bernardo/, date: "14 de agosto de 2027", opening: "concepto" },
   { id: "mago", names: /Oriana y Octavio/, date: "6 de noviembre de 2027", opening: "concepto" },
   { id: "flambeado", names: /Noemí y Elías/, date: "20 de marzo de 2027", opening: "concepto" },
+  { id: "acuario", names: /Diana y Gorka/, date: "31 de julio de 2027", opening: "concepto" },
+  { id: "huerto", names: /Ainara y Mario/, date: "5 de junio de 2027", opening: "concepto" },
+  { id: "portero", names: /Valle y Teo/, date: "23 de octubre de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -1064,6 +1067,35 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await expect(stage.locator("[data-flambeado]")).toHaveAttribute("data-flambeado", "listo", {
       timeout: 8000,
     });
+  });
+
+  test("acuario: los peces suben a por la comida", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=acuario");
+    const stage = cover(page, "acuario");
+    await stage.getByRole("button", { name: "Dar de comer" }).click();
+    await expect(stage.locator("[data-acuario]")).toHaveAttribute("data-acuario", "comiendo");
+    await expect(stage.getByText(/Suben juntos a la superficie/)).toBeVisible();
+  });
+
+  test("huerto: se riega y brota", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=huerto");
+    const stage = cover(page, "huerto");
+    await stage.getByRole("button", { name: "Regar el huerto" }).click();
+    await expect(stage.locator("[data-huerto]")).toHaveAttribute("data-huerto", "brotado", {
+      timeout: 8000,
+    });
+    await expect(stage.getByText(/La cosecha será en Tudela/)).toBeVisible();
+  });
+
+  test("telefonillo: contestan desde el 1.º B", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=portero");
+    const stage = cover(page, "portero");
+    await stage.getByRole("button", { name: "Llamar al 1.º B" }).click();
+    await expect(stage.locator("[data-telefonillo]")).toHaveAttribute(
+      "data-telefonillo",
+      "contestado",
+    );
+    await expect(stage.getByText(/Sube, sube/)).toBeVisible();
   });
 
   test("faro: se enciende", async ({ page }) => {

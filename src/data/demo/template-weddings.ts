@@ -13006,3 +13006,339 @@ export const flambeado = wedding({
   ],
   songs: ["Hot Stuff", "Fuego", "Great Balls of Fire", "September", "Valerie", "Dancing Queen"],
 });
+
+export const acuario = wedding({
+  id: "evt-demo-diana-gorka",
+  first: "Diana",
+  second: "Gorka",
+  date: "2027-07-31T20:00:00+02:00",
+  rsvpDeadline: "2027-06-20T23:59:00+02:00",
+  city: "Mazarrón",
+  region: "Murcia",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-3.jpg",
+  cardMessage:
+    "Nos conocimos buceando: los dos seguíamos al mismo pez payaso. Al subir, nos quitamos las gafas a la vez.",
+  welcomeMessage:
+    "Nos casamos junto al mar, como peces en el agua. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Mazarrón y por bañaros con nosotros a medianoche. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Antonio",
+      kind: "Ceremonia",
+      address: "Plaza de la Iglesia, 1",
+      note: "En el centro. Hay parking junto al ayuntamiento.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Cala de los Peces",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Bolnuevo, s/n",
+      note: "A 10 minutos, junto a una cala transparente.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [31, 23, 5],
+  program: [
+    ["20:00", "Ceremonia", "iglesia", "San Antonio", "Al atardecer.", "ceremony"],
+    ["21:15", "Aperitivo", "finca", "En la cala", "Con caldero y cerveza fría.", "cocktail"],
+    ["22:30", "Cena", "finca", "Junto al agua", "Con el menú que elijas al confirmar.", "banquet"],
+    ["00:30", "Fiesta", "finca", "Baño a medianoche", "Y baile hasta tarde.", "party"],
+  ],
+  busRoutes: [
+    [
+      "murcia",
+      "Murcia → Mazarrón",
+      "Estación de autobuses de Murcia",
+      "18:45",
+      ["03:00", "05:30"],
+      60,
+    ],
+    ["cartagena", "Cartagena → Mazarrón", "Estación de Cartagena", "19:00", ["05:30"], 40],
+  ],
+  menu: {
+    carne: "Cordero segureño",
+    pescado: "Caldero del Mar Menor",
+    vegetariano: "Zarangollo con huevo",
+    vegano: "Pisto murciano",
+  },
+  dressCode: {
+    title: "Verano junto al agua",
+    detail: "Turquesa, arena y naranja. Hay arena: sandalia plana.",
+    palette: [
+      { name: "Agua", hex: "#7cc4d6" },
+      { name: "Pez", hex: "#ff8a3d" },
+      { name: "Arena", hex: "#e9d6a8" },
+      { name: "Fondo", hex: "#1f6a85" },
+    ],
+    examples: [
+      "Vestido ligero turquesa o naranja.",
+      "Lino claro y alpargatas.",
+      "Bañador en el bolso: hay baño a medianoche.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Bahía", "En el puerto de Mazarrón", "Habitaciones reservadas hasta el 20 de junio."],
+    ["Hostal Bolnuevo", "Junto a la cala", "Con desayuno hasta las 13:00."],
+  ],
+  story: {
+    intro:
+      "Un pez payaso, dos gafas de buceo y ocho veranos bajo el agua. Esta es la versión corta.",
+    moments: [
+      ["2019", "La inmersión", "Seguíamos al mismo pez. Subimos a la vez.", "cala"],
+      ["2022", "La furgoneta", "Un verano de calas por todo el Mediterráneo.", "furgoneta"],
+      ["2026", "La pedida", "Bajo el agua, con una pizarra de buceo.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "Los peces ya nadan juntos. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Filipinas", "Para bucear entre corales.", "Lo que queráis"],
+    ["Un curso de buceo avanzado", "Para los dos.", "300 €"],
+    ["Una cámara submarina", "Para las fotos de abajo.", "250 €"],
+    ["Una pecera para casa", "Con dos peces, claro.", "80 €"],
+  ],
+  kids: "Habrá monitores, búsqueda de conchas y cena para ellos.",
+  faq: ["¿Hay que bañarse?", "No es obligatorio, pero a medianoche estará el agua perfecta."],
+  guestbook: [
+    ["Los del club de buceo", "Ese pez payaso tenía buen ojo."],
+    ["Abuela Fuensanta", "Qué boda tan bonita junto al mar."],
+    ["Raquel y Pedro", "Nos bañamos a medianoche."],
+  ],
+  songs: ["Bajo el mar", "Agua", "Yellow Submarine", "September", "Valerie", "Dancing Queen"],
+});
+
+export const huerto = wedding({
+  id: "evt-demo-ainara-mario",
+  first: "Ainara",
+  second: "Mario",
+  date: "2027-06-05T12:30:00+02:00",
+  rsvpDeadline: "2027-04-30T23:59:00+02:00",
+  city: "Tudela",
+  region: "Navarra",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-3.jpg",
+  cardMessage:
+    "Nos conocimos en un huerto urbano: teníamos parcelas vecinas y nos regábamos los tomates en vacaciones.",
+  welcomeMessage:
+    "Esta boda se ha cultivado poco a poco. Aquí tienes todo lo que necesitas para la cosecha.",
+  thankYouMessage:
+    "Gracias por venir a la Ribera y por llevaros vuestras plantas. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Catedral de Tudela",
+      kind: "Ceremonia",
+      address: "Calle Roso, 2",
+      note: "En el casco antiguo. Hay parking junto al paseo.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Huerta de la Mejana",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Camino de la Mejana, km 2",
+      note: "A 10 minutos, entre huertas junto al Ebro.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [28, 14, 15],
+  program: [
+    ["12:30", "Ceremonia", "iglesia", "La catedral", "Con coro de jota.", "ceremony"],
+    [
+      "13:45",
+      "Aperitivo",
+      "finca",
+      "Entre huertas",
+      "Verduras de la Ribera y vino de Navarra.",
+      "cocktail",
+    ],
+    [
+      "15:00",
+      "Comida",
+      "finca",
+      "Bajo los nogales",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["18:00", "Fiesta", "finca", "Hasta el atardecer", "Baile y barra libre.", "party"],
+  ],
+  busRoutes: [
+    [
+      "pamplona-t",
+      "Pamplona → Tudela",
+      "Estación de autobuses de Pamplona",
+      "11:00",
+      ["21:00", "00:30"],
+      75,
+    ],
+    ["zaragoza-t", "Zaragoza → Tudela", "Estación Delicias, Zaragoza", "11:15", ["00:30"], 60],
+  ],
+  menu: {
+    carne: "Cordero al chilindrón",
+    pescado: "Bacalao con pimientos",
+    vegetariano: "Menestra de verduras de Tudela",
+    vegano: "Cogollos y alcachofas a la plancha",
+  },
+  dressCode: {
+    title: "Primavera de huerta",
+    detail: "Verdes, tierra y un toque de tomate. Hay huerta: tacón ancho o plano.",
+    palette: [
+      { name: "Brote", hex: "#4f8a3a" },
+      { name: "Tierra", hex: "#8a6a46" },
+      { name: "Tomate", hex: "#d9422b" },
+      { name: "Regadera", hex: "#4a7a9a" },
+    ],
+    examples: [
+      "Vestido de flores y sandalia plana.",
+      "Camisa de lino y tirantes.",
+      "Un sombrero de paja para el sol.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Santamaría", "En el centro de Tudela", "Habitaciones reservadas hasta el 30 de abril."],
+    ["Casa rural La Huerta", "Junto a la finca", "Con desayuno de la huerta."],
+  ],
+  story: {
+    intro:
+      "Dos parcelas vecinas, unos tomates regados y siete cosechas juntos. Esta es la versión corta.",
+    moments: [
+      ["2020", "El huerto", "Parcelas vecinas. Nos regábamos los tomates.", "olivos"],
+      ["2022", "La huerta", "Juntamos las dos parcelas en una.", "terraza"],
+      ["2026", "La pedida", "El anillo, enterrado junto a una semilla. Brotó.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "La cosecha está lista. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a la Toscana", "Huertas con vistas.", "Lo que queráis"],
+    ["Un sistema de riego", "Para no depender de los vecinos.", "150 €"],
+    ["Herramientas de huerta", "De las buenas.", "90 €"],
+    ["Un invernadero pequeño", "Para el invierno.", "300 €"],
+  ],
+  kids: "Habrá monitores, plantar semillas y comida para ellos.",
+  faq: ["¿Qué son las plantas de la salida?", "Plantones de la huerta para que os llevéis a casa."],
+  guestbook: [
+    ["Los del huerto urbano", "Por fin la cosecha más bonita."],
+    ["Amama Pili", "Qué verduras y qué boda."],
+    ["Iranzu y Mikel", "Nuestra planta ya ha brotado."],
+  ],
+  songs: ["Verde", "La tierra", "Grow As We Go", "September", "Valerie", "Dancing Queen"],
+});
+
+export const portero = wedding({
+  id: "evt-demo-valle-teo",
+  first: "Valle",
+  second: "Teo",
+  date: "2027-10-23T18:00:00+02:00",
+  rsvpDeadline: "2027-09-15T23:59:00+02:00",
+  city: "Lleida",
+  region: "Lleida",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/pareja.jpg",
+  cardMessage:
+    "Vivíamos en el mismo portal, ella en el 1.º B y él en el 2.º A. Nos conocimos llamando al telefonillo equivocado.",
+  welcomeMessage:
+    "Esta vez el telefonillo es el bueno: llama al 1.º B. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Lleida y por subir a celebrarlo con nosotros. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Seu Vella de Lleida",
+      kind: "Ceremonia",
+      address: "Turó de la Seu Vella, s/n",
+      note: "En lo alto de la ciudad. Hay parking junto al castillo.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Casa del Portal",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Carrer Major, 40",
+      note: "A 10 minutos, en un edificio modernista con patio.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [20, 9, 15],
+  program: [
+    ["18:00", "Ceremonia", "iglesia", "Seu Vella", "Con vistas a toda la ciudad.", "ceremony"],
+    [
+      "19:15",
+      "Aperitivo",
+      "finca",
+      "En el patio",
+      "Con caracoles a la llauna y vino del Segre.",
+      "cocktail",
+    ],
+    [
+      "20:45",
+      "Cena",
+      "finca",
+      "En el salón modernista",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["23:00", "Fiesta", "finca", "Hasta tarde", "Baile y barra libre.", "party"],
+  ],
+  busRoutes: [
+    [
+      "barcelona-l",
+      "Barcelona → Lleida",
+      "Estació de Sants, Barcelona",
+      "15:45",
+      ["02:00", "04:30"],
+      120,
+    ],
+    ["balaguer", "Balaguer → Lleida", "Plaça Mercadal, Balaguer", "17:00", ["04:30"], 30],
+  ],
+  menu: {
+    carne: "Caracoles a la llauna y conejo",
+    pescado: "Bacalao con samfaina",
+    vegetariano: "Coca de recapte",
+    vegano: "Escalivada con pan de coca",
+  },
+  dressCode: {
+    title: "Otoño en la ciudad",
+    detail: "Latón, crema y madera. Hay escaleras: zapato cómodo.",
+    palette: [
+      { name: "Latón", hex: "#c9a24f" },
+      { name: "Azulejo", hex: "#f3ece0" },
+      { name: "Madera", hex: "#5a4418" },
+      { name: "Luz verde", hex: "#3ddc84" },
+    ],
+    examples: [
+      "Vestido midi con chaqueta.",
+      "Traje de lana con corbata.",
+      "Calzado cómodo para subir a la Seu.",
+    ],
+  },
+  accommodation: [
+    ["Hotel del Portal", "En el centro", "Habitaciones reservadas hasta el 15 de septiembre."],
+    ["Hostal Major", "En la calle Mayor", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro: "Un portal, dos pisos y un telefonillo equivocado. Esta es la versión corta.",
+    moments: [
+      ["2020", "El telefonillo", "Él llamó al 1.º B por error. Contestó ella.", "olivos"],
+      ["2022", "La escalera", "Ya subíamos y bajábamos juntos.", "terraza"],
+      ["2026", "La pedida", "Por el telefonillo: «¿Te casas conmigo?».", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "El 1.º B ya contesta. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Lisboa", "Para subir en tranvía.", "Lo que queráis"],
+    ["Un felpudo personalizado", "Para el 1.º B.", "30 €"],
+    ["Una lámpara modernista", "Para el salón.", "150 €"],
+    ["Una cena en la Seu", "Para el aniversario.", "90 €"],
+  ],
+  kids: "Habrá monitores, juegos en el patio y cena para ellos.",
+  faq: ["¿Y si me equivoco de piso?", "Pues como nosotros: acabarás en una boda."],
+  guestbook: [
+    ["Los del 2.º A", "Por fin dejáis de llamarnos por error."],
+    ["Iaia Teresa", "Quina boda més bonica."],
+    ["Mireia y Arnau", "Llamamos al 1.º B y contestasteis."],
+  ],
+  songs: ["Hello", "Llámame", "Call Me Maybe", "September", "Valerie", "Dancing Queen"],
+});

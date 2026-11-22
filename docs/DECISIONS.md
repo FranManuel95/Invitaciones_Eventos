@@ -1585,6 +1585,11 @@ olivo.
   Puebla de Sanabria; portada oscura). Estilos Tiovivo, Ilusionista y Sobremesa. Ya son 113
   plantillas (91 de objetos) y 114 portadas.
 - **Batería E2E completa** con todo hasta Pizarra: 669 pruebas bien y 5 omitidas.
+- **Vigesimosexta tanda**: **Acuario** (pecera con dos peces con los nombres; al echar comida suben
+  juntos; Diana y Gorka, Mazarrón), **Huerto** (se riega y brotan tres plantas con las iniciales y
+  un corazón; Ainara y Mario, Tudela) y **Telefonillo** (panel de latón con los pisos del portal; se
+  llama al 1.º B, que es el de los novios, y contestan; Valle y Teo, Lleida; su id es `portero`).
+  Estilos Pecera, Hortelano y Portal. Ya son 116 plantillas (94 de objetos) y 117 portadas.
 
 ## Pendiente para próximas fases
 
