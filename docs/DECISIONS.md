@@ -1598,6 +1598,11 @@ olivo.
   cristales hasta formar una flor; Mía y Nil, Puigcerdà; portada oscura). Estilos Maqueta, Estival
   y Prisma. Ya son 119 plantillas (97 de objetos) y 120 portadas.
 - **Batería E2E completa** con todo hasta Telefonillo: 693 pruebas bien y 5 omitidas.
+- **Vigesimoctava tanda**: **Ramo de globos** (se suelta el rojo y sube con el «¡Sí!» atado al
+  cordel; Daniela y Rober, Torrelavega), **Peonza** (se lanza, baila y cae del lado bueno; Martina
+  y Pepe, Salobreña) y **Castillo de arena** (tres cubos levantan las torres y aparece la bandera
+  con las iniciales; Amparo y Julen, Isla Cristina). Estilos Algarabía, Trompo y Arenisca. Ya son
+  122 plantillas (100 de objetos) y 123 portadas.
 
 ## Pendiente para próximas fases
 

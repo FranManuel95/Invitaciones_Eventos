@@ -129,6 +129,9 @@ const CONCEPTS = [
   { id: "trenecito", names: /Alexia y Iago/, date: "1 de mayo de 2027", opening: "concepto" },
   { id: "tarro", names: /Elba y Félix/, date: "10 de julio de 2027", opening: "concepto" },
   { id: "caleidoscopio", names: /Mía y Nil/, date: "21 de agosto de 2027", opening: "concepto" },
+  { id: "globos", names: /Daniela y Rober/, date: "12 de junio de 2027", opening: "concepto" },
+  { id: "peonza", names: /Martina y Pepe/, date: "18 de septiembre de 2027", opening: "concepto" },
+  { id: "castillo", names: /Amparo y Julen/, date: "3 de julio de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -1130,6 +1133,34 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
       "data-caleidoscopio",
       "flor",
     );
+  });
+
+  test("ramo de globos: se suelta el rojo", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=globos");
+    const stage = cover(page, "globos");
+    await stage.getByRole("button", { name: "Soltar el globo" }).click();
+    await expect(stage.locator("[data-globos]")).toHaveAttribute("data-globos", "en-el-cielo", {
+      timeout: 8000,
+    });
+  });
+
+  test("peonza: baila y se para", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=peonza");
+    const stage = cover(page, "peonza");
+    await stage.getByRole("button", { name: "Lanzar la peonza" }).click();
+    await expect(stage.locator("[data-peonza]")).toHaveAttribute("data-peonza", "parada", {
+      timeout: 8000,
+    });
+    await expect(stage.getByText(/Ha caído del lado bueno/)).toBeVisible();
+  });
+
+  test("castillo de arena: tres cubos y la bandera", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=castillo");
+    const stage = cover(page, "castillo");
+    for (const n of [0, 1, 2]) {
+      await stage.getByRole("button", { name: `Volcar el cubo (${n}/3)` }).click();
+    }
+    await expect(stage.locator("[data-castillo]")).toHaveAttribute("data-castillo", "construido");
   });
 
   test("faro: se enciende", async ({ page }) => {

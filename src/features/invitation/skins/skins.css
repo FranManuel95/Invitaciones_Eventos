@@ -4850,6 +4850,148 @@
     opacity: 0.3;
   }
 }
+/* Ramo de globos: cada sección es un globo. */
+[data-motif="globos"] {
+  counter-reset: globo;
+}
+[data-motif="globos"] .motif-hero {
+  background: linear-gradient(180deg, #bfe3f5, var(--color-paper) 70%);
+}
+[data-motif="globos"] section[id] {
+  counter-increment: globo;
+}
+[data-motif="globos"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="globos"] .motif-sprig::before {
+  content: "";
+  width: 0.8rem;
+  height: 1rem;
+  border-radius: 50% 50% 45% 45%;
+  background: var(--color-gold);
+}
+[data-motif="globos"] .motif-sprig::after {
+  content: "Globo " counter(globo);
+}
+[data-motif="globos"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="globos"] .motif-closing::before {
+  content: "Hasta el cielo";
+}
+/* Peonza: cada sección es una vuelta de peonza. */
+[data-motif="peonza"] {
+  counter-reset: giro;
+}
+[data-motif="peonza"] .motif-hero {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 60px, rgb(42 30 18 / 0.04) 60px 62px),
+    var(--color-paper);
+}
+[data-motif="peonza"] section[id] {
+  counter-increment: giro;
+}
+[data-motif="peonza"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="peonza"] .motif-sprig::before {
+  content: "";
+  width: 1rem;
+  height: 1.1rem;
+  background: linear-gradient(180deg, var(--color-gold) 0 40%, #ffc93c 40% 60%, #4cc9f0 60%);
+  clip-path: polygon(50% 100%, 0 35%, 50% 0, 100% 35%);
+}
+[data-motif="peonza"] .motif-sprig::after {
+  content: "Giro " counter(giro);
+}
+[data-motif="peonza"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="peonza"] .motif-closing::before {
+  content: "¡Otra vez!";
+}
+/* Castillo de arena: cada sección es una torre. */
+[data-motif="castillo"] {
+  counter-reset: torre;
+}
+[data-motif="castillo"] .motif-hero {
+  background: linear-gradient(180deg, #d9f0f6, var(--color-paper) 70%);
+}
+[data-motif="castillo"] section[id] {
+  counter-increment: torre;
+}
+[data-motif="castillo"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="castillo"] .motif-sprig::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  background: #d6b47a;
+  clip-path: polygon(
+    0 25%,
+    25% 25%,
+    25% 0,
+    50% 0,
+    50% 25%,
+    75% 25%,
+    75% 0,
+    100% 0,
+    100% 100%,
+    0 100%
+  );
+}
+[data-motif="castillo"] .motif-sprig::after {
+  content: "Torre " counter(torre);
+}
+[data-motif="castillo"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="castillo"] .motif-closing::before {
+  content: "Antes de que suba la marea";
+}
+@keyframes top-wobble {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
 @keyframes musicbox-spin {
   to {
     transform: rotateY(360deg);
@@ -5725,6 +5867,22 @@
 /* Caleidoscopio: tubo de cristales. */
 [data-motif="caleidoscopio"] .concept-carrier {
   background: #221832;
+  border: 2px solid var(--color-gold);
+}
+
+/* Ramo de globos: bolsa de globos. */
+[data-motif="globos"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 2px dashed var(--color-gold);
+}
+/* Peonza: caja de juguetes. */
+[data-motif="peonza"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 3px double var(--color-gold);
+}
+/* Castillo de arena: cubo de playa. */
+[data-motif="castillo"] .concept-carrier {
+  background: var(--color-ivory);
   border: 2px solid var(--color-gold);
 }
 

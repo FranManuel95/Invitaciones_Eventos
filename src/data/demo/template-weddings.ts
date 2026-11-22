@@ -13700,3 +13700,321 @@ export const caleidoscopio = wedding({
   ],
   songs: ["Colors", "Todos los colores", "Viva la vida", "September", "Valerie", "Dancing Queen"],
 });
+
+export const globos = wedding({
+  id: "evt-demo-daniela-rober",
+  first: "Daniela",
+  second: "Rober",
+  date: "2027-06-12T13:00:00+02:00",
+  rsvpDeadline: "2027-05-01T23:59:00+02:00",
+  city: "Torrelavega",
+  region: "Cantabria",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-1.jpg",
+  cardMessage:
+    "Nos conocimos en un cumpleaños: a los dos se nos escapó el globo a la vez y se enredaron en el cielo.",
+  welcomeMessage: "Esta boda va con globos y mucha fiesta. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Torrelavega y por soltar vuestros globos con nosotros. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de la Virgen Grande",
+      kind: "Ceremonia",
+      address: "Plaza de la Virgen Grande, 1",
+      note: "En el centro. Hay parking en el bulevar.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Casona de los Globos",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Camino de Viérnoles, km 2",
+      note: "A 10 minutos, con prado y vistas a los Picos.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [21, 12, 35],
+  program: [
+    [
+      "13:00",
+      "Ceremonia",
+      "iglesia",
+      "La Virgen Grande",
+      "Y suelta de globos a la salida.",
+      "ceremony",
+    ],
+    ["14:15", "Aperitivo", "finca", "En el prado", "Con anchoas y sobaos.", "cocktail"],
+    ["15:30", "Comida", "finca", "En la casona", "Con el menú que elijas al confirmar.", "banquet"],
+    ["18:30", "Fiesta", "finca", "Hasta tarde", "Baile y barra libre.", "party"],
+  ],
+  busRoutes: [
+    [
+      "santander-t",
+      "Santander → Torrelavega",
+      "Estación de Santander",
+      "11:45",
+      ["21:00", "00:30"],
+      30,
+    ],
+    ["reinosa", "Reinosa → Torrelavega", "Plaza de España, Reinosa", "11:30", ["00:30"], 45],
+  ],
+  menu: {
+    carne: "Cocido montañés y carne de Cantabria",
+    pescado: "Merluza rebozada",
+    vegetariano: "Pastel de verduras",
+    vegano: "Alubias con verduras",
+  },
+  dressCode: {
+    title: "Fiesta de colores",
+    detail: "Colores vivos. En el norte puede llover: chaqueta.",
+    palette: [
+      { name: "Globo", hex: "#e4572e" },
+      { name: "Sol", hex: "#ffc93c" },
+      { name: "Cielo", hex: "#4cc9f0" },
+      { name: "Lila", hex: "#b388ff" },
+    ],
+    examples: ["Vestido de color.", "Camisa estampada.", "Una chaqueta, por si acaso."],
+  },
+  accommodation: [
+    ["Hotel Torrelavega", "En el centro", "Habitaciones reservadas hasta el 1 de mayo."],
+    ["Posada de Viérnoles", "Junto a la finca", "Con desayuno de sobaos."],
+  ],
+  story: {
+    intro: "Dos globos escapados, un cumpleaños y siete años juntos. Esta es la versión corta.",
+    moments: [
+      ["2020", "Los globos", "Se nos escaparon a la vez y se enredaron.", "olivos"],
+      ["2022", "La casa", "Una casa con globos en cada cumpleaños.", "terraza"],
+      ["2026", "La pedida", "El anillo, atado a un globo rojo.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "Los globos están inflados. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Capadocia", "Para ver los globos de verdad.", "Lo que queráis"],
+    ["Un vuelo en globo", "Por Cantabria.", "250 €"],
+    ["Una máquina de palomitas", "Para las fiestas.", "60 €"],
+    ["Una cena en Santander", "Para el aniversario.", "90 €"],
+  ],
+  kids: "Habrá monitores, globoflexia y comida para ellos.",
+  faq: [
+    "¿Los globos son de plástico?",
+    "No: son biodegradables y no se sueltan al cielo, se quedan en el prado.",
+  ],
+  guestbook: [
+    ["Los del cumpleaños", "Aquellos globos sabían algo."],
+    ["Abuela Puri", "Qué fiesta más bonita."],
+    ["Sara y Nacho", "Hemos inflado veinte globos."],
+  ],
+  songs: ["99 Luftballons", "Globos", "Up", "September", "Valerie", "Dancing Queen"],
+});
+
+export const peonza = wedding({
+  id: "evt-demo-martina-pepe",
+  first: "Martina",
+  second: "Pepe",
+  date: "2027-09-18T12:30:00+02:00",
+  rsvpDeadline: "2027-08-10T23:59:00+02:00",
+  city: "Salobreña",
+  region: "Granada",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-4.jpg",
+  cardMessage:
+    "Nos conocimos en el patio del colegio: él lanzaba la peonza y ella siempre la hacía bailar más.",
+  welcomeMessage:
+    "Nos casamos sin parar de bailar, como la peonza. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Salobreña y por bailar hasta caer. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Nuestra Señora del Rosario",
+      kind: "Ceremonia",
+      address: "Calle Bóveda, 1",
+      note: "Bajo el castillo. Hay parking a la entrada del pueblo.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Cortijo de la Peonza",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Camino de la Caña, km 2",
+      note: "A 10 minutos, entre cañaverales y con vistas al mar.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [28, 19, 5],
+  program: [
+    ["12:30", "Ceremonia", "iglesia", "El Rosario", "Con guitarra y coro.", "ceremony"],
+    [
+      "13:45",
+      "Aperitivo",
+      "finca",
+      "En el patio",
+      "Con espetos y vino de la Contraviesa.",
+      "cocktail",
+    ],
+    [
+      "15:00",
+      "Comida",
+      "finca",
+      "Bajo la parra",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["18:00", "Fiesta", "finca", "Sin parar", "Baile y concurso de peonzas.", "party"],
+  ],
+  busRoutes: [
+    [
+      "granada-s",
+      "Granada → Salobreña",
+      "Estación de autobuses de Granada",
+      "11:00",
+      ["21:00", "00:30"],
+      60,
+    ],
+    ["motril", "Motril → Salobreña", "Plaza de la Coronación, Motril", "11:45", ["00:30"], 15],
+  ],
+  menu: {
+    carne: "Choto al ajillo",
+    pescado: "Espetos y fritura malagueña",
+    vegetariano: "Habas con jamón vegetal",
+    vegano: "Remojón granadino",
+  },
+  dressCode: {
+    title: "Fiesta de patio",
+    detail: "Colores de peonza: rojo, amarillo y azul. Zapato para bailar.",
+    palette: [
+      { name: "Rojo", hex: "#e4572e" },
+      { name: "Amarillo", hex: "#ffc93c" },
+      { name: "Azul", hex: "#4cc9f0" },
+      { name: "Madera", hex: "#6b4a2a" },
+    ],
+    examples: [
+      "Vestido con vuelo para girar.",
+      "Camisa de lino y alpargatas.",
+      "Trae tu peonza: hay concurso.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Salobreña", "Junto a la playa", "Habitaciones reservadas hasta el 10 de agosto."],
+    ["Hostal del Castillo", "En el pueblo", "Con desayuno hasta las 12:00."],
+  ],
+  story: {
+    intro: "Un patio de colegio, una peonza y veinte años bailando. Esta es la versión corta.",
+    moments: [
+      ["2005", "El patio", "Ella hacía bailar la peonza más que nadie.", "cala"],
+      ["2021", "El reencuentro", "Nos vimos en las fiestas del pueblo, con peonzas.", "furgoneta"],
+      ["2026", "La pedida", "El anillo, en la punta de la peonza.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "La peonza ya baila. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a México", "Para ver los trompos de allí.", "Lo que queráis"],
+    ["Una colección de peonzas", "Para la estantería.", "50 €"],
+    ["Clases de baile", "Para no parar.", "150 €"],
+    ["Una cena frente al mar", "Para el aniversario.", "90 €"],
+  ],
+  kids: "Habrá monitores, concurso de peonzas y comida para ellos.",
+  faq: ["¿Hay que saber lanzar la peonza?", "No: enseñamos en el aperitivo."],
+  guestbook: [
+    ["Los del patio", "Seguís bailando como entonces."],
+    ["Abuelo Paco", "Qué boda más bonita, y qué peonzas."],
+    ["Rocío y Juanma", "Ganamos el concurso de peonzas."],
+  ],
+  songs: ["Bailando", "La peonza", "Twist and Shout", "September", "Valerie", "Dancing Queen"],
+});
+
+export const castillo = wedding({
+  id: "evt-demo-amparo-julen",
+  first: "Amparo",
+  second: "Julen",
+  date: "2027-07-03T19:30:00+02:00",
+  rsvpDeadline: "2027-05-25T23:59:00+02:00",
+  city: "Isla Cristina",
+  region: "Huelva",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-1.jpg",
+  cardMessage:
+    "De pequeños construíamos castillos de arena en la misma playa. Nunca terminábamos ninguno. Este sí.",
+  welcomeMessage: "Por fin terminamos el castillo. Aquí tienes todo lo que necesitas para la boda.",
+  thankYouMessage:
+    "Gracias por venir a Isla Cristina y por construir con nosotros. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de los Dolores",
+      kind: "Ceremonia",
+      address: "Plaza de las Flores, 1",
+      note: "En el centro. Hay parking junto al puerto.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Playa del Castillo",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Playa Central, s/n",
+      note: "A 5 minutos, sobre la arena y frente al mar.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [30, 20, 5],
+  program: [
+    ["19:30", "Ceremonia", "iglesia", "Los Dolores", "Al atardecer.", "ceremony"],
+    ["20:45", "Aperitivo", "finca", "En la arena", "Con gambas de Huelva y fino.", "cocktail"],
+    ["22:00", "Cena", "finca", "Frente al mar", "Con el menú que elijas al confirmar.", "banquet"],
+    ["00:00", "Fiesta", "finca", "Hasta que suba la marea", "Baile en la arena.", "party"],
+  ],
+  busRoutes: [
+    ["huelva", "Huelva → Isla Cristina", "Estación de Huelva", "18:15", ["03:00", "05:30"], 50],
+    ["ayamonte", "Ayamonte → Isla Cristina", "Puerto de Ayamonte", "18:45", ["05:30"], 15],
+  ],
+  menu: {
+    carne: "Presa ibérica de la sierra",
+    pescado: "Raya en pimentón y atún de almadraba",
+    vegetariano: "Gazpacho y tortillitas",
+    vegano: "Ensalada de tomate de la Vega",
+  },
+  dressCode: {
+    title: "Atardecer en la playa",
+    detail: "Arena, azul y blanco. Hay arena: descalzos o sandalia.",
+    palette: [
+      { name: "Arena", hex: "#e9d3a2" },
+      { name: "Cubo", hex: "#4cc9f0" },
+      { name: "Bandera", hex: "#e4572e" },
+      { name: "Cielo", hex: "#a8dcef" },
+    ],
+    examples: ["Vestido ligero.", "Lino y alpargatas.", "Descalzos en la arena, si queréis."],
+  },
+  accommodation: [
+    [
+      "Hotel Isla Cristina Palace",
+      "Junto a la playa",
+      "Habitaciones reservadas hasta el 25 de mayo.",
+    ],
+    ["Hostal del Puerto", "En el puerto", "Con desayuno hasta las 13:00."],
+  ],
+  story: {
+    intro:
+      "Mil castillos sin terminar, la misma playa y por fin uno acabado. Esta es la versión corta.",
+    moments: [
+      ["2002", "La playa", "Construíamos castillos uno al lado del otro.", "cala"],
+      ["2019", "El reencuentro", "Nos vimos en la misma playa, ya mayores.", "furgoneta"],
+      ["2026", "La pedida", "En lo alto de un castillo de arena, con la bandera.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "El castillo está terminado. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Zanzíbar", "Más playas.", "Lo que queráis"],
+    ["Un kit de castillos de arena", "Profesional.", "40 €"],
+    ["Una sombrilla grande", "Para la playa.", "70 €"],
+    ["Una cena en el puerto", "Para el aniversario.", "90 €"],
+  ],
+  kids: "Habrá monitores, concurso de castillos y cena para ellos.",
+  faq: ["¿Habrá concurso de castillos?", "Sí, al atardecer. El premio es una cena con los novios."],
+  guestbook: [
+    ["Los de la playa", "Por fin terminasteis uno."],
+    ["Abuela Manuela", "Qué boda tan bonita junto al mar."],
+    ["Blanca y Fran", "Nuestro castillo quedó segundo."],
+  ],
+  songs: ["Castillos de arena", "La playa", "Sandcastles", "September", "Valerie", "Dancing Queen"],
+});

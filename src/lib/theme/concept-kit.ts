@@ -735,6 +735,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Gíralo otra vez",
     pass: { kicker: "Pase de colores", people: "Invitados" },
   },
+  globos: {
+    object: "el ramo de globos",
+    carrier: "Bolsa de globos",
+    letterhead: "¡Que suba la fiesta!",
+    signoff: "Hasta el cielo",
+    pass: { kicker: "Pase a la fiesta", people: "Invitados" },
+  },
+  peonza: {
+    object: "la peonza",
+    carrier: "Caja de juguetes de madera",
+    letterhead: "Que no pare de bailar",
+    signoff: "¡Otra vez!",
+    pass: { kicker: "Pase al patio", people: "Invitados" },
+  },
+  castillo: {
+    object: "el castillo de arena",
+    carrier: "Cubo de playa",
+    letterhead: "Construyendo juntos",
+    signoff: "Antes de que suba la marea",
+    pass: { kicker: "Pase a la playa", people: "Constructores" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */
