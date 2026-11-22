@@ -1,4 +1,11 @@
-import { mix, sealDroplets, sealOutline, type LinerId, type SealMarkId } from "@/lib/theme";
+import {
+  drawnSealMark,
+  mix,
+  sealDroplets,
+  sealOutline,
+  type LinerId,
+  type SealMarkId,
+} from "@/lib/theme";
 import type { SealShapeId } from "@/lib/theme";
 
 /*
@@ -59,7 +66,9 @@ function drawSeal(
   opts: { wax: string; shape: SealShapeId; mark: SealMarkId; monogram: string; font: string },
   metal: boolean,
 ) {
-  const { wax, shape, mark, monogram, font } = opts;
+  const { wax, shape, monogram, font } = opts;
+  // En el lienzo no hay fotografía: un lacre de verdad se dibuja con el grabado más parecido.
+  const mark = drawnSealMark(opts.mark);
   ctx.save();
   ctx.scale(size / 100, size / 100);
   // Fondo: el borde y los costados de la cera, algo más oscuros.

@@ -9,6 +9,7 @@ import {
   linerBackground,
   MOTIF_IDS,
   MOTIFS,
+  PHOTO_SEAL_MARKS,
   TEMPLATES,
 } from "@/lib/theme";
 
@@ -27,6 +28,10 @@ describe("recursos de las opciones del tema", () => {
     const bg = linerBackground(id, { inside: "#fff", gold: "#c9a65d", own: "#eee" });
     const url = /url\("(\/forros\/[^"]+)"\)/.exec(bg)?.[1];
     if (url) expect(has(url)).toBe(true);
+  });
+
+  it.each(Object.keys(PHOTO_SEAL_MARKS))("el lacre de verdad %s tiene su fotografía", (id) => {
+    expect(has(`/lacres/${id}.webp`)).toBe(true);
   });
 
   it.each(MOTIF_IDS.filter((id) => MOTIFS[id].kind === "acuarela"))(

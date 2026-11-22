@@ -61,7 +61,10 @@ test.describe("editor de la invitación", () => {
     await expect(preview.locator("[data-flap-shape='festoneada']")).toBeAttached();
     await page.getByRole("radio", { name: /400 g/ }).check({ force: true });
     await page.getByRole("radio", { name: /^Flores Florecillas/ }).check({ force: true });
-    await page.getByRole("radio", { name: /Corazón/ }).check({ force: true });
+    await page.getByRole("radio", { name: "Corazón", exact: true }).check({ force: true });
+    // Un lacre de verdad: la fotografía de la concha sustituye a la cera dibujada.
+    await page.getByRole("radio", { name: "Concha de plata" }).check({ force: true });
+    await expect(preview.locator('image[href="/lacres/concha.webp"]').first()).toBeAttached();
     if (!isMobile) {
       await expect(page.getByRole("button", { name: "Sobre", pressed: true })).toBeVisible();
     }

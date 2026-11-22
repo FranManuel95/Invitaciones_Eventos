@@ -1475,6 +1475,13 @@ olivo.
   aparece el rumbo a la ciudad; Estela y Unai, Comillas; portada oscura). Estilos Brisa, Clepsidra
   y Farero. Con movimiento reducido, la cometa sube y la arena cae sin animación, y el haz no gira.
 - Ya son 73 plantillas (21 de papel y acuarela, 52 de objetos) y 74 portadas.
+- **Lacres de verdad en el editor**: los lacres fotografiados de Higgsfield que quedaban sin usar
+  (concha de plata, sol de terracota, estrella azul marino y corazón rosa) son cuatro grabados más
+  en «Grabado del lacre» (`PHOTO_SEAL_MARKS` en `src/lib/theme/envelope.ts`). Se recortan sin la
+  sombra (envolvente de los bordes nítidos; el rosa, por su tono) en `public/lacres/<id>.webp`.
+  Traen su cera y su forma, así que no usan las elegidas; en el sobre 3D, que pinta el lacre en un
+  lienzo, se dibuja el grabado más parecido (`drawnSealMark`). Cometa lleva la concha y Faro la
+  estrella azul marino.
 
 ## Pendiente para próximas fases
 

@@ -35,7 +35,16 @@ export const OPENING_IDS = [
 ] as const;
 /** Las que se enseñan en la venta y los ejemplos: la de concepto va con su plantilla. */
 export const SHOWN_OPENING_IDS = OPENING_IDS.filter((id) => id !== "concepto");
-export const SEAL_MARK_IDS = ["monograma", "almendro", "corazon", "estrella"] as const;
+export const SEAL_MARK_IDS = [
+  "monograma",
+  "almendro",
+  "corazon",
+  "estrella",
+  "concha",
+  "sol",
+  "estrella-marino",
+  "corazon-rosa",
+] as const;
 
 export type FlapId = (typeof FLAP_IDS)[number];
 export type WeightId = (typeof WEIGHT_IDS)[number];
@@ -336,7 +345,31 @@ export const SEAL_MARKS: Record<SealMarkId, { label: string }> = {
   almendro: { label: "Rama" },
   corazon: { label: "Corazón" },
   estrella: { label: "Estrella" },
+  concha: { label: "Concha de plata" },
+  sol: { label: "Sol de terracota" },
+  "estrella-marino": { label: "Estrella azul marino" },
+  "corazon-rosa": { label: "Corazón rosa" },
 };
+
+/**
+ * Lacres de verdad: fotografías de lacres (Higgsfield) recortadas en `public/lacres/<id>.webp`.
+ * Ya traen su color y su forma, así que no usan ni la cera ni el contorno elegidos. Donde el lacre
+ * se pinta en un lienzo (el sobre en 3D), se dibuja el grabado más parecido.
+ */
+export const PHOTO_SEAL_MARKS = {
+  concha: "monograma",
+  sol: "estrella",
+  "estrella-marino": "estrella",
+  "corazon-rosa": "corazon",
+} as const satisfies Partial<Record<SealMarkId, SealMarkId>>;
+export type PhotoSealMarkId = keyof typeof PHOTO_SEAL_MARKS;
+export function isPhotoSealMark(mark: SealMarkId): mark is PhotoSealMarkId {
+  return mark in PHOTO_SEAL_MARKS;
+}
+/** El grabado que se dibuja: el propio o, si es un lacre de verdad, el más parecido. */
+export function drawnSealMark(mark: SealMarkId) {
+  return isPhotoSealMark(mark) ? PHOTO_SEAL_MARKS[mark] : mark;
+}
 
 const pct = (n: number) => `${Number(n.toFixed(2))}%`;
 const polygon = (points: [number, number][]) =>

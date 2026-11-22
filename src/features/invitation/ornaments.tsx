@@ -1,5 +1,11 @@
 import { useId } from "react";
-import { sealDroplets, sealOutline, type SealMarkId, type SealShapeId } from "@/lib/theme/envelope";
+import {
+  isPhotoSealMark,
+  sealDroplets,
+  sealOutline,
+  type SealMarkId,
+  type SealShapeId,
+} from "@/lib/theme/envelope";
 
 /*
  * Ornamentos de la papelería. El motivo es el almendro de la finca: ramas con almendras
@@ -157,6 +163,11 @@ const STAR = Array.from({ length: 16 }, (_, i) => {
 /** Marca grabada en la cera: iniciales, rama, corazón o estrella, en oro. */
 function SealMark({ mark, monogram, fill }: { mark: SealMarkId; monogram: string; fill: string }) {
   switch (mark) {
+    case "concha":
+    case "sol":
+    case "estrella-marino":
+    case "corazon-rosa":
+      return null;
     case "monograma":
       return (
         <text
@@ -206,6 +217,14 @@ export function WaxSealArt({
   mark?: SealMarkId;
 }) {
   const id = useId();
+  // Lacre de verdad: la fotografía recortada, con su propia cera y su forma.
+  if (isPhotoSealMark(mark)) {
+    return (
+      <svg viewBox="0 0 100 100" aria-hidden className={className} overflow="visible">
+        <image href={`/lacres/${mark}.webp`} width="100" height="100" />
+      </svg>
+    );
+  }
   // Contorno: cera derramada (irregular), círculo limpio o flor de ocho pétalos.
   const lobes = sealOutline(shape);
   return (

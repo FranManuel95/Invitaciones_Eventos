@@ -27,8 +27,8 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
 - **Red del entorno**: esta sesión usa el entorno «invitaciones-eventos», que permite la CDN de
   Higgsfield (`d8j0ntlcm91z4.cloudfront.net`, `d2ol7oe51mr4n9.cloudfront.net`) y `api.open-meteo.com`.
   Los recursos se bajan con `curl` desde `show_generations` → `rawUrl`.
-- **Sin usar de Higgsfield**: los lacres de concha, sol y estrella, la segunda acuarela de olivo y
-  el vídeo de la cinta burdeos.
+- **Sin usar de Higgsfield**: la segunda acuarela de olivo y el vídeo de la cinta burdeos. Los
+  lacres de concha, sol, estrella y corazón ya son «lacres de verdad» en el editor.
 - **Ideas de conceptos pendientes**: ver «Ideas para la siguiente tanda» en `docs/CONCEPTOS.md`.
 
 ## Estado a 19/11/2026
