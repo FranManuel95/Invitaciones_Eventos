@@ -3590,8 +3590,9 @@ export const TEMPLATE_IDS = [
 export type TemplateId = (typeof TEMPLATE_IDS)[number];
 
 /**
- * Las plantillas que se enseñan al público (página de venta, ejemplos y editor): las que se
- * abren con un vídeo real. Las anteriores siguen funcionando en los eventos que ya las usan.
+ * Las plantillas que se enseñan al público (página de venta, ejemplos y editor). Las demás
+ * (las de antes del vídeo y las de concepto más flojas o repetidas) siguen funcionando en los
+ * eventos que ya las usan y con `?plantilla=`.
  */
 export const FEATURED_TEMPLATE_IDS = [
   "arcilla",
@@ -3665,66 +3666,31 @@ export const FEATURED_TEMPLATE_IDS = [
   "globo",
   "nieve",
   "brindis",
-  "cometa",
-  "reloj",
   "faro",
   "musica",
   "farolillo",
-  "barco",
   "prensado",
   "cartas",
-  "ramo",
-  "anillos",
   "baile",
   "capsula",
   "sellos",
   "disco",
   "cuaderno",
-  "pinata",
-  "arroz",
   "vela",
-  "columpio",
   "semaforo",
   "paraguas",
   "cascanueces",
-  "hamaca",
   "picnic",
-  "molinillo",
-  "candado",
   "gramola",
-  "huellas",
-  "nevera",
   "tetera",
-  "pompas",
-  "herradura",
-  "grulla",
   "campanas",
-  "hilo",
   "pajarera",
   "persiana",
   "cuco",
-  "tiza",
   "noria",
   "mago",
-  "flambeado",
-  "acuario",
-  "huerto",
-  "portero",
-  "trenecito",
-  "tarro",
   "caleidoscopio",
-  "globos",
-  "peonza",
-  "castillo",
-  "carrete",
   "buzon",
-  "termometro",
-  "tendedero",
-  "chicles",
-  "dardos",
-  "linterna",
-  "cajafuerte",
-  "patines",
 ] as const satisfies readonly TemplateId[];
 
 type Look = Omit<Theme, "hidden" | "order" | "music">;

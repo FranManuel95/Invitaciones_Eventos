@@ -836,6 +836,52 @@ export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
   return id in CONCEPT_COVERS;
 }
+/**
+ * Portadas de concepto que ya no se enseñan en el muestrario ni en la galería del editor: las más
+ * flojas o repetidas de las últimas tandas. Siguen funcionando en los eventos que las usan y con
+ * `?portada=` o `?plantilla=`.
+ */
+export const HIDDEN_CONCEPT_COVERS: readonly ConceptCoverId[] = [
+  "cometa",
+  "reloj",
+  "barco",
+  "ramo",
+  "anillos",
+  "pinata",
+  "arroz",
+  "columpio",
+  "hamaca",
+  "molinillo",
+  "candado",
+  "huellas",
+  "nevera",
+  "pompas",
+  "herradura",
+  "grulla",
+  "hilo",
+  "tiza",
+  "flambeado",
+  "acuario",
+  "huerto",
+  "portero",
+  "trenecito",
+  "tarro",
+  "globos",
+  "peonza",
+  "castillo",
+  "carrete",
+  "termometro",
+  "tendedero",
+  "chicles",
+  "dardos",
+  "linterna",
+  "cajafuerte",
+  "patines",
+];
+/** Si la portada se enseña al público (muestrario y galería del editor). */
+export function isShownCover(id: CoverId) {
+  return !(HIDDEN_CONCEPT_COVERS as readonly CoverId[]).includes(id);
+}
 /** Portadas de concepto de fondo oscuro (cielo, tarot, recreativa): los botones van en blanco. */
 export function isDarkConcept(id: ConceptCoverId) {
   return "tone" in CONCEPT_COVERS[id];

@@ -151,7 +151,7 @@ export default async function Examples() {
         >
           <div className={shell}>
             <h2 id="plantillas-title" className={`${sectionTitle} max-w-[14ch]`}>
-              Ciento treinta y una plantillas
+              Noventa y seis plantillas
             </h2>
             <p className="mt-6 max-w-[48ch] text-[1.0625rem] leading-relaxed text-[var(--grafito)]">
               Cada una trae su portada, sus colores, su letra y su forma de abrirse. En el editor se
@@ -191,7 +191,7 @@ export default async function Examples() {
         >
           <div className={shell}>
             <h2 id="portadas-title" className={sectionTitle}>
-              Ciento treinta y dos portadas
+              Noventa y siete portadas
             </h2>
             <p className="mt-6 max-w-[48ch] text-[1.0625rem] leading-relaxed text-[var(--grafito)]">
               Lo primero que ve el invitado, con vuestros nombres. Cualquier portada va con

@@ -27,7 +27,7 @@ Estado del trabajo para retomarlo en una sesión nueva sin perder el hilo. Compl
      Pizarra, Noria, Sombrero de mago, Postre flambeado, Acuario, Huerto, Telefonillo, Trenecito, Tarro de
      luciérnagas, Caleidoscopio, Ramo de globos, Peonza, Castillo de arena, Cámara de carrete, Buzón,
      Termómetro del amor, Tendedero, Máquina de chicles y Diana. Y la portada en movimiento Tarjeta a la luz con la
-     plantilla Luz de tarde. Ya son **131 plantillas y 132 portadas** (109 de concepto) (con Seda y Cinta de seda). Componentes en
+     plantilla Luz de tarde. Ya son **131 plantillas y 132 portadas** (109 de concepto), pero solo se enseñan **96 y 97**: 35 de concepto flojas o repetidas se ocultaron del muestrario (`HIDDEN_CONCEPT_COVERS`, ver DECISIONS «Criba del muestrario») (con Seda y Cinta de seda). Componentes en
      `src/features/invitation/cover/concepts-new*.tsx`; cada una con estilo, piel, kit, boda de
      ejemplo y pruebas en `tests/e2e/conceptos.spec.ts`.
      Antes de llevarlo a producción: `npm run check` y la batería E2E completa, PR a `main`.

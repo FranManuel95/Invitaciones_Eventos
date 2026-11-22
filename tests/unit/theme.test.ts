@@ -132,6 +132,24 @@ describe("tema", () => {
   });
 });
 
+describe("el muestrario: las plantillas que se enseñan", () => {
+  it("las portadas ocultas siguen existiendo, pero ni ellas ni sus plantillas salen al público", async () => {
+    const theme = await import("@/lib/theme");
+    expect(theme.FEATURED_TEMPLATE_IDS.length).toBe(96);
+    expect(theme.HIDDEN_CONCEPT_COVERS.length).toBe(35);
+    for (const id of theme.HIDDEN_CONCEPT_COVERS) {
+      expect(theme.isConceptCover(id), id).toBe(true);
+      expect(theme.isShownCover(id), id).toBe(false);
+      expect(theme.TEMPLATE_IDS as readonly string[], id).toContain(id);
+      expect(theme.FEATURED_TEMPLATE_IDS as readonly string[], id).not.toContain(id);
+    }
+    // Ninguna plantilla del muestrario lleva una portada oculta.
+    for (const id of theme.FEATURED_TEMPLATE_IDS) {
+      expect(theme.isShownCover(theme.TEMPLATES[id].look.cover!), id).toBe(true);
+    }
+  });
+});
+
 describe("plantillas de concepto: carta, pase y apertura", () => {
   it("cada motivo de concepto tiene sus textos y su plantilla se abre con su objeto", async () => {
     const { MOTIF_IDS, MOTIFS, TEMPLATES } = await import("@/lib/theme");

@@ -1624,6 +1624,13 @@ olivo.
   impulsos hasta la pista; Olaya y Gerardo, Avilés). Estilos Sótano, Acero y Pista. Ya son 131
   plantillas (109 de objetos) y 132 portadas.
 - **Batería E2E completa** con todo hasta Diana: 741 pruebas bien y 5 omitidas.
+- **Criba del muestrario** (después de la trigesimoprimera tanda): las últimas plantillas de
+  concepto no están al nivel de las primeras (mismo esqueleto, gesto de solo botón, dibujo plano,
+  interior genérico) y algunas se repiten (globo y globos, llave, candado y caja fuerte, tren y
+  trenecito). Se ocultan 35 del muestrario de venta, de `/ejemplos` y de las galerías del editor
+  con `FEATURED_TEMPLATE_IDS` y `HIDDEN_CONCEPT_COVERS` (`isShownCover`). No se borran: siguen
+  abriéndose con `?plantilla=`/`?portada=` y en los eventos que ya las usan, y el editor enseña la
+  portada oculta si es la que tiene el evento. Quedan 96 plantillas y 97 portadas a la vista.
 
 ## Pendiente para próximas fases
 

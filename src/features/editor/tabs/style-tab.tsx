@@ -28,6 +28,7 @@ import {
   COVER_EFFECT_IDS,
   COVER_EFFECTS,
   COVER_IDS,
+  isShownCover,
   COVERS,
   CALENDARS,
   ENVELOPE_IDS,
@@ -647,7 +648,9 @@ function CoverPart() {
             {
               id: "objetos",
               label: "Objetos",
-              items: COVER_IDS.filter(isConceptCover).map(coverItem),
+              items: COVER_IDS.filter(
+                (id) => isConceptCover(id) && (isShownCover(id) || id === draft.theme.cover),
+              ).map(coverItem),
             },
           ]}
         />

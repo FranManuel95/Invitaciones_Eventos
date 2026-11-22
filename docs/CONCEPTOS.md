@@ -410,9 +410,11 @@ probar:
 Hechas también Cámara de carrete, Buzón, Termómetro del amor, Tendedero, Máquina de chicles y
 Diana (el barco en una botella se descarta por parecerse a Mensaje en una botella). Siguientes:
 
-1. **Linterna de bolsillo**: se enciende en una habitación a oscuras y el haz descubre la fecha.
-2. **Cerradura de candado de números**: se giran las ruedas hasta la fecha y se abre.
-3. **Patines**: se dan tres impulsos y se llega a la pista de baile.
+Hechas también Linterna, Caja fuerte y Patines. **Se acabó la cantidad**: las últimas tandas
+salieron con el mismo esqueleto, gestos de solo botón y dibujos planos. Se ocultan del muestrario
+(siguen funcionando con `?plantilla=` y en los eventos que ya las usan): Cometa, Reloj de arena, Barco de papel, Ramo de novia, Estuche de anillos, Piñata, Lluvia de arroz, Columpio, Hamaca, Molinillo de viento, Candado del amor, Huellas en la arena, Nevera, Pompas de jabón, Herradura, Grulla de papel, Hilo rojo, Pizarra, Postre flambeado, Acuario, Huerto, Telefonillo, Trenecito, Tarro de luciérnagas, Ramo de globos, Peonza, Castillo de arena, Cámara de carrete, Termómetro del amor, Tendedero, Máquina de chicles, Diana, Linterna, Caja fuerte y Patines. Se quedan
+25 de las nuevas, que son las que se pulen: un gesto de verdad con el dedo, más detalle en el
+dibujo y un interior propio. Antes de añadir otra, que esté al nivel de las primeras.
 
 ## Por dónde empezar
 

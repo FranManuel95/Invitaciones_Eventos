@@ -1,5 +1,5 @@
 import { FEATURED_TEMPLATE_IDS, isConceptCover, TEMPLATES } from "@/lib/theme";
-import { COVER_IDS, COVERS, isPaintedCover, type CoverId } from "@/lib/theme/cover";
+import { COVER_IDS, COVERS, isPaintedCover, isShownCover, type CoverId } from "@/lib/theme/cover";
 import { FILMS, OPENINGS, SHOWN_OPENING_IDS } from "@/lib/theme/envelope";
 import type { SampleFamily } from "./sample-book";
 
@@ -65,7 +65,7 @@ export function openingFamilies(): SampleFamily[] {
 
 /** Los fondos de la portada, por familias. «Vuestro vídeo» necesita un vídeo de la pareja. */
 export function coverFamilies(): SampleFamily[] {
-  const shown = COVER_IDS.filter((id) => id !== "video");
+  const shown = COVER_IDS.filter((id) => id !== "video" && isShownCover(id));
   const item = (id: CoverId) => ({
     id,
     label: COVERS[id].label,
