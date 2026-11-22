@@ -563,6 +563,31 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "¡Que aproveche!",
     pass: { kicker: "Sitio en el mantel", people: "Comensales", table: "Tu mesa en la pradera" },
   },
+  molinillo: {
+    object: "el molinillo",
+    carrier: "Traído por el viento",
+    letterhead: "Lo que trajo el viento",
+    signoff: "¡Sopla otra vez!",
+    pass: { kicker: "Pase de la feria", people: "Invitados" },
+  },
+  candado: {
+    object: "el candado",
+    carrier: "Colgado en el puente",
+    letterhead: "Cerrado para siempre",
+    signoff: "La llave, al río",
+    pass: { kicker: "Pase al puente", people: "Testigos" },
+  },
+  gramola: {
+    object: "la gramola",
+    carrier: "Lista de canciones",
+    letterhead: "Suena en la gramola",
+    signoff: "Otra moneda, por favor",
+    pass: {
+      kicker: "Ficha de la gramola",
+      people: "Bailarines",
+      table: "Tu mesa junto a la pista",
+    },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

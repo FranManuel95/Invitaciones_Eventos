@@ -1539,6 +1539,12 @@ olivo.
   están los platos del menú de la boda; Mónica y Aitor, Llanes). Estilos Invernal, Palmeral y
   Pradera. Ya son 95 plantillas (73 de objetos) y 96 portadas.
 - **Batería E2E completa** con todo hasta Paraguas: 597 pruebas bien y 5 omitidas.
+- **Vigésima tanda**: **Molinillo de viento** (los cuatro colores; al soplarlo gira; con movimiento
+  reducido, se queda girado; Celeste y Lisandro, Consuegra), **Candado del amor** (barandilla de
+  puente; al cerrarlo, la llave cae al río; Marisa y Germán, Castro Urdiales) y **Gramola** (arco
+  de neón y disco; al echar una moneda se enciende y suena «El primer baile»; la gramola no sabe las
+  canciones de la pareja, así que lleva tres huecos con nombre; Rebeca y Nacho, Peñíscola; portada
+  oscura). Estilos Molino, Puente y Rocola. Ya son 98 plantillas (76 de objetos) y 99 portadas.
 
 ## Pendiente para próximas fases
 

@@ -883,6 +883,29 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await expect(stage.getByText("Bonito en escabeche")).toBeVisible();
   });
 
+  test("molinillo: se sopla y gira", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=molinillo");
+    const stage = cover(page, "molinillo");
+    await stage.getByRole("button", { name: "Soplar el molinillo" }).click();
+    await expect(stage.locator("[data-molinillo]")).toHaveAttribute("data-molinillo", "girando");
+  });
+
+  test("candado: se cierra y la llave cae al río", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=candado");
+    const stage = cover(page, "candado");
+    await stage.getByRole("button", { name: "Cerrar el candado" }).click();
+    await expect(stage.locator("[data-candado]")).toHaveAttribute("data-candado", "cerrado");
+    await expect(stage.getByText(/la llave, al río/)).toBeVisible();
+  });
+
+  test("gramola: con una moneda suena el primer baile", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=gramola");
+    const stage = cover(page, "gramola");
+    await stage.getByRole("button", { name: "Echar una moneda" }).click();
+    await expect(stage.locator("[data-gramola]")).toHaveAttribute("data-gramola", "sonando");
+    await expect(stage.getByText(/Suena «El primer baile»/)).toBeVisible();
+  });
+
   test("faro: se enciende", async ({ page }) => {
     await page.goto("/i/familia-garcia?plantilla=faro");
     const stage = cover(page, "faro");

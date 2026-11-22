@@ -10890,3 +10890,370 @@ export const picnic = wedding({
   ],
   songs: ["Picnic", "Soleá", "Here Comes the Sun", "September", "Valerie", "Dancing Queen"],
 });
+
+export const molinillo = wedding({
+  id: "evt-demo-celeste-lisandro",
+  first: "Celeste",
+  second: "Lisandro",
+  date: "2027-05-08T18:00:00+02:00",
+  rsvpDeadline: "2027-04-01T23:59:00+02:00",
+  city: "Consuegra",
+  region: "Toledo",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-1.jpg",
+  cardMessage:
+    "Nos conocimos en la feria del pueblo: él vendía molinillos de papel y ella compró todos los azules.",
+  welcomeMessage:
+    "Nos casamos entre molinos, donde siempre sopla el viento. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Consuegra, por subir al cerro de los molinos y por bailar con el viento. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Juan Bautista",
+      kind: "Ceremonia",
+      address: "Plaza de España, 1",
+      note: "En el centro del pueblo. Hay parking junto al ayuntamiento.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Molino del Cerro Calderico",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Cerro Calderico, s/n",
+      note: "A 10 minutos, junto a los molinos y con vistas a toda la llanura.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [24, 10, 20],
+  program: [
+    ["18:00", "Ceremonia", "iglesia", "San Juan Bautista", "Con coro manchego.", "ceremony"],
+    [
+      "19:15",
+      "Aperitivo",
+      "finca",
+      "Entre los molinos",
+      "Con queso manchego y vino de la tierra.",
+      "cocktail",
+    ],
+    [
+      "20:45",
+      "Cena",
+      "finca",
+      "En la carpa del cerro",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["23:00", "Fiesta", "finca", "Con el viento a favor", "Baile y barra libre.", "party"],
+  ],
+  busRoutes: [
+    [
+      "toledo-c",
+      "Toledo → Consuegra",
+      "Estación de autobuses de Toledo",
+      "16:45",
+      ["02:00", "04:30"],
+      60,
+    ],
+    ["madrid-c", "Madrid → Consuegra", "Estación Sur, Madrid", "15:45", ["04:30"], 120],
+  ],
+  menu: {
+    carne: "Perdiz estofada",
+    pescado: "Bacalao con pisto",
+    vegetariano: "Migas con uvas",
+    vegano: "Gazpacho manchego de verduras",
+  },
+  dressCode: {
+    title: "Primavera de colores",
+    detail: "Los cuatro colores del molinillo. Arriba sopla el viento: nada de pamelas grandes.",
+    palette: [
+      { name: "Fresa", hex: "#ff6b6b" },
+      { name: "Girasol", hex: "#ffd166" },
+      { name: "Menta", hex: "#06d6a0" },
+      { name: "Cielo", hex: "#118ab2" },
+    ],
+    examples: [
+      "Vestido de un color vivo.",
+      "Traje claro con pajarita de color.",
+      "Un pañuelo para el pelo: el cerro es ventoso.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel La Vida de Antes",
+      "En el centro de Consuegra",
+      "Habitaciones reservadas hasta el 1 de abril.",
+    ],
+    ["Casa rural Los Molinos", "Al pie del cerro", "Con desayuno manchego."],
+  ],
+  story: {
+    intro:
+      "Un puesto de molinillos, todos los azules vendidos y ocho primaveras juntos. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "La feria",
+        "Ella compró todos los molinillos azules. Él le regaló uno rojo.",
+        "olivos",
+      ],
+      ["2022", "El primer molino", "Restauramos un molino viejo con amigos.", "terraza"],
+      [
+        "2026",
+        "La pedida",
+        "Con el anillo atado a un molinillo, en lo alto del cerro.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "El viento ya sopla. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Holanda", "Para ver otros molinos.", "Lo que queráis"],
+    ["Una cometa grande", "Para el cerro.", "60 €"],
+    ["Una bici de paseo", "Para la llanura.", "250 €"],
+    ["Una noche en un molino", "Para el aniversario.", "150 €"],
+  ],
+  kids: "Habrá monitores, molinillos de papel para hacer y cena para ellos.",
+  faq: ["¿Hará viento?", "Siempre. Por eso hay molinos. Trae algo de abrigo para la noche."],
+  guestbook: [
+    ["Los de la feria", "El molinillo rojo sigue en vuestra ventana."],
+    ["Abuela Sagrario", "Qué boda tan bonita, entre molinos."],
+    ["Rocío y Abel", "Nos pedimos el molinillo azul."],
+  ],
+  songs: [
+    "Molinos de viento",
+    "Blowin' in the Wind",
+    "El viento",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
+
+export const candado = wedding({
+  id: "evt-demo-marisa-german",
+  first: "Marisa",
+  second: "Germán",
+  date: "2027-09-11T18:30:00+02:00",
+  rsvpDeadline: "2027-08-01T23:59:00+02:00",
+  city: "Castro Urdiales",
+  region: "Cantabria",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-1.jpg",
+  cardMessage:
+    "En un viaje cerramos un candado en un puente y tiramos la llave. Ahora toca cerrar el de verdad.",
+  welcomeMessage:
+    "Cerramos el candado y tiramos la llave al mar. Aquí tienes todo lo que necesitas para verlo.",
+  thankYouMessage:
+    "Gracias por venir a Castro Urdiales y por colgar vuestro candado. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María de la Asunción",
+      kind: "Ceremonia",
+      address: "Calle Subida a Santa María, 1",
+      note: "Sobre el puerto. Hay parking en el paseo marítimo.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Puente del Castillo",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Paseo del Faro, 3",
+      note: "A 5 minutos, junto al puente medieval y frente al mar.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [22, 15, 30],
+  program: [
+    ["18:30", "Ceremonia", "iglesia", "Santa María", "Con el mar de fondo.", "ceremony"],
+    ["19:45", "Aperitivo", "finca", "En el puente", "Con anchoas y txakoli.", "cocktail"],
+    ["21:15", "Cena", "finca", "Frente al mar", "Con el menú que elijas al confirmar.", "banquet"],
+    ["23:30", "Fiesta", "finca", "Llave al mar", "Cada invitado cuelga su candado.", "party"],
+  ],
+  busRoutes: [
+    ["bilbao-c", "Bilbao → Castro Urdiales", "Termibus, Bilbao", "17:15", ["02:00", "04:30"], 40],
+    ["laredo", "Laredo → Castro Urdiales", "Paseo de Laredo", "17:45", ["04:30"], 25],
+  ],
+  menu: {
+    carne: "Solomillo de ternera cántabra",
+    pescado: "Bonito con tomate",
+    vegetariano: "Pimientos rellenos de verduras",
+    vegano: "Ensalada de alubias y pimientos",
+  },
+  dressCode: {
+    title: "Atardecer en el Cantábrico",
+    detail: "Rosa, gris hierro y un toque rojo. Al atardecer refresca: chaqueta.",
+    palette: [
+      { name: "Atardecer", hex: "#f6d7c3" },
+      { name: "Candado", hex: "#d23b52" },
+      { name: "Hierro", hex: "#2b2b2b" },
+      { name: "Mar", hex: "#3f5a70" },
+    ],
+    examples: [
+      "Vestido midi rosa o rojo.",
+      "Traje gris con corbata roja.",
+      "Trae tu candado: habrá rotulador para firmarlo.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel del Puerto de Castro",
+      "Junto al puerto",
+      "Habitaciones reservadas hasta el 1 de agosto.",
+    ],
+    ["Pensión del Castillo", "Junto al faro", "Con desayuno de domingo con vistas."],
+  ],
+  story: {
+    intro:
+      "Un candado en un puente de París, una llave al Sena y ocho años juntos. Esta es la versión corta.",
+    moments: [
+      ["2019", "El puente", "Cerramos un candado en París. La llave, al río.", "cala"],
+      ["2022", "La furgoneta", "Recorrimos todos los puentes del Cantábrico.", "furgoneta"],
+      ["2026", "La pedida", "Con el anillo colgado de un candado nuevo.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "El candado está listo. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a París", "Para volver al puente.", "Lo que queráis"],
+    ["Un candado grabado", "Para la puerta de casa.", "40 €"],
+    ["Un paseo en velero", "Por la costa.", "200 €"],
+    ["Una cena frente al mar", "Para el aniversario.", "90 €"],
+  ],
+  kids: "Habrá monitores, búsqueda de llaves y cena para ellos.",
+  faq: [
+    "¿Hay que llevar candado?",
+    "Si quieres. Si no, habrá candados para todos en el aperitivo.",
+  ],
+  guestbook: [
+    ["Los de París", "Aquella llave sigue en el fondo del Sena."],
+    ["Tía Begoña", "Qué boda más bonita junto al puente."],
+    ["Leire y Jon", "Hemos colgado el candado más grande."],
+  ],
+  songs: [
+    "Can't Help Falling in Love",
+    "La llave",
+    "Contigo",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
+
+export const gramola = wedding({
+  id: "evt-demo-rebeca-nacho",
+  first: "Rebeca",
+  second: "Nacho",
+  date: "2027-07-24T19:30:00+02:00",
+  rsvpDeadline: "2027-06-10T23:59:00+02:00",
+  city: "Peñíscola",
+  region: "Castellón",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-2.jpg",
+  cardMessage:
+    "Nos conocimos en un bar con gramola: los dos echamos una moneda para la misma canción.",
+  welcomeMessage:
+    "La gramola ya tiene monedas y la pista está lista. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Peñíscola y por elegir tantas canciones. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Ermita de la Virgen de la Ermitana",
+      kind: "Ceremonia",
+      address: "Calle del Castillo, 2",
+      note: "Junto al castillo del Papa Luna. Hay parking a la entrada del casco.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Sala Gramola",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Paseo Marítimo, 44",
+      note: "A 10 minutos, con terraza al mar y una gramola de verdad.",
+      photo: "pista",
+    },
+  ],
+  climate: [30, 22, 5],
+  program: [
+    ["19:30", "Ceremonia", "iglesia", "La Ermitana", "Con guitarra española.", "ceremony"],
+    [
+      "20:45",
+      "Aperitivo",
+      "finca",
+      "En la terraza",
+      "Con langostinos de Vinaròs y cava.",
+      "cocktail",
+    ],
+    ["22:00", "Cena", "finca", "En la sala", "Con el menú que elijas al confirmar.", "banquet"],
+    ["00:00", "Fiesta", "finca", "La gramola", "Cada invitado elige una canción.", "party"],
+  ],
+  busRoutes: [
+    [
+      "castellon",
+      "Castellón → Peñíscola",
+      "Estación de Castellón",
+      "18:00",
+      ["03:00", "05:30"],
+      60,
+    ],
+    ["vinaros", "Vinaròs → Peñíscola", "Plaza de Vinaròs", "18:45", ["05:30"], 15],
+  ],
+  menu: {
+    carne: "Entrecot con salsa de vino",
+    pescado: "Arroz a banda",
+    vegetariano: "Arroz de verduras",
+    vegano: "Coca de verduras asadas",
+  },
+  dressCode: {
+    title: "Noche de gramola",
+    detail: "Naranja neón, vino y negro. Zapatos para bailar toda la noche.",
+    palette: [
+      { name: "Neón", hex: "#ff9e3d" },
+      { name: "Vino", hex: "#5a2a1c" },
+      { name: "Vinilo", hex: "#1a1a1a" },
+      { name: "Crema", hex: "#fbeee6" },
+    ],
+    examples: [
+      "Vestido de los cincuenta con vuelo.",
+      "Camisa estampada y tirantes.",
+      "Una moneda en el bolsillo para la gramola.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Papa Luna", "Frente al castillo", "Habitaciones reservadas hasta el 10 de junio."],
+    ["Hostal del Puerto", "Junto al puerto", "Con desayuno hasta las 13:00."],
+  ],
+  story: {
+    intro: "Dos monedas para la misma canción y nueve años bailando. Esta es la versión corta.",
+    moments: [
+      ["2018", "La gramola", "Echamos una moneda a la vez para la misma canción.", "cala"],
+      ["2021", "El tocadiscos", "Juntamos nuestros vinilos en una sola estantería.", "furgoneta"],
+      ["2026", "La pedida", "En el mismo bar, con la misma canción.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "La gramola ya suena. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Memphis", "Para ver Graceland.", "Lo que queráis"],
+    ["Una gramola de verdad", "Algún día.", "500 €"],
+    ["Vinilos para la colección", "Los que tú elijas.", "40 €"],
+    ["Clases de rock and roll", "Para el próximo baile.", "120 €"],
+  ],
+  kids: "Habrá monitores, mini disco y cena para ellos.",
+  faq: [
+    "¿Puedo pedir una canción?",
+    "Claro: en la confirmación hay un hueco para ella. La pondremos en la gramola.",
+  ],
+  guestbook: [
+    ["Los del bar", "Aquella canción sonó dos veces seguidas."],
+    ["Abuelo Vicent", "Qué bien se baila con vosotros."],
+    ["Andrea y Lucas", "Hemos echado veinte monedas."],
+  ],
+  songs: [
+    "Rock Around the Clock",
+    "Jailhouse Rock",
+    "La gramola",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});

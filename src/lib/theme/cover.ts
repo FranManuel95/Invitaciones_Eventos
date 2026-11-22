@@ -102,6 +102,9 @@ export const COVER_IDS = [
   "cascanueces",
   "hamaca",
   "picnic",
+  "molinillo",
+  "candado",
+  "gramola",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -511,6 +514,19 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     description:
       "Una cesta de mimbre sobre el mantel de cuadros: se levanta la tapa y sale el menú.",
   },
+  molinillo: {
+    label: "Molinillo de viento",
+    description: "Un molinillo de papel de colores: se sopla, gira y el viento trae la fecha.",
+  },
+  candado: {
+    label: "Candado del amor",
+    description: "Un candado con vuestras iniciales: se cierra en el puente y la llave cae al río.",
+  },
+  gramola: {
+    label: "Gramola",
+    description:
+      "Una gramola con luces: se echa una moneda, gira el disco y suena el primer baile.",
+  },
 };
 
 /**
@@ -592,6 +608,9 @@ export const CONCEPT_COVERS = {
   cascanueces: { ink: "#f4ead6", paper: "#122319", tone: "oscuro" },
   hamaca: { ink: "#3a2416", paper: "#ffd7a8" },
   picnic: { ink: "#3a2416", paper: "#fbf5ea" },
+  molinillo: { ink: "#1f2d33", paper: "#eef6f2" },
+  candado: { ink: "#2c1c1c", paper: "#f6d7c3" },
+  gramola: { ink: "#fbeee6", paper: "#14080f", tone: "oscuro" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -751,6 +770,9 @@ export const MOTIF_IDS = [
   "cascanueces",
   "hamaca",
   "picnic",
+  "molinillo",
+  "candado",
+  "gramola",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -838,4 +860,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   cascanueces: { label: "Cuento de invierno", kind: "concepto" },
   hamaca: { label: "Hamaca", kind: "concepto" },
   picnic: { label: "Pícnic", kind: "concepto" },
+  molinillo: { label: "Molinillo", kind: "concepto" },
+  candado: { label: "Candado del amor", kind: "concepto" },
+  gramola: { label: "Gramola", kind: "concepto" },
 };
