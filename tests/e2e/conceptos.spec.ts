@@ -69,6 +69,9 @@ const CONCEPTS = [
   { id: "cometa", names: /Ariadna y Ciro/, date: "12 de junio de 2027", opening: "concepto" },
   { id: "reloj", names: /Miriam y Saúl/, date: "9 de octubre de 2027", opening: "concepto" },
   { id: "faro", names: /Estela y Unai/, date: "21 de agosto de 2027", opening: "concepto" },
+  { id: "musica", names: /Celia y Bosco/, date: "24 de abril de 2027", opening: "concepto" },
+  { id: "farolillo", names: /Lorena y Iñaki/, date: "17 de julio de 2027", opening: "concepto" },
+  { id: "barco", names: /Maite y Fermín/, date: "25 de septiembre de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -671,6 +674,36 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
       timeout: 8000,
     });
     await expect(stage.getByText("¡Se acabó la espera!")).toBeVisible();
+  });
+
+  test("caja de música: con tres vueltas de cuerda suena", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=musica");
+    const stage = cover(page, "musica");
+    for (const n of [0, 1, 2]) {
+      await stage.getByRole("button", { name: `Dar cuerda (${n}/3)` }).click();
+    }
+    await expect(stage.locator("[data-musicbox]")).toHaveAttribute("data-musicbox", "sonando");
+    await expect(stage.getByText(/En Úbeda, a bailar/)).toBeVisible();
+  });
+
+  test("farolillo: se enciende y sube", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=farolillo");
+    const stage = cover(page, "farolillo");
+    await stage.getByRole("button", { name: "Encender el farolillo" }).click();
+    await expect(stage.locator("[data-lantern]")).toHaveAttribute("data-lantern", "en-el-cielo", {
+      timeout: 8000,
+    });
+  });
+
+  test("barco: navega hasta el muelle", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=barco");
+    const stage = cover(page, "barco");
+    await expect(stage.getByText("Pazo do Peirao")).toBeVisible();
+    await stage.getByRole("button", { name: "Soltar el barco" }).click();
+    await expect(stage.locator("[data-boat]")).toHaveAttribute("data-boat", "en-puerto", {
+      timeout: 8000,
+    });
+    await expect(stage.getByText(/Ha llegado a Combarro/)).toBeVisible();
   });
 
   test("faro: se enciende", async ({ page }) => {

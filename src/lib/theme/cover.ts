@@ -80,6 +80,9 @@ export const COVER_IDS = [
   "cometa",
   "reloj",
   "faro",
+  "musica",
+  "farolillo",
+  "barco",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -394,6 +397,19 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Faro",
     description: "Un faro de noche en la costa: al encenderlo, su haz os guía hasta la boda.",
   },
+  musica: {
+    label: "Caja de música",
+    description: "Se le da cuerda tres veces, se abre la tapa y la bailarina gira con la melodía.",
+  },
+  farolillo: {
+    label: "Farolillo de papel",
+    description:
+      "Un farolillo con vuestros nombres: se enciende la mecha y sube al cielo de noche.",
+  },
+  barco: {
+    label: "Barco de papel",
+    description: "Se suelta en el agua y navega hasta el muelle del lugar de la boda.",
+  },
 };
 
 /**
@@ -454,6 +470,9 @@ export const CONCEPT_COVERS = {
   cometa: { ink: "#2a3340", paper: "#d8ecf3" },
   reloj: { ink: "#3a2616", paper: "#efe4cc" },
   faro: { ink: "#e9eef6", paper: "#0f1a33", tone: "oscuro" },
+  musica: { ink: "#4a1f2a", paper: "#f3dde2" },
+  farolillo: { ink: "#f6ead8", paper: "#1c1436", tone: "oscuro" },
+  barco: { ink: "#1f3b44", paper: "#eee7d8" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -591,6 +610,9 @@ export const MOTIF_IDS = [
   "cometa",
   "reloj",
   "faro",
+  "musica",
+  "farolillo",
+  "barco",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -657,4 +679,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   cometa: { label: "Día de cometas", kind: "concepto" },
   reloj: { label: "Reloj de arena", kind: "concepto" },
   faro: { label: "Faro", kind: "concepto" },
+  musica: { label: "Caja de música", kind: "concepto" },
+  farolillo: { label: "Farolillos", kind: "concepto" },
+  barco: { label: "Barco de papel", kind: "concepto" },
 };

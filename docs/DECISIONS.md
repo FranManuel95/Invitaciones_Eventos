@@ -1482,6 +1482,13 @@ olivo.
   Traen su cera y su forma, así que no usan las elegidas; en el sobre 3D, que pinta el lacre en un
   lienzo, se dibuja el grabado más parecido (`drawnSealMark`). Cometa lleva la concha y Faro la
   estrella azul marino.
+- **Decimotercera tanda**: **Caja de música** (tres vueltas de cuerda; se abre la tapa con espejo,
+  gira la bailarina y suena una nana; Celia y Bosco, Úbeda; lleva el corazón rosa), **Farolillo
+  de papel** (cielo violeta con otros farolillos; al encender la mecha sube con los nombres; Lorena
+  e Iñaki, Albarracín; portada oscura; lleva el sol de terracota) y **Barco de papel** (se suelta
+  en la ría y navega hasta el muelle con el nombre del lugar; Maite y Fermín, Combarro; lleva la
+  concha). Estilos Bailarina, Deseo y Papiroflexia. Ya son 76 plantillas (55 de objetos) y 77
+  portadas.
 
 ## Pendiente para próximas fases
 

@@ -9,7 +9,7 @@ test.describe("editor de la invitación", () => {
     await expect(preview.locator("[data-style='mediterraneo']")).toBeAttached();
 
     await page.getByRole("tab", { name: "Colores" }).click();
-    await page.getByRole("radio", { name: /Noche/ }).check({ force: true });
+    await page.getByRole("radio", { name: /^Noche Azul/ }).check({ force: true });
     await expect(preview.locator("[data-style='noche']")).toBeAttached();
 
     await page.getByRole("tab", { name: "Pareja y fecha" }).click();

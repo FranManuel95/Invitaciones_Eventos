@@ -8380,3 +8380,354 @@ export const faro = wedding({
   ],
   songs: ["Lighthouse", "Mediterráneo", "La luz", "September", "Valerie", "Dancing Queen"],
 });
+
+export const musica = wedding({
+  id: "evt-demo-celia-bosco",
+  first: "Celia",
+  second: "Bosco",
+  date: "2027-04-24T13:00:00+02:00",
+  rsvpDeadline: "2027-03-15T23:59:00+01:00",
+  city: "Úbeda",
+  region: "Jaén",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-1.jpg",
+  cardMessage:
+    "Nos conocimos en un anticuario, los dos queriendo la misma caja de música. Ahora es de los dos.",
+  welcomeMessage:
+    "Dale cuerda y escucha: suena nuestra canción. Aquí tienes todo lo que necesitas para bailarla con nosotros.",
+  thankYouMessage:
+    "Gracias por bailar con nosotros entre olivos y piedra dorada. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Sacra Capilla del Salvador",
+      kind: "Ceremonia",
+      address: "Plaza Vázquez de Molina, s/n",
+      note: "En la plaza renacentista. Hay parking en la plaza de Andalucía.",
+      photo: "ermitaOlivos",
+    },
+    {
+      id: "finca",
+      name: "Palacio de la Melodía",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Calle Real, 21",
+      note: "A 5 minutos andando, con patio de columnas y salón de baile.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [23, 10, 25],
+  program: [
+    ["13:00", "Ceremonia", "iglesia", "El Salvador", "Con cuarteto de cuerda y piano.", "ceremony"],
+    [
+      "14:15",
+      "Aperitivo",
+      "finca",
+      "En el patio",
+      "Con aceite de la tierra y vino fino.",
+      "cocktail",
+    ],
+    [
+      "15:30",
+      "Comida",
+      "finca",
+      "En el salón de baile",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["18:30", "Fiesta", "finca", "Al compás", "Primer baile con la melodía de la caja.", "party"],
+  ],
+  busRoutes: [
+    ["jaen", "Jaén → Úbeda", "Estación de autobuses de Jaén", "11:45", ["21:00", "00:30"], 50],
+    ["baeza", "Baeza → Úbeda", "Plaza del Pópulo, Baeza", "12:30", ["00:30"], 15],
+  ],
+  menu: {
+    carne: "Cordero segureño",
+    pescado: "Bacalao con pisto",
+    vegetariano: "Andrajos de setas",
+    vegano: "Pipirrana con aceite nuevo",
+  },
+  dressCode: {
+    title: "Primavera de gala",
+    detail: "Rosa empolvado, oro y marfil. Hay suelo de piedra: tacón ancho mejor.",
+    palette: [
+      { name: "Bailarina", hex: "#f2b8c6" },
+      { name: "Oro", hex: "#c9a65d" },
+      { name: "Marfil", hex: "#fdf7f8" },
+      { name: "Vino", hex: "#7a2e3e" },
+    ],
+    examples: [
+      "Vestido de tul o de seda.",
+      "Traje claro con pajarita.",
+      "Zapatos para bailar: habrá vals.",
+    ],
+  },
+  accommodation: [
+    ["Parador de Úbeda", "En la misma plaza", "Habitaciones reservadas hasta el 15 de marzo."],
+    ["Hotel Palacio de Baeza", "A 10 minutos", "Con traslado de vuelta incluido."],
+  ],
+  story: {
+    intro:
+      "Una caja de música, un anticuario y siete años bailando la misma canción. Esta es la versión corta.",
+    moments: [
+      ["2020", "El anticuario", "Los dos queríamos la caja. Acabamos compartiendo café.", "olivos"],
+      ["2022", "El primer vals", "En la boda de una prima, sin saber bailar.", "terraza"],
+      ["2026", "La pedida", "Con el anillo dentro de la caja, sonando.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "La caja ya tiene cuerda. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Viena", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Clases de baile", "Para el próximo vals.", "150 €"],
+    ["Un tocadiscos antiguo", "Para el salón.", "250 €"],
+    ["Una vajilla de Úbeda", "Cerámica verde de la tierra.", "180 €"],
+  ],
+  kids: "Habrá monitores, cajas de música para pintar y comida para ellos.",
+  faq: ["¿Hay que saber bailar?", "No: habrá vals, pero también de todo lo demás."],
+  guestbook: [
+    ["Los del anticuario", "Al final la caja fue de los dos. Como tenía que ser."],
+    ["Abuela Amparo", "Qué bonito el vals. Me habéis hecho llorar."],
+    ["Nacho y Leyre", "Nos pedimos la próxima canción."],
+  ],
+  songs: [
+    "Vals del Emperador",
+    "La vie en rose",
+    "Moon River",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
+
+export const farolillo = wedding({
+  id: "evt-demo-lorena-inaki",
+  first: "Lorena",
+  second: "Iñaki",
+  date: "2027-07-17T20:00:00+02:00",
+  rsvpDeadline: "2027-06-01T23:59:00+02:00",
+  city: "Albarracín",
+  region: "Teruel",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-4.jpg",
+  cardMessage:
+    "Nos conocimos soltando farolillos en una verbena. Pedimos el mismo deseo sin saberlo.",
+  welcomeMessage:
+    "Nos casamos al anochecer, entre murallas y farolillos. Aquí tienes todo lo que necesitas para pedir tu deseo con nosotros.",
+  thankYouMessage:
+    "Gracias por subir hasta Albarracín, por soltar vuestros farolillos y por bailar bajo las estrellas. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María",
+      kind: "Ceremonia",
+      address: "Calle de Santa María, 1",
+      note: "En lo alto del pueblo. Hay parking a la entrada, junto al río.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Masía de los Deseos",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camino del Guadalaviar, km 2",
+      note: "A 5 minutos, con pradera para soltar los farolillos.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [29, 13, 10],
+  program: [
+    ["20:00", "Ceremonia", "iglesia", "Santa María", "Al atardecer, con coro.", "ceremony"],
+    ["21:15", "Aperitivo", "finca", "En la pradera", "Con jamón de Teruel y vino.", "cocktail"],
+    [
+      "22:30",
+      "Cena",
+      "finca",
+      "Bajo las estrellas",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "00:30",
+      "Fiesta",
+      "finca",
+      "Suelta de farolillos",
+      "Un deseo cada uno y baile hasta tarde.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["teruel", "Teruel → Albarracín", "Plaza del Torico, Teruel", "19:00", ["03:00", "05:00"], 40],
+    ["valencia", "Valencia → Albarracín", "Estación de Joaquín Sorolla", "17:00", ["05:00"], 150],
+  ],
+  menu: {
+    carne: "Ternasco de Aragón",
+    pescado: "Trucha del Guadalaviar",
+    vegetariano: "Pisto con huevo de corral",
+    vegano: "Migas de verduras",
+  },
+  dressCode: {
+    title: "Noche de verano",
+    detail: "Colores cálidos al anochecer. En la sierra refresca de noche: trae chaqueta.",
+    palette: [
+      { name: "Farolillo", hex: "#ffb35c" },
+      { name: "Noche", hex: "#1c1436" },
+      { name: "Teja", hex: "#b5532a" },
+      { name: "Luna", hex: "#f6ead8" },
+    ],
+    examples: [
+      "Vestido largo en tonos cálidos.",
+      "Traje de lino con chaqueta para la noche.",
+      "Calzado cómodo: hay cuestas y pradera.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Casa de Santiago",
+      "En el casco antiguo",
+      "Habitaciones reservadas hasta el 1 de junio.",
+    ],
+    ["Hostal de la Muralla", "A 5 minutos andando", "Con desayuno tarde para el domingo."],
+  ],
+  story: {
+    intro:
+      "Dos farolillos, un mismo deseo y seis años de noches de verano. Esta es la versión corta.",
+    moments: [
+      ["2021", "La verbena", "Soltamos el farolillo a la vez. Se fueron juntos.", "olivos"],
+      ["2023", "La casa", "Un piso con terraza para ver las estrellas.", "terraza"],
+      ["2026", "La pedida", "Con el anillo atado a un farolillo que no despegó.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "La mecha está encendida. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Laponia", "Para ver auroras.", "Lo que queráis"],
+    ["Un telescopio", "Para la terraza.", "300 €"],
+    ["Una noche en un mirador de estrellas", "En Teruel, claro.", "180 €"],
+    ["Farolillos para el aniversario", "Un deseo al año.", "60 €"],
+  ],
+  kids: "Habrá monitores, farolillos de papel para pintar y cena para ellos.",
+  faq: [
+    "¿Los farolillos son seguros?",
+    "Son biodegradables y con permiso; los soltamos en la pradera, lejos del pinar.",
+  ],
+  guestbook: [
+    ["Los de la verbena", "Ya sabemos qué deseo pedisteis."],
+    ["Tío Ramón", "Qué noche más bonita. Y qué cielo."],
+    ["Elena y Javi", "Nos pedimos el farolillo más grande."],
+  ],
+  songs: ["Starlight", "Fix You", "Lucía", "September", "Valerie", "Dancing Queen"],
+});
+
+export const barco = wedding({
+  id: "evt-demo-maite-fermin",
+  first: "Maite",
+  second: "Fermín",
+  date: "2027-09-25T17:30:00+02:00",
+  rsvpDeadline: "2027-08-15T23:59:00+02:00",
+  city: "Combarro",
+  region: "Pontevedra",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/historia-3.jpg",
+  cardMessage:
+    "Nos conocimos haciendo barcos de papel en una boda ajena. El suyo flotó; el de ella, también.",
+  welcomeMessage:
+    "Nos casamos junto a la ría, entre hórreos y barcas. Aquí tienes todo lo que necesitas para llegar a buen puerto.",
+  thankYouMessage:
+    "Gracias por cruzar la ría con nosotros, por la queimada y por cada baile. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Roque",
+      kind: "Ceremonia",
+      address: "Rúa San Roque, 2",
+      note: "Junto a la ría. Hay parking a la entrada del pueblo.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Pazo do Peirao",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camiño do Peirao, 8",
+      note: "A 5 minutos, con jardín sobre el agua y muelle propio.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [22, 13, 30],
+  program: [
+    ["17:30", "Ceremonia", "iglesia", "San Roque", "Con gaita a la salida.", "ceremony"],
+    [
+      "18:45",
+      "Aperitivo",
+      "finca",
+      "En el muelle",
+      "Con marisco de la ría y albariño.",
+      "cocktail",
+    ],
+    ["20:30", "Cena", "finca", "En el jardín", "Con el menú que elijas al confirmar.", "banquet"],
+    [
+      "23:00",
+      "Fiesta",
+      "finca",
+      "Con queimada",
+      "Conjuro, baile y barcos de papel en el agua.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "pontevedra",
+      "Pontevedra → Combarro",
+      "Estación de Pontevedra",
+      "16:45",
+      ["01:30", "04:00"],
+      20,
+    ],
+    ["vigo", "Vigo → Combarro", "Praza de América, Vigo", "16:15", ["04:00"], 45],
+  ],
+  menu: {
+    carne: "Ternera gallega",
+    pescado: "Rodaballo con ajada",
+    vegetariano: "Empanada de verduras",
+    vegano: "Grelos con patatas y pimentón",
+  },
+  dressCode: {
+    title: "Ría de septiembre",
+    detail: "Azul petróleo, blanco papel y verde ría. Puede llover: lleva paraguas bonito.",
+    palette: [
+      { name: "Papel", hex: "#fbfaf6" },
+      { name: "Ría", hex: "#8fb7bd" },
+      { name: "Petróleo", hex: "#1f3b44" },
+      { name: "Hórreo", hex: "#b8a98e" },
+    ],
+    examples: [
+      "Vestido midi con chaqueta ligera.",
+      "Traje azul con zapato de cordones.",
+      "Un paraguas: en Galicia, por si acaso.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Peirao de Combarro", "En el puerto", "Habitaciones reservadas hasta el 15 de agosto."],
+    ["Casa dos Hórreos", "A 5 minutos andando", "Con desayuno de domingo con vistas a la ría."],
+  ],
+  story: {
+    intro:
+      "Dos barcos de papel, una boda ajena y siete años navegando juntos. Esta es la versión corta.",
+    moments: [
+      ["2020", "Los barcos", "En la boda de unos amigos, en una fuente. Los dos flotaron.", "cala"],
+      ["2023", "La furgoneta", "Un verano entero de rías en rías.", "furgoneta"],
+      ["2026", "La pedida", "Con el anillo en un barco de papel, en la ría.", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "El barco ya está en el agua. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a los fiordos", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Un kayak doble", "Para seguir navegando juntos.", "400 €"],
+    ["Una vajilla de Sargadelos", "Para las cenas de casa.", "200 €"],
+    ["Una noche en un faro", "En la Costa da Morte.", "250 €"],
+  ],
+  kids: "Habrá monitores, barcos de papel para la fuente y cena para ellos.",
+  faq: ["¿Y si llueve?", "Tenemos carpa sobre el jardín y paraguas para todos."],
+  guestbook: [
+    ["Los de la fuente", "Sabíamos que esos barcos llegarían a puerto."],
+    ["Avoa Carmiña", "Que boda máis bonita, cariño."],
+    ["Uxía y Brais", "Nos pedimos la queimada."],
+  ],
+  songs: ["Sailing", "Mar adentro", "Mediterráneo", "September", "Valerie", "Dancing Queen"],
+});

@@ -416,6 +416,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Seguid la luz",
     pass: { kicker: "Pase de embarque", people: "Tripulación", table: "Tu mesa en cubierta" },
   },
+  musica: {
+    object: "la caja de música",
+    carrier: "Partitura guardada",
+    letterhead: "Al compás de la caja",
+    signoff: "Dale cuerda otra vez",
+    pass: { kicker: "Entrada al baile", people: "Bailarines" },
+  },
+  farolillo: {
+    object: "el farolillo",
+    carrier: "Deseo de papel",
+    letterhead: "Escrito en el farolillo",
+    signoff: "Que se cumpla",
+    pass: { kicker: "Pase de la noche", people: "Invitados" },
+  },
+  barco: {
+    object: "el barco de papel",
+    carrier: "Carta doblada",
+    letterhead: "A bordo del barco de papel",
+    signoff: "Rumbo a la boda",
+    pass: { kicker: "Pase de embarque", people: "Grumetes", table: "Tu mesa en el muelle" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

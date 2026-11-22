@@ -8,7 +8,7 @@ Rama de trabajo: `claude/tender-franklin-isgz7b` (PR #6 contra `main`, sin fusio
 continuación (Telegrama y Postal, ronda 19) está en `claude/exciting-franklin-43k083`, que parte
 de esa rama y la contiene entera.
 
-**Hechas las cincuenta y dos**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
+**Hechas las cincuenta y cinco**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
 las diez de la ronda 20 (Vinilo, Pasaporte, Carta, Mapa, Constelación, Cómic, Cosecha, Tarot,
 Arcade y Semillas) e Instantánea, Abanico, Cerillas, Galleta de la suerte, Casete y Mensaje en una botella (ronda
 38, en `cover/concepts-new.tsx`) y Crucigrama, Billete de tren y Receta de la abuela (ronda 38, en
@@ -21,7 +21,8 @@ Arcade y Semillas) e Instantánea, Abanico, Cerillas, Galleta de la suerte, Case
 `cover/concepts-new8.tsx`) y Puzle, Tarta nupcial y Entrada de cine (ronda 38, en
 `cover/concepts-new9.tsx`) y Globo aerostático, Bola de nieve y Brindis (ronda 38, en
 `cover/concepts-new10.tsx`) y Cometa, Reloj de arena y Faro (ronda 38, en
-`cover/concepts-new11.tsx`). Las fichas de abajo se conservan como referencia de lo que se
+`cover/concepts-new11.tsx`) y Caja de música, Farolillo de papel y Barco de papel (ronda 38, en
+`cover/concepts-new12.tsx`). Las fichas de abajo se conservan como referencia de lo que se
 construyó; lo que queda es lo de «Pendiente en las que ya existen», que vale para todas.
 
 Dónde está cada cosa ahora: piezas comunes en `cover/concept-kit.tsx`; portadas en
@@ -379,11 +380,12 @@ Objetos reconocibles en un segundo y con un gesto que solo tiene sentido en ello
 
 Hechas en la ronda 38: Galleta de la suerte, Casete, Crucigrama, Receta, Billete de tren,
 Entrada de concierto, Cartel de feria, Ficha de biblioteca, Llave de hotel, Partitura, Brújula,
-Cometa, Reloj de arena y Faro. Quedan por probar:
+Cometa, Reloj de arena, Faro, Caja de música, Farolillo de papel y Barco de papel. Quedan por
+probar:
 
-1. **Caja de música**: se le da cuerda y la bailarina gira mientras suena la melodía de la boda.
-2. **Farolillo de papel**: se enciende la mecha y sube al cielo de noche con la fecha.
-3. **Barco de papel**: se dobla con gestos y navega hasta el lugar de la boda.
+1. **Herbario**: una flor prensada entre dos hojas; al abrir el cuaderno, la etiqueta lleva la fecha.
+2. **Cartas de amor atadas**: un fajo con cinta; se tira del lazo y caen las cartas con el programa.
+3. **Llave de la casa nueva**: un llavero que se gira en la cerradura y abre la puerta del lugar.
 
 ## Por dónde empezar
 

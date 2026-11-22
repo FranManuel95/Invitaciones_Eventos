@@ -2788,6 +2788,148 @@
   content: "Seguid la luz";
 }
 
+/* Caja de música: cada sección es un compás. */
+[data-motif="musica"] {
+  counter-reset: compas;
+}
+[data-motif="musica"] .motif-hero {
+  background: radial-gradient(circle at 50% 30%, #fdf2f4, var(--color-paper) 70%);
+}
+[data-motif="musica"] section[id] {
+  counter-increment: compas;
+}
+[data-motif="musica"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="musica"] .motif-sprig::before {
+  content: "";
+  width: 0.8rem;
+  height: 1.2rem;
+  background:
+    radial-gradient(circle at 30% 80%, var(--color-gold) 0 0.3rem, transparent 0.32rem),
+    linear-gradient(var(--color-gold), var(--color-gold)) 85% 0 / 0.12rem 80% no-repeat;
+}
+[data-motif="musica"] .motif-sprig::after {
+  content: "Compás " counter(compas);
+}
+[data-motif="musica"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="musica"] .motif-closing::before {
+  content: "Dale cuerda otra vez";
+}
+
+/* Farolillo: cada sección es un farolillo que sube. */
+[data-motif="farolillo"] {
+  counter-reset: farol;
+}
+[data-motif="farolillo"] .motif-hero {
+  background:
+    radial-gradient(circle, rgb(255 179 92 / 0.25) 0 1.5px, transparent 2px) 0 0 / 26px 26px,
+    var(--color-paper);
+}
+[data-motif="farolillo"] section[id] {
+  counter-increment: farol;
+}
+[data-motif="farolillo"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="farolillo"] .motif-sprig::before {
+  content: "";
+  width: 0.8rem;
+  height: 1.1rem;
+  border-radius: 45% 45% 20% 20%;
+  background: radial-gradient(circle at 50% 70%, #fff1c9, var(--color-gold) 70%);
+  box-shadow: 0 0 10px 2px rgb(255 170 80 / 0.5);
+}
+[data-motif="farolillo"] .motif-sprig::after {
+  content: "Farolillo " counter(farol);
+}
+[data-motif="farolillo"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="farolillo"] .motif-closing::before {
+  content: "Que se cumpla";
+}
+
+/* Barco de papel: cada sección es un pliegue. */
+[data-motif="barco"] {
+  counter-reset: pliegue;
+}
+[data-motif="barco"] .motif-hero {
+  background: linear-gradient(180deg, var(--color-paper) 60%, #dfe9e8);
+}
+[data-motif="barco"] section[id] {
+  counter-increment: pliegue;
+}
+[data-motif="barco"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="barco"] .motif-sprig::before {
+  content: "";
+  width: 1.3rem;
+  height: 0.9rem;
+  background: var(--color-gold);
+  clip-path: polygon(50% 0, 50% 55%, 100% 55%, 82% 100%, 18% 100%, 0 55%, 50% 55%);
+}
+[data-motif="barco"] .motif-sprig::after {
+  content: "Pliegue " counter(pliegue);
+}
+[data-motif="barco"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="barco"] .motif-closing::before {
+  content: "Rumbo a la boda";
+}
+
+@keyframes musicbox-spin {
+  to {
+    transform: rotateY(360deg);
+  }
+}
+@keyframes boat-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(2deg);
+  }
+}
+
 @keyframes faro-sweep {
   0%,
   100% {
@@ -3409,6 +3551,22 @@
 [data-motif="faro"] .concept-carrier {
   background: #18264a;
   border: 2px solid var(--color-gold);
+}
+
+/* Caja de música: estuche de terciopelo. */
+[data-motif="musica"] .concept-carrier {
+  background: var(--color-cream);
+  border: 2px solid var(--color-gold);
+}
+/* Farolillo: papel de seda. */
+[data-motif="farolillo"] .concept-carrier {
+  background: #251c44;
+  border: 2px solid var(--color-gold);
+}
+/* Barco de papel: hoja doblada. */
+[data-motif="barco"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 2px solid var(--color-ink);
 }
 
 [data-motif-kind="concepto"] .motif-closing > * {
