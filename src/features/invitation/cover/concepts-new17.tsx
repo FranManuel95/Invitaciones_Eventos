@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type PointerEvent } from "react";
+import { animate } from "motion/react";
+import { useRef, useState, type PointerEvent } from "react";
 import type { WeddingEvent } from "@/lib/domain/types";
 import { hostNames, hostsOf } from "@/lib/event-kind";
 import { formatLongDate, isoDay } from "@/lib/format";
@@ -185,13 +186,62 @@ const DROPS = Array.from({ length: 40 }, (_, i) => ({
   dur: 0.7 + ((i * 7) % 6) / 10,
 }));
 
+/** Lo que hay que subir el dedo (en píxeles) para abrir el paraguas entero. */
+const UMBRELLA_PUSH = 130;
+/** Las varillas que se ven de lado: el ángulo de cada una alrededor del mástil. */
+const RIBS = [180, 135, 90, 45, 0];
+
 function UmbrellaCover({ event, onOpen, reduce }: ConceptProps) {
+  // `o` va de 0 (plegado) a 1 (abierto); el corredor sube por el mástil al abrirlo.
+  const [o, setO] = useState(0);
   const [open, setOpen] = useState(false);
-  const unfurl = () => {
-    if (open) return;
+  const drag = useRef<{ y: number; start: number; moved: boolean } | null>(null);
+  const click = () => {
     setOpen(true);
     playPaper(0.4);
     haptic([12, 30, 12]);
+  };
+  const unfurl = (from = o) => {
+    if (open) return;
+    if (reduce) {
+      setO(1);
+      click();
+      return;
+    }
+    animate(from, 1, {
+      duration: 0.5 * (1 - from) + 0.15,
+      ease: "easeOut",
+      onUpdate: setO,
+      onComplete: click,
+    });
+  };
+  const letGo = (from: number) => {
+    if (from >= 0.7) return unfurl(from);
+    if (reduce) return setO(0);
+    animate(from, 0, { duration: 0.35, ease: "easeIn", onUpdate: setO });
+  };
+  // Cada varilla va del pico a su punta: plegada, pegada al mástil; abierta, en cúpula.
+  const tip = { x: 100, y: 16 };
+  const ends = RIBS.map((deg) => {
+    const c = Math.cos((deg * Math.PI) / 180);
+    const depth = Math.sin((deg * Math.PI) / 180);
+    const spread = { x: 100 + 94 * c, y: 96 + 10 * depth };
+    const shut = { x: 100 + 5 * c, y: 128 };
+    return { x: shut.x + (spread.x - shut.x) * o, y: shut.y + (spread.y - shut.y) * o };
+  });
+  const runnerY = 176 - o * 64;
+  // El punto de control de cada varilla: plegada, casi recta; abierta, hacia fuera, en cúpula.
+  const ctrl = (a: { x: number; y: number }) => ({
+    x: tip.x + (a.x - tip.x) * (0.2 + 0.75 * o),
+    y: tip.y + (a.y - tip.y) * (0.55 - 0.45 * o),
+  });
+  const panel = (a: { x: number; y: number }, b: { x: number; y: number }) => {
+    // El borde de cada gajo se combea hacia arriba entre varilla y varilla.
+    const ca = ctrl(a);
+    const cb = ctrl(b);
+    const mx = (a.x + b.x) / 2;
+    const my = (a.y + b.y) / 2 - 9 * o;
+    return `M${tip.x} ${tip.y}Q${ca.x} ${ca.y} ${a.x} ${a.y}Q${mx} ${my} ${b.x} ${b.y}Q${cb.x} ${cb.y} ${tip.x} ${tip.y}Z`;
   };
 
   return (
@@ -206,9 +256,9 @@ function UmbrellaCover({ event, onOpen, reduce }: ConceptProps) {
         }}
       />
       {!open && !reduce
-        ? DROPS.map((d, i) => (
+        ? DROPS.map((d, n) => (
             <span
-              key={i}
+              key={n}
               aria-hidden
               className="absolute top-0 block h-5 w-px animate-[rain-fall_linear_infinite] bg-white/70"
               style={{
@@ -219,6 +269,16 @@ function UmbrellaCover({ event, onOpen, reduce }: ConceptProps) {
             />
           ))
         : null}
+      {/* El charco del suelo: con lluvia tiene ondas; con sol, refleja el cielo. */}
+      <svg aria-hidden viewBox="0 0 390 60" className="absolute inset-x-0 bottom-[18%] w-full">
+        <ellipse cx="195" cy="30" rx="150" ry="18" fill={open ? "#b9d9ea" : "#7f8c97"} />
+        {!open ? (
+          <>
+            <ellipse cx="140" cy="30" rx="18" ry="5" fill="none" stroke="#c3cbd2" />
+            <ellipse cx="250" cy="34" rx="12" ry="3.5" fill="none" stroke="#c3cbd2" />
+          </>
+        ) : null}
+      </svg>
       <div className="relative mx-auto flex h-full w-full max-w-[24rem] flex-col items-center px-6 pt-[max(4.5rem,env(safe-area-inset-top))] pb-[max(0.75rem,env(safe-area-inset-bottom))] text-center text-[#1f2a33]">
         <p className="text-[0.75rem] tracking-[0.22em] uppercase">Llueva o haga sol, se casan</p>
         <h1
@@ -230,47 +290,90 @@ function UmbrellaCover({ event, onOpen, reduce }: ConceptProps) {
         >
           {names(event)}
         </h1>
+        {/* El paraguas: se empuja el corredor hacia arriba por el mástil y se abre. */}
         <div
           data-paraguas={open ? "abierto" : "cerrado"}
           onPointerDown={(e) => {
             stop(e);
-            unfurl();
+            if (open) return;
+            drag.current = { y: e.clientY, start: o, moved: false };
+            e.currentTarget.setPointerCapture(e.pointerId);
           }}
-          className="relative mt-8 flex h-60 w-full cursor-pointer flex-col items-center"
+          onPointerMove={(e) => {
+            const d = drag.current;
+            if (!d) return;
+            e.stopPropagation();
+            const dy = d.y - e.clientY;
+            if (Math.abs(dy) > 4) d.moved = true;
+            setO(Math.min(1, Math.max(0, d.start + dy / UMBRELLA_PUSH)));
+          }}
+          onPointerUp={() => {
+            const d = drag.current;
+            drag.current = null;
+            if (!d) return;
+            if (!d.moved) return unfurl();
+            letGo(o);
+          }}
+          onPointerCancel={() => {
+            if (drag.current) letGo(o);
+            drag.current = null;
+          }}
+          className="relative mt-6 w-60 cursor-grab touch-none active:cursor-grabbing"
         >
-          {/* La tela: plegada en un huso o abierta en cúpula. */}
-          <svg
-            viewBox="0 0 200 100"
-            aria-hidden
-            className="w-56 origin-bottom transition-transform duration-500"
-            style={{
-              transform: open ? "none" : "scaleX(0.14)",
-              transitionDuration: reduce ? "0ms" : undefined,
-            }}
-          >
+          <svg viewBox="0 0 200 260" aria-hidden className="w-full overflow-visible">
+            {/* Los gajos, alternando rojo y crudo, y las varillas por encima. */}
+            {ends.slice(0, -1).map((a, n) => (
+              <path
+                key={n}
+                d={panel(a, ends[n + 1]!)}
+                fill={n % 2 ? "#f3e7d3" : "#c8312b"}
+                stroke="#8a1f1a"
+                strokeWidth="1"
+                strokeLinejoin="round"
+              />
+            ))}
+            {/* Las varillas del armazón y los tirantes que las empujan desde el corredor. */}
+            {ends.map((e, n) => (
+              <g key={n} stroke="#5a4a3a" strokeWidth="1.2" fill="none">
+                <path
+                  d={`M100 ${runnerY}L${0.25 * tip.x + 0.5 * ctrl(e).x + 0.25 * e.x} ${0.25 * tip.y + 0.5 * ctrl(e).y + 0.25 * e.y}`}
+                />
+                <circle cx={e.x} cy={e.y} r="1.8" fill="#5a4a3a" stroke="none" />
+              </g>
+            ))}
+            <path d="M100 6v12" stroke="#3a2a1c" strokeWidth="3" strokeLinecap="round" />
             <path
-              d="M4 96C10 40 60 6 100 6s90 34 96 90c-14-10-30-10-40 0-12-10-30-10-40 0-12-10-28-10-40 0-12-10-30-10-40 0z"
-              fill="#c8312b"
-            />
-            <path
-              d="M100 6c-20 20-30 50-36 90M100 6c20 20 30 50 36 90M100 6v90"
-              stroke="#8a1f1a"
-              strokeWidth="1.5"
-              fill="none"
-            />
-          </svg>
-          <svg viewBox="0 0 20 120" aria-hidden className="h-32 w-5">
-            <path
-              d="M10 0v100c0 14-12 14-12 4"
+              d="M100 16v196c0 22-26 22-26 4"
               stroke="#3a2a1c"
-              strokeWidth="3"
+              strokeWidth="4"
               fill="none"
               strokeLinecap="round"
             />
+            {/* El corredor: la pieza que se empuja con el dedo. */}
+            <rect
+              x="94"
+              y={runnerY - 7}
+              width="12"
+              height="14"
+              rx="3"
+              fill="#e8c66a"
+              stroke="#8a6d32"
+            />
+            {!open ? (
+              <path
+                d={`M114 ${runnerY + 26}v-18m-5 5 5-5 5 5`}
+                stroke="#1f2a33"
+                strokeWidth="1.6"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                opacity={1 - o}
+              />
+            ) : null}
           </svg>
         </div>
         <After reduce={reduce} className="mt-2 text-[0.9375rem]">
-          {open ? "¡Ya no llueve! Nos vemos el" : "Llueve. Abre el paraguas."}
+          {open ? "¡Ya no llueve! Nos vemos el" : "Llueve. Empuja el corredor y abre el paraguas."}
           <span className="block text-[1.0625rem] font-semibold">
             <time dateTime={isoDay(event.date)}>{formatLongDate(event.date)}</time>, en {event.city}
           </span>
@@ -279,7 +382,7 @@ function UmbrellaCover({ event, onOpen, reduce }: ConceptProps) {
           <button
             type="button"
             onPointerDown={stop}
-            onClick={unfurl}
+            onClick={() => unfurl()}
             disabled={open}
             className="mt-3 rounded-full bg-[#c8312b] px-6 py-2.5 text-[0.9375rem] font-medium text-white disabled:opacity-70"
           >

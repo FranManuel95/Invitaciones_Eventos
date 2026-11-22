@@ -906,6 +906,19 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await expect(stage.getByText(/Ya no llueve/)).toBeVisible();
   });
 
+  test("paraguas: también se abre empujando el corredor hacia arriba", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=paraguas");
+    const umbrella = cover(page, "paraguas").locator("[data-paraguas]");
+    const box = (await umbrella.boundingBox())!;
+    const x = box.x + box.width / 2;
+    const y = box.y + box.height * 0.6;
+    await page.mouse.move(x, y);
+    await page.mouse.down();
+    await page.mouse.move(x, y - 150, { steps: 12 });
+    await page.mouse.up();
+    await expect(umbrella).toHaveAttribute("data-paraguas", "abierto");
+  });
+
   test("cascanueces: parte la nuez", async ({ page }) => {
     await page.goto("/i/familia-garcia?plantilla=cascanueces");
     const stage = cover(page, "cascanueces");

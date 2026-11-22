@@ -1641,7 +1641,7 @@ olivo.
   doce cuñas en espejo cuyos cristales se mueven con cada grado de giro del aro de latón y, en el
   tercer giro, se juntan en una flor. **Buzón**: la carta se arrastra hasta la ranura, se cuela y la
   respuesta asoma por la misma ranura; el rótulo «Correos» (marca real) pasa a «Cartas» con una
-  trompa dibujada a mano. Pruebas E2E nuevas para cada gesto.
+  trompa dibujada a mano. **Paraguas**: se empuja el corredor por el mástil y los gajos, rojos y crudos, se abren en cúpula con sus varillas y tirantes; abajo, un charco con ondas que deja de tenerlas al salir el sol. Pruebas E2E nuevas para cada gesto.
 
 ## Pendiente para próximas fases
 
