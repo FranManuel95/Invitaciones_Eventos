@@ -117,6 +117,9 @@ const CONCEPTS = [
   { id: "campanas", names: /Iris y Matías/, date: "9 de octubre de 2027", opening: "concepto" },
   { id: "hilo", names: /Greta y Eneko/, date: "26 de junio de 2027", opening: "concepto" },
   { id: "pajarera", names: /Alma y Jaime/, date: "15 de mayo de 2027", opening: "concepto" },
+  { id: "persiana", names: /Lorea y Rafael/, date: "19 de junio de 2027", opening: "concepto" },
+  { id: "cuco", names: /Sabela y Ezequiel/, date: "4 de septiembre de 2027", opening: "concepto" },
+  { id: "tiza", names: /Victoria y Telmo/, date: "17 de julio de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -1006,6 +1009,32 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
     await stage.getByRole("button", { name: "Abrir la pajarera" }).click();
     await expect(stage.locator("[data-pajarera]")).toHaveAttribute("data-pajarera", "abierta");
     await expect(stage.getByText(/Libres y juntos/)).toBeVisible();
+  });
+
+  test("persiana: se sube y amanece", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=persiana");
+    const stage = cover(page, "persiana");
+    await stage.getByRole("button", { name: "Subir la persiana" }).click();
+    await expect(stage.locator("[data-persiana]")).toHaveAttribute("data-persiana", "subida", {
+      timeout: 8000,
+    });
+    await expect(stage.getByText(/Amanece el día de nuestra boda/)).toBeVisible();
+  });
+
+  test("reloj de cuco: canta la hora de la ceremonia", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=cuco");
+    const stage = cover(page, "cuco");
+    await stage.getByRole("button", { name: "Tirar de la pesa" }).click();
+    await expect(stage.locator("[data-cuco]")).toHaveAttribute("data-cuco", "cantando");
+    await expect(stage.getByText(/A las 13:00 del/)).toBeVisible();
+  });
+
+  test("pizarra: se escribe la lección", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=tiza");
+    const stage = cover(page, "tiza");
+    await stage.getByRole("button", { name: "Escribir con tiza" }).click();
+    await expect(stage.locator("[data-pizarra]")).toHaveAttribute("data-pizarra", "escrita");
+    await expect(stage.getByText("Lugar: Morella")).toBeVisible();
   });
 
   test("faro: se enciende", async ({ page }) => {

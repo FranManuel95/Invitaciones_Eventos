@@ -114,6 +114,9 @@ export const COVER_IDS = [
   "campanas",
   "hilo",
   "pajarera",
+  "persiana",
+  "cuco",
+  "tiza",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -576,6 +579,21 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Pajarera",
     description: "Una pajarera dorada: se abre la puerta y salen volando dos pájaros juntos.",
   },
+  persiana: {
+    label: "Persiana",
+    description:
+      "Una ventana con la persiana bajada: al subirla amanece sobre el lugar de la boda.",
+  },
+  cuco: {
+    label: "Reloj de cuco",
+    description:
+      "Una casita de madera con reloj: al tirar de la pesa sale el cuco y canta la hora de la ceremonia.",
+  },
+  tiza: {
+    label: "Pizarra",
+    description:
+      "Una pizarra de escuela: con la tiza se escriben la fecha, el lugar y los deberes.",
+  },
 };
 
 /**
@@ -669,6 +687,9 @@ export const CONCEPT_COVERS = {
   campanas: { ink: "#2a2618", paper: "#eef0ee" },
   hilo: { ink: "#3a1a1e", paper: "#fbf3ee" },
   pajarera: { ink: "#1f2d26", paper: "#f2f5ee" },
+  persiana: { ink: "#2e2418", paper: "#f4ece0" },
+  cuco: { ink: "#2f1f12", paper: "#efe3cc" },
+  tiza: { ink: "#f2efe6", paper: "#1a2b22", tone: "oscuro" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -840,6 +861,9 @@ export const MOTIF_IDS = [
   "campanas",
   "hilo",
   "pajarera",
+  "persiana",
+  "cuco",
+  "tiza",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -939,4 +963,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   campanas: { label: "Campanario", kind: "concepto" },
   hilo: { label: "Hilo rojo", kind: "concepto" },
   pajarera: { label: "Pajarera", kind: "concepto" },
+  persiana: { label: "Amanecer", kind: "concepto" },
+  cuco: { label: "Cucú", kind: "concepto" },
+  tiza: { label: "Escuela", kind: "concepto" },
 };

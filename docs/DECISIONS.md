@@ -1571,6 +1571,12 @@ olivo.
   Aviario. Se descartan los naipes y la bola de cristal por parecerse a Póker, Tarot y Horóscopo. Ya
   son 107 plantillas (85 de objetos) y 108 portadas.
 - **Batería E2E completa** con todo hasta Grulla de papel: 645 pruebas bien y 5 omitidas.
+- **Vigesimocuarta tanda**: **Persiana** (al subirla amanece sobre el lugar de la boda; Lorea y
+  Rafael, Frigiliana, boda de mañana), **Reloj de cuco** (casita de madera con la esfera en la hora
+  de la ceremonia; al tirar de la pesa sale el cuco; Sabela y Ezequiel, Cazorla) y **Pizarra** (se
+  escribe con tiza la fecha, el lugar y «Deberes: venir y bailar»; Victoria y Telmo, Morella;
+  portada oscura; su id es `tiza` porque ya hay un estilo `pizarra`). Estilos Alba, Relojero y
+  Aula. Ya son 110 plantillas (88 de objetos) y 111 portadas.
 
 ## Pendiente para próximas fases
 

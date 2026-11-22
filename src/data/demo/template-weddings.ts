@@ -12284,3 +12284,374 @@ export const pajarera = wedding({
   ],
   songs: ["Blackbird", "Pájaros de barro", "Vuela", "September", "Valerie", "Dancing Queen"],
 });
+
+export const persiana = wedding({
+  id: "evt-demo-lorea-rafael",
+  first: "Lorea",
+  second: "Rafael",
+  date: "2027-06-19T11:30:00+02:00",
+  rsvpDeadline: "2027-05-10T23:59:00+02:00",
+  city: "Frigiliana",
+  region: "Málaga",
+  couple: "mar",
+  coverPhoto: "/fotos/buganvilla/portada.jpg",
+  cardMessage:
+    "Vivíamos ventana con ventana. Cada mañana subíamos la persiana a la vez. Un día bajamos a la calle.",
+  welcomeMessage:
+    "Subimos la persiana y amanece el día de la boda. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por madrugar con nosotros en Frigiliana y por quedaros hasta el atardecer. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Antonio de Padua",
+      kind: "Ceremonia",
+      address: "Calle Santo Cristo, 1",
+      note: "En lo alto del pueblo blanco. Hay parking a la entrada.",
+      photo: "ermitaMar",
+    },
+    {
+      id: "finca",
+      name: "Cortijo del Amanecer",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Camino de las Acequias, km 2",
+      note: "A 10 minutos, con terraza mirando al mar.",
+      photo: "terrazaMar",
+    },
+  ],
+  climate: [28, 18, 5],
+  program: [
+    ["11:30", "Ceremonia", "iglesia", "San Antonio", "Con el sol de la mañana.", "ceremony"],
+    ["12:45", "Aperitivo", "finca", "En la terraza", "Con zumos, cava y migas.", "cocktail"],
+    [
+      "14:15",
+      "Comida",
+      "finca",
+      "Bajo la pérgola",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["17:30", "Fiesta", "finca", "Hasta el atardecer", "Baile con vistas al mar.", "party"],
+  ],
+  busRoutes: [
+    [
+      "malaga-f",
+      "Málaga → Frigiliana",
+      "Paseo del Parque, Málaga",
+      "10:00",
+      ["20:30", "23:30"],
+      60,
+    ],
+    ["nerja-f", "Nerja → Frigiliana", "Balcón de Europa, Nerja", "10:45", ["23:30"], 15],
+  ],
+  menu: {
+    carne: "Chivo al ajillo",
+    pescado: "Boquerones y espetos",
+    vegetariano: "Ajoblanco y berenjenas con miel de caña",
+    vegano: "Gazpacho y migas de verduras",
+  },
+  dressCode: {
+    title: "Boda de mañana",
+    detail: "Colores de amanecer: melocotón, crema y verde. Hay cuestas: zapato cómodo.",
+    palette: [
+      { name: "Alba", hex: "#ffb88a" },
+      { name: "Sol", hex: "#fff1b8" },
+      { name: "Lama", hex: "#e8dcc4" },
+      { name: "Campo", hex: "#a9c38a" },
+    ],
+    examples: [
+      "Vestido fresco de mañana.",
+      "Lino claro y sombrero.",
+      "Gafas de sol: la ceremonia es a pleno día.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Villa Frigiliana", "En el pueblo", "Habitaciones reservadas hasta el 10 de mayo."],
+    ["Hostal Las Chinas", "A 5 minutos", "Con desayuno temprano para la boda."],
+  ],
+  story: {
+    intro: "Dos ventanas enfrente, mil mañanas de persianas y una calle. Esta es la versión corta.",
+    moments: [
+      ["2020", "Las ventanas", "Subíamos la persiana a la misma hora cada mañana.", "cala"],
+      ["2021", "La calle", "Un día bajamos a la vez y nos saludamos.", "furgoneta"],
+      ["2026", "La pedida", "Con un cartel en su ventana: «¿Te casas conmigo?».", "anilloBarca"],
+      ["Hoy", "Y ahora, la boda", "La persiana está subida. Solo faltas tú.", "orilla"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Santorini", "Más ventanas al mar.", "Lo que queráis"],
+    ["Unas cortinas de lino", "Para la casa nueva.", "120 €"],
+    ["Una cafetera italiana", "Para los desayunos.", "60 €"],
+    ["Un amanecer en globo", "Para el aniversario.", "250 €"],
+  ],
+  kids: "Habrá monitores, juegos en la terraza y comida para ellos.",
+  faq: [
+    "¿Por qué tan pronto?",
+    "Porque nos gustan las mañanas. Y así la fiesta acaba al atardecer.",
+  ],
+  guestbook: [
+    ["Los vecinos de enfrente", "Ya sabíamos lo de las persianas."],
+    ["Abuela Encarna", "Qué boda tan bonita y tan temprano."],
+    ["Marta y Alberto", "Madrugamos por vosotros, y mereció la pena."],
+  ],
+  songs: ["Here Comes the Sun", "Amanece", "Buenos días", "September", "Valerie", "Dancing Queen"],
+});
+
+export const cuco = wedding({
+  id: "evt-demo-sabela-ezequiel",
+  first: "Sabela",
+  second: "Ezequiel",
+  date: "2027-09-04T13:00:00+02:00",
+  rsvpDeadline: "2027-07-25T23:59:00+02:00",
+  city: "Cazorla",
+  region: "Jaén",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-1.jpg",
+  cardMessage:
+    "Nos conocimos en un taller de relojería: arreglábamos el mismo cuco, que no cantaba desde 1970.",
+  welcomeMessage:
+    "El cuco ya canta otra vez, y a la hora de la boda. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a la sierra de Cazorla y por llegar puntuales. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Francisco",
+      kind: "Ceremonia",
+      address: "Plaza de la Corredera, 1",
+      note: "En el centro. Hay parking a la entrada del pueblo.",
+      photo: "ermitaOlivos",
+    },
+    {
+      id: "finca",
+      name: "Cortijo del Relojero",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Carretera de la Sierra, km 5",
+      note: "A 15 minutos, entre pinos y con vistas al parque natural.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [29, 14, 10],
+  program: [
+    [
+      "13:00",
+      "Ceremonia",
+      "iglesia",
+      "San Francisco",
+      "A la hora en punto, como el cuco.",
+      "ceremony",
+    ],
+    [
+      "14:15",
+      "Aperitivo",
+      "finca",
+      "Entre pinos",
+      "Con aceite de la sierra y vino de Jaén.",
+      "cocktail",
+    ],
+    [
+      "15:30",
+      "Comida",
+      "finca",
+      "En el salón de madera",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["18:30", "Fiesta", "finca", "Sin mirar el reloj", "Baile y barra libre.", "party"],
+  ],
+  busRoutes: [
+    ["jaen-c", "Jaén → Cazorla", "Estación de autobuses de Jaén", "11:15", ["21:00", "00:30"], 105],
+    ["ubeda-c", "Úbeda → Cazorla", "Plaza de Andalucía, Úbeda", "12:00", ["00:30"], 50],
+  ],
+  menu: {
+    carne: "Ciervo estofado",
+    pescado: "Trucha de la sierra",
+    vegetariano: "Andrajos de setas",
+    vegano: "Ensalada de pimientos asados",
+  },
+  dressCode: {
+    title: "Fin de verano en la sierra",
+    detail: "Madera, pino y amarillo. Hay campo: tacón ancho.",
+    palette: [
+      { name: "Madera", hex: "#8a5a2c" },
+      { name: "Pino", hex: "#3f5a3a" },
+      { name: "Cuco", hex: "#e9b949" },
+      { name: "Esfera", hex: "#f6ecd8" },
+    ],
+    examples: [
+      "Vestido midi y chaqueta ligera.",
+      "Traje de lino con chaleco.",
+      "Un reloj en la muñeca: hay que ser puntual.",
+    ],
+  },
+  accommodation: [
+    ["Parador de Cazorla", "En la sierra", "Habitaciones reservadas hasta el 25 de julio."],
+    ["Hotel de la Corredera", "En el pueblo", "Con desayuno a la hora en punto."],
+  ],
+  story: {
+    intro:
+      "Un cuco mudo desde 1970, un taller de relojería y ocho años en hora. Esta es la versión corta.",
+    moments: [
+      ["2019", "El taller", "Arreglábamos el mismo cuco. Cantó por fin.", "olivos"],
+      ["2022", "La casa", "Colgamos el cuco en el salón.", "terraza"],
+      ["2026", "La pedida", "El cuco salió con el anillo en el pico.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "Ya es la hora. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a la Selva Negra", "La tierra de los cucos.", "Lo que queráis"],
+    ["Un reloj de pie", "Para el pasillo.", "300 €"],
+    ["Herramientas de relojero", "Para el taller.", "120 €"],
+    ["Una noche en el parador", "Para el aniversario.", "180 €"],
+  ],
+  kids: "Habrá monitores, juegos en el bosque y comida para ellos.",
+  faq: [
+    "¿Hay que ser puntual?",
+    "Sí: el cuco canta a la una en punto y la ceremonia empieza con él.",
+  ],
+  guestbook: [
+    ["Los del taller", "Ese cuco os ha salido muy bien."],
+    ["Abuelo Ramón", "Qué boda más bonita, y en hora."],
+    ["Lucía y Andrés", "Llegamos con el último cucú."],
+  ],
+  songs: ["Clocks", "El reloj", "Rock Around the Clock", "September", "Valerie", "Dancing Queen"],
+});
+
+export const tiza = wedding({
+  id: "evt-demo-victoria-telmo",
+  first: "Victoria",
+  second: "Telmo",
+  date: "2027-07-17T18:30:00+02:00",
+  rsvpDeadline: "2027-06-10T23:59:00+02:00",
+  city: "Morella",
+  region: "Castellón",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-3.jpg",
+  cardMessage:
+    "Fuimos compañeros de pupitre en el colegio. Ahora somos profesores en el mismo instituto.",
+  welcomeMessage:
+    "La lección de hoy: nos casamos. Aquí tienes todo lo que necesitas (y no hay examen).",
+  thankYouMessage: "Gracias por venir a Morella y por aprobar con nota. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Basílica de Santa María la Mayor",
+      kind: "Ceremonia",
+      address: "Plaza de la Iglesia, 1",
+      note: "En lo alto del pueblo amurallado. Hay parking fuera de la muralla.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Antigua Escuela de Morella",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Calle de la Escuela, 4",
+      note: "A 5 minutos andando, en la escuela antigua con patio de recreo.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [26, 13, 15],
+  program: [
+    [
+      "18:30",
+      "Ceremonia",
+      "iglesia",
+      "Santa María la Mayor",
+      "Con el coro del instituto.",
+      "ceremony",
+    ],
+    [
+      "19:45",
+      "Aperitivo",
+      "finca",
+      "En el patio de recreo",
+      "Con croquetas y vino del Maestrazgo.",
+      "cocktail",
+    ],
+    [
+      "21:15",
+      "Cena",
+      "finca",
+      "En el aula grande",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["23:30", "Fiesta", "finca", "El recreo", "Baile sin timbre.", "party"],
+  ],
+  busRoutes: [
+    [
+      "castellon-m",
+      "Castellón → Morella",
+      "Estación de Castellón",
+      "16:30",
+      ["02:00", "04:30"],
+      105,
+    ],
+    ["vinaros-m", "Vinaròs → Morella", "Plaza de Vinaròs", "17:00", ["04:30"], 70],
+  ],
+  menu: {
+    carne: "Cordero con trufa del Maestrazgo",
+    pescado: "Bacalao con alioli de membrillo",
+    vegetariano: "Croquetas de setas y trufa",
+    vegano: "Olla de verduras de la sierra",
+  },
+  dressCode: {
+    title: "Fiesta de fin de curso",
+    detail: "Verde pizarra, blanco tiza y madera. Hay piedra: zapato cómodo.",
+    palette: [
+      { name: "Pizarra", hex: "#22382c" },
+      { name: "Tiza", hex: "#f2efe6" },
+      { name: "Madera", hex: "#8a5a2c" },
+      { name: "Lápiz", hex: "#f2d27a" },
+    ],
+    examples: [
+      "Vestido midi con chaqueta.",
+      "Traje con corbata de punto.",
+      "Una chaqueta: en Morella refresca de noche.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Cardenal Ram", "Dentro de la muralla", "Habitaciones reservadas hasta el 10 de junio."],
+    ["Hostal de la Escuela", "Junto a la finca", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro: "Un pupitre compartido, un instituto y veinte cursos juntos. Esta es la versión corta.",
+    moments: [
+      ["2004", "El pupitre", "Compañeros de mesa en tercero. Ella le dejaba la goma.", "olivos"],
+      [
+        "2020",
+        "El instituto",
+        "Coincidimos como profesores. Él de mates; ella de lengua.",
+        "terraza",
+      ],
+      [
+        "2026",
+        "La pedida",
+        "Escrita en la pizarra de su aula, en el último día de curso.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "La lección está escrita. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Finlandia", "Para ver sus escuelas.", "Lo que queráis"],
+    ["Una pizarra para la cocina", "Para la lista de la compra.", "40 €"],
+    ["Una estantería de libros", "Para el salón.", "200 €"],
+    ["Un fin de semana sin corregir", "Para el aniversario.", "150 €"],
+  ],
+  kids: "Habrá monitores, pizarras y tizas de colores, y cena para ellos.",
+  faq: ["¿Hay examen?", "No. Solo hay que venir, bailar y firmar en la pizarra."],
+  guestbook: [
+    ["Los de tercero B", "Sabíamos lo de la goma."],
+    ["Profesora Amparo", "Siempre fuisteis buenos alumnos."],
+    ["Nuria y Carles", "Os hemos firmado en la pizarra."],
+  ],
+  songs: [
+    "Another Brick in the Wall",
+    "Escuela",
+    "Teacher",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});

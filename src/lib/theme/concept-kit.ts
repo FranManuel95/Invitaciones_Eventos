@@ -651,6 +651,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Libres y juntos",
     pass: { kicker: "Pase al jardín", people: "Invitados" },
   },
+  persiana: {
+    object: "la persiana",
+    carrier: "Bajo la ventana",
+    letterhead: "Buenos días",
+    signoff: "Que amanezca pronto",
+    pass: { kicker: "Pase del amanecer", people: "Invitados" },
+  },
+  cuco: {
+    object: "el reloj de cuco",
+    carrier: "Caja del relojero",
+    letterhead: "A la hora en punto",
+    signoff: "¡Cucú!",
+    pass: { kicker: "Turno del relojero", people: "Invitados" },
+  },
+  tiza: {
+    object: "la pizarra",
+    carrier: "Cuaderno de clase",
+    letterhead: "Lección de hoy",
+    signoff: "Lección aprendida",
+    pass: { kicker: "Carné de la escuela", people: "Alumnos" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

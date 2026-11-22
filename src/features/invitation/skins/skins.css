@@ -4331,6 +4331,136 @@
     transform: rotate(-10deg);
   }
 }
+/* Persiana: cada sección es una lama. */
+[data-motif="persiana"] {
+  counter-reset: lama;
+}
+[data-motif="persiana"] .motif-hero {
+  background: linear-gradient(180deg, #ffd9a0, var(--color-paper) 60%);
+}
+[data-motif="persiana"] section[id] {
+  counter-increment: lama;
+}
+[data-motif="persiana"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="persiana"] .motif-sprig::before {
+  content: "";
+  width: 1.1rem;
+  height: 1rem;
+  background: repeating-linear-gradient(180deg, var(--color-gold) 0 2px, transparent 2px 4px);
+}
+[data-motif="persiana"] .motif-sprig::after {
+  content: "Lama " counter(lama);
+}
+[data-motif="persiana"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="persiana"] .motif-closing::before {
+  content: "Que amanezca pronto";
+}
+/* Reloj de cuco: cada sección es una hora. */
+[data-motif="cuco"] {
+  counter-reset: hora-cuco;
+}
+[data-motif="cuco"] .motif-hero {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 38px, rgb(90 58 32 / 0.05) 38px 40px),
+    var(--color-paper);
+}
+[data-motif="cuco"] section[id] {
+  counter-increment: hora-cuco;
+}
+[data-motif="cuco"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="cuco"] .motif-sprig::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: 2px solid var(--color-gold);
+  background: linear-gradient(var(--color-gold), var(--color-gold)) 50% 20% / 2px 40% no-repeat;
+}
+[data-motif="cuco"] .motif-sprig::after {
+  content: "Hora " counter(hora-cuco);
+}
+[data-motif="cuco"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="cuco"] .motif-closing::before {
+  content: "¡Cucú!";
+}
+/* Pizarra: cada sección es una lección. */
+[data-motif="tiza"] {
+  counter-reset: leccion;
+}
+[data-motif="tiza"] .motif-hero {
+  background: radial-gradient(circle at 50% 30%, #2f4a3c, var(--color-paper) 70%);
+}
+[data-motif="tiza"] section[id] {
+  counter-increment: leccion;
+}
+[data-motif="tiza"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="tiza"] .motif-sprig::before {
+  content: "";
+  width: 1.2rem;
+  height: 0.4rem;
+  border-radius: 2px;
+  background: var(--color-ink);
+}
+[data-motif="tiza"] .motif-sprig::after {
+  content: "Lección " counter(leccion);
+}
+[data-motif="tiza"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="tiza"] .motif-closing::before {
+  content: "Lección aprendida";
+}
+@keyframes cuckoo-out {
+  from {
+    translate: -14px 0;
+  }
+  to {
+    translate: 0 0;
+  }
+}
 @keyframes musicbox-spin {
   to {
     transform: rotateY(360deg);
@@ -5143,6 +5273,22 @@
 [data-motif="pajarera"] .concept-carrier {
   background: var(--color-ivory);
   border: 2px solid var(--color-gold);
+}
+
+/* Persiana: bajo la ventana. */
+[data-motif="persiana"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 2px solid var(--color-gold);
+}
+/* Reloj de cuco: caja del relojero. */
+[data-motif="cuco"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 3px double var(--color-gold);
+}
+/* Pizarra: cuaderno de clase. */
+[data-motif="tiza"] .concept-carrier {
+  background: #253a2f;
+  border: 4px solid #8a5a2c;
 }
 
 [data-motif-kind="concepto"] .motif-closing > * {

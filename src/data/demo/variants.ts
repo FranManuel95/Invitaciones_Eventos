@@ -91,6 +91,9 @@ import {
   campanas,
   hilo,
   pajarera,
+  persiana,
+  cuco,
+  tiza,
 } from "./template-weddings";
 import { guestbook, type DemoVariant } from "./wedding-builder";
 
@@ -1128,6 +1131,9 @@ const VARIANTS: Partial<Record<TemplateId, DemoVariant>> = {
   campanas,
   hilo,
   pajarera,
+  persiana,
+  cuco,
+  tiza,
 };
 
 /** La boda ficticia propia de una plantilla, si la tiene. */

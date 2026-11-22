@@ -8,7 +8,7 @@ Rama de trabajo: `claude/tender-franklin-isgz7b` (PR #6 contra `main`, sin fusio
 continuación (Telegrama y Postal, ronda 19) está en `claude/exciting-franklin-43k083`, que parte
 de esa rama y la contiene entera.
 
-**Hechas las ochenta y cinco**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
+**Hechas las ochenta y ocho**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
 las diez de la ronda 20 (Vinilo, Pasaporte, Carta, Mapa, Constelación, Cómic, Cosecha, Tarot,
 Arcade y Semillas) e Instantánea, Abanico, Cerillas, Galleta de la suerte, Casete y Mensaje en una botella (ronda
 38, en `cover/concepts-new.tsx`) y Crucigrama, Billete de tren y Receta de la abuela (ronda 38, en
@@ -32,7 +32,8 @@ en `cover/concepts-new15.tsx`) y Piñata, Lluvia de arroz y Vela (ronda 38, en
 `cover/concepts-new19.tsx`) y Huellas en la arena, Nevera y Tetera (ronda 38, en
 `cover/concepts-new20.tsx`) y Pompas de jabón, Herradura y Grulla de papel (ronda 38, en
 `cover/concepts-new21.tsx`) y Campanas, Hilo rojo y Pajarera (ronda 38, en
-`cover/concepts-new22.tsx`). Las fichas de abajo se conservan como referencia de lo que se
+`cover/concepts-new22.tsx`) y Persiana, Reloj de cuco y Pizarra (ronda 38, en
+`cover/concepts-new23.tsx`). Las fichas de abajo se conservan como referencia de lo que se
 construyó; lo que queda es lo de «Pendiente en las que ya existen», que vale para todas.
 
 Dónde está cada cosa ahora: piezas comunes en `cover/concept-kit.tsx`; portadas en
@@ -395,11 +396,11 @@ Cartas atadas, Ramo de novia, Estuche de anillos, Carné de baile, Cápsula del 
 sellos, Bola de discoteca, Cuaderno de viaje, Piñata, Lluvia de arroz, Vela, Columpio, Semáforo y
 Paraguas, Cascanueces, Hamaca, Cesta de pícnic, Molinillo de viento, Candado del amor, Gramola,
 Huellas en la arena, Nevera, Tetera, Pompas de jabón, Herradura, Grulla de papel, Campanas, Hilo
-rojo y Pajarera. Quedan por probar:
+rojo, Pajarera, Persiana, Reloj de cuco y Pizarra. Quedan por probar:
 
-1. **Llavero de la casa nueva**: dos llaves en una anilla; al girarlas se abre la puerta del lugar.
-2. **Cometa de papel de periódico**: descartada, ya hay Cometa y Gaceta; buscar otra idea de viento.
-3. **Ventana con persiana**: se sube la persiana y amanece sobre el lugar de la boda.
+1. **Rueda de la fortuna (noria)**: se gira la noria y la cabina de arriba lleva la fecha.
+2. **Sombrero de mago**: se da un toque con la varita y sale un conejo con la fecha.
+3. **Postre flambeado**: se enciende y, al apagarse la llama, queda el menú.
 
 ## Por dónde empezar
 
