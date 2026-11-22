@@ -1604,6 +1604,12 @@ olivo.
   con las iniciales; Amparo y Julen, Isla Cristina). Estilos Algarabía, Trompo y Arenisca. Ya son
   122 plantillas (100 de objetos) y 123 portadas.
 - **Batería E2E completa** con todo hasta Caleidoscopio: 705 pruebas bien y 5 omitidas.
+- **Vigesimonovena tanda**: **Cámara de carrete** (se dispara, salta el flash y sale la tira de
+  negativo con los nombres y la fecha; Rosana y Hernando, Palencia), **Buzón** (buzón rojo de
+  columna; la carta entra por la ranura y vuelve como «Respuesta: ¡Sí, quiero!»; Ximena y Benito,
+  Tarazona) y **Termómetro del amor** (bulbo de corazón; se frota y sube de «Tibio» a «¡Boda!»;
+  Tania y Andoni, Guadalupe, la víspera de San Valentín). Estilos Analógica, Correos y Fiebre. Ya
+  son 125 plantillas (103 de objetos) y 126 portadas.
 
 ## Pendiente para próximas fases
 

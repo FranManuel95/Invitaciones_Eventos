@@ -756,6 +756,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "Antes de que suba la marea",
     pass: { kicker: "Pase a la playa", people: "Constructores" },
   },
+  carrete: {
+    object: "la cámara",
+    carrier: "Sobre de revelado",
+    letterhead: "Revelado y listo",
+    signoff: "¡Patata!",
+    pass: { kicker: "Resguardo del revelado", people: "Fotógrafos" },
+  },
+  buzon: {
+    object: "el buzón",
+    carrier: "Carta certificada",
+    letterhead: "Por correo ordinario",
+    signoff: "Con acuse de recibo",
+    pass: { kicker: "Resguardo de correos", people: "Remitentes" },
+  },
+  termometro: {
+    object: "el termómetro",
+    carrier: "Botiquín del amor",
+    letterhead: "Temperatura máxima",
+    signoff: "Sin remedio",
+    pass: { kicker: "Receta del amor", people: "Pacientes" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

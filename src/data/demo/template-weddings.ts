@@ -14018,3 +14018,349 @@ export const castillo = wedding({
   ],
   songs: ["Castillos de arena", "La playa", "Sandcastles", "September", "Valerie", "Dancing Queen"],
 });
+
+export const carrete = wedding({
+  id: "evt-demo-rosana-hernando",
+  first: "Rosana",
+  second: "Hernando",
+  date: "2027-05-29T18:00:00+02:00",
+  rsvpDeadline: "2027-04-20T23:59:00+02:00",
+  city: "Palencia",
+  region: "Palencia",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-2.jpg",
+  cardMessage:
+    "Nos conocimos en un laboratorio de revelado: nos dieron el carrete del otro y nos devolvimos las fotos en persona.",
+  welcomeMessage:
+    "Esta boda se revela en papel, como las de antes. Aquí tienes todo lo que necesitas.",
+  thankYouMessage: "Gracias por venir a Palencia y por cada foto. Aquí están, reveladas.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Catedral de Palencia",
+      kind: "Ceremonia",
+      address: "Plaza de la Inmaculada, 1",
+      note: "En el centro. Hay parking en el Salón.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Fábrica de Harinas",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Avenida de Valladolid, 22",
+      note: "A 10 minutos, una fábrica antigua junto al Carrión.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [22, 8, 25],
+  program: [
+    ["18:00", "Ceremonia", "iglesia", "La catedral", "Con fotógrafo de carrete.", "ceremony"],
+    [
+      "19:15",
+      "Aperitivo",
+      "finca",
+      "Junto al río",
+      "Con cámaras desechables para todos.",
+      "cocktail",
+    ],
+    ["20:45", "Cena", "finca", "En la nave", "Con el menú que elijas al confirmar.", "banquet"],
+    ["23:00", "Fiesta", "finca", "Hasta tarde", "Baile y fotomatón analógico.", "party"],
+  ],
+  busRoutes: [
+    [
+      "valladolid-p",
+      "Valladolid → Palencia",
+      "Estación Campo Grande",
+      "16:45",
+      ["02:00", "04:30"],
+      35,
+    ],
+    ["burgos-p", "Burgos → Palencia", "Estación de Burgos", "16:15", ["04:30"], 70],
+  ],
+  menu: {
+    carne: "Lechazo churro",
+    pescado: "Bacalao con pimientos",
+    vegetariano: "Menestra palentina",
+    vegano: "Lentejas con verduras",
+  },
+  dressCode: {
+    title: "Primavera en papel",
+    detail: "Blanco y negro con un toque ámbar. Hay fábrica: zapato cómodo.",
+    palette: [
+      { name: "Cámara", hex: "#1e1e1e" },
+      { name: "Negativo", hex: "#f2c28a" },
+      { name: "Papel", hex: "#f7f3ea" },
+      { name: "Flash", hex: "#e4572e" },
+    ],
+    examples: [
+      "Vestido negro o blanco.",
+      "Traje oscuro con corbata ámbar.",
+      "Ganas de salir en las fotos.",
+    ],
+  },
+  accommodation: [
+    ["Hotel Castilla Vieja", "En el centro", "Habitaciones reservadas hasta el 20 de abril."],
+    ["Hostal del Carrión", "Junto al río", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro:
+      "Dos carretes cambiados, un laboratorio y nueve años de fotos. Esta es la versión corta.",
+    moments: [
+      [
+        "2018",
+        "El revelado",
+        "Nos dieron el carrete del otro. Lo devolvimos en persona.",
+        "olivos",
+      ],
+      ["2021", "El laboratorio", "Montamos un cuarto oscuro en casa.", "terraza"],
+      ["2026", "La pedida", "En la última foto del carrete: «¿Te casas conmigo?».", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "El carrete está listo. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Tokio", "Para fotografiarlo todo.", "Lo que queráis"],
+    ["Una cámara de medio formato", "Para la colección.", "300 €"],
+    ["Carretes para un año", "Uno por semana.", "200 €"],
+    ["Un álbum de piel", "Para las fotos de la boda.", "80 €"],
+  ],
+  kids: "Habrá monitores, cámaras de juguete y cena para ellos.",
+  faq: ["¿Podemos hacer fotos?", "Claro: hay cámaras desechables en cada mesa."],
+  guestbook: [
+    ["Los del laboratorio", "Ese carrete cambiado fue el mejor error."],
+    ["Abuela Dolores", "Qué fotos más bonitas, como las de antes."],
+    ["Bea y Marcos", "Hemos gastado tres carretes."],
+  ],
+  songs: ["Photograph", "Fotografía", "Kodachrome", "September", "Valerie", "Dancing Queen"],
+});
+
+export const buzon = wedding({
+  id: "evt-demo-ximena-benito",
+  first: "Ximena",
+  second: "Benito",
+  date: "2027-10-02T13:00:00+02:00",
+  rsvpDeadline: "2027-08-25T23:59:00+02:00",
+  city: "Tarazona",
+  region: "Zaragoza",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-4.jpg",
+  cardMessage:
+    "Ella era cartera y él recibía demasiadas cartas. Un día le dejó una sin sello: era para ella.",
+  welcomeMessage:
+    "Esta invitación llega por correo ordinario, como debe ser. Aquí tienes todo lo que necesitas.",
+  thankYouMessage:
+    "Gracias por venir a Tarazona y por escribirnos. Aquí están vuestras fotos, con acuse de recibo.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Catedral de Tarazona",
+      kind: "Ceremonia",
+      address: "Plaza de la Seo, 1",
+      note: "Junto al río Queiles. Hay parking en la plaza de toros.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Antigua Casa de Correos",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Calle Mayor, 12",
+      note: "A 5 minutos andando, con patio mudéjar.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [23, 10, 15],
+  program: [
+    ["13:00", "Ceremonia", "iglesia", "La catedral", "Con coro mudéjar.", "ceremony"],
+    ["14:15", "Aperitivo", "finca", "En el patio", "Con vino del Moncayo.", "cocktail"],
+    [
+      "15:30",
+      "Comida",
+      "finca",
+      "En la sala de clasificación",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["18:30", "Fiesta", "finca", "Hasta tarde", "Baile y buzón de deseos.", "party"],
+  ],
+  busRoutes: [
+    [
+      "zaragoza-tz",
+      "Zaragoza → Tarazona",
+      "Estación Delicias, Zaragoza",
+      "11:30",
+      ["21:00", "00:30"],
+      60,
+    ],
+    ["tudela-tz", "Tudela → Tarazona", "Plaza de los Fueros, Tudela", "12:15", ["00:30"], 25],
+  ],
+  menu: {
+    carne: "Ternasco con patatas",
+    pescado: "Bacalao a la baturra",
+    vegetariano: "Borrajas con patata",
+    vegano: "Pochas con verduras",
+  },
+  dressCode: {
+    title: "Otoño mudéjar",
+    detail: "Rojo correos, gris y crema. Hay calles empedradas: tacón ancho.",
+    palette: [
+      { name: "Buzón", hex: "#c62828" },
+      { name: "Sobre", hex: "#fffaf0" },
+      { name: "Sello", hex: "#ffe9a8" },
+      { name: "Calle", hex: "#a4abb2" },
+    ],
+    examples: [
+      "Vestido midi con chaqueta.",
+      "Traje gris con corbata roja.",
+      "Una carta en el bolsillo para el buzón.",
+    ],
+  },
+  accommodation: [
+    [
+      "Hotel Brujas de Bécquer",
+      "Junto al Moncayo",
+      "Habitaciones reservadas hasta el 25 de agosto.",
+    ],
+    ["Hostal de la Seo", "En el centro", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro: "Una cartera, demasiadas cartas y una sin sello. Esta es la versión corta.",
+    moments: [
+      ["2019", "La carta", "Le dejó una carta sin sello. Era para ella.", "olivos"],
+      ["2021", "El buzón", "Pusimos un buzón rojo en la puerta de casa.", "terraza"],
+      ["2026", "La pedida", "En una carta certificada, con acuse de recibo.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "La respuesta ha llegado. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Londres", "Para ver los buzones rojos.", "Lo que queráis"],
+    ["Papel de carta con nuestras iniciales", "Para seguir escribiendo.", "50 €"],
+    ["Una pluma estilográfica", "Para las respuestas.", "120 €"],
+    ["Una noche en el Moncayo", "Para el aniversario.", "150 €"],
+  ],
+  kids: "Habrá monitores, taller de cartas y comida para ellos.",
+  faq: [
+    "¿Qué es el buzón de deseos?",
+    "Escribidnos una carta en la fiesta: la abriremos en el primer aniversario.",
+  ],
+  guestbook: [
+    ["Los de la oficina de correos", "Esa carta sin sello fue la mejor entrega."],
+    ["Abuela Pilar", "Qué boda tan bonita, y qué cartas."],
+    ["Nerea y Jorge", "Os hemos echado una carta al buzón."],
+  ],
+  songs: [
+    "Please Mr. Postman",
+    "La carta",
+    "Return to Sender",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
+
+export const termometro = wedding({
+  id: "evt-demo-tania-andoni",
+  first: "Tania",
+  second: "Andoni",
+  date: "2027-02-13T18:00:00+01:00",
+  rsvpDeadline: "2027-01-10T23:59:00+01:00",
+  city: "Guadalupe",
+  region: "Cáceres",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/pareja.jpg",
+  cardMessage:
+    "Nos conocimos en la sala de espera del médico, los dos con fiebre. Nos curamos y seguimos viéndonos.",
+  welcomeMessage:
+    "El termómetro marca boda. Aquí tienes todo lo que necesitas para la víspera de San Valentín.",
+  thankYouMessage:
+    "Gracias por venir a Guadalupe y por subirnos la temperatura. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Real Monasterio de Guadalupe",
+      kind: "Ceremonia",
+      address: "Plaza de Santa María, 1",
+      note: "En el centro del pueblo. Hay parking a la entrada.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Hospedería del Corazón",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Calle Gregorio López, 4",
+      note: "A 5 minutos andando, con chimenea y claustro.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [13, 3, 40],
+  program: [
+    ["18:00", "Ceremonia", "iglesia", "El monasterio", "Con coro y órgano.", "ceremony"],
+    [
+      "19:15",
+      "Aperitivo",
+      "finca",
+      "Junto a la chimenea",
+      "Con migas y vino de pitarra.",
+      "cocktail",
+    ],
+    ["20:45", "Cena", "finca", "En el claustro", "Con el menú que elijas al confirmar.", "banquet"],
+    ["23:00", "Fiesta", "finca", "Hasta San Valentín", "Baile y brindis a medianoche.", "party"],
+  ],
+  busRoutes: [
+    [
+      "caceres-g",
+      "Cáceres → Guadalupe",
+      "Estación de autobuses de Cáceres",
+      "15:45",
+      ["01:30", "04:00"],
+      120,
+    ],
+    ["navalmoral", "Navalmoral → Guadalupe", "Plaza de España, Navalmoral", "16:15", ["04:00"], 75],
+  ],
+  menu: {
+    carne: "Cabrito a la extremeña",
+    pescado: "Bacalao monacal",
+    vegetariano: "Migas extremeñas con setas",
+    vegano: "Sopa de tomate extremeña",
+  },
+  dressCode: {
+    title: "Víspera de San Valentín",
+    detail: "Rojo, rosa y algo de abrigo: en febrero refresca.",
+    palette: [
+      { name: "Corazón", hex: "#c8102e" },
+      { name: "Rosa", hex: "#ff6b81" },
+      { name: "Escala", hex: "#fff7f8" },
+      { name: "Fiebre", hex: "#a80d27" },
+    ],
+    examples: ["Vestido rojo o rosa.", "Traje oscuro con corbata roja.", "Un abrigo bonito."],
+  },
+  accommodation: [
+    [
+      "Parador de Guadalupe",
+      "Junto al monasterio",
+      "Habitaciones reservadas hasta el 10 de enero.",
+    ],
+    ["Hostal del Real", "En el centro", "Con desayuno de domingo."],
+  ],
+  story: {
+    intro: "Una sala de espera, dos fiebres y siete años de calor. Esta es la versión corta.",
+    moments: [
+      ["2020", "La consulta", "Los dos con fiebre en la sala de espera.", "olivos"],
+      ["2022", "La casa", "Una casa con chimenea, por si acaso.", "terraza"],
+      ["2026", "La pedida", "El termómetro marcaba «¡Sí!».", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "El termómetro está al máximo. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a París", "Para San Valentín.", "Lo que queráis"],
+    ["Una manta eléctrica", "Para el invierno.", "60 €"],
+    ["Una chimenea nueva", "Para la casa.", "400 €"],
+    ["Una noche en el parador", "Para el aniversario.", "200 €"],
+  ],
+  kids: "Habrá monitores, juegos junto a la chimenea y cena para ellos.",
+  faq: ["¿Hará frío?", "En febrero, sí. La cena es junto a la chimenea."],
+  guestbook: [
+    ["Los de la sala de espera", "Aquella fiebre fue contagiosa."],
+    ["Abuela Remedios", "Qué boda tan bonita y tan calentita."],
+    ["Marina y Óliver", "Hemos subido el termómetro bailando."],
+  ],
+  songs: ["Fever", "Calor", "Burning Love", "September", "Valerie", "Dancing Queen"],
+});

@@ -8,7 +8,7 @@ Rama de trabajo: `claude/tender-franklin-isgz7b` (PR #6 contra `main`, sin fusio
 continuación (Telegrama y Postal, ronda 19) está en `claude/exciting-franklin-43k083`, que parte
 de esa rama y la contiene entera.
 
-**Hechas las cien**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
+**Hechas las ciento tres**: Gaceta, Embarque y Premio (ronda 18), Telegrama y Postal (ronda 19),
 las diez de la ronda 20 (Vinilo, Pasaporte, Carta, Mapa, Constelación, Cómic, Cosecha, Tarot,
 Arcade y Semillas) e Instantánea, Abanico, Cerillas, Galleta de la suerte, Casete y Mensaje en una botella (ronda
 38, en `cover/concepts-new.tsx`) y Crucigrama, Billete de tren y Receta de la abuela (ronda 38, en
@@ -37,7 +37,8 @@ en `cover/concepts-new15.tsx`) y Piñata, Lluvia de arroz y Vela (ronda 38, en
 `cover/concepts-new24.tsx`) y Acuario, Huerto y Telefonillo (ronda 38, en
 `cover/concepts-new25.tsx`) y Trenecito, Tarro de luciérnagas y Caleidoscopio (ronda 38, en
 `cover/concepts-new26.tsx`) y Ramo de globos, Peonza y Castillo de arena (ronda 38, en
-`cover/concepts-new27.tsx`). Las fichas de abajo se conservan como referencia de lo que se
+`cover/concepts-new27.tsx`) y Cámara de carrete, Buzón y Termómetro del amor (ronda 38, en
+`cover/concepts-new28.tsx`). Las fichas de abajo se conservan como referencia de lo que se
 construyó; lo que queda es lo de «Pendiente en las que ya existen», que vale para todas.
 
 Dónde está cada cosa ahora: piezas comunes en `cover/concept-kit.tsx`; portadas en
@@ -405,9 +406,11 @@ Acuario, Huerto, Telefonillo, Trenecito, Tarro de luciérnagas, Caleidoscopio, R
 Peonza y Castillo de arena. El vídeo del lacre que se estampa ya es la portada Lacre. Quedan por
 probar:
 
-1. **Cámara de fotos de carrete**: se dispara, se rebobina y sale el negativo con la fecha.
-2. **Buzón rojo**: se echa la carta y el cartero la trae de vuelta con la respuesta.
-3. **Termómetro del amor**: se frota y sube hasta «boda».
+Hechas también Cámara de carrete, Buzón y Termómetro del amor. Siguientes:
+
+1. **Barquito en una botella**: se inclina la botella y el barco navega hasta el puerto de la boda.
+2. **Cuerda de tender**: se tiran de las pinzas y caen las fotos con los datos del día.
+3. **Máquina de chicles**: se gira la manivela y sale una bola con la fecha.
 
 ## Por dónde empezar
 

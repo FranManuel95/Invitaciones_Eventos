@@ -129,6 +129,9 @@ export const COVER_IDS = [
   "globos",
   "peonza",
   "castillo",
+  "carrete",
+  "buzon",
+  "termometro",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -663,6 +666,20 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     description:
       "En la playa, con cubo y pala: tres cubos de arena y el castillo luce vuestra bandera.",
   },
+  carrete: {
+    label: "Cámara de carrete",
+    description:
+      "Una cámara de fotos de carrete: se dispara, salta el flash y sale el negativo con vuestros nombres.",
+  },
+  buzon: {
+    label: "Buzón",
+    description:
+      "Un buzón rojo de correos: se echa la carta y vuelve con la respuesta, «¡Sí, quiero!».",
+  },
+  termometro: {
+    label: "Termómetro del amor",
+    description: "Un termómetro con bulbo de corazón: se frota y sube de «Tibio» a «¡Boda!».",
+  },
 };
 
 /**
@@ -771,6 +788,9 @@ export const CONCEPT_COVERS = {
   globos: { ink: "#1e2a38", paper: "#eaf5fb" },
   peonza: { ink: "#2a1e12", paper: "#f3ead8" },
   castillo: { ink: "#2a2214", paper: "#f2e2bd" },
+  carrete: { ink: "#1e1a16", paper: "#f3ede2" },
+  buzon: { ink: "#1f2328", paper: "#eef0f2" },
+  termometro: { ink: "#3a1620", paper: "#fbe3e6" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -957,6 +977,9 @@ export const MOTIF_IDS = [
   "globos",
   "peonza",
   "castillo",
+  "carrete",
+  "buzon",
+  "termometro",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -1071,4 +1094,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   globos: { label: "Globos", kind: "concepto" },
   peonza: { label: "Peonza", kind: "concepto" },
   castillo: { label: "Castillo de arena", kind: "concepto" },
+  carrete: { label: "Carrete", kind: "concepto" },
+  buzon: { label: "Correos", kind: "concepto" },
+  termometro: { label: "Termómetro", kind: "concepto" },
 };

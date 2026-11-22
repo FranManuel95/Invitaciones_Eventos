@@ -132,6 +132,9 @@ const CONCEPTS = [
   { id: "globos", names: /Daniela y Rober/, date: "12 de junio de 2027", opening: "concepto" },
   { id: "peonza", names: /Martina y Pepe/, date: "18 de septiembre de 2027", opening: "concepto" },
   { id: "castillo", names: /Amparo y Julen/, date: "3 de julio de 2027", opening: "concepto" },
+  { id: "carrete", names: /Rosana y Hernando/, date: "29 de mayo de 2027", opening: "concepto" },
+  { id: "buzon", names: /Ximena y Benito/, date: "2 de octubre de 2027", opening: "concepto" },
+  { id: "termometro", names: /Tania y Andoni/, date: "13 de febrero de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -1161,6 +1164,33 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
       await stage.getByRole("button", { name: `Volcar el cubo (${n}/3)` }).click();
     }
     await expect(stage.locator("[data-castillo]")).toHaveAttribute("data-castillo", "construido");
+  });
+
+  test("cámara de carrete: dispara y sale el negativo", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=carrete");
+    const stage = cover(page, "carrete");
+    await stage.getByRole("button", { name: "Disparar" }).click();
+    await expect(stage.locator("[data-carrete]")).toHaveAttribute("data-carrete", "revelado");
+    await expect(stage.getByText(/Revelado y listo/)).toBeVisible();
+  });
+
+  test("buzón: la carta vuelve con la respuesta", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=buzon");
+    const stage = cover(page, "buzon");
+    await stage.getByRole("button", { name: "Echar la carta" }).click();
+    await expect(stage.locator("[data-buzon]")).toHaveAttribute("data-buzon", "respuesta", {
+      timeout: 8000,
+    });
+    await expect(stage.getByText("Respuesta: ¡Sí, quiero!")).toBeVisible();
+  });
+
+  test("termómetro: sube hasta boda", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=termometro");
+    const stage = cover(page, "termometro");
+    await stage.getByRole("button", { name: "Frotar el termómetro" }).click();
+    await expect(stage.locator("[data-termometro]")).toHaveAttribute("data-termometro", "boda", {
+      timeout: 8000,
+    });
   });
 
   test("faro: se enciende", async ({ page }) => {
