@@ -75,6 +75,9 @@ const CONCEPTS = [
   { id: "prensado", names: /Noelia y Arturo/, date: "23 de octubre de 2027", opening: "concepto" },
   { id: "cartas", names: /Ruth y Gabriel/, date: "15 de mayo de 2027", opening: "concepto" },
   { id: "ramo", names: /Patricia y Simón/, date: "26 de junio de 2027", opening: "concepto" },
+  { id: "anillos", names: /Alicia y Ramiro/, date: "13 de noviembre de 2027", opening: "concepto" },
+  { id: "baile", names: /Mar y Ismael/, date: "12 de febrero de 2027", opening: "concepto" },
+  { id: "capsula", names: /Elisa y Jacobo/, date: "29 de mayo de 2027", opening: "concepto" },
 ] as const;
 
 const cover = (page: Page, id: string) => page.locator(`[data-cover='${id}']`);
@@ -733,6 +736,33 @@ test.describe("plantillas de concepto (segunda tanda)", () => {
       timeout: 8000,
     });
     await expect(stage.getByText(/Lo has cogido/)).toBeVisible();
+  });
+
+  test("anillos: el estuche se abre y la fecha va grabada", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=anillos");
+    const stage = cover(page, "anillos");
+    await stage.getByRole("button", { name: "Abrir el estuche" }).click();
+    await expect(stage.locator("[data-anillos]")).toHaveAttribute("data-anillos", "abierto");
+    await expect(stage.getByText(/Grabado por dentro/)).toBeVisible();
+    await expect(stage.getByText("13/11/2027", { exact: false })).toBeVisible();
+  });
+
+  test("carné de baile: el invitado se apunta a la rumba", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=baile");
+    const stage = cover(page, "baile");
+    await stage.getByRole("button", { name: "Apuntarme al baile" }).click();
+    await expect(stage.locator("[data-baile]")).toHaveAttribute("data-baile", "apuntado");
+    await expect(stage.getByText("Familia García", { exact: true })).toBeVisible();
+  });
+
+  test("cápsula del tiempo: se desentierra", async ({ page }) => {
+    await page.goto("/i/familia-garcia?plantilla=capsula");
+    const stage = cover(page, "capsula");
+    await stage.getByRole("button", { name: "Desenterrar la cápsula" }).click();
+    await expect(stage.locator("[data-capsula]")).toHaveAttribute("data-capsula", "desenterrada", {
+      timeout: 8000,
+    });
+    await expect(stage.getByText(/nos vemos en Ronda/)).toBeVisible();
   });
 
   test("faro: se enciende", async ({ page }) => {

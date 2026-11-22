@@ -19,7 +19,7 @@ export interface Plan {
 
 const BASE = [
   "Invitaciones para todos vuestros invitados, sin límite",
-  "Ochenta plantillas, siete aperturas y todos los colores, letras y lacres",
+  "Ochenta y tres plantillas, siete aperturas y todos los colores, letras y lacres",
   "Confirmaciones con menús y la lista de quién viene",
   "Cambios ilimitados, también después de enviarla",
 ];

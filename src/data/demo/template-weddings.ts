@@ -9092,3 +9092,378 @@ export const ramo = wedding({
   ],
   songs: ["Flowers", "Bailando", "La flor de la canela", "September", "Valerie", "Dancing Queen"],
 });
+
+export const anillos = wedding({
+  id: "evt-demo-alicia-ramiro",
+  first: "Alicia",
+  second: "Ramiro",
+  date: "2027-11-13T13:00:00+01:00",
+  rsvpDeadline: "2027-10-01T23:59:00+02:00",
+  city: "Chinchilla de Montearagón",
+  region: "Albacete",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/historia-2.jpg",
+  cardMessage:
+    "Nos conocimos en el taller de un joyero: ella aprendía a grabar; él traía un anillo para arreglar.",
+  welcomeMessage:
+    "Los anillos ya están grabados. Aquí tienes todo lo que necesitas para venir a verlos puestos.",
+  thankYouMessage:
+    "Gracias por subir a Chinchilla, por el castillo y por cada baile. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María del Salvador",
+      kind: "Ceremonia",
+      address: "Plaza de la Constitución, 1",
+      note: "En la plaza Mayor. Hay parking a la entrada del pueblo.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Palacete del Joyero",
+      kind: "Aperitivo, comida y fiesta",
+      address: "Calle de la Reina, 30",
+      note: "A 5 minutos, bajo el castillo y con salón de espejos.",
+      photo: "patioOlivos",
+    },
+  ],
+  climate: [15, 4, 30],
+  program: [
+    ["13:00", "Ceremonia", "iglesia", "Santa María", "Con cuarteto de cuerda.", "ceremony"],
+    [
+      "14:15",
+      "Aperitivo",
+      "finca",
+      "En el invernadero",
+      "Con queso manchego y vino de la tierra.",
+      "cocktail",
+    ],
+    [
+      "15:30",
+      "Comida",
+      "finca",
+      "En el salón de espejos",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    ["18:30", "Fiesta", "finca", "Bajo la lámpara", "Baile, barra libre y recena.", "party"],
+  ],
+  busRoutes: [
+    ["albacete", "Albacete → Chinchilla", "Estación de Albacete", "12:15", ["21:00", "00:30"], 20],
+    ["hellin", "Hellín → Chinchilla", "Plaza de la Iglesia, Hellín", "11:45", ["00:30"], 45],
+  ],
+  menu: {
+    carne: "Faisán con castañas",
+    pescado: "Merluza en salsa verde",
+    vegetariano: "Pisto manchego con huevo",
+    vegano: "Crema de calabaza y setas",
+  },
+  dressCode: {
+    title: "Gala de otoño",
+    detail: "Granate, oro y marfil. Es noviembre: abrigo bonito.",
+    palette: [
+      { name: "Terciopelo", hex: "#6e1f38" },
+      { name: "Oro", hex: "#d8b25e" },
+      { name: "Satén", hex: "#f3ece4" },
+      { name: "Noche", hex: "#1a0f18" },
+    ],
+    examples: [
+      "Vestido largo de terciopelo o satén.",
+      "Traje oscuro con pañuelo granate.",
+      "Un abrigo: en lo alto del cerro sopla.",
+    ],
+  },
+  accommodation: [
+    ["Hotel del Castillo", "Junto a la muralla", "Habitaciones reservadas hasta el 1 de octubre."],
+    ["Hostal de los Jardines", "A 5 minutos andando", "Con desayuno tarde para el domingo."],
+  ],
+  story: {
+    intro: "Un taller de joyería, un anillo roto y nueve años de oro. Esta es la versión corta.",
+    moments: [
+      ["2018", "El taller", "Ella grababa; él esperaba su anillo arreglado.", "olivos"],
+      ["2021", "El primer piso", "Con un banco de joyero en el salón.", "terraza"],
+      [
+        "2026",
+        "La pedida",
+        "Con un anillo que ella misma había grabado sin saberlo.",
+        "anilloMuro",
+      ],
+      ["Hoy", "Y ahora, la boda", "Los anillos ya llevan la fecha. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Florencia", "Para ver el Ponte Vecchio.", "Lo que queráis"],
+    ["Herramientas de joyero", "Para el taller de casa.", "200 €"],
+    ["Una lámpara de araña", "Para el comedor.", "250 €"],
+    ["Una noche en un castillo", "Para el primer aniversario.", "180 €"],
+  ],
+  kids: "Habrá monitores, un taller de pulseras y comida para ellos.",
+  faq: ["¿Qué llevan grabado los anillos?", "Nuestras iniciales y la fecha. Lo demás es secreto."],
+  guestbook: [
+    ["Los del taller", "Sabíamos que ese anillo era especial."],
+    ["Abuela Pilar", "Qué anillos tan bonitos, y qué novios."],
+    ["Lola y Fede", "Nos pedimos el primer baile bajo la lámpara."],
+  ],
+  songs: ["Diamonds", "Perfect", "Contigo", "September", "Valerie", "Dancing Queen"],
+});
+
+export const baile = wedding({
+  id: "evt-demo-mar-ismael",
+  first: "Mar",
+  second: "Ismael",
+  date: "2027-02-12T19:00:00+01:00",
+  rsvpDeadline: "2027-01-10T23:59:00+01:00",
+  city: "Burgos",
+  region: "Burgos",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/banquete.jpg",
+  cardMessage:
+    "Nos conocimos en una academia de baile: a los dos nos sobraba una pareja. Desde entonces no la buscamos.",
+  welcomeMessage:
+    "Hemos reservado la pista entera. Aquí tienes todo lo que necesitas para bailar con nosotros.",
+  thankYouMessage:
+    "Gracias por bailar con nosotros toda la noche y por apuntaros en el carné. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de San Nicolás",
+      kind: "Ceremonia",
+      address: "Calle Fernán González, 2",
+      note: "Junto a la catedral. Hay parking en la plaza del Rey San Fernando.",
+      photo: "iglesia",
+    },
+    {
+      id: "finca",
+      name: "Salón Gran Vals",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Paseo del Espolón, 8",
+      note: "A 5 minutos andando, con salón de baile y orquesta.",
+      photo: "pista",
+    },
+  ],
+  climate: [8, -1, 35],
+  program: [
+    ["19:00", "Ceremonia", "iglesia", "San Nicolás", "Con órgano.", "ceremony"],
+    [
+      "20:15",
+      "Aperitivo",
+      "finca",
+      "En el vestíbulo",
+      "Con morcilla de Burgos y vino del Duero.",
+      "cocktail",
+    ],
+    ["21:30", "Cena", "finca", "En el salón", "Con el menú que elijas al confirmar.", "banquet"],
+    [
+      "23:30",
+      "Fiesta",
+      "finca",
+      "Salón Gran Vals",
+      "Vals, pasodoble, rumba y lo que pidáis.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    [
+      "valladolid",
+      "Valladolid → Burgos",
+      "Estación de Valladolid",
+      "17:30",
+      ["02:30", "05:00"],
+      75,
+    ],
+    ["palencia", "Palencia → Burgos", "Plaza Mayor, Palencia", "17:45", ["05:00"], 60],
+  ],
+  menu: {
+    carne: "Lechazo asado",
+    pescado: "Bacalao al ajoarriero",
+    vegetariano: "Olla podrida de verduras",
+    vegano: "Alubias rojas con verduras",
+  },
+  dressCode: {
+    title: "Noche de salón",
+    detail: "Lila, violeta y oro. Es febrero en Burgos: abrigo y zapato de baile.",
+    palette: [
+      { name: "Lila", hex: "#d6c0e0" },
+      { name: "Violeta", hex: "#5a3a6a" },
+      { name: "Oro", hex: "#c9a65d" },
+      { name: "Marfil", hex: "#fffaf4" },
+    ],
+    examples: [
+      "Vestido con vuelo, para girar.",
+      "Traje con zapato de baile.",
+      "Un abrigo largo: fuera hiela.",
+    ],
+  },
+  accommodation: [
+    ["Hotel del Espolón", "Junto al salón", "Habitaciones reservadas hasta el 10 de enero."],
+    ["Hostal de la Catedral", "A 5 minutos andando", "Con desayuno tarde para el domingo."],
+  ],
+  story: {
+    intro:
+      "Una academia de baile, dos parejas que faltaban y ocho años bailando. Esta es la versión corta.",
+    moments: [
+      [
+        "2019",
+        "La academia",
+        "Nos tocó bailar juntos porque sobrábamos. Ya no sobramos.",
+        "olivos",
+      ],
+      ["2022", "El concurso", "Quedamos cuartos en un concurso de pasodoble.", "terraza"],
+      ["2026", "La pedida", "En mitad de un vals, delante de toda la academia.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "La pista está reservada. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Buenos Aires", "Para aprender tango.", "Lo que queráis"],
+    ["Clases de tango", "Para ir preparados.", "150 €"],
+    ["Zapatos de baile a medida", "Para los dos.", "220 €"],
+    ["Un tocadiscos", "Para bailar en casa.", "250 €"],
+  ],
+  kids: "Habrá monitores, una mini disco y cena para ellos.",
+  faq: ["¿Hay que saber bailar?", "No: habrá una clase rápida en el aperitivo."],
+  guestbook: [
+    ["Los de la academia", "Ya sabíamos que acabaríais así."],
+    ["Abuelo Julián", "Me guardasteis el pasodoble. Gracias."],
+    ["Sonia y Edu", "Apuntados en la rumba."],
+  ],
+  songs: [
+    "Vals de las flores",
+    "Paquito el chocolatero",
+    "Bamboléo",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});
+
+export const capsula = wedding({
+  id: "evt-demo-elisa-jacobo",
+  first: "Elisa",
+  second: "Jacobo",
+  date: "2027-05-29T18:30:00+02:00",
+  rsvpDeadline: "2027-04-15T23:59:00+02:00",
+  city: "Ronda",
+  region: "Málaga",
+  couple: "olivar",
+  coverPhoto: "/fotos/olivar/portada.jpg",
+  cardMessage:
+    "Con quince años enterramos una lata en el patio del colegio. Prometimos abrirla juntos. Lo haremos en la boda.",
+  welcomeMessage:
+    "La cápsula ya está desenterrada. Aquí tienes todo lo que necesitas para abrirla con nosotros.",
+  thankYouMessage:
+    "Gracias por venir a Ronda y por meter algo en nuestra nueva cápsula. Aquí están vuestras fotos.",
+  venues: [
+    {
+      id: "iglesia",
+      name: "Iglesia de Santa María la Mayor",
+      kind: "Ceremonia",
+      address: "Plaza Duquesa de Parcent, s/n",
+      note: "En la ciudad vieja. Hay parking junto al Puente Nuevo.",
+      photo: "ermitaOlivos",
+    },
+    {
+      id: "finca",
+      name: "Cortijo de la Cápsula",
+      kind: "Aperitivo, cena y fiesta",
+      address: "Camino de los Molinos, km 3",
+      note: "A 10 minutos, con jardín y vistas a la serranía.",
+      photo: "cortijo",
+    },
+  ],
+  climate: [26, 12, 10],
+  program: [
+    [
+      "18:30",
+      "Ceremonia",
+      "iglesia",
+      "Santa María la Mayor",
+      "Con la apertura de la cápsula.",
+      "ceremony",
+    ],
+    ["19:45", "Aperitivo", "finca", "En el jardín", "Con vino de la serranía.", "cocktail"],
+    [
+      "21:15",
+      "Cena",
+      "finca",
+      "Bajo los olivos",
+      "Con el menú que elijas al confirmar.",
+      "banquet",
+    ],
+    [
+      "23:30",
+      "Fiesta",
+      "finca",
+      "Hasta tarde",
+      "Y una cápsula nueva para dentro de veinte años.",
+      "party",
+    ],
+  ],
+  busRoutes: [
+    ["malaga", "Málaga → Ronda", "Estación María Zambrano", "16:30", ["02:30", "05:00"], 105],
+    ["marbella", "Marbella → Ronda", "Estación de autobuses de Marbella", "17:00", ["05:00"], 70],
+  ],
+  menu: {
+    carne: "Rabo de toro rondeño",
+    pescado: "Trucha a la rondeña",
+    vegetariano: "Sopa de tomate con higos",
+    vegano: "Berenjenas a la serrana",
+  },
+  dressCode: {
+    title: "Primavera de campo",
+    detail: "Verde, tierra y crema. Hay jardín: nada de tacón fino.",
+    palette: [
+      { name: "Jardín", hex: "#dfe8d6" },
+      { name: "Tierra", hex: "#6b4f35" },
+      { name: "Lata", hex: "#9aa8ad" },
+      { name: "Papel", hex: "#fbf7ee" },
+    ],
+    examples: [
+      "Vestido de flores y sandalia plana.",
+      "Traje de lino con alpargatas.",
+      "Algo para la cápsula nueva: una carta, una foto, un recuerdo.",
+    ],
+  },
+  accommodation: [
+    ["Parador de Ronda", "Junto al Puente Nuevo", "Habitaciones reservadas hasta el 15 de abril."],
+    ["Hotel Molino Viejo", "Junto a la finca", "Con desayuno de domingo en el jardín."],
+  ],
+  story: {
+    intro:
+      "Una lata enterrada a los quince, una promesa y veinte años después. Esta es la versión corta.",
+    moments: [
+      [
+        "2007",
+        "La cápsula",
+        "La enterramos en el patio del colegio con una carta de cada uno.",
+        "olivos",
+      ],
+      ["2019", "El reencuentro", "Nos vimos en la reunión de antiguos alumnos.", "terraza"],
+      ["2026", "La pedida", "Él desenterró la lata; dentro había un anillo.", "anilloMuro"],
+      ["Hoy", "Y ahora, la boda", "La lata está abierta. Solo faltas tú.", "olivar"],
+    ],
+  },
+  gifts: [
+    ["Nuestro viaje a Islandia", "Cualquier aportación nos acerca.", "Lo que queráis"],
+    ["Una cápsula de verdad", "De acero, para veinte años.", "80 €"],
+    ["Un álbum de fotos antiguo", "Para lo que encontramos.", "60 €"],
+    ["Un olivo para el patio", "Donde enterraremos la nueva.", "120 €"],
+  ],
+  kids: "Habrá monitores, una búsqueda del tesoro y cena para ellos.",
+  faq: [
+    "¿Qué meto en la cápsula nueva?",
+    "Lo que quieras: una carta, una foto o una predicción para dentro de veinte años.",
+  ],
+  guestbook: [
+    ["Los de la clase de 3.º B", "Por fin abrimos la lata."],
+    ["Profe Manoli", "Sabía que ese patio daría para mucho."],
+    ["Cris y Álvaro", "Hemos metido una predicción en la cápsula."],
+  ],
+  songs: [
+    "Time of Your Life",
+    "Veinte años",
+    "Nuestra canción",
+    "September",
+    "Valerie",
+    "Dancing Queen",
+  ],
+});

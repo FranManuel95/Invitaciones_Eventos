@@ -3050,6 +3050,133 @@
   content: "¡Que lo coja alguien!";
 }
 
+/* Estuche de anillos: cada sección es un quilate. */
+[data-motif="anillos"] {
+  counter-reset: quilate;
+}
+[data-motif="anillos"] .motif-hero {
+  background: radial-gradient(circle at 50% 30%, #3a2433, var(--color-paper) 70%);
+}
+[data-motif="anillos"] section[id] {
+  counter-increment: quilate;
+}
+[data-motif="anillos"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="anillos"] .motif-sprig::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  border: 3px solid var(--color-gold);
+  border-radius: 50%;
+}
+[data-motif="anillos"] .motif-sprig::after {
+  content: "Quilate " counter(quilate);
+}
+[data-motif="anillos"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="anillos"] .motif-closing::before {
+  content: "Para siempre";
+}
+
+/* Carné de baile: cada sección es un baile. */
+[data-motif="baile"] {
+  counter-reset: baile;
+}
+[data-motif="baile"] .motif-hero {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 22px, rgb(90 58 106 / 0.05) 22px 23px),
+    var(--color-paper);
+}
+[data-motif="baile"] section[id] {
+  counter-increment: baile;
+}
+[data-motif="baile"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="baile"] .motif-sprig::before {
+  content: "";
+  width: 0.7rem;
+  height: 1.2rem;
+  background:
+    radial-gradient(circle at 35% 80%, var(--color-gold) 0 0.28rem, transparent 0.3rem),
+    linear-gradient(var(--color-gold), var(--color-gold)) 85% 0 / 0.12rem 80% no-repeat;
+}
+[data-motif="baile"] .motif-sprig::after {
+  content: "Baile " counter(baile);
+}
+[data-motif="baile"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="baile"] .motif-closing::before {
+  content: "Guárdame el último baile";
+}
+
+/* Cápsula del tiempo: cada sección es un recuerdo guardado. */
+[data-motif="capsula"] {
+  counter-reset: recuerdo;
+}
+[data-motif="capsula"] .motif-hero {
+  background: linear-gradient(180deg, var(--color-paper) 70%, #e4ecdc);
+}
+[data-motif="capsula"] section[id] {
+  counter-increment: recuerdo;
+}
+[data-motif="capsula"] .motif-sprig {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--color-ink);
+  font: 600 0.75rem / 1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+[data-motif="capsula"] .motif-sprig::before {
+  content: "";
+  width: 0.9rem;
+  height: 1.2rem;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #9aa8ad, #d6dee0 45%, #8d9ba0);
+  border-top: 3px solid #5d6b70;
+}
+[data-motif="capsula"] .motif-sprig::after {
+  content: "Recuerdo " counter(recuerdo);
+}
+[data-motif="capsula"] .motif-closing {
+  display: block;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--color-gold);
+  font: italic 400 1.75rem / 1 var(--font-display);
+}
+[data-motif="capsula"] .motif-closing::before {
+  content: "No abrir hasta entonces";
+}
+
 @keyframes musicbox-spin {
   to {
     transform: rotateY(360deg);
@@ -3718,6 +3845,22 @@
 [data-motif="ramo"] .concept-carrier {
   background: var(--color-cream);
   border: 2px solid var(--color-gold);
+}
+
+/* Estuche de anillos: caja de joyería. */
+[data-motif="anillos"] .concept-carrier {
+  background: #2a1822;
+  border: 2px solid var(--color-gold);
+}
+/* Carné de baile: tarjeta del salón. */
+[data-motif="baile"] .concept-carrier {
+  background: var(--color-ivory);
+  border: 2px solid var(--color-gold);
+}
+/* Cápsula del tiempo: lata de galletas. */
+[data-motif="capsula"] .concept-carrier {
+  background: var(--color-cream);
+  border: 3px double #5d6b70;
 }
 
 [data-motif-kind="concepto"] .motif-closing > * {

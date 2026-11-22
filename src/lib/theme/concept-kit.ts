@@ -458,6 +458,27 @@ export const CONCEPT_KITS: Record<ConceptMotifId, ConceptKit> = {
     signoff: "¡Que lo coja alguien!",
     pass: { kicker: "Pase al baile", people: "Invitados" },
   },
+  anillos: {
+    object: "el estuche",
+    carrier: "Estuche de joyería",
+    letterhead: "Grabado por dentro",
+    signoff: "Para siempre",
+    pass: { kicker: "Certificado de la joya", people: "Testigos" },
+  },
+  baile: {
+    object: "el carné de baile",
+    carrier: "Tarjeta del salón",
+    letterhead: "Programa de baile",
+    signoff: "Guárdame el último baile",
+    pass: { kicker: "Carné de baile", people: "Bailarines", table: "Tu mesa junto a la pista" },
+  },
+  capsula: {
+    object: "la cápsula",
+    carrier: "Guardado en la lata",
+    letterhead: "Para leer el día de la boda",
+    signoff: "No abrir hasta entonces",
+    pass: { kicker: "Pase del archivo", people: "Invitados" },
+  },
 };
 
 /** El kit del motivo, si es de concepto (con los de acuarela o sin motivo, null). */

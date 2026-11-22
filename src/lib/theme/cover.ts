@@ -87,6 +87,9 @@ export const COVER_IDS = [
   "prensado",
   "cartas",
   "ramo",
+  "anillos",
+  "baile",
+  "capsula",
 ] as const;
 export type CoverId = (typeof COVER_IDS)[number];
 
@@ -430,6 +433,19 @@ export const COVERS: Record<CoverId, { label: string; description: string }> = {
     label: "Ramo de novia",
     description: "El ramo se lanza, vuela por la pantalla y cae en tus manos.",
   },
+  anillos: {
+    label: "Estuche de anillos",
+    description:
+      "Un estuche de terciopelo: se abre con un clic y la fecha va grabada en los anillos.",
+  },
+  baile: {
+    label: "Carné de baile",
+    description: "El carné de baile de antes, con un baile libre para apuntar al invitado.",
+  },
+  capsula: {
+    label: "Cápsula del tiempo",
+    description: "Una lata enterrada que se desentierra: «No abrir hasta» el año de la boda.",
+  },
 };
 
 /**
@@ -496,6 +512,9 @@ export const CONCEPT_COVERS = {
   prensado: { ink: "#2f3a28", paper: "#f1ecdc" },
   cartas: { ink: "#3a2a1c", paper: "#ebe0cc" },
   ramo: { ink: "#4a2230", paper: "#f8ece6" },
+  anillos: { ink: "#f6e9d8", paper: "#1a0f18", tone: "oscuro" },
+  baile: { ink: "#2e1d33", paper: "#efe4ee" },
+  capsula: { ink: "#22301f", paper: "#e4ecdc" },
 } as const satisfies Partial<Record<CoverId, { ink: string; paper: string; tone?: "oscuro" }>>;
 export type ConceptCoverId = keyof typeof CONCEPT_COVERS;
 export function isConceptCover(id: CoverId): id is ConceptCoverId {
@@ -640,6 +659,9 @@ export const MOTIF_IDS = [
   "prensado",
   "cartas",
   "ramo",
+  "anillos",
+  "baile",
+  "capsula",
 ] as const;
 export type MotifId = (typeof MOTIF_IDS)[number];
 /**
@@ -712,4 +734,7 @@ export const MOTIFS: Record<MotifId, { label: string; kind: "acuarela" | "concep
   prensado: { label: "Herbario de campo", kind: "concepto" },
   cartas: { label: "Cartas de amor", kind: "concepto" },
   ramo: { label: "Ramo de novia", kind: "concepto" },
+  anillos: { label: "Joyería", kind: "concepto" },
+  baile: { label: "Salón de baile", kind: "concepto" },
+  capsula: { label: "Cápsula del tiempo", kind: "concepto" },
 };

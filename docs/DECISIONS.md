@@ -1503,6 +1503,13 @@ olivo.
   el corazón rosa). Estilos Herbolario, Correspondencia y Azahar. Ya son 80 plantillas (22 de papel
   y acuarela, 58 de objetos) y 81 portadas; la venta dice «Ochenta plantillas» y «Ochenta y una
   portadas».
+- **Decimoquinta tanda**: **Estuche de anillos** (terciopelo granate; al abrirlo, dos anillos de oro
+  y oro blanco y lo grabado por dentro: las iniciales y la fecha; Alicia y Ramiro, Chinchilla de
+  Montearagón; portada oscura), **Carné de baile** (la tarjetita con cordón: vals con uno de los
+  novios, pasodoble con el otro, y la rumba libre, donde se apunta el invitado por su nombre; Mar e
+  Ismael, Burgos) y **Cápsula del tiempo** (una lata «No abrir hasta» el año de la boda que sube de
+  la tierra; Elisa y Jacobo, Ronda). Estilos Estuche, Salón y Hojalata. Ya son 83 plantillas (61 de
+  objetos) y 84 portadas.
 
 ## Pendiente para próximas fases
 
